@@ -22,8 +22,8 @@ Please fill out the checklist below whilst submitting a new pattern
 
 Will not ship with out.
 
-Pattern Name: e.g. Aaron
-Pattern Description: e.g. Aaron is an athletic shirt or tank top.
+Pattern Name: e.g. Aaron  
+Pattern Description: e.g. Aaron is an athletic shirt or tank top.  
 Type of Pattern: e.g. Tank top.
 
 | Name         | Tick |
