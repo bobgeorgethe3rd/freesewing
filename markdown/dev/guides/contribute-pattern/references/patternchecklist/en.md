@@ -18,7 +18,7 @@ Anything left blank will be assumed as either not done or not planning to do/be.
 
 Please fill out the checklist below whilst submitting a new pattern
 
-#### Required
+### Required
 
 Will not ship with out.
 
@@ -26,12 +26,10 @@ Pattern Name: e.g. Aaron
 Pattern Description: e.g. Aaron is an athletic shirt or tank top.  
 Type of Pattern: e.g. Tank top.
 
-| Name         | Tick |
-| ------------ | ---- |
-| src files    |      |
-| config files |      |
+- [ ] src files
+- [ ] config file
 
-#### Optional Docs
+### Optional Docs
 
 Will ship with out but would be useful to know your plans with.
 
@@ -43,44 +41,86 @@ Please do for me is if you do not wish/plan to do do it.
 
 </Note>
 
-| Name           | Done | Preliminary | Please do for me |
-| -------------- | ---- | ----------- | ---------------- |
-| Instrucitons   |      |             |                  |
-| What you need  |      |             |                  |
-| Cutting        |      |             |                  |
-| Fabric options |      |             |                  |
+**Instrucitons**
 
-#### Optional Illustrative/Diagrams
+- [ ] Done
+- [ ] Preliminary
+- [ ] Please do for me
 
-| Name                           | Done | Preliminary | Please do for me |
-| ------------------------------ | ---- | ----------- | ---------------- |
-| Line Art                       |      |             |                  |
-| Instruction Diagrams           |      |             |                  |
-| Cutting Diagrams               |      |             |                  |
-| Static Pattern option diagrams |      |             |                  |
-| Temporary cover photo          |      |             |                  |
+**What you need**
+
+- [ ] Done
+- [ ] Preliminary
+- [ ] Please do for me
+
+**Cutting**
+
+- [ ] Done
+- [ ] Preliminary
+- [ ] Please do for me
+
+**Fabric options**
+
+- [ ] Done
+- [ ] Preliminary
+- [ ] Please do for me
+
+### Optional Illustrative/Diagrams
+
+**Line Art**
+
+- [ ] Done
+- [ ] Preliminary
+- [ ] Please do for me
+
+**Instruction Diagrams**
+
+- [ ] Done
+- [ ] Preliminary
+- [ ] Please do for me
+
+**Cutting Diagrams**
+
+- [ ] Done
+- [ ] Preliminary
+- [ ] Please do for me
+
+**Static Pattern option diagrams**
+
+- [ ] Done
+- [ ] Preliminary
+- [ ] Please do for me
+
+Temporary cover photo
+
+- [ ] Done
+- [ ] Preliminary
+- [ ] Please do for me
 
 ### There are showcases
 
-Showcases are added via strapi and will need to be added once the pattern is on the site. If you have some you wish to go up with the pattern please tick this box and someone will get in contact to upload these.
+Showcases are added via strapi and will need to be added once the pattern is on the site. If you have some you wish to go up with the pattern please [create an issue](https://github.com/freesewing/freesewing/issues/new/choose) and use the showcase template. This means the showcase team will be aware and can get them up asap.
 
-There are showcases y/n.
+### Do you wish to maintain this pattern?
 
-### Coder Maintainer
+We love it when people stick around and continue to maintain their patterns but we understand that this is not always possible and also not necessarily something everyone wants to do. 
 
-| Name                | I wish to maintain all | I wish to mantain **just** the code | I wish to maintain **just** the docs | I do not wish to maintain any |
-| ------------------- | ---------------------- | ----------------------------------- | ------------------------------------ | ----------------------------- |
-| What you want to do |                        |                                     |                                      |                               |
+**Coders**
 
+- [ ] I wish to maintain all
+- [ ] I wish to mantain **just** the code
+- [ ] I wish to maintain **just** the docs
+- [ ] I do not wish to maintain any
 
-### Designer Maintainer
+**Designers**
 
-This is only needed if the designer is different to the coder.
-
-| Name                | I wish to maintain all | I wish to maintain **just** the docs | I do not wish to maintain any |
-| ------------------- | ---------------------- | ------------------------------------ | ----------------------------- |
-| What you want to do |                        |                                      |                               |
+- [ ] I wish to maintain all
+- [ ] I wish to mantain **just** the code
+- [ ] I wish to maintain **just** the docs
+- [ ] I do not wish to maintain any
 
 ### Ambassador
 
-This pattern will need an ambassador y/n.
+An ambassador is someone who help keep the pattern in the forefront of peoples mind so it is not forgotten.
+
+- [ ] Check if this pattern will need an ambassador.
