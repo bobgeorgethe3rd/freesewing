@@ -1,6 +1,6 @@
 <Note>
 
-Create a new file in your packages/"your pattern"/patternchecklist.md and copy the [raw data](link to edit of this file) of this file into that file.
+Create a new file in your packages/"your pattern"/patternchecklist.md and copy the [raw data](edit/dev/markdown/dev/guides/contribute-pattern/references/patternchecklist/en.md) of this file into that file.
 
 </Note>
 
