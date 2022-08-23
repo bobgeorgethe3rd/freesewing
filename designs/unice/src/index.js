@@ -21,13 +21,13 @@ Unice.prototype.draftElastic = function (part) {
   return new Ursula(this.settings).draftElastic(part)
 }
 Unice.prototype.draftFront2 = function (part) {
-  return new Ursula(this.settings).draftFront2(part)
+  return new Ursula(this.settings).draftFront(part)
 }
 Unice.prototype.draftBack2 = function (part) {
-  return new Ursula(this.settings).draftBack2(part)
+  return new Ursula(this.settings).draftBack(part)
 }
 Unice.prototype.draftGusset2 = function (part) {
-  return new Ursula(this.settings).draftGusset2(part)
+  return new Ursula(this.settings).draftGusset(part)
 }
 
 
