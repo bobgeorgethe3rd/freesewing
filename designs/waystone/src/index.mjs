@@ -1,13 +1,13 @@
 import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
-import { box } from './box.mjs'
+import { base } from './base.mjs'
 
 // Create new design
 const Waystone = new Design({
   data,
-  parts: [box],
+  parts: [base],
 })
 
 // Named exports
-export { box, Waystone }
+export { base, Waystone }
