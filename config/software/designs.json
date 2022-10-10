@@ -125,7 +125,7 @@
       "description": "A FreeSewing pattern that needs a description",
       "code": "bobgeorgethe3rd",
       "design": ["Charles Hecklinger", "bobgeorgethe3rd"],
-      "difficulty": 1,
+      "difficulty": 2,
       "tags": ["tagname"]
     }
   },
@@ -185,6 +185,13 @@
       "design": "Wouter Van Wageningen",
       "difficulty": 3,
       "tags": ["bottoms", "trousers"]
+    },
+    "deborah": {
+      "description": "A FreeSewing pattern that needs a description",
+      "code": "bobgeorgethe3rd",
+      "design": ["Charles Hecklinger", "bobgeorgethe3rd"],
+      "difficulty": 4,
+      "tags": ["tagname"]
     },
     "diana": {
       "description": "A FreeSewing pattern for a top with a draped neck",

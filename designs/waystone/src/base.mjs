@@ -1,5 +1,61 @@
 import { pluginBundle } from '@freesewing/plugin-bundle'
 
+export const base = {
+  name: 'waystone.base',
+  measurements: [
+    'hpsToWaistBack',
+    'hpsToWaistSideFrontOffset',
+    'blade',
+    'waistToArmhole',
+    'chest',
+    'waist',
+  ],
+  options: {
+    //Constants
+    cpFraction: 0.55191502449,
+    backNeckDrop: 1 / 21,
+    cbWaist: 3 / 48,
+    jAnchor: 1 / 24,
+    chestExtension: 1 / 72,
+    dartBustOffset: 1 / 72,
+    dartHeight: 1 / 20,
+    underarmGap: 1 / 48,
+
+    //Fit
+    //bladeEase: {pct: 0, min: 0, max: 20, menu: 'fit' },
+    chestEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
+    waistEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
+    //ease: {pct: 0, min: 0, max: 20, menu: 'fit' },
+    useProportions: { bool: true, menu: 'fit' },
+    sideBackGap: { pct: (1 / 24) * 100, min: 4.1, max: (11 / 192) * 100, menu: 'fit' },
+    sideBodyNumber: { count: 1, min: 1, max: 2, menu: 'fit' },
+
+    //Style
+    type: { dflt: 'waist', list: ['waist', 'hip'], menu: 'style' },
+    frontShoulderCurve: { deg: 5, min: 0, max: 10, menu: 'style' },
+    dartNumber: { count: 2, min: 1, max: 2, menu: 'style' },
+    dartWaistOffset: { pct: 0, min: 0, max: (1 / 24) * 100, menu: 'style' }, //need increase on the dress bodice it would be used on to allow for smaller waists. set at the current max at default.
+    sideBodyAngle: { deg: 3, min: -1, max: 5, menu: 'style' },
+    underarmCurve: { pct: 100, min: 0, max: 100, menu: 'style' },
+
+    //Armhole
+    sideBackArmhole: {
+      pct: (1 / 144) * 100,
+      min: (1 / 144) * 100,
+      max: (1 / 72) * 100,
+      menu: 'armhole',
+    },
+    sideBodySnip: {
+      pct: (3 / 576) * 100,
+      min: (1 / 576) * 100,
+      max: (1 / 144) * 100,
+      menu: 'armhole',
+    },
+  },
+  plugins: [pluginBundle],
+  draft: draftBase,
+}
+
 function draftBase({
   options,
   Point,
@@ -523,60 +579,4 @@ function draftBase({
   }
 
   return part
-}
-
-export const base = {
-  name: 'base',
-  measurements: [
-    'hpsToWaistBack',
-    'hpsToWaistSideFrontOffset',
-    'blade',
-    'waistToArmhole',
-    'chest',
-    'waist',
-  ],
-  options: {
-    //Constants
-    cpFraction: 0.55191502449,
-    backNeckDrop: 1 / 21,
-    cbWaist: 3 / 48,
-    jAnchor: 1 / 24,
-    chestExtension: 1 / 72,
-    dartBustOffset: 1 / 72,
-    dartHeight: 1 / 20,
-    underarmGap: 1 / 48,
-
-    //Fit
-    //bladeEase: {pct: 0, min: 0, max: 20, menu: 'fit' },
-    chestEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
-    waistEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
-    //ease: {pct: 0, min: 0, max: 20, menu: 'fit' },
-    useProportions: { bool: true, menu: 'fit' },
-    sideBackGap: { pct: (1 / 24) * 100, min: 4.1, max: (11 / 192) * 100, menu: 'fit' },
-    sideBodyNumber: { count: 1, min: 1, max: 2, menu: 'fit' },
-
-    //Style
-    type: { dflt: 'waist', list: ['waist', 'hip'], menu: 'style' },
-    frontShoulderCurve: { deg: 5, min: 0, max: 10, menu: 'style' },
-    dartNumber: { count: 2, min: 1, max: 2, menu: 'style' },
-    dartWaistOffset: { pct: 0, min: 0, max: (1 / 24) * 100, menu: 'style' }, //need increase on the dress bodice it would be used on to allow for smaller waists. set at the current max at default.
-    sideBodyAngle: { deg: 3, min: -1, max: 5, menu: 'style' },
-    underarmCurve: { pct: 100, min: 0, max: 100, menu: 'style' },
-
-    //Armhole
-    sideBackArmhole: {
-      pct: (1 / 144) * 100,
-      min: (1 / 144) * 100,
-      max: (1 / 72) * 100,
-      menu: 'armhole',
-    },
-    sideBodySnip: {
-      pct: (3 / 576) * 100,
-      min: (1 / 576) * 100,
-      max: (1 / 144) * 100,
-      menu: 'armhole',
-    },
-  },
-  plugins: [pluginBundle],
-  draft: draftBase,
 }
