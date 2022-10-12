@@ -15,7 +15,7 @@ export const base = {
 
     //Deborah
     //Style
-    frontLength: { pct: 24.3, min: 20, max: 40, menu: 'style' },
+    frontExtension: { pct: 24.3, min: 20, max: 40, menu: 'style' },
   },
   plugins: [pluginBundle],
   draft: draftDeborahBase,
@@ -60,7 +60,6 @@ function draftDeborahBase({
   points.wDartMidCp = points.w.shiftFractionTowards(points.r, 0.15)
   points.wDartLeftCp = points.dart6.shiftFractionTowards(points.w, 1 / 3).rotate(5, points.dart6)
   points.wDartRightCp = new Point(points.dart7.x, points.wDartLeftCp.y)
-
   //and remanipulate
   //dart manipulation
   let dartWaistOffset = store.get('dartWaistOffset')
@@ -87,11 +86,6 @@ function draftDeborahBase({
       .move(points.dartLeft)
       .curve(points.dartLeftCp, points.dartMidCp, points.dartTip)
       .curve(points.dartMidCp, points.dartRightCp, points.dartRight)
-
-    points.sideFrontWaist = points.sideFrontWaist.shift(180, dartWidth / 2)
-    points.sideFrontWaistCp = points.sideFrontWaistCp.shift(180, dartWidth / 2)
-    points.sideBodyWaist = points.sideBodyWaist.shift(0, dartWidth / 2)
-    points.sideBodyWaistCp = points.sideBodyWaistCp.shift(0, dartWidth / 2)
     if (options.dartNumber == '2' && points.dart6.x < points.dart5.x)
       log.debug('Due to the dart overlap only one dart has been drafted')
   } else {
@@ -116,11 +110,12 @@ function draftDeborahBase({
       .curve(points.wDartMidCp, points.wDartRightCp, points.dart7)
   }
   //measures
-  let frontLength = measurements.hpsToWaistSideFrontOffset * (1 + options.frontLength)
+  let frontExtension = measurements.hpsToWaistSideFrontOffset * (1 + options.frontExtension)
   //let's begin
-  points.m = points.f.shiftTowards(points.h, frontLength)
+  points.m = points.f.shiftTowards(points.h, frontExtension)
   points.t = new Point(points.sideFrontWaist.x, points.m.y)
 
+  points.hemE = points.sideFrontWaist.shiftFractionTowards(points.t, 0.5)
   //guides
   paths.hmt = new Path().move(points.h).line(points.m).line(points.t).attr('class', 'fabric lashed')
 
