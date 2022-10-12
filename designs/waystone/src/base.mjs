@@ -20,7 +20,6 @@ export const base = {
     dartBustOffset: 1 / 72,
     dartHeight: 1 / 20,
     underarmGap: 1 / 48,
-
     //Fit
     //bladeEase: {pct: 0, min: 0, max: 20, menu: 'fit' },
     chestEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
@@ -35,6 +34,7 @@ export const base = {
     frontShoulderCurve: { deg: 5, min: 0, max: 10, menu: 'style' },
     dartNumber: { count: 2, min: 1, max: 2, menu: 'style' },
     dartWaistOffset: { pct: 0, min: 0, max: (1 / 24) * 100, menu: 'style' }, //need increase on the dress bodice it would be used on to allow for smaller waists. set at the current max at default.
+    dartLength: { pct: (1 / 3) * 100, min: 30, max: 50, menu: 'style' },
     sideBodyAngle: { deg: 3, min: -1, max: 5, menu: 'style' },
     underarmCurve: { pct: 100, min: 0, max: 100, menu: 'style' },
 
@@ -53,10 +53,10 @@ export const base = {
     },
   },
   plugins: [pluginBundle],
-  draft: draftBase,
+  draft: draftWaystoneBase,
 }
 
-function draftBase({
+function draftWaystoneBase({
   options,
   Point,
   Path,
@@ -72,6 +72,7 @@ function draftBase({
   measurements,
   log,
   utils,
+  store,
 }) {
   //measures
   let bladeMeasure = measurements.blade * (1 + options.chestEase)
@@ -265,7 +266,7 @@ function draftBase({
   points.q = points.h.shiftFractionTowards(points.j, 1 / 3)
   points.r = points.h.shiftFractionTowards(points.j, 2 / 3)
 
-  points.vDart = points.u.shiftFractionTowards(points.q, 1 / 3)
+  points.vDart = points.u.shiftFractionTowards(points.q, options.dartLength)
   points.w = utils.beamsIntersect(
     points.vDart.shift(90, measurements.waistToArmhole * options.dartHeight),
     points.vDart.translate(1, -measurements.waistToArmhole * options.dartHeight),
@@ -284,7 +285,7 @@ function draftBase({
   points.dart6 = points.r.shiftTowards(points.h, dartDistance)
   points.dart7 = points.r.shiftTowards(points.b, dartDistance)
 
-  //dart shapig?
+  //dart shapng?
   points.vDartMidCp = points.vDart.shiftFractionTowards(points.q, 0.15)
   points.vDartLeftCp = points.dart4
     .shiftFractionTowards(points.vDart, 1 / 3)
@@ -436,7 +437,8 @@ function draftBase({
     points.sideFrontWaistCp = points.sideFrontWaistCp.shift(180, dartWidth / 2)
     points.sideBodyWaist = points.sideBodyWaist.shift(0, dartWidth / 2)
     points.sideBodyWaistCp = points.sideBodyWaistCp.shift(0, dartWidth / 2)
-    //if (options.dartNumber == '2' && points.dart6.x < points.dart5.x) log.debug('Due to the dart overlap only one dart has been drafted')
+    if (options.dartNumber == '2' && points.dart6.x < points.dart5.x)
+      log.debug('Due to the dart overlap only one dart has been drafted')
   } else {
     //offset
     points.dart4 = points.dart4.shift(180, dartWaistOffset)
@@ -570,6 +572,9 @@ function draftBase({
     .curve_(points.sideBackCp5, points.waist17)
   // Complete?
   if (complete) {
+    //stores
+    store.set('waist', waist)
+    store.set('dartWaistOffset', dartWaistOffset)
     if (sa) {
     }
   }
