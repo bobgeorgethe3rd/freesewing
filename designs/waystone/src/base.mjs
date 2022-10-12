@@ -70,7 +70,7 @@ function draftBase({
   macro,
   part,
   measurements,
-  raise,
+  log,
   utils,
 }) {
   //measures
@@ -86,7 +86,7 @@ function draftBase({
     blade = bladeMeasure
   } else {
     blade = bladeProption
-    //raise.debug('Proportions have been used for blade: ' + utils.units(bladeProption))
+    log.debug('Proportions have been used for blade: ' + utils.units(bladeProption))
   }
 
   let chest
@@ -94,7 +94,7 @@ function draftBase({
     chest = chestMeasure
   } else {
     chest = chestProportion
-    //raise.debug('Proportions have been used for chest: ' + utils.units(chestProportion))
+    log.debug('Proportions have been used for chest: ' + utils.units(chestProportion))
   }
   //let's begin
   points.origin = new Point(0, 0)
@@ -127,11 +127,11 @@ function draftBase({
   )
 
   //back to draft
-  points.shoulderOrgin = points.origin.shiftTowards(points.vShoulder, chest / 6) //points 9
-  points.backArmholePitch = new Point(points.shoulderOrgin.x, points.z.y) //points 8
+  points.shoulderOrigin = points.origin.shiftTowards(points.vShoulder, chest / 6) //points 9
+  points.backArmholePitch = new Point(points.shoulderOrigin.x, points.z.y) //points 8
   points.d = points.c.shiftTowards(points.j, measurements.waist * options.cbWaist)
   points.x = utils.beamsIntersect(
-    points.shoulderOrgin,
+    points.shoulderOrigin,
     points.backArmholePitch,
     points.hpsBack,
     points.shoulderMax
@@ -436,7 +436,7 @@ function draftBase({
     points.sideFrontWaistCp = points.sideFrontWaistCp.shift(180, dartWidth / 2)
     points.sideBodyWaist = points.sideBodyWaist.shift(0, dartWidth / 2)
     points.sideBodyWaistCp = points.sideBodyWaistCp.shift(0, dartWidth / 2)
-    //if (options.dartNumber == '2' && points.dart6.x < points.dart5.x) raise.debug('Due to the dart overlap only one dart has been drafted')
+    //if (options.dartNumber == '2' && points.dart6.x < points.dart5.x) log.debug('Due to the dart overlap only one dart has been drafted')
   } else {
     //offset
     points.dart4 = points.dart4.shift(180, dartWaistOffset)
