@@ -25,7 +25,7 @@ export const base = {
     chestEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
     waistEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
     //ease: {pct: 0, min: 0, max: 20, menu: 'fit' },
-    useProportions: { bool: true, menu: 'fit' },
+    useProportions: { bool: false, menu: 'fit' },
     sideBackGap: { pct: (1 / 24) * 100, min: 4.1, max: (11 / 192) * 100, menu: 'fit' },
     sideBodyNumber: { count: 1, min: 1, max: 2, menu: 'fit' },
 
@@ -112,13 +112,13 @@ function draftWaystoneBase({
   points.i = new Point(points.k.x, points.origin.y)
   points.j = new Point(points.k.x, points.b.y)
 
-  points.l = points.k.shiftTowards(points.a1, (blade * 1.5) / 4)
+  points.l = points.k.shiftTowards(points.a1, (chest * (15 / 36)) / 4)
   points.vShoulder = new Point(points.l.x, points.origin.y)
   points.z = points.l.shiftFractionTowards(points.vShoulder, 0.5)
   points.tShoulder = points.z.shiftFractionTowards(points.vShoulder, 0.5)
   points.shoulderMax = points.z.shiftFractionTowards(points.tShoulder, 0.5) //points 3
 
-  points.hpsBack = points.origin.shiftTowards(points.vShoulder, (blade * 1.5) / 8) //points 2
+  points.hpsBack = points.origin.shiftTowards(points.vShoulder, (chest * (15 / 36)) / 8) //points 2
   //neck control points
   points.cbNeckCp1 = utils.beamsIntersect(
     points.cbNeck,
