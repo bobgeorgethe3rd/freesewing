@@ -5,7 +5,7 @@ title: "Sandy circle skirt: Sewing Instructions"
 <Warning>
 
 Due to the different styles and configurations of Sandy you may find you need to skip or re-order certain steps.
-We're not going to go into a full explanation on how to create all the individual details that make up a circle skirt. These instructions assume that you know how to sew a zipper, construct pockets, etc. If not, there are numerous excellent articles available on the web, both in writen form, and on video. If you do get stuck, you can always reach out to [other FreeSewers](https://discord.freesewing.org/) in our discord.
+We're not going to go into a full explanation on how to create all the individual details that make up a circle skirt. These instructions assume that you know how to sew a zipper, construct pockets, etc. If not, there are numerous excellent articles available on the web, both in writen form, and on video. If you do get stuck, you can always reach out to [other FreeSewers in our discord](https://discord.freesewing.org/).
 
 </Warning>
 
@@ -57,12 +57,11 @@ If not lining you should face the skirt when hemming later.
 
 ### Step 4: The waistband
 
-- Face half the waistbands parts lengthwise.
-- With _good sides together_ sew the waistbands together along one of the short edges.
+- Face half the waistband part lengthwise.
 - Press under the seam allowance on the long edge of the waistband that is not faced.
 - Attach the faced side of the waistband, _good sides together_ to the skirt. There will be some overhang, the side you wish not to overlap should be overhang by your seam allowance. The side intended to overlap will have a greater overhang. Trim seam.
 - Press the waistband and seam allowance up and away from the skirt.
-- If inserting a zipper now is the time to do so, attach the zipper from the fold line down. Then follow the rest of the instructions ommiting overhangs and other closures. You will need to attach the lining to the zipper at this point if you have not treated the lining and skirt as one at the opening.
+- If inserting a zipper now is the time to do so, attach the zipper from either the waist seam or fold line down. If from fold line follow the rest of the instructions ommiting overlaps and other closures. If lining, you will need to attach the lining to the zipper at this point if you have not treated the lining and skirt as one at the opening.
 - Press the waistband _good sides together_ along fold-line.
 - Sew the overhangs with your seam allowance.
 - Turn the waistband out and to the inside, Press.
@@ -72,7 +71,7 @@ If not lining you should face the skirt when hemming later.
 
 <Tip>
 
-If you are having trouble keeping the pressed under seam allowance of the waistband folded/not staying pressed you may find it helpful to _Baste_ the fold in place.
+If you are having trouble keeping the pressed under seam allowance of the waistband folded/not staying pressed, you may find it helpful to _Baste_ the fold in place.
 
 </Tip>
 
