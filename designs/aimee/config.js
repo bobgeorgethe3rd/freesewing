@@ -53,6 +53,7 @@ export default {
     'shoulderToShoulder',
     'shoulderSlope',
 	'shoulderToWrist',
+  'wrist',
     // FIXME: Measurement from waist up to armhole (for sleeveless)
   ],
   dependencies: {
