@@ -17,6 +17,9 @@ aaron:
   peer:
     '@freesewing/brian': *freesewing
     '@freesewing/plugin-bust': *freesewing
+aimee:
+  peer:
+  '@freesewing/bella' : *freesewing
 bee:
   peer:
     '@freesewing/bella': *freesewing
