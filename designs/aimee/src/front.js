@@ -25,7 +25,6 @@ export default function (part) {
   macro('scalebox', false)
   delete points.__exportDate
   //inherit from bella
-  let bustDartAngleSide = store.get('bustDartAngleSide')
   let underArmLength = store.get('underArmLength')
   let underArmCurveLength = store.get('underArmCurveLength')
   let sideLength = store.get('sideLength')

@@ -52,7 +52,7 @@ export default function (part) {
   
   //creating shoulder Top
   points.shoulderRise = points.armholePitchCp2.shiftOutwards(points.shoulder, shoulderRise)
-  points.wristTop = points.hps.shiftTowards(points.shoulderRise, shoulderToWrist)
+  points.wristTop = points.hps.shiftOutwards(points.shoulderRise, shoulderToWrist)
   
   //undearm
   points.armholeDrop = points.armhole.shiftTowards(points.sideHem, armholeDrop)
