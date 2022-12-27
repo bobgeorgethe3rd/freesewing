@@ -16,6 +16,7 @@ export default {
 	'fitSleeves',
 	'sleeveLengthBonus',
 	'armholeDrop',
+  'underArmSleeveLength',
 	'underArmCurve',
 	],
     darts: [
@@ -58,16 +59,19 @@ export default {
   ],
   dependencies: {
     frontBella: 'backBella',
+    back: 'frontBase',
     front: 'back',
     sleeve: ['back', 'front',],
   },
   inject: {
-	front: 'frontBella',
+  frontBase: 'frontBella',
+	front: 'frontBase',
 	back: 'backBella',
   },
   hide: [
   'frontBella',
   'backBella',
+  'frontBase',
   ],
   parts: [
   ],
@@ -120,7 +124,8 @@ export default {
 	fitSleeves: {bool : true},
 	sleeveLengthBonus: {pct: 0, min: -10, max: 20},
 	armholeDrop: {pct: 12.4, min: 10, max: 15},
-	underArmCurve: {pct: 4.3, min: 3, max: 8},
+  underArmSleeveLength: {pct: 6.4, min: 6, max: 8},
+	underArmCurve: {pct: 66.7, min: 50, max: 100},
 	
 	//Advanced
 	shoulderRise: {pct: 1.5, min: 0, max: 2},

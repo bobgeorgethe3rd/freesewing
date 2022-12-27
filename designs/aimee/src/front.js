@@ -26,48 +26,11 @@ export default function (part) {
   delete points.__exportDate
   //inherit from bella
   let bustDartAngleSide = store.get('bustDartAngleSide')
-  let shoulderRise = store.get('shoulderRise')
-  let shoulderTop = store.get('shoulderTop')
-  let wrist = store.get('wrist')
-  let armholeDrop = store.get('armholeDrop')
-  let shoulderWidth = store.get('shoulderWidth')
   let underArmLength = store.get('underArmLength')
   let underArmCurveLength = store.get('underArmCurveLength')
   let sideLength = store.get('sideLength')
   // let waistFront = points.cfHem.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideHem)
-  //rotate to close bust dart
-  points.bustDartClosed = points.bustDartTop
-  
-  let rot = ['waistDartRightCp', 'waistDartRight', 'sideHemInitial']
-  for (const p of rot) points[p] = points[p].rotate(bustDartAngleSide, points.bust)
-  
-  points.waistDartMiddle = points.waistDartLeft.shiftFractionTowards(points.waistDartRight, 0.5)
-  points.waistDartEdge = utils.beamsIntersect(
-      points.bust,
-      points.waistDartMiddle,
-      points.cfHem,
-      points.waistDartLeft
-    )
-  points.sideHem = utils.beamsIntersect(points.waistDartRight,points.sideHemInitial,points.armhole,points.bustDartClosed)
-  //rename some points
-  points.cfWaist = points.cfHem
-  
-  //creating shoulder Top
-  points.shoulderRise = points.armholePitchCp2.shiftOutwards(points.shoulder, shoulderRise)
-  points.wristTop = points.hps.shiftTowards(points.shoulderRise, shoulderTop)
-  
-  //undearm
-  points.armholeDrop = points.armhole.shiftTowards(points.sideHem, armholeDrop)
-  if (options.fitSleeves){
-      points.wristBottom = points.wristTop.shiftTowards(points.hps, wrist / 2).rotate(90, points.wristTop)
-  }
-  else {
-      points.wristBottom = utils.beamsIntersect(points.armholeDrop, points.armholeDrop.shift(points.hps.angle(points.wristTop), 1), points.wristTop, points.hps.rotate(90, points.wristTop))
-  }
-  
-  points.bodiceSleeveTop = points.hps.shiftTowards(points.wristTop, shoulderWidth)
-  points.bodiceSleeveBottom = utils.beamsIntersect(points.armholeDrop, points.wristBottom, points.bodiceSleeveTop, points.hps.rotate(90, points.bodiceSleeveTop))
-  points.armholeCp = utils.beamsIntersect(points.armhole, points.sideHem, points.bodiceSleeveBottom, points.bodiceSleeveTop.rotate(90, points.bodiceSleeveBottom))
+ 
   //undearm
   let tweak = 1
   let target 
