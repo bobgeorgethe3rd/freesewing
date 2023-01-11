@@ -92,7 +92,7 @@ export default {
 	lengthBonus: {pct: -2, min: -30, max: 10},
 	placketWidth: {pct: 1 / 24 * 100, min: 1 /32 * 100, max: 5 / 96 * 100},
 	placketLength: {pct: 20, min: 15, max: 30},
-	waistbandWidth: { pct: 1.25, min: 1, max: 8, snap: 5, ...pctBasedOn('waistToFloor') },
+	waistbandWidth: { pct: 3.75, min: 1, max: 8, snap: 5, ...pctBasedOn('waistToFloor') },
 	
 	//Darts
 	frontDartWidth: {pct: 1 / 24 * 100, min: 1 / 32 * 100, max: 5 / 96 * 100},
