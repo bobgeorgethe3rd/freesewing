@@ -24,7 +24,8 @@ export default {
 	'frontDartWidth',
 	'sideDartWidth',
 	'hipDartWidth',
-	'dartLength'
+	'dartLength',
+	'dartExtension',
 	],
     pockets: [
 	'pocketDepth',
@@ -60,21 +61,25 @@ export default {
   // 'upperLeg',
   ],
   dependencies: {
-	  waistband: ['skirtBase', 'placket'],
-	  swingWaistband: 'skirtBase',
-	  pocket: 'skirtBase',
+	 waistband: ['skirtBase', 'placket'],
+	 swingWaistband: 'skirtBase',
+	 pocket: 'skirtBase',
   },
   inject: {
-	  skirtBase: 'wandaSkirtBase',
-	  centreFront: 'skirtBase',
-	  swingPanel: 'skirtBase',
-	  sideFront: 'skirtBase',
-	  sidePanel: 'skirtBase',
-	  sidePanelB: 'skirtBase',
-	  backPanel: 'skirtBase',
+	 skirtBase: 'wandaSkirtBase',
+	 centreFront: 'skirtBase',
+	 swingPanel: 'skirtBase',
+	 sideFront: 'skirtBase',
+	 sidePanel: 'skirtBase',
+	 sidePanelB: 'skirtBase',
+	 backPanel: 'skirtBase',
   },
-  hide: ['wandaSkirtBase', 'skirtBase',],
-  parts: ['wandaSkirtBase', 'placket', 'watchPocket',],
+  hide: [
+  'wandaSkirtBase',
+  'skirtBase',
+  ],
+  parts: ['wandaSkirtBase', 'placket', 'watchPocket',
+  ],
   options: {
     //Wanda
 	//Constants
@@ -92,16 +97,17 @@ export default {
 	lengthBonus: {pct: -2, min: -30, max: 10},
 	placketWidth: {pct: 1 / 24 * 100, min: 1 /32 * 100, max: 5 / 96 * 100},
 	placketLength: {pct: 20, min: 15, max: 30},
-	waistbandWidth: { pct: 3.75, min: 1, max: 8, snap: 5, ...pctBasedOn('waistToFloor') },
+	waistbandWidth: { pct: 3.75, min: 1, max: 8, snap: 5, ...pctBasedOn('waistToFloor') }, //altered for Scarlett
 	
 	//Darts
 	frontDartWidth: {pct: 1 / 24 * 100, min: 1 / 32 * 100, max: 5 / 96 * 100},
 	sideDartWidth: {pct: 1 / 24 * 100, min: 1 / 32 * 100, max: 5 / 96 * 100},
 	hipDartWidth: {pct: 5 / 96* 100, min: 1 / 32 * 100, max: 1 / 16 *100},
 	dartLength: {pct: 9 / 80 * 100, min: 1 / 10 * 100, max: 3 / 20 * 100},
+	dartExtension: {pct: 0.75, min: 0.5, max: 1},
 	
 	//Pockets
-	pocketDepth: {pct: 3 / 10 *100, min:20, max:50},
+	pocketDepth: {pct: 3 / 10 * 100, min:20, max:50},
 	//pocketDepth: {pct: 50, min: 30, max: 80},
 	pocketWidth: {pct: 11 / 36 * 100, min: 30, max: 40},
 	pocketFacingDepth: {pct: 5 / 12 * 100, min: 40, max: 50},
