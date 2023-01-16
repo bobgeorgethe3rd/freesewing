@@ -7,6 +7,13 @@
       "difficulty": 3,
       "tags": ["tops"]
     },
+    "daisy": {
+      "description": "Dart migration version of Bella",
+      "code": "bobgeorgethe3rd",
+      "design": ["Bella Incognito", "Joost De Cock", "bobgeorgethe3rd"],
+      "difficulty": 1,
+      "tags": ["tagname"]
+    },
     "titan": {
       "description": "A FreeSewing pattern for a unisex trouser block",
       "code": "Joost De Cock",
@@ -17,17 +24,11 @@
   },
   "bottoms": {},
   "circleskirts": {},
-
   "hats": {},
-
   "skirts": {},
-
   "sleeves": {},
-
   "trousers": {},
-
   "walkingskirts": {},
-
   "utilities": {
     "examples": {
       "description": "A FreeSewing pattern holding examples for our documentation",

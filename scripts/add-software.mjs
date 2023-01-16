@@ -45,16 +45,41 @@ async function addDesign() {
     name: 'type',
     message: 'In what category should we add the design?',
     choices: [
-      {
-        title: 'Accessories',
-        value: 'accessories',
-        description: 'Hats, bags, plushies, and so on',
-      },
       { title: 'Blocks', value: 'blocks', description: 'Blocks/Slopers to base other designs on' },
       {
-        title: 'Garments',
-        value: 'garments',
-        description: 'For clothes. The most common category',
+        title: 'Bottoms',
+        value: 'bottoms',
+        description: 'For bottoms that are not define by trouser or skirt',
+      },
+      {
+        title: 'Circle Skirts',
+        value: 'circleskirts',
+        description: 'For circle skirt desgins',
+      },
+      {
+        title: 'Hats',
+        value: 'hats',
+        description: 'For hat desgins',
+      },
+      {
+        title: 'Skirts',
+        value: 'skirts',
+        description: 'For skirt desgins',
+      },
+      {
+        title: 'Sleeves',
+        value: 'sleeves',
+        description: 'For sleeve block/desgins',
+      },
+      {
+        title: 'Trousers',
+        value: 'trousers',
+        description: 'For trouser desgins',
+      },
+      {
+        title: 'Walking Skirts',
+        value: 'walkingskirts',
+        description: 'For walking skirt desgins',
       },
       {
         title: 'Utilities',
@@ -155,9 +180,14 @@ async function addPlugin() {
 function validateName(name) {
   if (
     [
-      ...Object.keys(designs.accessories),
       ...Object.keys(designs.blocks),
-      ...Object.keys(designs.garments),
+      ...Object.keys(designs.bottoms),
+      ...Object.keys(designs.circleskirts),
+      ...Object.keys(designs.hats),
+      ...Object.keys(designs.skirts),
+      ...Object.keys(designs.sleeves),
+      ...Object.keys(designs.trousers),
+      ...Object.keys(designs.walkingskirts),
       ...Object.keys(designs.utilities),
     ].indexOf(name) !== -1
   )
