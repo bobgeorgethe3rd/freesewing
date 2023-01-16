@@ -12,17 +12,37 @@ import useTheme from 'shared/hooks/useTheme'
 // Initial navigation
 const initialNavigation = (t) => {
   const base = {
-    accessories: {
-      __title: t('accessoryDesigns'),
-      __slug: 'accessories',
-    },
     blocks: {
-      __title: t('blockDesigns'),
+      __title: t('Blocks'),
       __slug: 'blocks',
     },
-    garments: {
-      __title: t('garmentDesigns'),
-      __slug: t('garments'),
+    bottoms: {
+      __title: t('Bottoms'),
+      __slug: 'bottoms',
+    },
+    circleskirts: {
+      __title: t('Circle Skirts'),
+      __slug: 'circleskirts',
+    },
+    hats: {
+      __title: t('Hats'),
+      __slug: 'hats',
+    },
+    skirts: {
+      __title: t('Skirts'),
+      __slug: t('skirts'),
+    },
+    sleeves: {
+      __title: t('Sleeves'),
+      __slug: t('sleeves'),
+    },
+    trousers: {
+      __title: t('Trousers'),
+      __slug: t('trousers'),
+    },
+    walkingskirts: {
+      __title: t('Walking Skirts'),
+      __slug: t('walkingskirts'),
     },
     utilities: {
       __title: t('utilityDesigns'),
