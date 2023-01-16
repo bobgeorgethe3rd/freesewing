@@ -62,6 +62,9 @@ core:
   dev:
     'eslint': &eslint '8.33.0'
     'nyc': '15.1.0'
+daisy:
+  peer:
+    '@freesewing/bella': *freesewing
 diana:
   peer:
     '@freesewing/brian': *freesewing
