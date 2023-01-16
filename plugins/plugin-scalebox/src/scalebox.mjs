@@ -141,7 +141,7 @@ export function scalebox(so, { store, points, paths, scale, Point, Path }) {
     .close()
   // Lead
   points.__scaleboxLead = points.__scaleboxLead
-    .attr('data-text', so.lead || 'FreeSewing')
+    .attr('data-text', so.lead || 'Robert George Patterns')
     .attr('data-text-class', 'text-sm')
   // Title
   if (so.title) points.__scaleboxTitle.attributes.set('data-text', so.title)
@@ -157,9 +157,9 @@ export function scalebox(so, { store, points, paths, scale, Point, Path }) {
   if (typeof so.text === 'string') {
     points.__scaleboxText.attr('data-text', so.text)
   } else {
-    points.__scaleboxText.attr('data-text', 'supportFreesewingBecomeAPatron')
+    points.__scaleboxText.attr('data-text', 'For more info go to')
     points.__scaleboxLink = points.__scaleboxLink
-      .attr('data-text', 'freesewing.org/patrons/join')
+      .attr('data-text', 'twitch.tv/bobgeorgethe3rd')
       .attr('data-text-class', 'text-sm fill-note')
   }
   points.__scaleboxText.attr('data-text-class', 'text-xs').attr('data-text-lineheight', 4)

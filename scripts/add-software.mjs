@@ -47,6 +47,11 @@ async function addDesign() {
     choices: [
       { title: 'Blocks', value: 'blocks', description: 'Blocks/Slopers to base other designs on' },
       {
+        title: 'Bodices',
+        value: 'bodices',
+        description: 'For bodice designs that can be used in other designs',
+      },
+      {
         title: 'Bottoms',
         value: 'bottoms',
         description: 'For bottoms that are not define by trouser or skirt',
@@ -55,6 +60,11 @@ async function addDesign() {
         title: 'Circle Skirts',
         value: 'circleskirts',
         description: 'For circle skirt desgins',
+      },
+      {
+        title: 'Dresses',
+        value: 'dresses',
+        description: 'For dress desgins',
       },
       {
         title: 'Hats',
@@ -181,8 +191,10 @@ function validateName(name) {
   if (
     [
       ...Object.keys(designs.blocks),
+      ...Object.keys(designs.bodices),
       ...Object.keys(designs.bottoms),
       ...Object.keys(designs.circleskirts),
+      ...Object.keys(designs.dresses),
       ...Object.keys(designs.hats),
       ...Object.keys(designs.skirts),
       ...Object.keys(designs.sleeves),
