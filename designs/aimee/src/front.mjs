@@ -163,7 +163,7 @@ export const front = {
       if (sa) {
         paths.sa = new Path()
           .move(points.cfWaist)
-          .line(points.waistDartHem)
+          .line(points.waistDartEdge)
           .line(points.waistDartRight)
           .line(points.sideWaist)
           .line(points.armholeBottom)
