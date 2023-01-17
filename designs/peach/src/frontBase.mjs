@@ -58,11 +58,11 @@ export const frontBase = {
     const drawBellaGuide = () => {
       if (options.bustDartPlacement == 'armhole')
         return new Path()
-          .move(points.cfHem)
+          .move(points.cfWaist)
           .line(points.waistDartLeft)
           .curve_(points.waistDartLeftCp, points.bust)
           ._curve(points.waistDartRightCp, points.waistDartRight)
-          .line(points.sideHem)
+          .line(points.sideWaist)
           .line(points.armhole)
           .curve(points.armholeCp2, points.armholePitchCp1, points.bustDartBottom)
           ._curve(points.bustDartCpBottom, points.bust)
@@ -70,7 +70,7 @@ export const frontBase = {
           .curve_(points.armholePitchCp2, points.shoulder)
           .line(points.hps)
           .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
-          .line(points.cfHem)
+          .line(points.cfWaist)
       else
         return new Path()
           .move(points.cfWaist)
