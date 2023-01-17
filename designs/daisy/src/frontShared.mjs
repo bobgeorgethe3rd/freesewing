@@ -1,9 +1,9 @@
 import { back } from '@freesewing/bella'
-import { frontSideDart as bellaFront } from '@freesewing/bella'
+import { frontSideDart as frontBella } from '@freesewing/bella'
 
 export const frontShared = {
   name: 'frontShared',
-  from: bellaFront,
+  from: frontBella,
   after: back,
   hideDependencies: true,
   draft: ({
