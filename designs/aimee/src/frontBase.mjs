@@ -3,9 +3,13 @@ import { front as frontDaisy } from '@freesewing/daisy'
 export const frontBase = {
   name: 'frontBase',
   from: frontDaisy,
-  hideDependencies: true,
+  hide: true,
   measurements: ['shoulderToWrist', 'wrist'],
   options: {
+    //Constamt
+    bustDartLength: 1,
+    bustDartCurve: 1,
+    bustDartFraction: 0.5,
     //Fit
     wristEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
     //Style
@@ -88,7 +92,6 @@ export const frontBase = {
     )
 
     //guides
-
     const drawBellaGuide = () => {
       if (options.bustDartPlacement == 'armhole')
         return new Path()
@@ -131,6 +134,14 @@ export const frontBase = {
       .line(points.wristBottom)
       .line(points.wristTop)
       .line(points.hps)
+
+    //Stores
+    store.set('shoulderTop', points.hps.dist(points.wristTop))
+    store.set('shoulderRise', shoulderRise)
+    store.set('armholeDrop', armholeDrop)
+    store.set('wrist', wrist)
+    store.set('shoulderWidth', points.hps.dist(points.bodiceSleeveTop))
+    store.set('underArmSleeveLength', underArmSleeveLength)
 
     return part
   },
