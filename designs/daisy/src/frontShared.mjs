@@ -24,6 +24,7 @@ export const frontShared = {
   }) => {
     //renaming of points
     points.cfWaist = points.cfHem
+    points.sideWaistInitial = points.sideHemInitial
     points.sideWaist = points.sideHem
 
     if (complete) {
