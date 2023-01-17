@@ -95,7 +95,7 @@ export const frontBase = {
       if (options.bustDartPlacement == 'armhole')
         return new Path()
           .move(points.waistDartLeft)
-          .curve(points.waistDartLeftCp, points.bustDartCpTop, points.bustDartTop)
+          .curve(points.waistDartLeftCp, points.bustDartCpMiddle, points.bustDartTop)
       else
         return new Path()
           .move(points.waistDartLeft)
