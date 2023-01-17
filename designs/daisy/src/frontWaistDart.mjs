@@ -20,14 +20,13 @@ export const draftFrontWaistDart = ({
   //removing macros not required from Bella
   macro('title', false)
   macro('scalebox', false)
-  delete points.__exportDate
   //inherit from bella
-  let angle = store.get('bustDartAngleSide')
+  let bustDartAngleSide = store.get('bustDartAngleSide')
   //rotate to close bust dart
   points.bustDartClosed = points.bustDartTop
 
   let rot = ['waistDartRightCp', 'waistDartRight', 'sideWaistInitial']
-  for (const p of rot) points[p] = points[p].rotate(angle, points.bust)
+  for (const p of rot) points[p] = points[p].rotate(bustDartAngleSide, points.bust)
 
   points.waistDartMiddle = points.waistDartLeft.shiftFractionTowards(points.waistDartRight, 0.5)
   points.waistDartEdge = utils.beamsIntersect(
