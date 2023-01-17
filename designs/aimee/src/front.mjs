@@ -143,7 +143,10 @@ export const front = {
         grainline: true,
       })
       //notches
-      snippets.notch = new Snippet('notch', points.armholeBottom)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['cfBust', 'bust', 'armholeBottom'],
+      })
       //title
       points.title = new Point(points.waistDartLeftCp.x, points.waistDartLeftCp.y / 2)
       macro('title', {
