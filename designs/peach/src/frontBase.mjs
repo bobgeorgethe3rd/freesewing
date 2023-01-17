@@ -4,7 +4,6 @@ export const frontBase = {
   name: 'frontBase',
   from: frontDaisy,
   hideDependencies: true,
-  measurements: ['shoulderToWrist', 'wrist'],
   options: {
     //Constamt
     bustDartLength: 1,
