@@ -3,7 +3,7 @@
     "aimee": {
       "description": "An all in one block variant of Daisy",
       "code": "bobgeorgethe3rd",
-      "design": "bobgeorgethe3rdname",
+      "design": "bobgeorgethe3rd",
       "difficulty": 3,
       "tags": ["tagname"]
     },
@@ -18,6 +18,13 @@
       "description": "Dart migration version of Bella",
       "code": "bobgeorgethe3rd",
       "design": ["Bella Incognito", "Joost De Cock", "bobgeorgethe3rd"],
+      "difficulty": 3,
+      "tags": ["tagname"]
+    },
+    "peach": {
+      "description": "Princess seam varation of Daisy",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
       "difficulty": 3,
       "tags": ["tagname"]
     },

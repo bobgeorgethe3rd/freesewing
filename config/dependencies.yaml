@@ -119,6 +119,9 @@ paco:
   peer:
     '@freesewing/titan': *freesewing
     '@freesewing/snapseries': *freesewing
+peach:
+  peer:
+    '@freesewing/daisy': *freesewing
 plugin-bundle:
   dev:
     '@freesewing/plugin-banner': *freesewing

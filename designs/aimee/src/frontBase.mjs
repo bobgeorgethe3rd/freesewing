@@ -108,8 +108,6 @@ export const frontBase = {
           .line(points.hps)
           .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
           .line(points.cfHem)
-          .close()
-          .attr('class', 'various lashed')
       else
         return new Path()
           .move(points.cfWaist)
@@ -123,11 +121,9 @@ export const frontBase = {
           .line(points.hps)
           .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
           .line(points.cfWaist)
-          .close()
-          .attr('class', 'various lashed')
     }
 
-    paths.bellaGuide = drawBellaGuide()
+    paths.bellaGuide = drawBellaGuide().close().attr('class', 'various lashed')
 
     paths.armscaffold = new Path()
       .move(points.armholeDrop)
