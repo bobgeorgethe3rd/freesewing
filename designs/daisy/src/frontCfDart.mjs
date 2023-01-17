@@ -11,6 +11,7 @@ export const draftFrontCfDart = ({
   part,
   options,
   snippets,
+  Snippet,
   utils,
 }) => {
   //remove paths & snippets
@@ -92,9 +93,11 @@ export const draftFrontCfDart = ({
     //notches
     macro('sprinkle', {
       snippet: 'notch',
-      on: ['cfBust', 'bust', 'armholePitch'],
+      on: ['bust', 'armholePitch'],
     })
-
+    if (options.bustDartFraction > 0) {
+      snippets.cfBustNotch = new Snippet('notch', points.cfBust)
+    }
     //title
     points.title = new Point(points.armholePitchCp1.x * (3 / 4), points.bust.y)
     macro('title', {
