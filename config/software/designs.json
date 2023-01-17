@@ -1,5 +1,12 @@
 {
   "blocks": {
+    "aimee": {
+      "description": "An all in one block variant of Daisy",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rdname",
+      "difficulty": 3,
+      "tags": ["tagname"]
+    },
     "bella": {
       "description": "A FreeSewing pattern for a womenswear bodice block",
       "code": "Joost De Cock",
@@ -11,7 +18,7 @@
       "description": "Dart migration version of Bella",
       "code": "bobgeorgethe3rd",
       "design": ["Bella Incognito", "Joost De Cock", "bobgeorgethe3rd"],
-      "difficulty": 1,
+      "difficulty": 3,
       "tags": ["tagname"]
     },
     "titan": {
