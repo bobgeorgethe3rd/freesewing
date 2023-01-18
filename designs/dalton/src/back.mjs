@@ -10,6 +10,8 @@ export const back = {
     backDartPlacement: { pct: 50, min: 40, max: 60, menu: 'darts' },
     backDartWidth: { pct: 3, min: 1.1, max: 6, menu: 'darts' },
     backDartDepth: { pct: 95, min: 70, max: 95, menu: 'darts' },
+    //Construction
+    hemWidth: { pct: 3, min: 1, max: 10, menu: 'construction' },
     //Advanced
     fitGuides: { bool: true, menu: 'advanced' },
     waistbandWidth: {
@@ -76,46 +78,52 @@ export const back = {
         : new Path().move(points.fork).curve(points.forkCp2, points.kneeInCp1, points.floorIn)
 
     const drawOutseam = () => {
-      let waistOut = points.styleWaistOut || points.waistOut
       if (options.fitKnee) {
-        if (points.waistOut.x > points.seatOut.x)
+        if (points.styleWaistOut.x > points.seatOut.x)
           return new Path()
             .move(points.floorOut)
             .line(points.kneeOut)
-            .curve(points.kneeOutCp2, points.seatOut, waistOut)
+            .curve(points.kneeOutCp2, points.seatOut, points.styleWaistOut)
         else
           return new Path()
             .move(points.floorOut)
             .line(points.kneeOut)
             .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
-            .curve_(points.seatOutCp2, waistOut)
+            .curve_(points.seatOutCp2, points.styleWaistOut)
       } else {
-        if (points.waistOut.x > points.seatOut.x)
-          return new Path().move(points.floorOut).curve(points.kneeOutCp2, points.seatOut, waistOut)
+        if (points.styleWaistOut.x > points.seatOut.x)
+          return new Path()
+            .move(points.floorOut)
+            .curve(points.kneeOutCp2, points.seatOut, points.styleWaistOut)
         else
           return new Path()
             .move(points.floorOut)
             .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
-            .curve_(points.seatOutCp2, waistOut)
+            .curve_(points.seatOutCp2, points.styleWaistOut)
       }
     }
 
     //guides
-    paths.saBase = new Path()
-      .move(points.styleWaistIn)
+
+    paths.hemBase = new Path().move(points.floorIn).line(points.floorOut).hide()
+
+    paths.saBase = drawOutseam()
+      .line(points.styleWaistIn)
       .line(points.crossSeamCurveStart)
       .curve(points.crossSeamCurveCp1, points.crossSeamCurveCp2, points.fork)
       .join(drawInseam())
-      .line(points.floorOut)
-      .join(drawOutseam())
       .hide()
 
-    paths.seam = paths.saBase
+    paths.seam = paths.hemBase
       .clone()
+      .join(drawOutseam())
       .line(points.dartOut)
       .line(points.dartTip)
       .line(points.dartIn)
       .line(points.styleWaistIn)
+      .line(points.crossSeamCurveStart)
+      .curve(points.crossSeamCurveCp1, points.crossSeamCurveCp2, points.fork)
+      .join(drawInseam())
       .close()
       .unhide()
 
@@ -142,9 +150,9 @@ export const back = {
       macro('scalebox', { at: points.scalebox })
 
       if (sa) {
-        paths.sa = paths.saBase
-          .line(points.styleWaistIn)
-          .offset(sa)
+        paths.sa = paths.hemBase
+          .offset(sa * options.hemWidth * 100)
+          .join(paths.saBase.offset(sa))
           .close()
           .attr('class', 'fabric sa')
       }
