@@ -8,8 +8,8 @@ export const back = {
   options: {
     //Darts
     backDartPlacement: { pct: 50, min: 40, max: 60, menu: 'darts' },
-    backDartWidth: { pct: 3, min: 1.1, max: 6, menu: 'darts' },
-    backDartDepth: { pct: 95, min: 70, max: 95, menu: 'darts' },
+    backDartWidth: { pct: 3, min: 0, max: 6, menu: 'darts' }, //1.1
+    backDartDepth: { pct: 95, min: 70, max: 100, menu: 'darts' },
     //Construction
     hemWidth: { pct: 3, min: 1, max: 10, menu: 'construction' },
     //Advanced
@@ -22,6 +22,7 @@ export const back = {
       ...pctBasedOn('waistToFloor'),
       menu: 'advanced',
     },
+    backDartMultiplier: { count: 3, min: 0, max: 5, menu: 'advanced' },
   },
   draft: ({
     store,
@@ -40,6 +41,7 @@ export const back = {
     snippets,
     Snippet,
     absoluteOptions,
+    log,
   }) => {
     //removing paths and snippets not required from Titan
     for (let i in paths) delete paths[i]
@@ -48,7 +50,9 @@ export const back = {
     macro('title', false)
     macro('scalebox', false)
     //measures
-    let backDartWidth = measurements.waist * options.backDartWidth
+    let backDartWidth =
+      measurements.waist * options.backDartWidth +
+      measurements.waist * options.backDartWidth * options.backDartMultiplier * options.waistHeight
     let backDartDepth =
       (measurements.waistToSeat -
         measurements.waistToHips * (1 - options.waistHeight) -
@@ -63,9 +67,55 @@ export const back = {
     points.dartOut = points.dartIn.shiftTowards(points.styleWaistOut, backDartWidth)
     points.styleWaistOut = points.dartIn.shiftOutwards(points.styleWaistOut, backDartWidth)
     points.dartMid = points.dartIn.shiftFractionTowards(points.dartOut, 0.5)
-    points.dartTip = points.dartMid
-      .shiftTowards(points.dartOut, backDartDepth)
-      .rotate(-90, points.dartMid)
+
+    let potSeatOut
+    if (options.fitKnee) {
+      if (points.waistOut.x > points.seatOut.x) {
+        potSeatOut = utils.lineIntersectsCurve(
+          points.seatOut.shift(points.waistOut.angle(points.waistIn), measurements.seat),
+          points.seatOut.shift(points.waistIn.angle(points.waistOut), measurements.seat),
+          points.kneeOut,
+          points.kneeOutCp2,
+          points.seatOut,
+          points.styleWaistOut
+        )
+      } else {
+        potSeatOut = points.seatOut
+      }
+    } else {
+      if (points.waistOut.x > points.seatOut.x) {
+        potSeatOut = utils.lineIntersectsCurve(
+          points.seatOut.shift(points.waistOut.angle(points.waistIn), measurements.seat),
+          points.seatOut.shift(points.waistIn.angle(points.waistOut), measurements.seat),
+          points.floorOut,
+          points.kneeOutCp2,
+          points.seatOut,
+          points.styleWaistOut
+        )
+      } else {
+        potSeatOut = points.seatOut
+      }
+    }
+
+    if (potSeatOut) {
+      points.styleSeatOut = potSeatOut
+    } else {
+      points.styleSeatOut = points.seatOut
+    }
+
+    points.styleSeatIn = utils.beamsIntersect(
+      points.styleSeatOut,
+      points.styleSeatOut.shift(points.waistOut.angle(points.waistIn), 1),
+      points.styleWaistIn,
+      points.crossSeamCurveStart
+    )
+
+    points.seatMid = points.styleSeatOut.shiftFractionTowards(
+      points.styleSeatIn,
+      options.backDartPlacement
+    )
+
+    points.dartTip = points.dartMid.shiftTowards(points.seatMid, backDartDepth)
 
     //draw paths
 
@@ -78,28 +128,27 @@ export const back = {
         : new Path().move(points.fork).curve(points.forkCp2, points.kneeInCp1, points.floorIn)
 
     const drawOutseam = () => {
+      let waistOut = points.styleWaistOut || points.waistOut
       if (options.fitKnee) {
-        if (points.styleWaistOut.x > points.seatOut.x)
+        if (points.waistOut.x > points.seatOut.x)
           return new Path()
             .move(points.floorOut)
             .line(points.kneeOut)
-            .curve(points.kneeOutCp2, points.seatOut, points.styleWaistOut)
+            .curve(points.kneeOutCp2, points.seatOut, waistOut)
         else
           return new Path()
             .move(points.floorOut)
             .line(points.kneeOut)
             .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
-            .curve_(points.seatOutCp2, points.styleWaistOut)
+            .curve_(points.seatOutCp2, waistOut)
       } else {
-        if (points.styleWaistOut.x > points.seatOut.x)
-          return new Path()
-            .move(points.floorOut)
-            .curve(points.kneeOutCp2, points.seatOut, points.styleWaistOut)
+        if (points.waistOut.x > points.seatOut.x)
+          return new Path().move(points.floorOut).curve(points.kneeOutCp2, points.seatOut, waistOut)
         else
           return new Path()
             .move(points.floorOut)
             .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
-            .curve_(points.seatOutCp2, points.styleWaistOut)
+            .curve_(points.seatOutCp2, waistOut)
       }
     }
 
@@ -136,7 +185,7 @@ export const back = {
         to: points.grainlineTo,
       })
       //notches
-
+      snippets.bnotch = new Snippet('bnotch', points.crossSeamCurveStart)
       //title
       points.title = points.knee.shiftFractionTowards(points.kneeIn, 0.25)
       macro('title', {
@@ -148,6 +197,74 @@ export const back = {
       //scalebox
       points.scalebox = points.knee.shiftFractionTowards(points.floor, 0.5)
       macro('scalebox', { at: points.scalebox })
+
+      //Fit Guides
+      if (options.fitGuides) {
+        points.waistGuideIn = points.styleWaistIn.shiftFractionTowards(points.dartIn, 0.15)
+        points.waistGuideOut = points.waistGuideIn.shiftFractionTowards(points.dartIn, 0.75)
+
+        if (measurements.waistToHips * options.waistHeight - absoluteOptions.waistbandWidth > 0) {
+          points.hipsGuideOut = points.waistGuideOut
+            .shiftTowards(
+              points.waistGuideIn,
+              measurements.waistToHips * options.waistHeight - absoluteOptions.waistbandWidth
+            )
+            .rotate(90, points.waistGuideOut)
+          points.hipsGuideIn = points.hipsGuideOut.shift(
+            points.waistGuideOut.angle(points.waistGuideIn),
+            points.waistGuideOut.dist(points.waistGuideIn)
+          )
+          paths.hipsGuide = new Path()
+            .move(points.hipsGuideIn)
+            .line(points.hipsGuideOut)
+            .attr('class', 'various')
+            .attr('data-text', 'Hips Guide')
+            .attr('data-text-class', 'left')
+
+          macro('sprinkle', {
+            snippet: 'notch',
+            on: ['hipsGuideIn', 'hipsGuideOut'],
+          })
+        }
+
+        points.seatGuideOut = points.waistGuideOut
+          .shiftTowards(
+            points.waistGuideIn,
+            measurements.waistToSeat -
+              measurements.waistToHips * (1 - options.waistHeight) -
+              absoluteOptions.waistbandWidth
+          )
+          .rotate(90, points.waistGuideOut)
+        points.seatGuideIn = points.seatGuideOut.shift(
+          points.waistGuideOut.angle(points.waistGuideIn),
+          points.waistGuideOut.dist(points.waistGuideIn)
+        )
+
+        points.kneeGuideOut = points.kneeOut
+        points.kneeGuideIn = points.kneeGuideOut.shiftTowards(
+          points.kneeIn,
+          points.waistGuideOut.dist(points.waistGuideIn)
+        )
+
+        paths.seatGuide = new Path()
+          .move(points.seatGuideIn)
+          .line(points.seatGuideOut)
+          .attr('class', 'various')
+          .attr('data-text', 'Seat Guide')
+          .attr('data-text-class', 'left')
+
+        paths.kneeGuide = new Path()
+          .move(points.kneeGuideIn)
+          .line(points.kneeGuideOut)
+          .attr('class', 'various')
+          .attr('data-text', 'Knee Guide')
+          .attr('data-text-class', 'right')
+
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['seatGuideIn', 'seatGuideOut', 'kneeGuideIn', 'kneeGuideOut'],
+        })
+      }
 
       if (sa) {
         paths.sa = paths.hemBase
