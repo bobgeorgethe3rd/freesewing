@@ -13,6 +13,8 @@ skipTests:
 packageJson:
   backend:
     name: backend.freesewing.org
+  aimee:
+    author: bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)
   bee:
     author: bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)
   benjamin:
@@ -26,6 +28,8 @@ packageJson:
         - 'node_modules/*'
         - 'tests'
   daisy:
+    author: bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)
+  dalton:
     author: bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)
   hi:
     author: woutervdub (https://github.com/woutervdub)
@@ -54,6 +58,8 @@ packageJson:
     author: woutervdub (https://github.com/woutervdub)
   octoplushy:
     author: woutervdub (https://github.com/woutervdub)
+  peach:
+    author: bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)
   plugin-gore:
     author: AlfaLyr (https://github.com/alfalyr)
   prettier-config:
