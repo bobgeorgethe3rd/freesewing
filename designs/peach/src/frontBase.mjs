@@ -47,8 +47,8 @@ export const frontBase = {
     points.bustDartCpMiddle = points.waistDartMiddleCp.rotate(180, points.bust)
     if (options.bustDartPlacement == 'armhole') {
       points.waistDartLeftCp = utils.beamsIntersect(
+        points.bustDartTop,
         points.bustDartCpTop,
-        points.bustDartCpMiddle,
         points.waistDartLeft,
         points.waistDartLeftCp
       )
@@ -95,7 +95,7 @@ export const frontBase = {
       if (options.bustDartPlacement == 'armhole')
         return new Path()
           .move(points.waistDartLeft)
-          .curve(points.waistDartLeftCp, points.bustDartCpMiddle, points.bustDartTop)
+          .curve(points.waistDartLeftCp, points.bustDartCpTop, points.bustDartTop)
       else
         return new Path()
           .move(points.waistDartLeft)

@@ -40,9 +40,11 @@ export const backBase = {
         points.armholePitchCp1.rotate(-90, points.armholePitch)
       )
     } else {
-      points.backCp1 = points.dartBottomCenter.shiftOutwards(
+      points.backCp1 = utils.beamsIntersect(
+        points.dartBottomCenter,
         points.dartTip,
-        points.dartTip.dist(points.shoulderSplit) / 3
+        points.armholePitchCp2,
+        points.armholePitchCp2.shift(points.shoulder.angle(points.hps), 1)
       )
     }
     points.dartMiddleCp = points.backCp1.shiftOutwards(
