@@ -7,9 +7,9 @@ export const back = {
   hideDependencies: true,
   options: {
     //Fit
-    ankleEase: { pct: 2, min: 0, max: 10, menu: 'fit' },
+    // ankleEase: { pct: 2, min: 0, max: 10, menu: 'fit' },
     //Style
-    fitFloor: { bool: false, menu: 'style' },
+    // fitFloor: { bool: false, menu: 'style' },
     //Darts
     backDartPlacement: { pct: 50, min: 40, max: 60, menu: 'darts' },
     backDartWidth: { pct: 3, min: 0, max: 6, menu: 'darts' }, //1.1
@@ -27,9 +27,9 @@ export const back = {
       menu: 'advanced',
     },
     backDartMultiplier: { count: 1, min: 0, max: 5, menu: 'advanced' },
-    useHeel: { bool: false, menu: 'advanced' },
+    // useHeel: { bool: false, menu: 'advanced' },
   },
-  measurements: ['ankle', 'heel'],
+  // measurements: ['ankle', 'heel'],
   draft: ({
     store,
     sa,
@@ -65,12 +65,12 @@ export const back = {
         absoluteOptions.waistbandWidth) *
       options.backDartDepth
 
-    let ankle
-    if (options.useHeel) {
-      ankle = measurements.heel * (1 + options.ankleEase) * options.legBalance
-    } else {
-      ankle = measurements.ankle * (1 + options.ankleEase) * options.legBalance
-    }
+    // let ankle
+    // if (options.useHeel) {
+    // ankle = measurements.heel * (1 + options.ankleEase) * options.legBalance
+    // } else {
+    // ankle = measurements.ankle * (1 + options.ankleEase) * options.legBalance
+    // }
 
     //let's begin
     points.dartIn = points.styleWaistOut.shiftFractionTowards(
