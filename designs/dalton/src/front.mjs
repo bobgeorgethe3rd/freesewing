@@ -1,8 +1,10 @@
 import { front as frontTitan } from '@freesewing/titan'
+import { back } from './back.mjs'
 
 export const front = {
   name: 'front',
   from: frontTitan,
+  after: back,
   hideDependencies: true,
   draft: ({
     store,
@@ -29,6 +31,10 @@ export const front = {
     macro('title', false)
     macro('scalebox', false)
     delete paths.grainline
+    //measures
+    let kneeFront = store.get('daltonKneeFront')
+    let floorFront = store.get('floorFront')
+
     //seam paths
 
     if (complete) {
