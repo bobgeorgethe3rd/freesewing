@@ -7,13 +7,6 @@
       "difficulty": 3,
       "tags": ["tops", "blocks"]
     },
-    "bella": {
-      "description": "A FreeSewing pattern for a womenswear bodice block",
-      "code": "Joost De Cock",
-      "design": ["Bella Incognito", "Joost De Cock"],
-      "difficulty": 3,
-      "tags": ["tops", "blocks"]
-    },
     "daisy": {
       "description": "Dart migration version of Bella",
       "code": "bobgeorgethe3rd",
@@ -34,13 +27,6 @@
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
       "tags": ["tops", "blocks"]
-    },
-    "titan": {
-      "description": "A FreeSewing pattern for a unisex trouser block",
-      "code": "Joost De Cock",
-      "design": ["Debra Bean", "Joost De Cock"],
-      "difficulty": 3,
-      "tags": ["bottoms", "blocks"]
     }
   },
   "bodices": {},

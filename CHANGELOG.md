@@ -169,12 +169,6 @@
 
 ## 2.22.0 (2022-08-23)
 
-### titan
-
-#### Added
-
- - Added additional notches to aid alignment
-
 ### plugin-title
 
 #### Added
@@ -209,18 +203,6 @@
 
 
 ## 2.21.0 (2022-06-27)
-
-### bella
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
-
-### titan
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
 
 ### examples
 
@@ -465,20 +447,6 @@
 
 
 ## 2.20.0 (2022-01-24)
-
-### bella
-
-#### Changed
-
- - Expose the `fullChestEaseReduction` option to the user via option groups
- - Expose the `frontArmholeCurvature` option to the user via option groups
- - Switched to default import for version from package.json
-
-### titan
-
-#### Changed
-
- - Switched to default import for version from package.json
 
 ### examples
 
@@ -800,23 +768,11 @@
 
 ## 2.19.4 (2021-11-09)
 
-### titan
-
-#### Fixed
-
- - Fixed a regression that caused the `waistHeight` option to be ignored. Closes [#1467](https://github.com/freesewing/freesewing/issues/1467)
-
 
 ## 2.19.3 (2021-11-05)
 
 
 ## 2.19.2 (2021-11-02)
-
-### titan
-
-#### Changed
-
- - Migrated the `waistbandWidth` option from mm to snapped pct
 
 
 ## 2.19.1 (2021-10-23)
@@ -961,18 +917,6 @@
 
 ## 2.16.1 (2021-05-30)
 
-### bella
-
-#### Changed
-
- - Changed `department` setting in config in line with new grouping
-
-### titan
-
-#### Changed
-
- - Changed `department` setting in config in line with new grouping
-
 ### i18n
 
 #### Added
@@ -990,12 +934,6 @@
 
 
 ## 2.15.4 (2021-05-08)
-
-### bella
-
-#### Fixed
-
- - Fixed incorrect part dependencies See [#1002](https://github.com/freesewing/freesewing/issues/1002)
 
 
 ## 2.15.3 (2021-05-05)
@@ -1020,33 +958,6 @@
 
 
 ## 2.15.0 (2021-04-15)
-
-### bella
-
-#### Fixed
-
- - Shoulder point control point fix for doll-sized clothes
-
-### titan
-
-#### Added
-
- - Added the waistbandHeight option
- - Added the crossSeamCurveAngle option
- - Added the crotchSeamCurveAngle option
-
-#### Changed
-
- - Crotch- and Cross seam have been redrawn using the new angle options
- - Added waistbandWidth option
-
-#### Fixed
-
- - Adapt seat control point when waist is dropped below the hip line
- - Removed lingering console.log statements
- - Configure dependencies to guarantee draft order
- - Always keep seat control point vertically between styled waist and seat
- - Adapt the outseam to the dropped waist in all circumstances
 
 ### examples
 
@@ -1109,35 +1020,11 @@
 
 ## 2.13.2 (2021-02-21)
 
-### bella
-
-#### Fixed
-
- - Fixed issue with out-of-order execution
-
-### titan
-
-#### Fixed
-
- - Always ensure point waistIn is created in back part
-
 
 ## 2.13.1 (2021-02-14)
 
 
 ## 2.13.0 (2021-02-13)
-
-### bella
-
-#### Fixed
-
- - Verify whether back dart passes armhole depth
-
-### titan
-
-#### Fixed
-
- - Always balance the waist
 
 ### i18n
 
@@ -1150,12 +1037,6 @@
 
 
 ## 2.12.0 (2021-01-19)
-
-### bella
-
-#### Added
-
- - Initial release of this body block for womenswear
 
 
 ## 2.11.3 (2021-01-16)
@@ -1212,12 +1093,6 @@
 
 
 ## 2.10.4 (2020-11-13)
-
-### titan
-
-#### Fixed
-
- - Issue with incorrectly named point
 
 
 ## 2.10.3 (2020-11-08)
@@ -1319,13 +1194,6 @@
 
 
 ## 2.7.0 (2020-07-12)
-
-### titan
-
-#### Added
-
- - A FreeSewing block for pants/trousers
- - Initial release
 
 ### legend
 
