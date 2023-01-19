@@ -254,6 +254,10 @@ export const back = {
       .close()
       .unhide()
 
+    //stores
+    //store.set('kneeFront', kneeFront)
+    store.set('floorFront', floorFront)
+
     if (complete) {
       //grainline
       points.grainlineTo = points.floorIn.shiftFractionTowards(points.floor, 1 / 3)
