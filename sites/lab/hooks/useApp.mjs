@@ -23,9 +23,9 @@ const initialNavigation = (t) => {
       __title: t('Bottoms'),
       __slug: 'bottoms',
     },
-    circleskirts: {
-      __title: t('Circle Skirts'),
-      __slug: 'circleskirts',
+    costumes: {
+      __title: t('Costumes'),
+      __slug: 'costumes',
     },
     dresses: {
       __title: t('Dresses'),
@@ -35,6 +35,14 @@ const initialNavigation = (t) => {
       __title: t('Hats'),
       __slug: 'hats',
     },
+    jackets: {
+      __title: t('Jackets / Coats'),
+      __slug: 'jackets',
+    },
+    jumpsuit: {
+      __title: t('Jumpsuit / Rompers'),
+      __slug: 'jumpsuit',
+    },
     skirts: {
       __title: t('Skirts'),
       __slug: t('skirts'),
@@ -43,13 +51,13 @@ const initialNavigation = (t) => {
       __title: t('Sleeves'),
       __slug: t('sleeves'),
     },
-    trousers: {
-      __title: t('Trousers'),
-      __slug: t('trousers'),
+    swimwear: {
+      __title: t('Swimwear'),
+      __slug: t('swimwear'),
     },
-    walkingskirts: {
-      __title: t('Walking Skirts'),
-      __slug: t('walkingskirts'),
+    tops: {
+      __title: t('Tops'),
+      __slug: t('tops'),
     },
     utilities: {
       __title: t('utilityDesigns'),
