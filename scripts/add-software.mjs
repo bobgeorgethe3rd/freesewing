@@ -54,12 +54,12 @@ async function addDesign() {
       {
         title: 'Bottoms',
         value: 'bottoms',
-        description: 'For bottoms that are not define by trouser or skirt',
+        description: 'For bottom that are not define by skirt designs',
       },
       {
-        title: 'Circle Skirts',
-        value: 'circleskirts',
-        description: 'For circle skirt desgins',
+        title: 'Costumes',
+        value: 'costumes',
+        description: 'For costume designs',
       },
       {
         title: 'Dresses',
@@ -72,6 +72,16 @@ async function addDesign() {
         description: 'For hat desgins',
       },
       {
+        title: 'Jackets / Coats',
+        value: 'jackets',
+        description: 'For jacket & coat desgins',
+      },
+      {
+        title: 'Jumpsuit / Rompers',
+        value: 'jumpsuits',
+        description: 'For jumpsuit & rompers desgins',
+      },
+      {
         title: 'Skirts',
         value: 'skirts',
         description: 'For skirt desgins',
@@ -82,14 +92,14 @@ async function addDesign() {
         description: 'For sleeve block/desgins',
       },
       {
-        title: 'Trousers',
-        value: 'trousers',
-        description: 'For trouser desgins',
+        title: 'Swimwear',
+        value: 'swimwear',
+        description: 'For swimwear desgins',
       },
       {
-        title: 'Walking Skirts',
-        value: 'walkingskirts',
-        description: 'For walking skirt desgins',
+        title: 'Tops',
+        value: 'tops',
+        description: 'For tops desgins',
       },
       {
         title: 'Utilities',
@@ -193,13 +203,15 @@ function validateName(name) {
       ...Object.keys(designs.blocks),
       ...Object.keys(designs.bodices),
       ...Object.keys(designs.bottoms),
-      ...Object.keys(designs.circleskirts),
+      ...Object.keys(designs.costumes),
       ...Object.keys(designs.dresses),
       ...Object.keys(designs.hats),
+      ...Object.keys(designs.jackets),
+      ...Object.keys(designs.jumpsuit),
       ...Object.keys(designs.skirts),
       ...Object.keys(designs.sleeves),
-      ...Object.keys(designs.trousers),
-      ...Object.keys(designs.walkingskirts),
+      ...Object.keys(designs.swimwear),
+      ...Object.keys(designs.tops),
       ...Object.keys(designs.utilities),
     ].indexOf(name) !== -1
   )

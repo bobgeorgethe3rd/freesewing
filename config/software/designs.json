@@ -45,13 +45,15 @@
   },
   "bodices": {},
   "bottoms": {},
-  "circleskirts": {},
+  "costumes": {},
   "dresses": {},
   "hats": {},
+  "jackets": {},
+  "jumpsuit": {},
   "skirts": {},
   "sleeves": {},
-  "trousers": {},
-  "walkingskirts": {},
+  "swimwear": {},
+  "tops": {},
   "utilities": {
     "examples": {
       "description": "A FreeSewing pattern holding examples for our documentation",
