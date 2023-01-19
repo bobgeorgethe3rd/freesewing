@@ -101,6 +101,7 @@ export const back = {
       points.styleSeatOut = potSeatOut
     } else {
       points.styleSeatOut = points.seatOut
+      log.warning('You may need to check you waistToSeat and crossSeam measures.')
     }
 
     points.styleSeatIn = utils.beamsIntersect(
