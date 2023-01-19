@@ -255,7 +255,7 @@ export const back = {
       .unhide()
 
     //stores
-    //store.set('kneeFront', kneeFront)
+    store.set('daltonKneeFront', kneeFront)
     store.set('floorFront', floorFront)
 
     if (complete) {
