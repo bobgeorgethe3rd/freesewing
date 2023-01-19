@@ -22,7 +22,7 @@ export const back = {
       ...pctBasedOn('waistToFloor'),
       menu: 'advanced',
     },
-    backDartMultiplier: { count: 3, min: 0, max: 5, menu: 'advanced' },
+    backDartMultiplier: { count: 1, min: 0, max: 5, menu: 'advanced' },
   },
   draft: ({
     store,
