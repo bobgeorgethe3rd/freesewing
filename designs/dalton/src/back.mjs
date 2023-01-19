@@ -6,6 +6,10 @@ export const back = {
   from: backTitan,
   hideDependencies: true,
   options: {
+    //Fit
+    ankleEase: { pct: 2, min: 0, max: 10, menu: 'fit' },
+    //Style
+    fitFloor: { bool: false, menu: 'style' },
     //Darts
     backDartPlacement: { pct: 50, min: 40, max: 60, menu: 'darts' },
     backDartWidth: { pct: 3, min: 0, max: 6, menu: 'darts' }, //1.1
@@ -23,7 +27,9 @@ export const back = {
       menu: 'advanced',
     },
     backDartMultiplier: { count: 1, min: 0, max: 5, menu: 'advanced' },
+    useHeel: { bool: false, menu: 'advanced' },
   },
+  measurements: ['ankle', 'heel'],
   draft: ({
     store,
     sa,
@@ -58,6 +64,13 @@ export const back = {
         measurements.waistToHips * (1 - options.waistHeight) -
         absoluteOptions.waistbandWidth) *
       options.backDartDepth
+
+    let ankle
+    if (options.useHeel) {
+      ankle = measurements.heel * (1 + options.ankleEase) * options.legBalance
+    } else {
+      ankle = measurements.ankle * (1 + options.ankleEase) * options.legBalance
+    }
 
     //let's begin
     points.dartIn = points.styleWaistOut.shiftFractionTowards(
@@ -117,6 +130,25 @@ export const back = {
     )
 
     points.dartTip = points.dartMid.shiftTowards(points.seatMid, backDartDepth)
+
+    // if (options.fitFloor){
+    // points.floorIn = points.floor.shiftTowards(points.floorIn, ankle / 2)
+    // points.floorOut = points.floor.shiftTowards(points.floorOut, ankle / 2)
+
+    // let seatPivot
+    // if (points.waistOut.x > points.seatOut.x) {
+    // seatPivot = points.seatOut
+    // }
+    // else {
+    // seatPivot = points.seatOutCp1
+    // }
+    // points.floorInCp1 = utils.beamsIntersect(points.fork, points.kneeIn, points.floorIn, points.floorOut.rotate(90, points.floorIn))
+    // points.floorOutCp2 = new Point(points.floorOut.x, points.floorInCp1.y)
+
+    // points.kneeInCp1 = points.kneeIn.shiftFractionTowards(points.fork, 1 / 3)
+    // points.kneeOutCp2 = points.kneeInCp1.flipX(points.floor)
+
+    // }
 
     //draw paths
 
