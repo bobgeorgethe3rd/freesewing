@@ -9,7 +9,8 @@ export const back = {
     //Fit
     ankleEase: { pct: 2, min: 0, max: 10, menu: 'fit' },
     //Style
-    fitFloor: { bool: false, menu: 'style' },
+    fitKnee: { bool: true, menu: 'style' },
+    fitFloor: { bool: true, menu: 'style' },
     //Darts
     backDartPlacement: { pct: 50, min: 40, max: 60, menu: 'darts' },
     backDartWidth: { pct: 3, min: 0, max: 6, menu: 'darts' }, //1.1
@@ -77,9 +78,7 @@ export const back = {
     let floorBack = floor * options.legBalance
     let floorFront = floor * (1 - options.legBalance)
 
-    let kneeTotal = measurements.knee * (1 + options.kneeEase)
-    let kneeBack = kneeTotal * options.legBalance
-    let kneeFront = kneeTotal * (1 + options.legBalance)
+    // let kneeBack = measurements.knee * (1 + options.kneeEase) * options.legBalance
 
     //let's begin
     points.dartIn = points.styleWaistOut.shiftFractionTowards(
@@ -141,8 +140,8 @@ export const back = {
     points.dartTip = points.dartMid.shiftTowards(points.seatMid, backDartDepth)
 
     if (options.fitFloor) {
-      points.kneeOut = points.knee.shift(0, kneeBack / 2)
-      points.kneeIn = points.kneeOut.flipX(points.knee)
+      // points.kneeOut = points.knee.shift(0, kneeBack / 2)
+      // points.kneeIn = points.kneeOut.flipX(points.knee)
 
       points.floorIn = points.floor.shiftTowards(points.floorIn, floorBack / 2)
       points.floorOut = points.floor.shiftTowards(points.floorOut, floorBack / 2)
@@ -155,11 +154,15 @@ export const back = {
 
       points.kneeInCp1 = points.floorInCp1.shiftOutwards(
         points.kneeIn,
-        points.knee.dy(points.floorIn) / 3
+        points.fork.dy(points.knee) / 3
+        // points.fork.dy(points.knee) * 0.6
+        //points.knee.dy(points.floorIn) / 3
       )
       points.kneeOutCp2 = points.floorOutCp2.shiftOutwards(
         points.kneeOut,
-        points.knee.dy(points.floorOut) / 3
+        points.fork.dy(points.knee) / 3
+        // points.fork.dy(points.knee) * 0.6
+        //points.knee.dy(points.floorOut) / 3
       )
     }
 
@@ -255,7 +258,6 @@ export const back = {
       .unhide()
 
     //stores
-    store.set('daltonKneeFront', kneeFront)
     store.set('floorFront', floorFront)
 
     if (complete) {

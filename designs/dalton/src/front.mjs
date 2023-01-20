@@ -25,22 +25,123 @@ export const front = {
     absoluteOptions,
   }) => {
     //removing paths and snippets not required from Titan
-    // for (let i in paths) delete paths[i]
+    for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
     //removing macros not required from Titan
     macro('title', false)
     macro('scalebox', false)
-    delete paths.grainline
     //measures
-    let kneeFront = store.get('daltonKneeFront')
+    // let kneeFront = measurements.knee * (1 + options.kneeEase) * (1 - options.legBalance)
     let floorFront = store.get('floorFront')
+
+    if (options.fitFloor) {
+      // points.kneeOut = points.knee.shift(180, kneeFront / 2)
+      // points.kneeIn = points.kneeOut.flipX(points.knee)
+
+      points.floorIn = points.floor.shiftTowards(points.floorIn, floorFront / 2)
+      points.floorOut = points.floor.shiftTowards(points.floorOut, floorFront / 2)
+
+      points.floorOutCp1 = points.floorOut.shift(90, points.knee.dy(points.floorOut) / 6)
+      points.floorInCp2 = points.floorIn.shift(90, points.knee.dy(points.floorIn) / 6)
+
+      points.kneeInCp2 = points.floorInCp2.shiftOutwards(
+        points.kneeIn,
+        points.fork.dy(points.knee) / 3
+        // points.fork.dy(points.knee) * 0.6
+        //points.knee.dy(points.floorIn) / 3
+      )
+      points.kneeOutCp1 = points.floorOutCp1.shiftOutwards(
+        points.kneeOut,
+        points.fork.dy(points.knee) / 3
+        // points.fork.dy(points.knee) * 0.6
+        //points.knee.dy(points.floorOut) / 3
+      )
+    }
+
+    //draw paths
+
+    // const drawInseam = () =>
+    // options.fitKnee
+    // ? new Path()
+    // .move(points.floorIn)
+    // .line(points.kneeIn)
+    // .curve(points.kneeInCp2, points.forkCp1, points.fork)
+    // : new Path().move(points.floorIn).curve(points.kneeInCp2, points.forkCp1, points.fork)
+
+    const drawInseam = () => {
+      if (options.fitKnee && !options.fitFloor) {
+        return new Path()
+          .move(points.floorIn)
+          .line(points.kneeIn)
+          .curve(points.kneeInCp2, points.forkCp1, points.fork)
+      }
+      if (options.fitFloor) {
+        return new Path()
+          .move(points.floorIn)
+          .curve_(points.floorInCp2, points.kneeIn)
+          .curve(points.kneeInCp2, points.forkCp1, points.fork)
+      }
+      if (!options.fitKnee & !options.fitFloor) {
+        return new Path().move(points.floorIn).curve(points.kneeInCp2, points.forkCp1, points.fork)
+      }
+    }
+
+    const drawOutseam = () => {
+      let waistOut = points.styleWaistOut || points.waistOut
+      if (options.fitKnee && !options.fitFloor) {
+        if (points.waistOut.x < points.seatOut.x)
+          return new Path()
+            .move(waistOut)
+            .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
+            .line(points.floorOut)
+        else
+          return new Path()
+            .move(waistOut)
+            ._curve(points.seatOutCp1, points.seatOut)
+            .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
+            .line(points.floorOut)
+      }
+      if (options.fitFloor) {
+        if (points.waistOut.x < points.seatOut.x)
+          return new Path()
+            .move(waistOut)
+            .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
+            ._curve(points.floorOutCp1, points.floorOut)
+        else
+          return new Path()
+            .move(waistOut)
+            ._curve(points.seatOutCp1, points.seatOut)
+            .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
+            ._curve(points.floorOutCp1, points.floorOut)
+      }
+      if (!options.fitKnee & !options.fitFloor) {
+        if (points.waistOut.x < points.seatOut.x)
+          return new Path().move(waistOut).curve(points.seatOut, points.kneeOutCp1, points.floorOut)
+        else
+          return new Path()
+            .move(waistOut)
+            ._curve(points.seatOutCp1, points.seatOut)
+            .curve(points.seatOutCp2, points.kneeOutCp1, points.floorOut)
+      }
+    }
+
+    paths.hemBase = new Path().move(points.floorOut).line(points.floorIn).hide()
+
+    paths.saBase = drawInseam()
+      .curve(points.crotchSeamCurveCp1, points.crotchSeamCurveCp2, points.crotchSeamCurveStart)
+      .line(points.styleWaistIn)
+      .line(points.styleWaistOut)
+      .join(drawOutseam())
+      .hide()
+
+    paths.seam = paths.hemBase.clone().join(paths.saBase).close()
 
     //seam paths
 
     if (complete) {
       //grainline
       points.grainlineTo = points.floorIn.shiftFractionTowards(points.floor, 1 / 3)
-      points.grainlineFrom = new Point(points.grainlineTo.x, points.crotchSeamCurveCp2.y)
+      points.grainlineFrom = new Point(points.grainlineTo.x, points.crotchSeamCurveStart.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
@@ -121,6 +222,13 @@ export const front = {
           snippet: 'notch',
           on: ['seatGuideOut', 'seatGuideIn', 'kneeGuideOut', 'kneeGuideIn'],
         })
+      }
+      if (sa) {
+        paths.sa = paths.hemBase
+          .offset(sa * options.hemWidth * 100)
+          .join(paths.saBase.offset(sa))
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 
