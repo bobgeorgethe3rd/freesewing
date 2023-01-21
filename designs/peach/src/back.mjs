@@ -1,7 +1,7 @@
 import { backBase } from './backBase'
 
 export const back = {
-  name: 'back',
+  name: 'backPeach',
   from: backBase,
   hideDependencies: true,
   draft: ({

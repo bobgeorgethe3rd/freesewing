@@ -1,9 +1,9 @@
-import { back as backBella } from '@freesewing/bella'
+import { back as backDaisy } from '@freesewing/daisy'
 
 export const backBase = {
   name: 'backBase',
-  from: backBella,
-  //hideDependencies: true,
+  from: backDaisy,
+  hideDependencies: true,
   draft: ({
     store,
     sa,
