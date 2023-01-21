@@ -9,9 +9,17 @@ export const back = {
     //Fit
     ankleEase: { pct: 2, min: 0, max: 10, menu: 'fit' },
     //Style
+    legbandWidth: {
+      pct: 0,
+      min: 0,
+      max: 6,
+      snap: 5,
+      ...pctBasedOn('waistToFloor'),
+      menu: 'advanced',
+    },
     fitKnee: { bool: true, menu: 'style' },
     fitFloor: { bool: true, menu: 'style' },
-    lengthBonus: { pct: 0, min: -20, max: 10, menu: 'style' },
+    lengthBonus: { pct: -10, min: -20, max: 10, menu: 'style' },
     //Darts
     backDartPlacement: { pct: 50, min: 40, max: 60, menu: 'darts' },
     backDartWidth: { pct: 3, min: 0, max: 6, menu: 'darts' }, //1.1
@@ -67,14 +75,21 @@ export const back = {
         absoluteOptions.waistbandWidth) *
       options.backDartDepth
 
+    let ankle = measurements.ankle * (1 + options.ankleEase)
+    let heel = measurements.heel * (1 + options.ankleEase)
+
     let floorMeasure
     if (options.useHeel) {
-      floorMeasure = measurements.heel
+      floorMeasure = heel
     } else {
-      floorMeasure = measurements.ankle
+      floorMeasure = ankle
     }
 
-    let floor = floorMeasure * (1 + options.ankleEase)
+    let floor =
+      floorMeasure +
+      absoluteOptions.legbandWidth *
+        ((store.get('kneeTotal') - floorMeasure) /
+          (measurements.waistToFloor - measurements.waistToKnee))
 
     let floorBack = floor * options.legBalance
     let floorFront = floor * (1 - options.legBalance)
@@ -139,6 +154,10 @@ export const back = {
     )
 
     points.dartTip = points.dartMid.shiftTowards(points.seatMid, backDartDepth)
+
+    points.floor = points.floor.shift(90, absoluteOptions.legbandWidth)
+    points.floorIn = new Point(points.kneeIn.x, points.floor.y)
+    points.floorOut = points.floorIn.flipX(points.floor)
 
     if (options.fitFloor) {
       // points.kneeOut = points.knee.shift(0, kneeBack / 2)
