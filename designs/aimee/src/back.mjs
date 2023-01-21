@@ -38,7 +38,7 @@ export const back = {
     let shoulderTop = store.get('shoulderTop')
     let wrist = store.get('wrist')
     let armholeDrop = store.get('armholeDrop')
-    let shoulderWidth = store.get('shoulderWidthAimee')
+    let shoulderWidth = store.get('shoulderWidth')
     let underArmSleeveLength = store.get('underArmSleeveLength')
 
     //let's begin
