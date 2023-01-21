@@ -1,9 +1,9 @@
-import { back as backBella } from '@freesewing/bella'
+import { back as backDaisy } from '@freesewing/daisy'
 import { frontBase } from './frontBase.mjs'
 
 export const back = {
-  name: 'back',
-  from: backBella,
+  name: 'backAimee',
+  from: backDaisy,
   after: frontBase,
   hideDependencies: true,
   options: {
@@ -38,7 +38,7 @@ export const back = {
     let shoulderTop = store.get('shoulderTop')
     let wrist = store.get('wrist')
     let armholeDrop = store.get('armholeDrop')
-    let shoulderWidth = store.get('shoulderWidth')
+    let shoulderWidth = store.get('shoulderWidthAimee')
     let underArmSleeveLength = store.get('underArmSleeveLength')
 
     //let's begin
