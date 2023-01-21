@@ -155,7 +155,7 @@ export const back = {
 
     points.dartTip = points.dartMid.shiftTowards(points.seatMid, backDartDepth)
 
-    points.floor = points.floor.shift(90, absoluteOptions.legbandWidth)
+    points.floor = points.floor.shiftTowards(points.knee, absoluteOptions.legbandWidth)
     points.floorIn = new Point(points.kneeIn.x, points.floor.y)
     points.floorOut = points.floorIn.flipX(points.floor)
 
