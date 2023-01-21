@@ -11,6 +11,7 @@ export const back = {
     //Style
     fitKnee: { bool: true, menu: 'style' },
     fitFloor: { bool: true, menu: 'style' },
+    lengthBonus: { pct: 0, min: -20, max: 10, menu: 'style' },
     //Darts
     backDartPlacement: { pct: 50, min: 40, max: 60, menu: 'darts' },
     backDartWidth: { pct: 3, min: 0, max: 6, menu: 'darts' }, //1.1
