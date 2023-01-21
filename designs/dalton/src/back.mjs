@@ -31,7 +31,7 @@ export const back = {
     backDartMultiplier: { count: 1, min: 0, max: 5, menu: 'advanced' },
     useHeel: { bool: true, menu: 'advanced' },
   },
-  // measurements: ['ankle', 'heel'],
+  measurements: ['ankle', 'heel'],
   draft: ({
     store,
     sa,
