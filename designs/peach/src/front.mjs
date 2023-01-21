@@ -1,4 +1,4 @@
-import { frontBase } from './frontBase'
+import { frontBase } from './frontBase.mjs'
 
 export const front = {
   name: 'front',
