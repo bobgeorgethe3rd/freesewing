@@ -34,6 +34,10 @@ export const front = {
     // let kneeFront = measurements.knee * (1 + options.kneeEase) * (1 - options.legBalance)
     let floorFront = store.get('floorFront')
 
+    points.floor = points.floor.shift(90, absoluteOptions.legbandWidth)
+    points.floorOut = new Point(points.kneeOut.x, points.floor.y)
+    points.floorIn = points.floorOut.flipX(points.floor)
+
     if (options.fitFloor) {
       // points.kneeOut = points.knee.shift(180, kneeFront / 2)
       // points.kneeIn = points.kneeOut.flipX(points.knee)
