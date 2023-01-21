@@ -136,7 +136,7 @@ export const frontBase = {
     store.set('shoulderRise', shoulderRise)
     store.set('armholeDrop', armholeDrop)
     store.set('wrist', wrist)
-    store.set('shoulderWidthAimee', points.hps.dist(points.bodiceSleeveTop))
+    store.set('shoulderWidth', points.hps.dist(points.bodiceSleeveTop))
     store.set('underArmSleeveLength', underArmSleeveLength)
 
     return part

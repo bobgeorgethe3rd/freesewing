@@ -25,7 +25,7 @@ export const back = {
     //matching neck to front
 
     store.set('neckAngle', points.hps.angle(points.cbNeck))
-    points.hps = points.shoulder.shiftTowards(points.hps, store.get('shoulderWidth'))
+    points.hps = points.shoulder.shiftTowards(points.hps, store.get('shoulderWidthDaisy'))
     points.cbNeck = utils.beamsIntersect(
       points.hps,
       points.hps.shift(store.get('neckAngle'), 1),
