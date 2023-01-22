@@ -1,16 +1,11 @@
 import { back as backDaisy } from '@freesewing/daisy'
-import { frontBase } from './frontBase.mjs'
+import { front } from './front.mjs'
 
 export const back = {
-  name: 'backAimee',
+  name: 'back',
   from: backDaisy,
-  after: frontBase,
+  after: front,
   hideDependencies: true,
-  options: {
-    //Style
-    fullSleeves: { bool: true, menu: 'style' },
-    underArmCurve: { pct: 66.7, min: 50, max: 100, menu: 'style' },
-  },
   draft: ({
     store,
     sa,
@@ -40,6 +35,8 @@ export const back = {
     let armholeDrop = store.get('armholeDrop')
     let shoulderWidth = store.get('shoulderWidth')
     let underArmSleeveLength = store.get('underArmSleeveLength')
+    let underArmLength = store.get('underArmLength')
+    let underArmCurveLength = store.get('underArmCurveLength')
 
     //let's begin
     //shoudler top
@@ -68,17 +65,85 @@ export const back = {
       points.bodiceSleeveTop,
       points.hps.rotate(90, points.bodiceSleeveTop)
     )
-    points.armholeBottom = points.armholeDrop.shiftTowards(
+    //underarm curve and side
+    points.underArmCurveStartInitial = points.armholeDrop.shiftTowards(
       points.waistSide,
       underArmSleeveLength * options.underArmCurve
     )
-    points.armholeCp = utils.beamsIntersect(
-      points.armhole,
-      points.waistSide,
-      points.bodiceSleeveBottom,
-      points.bodiceSleeveTop.rotate(90, points.bodiceSleeveBottom)
-    )
+    if (!options.fullSleeves) {
+      points.armholeCpInitial = utils.beamsIntersect(
+        points.armhole,
+        points.waistSide,
+        points.bodiceSleeveBottom,
+        points.bodiceSleeveTop.rotate(90, points.bodiceSleeveBottom)
+      )
+      points.underArmCurveEnd = points.bodiceSleeveBottom
+    } else {
+      points.armholeCpInitial = points.armholeDrop
+      points.underArmCurveEnd = points.wristBottom.shiftTowards(
+        points.bodiceSleeveBottom,
+        underArmLength
+      )
+    }
 
+    let tweak = 1
+    let target = underArmCurveLength
+    let delta
+    do {
+      points.underArmCp = points.underArmCurveEnd.shiftTowards(
+        points.armholeCpInitial,
+        points.underArmCurveEnd.dist(points.underArmCurveStartInitial) * tweak
+      )
+      points.underArmCurveStart = utils.beamsIntersect(
+        points.underArmCp,
+        points.underArmCp.shift(points.armhole.angle(points.waistSide), 1),
+        points.underArmCurveStartInitial,
+        points.underArmCurveStartInitial.shift(0, 1)
+      )
+
+      paths.underArmCurve = new Path()
+        .move(points.underArmCurveStart)
+        .curve_(points.underArmCp, points.underArmCurveEnd)
+        .hide()
+
+      delta = paths.underArmCurve.length() - target
+      if (delta > 0) tweak = tweak * 0.99
+      else tweak = tweak * 1.01
+    } while (Math.abs(delta) > 1)
+
+    points.sideWaist = utils.beamsIntersect(
+      points.underArmCurveStart,
+      points.underArmCurveStart.shift(points.armhole.angle(points.waistSide), 1),
+      points.waistSide,
+      points.waistSide.shift(0, 1)
+    )
+    points.dartBottomRight = points.dartBottomRight.shift(
+      0,
+      points.waistSide.dist(points.sideWaist)
+    )
+    points.dartRightCp = new Point(points.dartBottomRight.x, points.dartLeftCp.y)
+    points.dartBottomCenter = points.dartBottomLeft.shiftFractionTowards(
+      points.dartBottomRight,
+      0.5
+    )
+    points.dartTip = new Point(points.dartBottomCenter.x, points.dartTip.y)
+
+    //resetting bust points of dart not sure if 100 needed but maybe in a future pattern
+    if (!points.bustSide) log.error('Could not find bust height in side seam of back part')
+    if (points.bustCenter.y < points.dartTip.y) {
+      points.bustDartLeft = points.bustCenter.clone()
+      points.bustDartLeft.x = points.dartTip.x
+    } else {
+      points.bustDartLeft = utils.curveIntersectsY(
+        points.dartBottomLeft,
+        points.dartLeftCp,
+        points.dartTip,
+        points.dartTip,
+        measurements.hpsToBust
+      )
+    }
+    if (!points.bustDartLeft) log.error('Could not find bust height in back dart')
+    points.bustDartRight = points.bustDartLeft.flipX(points.dartTip)
     //guides
     // paths.bellaGuide = new Path()
     // .move(points.cbNeck)
@@ -101,57 +166,38 @@ export const back = {
     // .line(points.wristTop)
     // .line(points.hps)
 
+    // paths.side = new Path()
+    // .move(points.dartBottomRight)
+    // .line(points.sideWaist)
+    // .line(points.underArmCurveStart)
+    // .curve_(points.underArmCp, points.underArmCurveEnd)
+    // .line(points.wristBottom)
+
     //seam paths
 
     const drawArm = () => {
       if (options.fullSleeves)
         return new Path()
-          .move(points.armholeBottom)
-          .curve_(points.armholeDrop, points.bodiceSleeveBottom)
+          .move(points.underArmCurveEnd)
           .line(points.wristBottom)
           .line(points.wristTop)
-          .line(points.hps)
-      else
-        return new Path()
-          .move(points.armholeBottom)
-          .curve_(points.armholeCp, points.bodiceSleeveBottom)
           .line(points.bodiceSleeveTop)
-          .line(points.hps)
+      else return new Path().move(points.underArmCurveEnd).line(points.bodiceSleeveTop)
     }
 
-    paths.saBase = new Path()
-      .move(points.dartBottomRight)
-      .line(points.waistSide)
-      .line(points.armholeBottom)
-      .join(drawArm())
-      ._curve(points.cbNeckCp1, points.cbNeck)
+    paths.seam = new Path()
+      .move(points.cbNeck)
       .curve_(points.cbNeckCp2, points.waistCenter)
       .line(points.dartBottomLeft)
-      .hide()
-
-    paths.seam = paths.saBase
-      .clone()
       .curve_(points.dartLeftCp, points.dartTip)
       ._curve(points.dartRightCp, points.dartBottomRight)
+      .line(points.sideWaist)
+      .line(points.underArmCurveStart)
+      .curve_(points.underArmCp, points.underArmCurveEnd)
+      .join(drawArm())
+      .line(points.hps)
+      ._curve(points.cbNeckCp1, points.cbNeck)
       .close()
-      .unhide()
-    //stores
-    store.set(
-      'underArmLength',
-      new Path()
-        .move(points.armholeBottom)
-        .curve_(points.armholeDrop, points.bodiceSleeveBottom)
-        .line(points.wristBottom)
-        .length()
-    )
-    store.set(
-      'underArmCurveLength',
-      new Path()
-        .move(points.armholeBottom)
-        .curve_(points.armholeCp, points.bodiceSleeveBottom)
-        .length()
-    )
-    store.set('sideLength', points.armholeBottom.dist(points.waistSide))
 
     // Complete?
     if (complete) {
@@ -163,7 +209,11 @@ export const back = {
         to: points.grainlineTo,
       })
       //notches
-      snippets.notch = new Snippet('notch', points.armholeBottom)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['underArmCurveStart', 'underArmCurveEnd'],
+      })
+
       //title
       points.title = new Point(points.cbNeckCp1.x, points.dartTip.y * (3 / 4))
       macro('title', {
@@ -172,16 +222,21 @@ export const back = {
         title: 'back',
       })
       if (sa) {
-        paths.sa = paths.saBase
-          .clone()
+        paths.sa = new Path()
+          .move(points.cbNeck)
+          .curve_(points.cbNeckCp2, points.waistCenter)
+          .line(points.dartBottomLeft)
           .line(points.dartBottomRight)
+          .line(points.sideWaist)
+          .line(points.underArmCurveStart)
+          .curve_(points.underArmCp, points.underArmCurveEnd)
+          .join(drawArm())
+          .line(points.hps)
+          ._curve(points.cbNeckCp1, points.cbNeck)
           .offset(sa)
           .close()
           .attr('class', 'fabric sa')
       }
-    }
-
-    if (paperless) {
     }
 
     return part
