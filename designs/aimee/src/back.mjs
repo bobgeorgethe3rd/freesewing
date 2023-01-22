@@ -61,8 +61,8 @@ export const back = {
       points.wristBottom = points.wristBottomInitial
     } else {
       points.wristBottom = utils.beamsIntersect(
-        points.armholeDrop,
-        points.armholeDrop.shift(points.hps.angle(points.wristTop), 1),
+        points.bodiceSleeveBottom,
+        points.bodiceSleeveBottom.shift(points.hps.angle(points.wristTop), 1),
         points.wristTop,
         points.hps.rotate(90, points.wristTop)
       )
