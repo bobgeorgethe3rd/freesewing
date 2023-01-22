@@ -44,10 +44,21 @@ export const back = {
     points.wristTop = points.hps.shiftTowards(points.shoulderRise, shoulderTop)
 
     points.armholeDrop = points.armhole.shiftTowards(points.waistSide, armholeDrop)
+    points.wristBottomInitial = points.wristTop
+      .shiftTowards(points.hps, wrist / 2)
+      .rotate(90, points.wristTop)
+
+    //let's try and make a curve
+    points.bodiceSleeveTop = points.hps.shiftTowards(points.wristTop, shoulderWidth)
+    points.bodiceSleeveBottom = utils.beamsIntersect(
+      points.armholeDrop,
+      points.wristBottomInitial,
+      points.bodiceSleeveTop,
+      points.hps.rotate(90, points.bodiceSleeveTop)
+    )
+
     if (options.fitSleeves) {
-      points.wristBottom = points.wristTop
-        .shiftTowards(points.hps, wrist / 2)
-        .rotate(90, points.wristTop)
+      points.wristBottom = points.wristBottomInitial
     } else {
       points.wristBottom = utils.beamsIntersect(
         points.armholeDrop,
@@ -57,21 +68,13 @@ export const back = {
       )
     }
 
-    //let's try and make a curve
-    points.bodiceSleeveTop = points.hps.shiftTowards(points.wristTop, shoulderWidth)
-    points.bodiceSleeveBottom = utils.beamsIntersect(
-      points.armholeDrop,
-      points.wristBottom,
-      points.bodiceSleeveTop,
-      points.hps.rotate(90, points.bodiceSleeveTop)
-    )
     //underarm curve and side
     points.underArmCurveStartInitial = points.armholeDrop.shiftTowards(
       points.waistSide,
       underArmSleeveLength * options.underArmCurve
     )
     if (!options.fullSleeves) {
-      points.armholeCpInitial = utils.beamsIntersect(
+      points.underArmCpInitial = utils.beamsIntersect(
         points.armhole,
         points.waistSide,
         points.bodiceSleeveBottom,
@@ -79,7 +82,12 @@ export const back = {
       )
       points.underArmCurveEnd = points.bodiceSleeveBottom
     } else {
-      points.armholeCpInitial = points.armholeDrop
+      points.underArmCpInitial = utils.beamsIntersect(
+        points.armhole,
+        points.waistSide,
+        points.wristBottom,
+        points.bodiceSleeveBottom
+      )
       points.underArmCurveEnd = points.wristBottom.shiftTowards(
         points.bodiceSleeveBottom,
         underArmLength
@@ -91,7 +99,7 @@ export const back = {
     let delta
     do {
       points.underArmCp = points.underArmCurveEnd.shiftTowards(
-        points.armholeCpInitial,
+        points.underArmCpInitial,
         points.underArmCurveEnd.dist(points.underArmCurveStartInitial) * tweak
       )
       points.underArmCurveStart = utils.beamsIntersect(
