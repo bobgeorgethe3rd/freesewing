@@ -35,8 +35,7 @@ export const front = {
         return new Path()
           .move(points.cfWaist)
           .line(points.waistDartLeft)
-          .curve_(points.waistDartLeftCp, points.bust)
-          .curve_(points.bustDartCpTop, points.bustDartTop)
+          .curve(points.waistDartLeftCp, points.bustDartCpTop, points.bustDartTop)
           .curve_(points.armholePitchCp2, points.shoulder)
           .line(points.hps)
           .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
@@ -62,10 +61,18 @@ export const front = {
         grainline: true,
       })
       //notch
-      macro('sprinkle', {
-        snippet: 'notch',
-        on: ['cfBust', 'bust'],
-      })
+      if (options.bustDartPlacement == 'armhole') {
+        points.bustNotch = utils.lineIntersectsCurve(
+          points.bust.shift(0, measurements.waist),
+          points.cfBust,
+          points.waistDartLeft,
+          points.waistDartLeftCp,
+          points.bustDartCpTop,
+          points.armholePitch
+        )
+      } else {
+        points.bustNotch = points.bust
+      }
       snippets.bustNotch = new Snippet('notch', points.bustNotch)
       //title
       points.title = new Point(points.cfNeckCp1.x / 2, points.bust.y / 2)

@@ -43,21 +43,15 @@ export const frontBase = {
       .shiftFractionTowards(points.bustDartBottom, 2 / 3)
       .rotate(5, points.bust)
 
-    points.waistDartMiddleCp = points.bust.shiftFractionTowards(points.waistDartEdge, 0.25)
+    points.waistDartMiddleCp = points.bust.shiftFractionTowards(points.waistDartHem, 0.25)
     points.bustDartCpMiddle = points.waistDartMiddleCp.rotate(180, points.bust)
     if (options.bustDartPlacement == 'armhole') {
       points.waistDartLeftCp = utils.beamsIntersect(
+        points.bustDartTop,
         points.bustDartCpTop,
-        points.bust,
         points.waistDartLeft,
         points.waistDartLeftCp
       )
-      points.waistDartMiddleCp = points.bust.shiftTowards(
-        points.waistDartLeftCp,
-        points.bust.dist(points.waistDartEdge) * 0.25
-      )
-      points.bustDartCpMiddle = points.waistDartMiddleCp.rotate(180, points.bust)
-      points.waistDartRightCp = new Point(points.waistDartRight.x, points.waistDartLeftCp.y)
     }
 
     //guides
@@ -101,8 +95,7 @@ export const frontBase = {
       if (options.bustDartPlacement == 'armhole')
         return new Path()
           .move(points.waistDartLeft)
-          .curve_(points.waistDartLeftCp, points.bust)
-          .curve_(points.bustDartCpMiddle, points.bustDartTop)
+          .curve(points.waistDartLeftCp, points.bustDartCpTop, points.bustDartTop)
       else
         return new Path()
           .move(points.waistDartLeft)
