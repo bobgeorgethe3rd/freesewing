@@ -1,11 +1,33 @@
-import { back } from './back.mjs'
-import { frontBase } from './frontBase.mjs'
+import { front as frontDaisy } from '@freesewing/daisy'
 
 export const front = {
   name: 'front',
-  from: frontBase,
-  after: back,
+  from: frontDaisy,
   hideDependencies: true,
+  measurements: ['shoulderToWrist', 'wrist'],
+  options: {
+    //Constamt
+    bustDartLength: 1,
+    bustDartCurve: 1,
+    bustDartFraction: 0.5,
+    //Fit
+    wristEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
+    //Style
+    fitSleeves: { bool: true, menu: 'style' },
+    sleeveLengthBonus: { pct: 0, min: -10, max: 20, menu: 'style' },
+    armholeDrop: { pct: 12.4, min: 10, max: 15, menu: 'style' },
+    underArmSleeveLength: { pct: 6.4, min: 6, max: 8, menu: 'style' },
+    fullSleeves: { bool: true, menu: 'style' },
+    underArmCurve: { pct: 100, min: 50, max: 100, menu: 'style' },
+    //Darts
+    bustDartPlacement: {
+      dflt: 'armhole',
+      list: ['waist', 'armhole'],
+      menu: 'darts',
+    },
+    //Advanced
+    shoulderRise: { pct: 1.5, min: 0, max: 2, menu: 'advanced' },
+  },
   draft: ({
     store,
     sa,
@@ -21,7 +43,6 @@ export const front = {
     measurements,
     part,
     snippets,
-    Snippet,
   }) => {
     //removing paths and snippets not required from Bella
     for (let i in paths) delete paths[i]
@@ -29,43 +50,59 @@ export const front = {
     //removing macros not required from Bella
     macro('title', false)
     macro('scalebox', false)
-    //inherit from bella
-    let underArmLength = store.get('underArmLength')
-    let underArmCurveLength = store.get('underArmCurveLength')
-    let sideLength = store.get('sideLength')
+    //measures
+    let shoulderRise = measurements.hpsToWaistBack * options.shoulderRise
+    let shoulderToWrist = measurements.shoulderToWrist * (1 + options.sleeveLengthBonus)
+    let wrist = measurements.wrist * (1 + options.wristEase)
+    let armholeDrop = measurements.hpsToWaistBack * options.armholeDrop
+    let underArmSleeveLength = measurements.shoulderToWrist * options.underArmSleeveLength
+
+    //creating shoulder Top
+    points.shoulderRise = points.armholePitchCp2.shiftOutwards(points.shoulder, shoulderRise)
+    points.wristTop = points.hps.shiftOutwards(points.shoulderRise, shoulderToWrist)
 
     //undearm
-    let tweak = 1
-    let target
-    if (options.fullSleeves) target = underArmLength
-    else target = underArmCurveLength
-    let delta
-    do {
-      points.armholeBottom = points.armholeDrop.shiftTowards(
-        points.sideWaist,
-        points.armholeDrop.dist(points.bodiceSleeveBottom) * tweak
+    points.armholeDrop = points.armhole.shiftTowards(points.sideWaist, armholeDrop)
+    if (options.fitSleeves) {
+      points.wristBottom = points.wristTop
+        .shiftTowards(points.hps, wrist / 2)
+        .rotate(90, points.wristTop)
+    } else {
+      points.wristBottom = utils.beamsIntersect(
+        points.armholeDrop,
+        points.armholeDrop.shift(points.hps.angle(points.wristTop), 1),
+        points.wristTop,
+        points.hps.rotate(90, points.wristTop)
       )
+    }
 
-      const drawUnderArm = () => {
-        if (options.fullSleeves)
-          return new Path()
-            .move(points.armholeBottom)
-            .curve_(points.armholeDrop, points.bodiceSleeveBottom)
-            .line(points.wristBottom)
-        else
-          return new Path()
-            .move(points.armholeBottom)
-            .curve_(points.armholeCp, points.bodiceSleeveBottom)
-      }
-
-      delta = drawUnderArm().length() - target
-      if (delta > 0) tweak = tweak * 0.99
-      else tweak = tweak * 1.01
-    } while (Math.abs(delta) > 1)
-
-    points.sideWaist = points.armholeBottom.shiftTowards(points.sideWaist, sideLength)
+    points.bodiceSleeveBottom = points.armholeDrop.shiftTowards(
+      points.wristBottom,
+      underArmSleeveLength
+    )
+    points.bodiceSleeveTop = utils.beamsIntersect(
+      points.hps,
+      points.wristTop,
+      points.bodiceSleeveBottom,
+      points.bodiceSleeveBottom.shift(points.wristBottom.angle(points.wristTop), 1)
+    )
+    points.underArmCurveStart = points.armholeDrop.shiftTowards(
+      points.sideWaist,
+      underArmSleeveLength * options.underArmCurve
+    )
+    if (!options.fullSleeves) {
+      points.underArmCp = utils.beamsIntersect(
+        points.armhole,
+        points.sideWaist,
+        points.bodiceSleeveBottom,
+        points.bodiceSleeveTop.rotate(90, points.bodiceSleeveBottom)
+      )
+    } else {
+      points.underArmCp = points.armholeDrop
+    }
 
     //guides
+
     // const drawBellaGuide = () => {
     // if (options.bustDartPlacement == 'armhole')
     // return new Path()
@@ -82,8 +119,6 @@ export const front = {
     // .line(points.hps)
     // .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
     // .line(points.cfHem)
-    // .close()
-    // .attr('class', 'various lashed')
     // else
     // return new Path()
     // .move(points.cfWaist)
@@ -97,28 +132,32 @@ export const front = {
     // .line(points.hps)
     // .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
     // .line(points.cfWaist)
-    // .close()
-    // .attr('class', 'various lashed')
     // }
 
-    // paths.bellaGuide = drawBellaGuide()
+    // paths.bellaGuide = drawBellaGuide().close().attr('class', 'various lashed')
+
+    // paths.armscaffold = new Path()
+    // .move(points.armholeDrop)
+    // .line(points.wristBottom)
+    // .line(points.wristTop)
+    // .line(points.hps)
+
+    // paths.underArmCurve = new Path()
+    // .move(points.sideWaist)
+    // .line(points.underArmCurveStart)
+    // .curve_(points.underArmCp, points.bodiceSleeveBottom)
+    // .line(points.wristBottom)
 
     //seam paths
 
     const drawArm = () => {
       if (options.fullSleeves)
         return new Path()
-          .move(points.armholeBottom)
-          .curve_(points.armholeDrop, points.bodiceSleeveBottom)
+          .move(points.bodiceSleeveBottom)
           .line(points.wristBottom)
           .line(points.wristTop)
-          .line(points.hps)
-      else
-        return new Path()
-          .move(points.armholeBottom)
-          .curve_(points.armholeCp, points.bodiceSleeveBottom)
           .line(points.bodiceSleeveTop)
-          .line(points.hps)
+      else return new Path().move(points.bodiceSleeveBottom).line(points.bodiceSleeveTop)
     }
 
     paths.seam = new Path()
@@ -127,12 +166,30 @@ export const front = {
       .curve_(points.waistDartLeftCp, points.waistDartTip)
       ._curve(points.waistDartRightCp, points.waistDartRight)
       .line(points.sideWaist)
-      .line(points.armholeBottom)
+      .line(points.underArmCurveStart)
+      .curve_(points.underArmCp, points.bodiceSleeveBottom)
       .join(drawArm())
+      .line(points.hps)
       .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .line(points.cfWaist)
+      .close()
 
-    // Complete?
+    //Stores
+    store.set('shoulderTop', points.hps.dist(points.wristTop))
+    store.set('shoulderRise', shoulderRise)
+    store.set('armholeDrop', armholeDrop)
+    store.set('wrist', wrist)
+    store.set('shoulderWidth', points.hps.dist(points.bodiceSleeveTop))
+    store.set('underArmSleeveLength', underArmSleeveLength)
+    store.set('underArmLength', points.wristBottom.dist(points.bodiceSleeveBottom))
+    store.set(
+      'underArmCurveLength',
+      new Path()
+        .move(points.underArmCurveStart)
+        .curve_(points.underArmCp, points.bodiceSleeveBottom)
+        .length()
+    )
+
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.cfNeck
@@ -145,7 +202,7 @@ export const front = {
       //notches
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['cfBust', 'bust', 'armholeBottom'],
+        on: ['cfBust', 'bust', 'underArmCurveStart', 'bodiceSleeveBottom'],
       })
       //title
       points.title = new Point(points.waistDartLeftCp.x, points.waistDartLeftCp.y / 2)
@@ -166,18 +223,17 @@ export const front = {
           .line(points.waistDartEdge)
           .line(points.waistDartRight)
           .line(points.sideWaist)
-          .line(points.armholeBottom)
+          .line(points.underArmCurveStart)
+          .curve_(points.underArmCp, points.bodiceSleeveBottom)
           .join(drawArm())
+          .line(points.hps)
           .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
           .offset(sa)
+          .close()
           .line(points.cfNeck)
           .line(points.cfWaist)
-          .close()
           .attr('class', 'fabric sa')
       }
-    }
-
-    if (paperless) {
     }
 
     return part
