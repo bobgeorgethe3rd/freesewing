@@ -63,23 +63,24 @@ export const front = {
 
     //undearm
     points.armholeDrop = points.armhole.shiftTowards(points.sideWaist, armholeDrop)
+    points.wristBottomInitial = points.wristTop
+      .shiftTowards(points.hps, wrist / 2)
+      .rotate(90, points.wristTop)
+    points.bodiceSleeveBottom = points.armholeDrop.shiftTowards(
+      points.wristBottomInitial,
+      underArmSleeveLength
+    )
     if (options.fitSleeves) {
-      points.wristBottom = points.wristTop
-        .shiftTowards(points.hps, wrist / 2)
-        .rotate(90, points.wristTop)
+      points.wristBottom = points.wristBottomInitial
     } else {
       points.wristBottom = utils.beamsIntersect(
-        points.armholeDrop,
-        points.armholeDrop.shift(points.hps.angle(points.wristTop), 1),
+        points.bodiceSleeveBottom,
+        points.bodiceSleeveBottom.shift(points.hps.angle(points.wristTop), 1),
         points.wristTop,
         points.hps.rotate(90, points.wristTop)
       )
     }
 
-    points.bodiceSleeveBottom = points.armholeDrop.shiftTowards(
-      points.wristBottom,
-      underArmSleeveLength
-    )
     points.bodiceSleeveTop = utils.beamsIntersect(
       points.hps,
       points.wristTop,
@@ -98,7 +99,12 @@ export const front = {
         points.bodiceSleeveTop.rotate(90, points.bodiceSleeveBottom)
       )
     } else {
-      points.underArmCp = points.armholeDrop
+      points.underArmCp = utils.beamsIntersect(
+        points.armhole,
+        points.sideWaist,
+        points.wristBottom,
+        points.bodiceSleeveBottom
+      )
     }
 
     //guides
