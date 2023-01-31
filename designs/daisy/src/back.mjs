@@ -2,7 +2,7 @@ import { back as backBella } from '@freesewing/bella'
 import { frontShared } from './frontShared.mjs'
 
 export const back = {
-  name: 'backDaisy',
+  name: 'daisy.back',
   from: backBella,
   after: frontShared,
   hideDependencies: true,

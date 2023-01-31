@@ -1,7 +1,7 @@
 import { frontBase } from './frontBase.mjs'
 
 export const sideFront = {
-  name: 'sideFront',
+  name: 'peach.sideFront',
   from: frontBase,
   hideDependencies: true,
   draft: ({

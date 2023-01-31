@@ -2,7 +2,7 @@ import { front as frontTitan } from '@freesewing/titan'
 import { back } from './back.mjs'
 
 export const front = {
-  name: 'front',
+  name: 'dalton.front',
   from: frontTitan,
   after: back,
   hideDependencies: true,
