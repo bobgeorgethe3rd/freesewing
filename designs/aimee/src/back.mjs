@@ -2,7 +2,7 @@ import { back as backDaisy } from '@freesewing/daisy'
 import { front } from './front.mjs'
 
 export const back = {
-  name: 'back',
+  name: 'aimee.back',
   from: backDaisy,
   after: front,
   hideDependencies: true,

@@ -2,7 +2,7 @@ import { back as backTitan } from '@freesewing/titan'
 import { pctBasedOn } from '@freesewing/core'
 
 export const back = {
-  name: 'back',
+  name: 'dalton.back',
   from: backTitan,
   hideDependencies: true,
   options: {

@@ -2,7 +2,7 @@ import { back } from '@freesewing/bella'
 import { frontSideDart as frontBella } from '@freesewing/bella'
 
 export const frontShared = {
-  name: 'frontShared',
+  name: 'daisy.frontShared',
   from: frontBella,
   after: back,
   hideDependencies: true,
