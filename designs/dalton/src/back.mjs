@@ -283,7 +283,7 @@ export const back = {
     if (complete) {
       //grainline
       points.grainlineTo = points.floorIn.shiftFractionTowards(points.floor, 1 / 3)
-      points.grainlineFrom = new Point(points.grainlineTo.x, points.crossSeamCurveStart.y)
+      points.grainlineFrom = new Point(points.grainlineTo.x, points.crossSeamCurveCp1.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
