@@ -69,11 +69,16 @@ export const back = {
     let backDartWidth =
       measurements.waist * options.backDartWidth +
       measurements.waist * options.backDartWidth * options.backDartMultiplier * options.waistHeight
+    // let backDartDepth =
+    // (measurements.waistToSeat -
+    // measurements.waistToHips * (1 - options.waistHeight) -
+    // absoluteOptions.waistbandWidth) *
+    // options.backDartDepth
+
     let backDartDepth =
-      (measurements.waistToSeat -
-        measurements.waistToHips * (1 - options.waistHeight) -
-        absoluteOptions.waistbandWidth) *
-      options.backDartDepth
+      (measurements.waistToSeat - measurements.waistToHips) * options.backDartDepth +
+      measurements.waistToHips * options.waistHeight -
+      absoluteOptions.waistbandWidth
 
     let ankle = measurements.ankle * (1 + options.ankleEase)
     let heel = measurements.heel * (1 + options.ankleEase)
