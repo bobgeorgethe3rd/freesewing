@@ -98,7 +98,7 @@ export const back = {
 
     let floorBack = floor * options.legBalance
     let floorFront = floor * (1 - options.legBalance)
-
+    store.set('floorFront', floorFront)
     // let kneeBack = measurements.knee * (1 + options.kneeEase) * options.legBalance
 
     //let's begin
@@ -282,8 +282,75 @@ export const back = {
       .close()
       .unhide()
 
+    //setting up top circumference for curved waistband
+    if (absoluteOptions.waistbandWidth > 0) {
+      points.waistTopMid = points.dartMid
+        .shiftTowards(points.styleWaistIn, absoluteOptions.waistbandWidth)
+        .rotate(-90, points.dartMid)
+      points.waistTopIn = utils.beamsIntersect(
+        points.waistTopMid,
+        points.dartMid.rotate(-90, points.waistTopMid),
+        points.crossSeamCurveStart,
+        points.styleWaistIn
+      )
+      points.waistTopOutTarget = points.waistTopMid
+        .shiftTowards(points.dartMid, measurements.waist)
+        .rotate(90, points.waistTopMid)
+
+      if (options.fitKnee || options.fitFloor) {
+        if (points.waistOut.x > points.seatOut.x)
+          points.waistTopOut = utils.lineIntersectsCurve(
+            points.waistTopMid,
+            points.waistTopOutTarget,
+            points.kneeOut,
+            points.kneeOutCp2,
+            points.seatOut,
+            points.waistOut
+          )
+        else
+          points.waistTopOut = utils.lineIntersectsCurve(
+            points.waistTopOut,
+            points.waistTopOutTarget,
+            points.seatOut,
+            points.seatOutCp2,
+            points.waistOut,
+            points.waistOut
+          )
+      } else {
+        if (points.waistOut.x > points.seatOut.x)
+          points.waistTopOut = utils.lineIntersectsCurve(
+            points.waistTopMid,
+            points.waistTopOutTarget,
+            points.floorOut,
+            points.kneeOutCp2,
+            points.seatOut,
+            points.waistOut
+          )
+        else
+          points.waistTopOut = utils.lineIntersectsCurve(
+            points.waistTopOut,
+            points.waistTopOutTarget,
+            points.seatOut,
+            points.seatOutCp2,
+            points.waistOut,
+            points.waistOut
+          )
+      }
+
+      // paths.waistTop = new Path()
+      // .move(points.waistTopIn)
+      // .line(points.waistTopOut)
+
+      store.set('waistBackTop', points.waistTopIn.dist(points.waistTopOut))
+    } else {
+      log.warning('Curved waistband Back points not placed due to waistband width being 0')
+    }
+
     //stores
-    store.set('floorFront', floorFront)
+    store.set(
+      'waistBack',
+      points.styleWaistIn.dist(points.dartIn) + points.dartOut.dist(points.styleWaistOut)
+    )
 
     if (complete) {
       //grainline
