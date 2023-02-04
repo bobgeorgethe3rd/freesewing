@@ -159,44 +159,48 @@ export const front = {
         .shiftTowards(points.styleWaistMid, measurements.waist)
         .rotate(-90, points.waistTopMid)
 
-      if (options.fitKnee || options.fitFloor) {
-        if (points.waistOut.x < points.seatOut.x)
-          points.waistTopOut = utils.lineIntersectsCurve(
-            points.waistTopMid,
-            points.waistTopOutTarget,
-            points.waistOut,
-            points.seatOut,
-            points.kneeOutCp1,
-            points.kneeOut
-          )
-        else
-          points.waistTopOut = utils.lineIntersectsCurve(
-            points.waistTopMid,
-            points.waistTopOutTarget,
-            points.waistOut,
-            points.waistOut,
-            points.seatOutCp1,
-            points.seatOut
-          )
+      if (options.waistHeight < 0.999) {
+        if (options.fitKnee || options.fitFloor) {
+          if (points.waistOut.x < points.seatOut.x)
+            points.waistTopOut = utils.lineIntersectsCurve(
+              points.waistTopMid,
+              points.waistTopOutTarget,
+              points.waistOut,
+              points.seatOut,
+              points.kneeOutCp1,
+              points.kneeOut
+            )
+          else
+            points.waistTopOut = utils.lineIntersectsCurve(
+              points.waistTopMid,
+              points.waistTopOutTarget,
+              points.waistOut,
+              points.waistOut,
+              points.seatOutCp1,
+              points.seatOut
+            )
+        } else {
+          if (points.waistOut.x < points.seatOut.x)
+            points.waistTopOut = utils.lineIntersectsCurve(
+              points.waistTopMid,
+              points.waistTopOutTarget,
+              points.waistOut,
+              points.seatOut,
+              points.kneeOutCp1,
+              points.floorOut
+            )
+          else
+            points.waistTopOut = utils.lineIntersectsCurve(
+              points.waistTopMid,
+              points.waistTopOutTarget,
+              points.waistOut,
+              points.waistOut,
+              points.seatOutCp1,
+              points.seatOut
+            )
+        }
       } else {
-        if (points.waistOut.x < points.seatOut.x)
-          points.waistTopOut = utils.lineIntersectsCurve(
-            points.waistTopMid,
-            points.waistTopOutTarget,
-            points.waistOut,
-            points.seatOut,
-            points.kneeOutCp1,
-            points.floorOut
-          )
-        else
-          points.waistTopOut = utils.lineIntersectsCurve(
-            points.waistTopMid,
-            points.waistTopOutTarget,
-            points.waistOut,
-            points.waistOut,
-            points.seatOutCp1,
-            points.seatOut
-          )
+        points.waistTopOut = points.waistOut
       }
 
       // paths.waistTop = new Path()
