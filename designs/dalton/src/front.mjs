@@ -23,6 +23,7 @@ export const front = {
     snippets,
     Snippet,
     absoluteOptions,
+    log,
   }) => {
     //removing paths and snippets not required from Titan
     for (let i in paths) delete paths[i]
@@ -129,6 +130,8 @@ export const front = {
       }
     }
 
+    //seam paths
+
     paths.hemBase = new Path().move(points.floorOut).line(points.floorIn).hide()
 
     paths.saBase = drawInseam()
@@ -140,7 +143,72 @@ export const front = {
 
     paths.seam = paths.hemBase.clone().join(paths.saBase).close()
 
-    //seam paths
+    //setting up top circumference for curved waistband
+    if (absoluteOptions.waistbandWidth > 0) {
+      points.styleWaistMid = points.styleWaistOut.shiftFractionTowards(points.styleWaistIn, 0.5)
+      points.waistTopMid = points.styleWaistMid
+        .shiftTowards(points.styleWaistIn, absoluteOptions.waistbandWidth)
+        .rotate(90, points.styleWaistMid)
+      points.waistTopIn = utils.beamsIntersect(
+        points.waistTopMid,
+        points.styleWaistMid.rotate(90, points.waistTopMid),
+        points.crotchSeamCurveStart,
+        points.styleWaistIn
+      )
+      points.waistTopOutTarget = points.waistTopMid
+        .shiftTowards(points.styleWaistMid, measurements.waist)
+        .rotate(-90, points.waistTopMid)
+
+      if (options.fitKnee || options.fitFloor) {
+        if (points.waistOut.x < points.seatOut.x)
+          points.waistTopOut = utils.lineIntersectsCurve(
+            points.waistTopMid,
+            points.waistTopOutTarget,
+            points.waistOut,
+            points.seatOut,
+            points.kneeOutCp1,
+            points.kneeOut
+          )
+        else
+          points.waistTopOut = utils.lineIntersectsCurve(
+            points.waistTopMid,
+            points.waistTopOutTarget,
+            points.waistOut,
+            points.waistOut,
+            points.seatOutCp1,
+            points.seatOut
+          )
+      } else {
+        if (points.waistOut.x < points.seatOut.x)
+          points.waistTopOut = utils.lineIntersectsCurve(
+            points.waistTopMid,
+            points.waistTopOutTarget,
+            points.waistOut,
+            points.seatOut,
+            points.kneeOutCp1,
+            points.floorOut
+          )
+        else
+          points.waistTopOut = utils.lineIntersectsCurve(
+            points.waistTopMid,
+            points.waistTopOutTarget,
+            points.waistOut,
+            points.waistOut,
+            points.seatOutCp1,
+            points.seatOut
+          )
+      }
+
+      // paths.waistTop = new Path()
+      // .move(points.waistTopOut)
+      // .line(points.waistTopIn)
+
+      store.set('waistFrontTop', points.waistTopOut.dist(points.waistTopIn))
+    } else {
+      log.warning('Curved waistband Front points not placed due to waistband width being 0')
+    }
+    //stores
+    store.set('waistFront', points.styleWaistOut.dist(points.styleWaistIn))
 
     if (complete) {
       //grainline
