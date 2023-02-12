@@ -42,7 +42,7 @@ export const TestDesignOptions = (props) => {
         <Ul className="pl-5 list-inside">
           {Object.entries(optionsMenu).map(([group, options]) =>
             typeof options === 'string' ? (
-              <Option
+              <SampleDesignOption
                 {...props}
                 type={options}
                 option={group}
