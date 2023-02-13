@@ -28,8 +28,6 @@ export const TestDesignOptions = (props) => {
   const { t } = useTranslation(['app'])
   const optionsMenu = optionsMenuStructure(props.design.patternConfig.options)
 
-  // FIXME: This menu is broken right now
-
   const measies = props.draft?.config?.measurements || []
 
   return (
