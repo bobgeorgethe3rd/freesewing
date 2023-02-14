@@ -182,11 +182,11 @@ export const optionsMenuStructure = (options) => {
 
   // Always puts fit && style at the top
   const menuHead = ['fit', 'style']
-  for (const menuMid in menu) {
-    if (menuHead.indexOf(menuMid) === -1) {
-      const mid = menu[menuMid]
-      delete menu[menuMid]
-      menu[menuMid] = mid
+  for (const menuBody in menu) {
+    if (menuHead.indexOf(menuBody) === -1) {
+      const body = menu[menuBody]
+      delete menu[menuBody]
+      menu[menuBody] = body
     }
   }
   // Always put construction && advanced at the end
