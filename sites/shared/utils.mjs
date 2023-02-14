@@ -180,11 +180,22 @@ export const optionsMenuStructure = (options) => {
     }
   }
 
-  // Always put advanced at the end
-  if (menu.advanced) {
-    const adv = menu.advanced
-    delete menu.advanced
-    menu.advanced = adv
+  // Always puts fit && style at the top
+  const menuHead = ['fit', 'style']
+  for (const menuMid in menu) {
+    if (menuHead.indexOf(menuMid) === -1) {
+      const mid = menu[menuMid]
+      delete menu[menuMid]
+      menu[menuMid] = mid
+    }
+  }
+  // Always put construction && advanced at the end
+  for (const menuEnd of ['construction', 'advanced']) {
+    if (menu[menuEnd]) {
+      const end = menu[menuEnd]
+      delete menu[menuEnd]
+      menu[menuEnd] = end
+    }
   }
 
   return menu
