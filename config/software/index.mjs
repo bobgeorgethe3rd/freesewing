@@ -22,9 +22,18 @@ const unpackDesigns = (obj, folder) =>
   )
 
 const designs = {
-  ...designsByType.accessories,
   ...designsByType.blocks,
-  ...designsByType.garments,
+  ...designsByType.bodices,
+  ...designsByType.bottoms,
+  ...designsByType.costumes,
+  ...designsByType.dresses,
+  ...designsByType.hats,
+  ...designsByType.jackets,
+  ...designsByType.jumpsuit,
+  ...designsByType.skirts,
+  ...designsByType.sleeves,
+  ...designsByType.swimwear,
+  ...designsByType.tops,
   ...designsByType.utilities,
 }
 

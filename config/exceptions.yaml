@@ -75,6 +75,8 @@ packageJson:
     private: true
   sandy:
     author: AlfaLyr (https://github.com/alfalyr)
+  sleevecap:
+    author: bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)   
   tiberius: *starf
   unice:
     author: Anna Puk (https://github.com/anna-puk)

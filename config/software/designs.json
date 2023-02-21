@@ -37,7 +37,15 @@
   "jackets": {},
   "jumpsuit": {},
   "skirts": {},
-  "sleeves": {},
+  "sleeves": {
+    "sleevecap": {
+      "description": "A pattern that needs a description",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tagname"]
+    }
+  },
   "swimwear": {},
   "tops": {},
   "utilities": {

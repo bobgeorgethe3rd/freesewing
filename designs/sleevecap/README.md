@@ -1,13 +1,13 @@
 ![FreeSewing](https://static.freesewing.org/banner.png)
 <p align='center'><a
-  href="https://www.npmjs.com/package/@freesewing/daisy"
-  title="@freesewing/daisy on NPM"
-  ><img src="https://img.shields.io/npm/v/@freesewing/daisy.svg"
-  alt="@freesewing/daisy on NPM"/>
+  href="https://www.npmjs.com/package/@freesewing/sleevecap"
+  title="@freesewing/sleevecap on NPM"
+  ><img src="https://img.shields.io/npm/v/@freesewing/sleevecap.svg"
+  alt="@freesewing/sleevecap on NPM"/>
   </a><a
   href="https://opensource.org/licenses/MIT"
   title="License: MIT"
-  ><img src="https://img.shields.io/npm/l/@freesewing/daisy.svg?label=License"
+  ><img src="https://img.shields.io/npm/l/@freesewing/sleevecap.svg?label=License"
   alt="License: MIT"/>
   </a><a
   href="https://deepscan.io/dashboard#view=project&tid=2114&pid=2993&bid=23256"
@@ -15,10 +15,10 @@
   ><img src="https://deepscan.io/api/teams/2114/projects/2993/branches/23256/badge/grade.svg"
   alt="Code quality on DeepScan"/>
   </a><a
-  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Adaisy"
-  title="Open issues tagged pkg:daisy"
-  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:daisy.svg?label=Issues"
-  alt="Open issues tagged pkg:daisy"/>
+  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Asleevecap"
+  title="Open issues tagged pkg:sleevecap"
+  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:sleevecap.svg?label=Issues"
+  alt="Open issues tagged pkg:sleevecap"/>
   </a><a
   href="#contributors-"
   title="All Contributors"
@@ -46,9 +46,9 @@
   alt="Follow @freesewing_org on Twitter"/>
   </a></p>
 
-# @freesewing/daisy
+# @freesewing/sleevecap
 
-Dart migration version of Bella
+A pattern that needs a description
 
 
 
@@ -65,7 +65,7 @@ Dart migration version of Bella
 
 This repository is our *monorepo* holding all our NPM designs, plugins, other NPM packages, and (web)sites.
 
-This folder holds: @freesewing/daisy
+This folder holds: @freesewing/sleevecap
 
 If you're not entirely sure what to do or how to start, type this command:
 
