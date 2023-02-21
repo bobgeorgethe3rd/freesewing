@@ -224,14 +224,14 @@ function validateName(name) {
 function createDesign(name, type) {
   const template = ['config', 'templates', 'design']
   const design = ['designs', name]
-  const description = 'A FreeSewing pattern that needs a description'
+  const description = 'A pattern that needs a description'
   const capitalized_name = name.charAt(0).toUpperCase() + name.slice(1)
 
   // Add to designs config file
   designs[type][name] = {
     description: description,
-    code: 'Coder name',
-    design: 'Designer name',
+    code: 'bobgeorgethe3rd',
+    design: 'bobgeorgethe3rd',
     difficulty: 1,
     tags: ['tagname'],
   }
