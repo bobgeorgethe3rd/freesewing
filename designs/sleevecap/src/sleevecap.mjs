@@ -28,10 +28,7 @@ function draftSleevecap(part, run) {
   points.centerCap = points.centerBiceps.shift(
     90,
     options.sleevecapTopFactorY *
-      (measurements.biceps *
-        (1 + options.bicepsEase) *
-        store.get('armholeDepthFactor') *
-        store.get('sleeveFactor'))
+      (store.get('scyeDepth') * options.sleeveCapDepthFactor * store.get('sleeveFactor'))
   )
 
   // Left and right biceps points, limit impact of sleeveFactor to 25%
@@ -151,6 +148,7 @@ export const sleevecap = {
     //fit
     bicepsEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
     //advanced
+    sleeveCapDepthFactor: { pct: 33.3, min: 30, max: 50, menu: 'advanced' },
     sleevecapEase: { pct: 0, min: 0, max: 10, menu },
     sleevecapTopFactorX: { pct: 50, min: 25, max: 75, menu },
     sleevecapTopFactorY: { pct: 45, min: 35, max: 125, menu },
@@ -192,7 +190,7 @@ export const sleevecap = {
     part,
   }) => {
     const biceps = measurements.biceps * (1 + options.bicepsEase)
-    void store.setIfUnset('armholeDepthFactor', 0.55)
+    void store.setIfUnset('scyeDepth', biceps)
     void store.setIfUnset('backArmholeLength', biceps * 0.5)
     void store.setIfUnset('backArmholeToArmholePitch', store.get('backArmholeLength') * 0.5)
     void store.setIfUnset('frontArmholeLength', biceps * 0.5)
