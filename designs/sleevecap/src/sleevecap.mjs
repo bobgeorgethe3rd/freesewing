@@ -1,3 +1,4 @@
+import { pluginBundle } from '@freesewing/plugin-bundle'
 /** Calculates the differece between actual and optimal sleevecap length
  * Positive values mean sleevecap is longer than armhole
  */
@@ -22,13 +23,6 @@ function sleevecapAdjust(store) {
 
 function draftSleevecap(part, run) {
   let { store, measurements, options, Point, points, Path, paths } = part.shorthand()
-
-  const biceps = measurements.biceps * (1 + options.bicepsEase)
-  void store.setIfUnset('backArmholeLength', biceps * 0.45)
-  void store.setIfUnset('backArmholeToArmholePitch', store.get('backArmholeLength') * 0.5)
-  void store.setIfUnset('frontArmholeLength', biceps * 0.55)
-  void store.setIfUnset('frontArmholeToArmholePitch', store.get('frontArmholeLength') * 0.5)
-
   // Sleeve center axis
   points.centerBiceps = new Point(0, 0)
   points.centerCap = points.centerBiceps.shift(
@@ -36,7 +30,7 @@ function draftSleevecap(part, run) {
     options.sleevecapTopFactorY *
       (measurements.biceps *
         (1 + options.bicepsEase) *
-        options.armholeDepthFactor *
+        store.get('armholeDepthFactor') *
         store.get('sleeveFactor'))
   )
 
@@ -153,12 +147,10 @@ function draftSleevecap(part, run) {
 const menu = 'advanced.sleevecap'
 export const sleevecap = {
   name: 'sleevecap.sleevecap',
-  hide: true,
   options: {
     //fit
     bicepsEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
     //advanced
-    armholeDepthFactor: { pct: 55, min: 50, max: 75, menu: 'advanced' },
     sleevecapEase: { pct: 0, min: 0, max: 10, menu },
     sleevecapTopFactorX: { pct: 50, min: 25, max: 75, menu },
     sleevecapTopFactorY: { pct: 45, min: 35, max: 125, menu },
@@ -179,10 +171,33 @@ export const sleevecap = {
     sleevecapQ4Spread1: { pct: 7, min: 4, max: 20, menu },
     sleevecapQ4Spread2: { pct: 6.3, min: 4, max: 20, menu },
     sleevecapWidthGuarantee: { pct: 90, min: 25, max: 100, menu: 'advanced' },
-    fitSleevecap: { bool: true },
+    fitSleevecap: { bool: true, menu: 'advanced' },
   },
   measurements: ['biceps'],
-  draft: ({ store, units, options, Point, points, paths, log, snippets, macro, part }) => {
+  plugins: [pluginBundle],
+  draft: ({
+    complete,
+    measurements,
+    store,
+    units,
+    options,
+    Point,
+    points,
+    paths,
+    Path,
+    log,
+    snippets,
+    Snippet,
+    macro,
+    part,
+  }) => {
+    const biceps = measurements.biceps * (1 + options.bicepsEase)
+    void store.setIfUnset('armholeDepthFactor', 0.55)
+    void store.setIfUnset('backArmholeLength', biceps * 0.5)
+    void store.setIfUnset('backArmholeToArmholePitch', store.get('backArmholeLength') * 0.5)
+    void store.setIfUnset('frontArmholeLength', biceps * 0.5)
+    void store.setIfUnset('frontArmholeToArmholePitch', store.get('frontArmholeLength') * 0.5)
+
     // Clean up from fron
     for (const path in paths) delete paths[path]
     delete snippets.logo
@@ -202,9 +217,32 @@ export const sleevecap = {
     // Paths
     paths.sleevecap.attr('class', 'fabric')
 
-    // Anchor point for sampling
+    // Anchor points for sampling
     points.gridAnchor = new Point(0, 0)
 
+    let sleeveCapFraction =
+      store.get('frontArmholeLength') /
+      (store.get('frontArmholeLength') + store.get('backArmholeLength'))
+    points.sleeveTip = paths.sleevecap.shiftFractionAlong(sleeveCapFraction)
+    points.backNotch = paths.sleevecap.reverse().shiftAlong(store.get('backArmholeToArmholePitch'))
+    points.frontNotch = paths.sleevecap.shiftAlong(store.get('frontArmholeToArmholePitch'))
+
+    if (complete) {
+      //notches
+      snippets.backNotch = new Snippet('bnotch', points.backNotch)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['frontNotch', 'sleeveTip'],
+      })
+      //title
+      points.title = points.gridAnchor.shiftFractionTowards(points.capQ3, 0.35)
+      macro('title', {
+        at: points.title,
+        nr: '1',
+        title: 'sleevecap',
+        scale: 0.5,
+      })
+    }
     return part
   },
 }
