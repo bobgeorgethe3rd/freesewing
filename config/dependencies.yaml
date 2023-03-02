@@ -228,7 +228,7 @@ backend:
     'passport': '0.6.0'
     'passport-http': '0.3.0'
     'passport-jwt': '4.0.1'
-    'pino': '8.8.0'
+    'pino': '8.11.0'
     'qrcode': '1.5.1'
     'swagger-ui-dist': '4.15.5'
     'swagger-ui-express': '4.6.0'
@@ -259,7 +259,7 @@ dev:
     'react-copy-to-clipboard': &reactCopyToClipboard '5.1.0'
     'react-dom': *react
     'react-hotkeys-hook': &reactHotkeysHook '4.3.2'
-    'react-instantsearch-dom': &reactInstantsearchDom '6.38.3'
+    'react-instantsearch-dom': &reactInstantsearchDom '6.39.0'
     'react-markdown': &reactMarkdown '8.0.5'
     'react-swipeable': &reactSwipeable '7.0.0'
     'react-timeago': &reactTimeago '7.1.0'
