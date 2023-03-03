@@ -103,7 +103,7 @@ export const frontBase = {
         return new Path()
           .move(points.waistDartLeft)
           .curve_(points.waistDartLeftCp, points.bust)
-          .curve_(points.bustDartCpMiddle, points.bustDartTop)
+          .curve_(points.bustDartCpTop, points.bustDartTop)
       else
         return new Path()
           .move(points.waistDartLeft)
