@@ -43,8 +43,6 @@ export const frontBase = {
       .shiftFractionTowards(points.bustDartBottom, 2 / 3)
       .rotate(5, points.bust)
 
-    points.waistDartMiddleCp = points.bust.shiftFractionTowards(points.waistDartEdge, 0.25)
-    points.bustDartCpMiddle = points.waistDartMiddleCp.rotate(180, points.bust)
     if (options.bustDartPlacement == 'armhole') {
       points.waistDartLeftCp = utils.beamsIntersect(
         points.bustDartCpTop,
@@ -56,9 +54,12 @@ export const frontBase = {
         points.waistDartLeftCp,
         points.bust.dist(points.waistDartEdge) * 0.25
       )
-      points.bustDartCpMiddle = points.waistDartMiddleCp.rotate(180, points.bust)
       points.waistDartRightCp = new Point(points.waistDartRight.x, points.waistDartLeftCp.y)
+    } else {
+      points.waistDartMiddleCp = points.bust.shiftFractionTowards(points.waistDartEdge, 0.25)
     }
+
+    points.bustDartCpMiddle = points.waistDartMiddleCp.rotate(180, points.bust)
 
     //guides
     const drawBellaGuide = () => {
