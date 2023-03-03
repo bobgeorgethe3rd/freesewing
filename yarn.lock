@@ -6028,9 +6028,9 @@ autoprefixer@10.4.13, autoprefixer@^10.4.0, autoprefixer@^10.4.13:
     postcss-value-parser "^4.2.0"
 
 ava@^5.1.0:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/ava/-/ava-5.1.1.tgz#41b1e1f60965b0701aca3a48bc63cb4c94f7ee6d"
-  integrity sha512-od1CWgWVIKZSdEc1dhQWhbsd6KBs0EYjek7eqZNGPvy+NyC9Q1bXixcadlgOXwDG9aM0zLMQZwRXfe9gMb1LQQ==
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/ava/-/ava-5.2.0.tgz#0fae0a987872df1859391a658f2374f5f16d6d29"
+  integrity sha512-W8yxFXJr/P68JP55eMpQIa6AiXhCX3VeuajM8nolyWNExcMDD6rnIWKTjw0B/+GkFHBIaN6Jd0LtcMThcoqVfg==
   dependencies:
     acorn "^8.8.1"
     acorn-walk "^8.2.0"
@@ -7762,10 +7762,10 @@ d3-selection@3, d3-selection@3.0.0:
   resolved "https://registry.yarnpkg.com/d3-selection/-/d3-selection-3.0.0.tgz#c25338207efa72cc5b9bd1458a1a41901f1e1b31"
   integrity sha512-fmTRWbNMmsmWq6xJV8D19U/gw/bwrHfNXxrIN+HfZgnzqTHp9jOmKMhsTUjXOJnZOdZY9Q28y4yebKzqDKlxlQ==
 
-daisyui@2.47.0:
-  version "2.47.0"
-  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-2.47.0.tgz#f3a8dad0838fc5cbd125910694fa2de0d34441bd"
-  integrity sha512-svZpXKldtHjXTEdj/lu2n7b+EQJSatqvmVB59k4dhCDOYUhUZ3jtGuPrgOJlPysHhDjxjCRWWug/fgV5e8tc/w==
+daisyui@2.51.3:
+  version "2.51.3"
+  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-2.51.3.tgz#95dd0444f27f55326845db80076e76dcf8d31a92"
+  integrity sha512-AQa9exq/DsnvjyDi6bwOqHExQr9LJJag0iKRXNvRRtHXPo1gaAQ3ASJWylUB8J8KMH2M9zIpr7cvPHc7yGckyQ==
   dependencies:
     color "^4.2"
     css-selector-tokenizer "^0.8.0"
