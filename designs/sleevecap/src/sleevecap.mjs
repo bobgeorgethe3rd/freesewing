@@ -191,9 +191,9 @@ export const sleevecap = {
   }) => {
     const biceps = measurements.biceps * (1 + options.bicepsEase)
     void store.setIfUnset('scyeDepth', biceps)
-    void store.setIfUnset('backArmholeLength', biceps * 0.5)
+    void store.setIfUnset('backArmholeLength', biceps * 0.55)
     void store.setIfUnset('backArmholeToArmholePitch', store.get('backArmholeLength') * 0.5)
-    void store.setIfUnset('frontArmholeLength', biceps * 0.5)
+    void store.setIfUnset('frontArmholeLength', biceps * 0.55)
     void store.setIfUnset('frontArmholeToArmholePitch', store.get('frontArmholeLength') * 0.5)
 
     // Clean up from fron
