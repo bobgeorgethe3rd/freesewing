@@ -145,9 +145,11 @@ const menu = 'advanced.sleevecap'
 export const sleevecap = {
   name: 'sleevecap.sleevecap',
   options: {
-    //fit
+    //Constants
+    useVoidStores: true, //set to false when exporting.
+    //Fit
     bicepsEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
-    //advanced
+    //Advanced
     sleeveCapDepthFactor: { pct: 33.3, min: 30, max: 50, menu: 'advanced' },
     sleevecapEase: { pct: 0, min: 0, max: 10, menu },
     sleevecapTopFactorX: { pct: 50, min: 25, max: 75, menu },
@@ -189,12 +191,14 @@ export const sleevecap = {
     macro,
     part,
   }) => {
-    const biceps = measurements.biceps * (1 + options.bicepsEase)
-    void store.setIfUnset('scyeDepth', biceps)
-    void store.setIfUnset('backArmholeLength', biceps * 0.55)
-    void store.setIfUnset('backArmholeToArmholePitch', store.get('backArmholeLength') * 0.5)
-    void store.setIfUnset('frontArmholeLength', biceps * 0.55)
-    void store.setIfUnset('frontArmholeToArmholePitch', store.get('frontArmholeLength') * 0.5)
+    if (options.useVoidStores) {
+      const biceps = measurements.biceps * (1 + options.bicepsEase)
+      void store.setIfUnset('scyeDepth', biceps)
+      void store.setIfUnset('backArmholeLength', biceps * 0.55)
+      void store.setIfUnset('backArmholeToArmholePitch', store.get('backArmholeLength') * 0.5)
+      void store.setIfUnset('frontArmholeLength', biceps * 0.55)
+      void store.setIfUnset('frontArmholeToArmholePitch', store.get('frontArmholeLength') * 0.5)
+    }
 
     // Clean up from fron
     for (const path in paths) delete paths[path]
