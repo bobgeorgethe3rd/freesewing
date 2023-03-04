@@ -38,12 +38,19 @@
   "jumpsuit": {},
   "skirts": {},
   "sleeves": {
-    "sleevecap": {
-      "description": "A pattern that needs a description",
+    "basicsleeve": {
+      "description": "Basic sleeve that can be used as is or extended",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
-      "tags": ["tagname"]
+      "tags": ["sleeve"]
+    },
+    "sleevecap": {
+      "description": "Sleevecap to be exported into other patterns",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["sleeve"]
     }
   },
   "swimwear": {},
