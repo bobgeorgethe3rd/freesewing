@@ -2,7 +2,7 @@ import { pctBasedOn } from '@freesewing/core'
 import { sleevecap } from '@freesewing/sleevecap'
 
 export const sleeve = {
-  name: 'sleevebasic.sleeve',
+  name: 'basicsleeve.sleeve',
   from: sleevecap,
   hideDependencies: true,
   measurements: ['shoulderToElbow', 'shoulderToWrist', 'elbow', 'wrist'],
