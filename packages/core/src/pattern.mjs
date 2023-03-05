@@ -1,5 +1,5 @@
 import { Attributes } from './attributes.mjs'
-import pack from 'bin-pack-with-constraints'
+import pack from 'bin-pack'
 import { __addNonEnumProp, __macroName } from './utils.mjs'
 import { Part } from './part.mjs'
 import { Stack } from './stack.mjs'
