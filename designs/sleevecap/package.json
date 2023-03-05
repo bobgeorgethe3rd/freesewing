@@ -1,7 +1,7 @@
 {
   "name": "@freesewing/sleevecap",
   "version": "3.0.0-alpha.4",
-  "description": "A pattern that needs a description",
+  "description": "Sleevecap to be exported into other patterns",
   "author": "bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)",
   "homepage": "https://freesewing.org/",
   "repository": "github:freesewing/freesewing",

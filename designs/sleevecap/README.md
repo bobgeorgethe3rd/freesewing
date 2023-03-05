@@ -48,7 +48,7 @@
 
 # @freesewing/sleevecap
 
-A pattern that needs a description
+Sleevecap to be exported into other patterns
 
 
 

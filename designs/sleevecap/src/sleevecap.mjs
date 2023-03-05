@@ -22,7 +22,7 @@ function sleevecapAdjust(store) {
 }
 
 function draftSleevecap(part, run) {
-  let { store, measurements, options, Point, points, Path, paths } = part.shorthand()
+  let { store, measurements, options, Point, points, Path, paths, utils } = part.shorthand()
   // Sleeve center axis
   points.centerBiceps = new Point(0, 0)
   points.centerCap = points.centerBiceps.shift(
@@ -85,9 +85,15 @@ function draftSleevecap(part, run) {
     baseOffset * options.sleevecapQ4Offset
   )
   // Control points
-  points.capQ1Cp1 = points.capQ1.shift(
-    points.frontPitch.angle(points.bicepsRight),
-    baseOffset * options.sleevecapQ1Spread1
+  // points.capQ1Cp1 = points.capQ1.shift(
+  // points.frontPitch.angle(points.bicepsRight),
+  // baseOffset * options.sleevecapQ1Spread1
+  // )
+  points.capQ1Cp1 = utils.beamsIntersect(
+    points.capQ1,
+    points.capQ1Base.rotate(-90, points.capQ1),
+    points.bicepsLeft,
+    points.bicepsRight
   )
   points.capQ1Cp2 = points.capQ1.shift(
     points.frontPitch.angle(points.bicepsRight),
@@ -113,9 +119,15 @@ function draftSleevecap(part, run) {
     points.bicepsLeft.angle(points.backPitch),
     baseOffset * options.sleevecapQ4Spread1
   )
-  points.capQ4Cp2 = points.capQ4.shift(
-    points.bicepsLeft.angle(points.backPitch),
-    baseOffset * options.sleevecapQ4Spread2 * -1
+  // points.capQ4Cp2 = points.capQ4.shift(
+  // points.bicepsLeft.angle(points.backPitch),
+  // baseOffset * options.sleevecapQ4Spread2 * -1
+  // )
+  points.capQ4Cp2 = utils.beamsIntersect(
+    points.capQ4,
+    points.capQ4Base.rotate(90, points.capQ4),
+    points.bicepsLeft,
+    points.bicepsRight
   )
 
   // Sleevecap seamline
@@ -158,18 +170,18 @@ export const sleevecap = {
     sleevecapBackFactorY: { pct: 33, min: 30, max: 65, menu },
     sleevecapFrontFactorX: { pct: 55, min: 35, max: 65, menu },
     sleevecapFrontFactorY: { pct: 33, min: 30, max: 65, menu },
-    sleevecapQ1Offset: { pct: 1.7, min: 0, max: 7, menu },
+    sleevecapQ1Offset: { pct: 1.7, min: 0, max: 2, menu },
     sleevecapQ2Offset: { pct: 3.5, min: 0, max: 7, menu },
     sleevecapQ3Offset: { pct: 2.5, min: 0, max: 7, menu },
-    sleevecapQ4Offset: { pct: 1, min: 0, max: 7, menu },
-    sleevecapQ1Spread1: { pct: 10, min: 4, max: 20, menu },
+    sleevecapQ4Offset: { pct: 1, min: 0, max: 2, menu },
+    // sleevecapQ1Spread1: { pct: 5.5, min: 4, max: 20, menu },
     sleevecapQ1Spread2: { pct: 15, min: 4, max: 20, menu },
     sleevecapQ2Spread1: { pct: 15, min: 4, max: 20, menu },
     sleevecapQ2Spread2: { pct: 10, min: 4, max: 20, menu },
     sleevecapQ3Spread1: { pct: 10, min: 4, max: 20, menu },
     sleevecapQ3Spread2: { pct: 8, min: 4, max: 20, menu },
     sleevecapQ4Spread1: { pct: 7, min: 4, max: 20, menu },
-    sleevecapQ4Spread2: { pct: 6.3, min: 4, max: 20, menu },
+    // sleevecapQ4Spread2: { pct: 6.3, min: 4, max: 20, menu },
     sleevecapWidthGuarantee: { pct: 90, min: 25, max: 100, menu: 'advanced' },
     fitSleevecap: { bool: true, menu: 'advanced' },
   },
@@ -229,6 +241,8 @@ export const sleevecap = {
     points.backNotch = paths.sleevecap.reverse().shiftAlong(store.get('backArmholeToArmholePitch'))
     points.frontNotch = paths.sleevecap.shiftAlong(store.get('frontArmholeToArmholePitch'))
 
+    //stores
+    store.set('sleeveCapFraction', sleeveCapFraction)
     if (complete) {
       //notches
       snippets.backNotch = new Snippet('bnotch', points.backNotch)
