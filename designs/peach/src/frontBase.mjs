@@ -55,11 +55,18 @@ export const frontBase = {
         points.bust.dist(points.waistDartEdge) * 0.25
       )
       points.waistDartRightCp = new Point(points.waistDartRight.x, points.waistDartLeftCp.y)
+      points.bustDartCpMiddle = points.waistDartMiddleCp.rotate(180, points.bust)
     } else {
       points.waistDartMiddleCp = points.bust.shiftFractionTowards(points.waistDartEdge, 0.25)
+      points.bustDartCpTop = points.bust
+        .shiftFractionTowards(points.bustDartTop, 2 / 3)
+        .rotate(-5, points.bust)
+      points.waistDartMiddleCp = points.bustDartMiddle.shiftOutwards(
+        points.bust,
+        points.bust.dist(points.waistDartEdge) / 3
+      )
+      points.bustDartCpMiddle = points.bust.shiftFractionTowards(points.bustDartMiddle, 0.25)
     }
-
-    points.bustDartCpMiddle = points.waistDartMiddleCp.rotate(180, points.bust)
 
     //guides
     const drawBellaGuide = () => {
