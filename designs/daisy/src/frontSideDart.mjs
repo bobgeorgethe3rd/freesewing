@@ -1,4 +1,4 @@
-export const draftFrontSideDart = ({
+export const frontSideDart = ({
   store,
   sa,
   points,

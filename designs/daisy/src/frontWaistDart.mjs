@@ -1,4 +1,4 @@
-export const draftFrontWaistDart = ({
+export const frontWaistDart = ({
   store,
   sa,
   points,

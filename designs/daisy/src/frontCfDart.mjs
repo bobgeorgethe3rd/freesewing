@@ -1,4 +1,4 @@
-export const draftFrontCfDart = ({
+export const frontCfDart = ({
   store,
   sa,
   points,

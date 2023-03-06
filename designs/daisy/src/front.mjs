@@ -1,25 +1,25 @@
 import { frontShared } from './frontShared.mjs'
-import { draftFrontWaistDart } from './frontWaistDart.mjs'
-import { draftFrontSideDart } from './frontSideDart.mjs'
-import { draftFrontUnderarmDart } from './frontUnderarmDart.mjs'
-import { draftFrontArmholeDart } from './frontArmholeDart.mjs'
-import { draftFrontShoulderDart } from './frontShoulderDart.mjs'
-import { draftFrontCfDart } from './frontCfDart.mjs'
+import { frontWaistDart } from './frontWaistDart.mjs'
+import { frontSideDart } from './frontSideDart.mjs'
+import { frontUnderarmDart } from './frontUnderarmDart.mjs'
+import { frontArmholeDart } from './frontArmholeDart.mjs'
+import { frontShoulderDart } from './frontShoulderDart.mjs'
+import { frontCfDart } from './frontCfDart.mjs'
 
 const daisyFront = (params) => {
   switch (params.options.bustDartPlacement) {
     case 'waist':
-      return draftFrontWaistDart(params)
+      return frontWaistDart(params)
     case 'underarm':
-      return draftFrontUnderarmDart(params)
+      return frontUnderarmDart(params)
     case 'armhole':
-      return draftFrontArmholeDart(params)
+      return frontArmholeDart(params)
     case 'shoulder':
-      return draftFrontShoulderDart(params)
+      return frontShoulderDart(params)
     case 'centreFront':
-      return draftFrontCfDart(params)
+      return frontCfDart(params)
     default:
-      return draftFrontSideDart(params)
+      return frontSideDart(params)
   }
 }
 

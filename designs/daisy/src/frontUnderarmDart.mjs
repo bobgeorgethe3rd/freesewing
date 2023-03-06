@@ -1,4 +1,4 @@
-export const draftFrontUnderarmDart = ({
+export const frontUnderarmDart = ({
   store,
   sa,
   points,
