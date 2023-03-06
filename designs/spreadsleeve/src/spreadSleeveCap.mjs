@@ -20,7 +20,8 @@ export const spreadSleeveCap = ({
   let spreadAngle = store.get('spreadAngle')
   let sleeveCapFraction = store.get('sleeveCapFraction')
   let sleeveLength = store.get('sleeveLength')
-
+  //store before rotate
+  store.set('bandWidth', points.bottomLeft.dist(points.bottomRight))
   //rotate left
   let rotLeft0 = [
     'bottomLeft',
@@ -54,7 +55,8 @@ export const spreadSleeveCap = ({
   points.capQ4BottomR = points.capQ4Bottom.rotate(-spreadAngle / 5, points.capQ4)
 
   // paths.rotateLeft = new Path()
-  // .move(points.capQ3)
+  // .move(points.sleeveTip)
+  // .line(points.capQ3)
   // .line(points.capQ4)
   // .line(points.bicepsLeft)
   // .line(points.bottomLeft)
@@ -108,32 +110,21 @@ export const spreadSleeveCap = ({
   // .line(points.bicepsRight)
   // .line(points.capQ1)
   // .line(points.capQ2)
+  // .line(points.sleeveTip)
 
   //sleevecap revision
-  let capQ1P =
-    points.capQ1Cp2.dist(points.capQ1) /
-    (points.capQ1Cp2.dist(points.capQ1) + points.capQ1Cp1.dist(points.capQ1))
-  let capQ2P =
-    points.capQ2Cp2.dist(points.capQ2) /
-    (points.capQ2Cp2.dist(points.capQ2) + points.capQ2Cp1.dist(points.capQ2))
-  let capQ3P =
-    points.capQ3Cp2.dist(points.capQ3) /
-    (points.capQ3Cp2.dist(points.capQ3) + points.capQ3Cp1.dist(points.capQ3))
-  let capQ4P =
-    points.capQ4Cp2.dist(points.capQ4) /
-    (points.capQ4Cp2.dist(points.capQ4) + points.capQ4Cp1.dist(points.capQ4))
 
-  points.capQ1N = points.capQ1Cp2.shiftFractionTowards(points.capQ1Cp1, capQ1P)
-  points.capQ2N = points.capQ2Cp2.shiftFractionTowards(points.capQ2Cp1, capQ2P)
-  points.capQ3N = points.capQ3Cp2.shiftFractionTowards(points.capQ3Cp1, capQ3P)
-  points.capQ4N = points.capQ4Cp2.shiftFractionTowards(points.capQ4Cp1, capQ4P)
+  points.capQ1Cp2 = points.capQ1Cp1.shiftOutwards(points.capQ1, points.capQ1.dist(points.capQ1Cp2))
+  points.capQ2Cp1 = points.capQ2Cp2.shiftOutwards(points.capQ2, points.capQ2.dist(points.capQ2Cp1))
+  points.capQ3Cp2 = points.capQ3Cp1.shiftOutwards(points.capQ3, points.capQ3.dist(points.capQ3Cp2))
+  points.capQ4Cp1 = points.capQ4Cp2.shiftOutwards(points.capQ4, points.capQ4.dist(points.capQ4Cp1))
 
   paths.sleevecapN = new Path()
     .move(points.bicepsRight)
-    .curve(points.bicepsRight, points.capQ1Cp1, points.capQ1N)
-    .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2N)
-    .curve(points.capQ2Cp2, points.capQ3Cp1, points.capQ3N)
-    .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4N)
+    .curve(points.bicepsRight, points.capQ1Cp1, points.capQ1)
+    .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2)
+    .curve(points.capQ2Cp2, points.capQ3Cp1, points.capQ3)
+    .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
     .curve(points.capQ4Cp2, points.bicepsLeft, points.bicepsLeft)
     .hide()
 
@@ -267,7 +258,7 @@ export const spreadSleeveCap = ({
       }
     }
     //title
-    points.title = new Point(points.capQ3N.x, points.grainlineTo.y / 3)
+    points.title = new Point(points.capQ3.x, (points.grainlineTo.y + points.grainlineFrom.y) / 2)
     macro('title', {
       at: points.title,
       nr: '1',
