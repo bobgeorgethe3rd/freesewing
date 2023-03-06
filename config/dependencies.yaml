@@ -191,6 +191,9 @@ simone:
     '@freesewing/simon': *freesewing
     '@freesewing/plugin-flip': *freesewing
     '@freesewing/plugin-bust': *freesewing
+spreadsleeve:
+  peer:
+    '@freesewing/basicsleeve': *freesewing
 sven:
   peer:
     '@freesewing/brian': *freesewing
