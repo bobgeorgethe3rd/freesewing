@@ -6,6 +6,8 @@ export const sleeveBase = {
   from: basicsleeve,
   hideDependencies: true,
   options: {
+    //style
+    sleeveLength: { pct: 50, min: 0, max: 100, menu: 'style' }, //60
     spread: { pct: 60, min: 0, max: 120, menu: 'style' }, //60
   },
   draft: ({
@@ -38,6 +40,9 @@ export const sleeveBase = {
     points.sleeveTipBottom = new Point(points.sleeveTip.x, points.bottomAnchor.y)
     points.capQ2Bottom = new Point(points.capQ2.x, points.bottomAnchor.y)
     points.capQ1Bottom = new Point(points.capQ1.x, points.bottomAnchor.y)
+
+    points.sleeveTipBottomLeft = points.sleeveTipBottom
+    points.sleeveTipBottomRight = points.sleeveTipBottom
 
     //spread path
     //Uncomment below to see how the spread works. note the sleeve head between capQ2 and capQ3 is not altered fully in this path but is below.

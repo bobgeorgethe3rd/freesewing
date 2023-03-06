@@ -23,6 +23,7 @@ export const sleeve = {
       ...pctBasedOn('shoulderToWrist'),
       menu: 'style',
     },
+    flounces: { dflt: 'none', list: ['flounce', 'ruffle', 'none'], menu: 'style' },
     //Construction
     sleeveCapSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
@@ -123,6 +124,10 @@ export const sleeve = {
       .join(paths.sleevecap)
       .join(paths.saLeft)
       .close()
+
+    //stores
+    store.set('sleeveLength', sleeveLength)
+    store.set('bandLength', points.bottomLeft.dist(points.bottomRight))
 
     if (complete) {
       //grainline
