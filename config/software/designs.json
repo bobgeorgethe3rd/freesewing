@@ -45,8 +45,15 @@
       "difficulty": 1,
       "tags": ["sleeve"]
     },
+    "capsleeve": {
+      "description": "Cap sleeves to be used in other designs.",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["sleeve"]
+    },
     "sleevecap": {
-      "description": "Sleevecap to be exported into other patterns",
+      "description": "Sleevecap to be exported into other designs",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,

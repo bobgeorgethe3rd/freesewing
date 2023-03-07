@@ -37,6 +37,9 @@ brian:
   peer:
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/plugin-bust': *freesewing
+capsleeve:
+  peer:
+    '@freesewing/sleevecap': *freesewing
 carlita:
   peer:
     '@freesewing/brian': *freesewing
