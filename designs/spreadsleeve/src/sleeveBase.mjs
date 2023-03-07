@@ -36,7 +36,6 @@ export const sleeveBase = {
     //Setting the stage
     points.capQ4Bottom = new Point(points.capQ4.x, points.bottomAnchor.y)
     points.capQ3Bottom = new Point(points.capQ3.x, points.bottomAnchor.y)
-    points.sleeveTipBottom = new Point(points.sleeveTip.x, points.bottomAnchor.y)
     points.capQ2Bottom = new Point(points.capQ2.x, points.bottomAnchor.y)
     points.capQ1Bottom = new Point(points.capQ1.x, points.bottomAnchor.y)
 

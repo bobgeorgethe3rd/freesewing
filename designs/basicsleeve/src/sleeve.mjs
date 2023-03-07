@@ -121,7 +121,8 @@ export const sleeve = {
       .join(paths.sleevecap)
       .join(paths.saLeft)
       .close()
-
+    //setting up for extension not used for this design but is used in multiple extensions
+    points.sleeveTipBottom = new Point(points.sleeveTip.x, points.bottomAnchor.y)
     //stores
     store.set('sleeveLength', sleeveLength)
     store.set('bandLength', points.bottomLeft.dist(points.bottomRight))
