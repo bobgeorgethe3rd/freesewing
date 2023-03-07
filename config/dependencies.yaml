@@ -177,6 +177,9 @@ rehype-jargon:
 rehype-highlight-lines:
   _:
     'unist-util-remove': '3.1.1'
+rufflebutterflysleeve:
+  peer:
+    '@freesewing/basicsleeve': *freesewing
 sandy:
   peer:
     '@freesewing/snapseries': *freesewing

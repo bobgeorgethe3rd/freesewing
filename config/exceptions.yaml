@@ -77,6 +77,8 @@ packageJson:
       - package.json
   rehype-hightlight-lines:
     private: true
+    rufflebutterflysleeve:
+    author: bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)   
   sandy:
     author: AlfaLyr (https://github.com/alfalyr)
   sleevecap:
