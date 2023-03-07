@@ -17,9 +17,11 @@ export const spreadSleeveBoth = ({
   //removing any paths from sleeveBase. This may not be necessary but is useful when working with the guides on.
   for (let i in paths) delete paths[i]
   //measurements
-  let spreadAngle = store.get('spreadAngle')
+  let spread = store.get('biceps') * options.spread
   let sleeveCapFraction = store.get('sleeveCapFraction')
   let sleeveLength = store.get('sleeveLength')
+
+  //first left
 
   paths.removelater = new Path()
     .move(points.bicepsLeft)
