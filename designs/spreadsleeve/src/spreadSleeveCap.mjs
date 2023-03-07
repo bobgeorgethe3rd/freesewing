@@ -21,7 +21,7 @@ export const spreadSleeveCap = ({
   let sleeveCapFraction = store.get('sleeveCapFraction')
   let sleeveLength = store.get('sleeveLength')
   //store before rotate
-  store.set('bandWidth', points.bottomLeft.dist(points.bottomRight))
+  store.set('hemWidth', points.bottomLeft.dist(points.bottomRight))
   //rotate left
   let rotLeft0 = [
     'bottomLeft',

@@ -20,7 +20,8 @@ export const spreadSleeveBoth = ({
   let spread = points.bicepsLeft.dist(points.bicepsRight) * options.spread
   let sleeveCapFraction = store.get('sleeveCapFraction')
   let sleeveLength = store.get('sleeveLength')
-
+  //store before rotate
+  store.set('hemWidth', points.bottomLeft.dist(points.bottomRight))
   //left shift
   let shiftLeft0 = [
     'bicepsLeft',

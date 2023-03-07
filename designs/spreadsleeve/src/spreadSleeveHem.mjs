@@ -285,7 +285,7 @@ export const spreadSleeveHem = ({
   paths.seam = paths.hemBase.join(paths.saRight).join(paths.sleevecapN).join(paths.saLeft).close()
 
   //stores
-  store.set('bandWidth', paths.hemBase.length())
+  store.set('hemWidth', paths.hemBase.length())
 
   if (complete) {
     //grainline
