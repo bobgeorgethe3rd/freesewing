@@ -30,9 +30,8 @@ export const sleeveBase = {
   }) => {
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
-    //removing macros not required from Bella
+    //removing macros not required from sleevecap
     macro('title', false)
-    macro('scalebox', false)
 
     //Setting the stage
     points.capQ4Bottom = new Point(points.capQ4.x, points.bottomAnchor.y)

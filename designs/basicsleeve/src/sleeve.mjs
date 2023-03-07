@@ -24,9 +24,6 @@ export const sleeve = {
       menu: 'style',
     },
     flounces: { dflt: 'none', list: ['flounce', 'ruffle', 'none'], menu: 'style' },
-    //Construction
-    sleeveCapSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
-    sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   draft: ({
     store,

@@ -161,6 +161,9 @@ export const sleevecap = {
     useVoidStores: true, //set to false when exporting.
     //Fit
     bicepsEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
+    //Construction
+    sleeveCapSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
     //Advanced
     sleeveCapDepthFactor: { pct: 33.3, min: 30, max: 50, menu: 'advanced' },
     sleevecapEase: { pct: 0, min: 0, max: 10, menu },
