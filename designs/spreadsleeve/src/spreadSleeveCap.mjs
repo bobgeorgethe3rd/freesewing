@@ -161,24 +161,19 @@ export const spreadSleeveCap = ({
   points.bottomMid = utils.beamsIntersect(
     points.capQ3BottomR,
     points.sleeveTipBottomLeft,
-    points.sleeveTip,
-    points.sleeveTip.shift(-90, 1)
+    points.gridAnchor,
+    points.bottomAnchor
   )
   if (spreadAngle == 0) {
     points.bottomCp1 = points.capQ3BottomR
     points.bottomCp4 = points.capQ2BottomR
   } else {
+    points.topAnchor = new Point(points.bottomAnchor.x, points.sleeveTip.y)
     points.bottomCp1Target = utils.beamsIntersect(
       points.bottomLeft,
       points.capQ4BottomR,
-      points.capQ3,
-      points.capQ3BottomR
-    )
-    points.bottomCp4Target = utils.beamsIntersect(
-      points.bottomRight,
-      points.capQ1BottomR,
-      points.capQ2,
-      points.capQ2BottomR
+      points.topAnchor,
+      points.bottomAnchor.rotate(-spreadAngle / 5, points.topAnchor)
     )
     points.bottomCp1 = utils.beamsIntersect(
       points.bottomMid,
@@ -186,15 +181,10 @@ export const spreadSleeveCap = ({
       points.bottomLeft,
       points.bottomCp1Target
     )
-    points.bottomCp4 = utils.beamsIntersect(
-      points.bottomMid,
-      points.bottomMid.shift(0, 1),
-      points.bottomRight,
-      points.bottomCp4Target
-    )
+    points.bottomCp4 = points.bottomCp1.flipX(points.bottomAnchor)
   }
   points.bottomCp2 = points.bottomMid.shiftFractionTowards(points.bottomCp1, 0.1)
-  points.bottomCp3 = points.bottomMid.shiftFractionTowards(points.bottomCp4, 0.1)
+  points.bottomCp3 = points.bottomCp2.flipX(points.bottomAnchor)
 
   if (points.capQ4BottomR.x < points.bottomLeft.x) {
     paths.hemBaseLeft = new Path()
