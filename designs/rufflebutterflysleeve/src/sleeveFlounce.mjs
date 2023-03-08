@@ -274,12 +274,12 @@ export const sleeveFlounce = {
         on: ['ocBottomLeft', 'ocBottomRight', 'icTop'],
       })
       //title
-      points.title = points.icLeft.shiftFractionTowards(points.ocLeft, 0.85)
+      points.title = points.icLeft.shiftFractionTowards(points.ocLeft, 0.65)
       macro('title', {
         at: points.title,
         nr: '2',
         title: 'Ruffle Butterfly Sleeve Flounce',
-        scale: 0.5,
+        scale: 1 / 3,
       })
 
       if (sa) {

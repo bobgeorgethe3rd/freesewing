@@ -213,6 +213,7 @@ export const sleeve = {
     store.set('slitFlounceLength', paths.seamSlitRound.length())
     store.set('sleeveBandLength', points.slitMidLeft.dist(points.seamSlitMidLeft))
     store.set('sleeveBandWidth', points.seamSlitMidLeft.dist(points.seamSlitBottomLeft))
+    store.set('sleeveTieWidth', sleeveTieWidth)
 
     if (complete) {
       //grainline
