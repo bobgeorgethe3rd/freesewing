@@ -11,8 +11,8 @@ export const sleeve = {
     sleeveBands: false, //locked
     sleeveBandWidth: 0, //locked
     flounces: 'none', //locked
-    //style
-    sleeveLength: { pct: 30, min: 0, max: 100, menu: 'style' }, //60
+    //Style
+    sleeveLength: { pct: 30, min: 15, max: 100, menu: 'style' },
     sleeveSlitWidth: {
       pct: 5,
       min: 2,
@@ -132,7 +132,7 @@ export const sleeve = {
     paths.slit = new Path()
       .move(points.slitTop)
       .line(slitBottom.shift(-90, hemA))
-      .attr('data-text', 'Slit-line. Cut along line to top notch.')
+      .attr('data-text', 'Slit-line. Cut along line to top bnotch.')
       .attr('data-text-class', 'center')
       .attr('class', 'interfacing dashed')
 
@@ -224,9 +224,13 @@ export const sleeve = {
       //notches
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['frontNotch', 'sleeveTip', 'slitTop', 'seamSlitMidLeft', 'seamSlitMidRight'],
+        on: ['frontNotch', 'sleeveTip', 'slitTop', 'slitMid'],
       })
       snippets.backNotch = new Snippet('bnotch', points.backNotch)
+      macro('sprinkle', {
+        snippet: 'bnotch',
+        on: ['backNotch', 'slitTop'],
+      })
       //title
       points.title = new Point(points.capQ4.x, points.slitMid.y / 2)
       macro('title', {
