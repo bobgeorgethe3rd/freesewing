@@ -21,7 +21,7 @@ export const back = {
     fitFloor: { bool: true, menu: 'style' },
     lengthBonus: { pct: -10, min: -20, max: 10, menu: 'style' },
     //Darts
-    backDartPlacement: { pct: 50, min: 40, max: 60, menu: 'darts' },
+    backDartPlacement: { pct: 60, min: 40, max: 70, menu: 'darts' },
     backDartWidth: { pct: 3, min: 0, max: 6, menu: 'darts' }, //1.1
     backDartDepth: { pct: 95, min: 45, max: 100, menu: 'darts' },
     //Construction
@@ -102,13 +102,11 @@ export const back = {
     // let kneeBack = measurements.knee * (1 + options.kneeEase) * options.legBalance
 
     //let's begin
-    points.dartIn = points.styleWaistOut.shiftFractionTowards(
-      points.styleWaistIn,
+    points.styleWaistOut = points.styleWaistIn.shiftOutwards(points.styleWaistOut, backDartWidth)
+    points.styleWaistMid = points.styleWaistIn.shiftFractionTowards(
+      points.styleWaistOut,
       options.backDartPlacement
     )
-    points.dartOut = points.dartIn.shiftTowards(points.styleWaistOut, backDartWidth)
-    points.styleWaistOut = points.dartIn.shiftOutwards(points.styleWaistOut, backDartWidth)
-    points.dartMid = points.dartIn.shiftFractionTowards(points.dartOut, 0.5)
 
     let potSeatOut
     if (options.fitKnee) {
@@ -158,9 +156,38 @@ export const back = {
       options.backDartPlacement
     )
 
-    //points.seatMid = utils.beamsIntersect(points.dartMid, points.styleWaistIn.rotate(90, points.dartMid), points.seatOut, points.seatOut.shift(points.styleWaistOut.angle(points.styleWaistIn), 1))
+    points.dartIn = points.styleWaistOut.shiftFractionTowards(
+      points.styleWaistIn,
+      options.backDartPlacement
+    )
 
-    points.dartTip = points.dartMid.shiftTowards(points.seatMid, backDartDepth)
+    points.dartSeatTarget = utils.beamsIntersect(
+      points.styleWaistMid,
+      points.styleWaistIn.rotate(90, points.styleWaistMid),
+      points.seatOut,
+      points.seatOut.shift(points.styleWaistOut.angle(points.styleWaistIn), 1)
+    )
+
+    if (points.dartSeatTarget.y < points.seatMid.y) {
+      points.dartSeat = points.seatMid.shiftFractionTowards(
+        points.dartSeatTarget,
+        1 - options.backDartPlacement
+      )
+    } else {
+      points.dartSeat = points.seatMid.shiftFractionTowards(
+        points.dartSeatTarget,
+        options.backDartPlacement
+      )
+    }
+    points.dartMid = utils.beamsIntersect(
+      points.dartSeat,
+      points.seatMid.rotate(-90, points.dartSeat),
+      points.styleWaistIn,
+      points.styleWaistOut
+    )
+    points.dartIn = points.dartMid.shiftTowards(points.styleWaistIn, backDartWidth / 2)
+    points.dartOut = points.dartMid.shiftTowards(points.styleWaistOut, backDartWidth / 2)
+    points.dartTip = points.dartMid.shiftTowards(points.dartSeat, backDartDepth)
 
     points.floor = points.floor.shiftTowards(points.knee, absoluteOptions.legbandWidth)
     points.floorIn = new Point(points.kneeIn.x, points.floor.y)
