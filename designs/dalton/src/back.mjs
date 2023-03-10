@@ -302,7 +302,7 @@ export const back = {
         if (options.fitKnee || options.fitFloor) {
           if (points.waistOut.x > points.seatOut.x)
             points.waistTopOut = utils.lineIntersectsCurve(
-              points.waistTopMid,
+              points.waistTopIn,
               points.waistTopOutTarget,
               points.kneeOut,
               points.kneeOutCp2,
@@ -311,7 +311,7 @@ export const back = {
             )
           else
             points.waistTopOut = utils.lineIntersectsCurve(
-              points.waistTopMid,
+              points.waistTopIn,
               points.waistTopOutTarget,
               points.seatOut,
               points.seatOutCp2,
@@ -321,7 +321,7 @@ export const back = {
         } else {
           if (points.waistOut.x > points.seatOut.x)
             points.waistTopOut = utils.lineIntersectsCurve(
-              points.waistTopMid,
+              points.waistTopIn,
               points.waistTopOutTarget,
               points.floorOut,
               points.kneeOutCp2,
@@ -330,7 +330,7 @@ export const back = {
             )
           else
             points.waistTopOut = utils.lineIntersectsCurve(
-              points.waistTopMid,
+              points.waistTopIn,
               points.waistTopOutTarget,
               points.seatOut,
               points.seatOutCp2,
