@@ -158,6 +158,8 @@ export const back = {
       options.backDartPlacement
     )
 
+    //points.seatMid = utils.beamsIntersect(points.dartMid, points.styleWaistIn.rotate(90, points.dartMid), points.seatOut, points.seatOut.shift(points.styleWaistOut.angle(points.styleWaistIn), 1))
+
     points.dartTip = points.dartMid.shiftTowards(points.seatMid, backDartDepth)
 
     points.floor = points.floor.shiftTowards(points.knee, absoluteOptions.legbandWidth)
