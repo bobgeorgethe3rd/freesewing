@@ -26,7 +26,10 @@ const daisyFront = (params) => {
 export const front = {
   name: 'daisy.front',
   from: frontShared,
-  hideDependencies: true,
+  hide: {
+    from: true,
+    inherited: true,
+  },
   options: {
     bustDartPlacement: {
       dflt: 'side',

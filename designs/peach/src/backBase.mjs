@@ -3,7 +3,6 @@ import { back as backDaisy } from '@freesewing/daisy'
 export const backBase = {
   name: 'peach.backBase',
   from: backDaisy,
-  hideDependencies: true,
   draft: ({
     store,
     sa,

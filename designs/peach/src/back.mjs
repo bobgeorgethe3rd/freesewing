@@ -3,7 +3,10 @@ import { backBase } from './backBase.mjs'
 export const back = {
   name: 'peach.back',
   from: backBase,
-  hideDependencies: true,
+  hide: {
+    from: true,
+    inherited: true,
+  },
   draft: ({
     store,
     sa,

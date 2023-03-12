@@ -5,7 +5,10 @@ export const back = {
   name: 'daisy.back',
   from: backBella,
   after: frontShared,
-  hideDependencies: true,
+  hide: {
+    from: true,
+    inherited: true,
+  },
   draft: ({
     store,
     sa,

@@ -3,7 +3,6 @@ import { front as frontDaisy } from '@freesewing/daisy'
 export const frontBase = {
   name: 'peach.frontBase',
   from: frontDaisy,
-  hideDependencies: true,
   options: {
     //Constamt
     bustDartLength: 1,

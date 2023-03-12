@@ -4,7 +4,10 @@ import { sleeve as basicsleeve } from '@freesewing/basicsleeve'
 export const sleeve = {
   name: 'rufflebutterflysleeve.sleeve',
   from: basicsleeve,
-  hideDependencies: true,
+  hide: {
+    from: true,
+    inherited: true,
+  },
   options: {
     //Constants
     cpFraction: 0.55191502449,

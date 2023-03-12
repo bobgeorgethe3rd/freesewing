@@ -3,7 +3,6 @@ import { sleeve } from './sleeve.mjs'
 export const sleeveTie = {
   name: 'rufflebutterflysleeve.sleeveTie',
   after: sleeve,
-  hideDependencies: false,
   options: {},
   draft: ({
     store,

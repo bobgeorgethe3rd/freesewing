@@ -3,7 +3,10 @@ import { frontBase } from './frontBase.mjs'
 export const front = {
   name: 'peach.front',
   from: frontBase,
-  hideDependencies: true,
+  hide: {
+    from: true,
+    inherited: true,
+  },
   draft: ({
     store,
     sa,

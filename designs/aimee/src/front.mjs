@@ -3,7 +3,10 @@ import { front as frontDaisy } from '@freesewing/daisy'
 export const front = {
   name: 'aimee.front',
   from: frontDaisy,
-  hideDependencies: true,
+  hide: {
+    from: true,
+    inherited: true,
+  },
   measurements: ['shoulderToWrist', 'wrist'],
   options: {
     //Constamt

@@ -4,7 +4,9 @@ import { sleevecap } from '@freesewing/sleevecap'
 export const sleeve = {
   name: 'basicsleeve.sleeve',
   from: sleevecap,
-  hideDependencies: true,
+  hide: {
+    from: true,
+  },
   measurements: ['shoulderToElbow', 'shoulderToWrist', 'elbow', 'wrist'],
   options: {
     //Fit

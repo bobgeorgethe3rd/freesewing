@@ -3,7 +3,10 @@ import { sleevecap } from '@freesewing/sleevecap'
 export const sleeve = {
   name: 'capsleeve.sleeve',
   from: sleevecap,
-  hideDependencies: true,
+  hide: {
+    from: true,
+    inherited: true,
+  },
   measurements: ['shoulderToElbow'],
   options: {
     //Style

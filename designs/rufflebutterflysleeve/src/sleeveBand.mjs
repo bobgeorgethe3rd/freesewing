@@ -3,7 +3,6 @@ import { sleeve } from './sleeve.mjs'
 export const sleeveBand = {
   name: 'rufflebutterflysleeve.sleeveBand',
   after: sleeve,
-  hideDependencies: false,
   options: {},
   draft: ({
     store,

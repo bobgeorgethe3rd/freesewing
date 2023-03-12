@@ -4,7 +4,10 @@ import { sleeve as basicsleeve } from '@freesewing/basicsleeve'
 export const sleeveBase = {
   name: 'spreadsleeve.sleeveBase',
   from: basicsleeve,
-  hideDependencies: true,
+  hide: {
+    from: true,
+    inherited: true,
+  },
   options: {
     //style
     sleeveLength: { pct: 50, min: 0, max: 100, menu: 'style' }, //60

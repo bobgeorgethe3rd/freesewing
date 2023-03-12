@@ -3,7 +3,6 @@ import { sleeve } from './sleeve.mjs'
 export const sleeveFlounce = {
   name: 'rufflebutterflysleeve.sleeveFlounce',
   after: sleeve,
-  hideDependencies: false,
   options: {
     //Style
     sleeveFlounceType: {

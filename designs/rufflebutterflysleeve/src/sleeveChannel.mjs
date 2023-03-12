@@ -3,7 +3,6 @@ import { sleeve } from './sleeve.mjs'
 export const sleeveChannel = {
   name: 'rufflebutterflysleeve.sleeveChannel',
   after: sleeve,
-  hideDependencies: false,
   options: {},
   draft: ({
     store,

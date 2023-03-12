@@ -5,7 +5,6 @@ export const frontShared = {
   name: 'daisy.frontShared',
   from: frontBella,
   after: back,
-  hideDependencies: true,
   draft: ({
     store,
     sa,

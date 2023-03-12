@@ -17,7 +17,10 @@ const spreadSleeveSleeve = (params) => {
 export const sleeve = {
   name: 'spreadsleeve.sleeve',
   from: sleeveBase,
-  hideDependencies: true,
+  hide: {
+    from: true,
+    inherited: true,
+  },
   options: {
     //Style
     spreadType: { dflt: 'cap', list: ['cap', 'hem', 'both'], menu: 'style' },

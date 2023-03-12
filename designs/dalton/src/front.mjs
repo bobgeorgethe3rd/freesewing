@@ -5,7 +5,9 @@ export const front = {
   name: 'dalton.front',
   from: frontTitan,
   after: back,
-  hideDependencies: true,
+  hide: {
+    from: true,
+  },
   draft: ({
     store,
     sa,

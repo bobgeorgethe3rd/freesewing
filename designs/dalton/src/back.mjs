@@ -4,7 +4,9 @@ import { pctBasedOn } from '@freesewing/core'
 export const back = {
   name: 'dalton.back',
   from: backTitan,
-  hideDependencies: true,
+  hide: {
+    from: true,
+  },
   options: {
     //Fit
     ankleEase: { pct: 2, min: 0, max: 10, menu: 'fit' },
