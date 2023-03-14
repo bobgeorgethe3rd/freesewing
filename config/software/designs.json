@@ -7,6 +7,13 @@
       "difficulty": 3,
       "tags": ["tops", "blocks"]
     },
+    "byron": {
+      "description": "A basic body block",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "blocks"]
+    },
     "daisy": {
       "description": "Dart migration version of Bella",
       "code": "bobgeorgethe3rd",
