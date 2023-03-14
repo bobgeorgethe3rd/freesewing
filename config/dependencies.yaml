@@ -230,7 +230,7 @@ yuri:
 
 backend:
   _:
-    '@aws-sdk/client-sesv2': '3.272.0'
+    '@aws-sdk/client-sesv2': '3.289.0'
     '@prisma/client': &prisma '4.10.1'
     'bcryptjs': '2.4.3'
     'cors': '2.8.5'
@@ -245,7 +245,7 @@ backend:
     'passport-jwt': '4.0.1'
     'pino': '8.11.0'
     'qrcode': '1.5.1'
-    'swagger-ui-dist': '4.17.1'
+    'swagger-ui-dist': '4.18.1'
     'swagger-ui-express': '4.6.2'
   dev:
     'chai': *chai
@@ -273,7 +273,7 @@ dev:
     'react': &react '18.2.0'
     'react-copy-to-clipboard': &reactCopyToClipboard '5.1.0'
     'react-dom': *react
-    'react-hotkeys-hook': &reactHotkeysHook '4.3.2'
+    'react-hotkeys-hook': &reactHotkeysHook '4.3.7'
     'react-instantsearch-dom': &reactInstantsearchDom '6.39.0'
     'react-markdown': &reactMarkdown '8.0.5'
     'react-swipeable': &reactSwipeable '7.0.0'
