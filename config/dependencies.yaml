@@ -231,7 +231,7 @@ yuri:
 backend:
   _:
     '@aws-sdk/client-sesv2': '3.289.0'
-    '@prisma/client': &prisma '4.10.1'
+    '@prisma/client': &prisma '4.11.0'
     'bcryptjs': '2.4.3'
     'cors': '2.8.5'
     'crypto': '1.0.1'
@@ -303,7 +303,7 @@ email:
 
 lab:
   _:
-    '@headlessui/react': &headlessUiReact '1.7.7'
+    '@headlessui/react': &headlessUiReact '1.7.13'
     '@mdx-js/loader': *mdx
     '@mdx-js/mdx': *mdx
     '@mdx-js/react': *mdx
@@ -323,7 +323,7 @@ lab:
     'react': *react
     'react-copy-to-clipboard': *reactCopyToClipboard
     'react-hotkeys-hook': *reactHotkeysHook
-    'react-i18next': &reactI18next '12.1.4'
+    'react-i18next': &reactI18next '12.2.0'
     'react-instantsearch-dom': *reactInstantsearchDom
     'react-markdown': *reactMarkdown
     'react-swipeable': *reactSwipeable
