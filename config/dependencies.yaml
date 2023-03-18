@@ -69,7 +69,7 @@ core:
     'lodash.unset': &_unset '4.5.2'
     'lodash.clonedeep': '^4.5.0'
   dev:
-    'eslint': &eslint '8.34.0'
+    'eslint': &eslint '8.36.0'
     'nyc': '15.1.0'
     'mocha': *mocha
     'chai': *chai
@@ -314,7 +314,7 @@ lab:
     'd3-drag': '3.0.0'
     'd3-selection': '3.0.0'
     'daisyui': *daisyui
-    'i18next': &i18next '22.4.9'
+    'i18next': &i18next '22.4.11'
     'lodash.get': *_get
     'lodash.orderby': *_orderby
     'lodash.set': *_set
@@ -373,7 +373,7 @@ org:
 
 sanity:
   _:
-    '@sanity/vision': &sanity '3.5.1'
+    '@sanity/vision': &sanity '3.7.0'
     'react': *react
     'react-dom': *react
     'react-is': *react
