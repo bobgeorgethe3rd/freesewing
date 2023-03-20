@@ -1,3 +1,4 @@
+import { pctBasedOn } from '@freesewing/core'
 import { pluginBundle } from '@freesewing/plugin-bundle'
 
 export const sharedBase = {
@@ -12,13 +13,23 @@ export const sharedBase = {
     waistEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
     hipsEase: { pct: 5.5, min: 0, max: 20, menu: 'fit' },
     seatEase: { pct: 4.7, min: 0, max: 20, menu: 'fit' },
-
     useHighBust: { bool: false, menu: 'fit' },
+    //Style
+    bodyLength: { pct: 75, min: 0, max: 100, menu: 'style' },
+    bodyLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
     //Armhole
     armholeDrop: { pct: 0, min: -20, max: 20, menu: 'armhole' },
     armholePitchDepth: { pct: 50, min: 45, max: 60, menu: 'armhole' },
     //Advanced
     separateHorizontals: { bool: false, menu: 'advanced' },
+    waistbandWidth: {
+      pct: 0,
+      min: 0,
+      max: 10,
+      snap: 5,
+      ...pctBasedOn('waistToSeat'),
+      menu: 'advanced',
+    },
   },
   measurements: [
     'chest',
@@ -41,6 +52,7 @@ export const sharedBase = {
     'hipsBack',
     'seatBack',
   ],
+  plugins: [pluginBundle],
   draft: ({
     store,
     sa,
@@ -61,6 +73,20 @@ export const sharedBase = {
     log,
   }) => {
     //measures
+    let bodyLength
+    if (options.bodyLength < 0.5) {
+      bodyLength =
+        2 * measurements.waistToHips * options.bodyLength * (1 + options.bodyLengthBonus) -
+        absoluteOptions.waistbandWidth
+    } else {
+      bodyLength =
+        measurements.waistToHips +
+        (measurements.waistToSeat - measurements.waistToHips) *
+          (2 * options.bodyLength - 1) *
+          (1 + options.bodyLengthBonus) -
+        absoluteOptions.waistbandWidth
+    }
+
     let cbNeck = measurements.hpsToWaistBack * options.cbNeck
 
     let chest
@@ -150,6 +176,7 @@ export const sharedBase = {
     points.cWaist = points.origin.shift(-90, measurements.hpsToWaistBack)
     points.cHips = points.cWaist.shift(-90, measurements.waistToHips)
     points.cSeat = points.cWaist.shift(-90, measurements.waistToSeat)
+    points.cHem = points.cWaist.shift(-90, bodyLength)
 
     points.cbNeck = points.origin.shift(-90, cbNeck)
     points.cArmholePitch = points.cbNeck.shiftFractionTowards(
