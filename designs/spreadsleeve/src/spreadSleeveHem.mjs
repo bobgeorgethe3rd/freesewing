@@ -170,7 +170,7 @@ export const spreadSleeveHem = ({
       points.capQ4,
       points.capQ2Cp1
     )
-    .rotate(spreadAngle / -20, points.capQ2N)
+    .rotate(spreadAngle / -15, points.capQ2N)
   points.capQ3Cp2N = utils
     .beamsIntersect(
       points.capQ3N,
@@ -178,7 +178,7 @@ export const spreadSleeveHem = ({
       points.capQ2,
       points.capQ3Cp2
     )
-    .rotate(spreadAngle / 20, points.capQ3N)
+    .rotate(spreadAngle / 15, points.capQ3N)
   points.capQ2Cp2N = utils.beamsIntersect(
     points.capQ2Cp1N,
     points.capQ2N,
