@@ -106,6 +106,9 @@ i18n:
     'js-yaml': '4.1.0'
   peer:
     '@freesewing/pattern-info': *freesewing
+jackson:
+  peer:
+    '@freesewing/dalton': *freesewing
 jaeger:
   peer:
     '@freesewing/brian': *freesewing
