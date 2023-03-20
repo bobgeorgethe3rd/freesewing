@@ -42,7 +42,8 @@
   "dresses": {},
   "hats": {},
   "jackets": {},
-  "jumpsuit": {},
+  "jumpsuits": {},
+  "pockets": {},
   "skirts": {},
   "sleeves": {
     "basicsleeve": {
@@ -83,6 +84,7 @@
   },
   "swimwear": {},
   "tops": {},
+  "waistbands": {},
   "utilities": {
     "examples": {
       "description": "A FreeSewing pattern holding examples for our documentation",

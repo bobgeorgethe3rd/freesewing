@@ -77,9 +77,9 @@ async function addDesign() {
         description: 'For jacket & coat desgins',
       },
       {
-        title: 'Jumpsuit / Rompers',
+        title: 'Jumpsuits / Rompers',
         value: 'jumpsuits',
-        description: 'For jumpsuit & rompers desgins',
+        description: 'For jumpsuit & romper desgins',
       },
       {
         title: 'Skirts',
@@ -99,7 +99,12 @@ async function addDesign() {
       {
         title: 'Tops',
         value: 'tops',
-        description: 'For tops desgins',
+        description: 'For top desgins',
+      },
+      {
+        title: 'Waistbands',
+        value: 'Waistbands',
+        description: 'For waistband desings',
       },
       {
         title: 'Utilities',
@@ -207,11 +212,13 @@ function validateName(name) {
       ...Object.keys(designs.dresses),
       ...Object.keys(designs.hats),
       ...Object.keys(designs.jackets),
-      ...Object.keys(designs.jumpsuit),
+      ...Object.keys(designs.jumpsuits),
+      ...Object.keys(designs.pockets),
       ...Object.keys(designs.skirts),
       ...Object.keys(designs.sleeves),
       ...Object.keys(designs.swimwear),
       ...Object.keys(designs.tops),
+      ...Object.keys(designs.waistbands),
       ...Object.keys(designs.utilities),
     ].indexOf(name) !== -1
   )

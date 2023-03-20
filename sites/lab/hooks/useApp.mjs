@@ -39,9 +39,13 @@ const initialNavigation = (t) => {
       __title: t('Jackets / Coats'),
       __slug: 'jackets',
     },
-    jumpsuit: {
-      __title: t('Jumpsuit / Rompers'),
-      __slug: 'jumpsuit',
+    jumpsuits: {
+      __title: t('Jumpsuits / Rompers'),
+      __slug: 'jumpsuits',
+    },
+    pockets: {
+      __title: t('Pockets'),
+      __slug: 'pockets',
     },
     skirts: {
       __title: t('Skirts'),
@@ -58,6 +62,10 @@ const initialNavigation = (t) => {
     tops: {
       __title: t('Tops'),
       __slug: t('tops'),
+    },
+    waistbands: {
+      __title: t('Waistbands'),
+      __slug: 'waistbands',
     },
     utilities: {
       __title: t('utilityDesigns'),

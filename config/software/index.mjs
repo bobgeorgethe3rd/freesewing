@@ -29,11 +29,13 @@ const designs = {
   ...designsByType.dresses,
   ...designsByType.hats,
   ...designsByType.jackets,
-  ...designsByType.jumpsuit,
+  ...designsByType.jumpsuits,
+  ...designsByType.pockets,
   ...designsByType.skirts,
   ...designsByType.sleeves,
   ...designsByType.swimwear,
   ...designsByType.tops,
+  ...designsByType.waistbands,
   ...designsByType.utilities,
 }
 

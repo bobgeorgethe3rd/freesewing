@@ -70,10 +70,10 @@ export const front = {
       if (hemLengthTarget > chestFront) {
         if (options.forceSide) {
           hemLength = chestFront
-          log.warning('options.forceSide is on but chest is less than hem length')
+          log.warning('options.forceSide is on but chestFront is less than front hem length')
         } else {
           hemLength = hemLengthTarget
-          log.info('Hem length is greater than chest so has been fit accordingly')
+          log.info('Front hem length is greater than chestFront so has been fit accordingly')
         }
       } else {
         hemLength = chestFront

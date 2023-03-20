@@ -1,6 +1,6 @@
 {
   "name": "@freesewing/rufflebutterflysleeve",
-  "version": "3.0.0-alpha.4",
+  "version": "3.0.0-alpha.8",
   "description": "Ruffle Butterfly sleeves to be used in other designs",
   "author": "Joost De Cock <joost@joost.at> (https://github.com/joostdecock)",
   "homepage": "https://freesewing.org/",
@@ -46,9 +46,9 @@
     "wcibuild_step5": "node build.mjs"
   },
   "peerDependencies": {
-    "@freesewing/core": "3.0.0-alpha.4",
-    "@freesewing/plugin-bundle": "3.0.0-alpha.4",
-    "@freesewing/basicsleeve": "3.0.0-alpha.4"
+    "@freesewing/core": "3.0.0-alpha.8",
+    "@freesewing/plugin-bundle": "3.0.0-alpha.8",
+    "@freesewing/basicsleeve": "3.0.0-alpha.8"
   },
   "dependencies": {},
   "devDependencies": {
