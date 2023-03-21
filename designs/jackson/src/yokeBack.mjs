@@ -40,7 +40,6 @@ export const yokeBack = {
 
     let rot = [
       'floorOut',
-      'floorOutCp2',
       'kneeOut',
       'kneeOutCp2',
       'seatOutCp1',
@@ -51,6 +50,10 @@ export const yokeBack = {
       'yokeOut',
     ]
     for (const p of rot) points[p + 'R'] = points[p].rotate(dartAngle, points.dartTip)
+
+    if (points.floorOutCp2) {
+      points.floorOutCp2R = points.floorOutCp2.rotate(dartAngle, points.dartTip)
+    }
 
     //draw guide
     const drawOutseamR = () => {
