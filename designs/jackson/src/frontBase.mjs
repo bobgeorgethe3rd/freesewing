@@ -24,10 +24,10 @@ export const frontBase = {
     part,
     snippets,
   }) => {
-    //removing paths and snippets not required from Titan
+    //removing paths and snippets not required from Dalton
     // for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
-    //removing macros not required from Titan
+    //removing macros not required from Dalton
     macro('title', false)
     macro('scalebox', false)
 
