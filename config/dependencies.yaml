@@ -278,7 +278,7 @@ dev:
     'react-dom': *react
     'react-hotkeys-hook': &reactHotkeysHook '4.3.8'
     'react-instantsearch-dom': &reactInstantsearchDom '6.39.0'
-    'react-markdown': &reactMarkdown '8.0.5'
+    'react-markdown': &reactMarkdown '8.0.6'
     'react-swipeable': &reactSwipeable '7.0.0'
     'react-timeago': &reactTimeago '7.1.0'
     'rehype-autolink-headings': &rehypeAutolinkHeadings '6.1.1'
@@ -386,7 +386,7 @@ sanity:
   dev:
     '@sanity/eslint-config-studio': '2.0.1'
     'eslint': *eslint
-    'prettier': '2.8.4'
+    'prettier': '2.8.5'
     'typescript': '4.9.5'
     '@sanity/cli': '3.6.0'
 
