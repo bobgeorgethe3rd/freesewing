@@ -9,7 +9,9 @@ export const back = {
   },
   options: {
     //Fit
-    ankleEase: { pct: 2, min: 0, max: 10, menu: 'fit' },
+    kneeEase: { pct: 6, min: 0, max: 25, menu: 'fit' }, //altered from Titan
+    ankleEase: { pct: 9.8, min: 0, max: 25, menu: 'fit' },
+    heelEase: { pct: 7, min: 0, max: 25, menu: 'fit' },
     //Style
     legbandWidth: {
       pct: 0,
@@ -24,7 +26,7 @@ export const back = {
     lengthBonus: { pct: -10, min: -20, max: 10, menu: 'style' },
     //Darts
     backDartPlacement: { pct: 60, min: 40, max: 70, menu: 'darts' },
-    backDartWidth: { pct: 3, min: 0, max: 6, menu: 'darts' }, //1.1
+    backDartWidth: { pct: 3, min: 0, max: 6, menu: 'darts' }, //1.2
     backDartDepth: { pct: 95, min: 45, max: 100, menu: 'darts' },
     //Construction
     hemWidth: { pct: 3, min: 1, max: 10, menu: 'construction' },
@@ -83,7 +85,7 @@ export const back = {
       absoluteOptions.waistbandWidth
 
     let ankle = measurements.ankle * (1 + options.ankleEase)
-    let heel = measurements.heel * (1 + options.ankleEase)
+    let heel = measurements.heel * (1 + options.heelEase)
 
     let floorMeasure
     if (options.useHeel) {
@@ -105,7 +107,7 @@ export const back = {
 
     //let's begin
     points.styleWaistOut = points.styleWaistIn.shiftOutwards(points.styleWaistOut, backDartWidth)
-    points.styleWaistMid = points.styleWaistIn.shiftFractionTowards(
+    points.styleWaistAnchor = points.styleWaistIn.shiftFractionTowards(
       points.styleWaistOut,
       options.backDartPlacement
     )
@@ -153,7 +155,7 @@ export const back = {
       points.crossSeamCurveStart
     )
 
-    points.seatMid = points.styleSeatOut.shiftFractionTowards(
+    points.seatAnchor = points.styleSeatOut.shiftFractionTowards(
       points.styleSeatIn,
       options.backDartPlacement
     )
@@ -164,26 +166,26 @@ export const back = {
     )
 
     points.dartSeatTarget = utils.beamsIntersect(
-      points.styleWaistMid,
-      points.styleWaistIn.rotate(90, points.styleWaistMid),
+      points.styleWaistAnchor,
+      points.styleWaistIn.rotate(90, points.styleWaistAnchor),
       points.seatOut,
       points.seatOut.shift(points.styleWaistOut.angle(points.styleWaistIn), 1)
     )
 
-    if (points.dartSeatTarget.y < points.seatMid.y) {
-      points.dartSeat = points.seatMid.shiftFractionTowards(
+    if (points.dartSeatTarget.y < points.seatAnchor.y) {
+      points.dartSeat = points.seatAnchor.shiftFractionTowards(
         points.dartSeatTarget,
         1 - options.backDartPlacement
       )
     } else {
-      points.dartSeat = points.seatMid.shiftFractionTowards(
+      points.dartSeat = points.seatAnchor.shiftFractionTowards(
         points.dartSeatTarget,
         options.backDartPlacement
       )
     }
     points.dartMid = utils.beamsIntersect(
       points.dartSeat,
-      points.seatMid.rotate(-90, points.dartSeat),
+      points.seatAnchor.rotate(-90, points.dartSeat),
       points.styleWaistIn,
       points.styleWaistOut
     )
@@ -397,7 +399,7 @@ export const back = {
         to: points.grainlineTo,
       })
       //notches
-      snippets.bnotch = new Snippet('bnotch', points.crossSeamCurveStart)
+      snippets.crossSeamCurveStart = new Snippet('bnotch', points.crossSeamCurveStart)
       //title
       points.title = points.knee.shiftFractionTowards(points.kneeIn, 0.25)
       macro('title', {
