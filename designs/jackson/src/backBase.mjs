@@ -40,8 +40,8 @@ export const backBase = {
     backPocketBalance: { pct: 45.9, min: 40, max: 70, menu: 'pockets.backPockets' },
     // backPocketPlacement: {pct: 3, min: 2.5, max: 5, menu:'pockets.backPockets'},
     backPocketPlacement: { pct: 73.5, min: 70, max: 100, menu: 'pockets.backPockets' },
-    backPocketWidth: { pct: 20.1, min: 15, max: 22.5, menu: 'pockets.backPockets' },
-    backPocketDepth: { pct: 11, min: 8, max: 15, menu: 'pockets.backPockets' },
+    backPocketWidth: { pct: 21.8, min: 15, max: 22.5, menu: 'pockets.backPockets' }, //20.8
+    backPocketDepth: { pct: 11.9, min: 8, max: 15, menu: 'pockets.backPockets' }, //11
     patchPocketWidthOffset: { pct: 17.6, min: 0, max: 20, menu: 'pockets.backPockets' },
     backPocketPeak: { pct: 26.9, min: 0, max: 30, menu: 'pockets.backPockets' },
     sidePocketsBool: { bool: false, menu: 'pockets' },
