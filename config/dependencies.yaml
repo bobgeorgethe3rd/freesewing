@@ -109,6 +109,7 @@ i18n:
 jackson:
   peer:
     '@freesewing/dalton': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 jaeger:
   peer:
     '@freesewing/brian': *freesewing
