@@ -8,14 +8,34 @@ import { frontBase } from './frontBase.mjs'
 import { back } from './back.mjs'
 import { yokeBack } from './yokeBack.mjs'
 import { frontPocketFacing } from './frontPocketFacing.mjs'
+import { coinPocket } from './coinPocket.mjs'
 import { frontPocketBag } from './frontPocketBag.mjs'
 import { front } from './front.mjs'
 
 // Create new design
 const Jackson = new Design({
   data,
-  parts: [backBase, frontBase, back, yokeBack, frontPocketFacing, frontPocketBag, front],
+  parts: [
+    backBase,
+    frontBase,
+    back,
+    yokeBack,
+    frontPocketFacing,
+    coinPocket,
+    frontPocketBag,
+    front,
+  ],
 })
 
 // Named exports
-export { backBase, frontBase, back, yokeBack, frontPocketFacing, frontPocketBag, front, Jackson }
+export {
+  backBase,
+  frontBase,
+  back,
+  yokeBack,
+  frontPocketFacing,
+  coinPocket,
+  frontPocketBag,
+  front,
+  Jackson,
+}
