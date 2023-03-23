@@ -9,6 +9,20 @@ export const back = {
   options: {
     //Style
     yoke: { bool: true, menu: 'style' },
+    //Pockets
+    backPocketsBool: { bool: true, menu: 'pockets' },
+    backPocketBalance: { pct: 45.9, min: 40, max: 70, menu: 'pockets.backPockets' },
+    // backPocketPlacement: {pct: 3, min: 2.5, max: 5, menu:'pockets.backPockets'},
+    backPocketPlacement: { pct: 73.5, min: 70, max: 100, menu: 'pockets.backPockets' },
+    backPocketWidth: { pct: 21.8, min: 15, max: 22.5, menu: 'pockets.backPockets' }, //20.8
+    backPocketDepth: { pct: 11.9, min: 8, max: 15, menu: 'pockets.backPockets' }, //11
+    patchPocketWidthOffset: { pct: 17.6, min: 0, max: 20, menu: 'pockets.backPockets' },
+    backPocketPeak: { pct: 26.9, min: 0, max: 30, menu: 'pockets.backPockets' },
+    sidePocketsBool: { bool: false, menu: 'pockets' },
+    sidePocketBalance: { pct: 50, min: 40, max: 70, menu: 'pockets.sidePockets' },
+    sidePocketPlacement: { pct: 6, min: 0, max: 8, menu: 'pockets.sidePockets' },
+    sidePocketWidth: { pct: 23.7, min: 20, max: 25, menu: 'pockets.sidePockets' }, //default of off 38
+    sidePocketDepth: { pct: 29.2, min: 25, max: 30, menu: 'pockets.sidePockets' }, //default of off 38 //35 for higher back pocket
     //Construction
     hemWidth: { pct: 4, min: 1, max: 10, menu: 'construction' }, //altered for Jackson
     crossSeamSaWidth: { pct: 2, min: 1, max: 4, menu: 'construction' },
@@ -38,7 +52,6 @@ export const back = {
     //removing paths and snippets not required from backBase
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
-
     //draw guide
     const drawOutseam = () => {
       let waistOut = points.styleWaistOut || points.waistOut
@@ -96,7 +109,19 @@ export const back = {
         return new Path().move(points.fork).curve(points.forkCp2, points.kneeInCp1, points.floorIn)
       }
     }
-
+    //measures
+    // let backPocketPlacement = measurements.waistToFloor * options.backPocketPlacement
+    let backPocketPlacement =
+      points.dartTip.dist(points.dartSeat) * (1 - options.backPocketPlacement)
+    let backPocketWidth = measurements.waist * options.backPocketWidth
+    let backPocketDepth = measurements.waistToFloor * options.backPocketDepth
+    let sidePocketPlacement =
+      drawOutseam().length() -
+      measurements.waistToKnee * (1 - options.sidePocketPlacement) +
+      measurements.waistToHips * (1 - options.waistHeight) +
+      absoluteOptions.waistbandWidth
+    let sidePocketWidth = measurements.waist * options.sidePocketWidth
+    let sidePocketDepth = measurements.waistToKnee * options.sidePocketDepth
     //lets begin
     paths.crossSeam = new Path()
       .move(points.styleWaistIn)
@@ -194,8 +219,39 @@ export const back = {
           on: ['seatGuideIn', 'seatGuideOut', 'kneeGuideIn', 'kneeGuideOut'],
         })
       }
-      //backPockets
+      //backPocket
       if (options.backPocketsBool) {
+        points.seatMid = points.styleSeatOut.shiftFractionTowards(points.styleSeatIn, 0.5)
+        points.backPocketTopAnchor = points.seatMid
+          .shiftTowards(points.seatOut, backPocketPlacement)
+          .rotate(90, points.seatMid)
+        points.backPocketTopIn = points.backPocketTopAnchor
+          .shiftTowards(points.seatMid, backPocketWidth * options.backPocketBalance)
+          .rotate(-90, points.backPocketTopAnchor)
+        points.backPocketTopOut = points.backPocketTopAnchor
+          .shiftTowards(points.seatMid, backPocketWidth * (1 - options.backPocketBalance))
+          .rotate(90, points.backPocketTopAnchor)
+        points.backPocketTopMid = points.backPocketTopIn.shiftFractionTowards(
+          points.backPocketTopOut,
+          0.5
+        )
+        points.backPocketBottomMid = points.backPocketTopMid
+          .shiftTowards(points.backPocketTopIn, backPocketDepth)
+          .rotate(90, points.backPocketTopMid)
+        points.backPocketBottomLeft = points.backPocketBottomMid
+          .shiftTowards(
+            points.backPocketTopMid,
+            (backPocketWidth * (1 - options.patchPocketWidthOffset)) / 2
+          )
+          .rotate(90, points.backPocketBottomMid)
+        points.backPocketBottomRight = points.backPocketBottomLeft.rotate(
+          180,
+          points.backPocketBottomMid
+        )
+        points.backPocketPeak = points.backPocketTopMid.shiftFractionTowards(
+          points.backPocketBottomMid,
+          1 + options.backPocketPeak
+        )
         paths.backPocket = new Path()
           .move(points.backPocketTopIn)
           .line(points.backPocketBottomLeft)
@@ -210,7 +266,16 @@ export const back = {
           on: ['backPocketTopIn', 'backPocketTopOut'],
         })
       }
+      //sidePocket
       if (options.sidePocketsBool) {
+        points.sidePocketBottomAnchor = drawOutseam().shiftAlong(sidePocketPlacement)
+        points.sidePocketAngleAnchor = drawOutseam().shiftAlong(sidePocketPlacement * 1.001)
+        points.sidePocketBottomLeft = points.sidePocketBottomAnchor
+          .shiftTowards(points.sidePocketAngleAnchor, sidePocketWidth * options.sidePocketBalance)
+          .rotate(90, points.sidePocketBottomAnchor)
+        points.sidePocketTopLeft = points.sidePocketBottomLeft
+          .shiftTowards(points.sidePocketBottomAnchor, sidePocketDepth)
+          .rotate(90, points.sidePocketBottomLeft)
         paths.sidePocket = new Path()
           .move(points.sidePocketTopLeft)
           .line(points.sidePocketBottomLeft)
@@ -219,6 +284,13 @@ export const back = {
           .attr('data-text', 'Side Pocket')
           .attr('data-text-class', 'right')
       }
+
+      //stores
+      store.set('patchPocketWidth', backPocketWidth)
+      store.set('patchPocketDepth', backPocketDepth)
+      store.set('sidePocketWidth', sidePocketWidth)
+      store.set('sidePocketDepth', sidePocketDepth)
+      store.set('sidePocketPlacement', sidePocketPlacement)
 
       if (sa) {
         let waistSa

@@ -145,7 +145,7 @@ export const front = {
       }
       //title
       macro('title', {
-        nr: 3,
+        nr: 6,
         title: 'Front',
         at: points.title,
       })

@@ -11,6 +11,7 @@ export const frontBase = {
   options: {
     //Pockets
     frontPocketsBool: { bool: true, menu: 'pockets' },
+    frontPocketWidth: { pct: 68.2, min: 65, max: 75, menu: 'pockets.frontPockets' },
     frontPocketOpeningWidth: { pct: 50, min: 45, max: 60, menu: 'pockets.frontPockets' },
     frontPocketOpeningDepth: { pct: 14.9, min: 12, max: 20, menu: 'pockets.frontPockets' },
     frontPocketOpeningCurve: { pct: 66.7, min: 50, max: 100, menu: 'pockets.frontPockets' },
@@ -100,6 +101,10 @@ export const frontBase = {
         points.styleWaistIn,
         options.frontPocketOpeningWidth
       )
+      points.frontPocketWaist = points.styleWaistOut.shiftFractionTowards(
+        points.styleWaistIn,
+        options.frontPocketWidth
+      )
       points.frontPocketOpeningOut = drawOutseam().shiftAlong(frontPocketOpeningDepth)
       points.frontPocketOpeningCpTarget = utils.beamsIntersect(
         points.frontPocketOpeningWaist,
@@ -130,6 +135,9 @@ export const frontBase = {
       .curve(points.crotchSeamCurveCp1, points.crotchSeamCurveCp2, points.crotchSeamCurveStart)
       .line(points.styleWaistIn)
       .shiftAlong(flyDepth)
+
+    //stores
+    store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
 
     return part
   },
