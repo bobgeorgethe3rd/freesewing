@@ -41,7 +41,10 @@ export const frontPocketFacing = {
     //removing paths and snippets not required from Dalton
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
-
+    //measures
+    let frontPocketFacingDepth =
+      store.get('frontPocketOpeningDepth') +
+      points.frontPocketOpeningWaist.dist(points.frontPocketWaist) * options.frontPocketFacingWidth
     //draw guides
     const drawOutseam = () => {
       let waistOut = points.styleWaistOut || points.waistOut
@@ -83,10 +86,6 @@ export const frontPocketFacing = {
     }
 
     //lets begin
-    let frontPocketFacingDepth =
-      store.get('frontPocketOpeningDepth') +
-      points.frontPocketOpeningWaist.dist(points.frontPocketWaist) * options.frontPocketFacingWidth
-
     points.frontPocketFacingOutSeam = drawOutseam().shiftAlong(frontPocketFacingDepth)
     points.frontPocketFacingCp1 = utils.beamsIntersect(
       points.frontPocketFacingOutSeam,
@@ -174,6 +173,7 @@ export const frontPocketFacing = {
           .attr('class', 'various')
           .attr('data-text', 'Coin Pocket - Line')
       }
+      snippets.frontPocketOpeningOut = new Snippet('notch', points.frontPocketOpeningOut)
       //title
       points.title = new Point(
         points.frontPocketFacingOutSeam.x * 7,

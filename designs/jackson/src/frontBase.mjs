@@ -138,6 +138,7 @@ export const frontBase = {
 
     //stores
     store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
+    store.set('flyDepth', flyDepth)
 
     return part
   },
