@@ -41,27 +41,26 @@ export const fly = {
 
     points.flyOut = points.styleWaistIn.shiftFractionTowards(points.styleWaistOut, options.flyWidth)
     let flyWidth = points.styleWaistIn.dist(points.flyOut)
-    points.flyCurveStart = points.crotchSeamCurveStart
-      .shiftTowards(points.styleWaistIn, flyWidth)
-      .rotate(90, points.crotchSeamCurveStart)
-    points.flyCurveCp1 = utils.beamsIntersect(
-      points.flyOut,
-      points.flyCurveStart,
+    points.flyCurveEnd = utils.beamsIntersect(
+      points.styleWaistIn,
+      points.crotchSeamCurveStart,
       points.flyCrotch,
       points.flyCrotchAnchor.rotate(90, points.flyCrotch)
     )
-    points.flyCurveCp2 = points.flyCrotch.shiftFractionTowards(points.flyCurveCp1, 1 / 3)
-
+    points.flyCurveCp1 = utils.beamsIntersect(
+      points.flyOut,
+      points.styleWaistOut.rotate(90, points.flyOut),
+      points.flyCurveEnd,
+      points.styleWaistIn.rotate(90, points.flyCurveEnd)
+    )
+    points.flyCurveStart = points.flyCurveEnd.rotate(90, points.flyCurveCp1)
     paths.guide = new Path()
       .move(points.crotchSeamCurveStart)
       .line(points.styleWaistIn)
       .line(points.flyOut)
-      .line(points.flyCurveStart.shiftFractionTowards(points.flyCurveCp1, 0.5))
-      .curve(
-        points.flyCurveCp1.shiftFractionTowards(points.flyCurveStart, 1 / 6),
-        points.flyCurveCp2,
-        points.flyCrotch
-      )
+      .line(points.flyCurveStart)
+      .curve_(points.flyCurveCp1, points.flyCurveEnd)
+      .line(points.flyCrotch)
 
     return part
   },
