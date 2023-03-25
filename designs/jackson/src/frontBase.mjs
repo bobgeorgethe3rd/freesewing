@@ -17,7 +17,7 @@ export const frontBase = {
     frontPocketOpeningCurve: { pct: 66.7, min: 50, max: 100, menu: 'pockets.frontPockets' },
     frontPocketOutSeamDepth: { pct: 31.7, min: 30, max: 40, menu: 'pockets.frontPockets' },
     //Plackets
-    flyDepth: { pct: 68, min: 60, max: 75, menu: 'plackets' },
+    flyDepth: { pct: 64, min: 60, max: 70, menu: 'plackets' },
   },
   draft: ({
     store,
