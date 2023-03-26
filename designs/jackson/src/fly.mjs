@@ -6,10 +6,7 @@ export const fly = {
   hide: {
     from: true,
   },
-  options: {
-    //Plackets
-    flyWidth: { pct: 18.2, min: 18, max: 20, menu: 'plackets' },
-  },
+  options: {},
   draft: ({
     store,
     sa,
@@ -38,31 +35,18 @@ export const fly = {
       .line(points.styleWaistIn)
       .hide()
 
-    points.flyCrotchAnchor = paths.crotchSeam.shiftAlong(store.get('flyDepth') * 1.002) //glitches when 1.001
-
     points.flyOut = points.styleWaistIn.shiftFractionTowards(points.styleWaistOut, options.flyWidth)
-    let flyWidth = points.styleWaistIn.dist(points.flyOut)
-    points.flyCurveEnd = utils.beamsIntersect(
-      points.styleWaistIn,
-      points.crotchSeamCurveStart,
-      points.flyCrotch,
-      // points.flyCrotchAnchor.rotate(90, points.flyCrotch)
-      points.flyCrotch.shift(points.styleWaistIn.angle(points.styleWaistOut), 1)
-    )
+
     points.flyCurveCp1 = utils.beamsIntersect(
       points.flyOut,
-      points.styleWaistOut.rotate(90, points.flyOut),
+      points.flyOut.shift(points.styleWaistIn.angle(points.crotchSeamCurveStart), 1),
       points.flyCurveEnd,
       points.styleWaistIn.rotate(90, points.flyCurveEnd)
     )
-    points.flyCurveStart = points.flyCurveEnd.rotate(90, points.flyCurveCp1)
-    // paths.guide = new Path()
-    // .move(points.crotchSeamCurveStart)
-    // .line(points.styleWaistIn)
-    // .line(points.flyOut)
-    // .line(points.flyCurveStart)
-    // .curve_(points.flyCurveCp1, points.flyCurveEnd)
-    // .line(points.flyCrotch)
+    points.flyCurveStart = points.flyCurveCp1.shiftTowards(
+      points.flyOut,
+      points.flyCurveCp1.dist(points.flyCurveEnd)
+    )
 
     //Paths
     let crotchSeamSplit = paths.crotchSeam.split(points.flyCrotch)

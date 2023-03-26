@@ -39,8 +39,8 @@ export const plugin = {
       }
 
       if (complete) {
-        points.grainlineFrom = so.from.shiftFractionTowards(so.to, 0.05)
-        points.grainlineTo = so.to.shiftFractionTowards(so.from, 0.05)
+        points.grainlineFrom = so.from.shiftFractionTowards(so.to, 0.1)
+        points.grainlineTo = so.to.shiftFractionTowards(so.from, 0.1)
         paths.grainline = new Path()
           .move(points.grainlineFrom)
           .line(points.grainlineTo)

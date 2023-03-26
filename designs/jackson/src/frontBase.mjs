@@ -18,6 +18,7 @@ export const frontBase = {
     frontPocketOutSeamDepth: { pct: 31.7, min: 30, max: 40, menu: 'pockets.frontPockets' },
     //Plackets
     flyDepth: { pct: 64, min: 60, max: 70, menu: 'plackets' },
+    flyWidth: { pct: 18.2, min: 18, max: 20, menu: 'plackets' },
   },
   draft: ({
     store,
@@ -53,7 +54,6 @@ export const frontBase = {
     let flyDepth =
       (measurements.crossSeamFront - measurements.waistToHips - absoluteOptions.waistbandWidth) *
       (1 - options.flyDepth)
-
     //draw guides
     const drawOutseam = () => {
       let waistOut = points.styleWaistOut || points.waistOut
@@ -136,9 +136,37 @@ export const frontBase = {
       .line(points.styleWaistIn)
       .shiftAlong(flyDepth)
 
+    let flyShieldDepthExt =
+      points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth * 1.25 -
+      points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth
+
+    points.flyCurveEnd = utils.beamsIntersect(
+      points.styleWaistIn,
+      points.crotchSeamCurveStart,
+      points.flyCrotch,
+      points.flyCrotch.shift(points.styleWaistIn.angle(points.styleWaistOut), 1)
+    )
+
+    points.flyShieldCurveEnd = points.styleWaistIn.shiftOutwards(
+      points.flyCurveEnd,
+      flyShieldDepthExt
+    )
+    points.flyShieldCrotch = utils.lineIntersectsCurve(
+      points.flyShieldCurveEnd,
+      points.flyShieldCurveEnd.shift(
+        points.styleWaistOut.angle(points.styleWaistIn),
+        measurements.seat
+      ),
+      points.fork,
+      points.crotchSeamCurveCp1,
+      points.crotchSeamCurveCp2,
+      points.crotchSeamCurveStart
+    )
+
     //stores
     store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
     store.set('flyDepth', flyDepth)
+    store.set('flyShieldDepthExt', flyShieldDepthExt)
 
     return part
   },

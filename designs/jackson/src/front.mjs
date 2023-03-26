@@ -139,7 +139,7 @@ export const front = {
         to: points.grainlineTo,
       })
       //notches
-      snippets.flyCrotch = new Snippet('notch', points.flyCrotch)
+      snippets.flyShieldCrotch = new Snippet('notch', points.flyShieldCrotch)
       if (options.frontPocketsBool) {
         snippets.frontPocketOutSeam = new Snippet('notch', points.frontPocketOutSeam)
       }

@@ -12,6 +12,8 @@ import { coinPocket } from './coinPocket.mjs'
 import { frontPocketBag } from './frontPocketBag.mjs'
 import { front } from './front.mjs'
 import { fly } from './fly.mjs'
+import { buttonholePlacket } from './buttonholePlacket.mjs'
+import { flyShield } from './flyShield.mjs'
 
 // Create new design
 const Jackson = new Design({
@@ -26,6 +28,8 @@ const Jackson = new Design({
     frontPocketBag,
     front,
     fly,
+    buttonholePlacket,
+    flyShield,
   ],
 })
 
@@ -40,5 +44,7 @@ export {
   frontPocketBag,
   front,
   fly,
+  buttonholePlacket,
+  flyShield,
   Jackson,
 }
