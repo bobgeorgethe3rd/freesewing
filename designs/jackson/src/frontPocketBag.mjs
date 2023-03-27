@@ -168,7 +168,7 @@ export const frontPocketBag = {
           points.frontPocketWaist.dist(points.styleWaistOut) * 0.15
         )
       macro('title', {
-        nr: 5,
+        nr: 6,
         title: 'Front Pocket Bag',
         at: points.title,
         scale: 0.75,

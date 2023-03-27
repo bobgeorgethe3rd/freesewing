@@ -180,7 +180,7 @@ export const frontPocketFacing = {
         points.frontPocketOpeningOut.y * 0.87
       )
       macro('title', {
-        nr: 4,
+        nr: 5,
         title: 'Front Pocket Facing',
         at: points.title,
         scale: 1 / 3,

@@ -66,6 +66,9 @@ export const flyShield = {
       .line(points.flyShieldCurveStart)
       .close()
 
+    //stores
+    store.set('placketWidth', points.styleWaistIn.dist(points.flyShieldOut))
+
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.flyShieldOut
@@ -81,7 +84,7 @@ export const flyShield = {
         1 / 3
       )
       macro('title', {
-        nr: 9,
+        nr: 10,
         title: 'Fly Shield',
         at: points.title,
         scale: 1 / 3,

@@ -79,7 +79,7 @@ export const fly = {
           points.flyOut.dist(points.styleWaistIn) * 0.1
         )
       macro('title', {
-        nr: 7,
+        nr: 8,
         title: 'Fly',
         at: points.title,
         scale: 1 / 3,

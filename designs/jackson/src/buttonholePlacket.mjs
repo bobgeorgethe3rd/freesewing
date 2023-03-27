@@ -53,7 +53,7 @@ export const buttonholePlacket = {
       //title
       points.title = points.flyCurveStart.shiftFractionTowards(points.flyCurveEnd, 0.25)
       macro('title', {
-        nr: 8,
+        nr: 9,
         title: 'Buttonhole Placket',
         at: points.title,
         scale: 1 / 3,

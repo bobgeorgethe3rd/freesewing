@@ -101,7 +101,7 @@ export const coinPocket = {
         .shiftFractionTowards(points.coinPocketIn, 0.5)
         .shift(-90, points.coinPocketOut.dist(points.coinPocketBottomOut) / 2)
       macro('title', {
-        nr: 3,
+        nr: 4,
         title: 'Coin Pocket',
         at: points.title,
         scale: 1 / 3,
