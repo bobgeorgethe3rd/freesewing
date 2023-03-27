@@ -76,15 +76,7 @@ export const back = {
       points.waistSide,
       underArmSleeveLength * options.underArmCurve
     )
-    if (!options.fullSleeves) {
-      points.underArmCpInitial = utils.beamsIntersect(
-        points.armhole,
-        points.waistSide,
-        points.bodiceSleeveBottom,
-        points.bodiceSleeveTop.rotate(90, points.bodiceSleeveBottom)
-      )
-      points.underArmCurveEnd = points.bodiceSleeveBottom
-    } else {
+    if (options.fullSleeves) {
       points.underArmCpInitial = utils.beamsIntersect(
         points.armhole,
         points.waistSide,
@@ -95,6 +87,14 @@ export const back = {
         points.bodiceSleeveBottom,
         underArmLength
       )
+    } else {
+      points.underArmCpInitial = utils.beamsIntersect(
+        points.armhole,
+        points.waistSide,
+        points.bodiceSleeveBottom,
+        points.bodiceSleeveTop.rotate(90, points.bodiceSleeveBottom)
+      )
+      points.underArmCurveEnd = points.bodiceSleeveBottom
     }
 
     let tweak = 1

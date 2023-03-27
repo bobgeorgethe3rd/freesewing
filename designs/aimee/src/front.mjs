@@ -94,19 +94,19 @@ export const front = {
       points.sideWaist,
       underArmSleeveLength * options.underArmCurve
     )
-    if (!options.fullSleeves) {
-      points.underArmCp = utils.beamsIntersect(
-        points.armhole,
-        points.sideWaist,
-        points.bodiceSleeveBottom,
-        points.bodiceSleeveTop.rotate(90, points.bodiceSleeveBottom)
-      )
-    } else {
+    if (options.fullSleeves) {
       points.underArmCp = utils.beamsIntersect(
         points.armhole,
         points.sideWaist,
         points.wristBottom,
         points.bodiceSleeveBottom
+      )
+    } else {
+      points.underArmCp = utils.beamsIntersect(
+        points.armhole,
+        points.sideWaist,
+        points.bodiceSleeveBottom,
+        points.bodiceSleeveTop.rotate(90, points.bodiceSleeveBottom)
       )
     }
 
