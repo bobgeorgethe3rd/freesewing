@@ -101,6 +101,7 @@ export const waistband = {
       let centreName
       let leftName
       let rightName
+      let exName
       if (options.closurePosition == 'side') {
         if (options.sideOpening == 'right') {
           points.bottomMidNotch = points.bottomRight.shift(180, lengthBack)
@@ -117,14 +118,17 @@ export const waistband = {
           0.5
         )
         centreName = 'Side Seam'
+        exName = centreName
       } else {
         if (options.closurePosition == 'back') {
           points.bottomLeftNotch = points.bottomLeft.shift(0, lengthBack / 2)
           centreName = 'Centre Front'
+          exName = 'Centre Back'
         }
         if (options.closurePosition == 'front') {
           points.bottomLeftNotch = points.bottomMid.shift(180, lengthBack / 2)
           centreName = 'Centre Back'
+          exName = 'Centre Front'
         }
         points.bottomRightNotch = points.bottomLeftNotch.flipX(points.bottomMid)
         points.bottomMidNotch = points.bottomMid
@@ -163,7 +167,7 @@ export const waistband = {
           .move(points.topLeft)
           .line(points.bottomLeft)
           .attr('class', 'various')
-          .attr('data-text', centreName)
+          .attr('data-text', exName)
           .attr('data-text-class', 'center')
         macro('sprinkle', {
           snippet: 'notch',
@@ -175,7 +179,7 @@ export const waistband = {
           .move(points.topRight)
           .line(points.bottomRight)
           .attr('class', 'various')
-          .attr('data-text', centreName)
+          .attr('data-text', exName)
           .attr('data-text-class', 'center')
         macro('sprinkle', {
           snippet: 'notch',
