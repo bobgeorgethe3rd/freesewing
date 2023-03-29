@@ -93,6 +93,13 @@
   "swimwear": {},
   "tops": {},
   "waistbands": {
+    "waistbandcurved": {
+      "description": "Curved waistband",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["waistbands"]
+    },
     "waistbandstraight": {
       "description": "Straight waistband",
       "code": "bobgeorgethe3rd",

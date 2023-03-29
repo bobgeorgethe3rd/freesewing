@@ -109,6 +109,7 @@ i18n:
 jackson:
   peer:
     '@freesewing/dalton': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/plugin-mirror': *freesewing
 jaeger:
