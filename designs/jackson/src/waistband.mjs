@@ -1,5 +1,6 @@
 import { waistband as waistbandStraight } from '@freesewing/waistbandstraight'
 import { waistband as waistbandCurved } from '@freesewing/waistbandcurved'
+import { frontBase } from './frontBase.mjs'
 
 const waistbandDraft = (params) => {
   switch (params.options.waistbandStyle) {
@@ -14,6 +15,7 @@ const waistbandDraft = (params) => {
 
 export const waistband = {
   name: 'jackson.waistband',
+  after: frontBase,
   options: {
     //Style
     waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'style' },
