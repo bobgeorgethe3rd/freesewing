@@ -3,13 +3,13 @@
 import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
-import { box } from './box.mjs'
+import { waistband } from './waistband.mjs'
 
 // Create new design
 const Waistbandcurved = new Design({
   data,
-  parts: [box],
+  parts: [waistband],
 })
 
 // Named exports
-export { box, Waistbandcurved }
+export { waistband, Waistbandcurved }
