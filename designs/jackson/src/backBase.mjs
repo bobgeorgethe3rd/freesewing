@@ -166,6 +166,14 @@ export const backBase = {
     // .move(points.yokeIn)
     // .line(points.yokeOut)
 
+    //stores
+    store.set(
+      'waistBack',
+      points.styleWaistIn.dist(points.dartIn) + points.styleWaistOut.dist(points.dartOut)
+    )
+    store.set('waistBackTop', points.waistTopIn.dist(points.waistTopOut))
+    store.set('waistbandWidth', absoluteOptions.waistbandWidth)
+
     return part
   },
 }

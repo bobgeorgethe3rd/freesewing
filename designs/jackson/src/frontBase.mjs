@@ -167,7 +167,8 @@ export const frontBase = {
     store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
     store.set('flyDepth', flyDepth)
     store.set('flyShieldDepthExt', flyShieldDepthExt)
-
+    store.set('waistFront', points.styleWaistOut.dist(points.styleWaistIn))
+    store.set('waistFrontTop', points.waistTopOut.dist(points.waistTopIn))
     return part
   },
 }
