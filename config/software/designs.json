@@ -92,7 +92,15 @@
   },
   "swimwear": {},
   "tops": {},
-  "waistbands": {},
+  "waistbands": {
+    "waistbandstraight": {
+      "description": "Straight waistband",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["waistbands"]
+    }
+  },
   "utilities": {
     "examples": {
       "description": "A FreeSewing pattern holding examples for our documentation",
