@@ -103,7 +103,7 @@ async function addDesign() {
       },
       {
         title: 'Waistbands',
-        value: 'Waistbands',
+        value: 'waistbands',
         description: 'For waistband desings',
       },
       {
