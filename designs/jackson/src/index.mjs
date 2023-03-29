@@ -14,6 +14,7 @@ import { front } from './front.mjs'
 import { fly } from './fly.mjs'
 import { buttonholePlacket } from './buttonholePlacket.mjs'
 import { flyShield } from './flyShield.mjs'
+import { waistband } from './waistband.mjs'
 
 // Create new design
 const Jackson = new Design({
@@ -30,6 +31,7 @@ const Jackson = new Design({
     fly,
     buttonholePlacket,
     flyShield,
+    waistband,
   ],
 })
 
@@ -46,5 +48,6 @@ export {
   fly,
   buttonholePlacket,
   flyShield,
+  waistband,
   Jackson,
 }

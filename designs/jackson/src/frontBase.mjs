@@ -121,13 +121,13 @@ export const frontBase = {
         options.frontPocketOpeningCurve
       )
       points.frontPocketOutSeam = drawOutseam().shiftAlong(frontPocketOutSeamDepth)
-      paths.frontPocketOpening = new Path()
-        .move(points.frontPocketOpeningOut)
-        .curve(
-          points.frontPocketOpeningCp2,
-          points.frontPocketOpeningCp1,
-          points.frontPocketOpeningWaist
-        )
+      // paths.frontPocketOpening = new Path()
+      // .move(points.frontPocketOpeningOut)
+      // .curve(
+      // points.frontPocketOpeningCp2,
+      // points.frontPocketOpeningCp1,
+      // points.frontPocketOpeningWaist
+      // )
     }
 
     points.flyCrotch = new Path()
