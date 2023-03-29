@@ -90,13 +90,6 @@ export const waistband = {
       .close()
 
     if (complete) {
-      //grainline
-      points.grainlineFrom = points.topLeft.shiftFractionTowards(points.topMid, 0.75)
-      points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomMid.y)
-      macro('grainline', {
-        from: points.grainlineFrom,
-        to: points.grainlineTo,
-      })
       //notches
       let centreName
       let leftName
@@ -151,15 +144,22 @@ export const waistband = {
           'topMidNotch',
         ],
       })
+      //grainline
+      points.grainlineFrom = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.25)
+      points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomMid.y)
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
       //title
-      points.title = points.bottomLeft
-        .shiftFractionTowards(points.bottomMid, 0.85)
-        .shift(90, widthHalf)
+      points.title = points.topLeftNotch
+        .shiftFractionTowards(points.topMidNotch, 0.5)
+        .shift(-90, widthHalf)
       macro('title', {
         at: points.title,
         nr: 1,
         title: 'Waistband',
-        scale: 0.5,
+        scale: 1 / 3,
       })
       //paths
       if (leftExtension > 0) {
