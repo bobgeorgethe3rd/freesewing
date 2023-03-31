@@ -36,8 +36,9 @@ export const waistband = {
       void store.setIfUnset('waistbandLength', 900)
       void store.setIfUnset('waistbandWidth', 50)
       void store.setIfUnset('waistbandBack', store.get('waistbandLength') * 0.55)
-      void store.setIfUnset('overlap', store.get('waistbandLength') * options.waistbandOverlap)
       void store.setIfUnset('placketWidth', 40)
+    } else {
+      void store.setIfUnset('placketWidth', 0)
     }
 
     let length = store.get('waistbandLength')
@@ -51,7 +52,7 @@ export const waistband = {
     let widthHalf = width / widthMultiplier / 2
     let lengthBack = store.get('waistbandBack')
 
-    let overlap = store.get('overlap')
+    let overlap = length * options.waistbandOverlap
     let placketWidth = store.get('placketWidth')
 
     let leftExtension
@@ -310,15 +311,20 @@ export const waistband = {
           }
         }
       }
-      macro('sprinkle', {
-        snippet: 'buttonhole',
-        on: ['buttonholePlacket', 'buttonholePlacketF'],
-        rotate: 90,
-      })
-      macro('sprinkle', {
-        snippet: 'button',
-        on: ['buttonPlacket', 'buttonPlacketF'],
-      })
+      if (points.buttonholePlacket) {
+        snippets.buttonholePlacket = new Snippet('buttonhole', points.buttonholePlacket).attr(
+          'data-rotate',
+          90
+        )
+        snippets.buttonPlacket = new Snippet('button', points.buttonPlacket)
+        if (options.waistbandFolded) {
+          snippets.buttonholePlacketF = new Snippet('buttonhole', points.buttonholePlacketF).attr(
+            'data-rotate',
+            90
+          )
+          snippets.buttonPlacketF = new Snippet('button', points.buttonPlacketF)
+        }
+      }
 
       if (sa) {
         paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')

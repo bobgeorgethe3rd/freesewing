@@ -8,9 +8,10 @@ export const backBase = {
     from: true,
   },
   options: {
-    //Dalton
     //Constants
     legBandWidth: 0, //locked for Jackson
+    useVoidStores: false, //locked for Jackson
+    closurePosition: 'front', //locked for Jackson
     //Fit
     waistEase: { pct: 5.7, min: -20, max: 20, menu: 'fit' }, //altered for Jackson 5.7 //11.8
     seatEase: { pct: 4.7, min: -20, max: 10, menu: 'fit' }, //altered for Jackson 4.7 // 7.6
@@ -27,6 +28,7 @@ export const backBase = {
       menu: 'style',
     }, // based on size 40 //altered for Jackson
     waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //altered for Jackson
+    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'style' },
     //Darts
     backDartWidth: { pct: 1.2, min: 0, max: 3, menu: 'darts' }, //1.2 //altered for Jackson
     backDartDepth: { pct: 66.7, min: 45, max: 70, menu: 'darts' }, //altered for Jackson
@@ -168,10 +170,10 @@ export const backBase = {
 
     //stores
     store.set(
-      'waistBack',
-      points.styleWaistIn.dist(points.dartIn) + points.styleWaistOut.dist(points.dartOut)
+      'waistbandBack',
+      (points.styleWaistIn.dist(points.dartIn) + points.styleWaistOut.dist(points.dartOut)) * 2
     )
-    store.set('waistBackTop', points.waistTopIn.dist(points.waistTopOut))
+    store.set('waistBackTop', points.waistTopIn.dist(points.waistTopOut) * 2)
     store.set('waistbandWidth', absoluteOptions.waistbandWidth)
 
     return part

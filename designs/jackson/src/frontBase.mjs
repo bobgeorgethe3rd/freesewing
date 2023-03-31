@@ -169,6 +169,9 @@ export const frontBase = {
     store.set('flyShieldDepthExt', flyShieldDepthExt)
     store.set('waistFront', points.styleWaistOut.dist(points.styleWaistIn))
     store.set('waistFrontTop', points.waistTopOut.dist(points.waistTopIn))
+    store.set('waistbandLength', store.get('waistFront') * 2 + store.get('waistbandBack'))
+    store.set('waistbandLengthTop', store.get('waistFrontTop') * 2 + store.get('waistBackTop'))
+    store.set('maxButtons', 1)
     return part
   },
 }

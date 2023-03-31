@@ -27,7 +27,7 @@ export const yokeBack = {
   }) => {
     //set render
     if (!options.yoke) {
-      part.render = false
+      part.hide()
       return part
     }
     //removing paths and snippets not required from backBase
