@@ -3,6 +3,9 @@ import { fly } from './fly.mjs'
 export const flyShield = {
   name: 'jackson.flyShield',
   from: fly,
+  options: {
+    flyShieldCurve: { bool: false, menu: 'plackets' },
+  },
   draft: ({
     store,
     sa,
@@ -45,25 +48,34 @@ export const flyShield = {
       points.flyShieldCurveCp1.dist(points.flyShieldCurveEnd)
     )
 
+    points.flyShieldBottomLeft = utils.beamsIntersect(
+      points.flyShieldOut,
+      points.styleWaistIn.rotate(-90, points.flyShieldOut),
+      points.flyShieldCrotch,
+      points.flyShieldCurveEnd
+    )
+
     //paths
+    const drawSaBase = () => {
+      if (options.flyShieldCurve)
+        return new Path()
+          .move(points.flyShieldCurveStart)
+          .curve_(points.flyShieldCurveCp1, points.flyShieldCurveEnd)
+          .line(points.flyShieldCrotch)
+      else return new Path().move(points.flyShieldBottomLeft).line(points.flyShieldCrotch)
+    }
+
     let crotchSeamSplit = paths.crotchSeam.split(points.flyShieldCrotch)
     for (let i in crotchSeamSplit) {
       paths['crotchSeam' + i] = crotchSeamSplit[i].hide()
     }
 
-    paths.saBase = new Path()
-      .move(points.flyShieldCurveStart)
-      .curve_(points.flyShieldCurveCp1, points.flyShieldCurveEnd)
-      .line(points.flyShieldCrotch)
-      .hide()
-
     paths.waist = new Path().move(points.styleWaistIn).line(points.flyShieldOut).hide()
 
-    paths.seam = paths.saBase
-      .clone()
+    paths.seam = drawSaBase()
       .join(paths.crotchSeam1)
       .join(paths.waist)
-      .line(points.flyShieldCurveStart)
+      .line(drawSaBase().start())
       .close()
 
     //stores
@@ -92,13 +104,12 @@ export const flyShield = {
       })
 
       if (sa) {
-        paths.sa = paths.saBase
-          .clone()
+        paths.sa = drawSaBase()
           .offset(sa)
           .join(paths.crotchSeam1.offset(sa * options.crotchSeamSaWidth * 100))
           .join(paths.waist.offset(sa))
           .line(points.flyShieldOut)
-          .line(points.flyShieldCurveStart)
+          .line(drawSaBase().start())
           .close()
           .attr('class', 'fabric sa')
       }
