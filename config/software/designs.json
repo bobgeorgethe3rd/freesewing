@@ -115,6 +115,15 @@
       "tags": ["waistbands"]
     }
   },
+  "underwear": {
+    "calanthe": {
+      "description": "Corset design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["corset"]
+    }
+  },
   "utilities": {
     "examples": {
       "description": "A FreeSewing pattern holding examples for our documentation",
