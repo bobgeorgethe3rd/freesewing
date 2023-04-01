@@ -107,6 +107,11 @@ async function addDesign() {
         description: 'For waistband desings',
       },
       {
+        title: 'Underwear',
+        value: 'underwear',
+        description: 'For underwear designs',
+      },
+      {
         title: 'Utilities',
         value: 'utilities',
         description: 'For utility designs such as our rendertest or legend',
@@ -219,6 +224,7 @@ function validateName(name) {
       ...Object.keys(designs.swimwear),
       ...Object.keys(designs.tops),
       ...Object.keys(designs.waistbands),
+      ...Object.keys(designs.underwear),
       ...Object.keys(designs.utilities),
     ].indexOf(name) !== -1
   )
