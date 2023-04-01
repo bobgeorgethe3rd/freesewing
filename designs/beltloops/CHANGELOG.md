@@ -1,4 +1,4 @@
-# Change log for: @freesewing/beltloop
+# Change log for: @freesewing/beltloops
 
 
 
