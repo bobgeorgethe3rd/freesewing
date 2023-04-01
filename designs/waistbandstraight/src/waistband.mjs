@@ -40,6 +40,7 @@ export const waistband = {
     } else {
       void store.setIfUnset('placketWidth', 0)
     }
+    void store.setIfUnset('overlap', store.get('waistbandLength') * options.waistbandOverlap)
 
     let length = store.get('waistbandLength')
 
@@ -52,7 +53,7 @@ export const waistband = {
     let widthHalf = width / widthMultiplier / 2
     let lengthBack = store.get('waistbandBack')
 
-    let overlap = length * options.waistbandOverlap
+    let overlap = store.get('overlap')
     let placketWidth = store.get('placketWidth')
 
     let leftExtension
