@@ -1,7 +1,7 @@
 {
-  "name": "@freesewing/jackson",
+  "name": "@freesewing/beltloop",
   "version": "3.0.0-alpha.8",
-  "description": "A Jean pattern",
+  "description": "A pattern that needs a description",
   "author": "bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)",
   "homepage": "https://freesewing.org/",
   "repository": "github:freesewing/freesewing",
@@ -47,12 +47,7 @@
   },
   "peerDependencies": {
     "@freesewing/core": "3.0.0-alpha.8",
-    "@freesewing/plugin-bundle": "3.0.0-alpha.8",
-    "@freesewing/dalton": "3.0.0-alpha.8",
-    "@freesewing/beltloop": "3.0.0-alpha.8",
-    "@freesewing/waistbandcurved": "3.0.0-alpha.8",
-    "@freesewing/waistbandstraight": "3.0.0-alpha.8",
-    "@freesewing/plugin-mirror": "3.0.0-alpha.8"
+    "@freesewing/plugin-bundle": "3.0.0-alpha.8"
   },
   "dependencies": {},
   "devDependencies": {

@@ -93,6 +93,13 @@
   "swimwear": {},
   "tops": {},
   "waistbands": {
+    "beltloop": {
+      "description": "A pattern that needs a description",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["beltloop"]
+    },
     "waistbandcurved": {
       "description": "Curved waistband",
       "code": "bobgeorgethe3rd",
