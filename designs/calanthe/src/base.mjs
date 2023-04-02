@@ -21,6 +21,9 @@ export const base = {
     frontTopDepth: { pct: 8.2, min: 7.5, max: 16.4, menu: 'style' },
     cfTopCurve: { pct: 0, min: 0, max: 200, menu: 'style' },
     backTopDepth: { pct: 8.5, min: 0, max: 11.3, menu: 'style' },
+    frontBottomDepth: { pct: 29.9, min: 7.4, max: 44.9, menu: 'style' },
+    sideBottomReduction: { pct: 7.4, min: 0, max: 15, menu: 'style' },
+    backBottomDepth: { pct: 7.4, min: 7.4, max: 29.9, menu: 'style' },
 
     //Advanced
     sideGap: { pct: 4.6, min: 3.4, max: 6.1, menu: 'advanced.fit' },
@@ -188,6 +191,17 @@ export const base = {
     paths.backCurve = new Path()
       .move(points.sideChest)
       .curve(points.b2Cp2, points.cbCp2, points.cbTop)
+
+    //bottom
+    let frontBottomDepth = measurements.waistToHips * options.frontBottomDepth
+    let sideBottomReduction = measurements.waistToHips * options.sideBottomReduction
+    let backBottomDepth = measurements.waistToHips * options.backBottomDepth
+
+    points.cfBottom = points.cfHips.shift(-90, frontBottomDepth)
+    points.sideBottom = points.hips30.shift(90, sideBottomReduction)
+    points.cbBottom = points.cbHips.shift(-90, backBottomDepth)
+
+    paths.bottom = new Path().move(points.cfBottom).line(points.sideBottom).line(points.cbBottom)
 
     //guides
 
