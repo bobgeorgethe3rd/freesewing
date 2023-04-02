@@ -64,7 +64,7 @@ export const back1 = {
       //title
       points.title = new Point(points.waist40.x * 1.075, points.chest4Cp2.y)
       macro('title', {
-        nr: 'F5',
+        nr: 'B2',
         title: 'Back Panel 1',
         at: points.title,
         scale: 0.5,

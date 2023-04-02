@@ -66,7 +66,7 @@ export const centreBack = {
       //title
       points.title = new Point(points.waist50.x * 1.075, points.chest5Cp2.y)
       macro('title', {
-        nr: 'F6',
+        nr: 'B1',
         title: 'Centre Back',
         at: points.title,
         scale: 0.5,
