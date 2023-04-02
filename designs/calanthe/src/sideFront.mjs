@@ -1,7 +1,7 @@
 import { base } from './base.mjs'
 
-export const centreFront = {
-  name: 'calanthe.centreFront',
+export const sideFront = {
+  name: 'calanthe.sideFront',
   from: base,
   hide: {
     from: true,
@@ -27,36 +27,46 @@ export const centreFront = {
     for (let i in paths) delete paths[i]
     //let's begin
 
-    paths.seam = new Path()
-      .move(points.cfTop)
-      .line(points.cfBottom)
-      .line(points.f0BottomRight)
-      .curve(points.hips01Cp2, points.waist01Cp1, points.waist01)
-      .curve(points.waist01Cp2, points.apexCp1, points.apex)
-      .line(points.top1)
-      .curve_(points.top1Cp1, points.cfTop)
+    paths.topCurve = new Path()
+      .move(points.sideChest)
+      .curve(points.sideTopCp1, points.top1Cp2, points.top1)
+      .hide()
+
+    let topSplit = paths.topCurve.split(points.top2)
+    for (let i in topSplit) {
+      paths['topCurve' + i] = topSplit[i].hide()
+    }
+
+    paths.seam = paths.topCurve0
+      .line(points.chest2)
+      .curve(points.chest2Cp1, points.waist20Cp1, points.waist20)
+      .curve(points.waist20Cp2, points.hips20Cp1, points.f2BottomLeft)
+      ._curve(points.f2BottomCp1, points.f2BottomRight)
+      .curve(points.hips21Cp2, points.waist21Cp1, points.waist21)
+      .curve(points.waist21Cp2, points.sideChestCp2, points.sideChest)
       .close()
+      .unhide()
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.top1Cp1.x * 0.5, points.cfTop.y)
+      points.grainlineFrom = new Point(points.chest2.x * 1.05, points.cfChest.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHips.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //title
-      points.title = new Point(points.top1Cp1.x, points.apexCp1.y)
+      points.title = new Point(points.top2.x * 1.15, points.chest2Cp2.y)
       macro('title', {
-        nr: 'F1',
-        title: 'Centre Front',
+        nr: 'F3',
+        title: 'Side Front Panel',
         at: points.title,
         scale: 0.5,
       })
       //waist
       paths.waist = new Path()
-        .move(points.cfWaist)
-        .line(points.waist01)
+        .move(points.waist20)
+        .line(points.waist21)
         .attr('data-text', 'Waist-line')
         .attr('data-text-class', 'center')
         .attr('class', 'interfacing')
