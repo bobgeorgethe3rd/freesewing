@@ -8,10 +8,9 @@ export const backBase = {
     from: true,
   },
   options: {
+    //Dalton
     //Constants
     legBandWidth: 0, //locked for Jackson
-    useVoidStores: false, //locked for Jackson
-    closurePosition: 'front', //locked for Jackson
     //Fit
     waistEase: { pct: 5.7, min: -20, max: 20, menu: 'fit' }, //altered for Jackson 5.7 //11.8
     seatEase: { pct: 4.7, min: -20, max: 10, menu: 'fit' }, //altered for Jackson 4.7 // 7.6
@@ -34,9 +33,20 @@ export const backBase = {
     backDartDepth: { pct: 66.7, min: 45, max: 70, menu: 'darts' }, //altered for Jackson
     //Advanced
     backDartMultiplier: { count: 1, min: 0, max: 2, menu: 'advanced' }, //altered for Jackson
+    //Waistbands
+    useVoidStores: false, //locked for Jackson
+    closurePosition: 'front', //locked for Jackson
     //Jackson
     //Style
     yokeAngle: { deg: 5.1, min: 3.5, max: 5.6, menu: 'style' },
+    beltLoopWidth: {
+      pct: 1.1,
+      min: 1,
+      max: 2,
+      snap: 5,
+      ...pctBasedOn('waist'),
+      menu: 'style',
+    },
   },
   draft: ({
     store,
@@ -175,7 +185,8 @@ export const backBase = {
     )
     store.set('waistBackTop', points.waistTopIn.dist(points.waistTopOut) * 2)
     store.set('waistbandWidth', absoluteOptions.waistbandWidth)
-
+    store.set('beltLoopLength', absoluteOptions.waistbandWidth * 2)
+    store.set('beltLoopWidth', absoluteOptions.beltLoopWidth)
     return part
   },
 }
