@@ -16,7 +16,7 @@ export const pocket = {
     patchPocketPeakPlateau: { bool: true, menu: 'pockets' },
     //Construction
     patchPocketSaTopWidth: { pct: 3, min: 1, max: 10, menu: 'construction' },
-    grainlineBias: { bool: false, menu: 'construction' },
+    patchPocketGrainlineBias: { bool: false, menu: 'construction' },
   },
   plugins: [pluginBundle],
   draft: ({
@@ -146,7 +146,7 @@ export const pocket = {
       //grainline
       let grainlineFrom
       let grainlineTo
-      if (options.grainlineBias) {
+      if (options.patchPocketGrainlineBias) {
         grainlineFrom = points.topLeft
         grainlineTo = points.bottomRight
       } else {

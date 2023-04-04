@@ -7,12 +7,6 @@ export const back = {
     from: true,
   },
   options: {
-    //Patch Pockets
-    //Constants
-    patchPocketPeakPlateau: false, //locked for Jackson
-    patchPocketPeakCurve: 1, //locked for Jackson
-    patchPocketStyle: 'straight', //locked for Jackson
-    //Jackson
     //Style
     yoke: { bool: true, menu: 'style' },
     //Pockets
