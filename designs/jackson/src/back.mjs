@@ -7,17 +7,23 @@ export const back = {
     from: true,
   },
   options: {
+    //Patch Pockets
+    //Constants
+    patchPocketPeakPlateau: false, //locked for Jackson
+    patchPocketPeakCurve: 1, //locked for Jackson
+    patchPocketStyle: 'straight', //locked for Jackson
+    //Jackson
     //Style
     yoke: { bool: true, menu: 'style' },
     //Pockets
     backPocketsBool: { bool: true, menu: 'pockets' },
     backPocketBalance: { pct: 45.9, min: 40, max: 70, menu: 'pockets.backPockets' },
     // backPocketPlacement: {pct: 3, min: 2.5, max: 5, menu:'pockets.backPockets'},
-    backPocketPlacement: { pct: 73.5, min: 70, max: 100, menu: 'pockets.backPockets' },
-    backPocketWidth: { pct: 21.8, min: 15, max: 22.5, menu: 'pockets.backPockets' }, //20.8
-    backPocketDepth: { pct: 11.9, min: 8, max: 15, menu: 'pockets.backPockets' }, //11
-    patchPocketBottomWidth: { pct: 82.4, min: 80, max: 100, menu: 'pockets.backPockets' },
-    patchPocketPeak: { pct: 49.2, min: 0, max: 50, menu: 'pockets.backPockets' },
+    backPocketPlacement: { pct: 73.5, min: 70, max: 100, menu: 'pockets.backPockets' }, //altered for Jackson
+    patchPocketWidth: { pct: 20.8, min: 15, max: 22.5, menu: 'pockets.backPockets' }, //20.8 //altered for Jackson
+    patchPocketDepth: { pct: 11.9, min: 8, max: 15, menu: 'pockets.backPockets' }, //11 //altered for Jackson
+    patchPocketBottomWidth: { pct: 82.4, min: 80, max: 100, menu: 'pockets.backPockets' }, //altered for Jackson
+    patchPocketPeak: { pct: 49.2, min: 0, max: 50, menu: 'pockets.backPockets' }, //altered for Jackson
     //remove sidePockets when making caleb, keeping for now.
     sidePocketsBool: { bool: false, menu: 'pockets' },
     sidePocketBalance: { pct: 50, min: 40, max: 70, menu: 'pockets.sidePockets' },
@@ -114,10 +120,10 @@ export const back = {
     // let backPocketPlacement = measurements.waistToFloor * options.backPocketPlacement
     let backPocketPlacement =
       points.dartTip.dist(points.dartSeat) * (1 - options.backPocketPlacement)
-    let backPocketWidth = measurements.waist * options.backPocketWidth
-    let backPocketDepth = measurements.waistToFloor * options.backPocketDepth
-    let backPocketPeak =
-      ((backPocketWidth * options.patchPocketBottomWidth) / 2) * options.patchPocketPeak
+    let patchPocketDepth = measurements.waistToFloor * options.patchPocketDepth
+    let patchPocketWidth = measurements.waist * options.patchPocketWidth
+    let patchPocketBottomWidth = patchPocketWidth * options.patchPocketBottomWidth
+    let backPocketPeak = patchPocketBottomWidth * options.patchPocketPeak * 0.5
     let sidePocketPlacement =
       drawOutseam().length() -
       measurements.waistToKnee * (1 - options.sidePocketPlacement) +
@@ -229,23 +235,20 @@ export const back = {
           .shiftTowards(points.seatOut, backPocketPlacement)
           .rotate(90, points.seatMid)
         points.backPocketTopIn = points.backPocketTopAnchor
-          .shiftTowards(points.seatMid, backPocketWidth * options.backPocketBalance)
+          .shiftTowards(points.seatMid, patchPocketWidth * options.backPocketBalance)
           .rotate(-90, points.backPocketTopAnchor)
         points.backPocketTopOut = points.backPocketTopAnchor
-          .shiftTowards(points.seatMid, backPocketWidth * (1 - options.backPocketBalance))
+          .shiftTowards(points.seatMid, patchPocketWidth * (1 - options.backPocketBalance))
           .rotate(90, points.backPocketTopAnchor)
         points.backPocketTopMid = points.backPocketTopIn.shiftFractionTowards(
           points.backPocketTopOut,
           0.5
         )
         points.backPocketBottomMid = points.backPocketTopMid
-          .shiftTowards(points.backPocketTopIn, backPocketDepth)
+          .shiftTowards(points.backPocketTopIn, patchPocketDepth)
           .rotate(90, points.backPocketTopMid)
         points.backPocketBottomLeft = points.backPocketBottomMid
-          .shiftTowards(
-            points.backPocketTopMid,
-            (backPocketWidth * options.patchPocketBottomWidth) / 2
-          )
+          .shiftTowards(points.backPocketTopMid, patchPocketBottomWidth / 2)
           .rotate(90, points.backPocketBottomMid)
         points.backPocketBottomRight = points.backPocketBottomLeft.rotate(
           180,
@@ -289,8 +292,8 @@ export const back = {
       }
 
       //stores
-      store.set('patchPocketWidth', backPocketWidth)
-      store.set('patchPocketDepth', backPocketDepth)
+      store.set('patchPocketWidth', patchPocketWidth)
+      store.set('patchPocketDepth', patchPocketDepth)
       store.set('sidePocketWidth', sidePocketWidth)
       store.set('sidePocketDepth', sidePocketDepth)
       store.set('sidePocketPlacement', sidePocketPlacement)
