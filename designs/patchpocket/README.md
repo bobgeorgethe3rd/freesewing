@@ -1,13 +1,13 @@
 ![FreeSewing](https://static.freesewing.org/banner.png)
 <p align='center'><a
-  href="https://www.npmjs.com/package/@freesewing/calanthe"
-  title="@freesewing/calanthe on NPM"
-  ><img src="https://img.shields.io/npm/v/@freesewing/calanthe.svg"
-  alt="@freesewing/calanthe on NPM"/>
+  href="https://www.npmjs.com/package/@freesewing/patchpocket"
+  title="@freesewing/patchpocket on NPM"
+  ><img src="https://img.shields.io/npm/v/@freesewing/patchpocket.svg"
+  alt="@freesewing/patchpocket on NPM"/>
   </a><a
   href="https://opensource.org/licenses/MIT"
   title="License: MIT"
-  ><img src="https://img.shields.io/npm/l/@freesewing/calanthe.svg?label=License"
+  ><img src="https://img.shields.io/npm/l/@freesewing/patchpocket.svg?label=License"
   alt="License: MIT"/>
   </a><a
   href="https://deepscan.io/dashboard#view=project&tid=2114&pid=2993&bid=23256"
@@ -15,10 +15,10 @@
   ><img src="https://deepscan.io/api/teams/2114/projects/2993/branches/23256/badge/grade.svg"
   alt="Code quality on DeepScan"/>
   </a><a
-  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Acalanthe"
-  title="Open issues tagged pkg:calanthe"
-  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:calanthe.svg?label=Issues"
-  alt="Open issues tagged pkg:calanthe"/>
+  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Apatchpocket"
+  title="Open issues tagged pkg:patchpocket"
+  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:patchpocket.svg?label=Issues"
+  alt="Open issues tagged pkg:patchpocket"/>
   </a><a
   href="#contributors-"
   title="All Contributors"
@@ -46,9 +46,9 @@
   alt="Follow @freesewing_org on Twitter"/>
   </a></p>
 
-# @freesewing/calanthe
+# @freesewing/patchpocket
 
-Corset design
+Patch Pocket design to be used in other designs
 
 
 
@@ -65,7 +65,7 @@ Corset design
 
 This repository is our *monorepo* holding all our NPM designs, plugins, other NPM packages, and (web)sites.
 
-This folder holds: @freesewing/calanthe
+This folder holds: @freesewing/patchpocket
 
 If you're not entirely sure what to do or how to start, type this command:
 

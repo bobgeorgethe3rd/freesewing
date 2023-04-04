@@ -14,6 +14,8 @@ sleeves: Sleeves
 style: Style
 backPockets: Back pockets
 frontPockets: Front pockets
+sidePockets: Side pockets
+coinPockets: Coin pockets
 waistband: Waistband
 fly: Fly
 bellaDarts: Bella darts
@@ -23,3 +25,4 @@ clavi: Clavi
 type: Type
 size: Size
 skirt: Skirt
+plackets: Plackets

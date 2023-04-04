@@ -9,7 +9,7 @@ export const frontPocketFacing = {
   options: {
     //Pockets
     frontPocketFacingWidth: { pct: 71.4, min: 50, max: 75, menu: 'pockets.frontPockets' },
-    coinPocketsBool: { pct: true, menu: 'pockets.coinPockets' },
+    coinPocketsBool: { pct: true, menu: 'pockets' },
     coinPocketWidth: { pct: 53.6, min: 50, max: 60, menu: 'pockets.coinPockets' },
     coinPocketHorizontal: { pct: 14.3, min: 14, max: 15, menu: 'pockets.coinPockets' },
     coinPocketVertical: { pct: 13.3, min: 13, max: 14, menu: 'pockets.coinPockets' },

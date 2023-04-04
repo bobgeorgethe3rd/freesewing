@@ -82,6 +82,11 @@ async function addDesign() {
         description: 'For jumpsuit & romper desgins',
       },
       {
+        title: 'Pockets',
+        value: 'pockets',
+        description: 'For pocket desgins',
+      },
+      {
         title: 'Skirts',
         value: 'skirts',
         description: 'For skirt desgins',

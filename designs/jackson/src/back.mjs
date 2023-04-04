@@ -16,8 +16,9 @@ export const back = {
     backPocketPlacement: { pct: 73.5, min: 70, max: 100, menu: 'pockets.backPockets' },
     backPocketWidth: { pct: 21.8, min: 15, max: 22.5, menu: 'pockets.backPockets' }, //20.8
     backPocketDepth: { pct: 11.9, min: 8, max: 15, menu: 'pockets.backPockets' }, //11
-    patchPocketWidthOffset: { pct: 17.6, min: 0, max: 20, menu: 'pockets.backPockets' },
-    backPocketPeak: { pct: 26.9, min: 0, max: 30, menu: 'pockets.backPockets' },
+    patchPocketBottomWidth: { pct: 82.4, min: 80, max: 100, menu: 'pockets.backPockets' },
+    patchPocketPeak: { pct: 49.2, min: 0, max: 50, menu: 'pockets.backPockets' },
+    //remove sidePockets when making caleb, keeping for now.
     sidePocketsBool: { bool: false, menu: 'pockets' },
     sidePocketBalance: { pct: 50, min: 40, max: 70, menu: 'pockets.sidePockets' },
     sidePocketPlacement: { pct: 6, min: 0, max: 8, menu: 'pockets.sidePockets' },
@@ -115,6 +116,8 @@ export const back = {
       points.dartTip.dist(points.dartSeat) * (1 - options.backPocketPlacement)
     let backPocketWidth = measurements.waist * options.backPocketWidth
     let backPocketDepth = measurements.waistToFloor * options.backPocketDepth
+    let backPocketPeak =
+      ((backPocketWidth * options.patchPocketBottomWidth) / 2) * options.patchPocketPeak
     let sidePocketPlacement =
       drawOutseam().length() -
       measurements.waistToKnee * (1 - options.sidePocketPlacement) +
@@ -241,21 +244,21 @@ export const back = {
         points.backPocketBottomLeft = points.backPocketBottomMid
           .shiftTowards(
             points.backPocketTopMid,
-            (backPocketWidth * (1 - options.patchPocketWidthOffset)) / 2
+            (backPocketWidth * options.patchPocketBottomWidth) / 2
           )
           .rotate(90, points.backPocketBottomMid)
         points.backPocketBottomRight = points.backPocketBottomLeft.rotate(
           180,
           points.backPocketBottomMid
         )
-        points.backPocketPeak = points.backPocketTopMid.shiftFractionTowards(
+        points.patchPocketPeak = points.backPocketTopMid.shiftOutwards(
           points.backPocketBottomMid,
-          1 + options.backPocketPeak
+          backPocketPeak
         )
         paths.backPocket = new Path()
           .move(points.backPocketTopIn)
           .line(points.backPocketBottomLeft)
-          .line(points.backPocketPeak)
+          .line(points.patchPocketPeak)
           .line(points.backPocketBottomRight)
           .line(points.backPocketTopOut)
           .attr('class', 'interfacing lashed')
