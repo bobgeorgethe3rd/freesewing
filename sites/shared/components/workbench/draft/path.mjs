@@ -463,7 +463,7 @@ export const pathInfo = (props) => {
             <tbody>
               <Tr>
                 <KeyTd>Name</KeyTd>
-                <ValTd>{props.path.name}</ValTd>
+                <ValTd>{props.pathName}</ValTd>
               </Tr>
               <Tr>
                 <KeyTd>Length</KeyTd>
