@@ -80,13 +80,23 @@ export const centreFront = {
         to: points.cutOnFoldTo,
         grainline: true,
       })
+      //dart
+      let titleNum
+      if (options.frontDart == 'dart') {
+        paths.dart = new Path()
+          .move(points.waist0Left)
+          .line(points.dartTopD)
+          .line(points.waist1Right)
+          .attr('class', 'fabric help')
+        titleNum = 1
+      } else titleNum = '1a'
       //title
       points.title = new Point(
         points.waist0Left.x,
         points.waist0Cp2.y + (points.cfHem.y - points.cfWaist.y) / 3
       )
       macro('title', {
-        nr: 1,
+        nr: titleNum,
         title: 'Centre Front',
         at: points.title,
       })
@@ -95,14 +105,6 @@ export const centreFront = {
       macro('scalebox', {
         at: points.scalebox,
       })
-      //dart
-      if (options.frontDart == 'dart') {
-        paths.dart = new Path()
-          .move(points.waist0Left)
-          .line(points.dartTopD)
-          .line(points.waist1Right)
-          .attr('class', 'fabric help')
-      }
       //facings
       points.cfHemFacing = points.cfHem.shiftTowards(
         points.cfWaist,
