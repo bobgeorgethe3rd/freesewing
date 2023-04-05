@@ -60,7 +60,15 @@
       "tags": ["pockets"]
     }
   },
-  "skirts": {},
+  "skirts": {
+    "wanda": {
+      "description": "1895 Keystone Jacket and Dress Cutter Walking Skirt",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["skirts", "walkingskirts", "keystone"]
+    }
+  },
   "sleeves": {
     "basicsleeve": {
       "description": "Basic sleeve that can be used as is or extended",
