@@ -35,11 +35,11 @@ export const waistband = {
     if (options.useVoidStores) {
       void store.setIfUnset('waistbandLength', 900)
       void store.setIfUnset('waistbandWidth', 50)
-      void store.setIfUnset('waistbandBack', store.get('waistbandLength') * 0.55)
       void store.setIfUnset('placketWidth', 40)
     } else {
       void store.setIfUnset('placketWidth', 0)
     }
+    void store.setIfUnset('waistbandBack', store.get('waistbandLength') * 0.5)
     void store.setIfUnset('overlap', store.get('waistbandLength') * options.waistbandOverlap)
 
     let length = store.get('waistbandLength')

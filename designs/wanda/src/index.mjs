@@ -6,12 +6,13 @@ import { data } from '../data.mjs'
 import { skirtBase } from './skirtBase.mjs'
 import { centreFront } from './centreFront.mjs'
 import { sideFront } from './sideFront.mjs'
+import { sidePanel } from './sidePanel.mjs'
 
 // Create new design
 const Wanda = new Design({
   data,
-  parts: [skirtBase, centreFront, sideFront],
+  parts: [skirtBase, centreFront, sideFront, sidePanel],
 })
 
 // Named exports
-export { skirtBase, centreFront, sideFront, Wanda }
+export { skirtBase, centreFront, sideFront, sidePanel, Wanda }

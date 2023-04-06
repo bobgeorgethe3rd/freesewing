@@ -143,25 +143,23 @@ export const centreFront = {
         .attr('data-text-class', 'center')
 
       if (!options.waistband) {
-        let cFWaistFacingCpDistance =
-          (4 / 3) *
-          points.origin.dist(points.waistFacingD) *
-          Math.tan(
-            utils.deg2rad(
-              (points.origin.angle(points.cfWaist) - points.origin.angle(points.waistFacingD)) / 4
-            )
-          )
-
         points.cfWaistFacing = points.cfWaist.shiftTowards(
           points.cfHem,
           points.waistD.dist(points.waistFacingD)
         )
-        points.cfWaistFacingCp1 = points.cfWaistFacing
-          .shiftTowards(points.cfWaist, cFWaistFacingCpDistance)
-          .rotate(90, points.cfWaistFacing)
-        points.waistFacingDCp2 = points.waistFacingD
-          .shiftTowards(points.waistD, cFWaistFacingCpDistance)
-          .rotate(-90, points.waistFacingD)
+
+        points.cfWaistFacingCp1 = utils.beamsIntersect(
+          points.cfHemCp1,
+          points.origin,
+          points.cfWaistFacing,
+          points.origin.rotate(90, points.cfWaistFacing)
+        )
+        points.waistFacingDCp2 = utils.beamsIntersect(
+          points.hemDCp2,
+          points.origin,
+          points.waistFacingD,
+          points.origin.rotate(-90, points.waistFacingD)
+        )
 
         const drawWaistFacing = () => {
           if (options.frontDart == 'dart') {
