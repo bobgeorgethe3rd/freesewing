@@ -24,6 +24,13 @@ export const CoreSettingMm = (props) => {
     props.updateGist([props.setting], props.dflt)
   }
 
+  let step
+  if (props.gist.units == 'imperial') {
+    step = 0.15875
+  } else {
+    step = 1
+  }
+
   return (
     <div className="py-4 mx-6 border-l-2 pl-2">
       <p className="m-0 p-0 px-2 mb-2 text-base-content opacity-60 italic">
@@ -47,7 +54,7 @@ export const CoreSettingMm = (props) => {
         type="range"
         max={max}
         min={min}
-        step={1}
+        step={step}
         value={value}
         onChange={handleChange}
         className={`

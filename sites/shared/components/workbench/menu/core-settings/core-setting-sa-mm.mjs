@@ -13,6 +13,8 @@ export const CoreSettingSaMm = (props) => {
   const handleChange = (evt) => {
     const newVal = parseFloat(evt.target.value)
 
+    setValue(step)
+
     setValue(newVal)
     if (props.gist.saBool)
       props.setGist({
@@ -26,6 +28,13 @@ export const CoreSettingSaMm = (props) => {
     setValue(dflt)
     props.updateGist(['saMm'], dflt)
     props.updateGist(['sa'], dflt)
+  }
+
+  let step
+  if (props.gist.units == 'imperial') {
+    step = 0.15875
+  } else {
+    step = 1
   }
 
   return (
@@ -49,7 +58,7 @@ export const CoreSettingSaMm = (props) => {
         type="range"
         max={max}
         min={min}
-        step={1}
+        step={step}
         value={value}
         onChange={handleChange}
         className={`
