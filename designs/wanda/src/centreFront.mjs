@@ -10,6 +10,7 @@ export const centreFront = {
     //Construction
     frontDart: { dflt: 'dart', list: ['seam', 'dart'], menu: 'construction' },
     skirtHemWidth: { pct: 1, min: 1, max: 10, menu: 'construction' },
+    waistFacingSaWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   draft: ({
     store,
@@ -123,7 +124,7 @@ export const centreFront = {
         points.origin.rotate(90, points.cfHemFacing)
       )
 
-      const drawFacing = () => {
+      const drawHemFacing = () => {
         if (options.frontDart == 'dart') {
           return new Path()
             .move(points.hemFacingE)
@@ -136,12 +137,83 @@ export const centreFront = {
         }
       }
 
-      paths.hemFacing = drawFacing()
+      paths.hemFacing = drawHemFacing()
         .attr('class', 'interfacing')
-        .attr('data-text', 'Facing - Line')
+        .attr('data-text', 'Hem Facing - Line')
         .attr('data-text-class', 'center')
 
+      if (!options.waistband) {
+        let cFWaistFacingCpDistance =
+          (4 / 3) *
+          points.origin.dist(points.waistFacingD) *
+          Math.tan(
+            utils.deg2rad(
+              (points.origin.angle(points.cfWaist) - points.origin.angle(points.waistFacingD)) / 4
+            )
+          )
+
+        points.cfWaistFacing = points.cfWaist.shiftTowards(
+          points.cfHem,
+          points.waistD.dist(points.waistFacingD)
+        )
+        points.cfWaistFacingCp1 = points.cfWaistFacing
+          .shiftTowards(points.cfWaist, cFWaistFacingCpDistance)
+          .rotate(90, points.cfWaistFacing)
+        points.waistFacingDCp2 = points.waistFacingD
+          .shiftTowards(points.waistD, cFWaistFacingCpDistance)
+          .rotate(-90, points.waistFacingD)
+
+        const drawWaistFacing = () => {
+          if (options.frontDart == 'dart') {
+            return new Path()
+              .move(points.waistFacingE)
+              .curve(points.waistFacingECp2, points.waistFacingDCp1, points.waistFacingD)
+              .curve(points.waistFacingDCp2, points.cfWaistFacingCp1, points.cfWaistFacing)
+          } else {
+            return new Path()
+              .move(points.waistFacingD)
+              .curve(points.waistFacingDCp2, points.cfWaistFacingCp1, points.cfWaistFacing)
+          }
+        }
+
+        paths.waistFacing = drawWaistFacing()
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Waist Facing - Line')
+          .attr('data-text-class', 'center')
+      }
+
       if (sa) {
+        if (!options.waistband) {
+          const drawWaistFacingSaBase = () => {
+            if (options.frontDart == 'dart') {
+              return new Path()
+                .move(points.cfWaist)
+                .curve(points.waist0Cp1, points.waist0Cp2, points.waistPanel0)
+                .curve(points.waist0Cp3, points.waist0Cp4, points.waist0Left)
+                .line(points.dartTopD)
+                .line(points.waist1Right)
+                .curve(points.waist1Cp1, points.waist1Cp2, points.waistPanel1)
+                .curve(points.waist1Cp3, points.waist1Cp4, points.waist1Left)
+                .curve(points.dartTipECp1, points.dartTipECp2, points.dartTipE)
+                .line(points.waistFacingE)
+            } else {
+              return new Path()
+                .move(points.cfWaist)
+                .curve(points.waist0Cp1, points.waist0Cp2, points.waistPanel0)
+                .curve(points.waist0Cp3, points.waist0Cp4, points.waist0Left)
+                .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
+                .line(points.waistFacingD)
+            }
+          }
+          paths.waistFacingSa = paths.waistFacing
+            .offset(sa * options.waistFacingSaWidth * 100)
+            .line(points.cfWaistFacing)
+            .line(points.cfWaist)
+            .join(drawWaistFacingSaBase().offset(sa))
+            .close()
+            .attr('class', 'interfacing sa')
+        }
+
         const drawSaBase = () => {
           if (options.frontDart == 'dart') {
             return new Path()
@@ -164,11 +236,11 @@ export const centreFront = {
           }
         }
 
-        paths.facingSa = drawHemBase()
+        paths.hemFacingSa = drawHemBase()
           .offset(sa * options.skirtHemWidth * 100)
           .line(points.cfHem)
           .line(points.cfWaist)
-          .join(drawFacing().reverse().line(drawHemBase().start()).offset(sa))
+          .join(drawHemFacing().reverse().line(drawHemBase().start()).offset(sa))
           .attr('class', 'interfacing sa')
 
         paths.sa = drawHemBase()
