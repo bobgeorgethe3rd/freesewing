@@ -4,13 +4,13 @@ export const centreFront = {
   name: 'wanda.centreFront',
   from: skirtBase,
   hide: {
-    // from: true
+    from: true,
   },
   options: {
     //Construction
     frontDart: { dflt: 'dart', list: ['seam', 'dart'], menu: 'construction' },
     skirtHemWidth: { pct: 1, min: 1, max: 10, menu: 'construction' },
-    waistFacingSaWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
+    waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   draft: ({
     store,
@@ -204,7 +204,7 @@ export const centreFront = {
             }
           }
           paths.waistFacingSa = paths.waistFacing
-            .offset(sa * options.waistFacingSaWidth * 100)
+            .offset(sa * options.waistFacingHemWidth * 100)
             .line(points.cfWaistFacing)
             .line(points.cfWaist)
             .join(drawWaistFacingSaBase().offset(sa))

@@ -541,13 +541,6 @@ export const skirtBase = {
       // .curve(points.waistFacing6UCp2, points.waistFacingFCp1, points.waistFacingF)
     }
 
-    // points.hemFacingKCp1B = points.hemKCp1B.shiftTowards(points.origin, skirtHemFacingWidth)
-    // points.hemFacingLCp2 = points.hemLCp2.shiftTowards(points.origin, skirtHemFacingWidth)
-    // points.hemFacingL = points.hemL.shiftTowards(points.origin, skirtHemFacingWidth)
-    // points.hemFacingLCp1 = points.hemLCp1.shiftTowards(points.origin, skirtHemFacingWidth)
-    // points.hemFacingEndCp2 = points.hemEndCp2.shiftTowards(points.origin, skirtHemFacingWidth)
-    // points.hemFacingEnd = points.hemEnd.shiftTowards(points.origin, skirtHemFacingWidth)
-
     points.hemFacingK = points.hemK.shiftTowards(points.origin, skirtHemFacingWidth)
     points.hemFacingF = points.hemF.shiftTowards(points.origin, skirtHemFacingWidth)
     points.hemFacingE = points.hemE.shiftTowards(points.origin, skirtHemFacingWidth)

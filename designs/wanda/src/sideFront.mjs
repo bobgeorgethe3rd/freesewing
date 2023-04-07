@@ -4,7 +4,7 @@ export const sideFront = {
   name: 'wanda.sideFront',
   from: skirtBase,
   hide: {
-    // from: true
+    from: true,
   },
   options: {},
   draft: ({

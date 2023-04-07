@@ -4,7 +4,7 @@ export const sidePanel = {
   name: 'wanda.sidePanel',
   from: skirtBase,
   hide: {
-    // from: true
+    from: true,
   },
   options: {
     //Style
@@ -99,18 +99,26 @@ export const sidePanel = {
       let titleNum
       let titleName
       if (options.sideDart == 'dart') {
+        titleNum = 2
+
         paths.dart = new Path()
           .move(points.waist2Left)
           .line(points.dartTopF)
           .line(points.waist3Right)
           .attr('class', 'fabric help')
-        titleNum = 2
-        titleName = 'Side Panel'
+
+        if (options.style == 'straight') {
+          titleName = 'Back Panel'
+        } else titleName = 'Side Panel'
       } else {
         titleNum = '2a'
-        titleName = 'Side Panel A'
+        if (options.style == 'straight') {
+          titleName = 'Back Panel A'
+        } else titleName = 'Side Panel A'
       }
+
       //title
+
       points.title = points.origin.shiftOutwards(
         points.waistPanel2,
         points.waistE.dist(points.hemE) * 0.45
@@ -202,11 +210,16 @@ export const sidePanel = {
           .attr('data-text-class', 'center')
       }
       //pleats
-      if (options.pleats) {
+      if (options.pleats && options.sideDart == 'dart') {
         let pleatKeep = store.get('pleatKeep')
         let pleatLengthStraight = store.get('pleatLengthStraight')
         let pleatLengthBell = store.get('pleatLengthBell')
         let pleatLengthUmbrella = store.get('pleatLengthUmbrella')
+
+        paths.pleatLine = new Path()
+          .move(points.waist3Right)
+          .curve(points.waist3Cp1, waist3Cp2, waist3Left)
+          .hide()
 
         for (let i = 0; i < options.pleatNumber; i++) {
           if (options.style == 'straight') {
@@ -225,13 +238,7 @@ export const sidePanel = {
               .attr('data-text-class', 'center')
           }
           if (options.style == 'bell') {
-            if (
-              pleatKeep + (pleatKeep + pleatLengthBell) * i <
-              new Path()
-                .move(points.waist3Right)
-                .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
-                .length()
-            ) {
+            if (pleatKeep + (pleatKeep + pleatLengthBell) * i < paths.pleatLine.length()) {
               paths['pleatFromB' + i] = new Path()
                 .move(points['pleatFromTopB' + i])
                 .line(points['pleatFromBottomB' + i])
@@ -239,13 +246,7 @@ export const sidePanel = {
                 .attr('data-text', 'Pleat - From')
                 .attr('data-text-class', 'center')
             }
-            if (
-              (pleatKeep + pleatLengthBell) * (i + 1) <
-              new Path()
-                .move(points.waist3Right)
-                .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
-                .length()
-            ) {
+            if ((pleatKeep + pleatLengthBell) * (i + 1) < paths.pleatLine.length()) {
               paths['pleatToB' + i] = new Path()
                 .move(points['pleatToTopB' + (i + 1)])
                 .line(points['pleatToBottomB' + (i + 1)])
@@ -255,13 +256,7 @@ export const sidePanel = {
             }
           }
           if (options.style == 'umbrella') {
-            if (
-              pleatKeep + (pleatKeep + pleatLengthUmbrella) * i <
-              new Path()
-                .move(points.waist3Right)
-                .curve(points.waist3Cp1, points.waist3Cp2U, points.waist6)
-                .length()
-            ) {
+            if (pleatKeep + (pleatKeep + pleatLengthUmbrella) * i < paths.pleatLine.length()) {
               paths['pleatFromU' + i] = new Path()
                 .move(points['pleatFromTopU' + i])
                 .line(points['pleatFromBottomU' + i])
@@ -269,13 +264,7 @@ export const sidePanel = {
                 .attr('data-text', 'Pleat - From')
                 .attr('data-text-class', 'center')
             }
-            if (
-              (pleatKeep + pleatLengthUmbrella) * (i + 1) <
-              new Path()
-                .move(points.waist3Right)
-                .curve(points.waist3Cp1, points.waist3Cp2U, points.waist6)
-                .length()
-            ) {
+            if ((pleatKeep + pleatLengthUmbrella) * (i + 1) < paths.pleatLine.length()) {
               paths['pleatToU' + i] = new Path()
                 .move(points['pleatToTopU' + (i + 1)])
                 .line(points['pleatToBottomU' + (i + 1)])
@@ -288,6 +277,50 @@ export const sidePanel = {
       }
 
       if (sa) {
+        paths.hemFacingSa = drawHemBase()
+          .offset(sa * options.skirtHemWidth * 100)
+          .join(
+            new Path()
+              .move(points.hemE)
+              .line(points.hemFacingE)
+              .join(paths.hemFacing.reverse())
+              .line(drawHemBase().start())
+              .offset(sa)
+          )
+          .close()
+          .attr('class', 'interfacing sa')
+
+        if (!options.waistband) {
+          const drawWaistFacingSaBase = () => {
+            if (options.sideDart == 'dart') {
+              return new Path()
+                .move(points.waistFacingE)
+                .line(points.dartTipE)
+                .curve(points.dartTipECp2, points.dartTipECp3, points.waist2Right)
+                .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
+                .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
+                .line(points.dartTopF)
+                .line(points.waist3Right)
+                .curve(points.waist3Cp1, waist3Cp2, waist3Left)
+                .line(paths.waistFacing.start())
+            } else {
+              return new Path()
+                .move(points.waistFacingE)
+                .line(points.dartTipE)
+                .curve(points.dartTipECp2, points.dartTipECp3, points.waist2Right)
+                .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
+                .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
+                .curve(points.dartTipFCp1, points.dartTipFCp2, points.dartTipF)
+                .line(points.waistFacingF)
+            }
+          }
+          paths.waistFacingSa = paths.waistFacing
+            .offset(sa * options.waistFacingHemWidth * 100)
+            .join(drawWaistFacingSaBase().offset(sa))
+            .close()
+            .attr('class', 'interfacing sa')
+        }
+
         const drawSaBase = () => {
           if (options.sideDart == 'dart') {
             return new Path()
