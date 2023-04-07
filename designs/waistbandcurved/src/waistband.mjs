@@ -31,7 +31,7 @@ export const waistband = {
     Snippet,
     log,
   }) => {
-    //clashing protectino
+    //clashing protection
     if (store.get('waistbandLength') == store.get('waistbandLengthTop')) {
       part.hide()
       log.info(
