@@ -50,13 +50,19 @@ export const skirtBase = {
     hipDartWidth: { pct: (5 / 96) * 100, min: (1 / 32) * 100, max: (1 / 16) * 100, menu: 'darts' },
     dartLength: { pct: (9 / 80) * 100, min: (1 / 10) * 100, max: (3 / 20) * 100, menu: 'darts' },
     dartExtension: { pct: 0.75, min: 0.5, max: 1, menu: 'darts' },
+    //Pockets
+    pocketsBool: { bool: true, menu: 'pockets' },
+    watchPocket: { bool: true, menu: 'pockets.watchPockets' },
+    watchPocketWidth: { pct: 7.5, min: 5, max: 10, menu: 'pockets.watchPockets' },
+    watchPocketDepth: { pct: 6.25, min: 5, max: 10, menu: 'pockets.watchPockets' },
 
     //Construction
     skirtWaistFacingWidth: { pct: 25, min: 0, max: 50, menu: 'construction' },
     skirtHemFacingWidth: { pct: (11 / 40) * 100, min: 20, max: 35, menu: 'construction' },
-    closurePosition: { dflt: 'back', list: ['back', 'side'], menu: 'construction' }, //altered for Wanda
+    waistbandClosurePosition: { dflt: 'back', list: ['back', 'side'], menu: 'construction' }, //altered for Wanda
     //Advanced
     calculateWaistbandDiff: { bool: false, menu: 'advanced.fit' },
+    scalePockets: { bool: true, menu: 'advanced.pockets' },
   },
   measurements: ['waist', 'waistToFloor'],
   optionalMeasurements: ['hips', 'waistToHips'],
@@ -719,6 +725,22 @@ export const skirtBase = {
       store.set('pleatLengthUmbrella', pleatLengthUmbrella)
     }
 
+    //Pockets
+    if (options.pocketsBool) {
+      if (options.watchPocket) {
+        let watchPocketDepth
+        let watchPocketWidth
+        if (options.scalePockets) {
+          watchPocketDepth = (measurements.waistToFloor * 1) / 16
+          watchPocketWidth = (measurements.waistToFloor * 3) / 40
+        } else {
+          watchPocketDepth = 63.5
+          watchPocketWidth = 76.2
+        }
+        store.set('watchPocketWidth', watchPocketWidth)
+        store.set('watchPocketDepth', watchPocketDepth)
+      }
+    }
     //stores
     store.set('fullWaist', fullWaist)
     store.set('frontLength', frontLength)

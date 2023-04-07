@@ -1,10 +1,8 @@
-import { waistband as waistbandS } from '@freesewing/waistbandstraight'
-import { placket } from './placket.mjs'
+import { pocket as draftWatchPocket } from '@freesewing/watchpocket'
 
-export const waistbandStraight = {
-  name: 'wanda.waistbandStraight',
-  after: placket,
-  from: waistbandS,
+export const watchPocket = {
+  name: 'wanda.watchPocket',
+  from: draftWatchPocket,
   hide: {
     from: true,
   },
@@ -27,10 +25,7 @@ export const waistbandStraight = {
     absoluteOptions,
   }) => {
     //set Render
-    if (
-      (options.waistbandStyle != 'straight' && options.calculateWaistbandDiff) ||
-      !options.waistband
-    ) {
+    if (!options.watchPocket || !options.pocketsBool) {
       part.hide()
       return part
     }
@@ -38,10 +33,10 @@ export const waistbandStraight = {
     if (complete) {
       //title
       macro('title', {
-        nr: 6,
-        title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
+        nr: 7,
+        title: 'Watch Pocket',
         at: points.title,
-        scale: 0.1,
+        scale: 0.25,
       })
     }
 
