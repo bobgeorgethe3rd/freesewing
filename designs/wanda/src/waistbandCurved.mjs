@@ -31,9 +31,11 @@ export const waistbandCurved = {
     if (
       options.waistbandStyle != 'curved' ||
       !options.calculateWaistbandDiff ||
-      !options.waistband ||
-      store.get('waistbandLength') == store.get('waistbandLengthTop')
+      !options.waistband
     ) {
+      if (options.waistbandStyle == 'curved' && options.waistband) {
+        log.info('Curved Waistband requires options.calculateWaistbandDiff to be true')
+      }
       part.hide()
       return part
     }
