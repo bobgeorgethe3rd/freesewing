@@ -225,6 +225,11 @@ titan:
 trayvon:
   peer:
     '@freesewing/snapseries': *freesewing
+wanda:
+  peer:
+    '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/watchpocket': *freesewing
 wahid:
   peer:
     '@freesewing/brian': *freesewing

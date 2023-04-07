@@ -58,6 +58,13 @@
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
       "tags": ["pockets"]
+    },
+    "watchpocket": {
+      "description": "Watch Pocket design to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["pockets"]
     }
   },
   "skirts": {
