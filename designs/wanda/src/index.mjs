@@ -9,12 +9,36 @@ import { sideFront } from './sideFront.mjs'
 import { sidePanel } from './sidePanel.mjs'
 import { sidePanelB } from './sidePanelB.mjs'
 import { backPanel } from './backPanel.mjs'
+import { placket } from './placket.mjs'
+import { waistbandStraight } from './waistbandStraight.mjs'
+import { waistbandCurved } from './waistbandCurved.mjs'
 
 // Create new design
 const Wanda = new Design({
   data,
-  parts: [skirtBase, centreFront, sideFront, sidePanel, sidePanelB, backPanel],
+  parts: [
+    skirtBase,
+    centreFront,
+    sideFront,
+    sidePanel,
+    sidePanelB,
+    backPanel,
+    placket,
+    waistbandStraight,
+    waistbandCurved,
+  ],
 })
 
 // Named exports
-export { skirtBase, centreFront, sideFront, sidePanel, sidePanelB, backPanel, Wanda }
+export {
+  skirtBase,
+  centreFront,
+  sideFront,
+  sidePanel,
+  sidePanelB,
+  backPanel,
+  placket,
+  waistbandStraight,
+  waistbandCurved,
+  Wanda,
+}

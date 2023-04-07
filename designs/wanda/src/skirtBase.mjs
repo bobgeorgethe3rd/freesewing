@@ -9,7 +9,7 @@ export const skirtBase = {
     sideWaistFront: 4, //just in case we want a different size side front panel
     fullDress: false, //This allows for the skirtBase to be extended out and used for Diagram 77, "The Full Dress Skirt"
     sidePanelFullness: 3 / 8, //This is changed to an optional optional for 50% to 75% for Diagram 77, "The Full Dress Skirt"
-
+    useVoidStores: false, //locked for Wanda
     //Fit
     waistEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
 
@@ -23,6 +23,17 @@ export const skirtBase = {
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     },
+    waistbandStyle: {
+      dflt: 'straight',
+      list: ['straight', 'curved'],
+      menu: 'style',
+    },
+    waistbandOverlapSide: {
+      dflt: 'right',
+      list: ['right', 'left'],
+      menu: 'style',
+    }, //altered for Wanda
+    waistbandFolded: { bool: true, menu: 'style' }, //altered for Wanda
     skirtLengthBonus: { pct: -2, min: -30, max: 10, menu: 'style' },
     umbrellaFullness: { pct: (5 / 12) * 100, min: 40, max: 50, menu: 'style' },
     umbrellaExtenstion: { pct: (1 / 16) * 100, min: 6, max: 10, menu: 'style' },
@@ -43,7 +54,7 @@ export const skirtBase = {
     //Construction
     skirtWaistFacingWidth: { pct: 25, min: 0, max: 50, menu: 'construction' },
     skirtHemFacingWidth: { pct: (11 / 40) * 100, min: 20, max: 35, menu: 'construction' },
-
+    closurePosition: { dflt: 'back', list: ['back', 'side'], menu: 'construction' }, //altered for Wanda
     //Advanced
     calculateWaistbandDiff: { bool: false, menu: 'advanced.fit' },
   },
@@ -712,6 +723,11 @@ export const skirtBase = {
     store.set('fullWaist', fullWaist)
     store.set('frontLength', frontLength)
     store.set('skirtHemFacingWidth', skirtHemFacingWidth)
+
+    store.set('waistbandWidth', waistbandWidth)
+    store.set('waistbandLength', fullWaist)
+    store.set('waistbandLengthTop', measurements.waist * (1 + options.waistEase))
+    store.set('maxButtons', 1)
 
     //Uncomment to see how the scaffolding. Helpful if re-working please keep.
     paths.cfWaist = new Path()
