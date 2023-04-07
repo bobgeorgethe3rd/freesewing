@@ -31,7 +31,8 @@ export const waistbandCurved = {
     if (
       options.waistbandStyle != 'curved' ||
       !options.calculateWaistbandDiff ||
-      !options.waistband
+      !options.waistband ||
+      store.get('waistbandLength') == store.get('waistbandLengthTop')
     ) {
       part.hide()
       return part

@@ -29,7 +29,16 @@ export const waistband = {
     part,
     snippets,
     Snippet,
+    log,
   }) => {
+    //clashing protectino
+    if (store.get('waistbandLength') == store.get('waistbandLengthTop')) {
+      part.hide()
+      log.info(
+        'Curved Waistband unavailable due to waistbandLength & waistbandLengthTop being the same'
+      )
+      return part
+    }
     //measures
     if (options.useVoidStores) {
       void store.setIfUnset('waistbandLength', 900)
