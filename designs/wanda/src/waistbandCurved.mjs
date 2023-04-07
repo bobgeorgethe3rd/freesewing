@@ -1,9 +1,10 @@
 import { waistband as waistbandC } from '@freesewing/waistbandcurved'
+import { skirtBase } from './skirtBase.mjs'
 import { placket } from './placket.mjs'
 
 export const waistbandCurved = {
   name: 'wanda.waistbandCurved',
-  after: placket,
+  after: [placket, skirtBase],
   from: waistbandC,
   hide: {
     from: true,
