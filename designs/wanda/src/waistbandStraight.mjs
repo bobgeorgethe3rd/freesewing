@@ -45,8 +45,6 @@ export const waistbandStraight = {
         scale: 0.1,
       })
       //pleat lines
-      let pleatFrom0
-      let pleatFrom1
       if (options.waistbandClosurePosition == 'back') {
         points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
         points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
