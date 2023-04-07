@@ -143,11 +143,6 @@ export const centreFront = {
         .attr('data-text-class', 'center')
 
       if (!options.waistband) {
-        points.cfWaistFacing = points.cfWaist.shiftTowards(
-          points.cfHem,
-          points.waistD.dist(points.waistFacingD)
-        )
-
         points.cfWaistFacingCp1 = utils.beamsIntersect(
           points.cfHemCp1,
           points.origin,

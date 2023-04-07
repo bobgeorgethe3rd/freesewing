@@ -483,6 +483,7 @@ export const skirtBase = {
 
     //facings
     if (!options.waistband) {
+      points.cfWaistFacing = points.cfWaist.shiftTowards(points.cfHem, skirtWaistFacingWidth)
       points.waistFacingD = points.waistD.shiftTowards(points.dartTipD, skirtWaistFacingWidth)
       points.waistFacingE = points.waistE.shiftTowards(points.dartTipE, skirtWaistFacingWidth)
       points.waistFacingF = points.waistF.shiftTowards(points.dartTipF, skirtWaistFacingWidth)

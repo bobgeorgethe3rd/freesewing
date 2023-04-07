@@ -112,7 +112,7 @@ export const sidePanelB = {
           .move(waistFacing6)
           .curve(waistFacing6Cp2, points.waistFacingFCp1, points.waistFacingF)
           .attr('class', 'interfacing')
-          .attr('data-text', 'Hem Facing - Line')
+          .attr('data-text', 'Waist Facing - Line')
           .attr('data-text-class', 'center')
       }
       //pleats
