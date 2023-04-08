@@ -56,6 +56,42 @@ export const waistbandCurved = {
         at: points.title,
         scale: 0.1,
       })
+      //pleat lines
+      if (options.waistbandClosurePosition == 'back') {
+        points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(1 / 8)
+        points.pleatTo1 = points.pleatTo0.flipX(points.bottomMid)
+      } else {
+        points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(5 / 8)
+        points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
+      }
+
+      if (points.origin < points.bottomMid) {
+        points.pleatFrom0 = points.origin.shiftOutwards(
+          points.pleatTo0,
+          points.topMid.dist(points.bottomMid)
+        )
+        points.pleatFrom1 = points.origin.shiftOutwards(
+          points.pleatTo1,
+          points.topMid.dist(points.bottomMid)
+        )
+      } else {
+        points.pleatFrom0 = points.pleatTo0.shiftTowards(
+          points.origin,
+          points.topMid.dist(points.bottomMid)
+        )
+        points.pleatFrom1 = points.pleatTo1.shiftTowards(
+          points.origin,
+          points.topMid.dist(points.bottomMid)
+        )
+      }
+      for (let i = 0; i < 2; i++) {
+        paths['pleatStart' + i] = new Path()
+          .move(points['pleatFrom' + i])
+          .line(points['pleatTo' + i])
+          .attr('class', 'mark')
+          .attr('data-text', 'Pleats Start')
+          .attr('data-text-class', 'center')
+      }
     }
 
     return part
