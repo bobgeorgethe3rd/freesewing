@@ -726,21 +726,18 @@ export const skirtBase = {
     }
 
     //Pockets
-    if (options.pocketsBool) {
-      if (options.watchPocket) {
-        let watchPocketDepth
-        let watchPocketWidth
-        if (options.scalePockets) {
-          watchPocketDepth = (measurements.waistToFloor * 1) / 16
-          watchPocketWidth = (measurements.waistToFloor * 3) / 40
-        } else {
-          watchPocketDepth = 63.5
-          watchPocketWidth = 76.2
-        }
-        store.set('watchPocketWidth', watchPocketWidth)
-        store.set('watchPocketDepth', watchPocketDepth)
-      }
+    let watchPocketDepth
+    let watchPocketWidth
+    if (options.scalePockets) {
+      watchPocketDepth = (measurements.waistToFloor * 1) / 16
+      watchPocketWidth = (measurements.waistToFloor * 3) / 40
+    } else {
+      watchPocketDepth = 63.5
+      watchPocketWidth = 76.2
     }
+    store.set('watchPocketWidth', watchPocketWidth)
+    store.set('watchPocketDepth', watchPocketDepth)
+
     //stores
     store.set('fullWaist', fullWaist)
     store.set('frontLength', frontLength)
