@@ -52,6 +52,13 @@
   "jackets": {},
   "jumpsuits": {},
   "pockets": {
+    "inseampocket": {
+      "description": "Inseam Pocket design to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["pockets"]
+    },
     "patchpocket": {
       "description": "Patch Pocket design to be used in other designs",
       "code": "bobgeorgethe3rd",
