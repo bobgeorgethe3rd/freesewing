@@ -15,7 +15,7 @@ export const pocket = {
     inseamPocketCurveRight: { pct: 75, min: 0, max: 100, menu: 'pockets.inseamPockets' },
     inseamPocketToAnchor: { pct: 100, min: 0, max: 100, menu: 'pockets.inseamPockets' },
     //Construction
-    pocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'pockets.inseamPockets' },
+    pocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
     //Advanced
     inseamPocketCurveLeftBalance: { pct: 100, min: 0, max: 100, menu: 'advanced' },
   },
