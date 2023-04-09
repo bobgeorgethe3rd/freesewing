@@ -7,15 +7,15 @@ export const pocket = {
     useVoidStores: true,
     //Pockets
     inseamPocketWidth: { pct: 50, min: 40, max: 200, menu: 'pockets.inseamPockets' },
-    inseamPocketOpening: { pct: 6.4, min: 5, max: 15, menu: 'pockets.inseamPockets' },
-    inseamPocketOpeningLength: { pct: 63.5, min: 40, max: 70, menu: 'pockets.inseamPockets' },
+    pocketOpening: { pct: 6.4, min: 5, max: 15, menu: 'pockets' },
+    pocketOpeningLength: { pct: 63.5, min: 40, max: 70, menu: 'pockets' },
     inseamPocketDepth: { pct: 18.5, min: 15, max: 40, menu: 'pockets.inseamPockets' },
     inseamPocketAngle: { deg: 15, min: 0, max: 15, menu: 'pockets.inseamPockets' },
     inseamPocketCurveLeft: { pct: 100, min: 0, max: 100, menu: 'pockets.inseamPockets' },
     inseamPocketCurveRight: { pct: 75, min: 0, max: 100, menu: 'pockets.inseamPockets' },
     inseamPocketToAnchor: { pct: 100, min: 0, max: 100, menu: 'pockets.inseamPockets' },
     //Construction
-    inseamPocketBottomSaWidth: { pct: 2, min: 1, max: 3, menu: 'pockets.inseamPockets' },
+    pocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'pockets.inseamPockets' },
     //Advanced
     inseamPocketCurveLeftBalance: { pct: 100, min: 0, max: 100, menu: 'advanced' },
   },
@@ -46,8 +46,8 @@ export const pocket = {
     void store.setIfUnset('waistbandWidth', 0)
     let width = store.get('anchorSeamLength') * options.inseamPocketWidth
     let openingDepth =
-      store.get('insertSeamLength') * options.inseamPocketOpening - store.get('waistbandWidth')
-    let openingLength = measurements.wrist * options.inseamPocketOpeningLength
+      store.get('insertSeamLength') * options.pocketOpening - store.get('waistbandWidth')
+    let openingLength = measurements.wrist * options.pocketOpeningLength
     let depth = store.get('insertSeamLength') * options.inseamPocketDepth
 
     //let's begin
@@ -157,17 +157,17 @@ export const pocket = {
         void store.setIfUnset('insertSeamSa', sa)
         let anchorSeamSa = store.get('anchorSeamSa')
         let insertSeamSa = store.get('insertSeamSa')
-        let bottomSeamSa = sa * options.inseamPocketBottomSaWidth * 100
+        let pocketBagSaWidth = sa * options.pocketBagSaWidth * 100
 
-        points.curveBLStartSa = points.curveBLStart.translate(-bottomSeamSa, bottomSeamSa)
-        points.curveBLCp1Sa = points.curveBLCp1.translate(-bottomSeamSa, bottomSeamSa)
-        points.curveBLCp2Sa = points.curveBLCp2.translate(-bottomSeamSa, bottomSeamSa)
-        points.curveBRStartSa = points.curveBRStart.shift(-90, bottomSeamSa)
+        points.curveBLStartSa = points.curveBLStart.translate(-pocketBagSaWidth, pocketBagSaWidth)
+        points.curveBLCp1Sa = points.curveBLCp1.translate(-pocketBagSaWidth, pocketBagSaWidth)
+        points.curveBLCp2Sa = points.curveBLCp2.translate(-pocketBagSaWidth, pocketBagSaWidth)
+        points.curveBRStartSa = points.curveBRStart.shift(-90, pocketBagSaWidth)
 
         paths.sa = new Path()
           .move(points.curveBLStartSa)
           .curve(points.curveBLCp1Sa, points.curveBLCp2Sa, points.curveBRStartSa)
-          .join(paths.bottomCurveRight.offset(bottomSeamSa))
+          .join(paths.bottomCurveRight.offset(pocketBagSaWidth))
           .join(paths.anchorSeam.offset(anchorSeamSa))
           .join(paths.insertSeam.offset(insertSeamSa))
           .close()
