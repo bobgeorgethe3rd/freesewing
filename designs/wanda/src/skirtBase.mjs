@@ -748,6 +748,9 @@ export const skirtBase = {
     store.set('waistbandLengthTop', measurements.waist * (1 + options.waistEase))
     store.set('maxButtons', 1)
 
+    store.set('anchorSeamLength', fullWaist / 2)
+    store.set('insertSeamLength', measurements.waistToFloor)
+
     //Uncomment to see how the scaffolding. Helpful if re-working please keep.
     paths.cfWaist = new Path()
       .move(points.cfWaist)

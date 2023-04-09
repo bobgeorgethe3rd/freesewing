@@ -5,14 +5,19 @@ export const pocket = {
   options: {
     //Constants
     useVoidStores: true,
-    // cpFraction: 0.55191502449,
-    //Pocket
+    //Pockets
     inseamPocketWidth: { pct: 50, min: 40, max: 200, menu: 'pockets.inseamPockets' },
     inseamPocketOpening: { pct: 6.4, min: 5, max: 15, menu: 'pockets.inseamPockets' },
     inseamPocketOpeningLength: { pct: 63.5, min: 40, max: 70, menu: 'pockets.inseamPockets' },
     inseamPocketDepth: { pct: 18.5, min: 15, max: 40, menu: 'pockets.inseamPockets' },
     inseamPocketAngle: { deg: 15, min: 0, max: 15, menu: 'pockets.inseamPockets' },
-    inseamPocketCurve: { pct: 50, min: 0, max: 100, menu: 'pockets.inseamPockets' },
+    inseamPocketCurveLeft: { pct: 100, min: 0, max: 100, menu: 'pockets.inseamPockets' },
+    inseamPocketCurveRight: { pct: 75, min: 0, max: 100, menu: 'pockets.inseamPockets' },
+    inseamPocketToAnchor: { pct: 100, min: 0, max: 100, menu: 'pockets.inseamPockets' },
+    //Construction
+    inseamPocketBottomSaWidth: { pct: 2, min: 1, max: 3, menu: 'pockets.inseamPockets' },
+    //Advanced
+    inseamPocketCurveLeftBalance: { pct: 100, min: 0, max: 100, menu: 'advanced' },
   },
   plugins: [pluginBundle],
   measurements: ['wrist'],
@@ -62,8 +67,8 @@ export const pocket = {
     )
 
     points.curveBRStart = points.curveBRAnchor.shiftFractionTowards(
-      points.bottomLeft,
-      options.inseamPocketCurve
+      points.bottomMid,
+      options.inseamPocketCurveRight
     )
     points.curveBREnd = points.curveBRAnchor.shiftTowards(
       points.topRight,
@@ -85,20 +90,88 @@ export const pocket = {
     points.curveBRCp1 = points.curveBRStart.shiftTowards(points.curveBRAnchor, curveBRCPDistance)
     points.curveBRCp2 = points.curveBREnd.shiftTowards(points.curveBRAnchor, curveBRCPDistance)
 
+    points.curveBLStart = points.bottomLeft.shiftFractionTowards(
+      points.openingBottom,
+      options.inseamPocketCurveLeft
+    )
+    points.curveBLCp1Target = new Point(points.curveBRStart.x, points.curveBLStart.y)
+    points.curveBLCp1 = points.curveBLStart.shiftFractionTowards(points.curveBLCp1Target, 0.1)
+    points.curveBLCp2 = points.curveBRStart.shiftFractionTowards(
+      points.bottomLeft,
+      options.inseamPocketCurveLeftBalance
+    )
+
+    points.pocketTopLeft = points.openingTop.shiftFractionTowards(
+      points.topLeft,
+      options.inseamPocketToAnchor
+    )
+    points.pocketTopRight = utils.beamsIntersect(
+      points.pocketTopLeft,
+      points.pocketTopLeft.shift(0, 1),
+      points.topRight,
+      points.curveBREnd
+    )
     //paths
-    paths.guide = new Path()
-      .move(points.topRight)
-      .line(points.topLeft)
-      .line(points.openingTop)
-      .line(points.openingBottom)
-      .line(points.bottomLeft)
-      .line(points.bottomMid)
-      .line(points.curveBRStart)
+    paths.anchorSeam = new Path().move(points.pocketTopRight).line(points.pocketTopLeft).hide()
+
+    paths.insertSeam = new Path().move(points.pocketTopLeft).line(points.curveBLStart).hide()
+
+    paths.bottomCurveRight = new Path()
+      .move(points.curveBRStart)
       .curve(points.curveBRCp1, points.curveBRCp2, points.curveBREnd)
-      .line(points.topRight)
+      .line(points.pocketTopRight)
+      .hide()
+
+    paths.seam = new Path()
+      .move(points.curveBLStart)
+      .curve(points.curveBLCp1, points.curveBLCp2, points.curveBRStart)
+      .join(paths.bottomCurveRight)
+      .join(paths.anchorSeam)
+      .join(paths.insertSeam)
+      .close()
 
     if (complete) {
+      //grainline
+      points.grainlineFrom = points.pocketTopLeft.shiftFractionTowards(points.pocketTopRight, 0.5)
+      points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomLeft.y * 0.9)
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
+      //notches
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['openingTop', 'openingBottom'],
+      })
+      //title
+      points.title = new Point(points.topRight.x * (2 / 3), points.bottomLeft.y / 2)
+      macro('title', {
+        at: points.title,
+        nr: 1,
+        title: 'Inseam Pocket',
+        scale: 0.75,
+      })
+
       if (sa) {
+        void store.setIfUnset('anchorSeamSa', sa)
+        void store.setIfUnset('insertSeamSa', sa)
+        let anchorSeamSa = store.get('anchorSeamSa')
+        let insertSeamSa = store.get('insertSeamSa')
+        let bottomSeamSa = sa * options.inseamPocketBottomSaWidth * 100
+
+        points.curveBLStartSa = points.curveBLStart.translate(-bottomSeamSa, bottomSeamSa)
+        points.curveBLCp1Sa = points.curveBLCp1.translate(-bottomSeamSa, bottomSeamSa)
+        points.curveBLCp2Sa = points.curveBLCp2.translate(-bottomSeamSa, bottomSeamSa)
+        points.curveBRStartSa = points.curveBRStart.shift(-90, bottomSeamSa)
+
+        paths.sa = new Path()
+          .move(points.curveBLStartSa)
+          .curve(points.curveBLCp1Sa, points.curveBLCp2Sa, points.curveBRStartSa)
+          .join(paths.bottomCurveRight.offset(bottomSeamSa))
+          .join(paths.anchorSeam.offset(anchorSeamSa))
+          .join(paths.insertSeam.offset(insertSeamSa))
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 

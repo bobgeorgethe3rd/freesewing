@@ -1,8 +1,10 @@
 import { skirtBase } from './skirtBase.mjs'
+import { inseamPocket } from './inseamPocket.mjs'
 
 export const sidePanel = {
   name: 'wanda.sidePanel',
   from: skirtBase,
+  after: inseamPocket,
   hide: {
     from: true,
   },
@@ -95,6 +97,21 @@ export const sidePanel = {
         from: points.waistE.rotate(90, points.grainlineFrom),
         to: points.hemE.rotate(-90, points.grainlineTo),
       })
+      //notches
+      if (options.pocketsBool) {
+        paths.sideSeam = new Path()
+          .move(points.waist2Right)
+          .curve(points.dartTipECp3, points.dartTipECp2, points.dartTipE)
+          .line(points.hemE)
+          .hide()
+        points.pocketOpeningTop = paths.sideSeam.shiftAlong(store.get('pocketOpening'))
+        points.pocketOpeningBottom = paths.sideSeam.shiftAlong(store.get('pocketOpeningLength'))
+
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
+      }
       //dart
       let titleNum
       let titleName

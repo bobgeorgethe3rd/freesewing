@@ -1,8 +1,10 @@
 import { skirtBase } from './skirtBase.mjs'
+import { inseamPocket } from './inseamPocket.mjs'
 
 export const sideFront = {
   name: 'wanda.sideFront',
   from: skirtBase,
+  after: inseamPocket,
   hide: {
     from: true,
   },
@@ -60,6 +62,21 @@ export const sideFront = {
         from: points.waistD.rotate(90, points.grainlineFrom),
         to: points.hemD.rotate(-90, points.grainlineTo),
       })
+      //notches
+      if (options.pocketsBool) {
+        paths.sideSeam = new Path()
+          .move(points.waist1Left)
+          .curve(points.dartTipECp1, points.dartTipECp2, points.dartTipE)
+          .line(points.hemE)
+          .hide()
+        points.pocketOpeningTop = paths.sideSeam.shiftAlong(store.get('pocketOpening'))
+        points.pocketOpeningBottom = paths.sideSeam.shiftAlong(store.get('pocketOpeningLength'))
+
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
+      }
       //title
       points.title = points.origin.shiftOutwards(
         points.waistPanel1,

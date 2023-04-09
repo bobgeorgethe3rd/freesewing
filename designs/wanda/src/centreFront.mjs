@@ -1,8 +1,10 @@
 import { skirtBase } from './skirtBase.mjs'
+import { inseamPocket } from './inseamPocket.mjs'
 
 export const centreFront = {
   name: 'wanda.centreFront',
   from: skirtBase,
+  after: inseamPocket,
   hide: {
     from: true,
   },
@@ -81,9 +83,24 @@ export const centreFront = {
         to: points.cutOnFoldTo,
         grainline: true,
       })
-      //dart
+      //notches & dart
       let titleNum
       if (options.frontDart == 'dart') {
+        if (options.pocketsBool) {
+          paths.sideSeam = new Path()
+            .move(points.waist1Left)
+            .curve(points.dartTipECp1, points.dartTipECp2, points.dartTipE)
+            .line(points.hemE)
+            .hide()
+          points.pocketOpeningTop = paths.sideSeam.shiftAlong(store.get('pocketOpening'))
+          points.pocketOpeningBottom = paths.sideSeam.shiftAlong(store.get('pocketOpeningLength'))
+
+          macro('sprinkle', {
+            snippet: 'notch',
+            on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+          })
+        }
+
         paths.dart = new Path()
           .move(points.waist0Left)
           .line(points.dartTopD)
