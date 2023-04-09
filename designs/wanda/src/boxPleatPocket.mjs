@@ -34,7 +34,10 @@ export const boxPleatPocket = {
     }
 
     //stores
-    store.set('pocketOpeningLength', points.openingTop.dist(points.openingBottom))
+    store.set(
+      'pocketOpeningLength',
+      store.get('pocketOpening') + points.openingTop.dist(points.openingBottom)
+    )
 
     if (complete) {
       //title

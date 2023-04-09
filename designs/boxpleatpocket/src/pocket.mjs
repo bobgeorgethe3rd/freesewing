@@ -23,6 +23,9 @@ export const pocket = {
     },
     //Construction
     pocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    //Advanced
+    boxPleatPocketDepthRight: { pct: 75, min: 65, max: 80, menu: 'advanced.pockets' },
+    boxPleatPocketTopWidth: { pct: (9 / 50) * 100, min: 15, max: 30, menu: 'advanced.pockets' },
   },
   plugins: [pluginBundle],
   draft: ({
@@ -58,15 +61,15 @@ export const pocket = {
       width = store.get('anchorSeamLength') * options.boxPleatPocketWidth
       depth = store.get('insertSeamLength') * options.boxPleatPocketDepth
     }
-    let widthT = width * (9 / 50)
-    let depthR = depth * (3 / 4)
+    let widthTop = width * options.boxPleatPocketTopWidth
+    let depthRight = depth * options.boxPleatPocketDepthRight
     //let's begin
     points.topLeft = new Point(0, 0)
     points.topRight = points.topLeft.shift(0, width)
     points.bottomLeft = points.topLeft.shift(-90, depth)
     points.bottomRight = new Point(points.topRight.x, points.bottomLeft.y)
-    points.openingTop = points.topLeft.shiftTowards(points.topRight, widthT)
-    points.openingBottom = points.bottomRight.shiftTowards(points.topRight, depthR)
+    points.openingTop = points.topLeft.shiftTowards(points.topRight, widthTop)
+    points.openingBottom = points.bottomRight.shiftTowards(points.topRight, depthRight)
 
     //paths
     paths.hemBase = new Path()
@@ -87,7 +90,7 @@ export const pocket = {
       .close()
 
     //stores
-    store.set('pocketOpening', points.openingTop.dist(points.openingBottom))
+    store.set('pocketOpening', store.get('insertSeamLength') * options.pocketOpening)
 
     if (complete) {
       //grainline
