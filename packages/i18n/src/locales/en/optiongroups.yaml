@@ -26,3 +26,6 @@ type: Type
 size: Size
 skirt: Skirt
 plackets: Plackets
+watchPockets: Watch pockets
+inseamPockets: Inseam pockets
+boxPleatPockets: Box Pleat pockets
