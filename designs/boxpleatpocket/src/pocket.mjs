@@ -104,7 +104,7 @@ export const pocket = {
         on: ['openingTop', 'openingBottom'],
       })
       //title
-      points.title = new Point(points.topRight.x / 4, points.bottomLeft.y * (3 / 4))
+      points.title = new Point(points.topRight.x / 3, points.bottomLeft.y * (3 / 4))
       macro('title', {
         at: points.title,
         nr: '1',

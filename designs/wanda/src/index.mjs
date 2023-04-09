@@ -13,6 +13,7 @@ import { placket } from './placket.mjs'
 import { waistbandStraight } from './waistbandStraight.mjs'
 import { waistbandCurved } from './waistbandCurved.mjs'
 import { inseamPocket } from './inseamPocket.mjs'
+import { boxPleatPocket } from './boxPleatPocket.mjs'
 import { watchPocket } from './watchPocket.mjs'
 
 // Create new design
@@ -29,6 +30,7 @@ const Wanda = new Design({
     waistbandStraight,
     waistbandCurved,
     inseamPocket,
+    boxPleatPocket,
     watchPocket,
   ],
 })
@@ -45,6 +47,7 @@ export {
   waistbandStraight,
   waistbandCurved,
   inseamPocket,
+  boxPleatPocket,
   watchPocket,
   Wanda,
 }
