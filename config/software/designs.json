@@ -52,6 +52,13 @@
   "jackets": {},
   "jumpsuits": {},
   "pockets": {
+    "boxpleatpocket": {
+      "description": "Box Pleat Pocket design to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tagname"]
+    },
     "inseampocket": {
       "description": "Inseam Pocket design to be used in other designs",
       "code": "bobgeorgethe3rd",

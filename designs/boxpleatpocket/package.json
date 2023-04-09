@@ -1,7 +1,7 @@
 {
-  "name": "@freesewing/wanda",
+  "name": "@freesewing/boxpleatpocket",
   "version": "3.0.0-alpha.8",
-  "description": "1895 Keystone Jacket and Dress Cutter Walking Skirt",
+  "description": "Box Pleat Pocket design to be used in other designs",
   "author": "bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)",
   "homepage": "https://freesewing.org/",
   "repository": "github:freesewing/freesewing",
@@ -47,12 +47,7 @@
   },
   "peerDependencies": {
     "@freesewing/core": "3.0.0-alpha.8",
-    "@freesewing/plugin-bundle": "3.0.0-alpha.8",
-    "@freesewing/waistbandstraight": "3.0.0-alpha.8",
-    "@freesewing/waistbandcurved": "3.0.0-alpha.8",
-    "@freesewing/inseampocket": "3.0.0-alpha.8",
-    "@freesewing/boxpleatpocket": "3.0.0-alpha.8",
-    "@freesewing/watchpocket": "3.0.0-alpha.8"
+    "@freesewing/plugin-bundle": "3.0.0-alpha.8"
   },
   "dependencies": {},
   "devDependencies": {
