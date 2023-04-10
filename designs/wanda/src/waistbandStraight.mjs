@@ -28,10 +28,7 @@ export const waistbandStraight = {
     absoluteOptions,
   }) => {
     //set Render
-    if (
-      (options.waistbandStyle != 'straight' && options.calculateWaistbandDiff) ||
-      !options.waistband
-    ) {
+    if (options.waistbandStyle != 'straight' || !options.waistband) {
       part.hide()
       return part
     }

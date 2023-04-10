@@ -28,14 +28,7 @@ export const waistbandCurved = {
     absoluteOptions,
   }) => {
     //set Render
-    if (
-      options.waistbandStyle != 'curved' ||
-      !options.calculateWaistbandDiff ||
-      !options.waistband
-    ) {
-      if (options.waistbandStyle == 'curved' && options.waistband) {
-        log.info('Curved Waistband requires options.calculateWaistbandDiff to be true')
-      }
+    if (options.waistbandStyle != 'curved' || !options.waistband) {
       part.hide()
       return part
     }

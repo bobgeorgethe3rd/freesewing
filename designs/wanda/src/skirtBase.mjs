@@ -95,7 +95,12 @@ export const skirtBase = {
     }
 
     //storedWaist
-    if (options.calculateWaistbandDiff && measurements.waistToHips && measurements.hips) {
+    if (
+      options.waistband &&
+      (options.calculateWaistbandDiff || options.waistbandStyle == 'curved') &&
+      measurements.waistToHips &&
+      measurements.hips
+    ) {
       void store.setIfUnset(
         'storedWaist',
         measurements.waist * (1 + options.waistEase) +
