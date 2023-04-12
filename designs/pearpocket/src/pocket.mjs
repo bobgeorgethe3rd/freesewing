@@ -96,7 +96,6 @@ export const pocket = {
     //stores
     points.slitBottom = points.curveMid.shiftFractionTowards(points.slitTop, 1 / 7)
     store.set('pocketOpening', pocketOpening)
-    store.set('pocketOpeningLength', points.slitTop.dist(points.slitBottom))
 
     if (complete) {
       //grainline
