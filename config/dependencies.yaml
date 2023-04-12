@@ -231,6 +231,7 @@ wanda:
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/inseampocket': *freesewing
     '@freesewing/boxpleatpocket': *freesewing
+    '@freesewing/pearpocket': *freesewing
     '@freesewing/watchpocket': *freesewing
 wahid:
   peer:
