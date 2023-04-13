@@ -217,7 +217,7 @@ export const skirtBase = {
       )
     }
     //buttons & buttonholes
-    if (options.buttons) {
+    if (options.buttons && complete) {
       paths.sideFront = new Path()
         .move(points.waist0Left)
         .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
