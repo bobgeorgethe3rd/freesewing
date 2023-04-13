@@ -13,7 +13,7 @@ export const centreFront = {
   options: {
     //Construction
     frontDart: { dflt: 'dart', list: ['seam', 'dart'], menu: 'construction' },
-    skirtHemWidth: { pct: 1, min: 1, max: 10, menu: 'construction' },
+    skirtHemWidth: { pct: 1, min: 0, max: 10, menu: 'construction' },
     waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   draft: ({
