@@ -215,7 +215,7 @@ export const skirtBase = {
       points.origin.rotate(90, points.waistF),
       fullWaist * options.sidePanelFullness + hipDart / 2
     )
-    points.hemUTarget = points.waistG.shift(points.waistF.angle(points.dartTipF), frontLength * 2)
+    points.hemUTarget = points.waistG.shift(points.waistE.angle(points.dartTipE), frontLength * 2)
     points.hemU = utils.lineIntersectsCurve(
       points.waistG,
       points.hemUTarget,
