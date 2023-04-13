@@ -46,7 +46,6 @@ export const skirtBase = {
     //Construction
     skirtWaistFacingWidth: { pct: 25, min: 0, max: 50, menu: 'construction' },
     skirtHemFacingWidth: { pct: (11 / 40) * 100, min: 20, max: 35, menu: 'construction' },
-    waistbandClosurePosition: { dflt: 'back', list: ['back', 'side'], menu: 'construction' }, //altered for Wanda
     //Advanced
     calculateWaistbandDiff: { bool: false, menu: 'advanced.fit' },
   },

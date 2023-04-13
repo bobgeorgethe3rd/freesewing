@@ -10,12 +10,15 @@ export const waistbandStraight = {
     from: true,
   },
   options: {
+    //Style
     waistbandOverlapSide: {
       dflt: 'right',
       list: ['right', 'left'],
       menu: 'style',
     }, //altered for Wanda
     waistbandFolded: { bool: true, menu: 'style' }, //altered for Wanda
+    //Construction
+    waistbandClosurePosition: { dflt: 'back', list: ['back', 'side'], menu: 'construction' }, //altered for Wanda
   },
   draft: ({
     store,
