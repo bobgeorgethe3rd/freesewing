@@ -5,10 +5,10 @@ export const pocket = {
   options: {
     //Constants
     useVoidStores: true,
-    // cpFraction: 0.55191502449,
+    scalePockets: true,
     //Pocket
-    watchPocketWidth: { pct: 0, min: -50, max: 200, menu: 'pockets.watchPockets' },
-    watchPocketDepth: { pct: 0, min: -50, max: 200, menu: 'pockets.watchPockets' },
+    watchPocketWidth: { pct: 7.5, min: 5, max: 10, menu: 'pockets.watchPockets' },
+    watchPocketDepth: { pct: 6.25, min: 5, max: 10, menu: 'pockets.watchPockets' },
     watchPocketCurveDepth: {
       pct: (1 / 3) * 100,
       min: 0,
@@ -40,12 +40,18 @@ export const pocket = {
   }) => {
     //measures
     if (options.useVoidStores) {
-      void store.setIfUnset('watchPocketWidth', 76.2 * (1 + options.watchPocketWidth))
-      void store.setIfUnset('watchPocketDepth', 63.5 * (1 + options.watchPocketDepth))
+      void store.setIfUnset('insertSeamLength', 1016)
     }
 
-    let width = store.get('watchPocketWidth')
-    let depth = store.get('watchPocketDepth')
+    let width
+    let depth
+    if (!options.scalePockets) {
+      width = 76.2
+      depth = 63.5
+    } else {
+      width = store.get('insertSeamLength') * options.watchPocketWidth
+      depth = store.get('insertSeamLength') * options.watchPocketDepth
+    }
 
     //let's begin
     points.topMid = new Point(0, 0)
