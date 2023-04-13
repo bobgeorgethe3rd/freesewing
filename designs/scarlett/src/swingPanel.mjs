@@ -35,6 +35,7 @@ export const swingPanel = {
     }
     //removing paths and in heritance
     macro('scalebox', false)
+    delete points.scalebox
     let keepThese = ['waist', 'sideFront']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
