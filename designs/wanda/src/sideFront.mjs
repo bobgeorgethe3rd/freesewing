@@ -125,7 +125,7 @@ export const sideFront = {
         if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .clone()
-            .offset(sa * options.skirtHemWidth * 100)
+            .offset(sa * options.waistFacingHemWidth * 100)
             .join(
               new Path()
                 .move(points.waistFacingD)
