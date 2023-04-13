@@ -4,8 +4,8 @@ import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
 import { skirtBase } from './skirtBase.mjs'
-import { swingPanel } from './swingPanel.mjs'
 import { centreFront } from './centreFront.mjs'
+import { swingPanel } from './swingPanel.mjs'
 import { sideFront } from './sideFront.mjs'
 
 import { inseamPocket } from '@freesewing/wanda'
@@ -17,8 +17,8 @@ const Scarlett = new Design({
   data,
   parts: [
     skirtBase,
-    swingPanel,
     centreFront,
+    swingPanel,
     sideFront,
     inseamPocket,
     boxPleatPocket,
@@ -30,8 +30,8 @@ const Scarlett = new Design({
 // Named exports
 export {
   skirtBase,
-  swingPanel,
   centreFront,
+  swingPanel,
   sideFront,
   inseamPocket,
   boxPleatPocket,

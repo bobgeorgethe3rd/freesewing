@@ -1,14 +1,9 @@
-import { skirtBase } from './skirtBase.mjs'
+import { centreFront } from './centreFront.mjs'
 
 export const swingPanel = {
   name: 'scarlett.swingPanel',
-  from: skirtBase,
-  hide: {
-    from: true,
-  },
+  from: centreFront,
   options: {
-    //Style
-    swingPanelStyle: { dflt: 'connected', list: ['connected', 'separate', 'none'], menu: 'style' },
     //Construction
     skirtHemWidth: { pct: 1, min: 0, max: 10, menu: 'construction' },
     waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
@@ -38,8 +33,13 @@ export const swingPanel = {
       part.hide()
       return part
     }
-    //removing paths
-    for (let i in paths) delete paths[i]
+    //removing paths and in heritance
+    macro('scalebox', false)
+    let keepThese = ['waist', 'sideFront']
+    for (const name in paths) {
+      if (keepThese.indexOf(name) === -1) delete paths[name]
+    }
+
     //let's begin
     //paths
     paths.hemBase = new Path()
@@ -49,23 +49,14 @@ export const swingPanel = {
 
     paths.centreFront = new Path().move(points.cfHem).line(points.cfWaist).hide()
 
-    paths.waist = new Path()
-      .move(points.cfWaist)
-      .curve(points.waist0Cp1, points.waist0Cp1, points.waistPanel0)
-      .curve(points.waist0Cp3, points.waist0Cp4, points.waist0Left)
-      .hide()
-
-    paths.sideFront = new Path()
-      .move(points.waist0Left)
-      .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
-      .line(points.hemD)
-      .hide()
-
     paths.seam = paths.hemBase
       .clone()
       .join(paths.centreFront)
       .join(paths.waist)
       .join(paths.sideFront)
+
+    //stores
+    store.set('swingWaisbandLength', paths.waist.length())
 
     if (complete) {
       //grainline

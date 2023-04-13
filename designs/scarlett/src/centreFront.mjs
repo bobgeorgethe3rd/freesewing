@@ -1,15 +1,20 @@
 import { skirtBase } from './skirtBase.mjs'
-import { swingPanel } from './swingPanel.mjs'
 
 export const centreFront = {
   name: 'scarlett.centreFront',
   from: skirtBase,
-  after: swingPanel,
   hide: {
     from: true,
   },
   options: {
+    //Style
+    swingPanelStyle: { dflt: 'connected', list: ['connected', 'separate', 'none'], menu: 'style' },
     //Construction
+    buttons: { bool: true, menu: 'construction' },
+    buttonNum: { count: 9, min: 2, max: 20, menu: 'construction' },
+    buttonOffset: { count: 8, min: 4, max: 10, menu: 'construction' },
+    buttonStart: { pct: 2.5, min: 1, max: 5, menu: 'construction' },
+    buttonEnd: { pct: 5, min: 1, max: 10, menu: 'construction' },
     inseamSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
     crotchSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
   },
@@ -127,7 +132,35 @@ export const centreFront = {
       }
       //buttons & buttonholes
       if (options.buttons && options.swingPanelStyle != 'none') {
+        points.buttonStart = paths.sideFront.shiftAlong(
+          measurements.waistToFloor * options.buttonStart
+        )
+        points.buttonEnd = paths.sideFront
+          .reverse()
+          .shiftAlong(measurements.waistToFloor * options.buttonEnd)
+
+        let sideFrontSplit0 = paths.sideFront.split(points.buttonStart)
+        for (let i in sideFrontSplit0) {
+          paths['sideFront0' + i] = sideFrontSplit0[i].hide()
+        }
+
+        let sideFrontSplit1 = paths.sideFront01.split(points.buttonEnd)
+        for (let i in sideFrontSplit1) {
+          paths['sideFront1' + i] = sideFrontSplit1[i].hide()
+        }
+
+        paths.button = paths.sideFront10
+          .offset(store.get('fullWaist') / (8 * -(14 - options.buttonOffset)))
+          .hide()
+
+        let j
         for (let i = 0; i <= options.buttonNum - 1; i++) {
+          j = i + 1
+          points['button' + i] = paths.button.shiftFractionAlong(i / (options.buttonNum - 1))
+          points['buttonAngle' + i] = paths.button.shiftFractionAlong(
+            (i / (options.buttonNum - 1)) * 0.999
+          )
+          points.buttonAngle0 = paths.button.shiftAlong(1)
           snippets['button' + i] = new Snippet('button', points['button' + i]).attr(
             'data-rotate',
             points['button' + i].angle(points['buttonAngle' + i]) * -1
