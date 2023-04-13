@@ -52,11 +52,10 @@ export const waistbandCurved = {
       //pleat lines
       if (options.waistbandClosurePosition == 'back') {
         points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(1 / 8)
-        points.pleatTo1 = points.pleatTo0.flipX(points.bottomMid)
       } else {
         points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(5 / 8)
-        points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
       }
+      points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
 
       if (points.origin < points.bottomMid) {
         points.pleatFrom0 = points.origin.shiftOutwards(
