@@ -89,6 +89,13 @@
     }
   },
   "skirts": {
+    "scarlett": {
+      "description": "A Split Skirt based off of Wanda",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["skirts", "walkingskirts", "keystone"]
+    },
     "wanda": {
       "description": "1895 Keystone Jacket and Dress Cutter Walking Skirt",
       "code": "bobgeorgethe3rd",

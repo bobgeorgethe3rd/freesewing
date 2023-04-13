@@ -191,6 +191,9 @@ rufflebutterflysleeve:
 sandy:
   peer:
     '@freesewing/snapseries': *freesewing
+scarlett:
+    peer:
+    '@freesewing/wanda': *freesewing
 shin:
   peer:
     '@freesewing/snapseries': *freesewing
