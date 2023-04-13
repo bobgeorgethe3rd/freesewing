@@ -24,6 +24,12 @@ export const skirtBase = {
     }, //altered for Scarlett
     crotchCuvre: { pct: 100, min: 50, max: 100, menu: 'style' },
     crossCuvre: { pct: 100, min: 50, max: 100, menu: 'style' },
+    //Construction
+    buttons: { bool: true, menu: 'construction' },
+    buttonNum: { count: 9, min: 2, max: 20, menu: 'construction' },
+    buttonOffset: { count: 8, min: 4, max: 10, menu: 'construction' },
+    buttonStart: { pct: 2.5, min: 1, max: 5, menu: 'construction' },
+    buttonEnd: { pct: 5, min: 1, max: 10, menu: 'construction' },
     //Advanced
     crossSeamDrop: { pct: 0, min: -10, max: 10, menu: 'advanced.fit' },
   },
@@ -149,14 +155,106 @@ export const skirtBase = {
       .shiftTowards(points.upperLegM, inseam)
       .rotate(-90, points.crossU)
     points.hemMU = points.waistH.shiftOutwards(points.upperLegM, inseam)
+    // points.hemMCp2U = utils.beamsIntersect(
+    // points.crossHemU,
+    // points.hemMU,
+    // points.hemN,
+    // points.hemNCp2
+    // )
     points.hemMCp2U = utils.beamsIntersect(
       points.crossHemU,
       points.hemMU,
-      points.hemN,
-      points.hemNCp2
+      points.hemLCp2,
+      points.hemLCp2.shift(points.waistL.angle(points.hemL), 1)
     )
-    // points.hemMCp2U = utils.beamsIntersect(points.crossHemU, points.hemMU, points.hemLCp2, points.hemLCp2.shift(points.waistL.angle(points.hemL), 1))
 
+    //hem facings
+    points.cfHemFacing = points.cfHem.shiftTowards(points.cfWaist, store.get('skirtHemFacingWidth'))
+    points.hemFacingDCp1 = utils.beamsIntersect(
+      points.hemDCp2,
+      points.origin,
+      points.hemFacingD,
+      points.origin.rotate(-90, points.hemFacingD)
+    )
+    points.cfHemFacingCp2 = utils.beamsIntersect(
+      points.cfHemCp1,
+      points.origin,
+      points.cfHemFacing,
+      points.origin.rotate(90, points.cfHemFacing)
+    )
+
+    points.hemFacingKS = points.hemKS.shiftTowards(points.waist3LeftS, skirtHemFacingWidth)
+    points.crossHemFacingS = points.crossHemS.shiftTowards(points.crossS, skirtHemFacingWidth)
+    points.hemFacingKCp1S = utils.beamsIntersect(
+      points.crossHemFacingS,
+      points.hemFacingKS,
+      points.hemKCp2S,
+      points.origin
+    )
+
+    //waist facings
+    if (options.waistbandStyle == 'none') {
+      points.cfWaistFacingCp1 = utils.beamsIntersect(
+        points.cfHemCp1,
+        points.origin,
+        points.cfWaistFacing,
+        points.origin.rotate(90, points.cfWaistFacing)
+      )
+      points.waistFacingDCp2 = utils.beamsIntersect(
+        points.hemDCp2,
+        points.origin,
+        points.waistFacingD,
+        points.origin.rotate(-90, points.waistFacingD)
+      )
+
+      points.waistFacingCrossS = utils.lineIntersectsCurve(
+        points.waistFacing6SCp2,
+        points.waistFacing6SCp2.shiftOutwards(points.waistFacing6S, crossDepth),
+        points.waist3LeftS,
+        points.seatK,
+        points.crossSCp1,
+        points.crossS
+      )
+    }
+    //buttons & buttonholes
+    if (options.buttons) {
+      paths.sideFront = new Path()
+        .move(points.waist0Left)
+        .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
+        .line(points.hemD)
+        .hide()
+
+      points.buttonStart = paths.sideFront.shiftAlong(
+        measurements.waistToFloor * options.buttonStart
+      )
+      points.buttonEnd = paths.sideFront
+        .reverse()
+        .shiftAlong(measurements.waistToFloor * options.buttonEnd)
+
+      let sideFrontSplit0 = paths.sideFront.split(points.buttonStart)
+      for (let i in sideFrontSplit0) {
+        paths['sideFront0' + i] = sideFrontSplit0[i].hide()
+      }
+
+      let sideFrontSplit1 = paths.sideFront01.split(points.buttonEnd)
+      for (let i in sideFrontSplit1) {
+        paths['sideFront1' + i] = sideFrontSplit1[i].hide()
+      }
+
+      paths.button = paths.sideFront10
+        .offset(store.get('fullWaist') / (8 * -(14 - options.buttonOffset)))
+        .hide()
+
+      let j
+      for (let i = 0; i <= options.buttonNum - 1; i++) {
+        j = i + 1
+        points['button' + i] = paths.button.shiftFractionAlong(i / (options.buttonNum - 1))
+        points['buttonAngle' + i] = paths.button.shiftFractionAlong(
+          (i / (options.buttonNum - 1)) * 0.999
+        )
+      }
+      points.buttonAngle0 = paths.button.shiftAlong(1)
+    }
     //guides
     paths.crotchFront = new Path()
       .move(points.cfHem)
@@ -184,6 +282,16 @@ export const skirtBase = {
       .line(points.crossHemU)
       .line(points.hemMU)
       .curve(points.hemMCp2U, points.hemKCp1U, points.hemK)
+
+    paths.hemFacingKS = new Path()
+      .move(points.hemFacingF)
+      .curve(points.hemFacingFCp2, points.hemFacingKCp1S, points.hemFacingKS)
+      .line(points.crossHemFacingS)
+      .attr('class', 'interfacing')
+
+    paths.bellHem.attr('class', 'various')
+    paths.umbrellaHem.attr('class', 'various')
+    paths.umbrellaHemGuide.attr('class', 'various')
 
     return part
   },

@@ -159,7 +159,11 @@ export const pocket = {
         let insertSeamSa = store.get('insertSeamSa')
         let pocketBagSaWidth = sa * options.pocketBagSaWidth * 100
 
-        points.curveBLStartSa = points.curveBLStart.translate(-pocketBagSaWidth, pocketBagSaWidth)
+        if (options.inseamPocketCurveLeft == 0) {
+          points.curveBLStartSa = points.curveBLStart.translate(-insertSeamSa, pocketBagSaWidth)
+        } else {
+          points.curveBLStartSa = points.curveBLStart.translate(-pocketBagSaWidth, pocketBagSaWidth)
+        }
         points.curveBLCp1Sa = points.curveBLCp1.translate(-pocketBagSaWidth, pocketBagSaWidth)
         points.curveBLCp2Sa = points.curveBLCp2.translate(-pocketBagSaWidth, pocketBagSaWidth)
         points.curveBRStartSa = points.curveBRStart.shift(-90, pocketBagSaWidth)

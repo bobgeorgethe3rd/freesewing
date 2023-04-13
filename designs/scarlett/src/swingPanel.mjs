@@ -1,0 +1,155 @@
+import { skirtBase } from './skirtBase.mjs'
+
+export const swingPanel = {
+  name: 'scarlett.swingPanel',
+  from: skirtBase,
+  hide: {
+    from: true,
+  },
+  options: {
+    //Style
+    swingPanelStyle: { dflt: 'connected', list: ['connected', 'separate', 'none'], menu: 'style' },
+    //Construction
+    skirtHemWidth: { pct: 1, min: 0, max: 10, menu: 'construction' },
+    waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
+    sideFrontSaWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
+  },
+  draft: ({
+    store,
+    sa,
+    Point,
+    points,
+    Path,
+    paths,
+    options,
+    complete,
+    paperless,
+    macro,
+    utils,
+    measurements,
+    part,
+    snippets,
+    Snippet,
+    absoluteOptions,
+    log,
+  }) => {
+    //render
+    if (options.swingPanelStyle == 'none') {
+      part.hide()
+      return part
+    }
+    //removing paths
+    for (let i in paths) delete paths[i]
+    //let's begin
+    //paths
+    paths.hemBase = new Path()
+      .move(points.hemD)
+      .curve(points.hemDCp2, points.cfHemCp1, points.cfHem)
+      .hide()
+
+    paths.centreFront = new Path().move(points.cfHem).line(points.cfWaist).hide()
+
+    paths.waist = new Path()
+      .move(points.cfWaist)
+      .curve(points.waist0Cp1, points.waist0Cp1, points.waistPanel0)
+      .curve(points.waist0Cp3, points.waist0Cp4, points.waist0Left)
+      .hide()
+
+    paths.sideFront = new Path()
+      .move(points.waist0Left)
+      .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
+      .line(points.hemD)
+      .hide()
+
+    paths.seam = paths.hemBase
+      .clone()
+      .join(paths.centreFront)
+      .join(paths.waist)
+      .join(paths.sideFront)
+
+    if (complete) {
+      //grainline
+      points.cutOnFoldFrom = points.cfHem
+      points.cutOnFoldTo = points.cfWaist
+      macro('cutonfold', {
+        from: points.cutOnFoldFrom,
+        to: points.cutOnFoldTo,
+        grainline: true,
+      })
+      //title
+      points.title = new Point(
+        points.waist0Left.x,
+        points.waist0Cp2.y + (points.cfHem.y - points.cfWaist.y) / 3
+      )
+      macro('title', {
+        nr: 1,
+        title: 'Swing Panel',
+        at: points.title,
+      })
+      //facings
+      paths.hemFacing = new Path()
+        .move(points.hemFacingD)
+        .curve(points.hemFacingDCp1, points.cfHemFacingCp2, points.cfHemFacing)
+        .attr('class', 'interfacing')
+        .attr('data-text', 'Hem Facing - Line')
+        .attr('data-text-class', 'center')
+
+      if (options.waistbandStyle == 'none') {
+        paths.waistFacing = new Path()
+          .move(points.waistFacingD)
+          .curve(points.waistFacingDCp2, points.cfWaistFacingCp1, points.cfWaistFacing)
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Waist Facing - Line')
+          .attr('data-text-class', 'center')
+      }
+      //buttons & buttonholes
+      if (options.buttons) {
+        for (let i = 0; i <= options.buttonNum - 1; i++) {
+          snippets['buttonhole' + i] = new Snippet('buttonhole', points['button' + i]).attr(
+            'data-rotate',
+            points['button' + i].angle(points['buttonAngle' + i]) * -1
+          )
+        }
+      }
+      if (sa) {
+        let hemSa = sa * options.skirtHemWidth * 100
+        let sideFrontSa = sa * options.sideFrontSaWidth * 100
+
+        paths.hemFacingSa = paths.hemBase
+          .offset(hemSa)
+          .line(points.cfHem)
+          .line(points.cfHemFacing)
+          .join(paths.hemFacing.reverse().offset(sa))
+          .join(new Path().move(paths.hemFacing.start()).line(points.hemD).offset(sideFrontSa))
+          .close()
+          .attr('class', 'interfacing sa')
+
+        if (options.waistbandStyle == 'none') {
+          paths.waistFacingSa = paths.waistFacing
+            .offset(sa * options.waistFacingHemWidth * 100)
+            .line(points.cfWaistFacing)
+            .line(points.cfWaist)
+            .join(paths.waist.offset(sa))
+            .join(
+              new Path()
+                .move(points.waist0Left)
+                .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
+                .line(points.waistFacingD)
+                .offset(sideFrontSa)
+            )
+            .close()
+            .attr('class', 'interfacing sa')
+        }
+        paths.sa = paths.hemBase
+          .offset(hemSa)
+          .join(paths.centreFront)
+          .join(paths.waist.offset(sa))
+          .join(paths.sideFront.offset(sideFrontSa))
+          .close()
+          .attr('class', 'fabric sa')
+      }
+    }
+
+    return part
+  },
+}
