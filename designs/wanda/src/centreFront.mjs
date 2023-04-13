@@ -161,7 +161,7 @@ export const centreFront = {
         .attr('data-text', 'Hem Facing - Line')
         .attr('data-text-class', 'center')
 
-      if (!options.waistband) {
+      if (options.waistbandStyle == 'none') {
         points.cfWaistFacingCp1 = utils.beamsIntersect(
           points.cfHemCp1,
           points.origin,
@@ -195,7 +195,7 @@ export const centreFront = {
       }
 
       if (sa) {
-        if (!options.waistband) {
+        if (options.waistbandStyle == 'none') {
           const drawWaistFacingSaBase = () => {
             if (options.frontDart == 'dart') {
               return new Path()

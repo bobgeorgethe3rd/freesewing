@@ -25,15 +25,9 @@ export const skirtBase = {
     },
     waistbandStyle: {
       dflt: 'straight',
-      list: ['straight', 'curved'],
+      list: ['straight', 'curved', 'none'],
       menu: 'style',
     },
-    waistbandOverlapSide: {
-      dflt: 'right',
-      list: ['right', 'left'],
-      menu: 'style',
-    }, //altered for Wanda
-    waistbandFolded: { bool: true, menu: 'style' }, //altered for Wanda
     skirtLengthBonus: { pct: -2, min: -30, max: 10, menu: 'style' },
     umbrellaFullness: { pct: (5 / 12) * 100, min: 40, max: 50, menu: 'style' },
     umbrellaExtenstion: { pct: (1 / 16) * 100, min: 6, max: 10, menu: 'style' },
@@ -50,19 +44,12 @@ export const skirtBase = {
     hipDartWidth: { pct: (5 / 96) * 100, min: (1 / 32) * 100, max: (1 / 16) * 100, menu: 'darts' },
     dartLength: { pct: (9 / 80) * 100, min: (1 / 10) * 100, max: (3 / 20) * 100, menu: 'darts' },
     dartExtension: { pct: 0.75, min: 0.5, max: 1, menu: 'darts' },
-    //Pockets
-    pocketsBool: { bool: true, menu: 'pockets' },
-    watchPocket: { bool: true, menu: 'pockets.watchPockets' },
-    watchPocketWidth: { pct: 7.5, min: 5, max: 10, menu: 'pockets.watchPockets' },
-    watchPocketDepth: { pct: 6.25, min: 5, max: 10, menu: 'pockets.watchPockets' },
-
     //Construction
     skirtWaistFacingWidth: { pct: 25, min: 0, max: 50, menu: 'construction' },
     skirtHemFacingWidth: { pct: (11 / 40) * 100, min: 20, max: 35, menu: 'construction' },
     waistbandClosurePosition: { dflt: 'back', list: ['back', 'side'], menu: 'construction' }, //altered for Wanda
     //Advanced
     calculateWaistbandDiff: { bool: false, menu: 'advanced.fit' },
-    scalePockets: { bool: true, menu: 'advanced.pockets' },
   },
   measurements: ['waist', 'waistToFloor'],
   optionalMeasurements: ['hips', 'waistToHips'],
@@ -88,7 +75,7 @@ export const skirtBase = {
   }) => {
     //measures
     let waistbandWidth
-    if (options.waistband) {
+    if (options.waistbandStyle != 'none') {
       waistbandWidth = absoluteOptions.waistbandWidth
     } else {
       waistbandWidth = 0
@@ -96,7 +83,7 @@ export const skirtBase = {
 
     //storedWaist
     if (
-      options.waistband &&
+      options.waistbandStyle != 'none' &&
       (options.calculateWaistbandDiff || options.waistbandStyle == 'curved') &&
       measurements.waistToHips &&
       measurements.hips
@@ -504,7 +491,7 @@ export const skirtBase = {
       .rotate(-90, points.waistH)
 
     //facings
-    if (!options.waistband) {
+    if (options.waistbandStyle == 'none') {
       points.cfWaistFacing = points.cfWaist.shiftTowards(points.cfHem, skirtWaistFacingWidth)
       points.waistFacingD = points.waistD.shiftTowards(points.dartTipD, skirtWaistFacingWidth)
       points.waistFacingE = points.waistE.shiftTowards(points.dartTipE, skirtWaistFacingWidth)

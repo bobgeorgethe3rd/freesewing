@@ -10,11 +10,14 @@ export const inseamPocket = {
   },
   options: {
     //Pockets
+    pocketsBool: { bool: true, menu: 'pockets' },
     pocketStyle: { dflt: 'inseam', list: ['inseam', 'boxPleat', 'pear'], menu: 'pockets' },
     inseamPocketAngle: { deg: 0, min: 0, max: 15, menu: 'pockets.inseamPockets' }, //altered for Wanda
     inseamPocketCurveLeft: { pct: 0, min: 0, max: 100, menu: 'pockets.inseamPockets' }, //altered for Wanda
     inseamPocketCurveRight: { pct: 100, min: 0, max: 100, menu: 'pockets.inseamPockets' }, //altered for Wanda
     inseamPocketToAnchor: { pct: 100 / 3, min: 0, max: 100, menu: 'pockets.inseamPockets' }, //altered for Wanda
+    //Advanced
+    scalePockets: { bool: true, menu: 'advanced.pockets' },
   },
   draft: ({
     store,

@@ -98,7 +98,7 @@ export const sideFront = {
         .attr('data-text', 'Hem Facing - Line')
         .attr('data-text-class', 'center')
 
-      if (!options.waistband) {
+      if (options.waistbandStyle == 'none') {
         paths.waistFacing = new Path()
           .move(points.waistFacingE)
           .curve(points.waistFacingECp2, points.waistFacingDCp1, points.waistFacingD)
@@ -122,7 +122,7 @@ export const sideFront = {
           .close()
           .attr('class', 'interfacing sa')
 
-        if (!options.waistband) {
+        if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .clone()
             .offset(sa * options.skirtHemWidth * 100)

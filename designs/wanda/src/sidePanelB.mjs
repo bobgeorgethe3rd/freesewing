@@ -92,7 +92,7 @@ export const sidePanelB = {
         .attr('data-text', 'Hem Facing - Line')
         .attr('data-text-class', 'center')
 
-      if (!options.waistband) {
+      if (options.waistbandStyle == 'none') {
         let waistFacing6
         let waistFacing6Cp2
         if (options.style == 'straight') {
@@ -196,7 +196,7 @@ export const sidePanelB = {
           )
           .attr('class', 'interfacing sa')
 
-        if (!options.waistband) {
+        if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .clone()
             .offset(sa * options.waistFacingHemWidth * 100)

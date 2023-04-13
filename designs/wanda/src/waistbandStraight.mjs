@@ -9,6 +9,14 @@ export const waistbandStraight = {
   hide: {
     from: true,
   },
+  options: {
+    waistbandOverlapSide: {
+      dflt: 'right',
+      list: ['right', 'left'],
+      menu: 'style',
+    }, //altered for Wanda
+    waistbandFolded: { bool: true, menu: 'style' }, //altered for Wanda
+  },
   draft: ({
     store,
     sa,
@@ -28,7 +36,7 @@ export const waistbandStraight = {
     absoluteOptions,
   }) => {
     //set Render
-    if (options.waistbandStyle != 'straight' || !options.waistband) {
+    if (options.waistbandStyle != 'straight') {
       part.hide()
       return part
     }

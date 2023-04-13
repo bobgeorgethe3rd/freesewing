@@ -181,7 +181,7 @@ export const sidePanel = {
         .attr('data-text', 'Hem Facing - Line')
         .attr('data-text-class', 'center')
 
-      if (!options.waistband) {
+      if (options.waistbandStyle == 'none') {
         points.waistFacingFCp2 = utils.beamsIntersect(
           points.hemFCp2,
           points.origin,
@@ -309,7 +309,7 @@ export const sidePanel = {
           .close()
           .attr('class', 'interfacing sa')
 
-        if (!options.waistband) {
+        if (options.waistbandStyle == 'none') {
           const drawWaistFacingSaBase = () => {
             if (options.sideDart == 'dart') {
               return new Path()

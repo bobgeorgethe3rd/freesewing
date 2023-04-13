@@ -6,6 +6,11 @@ export const watchPocket = {
   hide: {
     from: true,
   },
+  options: {
+    watchPocket: { bool: true, menu: 'pockets.watchPockets' },
+    watchPocketWidth: { pct: 7.5, min: 5, max: 10, menu: 'pockets.watchPockets' }, //altered for Wanda
+    watchPocketDepth: { pct: 6.25, min: 5, max: 10, menu: 'pockets.watchPockets' }, //altered for Wanda
+  },
   draft: ({
     store,
     sa,

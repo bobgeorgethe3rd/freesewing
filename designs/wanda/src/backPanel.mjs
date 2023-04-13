@@ -152,7 +152,7 @@ export const backPanel = {
         .attr('data-text', 'Hem Facing - Line')
         .attr('data-text-class', 'center')
 
-      if (!options.waistband) {
+      if (options.waistbandStyle == 'none') {
         let waistFacingStart
         let waistFacingCp1
         let waistFacingCp2
@@ -324,7 +324,7 @@ export const backPanel = {
           )
           .attr('class', 'interfacing sa')
 
-        if (!options.waistband) {
+        if (options.waistbandStyle == 'none') {
           const drawWaistFacingSaBase = () => {
             if (options.style == 'bell') {
               return new Path()
