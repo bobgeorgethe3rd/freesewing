@@ -47,7 +47,7 @@ export const waistbandStraight = {
     if (complete) {
       //title
       macro('title', {
-        nr: 6,
+        nr: 8,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
         scale: 0.1,

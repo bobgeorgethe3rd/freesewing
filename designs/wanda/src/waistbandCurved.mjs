@@ -44,7 +44,7 @@ export const waistbandCurved = {
       //title
       points.title = new Point(points.topCp3.x / 6, points.topMid.y / 2)
       macro('title', {
-        nr: 6,
+        nr: 8,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
         scale: 0.1,
