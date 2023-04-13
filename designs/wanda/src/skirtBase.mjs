@@ -14,7 +14,6 @@ export const skirtBase = {
     waistEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
 
     //Style
-    waistband: { bool: true, menu: 'style' },
     waistbandWidth: {
       pct: 1.25,
       min: 1,
