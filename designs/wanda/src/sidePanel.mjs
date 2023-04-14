@@ -137,7 +137,6 @@ export const sidePanel = {
       }
 
       //title
-
       points.title = points.origin.shiftOutwards(
         points.waistPanel2,
         points.waistE.dist(points.hemE) * 0.45
