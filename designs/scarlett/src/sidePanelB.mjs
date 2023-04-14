@@ -5,7 +5,6 @@ export const sidePanelB = {
   hide: {
     from: true,
   },
-  options: {},
   draft: ({
     store,
     sa,
@@ -33,6 +32,21 @@ export const sidePanelB = {
     //removing paths
     for (let i in paths) delete paths[i]
     //let's begin
+    let waist3Left
+    let waist3Cp2
+    if (options.style == 'straight') {
+      waist3Left = points.waist3LeftS
+      waist3Cp2 = points.waist3Cp2
+    } else {
+      if (options.style == 'umbrella') {
+        waist3Left = points.waist6
+        waist3Cp2 = points.waist3Cp2U
+      } else {
+        waist3Left = points.waist6B
+        waist3Cp2 = points.waist3Cp2B
+      }
+    }
+
     const drawHemBase = () => {
       if (options.style == 'straight') {
         return new Path()
@@ -61,17 +75,10 @@ export const sidePanelB = {
           .curve(points.waist3Cp1, points.waist3Cp2, points.waist3LeftS)
           .join(paths.cross)
           .line(points.crossHemS)
-      }
-      if (options.style == 'bell') {
+      } else {
         return new Path()
           .move(points.waist3Right)
-          .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
-          .line(points.hemK)
-      }
-      if (options.style == 'umbrella') {
-        return new Path()
-          .move(points.waist3Right)
-          .curve(points.waist3Cp1, points.waist3Cp2U, points.waist6)
+          .curve(points.waist3Cp1, waist3Cp2, waist3Left)
           .line(points.hemK)
       }
     }
@@ -152,7 +159,72 @@ export const sidePanelB = {
           .attr('data-text', 'Waist Facing - Line')
           .attr('data-text-class', 'center')
       }
+      //pleats
+      if (options.pleats) {
+        let pleatKeep = store.get('pleatKeep')
+        let pleatLengthStraight = store.get('pleatLengthStraight')
+        let pleatLengthBell = store.get('pleatLengthBell')
+        let pleatLengthUmbrella = store.get('pleatLengthUmbrella')
 
+        paths.pleatLine = new Path()
+          .move(points.waist3Right)
+          .curve(points.waist3Cp1, waist3Cp2, waist3Left)
+          .hide()
+
+        for (let i = 0; i < options.pleatNumber; i++) {
+          if (options.style == 'straight') {
+            paths['pleatFromS' + i] = new Path()
+              .move(points['pleatFromTopS' + i])
+              .line(points['pleatFromBottomS' + i])
+              .attr('class', 'mark lashed')
+              .attr('data-text', 'Pleat - From')
+              .attr('data-text-class', 'center')
+
+            paths['pleatToS' + i] = new Path()
+              .move(points['pleatToTopS' + (i + 1)])
+              .line(points['pleatToBottomS' + (i + 1)])
+              .attr('class', 'mark')
+              .attr('data-text', 'Pleat. Fold - To')
+              .attr('data-text-class', 'center')
+          }
+          if (options.style == 'bell') {
+            if (pleatKeep + (pleatKeep + pleatLengthBell) * i < paths.pleatLine.length()) {
+              paths['pleatFromB' + i] = new Path()
+                .move(points['pleatFromTopB' + i])
+                .line(points['pleatFromBottomB' + i])
+                .attr('class', 'mark lashed')
+                .attr('data-text', 'Pleat - From')
+                .attr('data-text-class', 'center')
+            }
+            if ((pleatKeep + pleatLengthBell) * (i + 1) < paths.pleatLine.length()) {
+              paths['pleatToB' + i] = new Path()
+                .move(points['pleatToTopB' + (i + 1)])
+                .line(points['pleatToBottomB' + (i + 1)])
+                .attr('class', 'mark')
+                .attr('data-text', 'Pleat. Fold - To')
+                .attr('data-text-class', 'center')
+            }
+          }
+          if (options.style == 'umbrella') {
+            if (pleatKeep + (pleatKeep + pleatLengthUmbrella) * i < paths.pleatLine.length()) {
+              paths['pleatFromU' + i] = new Path()
+                .move(points['pleatFromTopU' + i])
+                .line(points['pleatFromBottomU' + i])
+                .attr('class', 'mark lashed')
+                .attr('data-text', 'Pleat - From')
+                .attr('data-text-class', 'center')
+            }
+            if ((pleatKeep + pleatLengthUmbrella) * (i + 1) < paths.pleatLine.length()) {
+              paths['pleatToU' + i] = new Path()
+                .move(points['pleatToTopU' + (i + 1)])
+                .line(points['pleatToBottomU' + (i + 1)])
+                .attr('class', 'mark')
+                .attr('data-text', 'Pleat. Fold - To')
+                .attr('data-text-class', 'center')
+            }
+          }
+        }
+      }
       if (sa) {
         let hemSa = sa * options.skirtHemWidth * 100
         let crossSa = sa * options.crossSaWidth * 100
@@ -186,23 +258,13 @@ export const sidePanelB = {
                 .curve(points.waist3Cp1, points.waist3Cp2, points.waist3LeftS)
                 .offset(sa)
                 .join(paths.cross0.offset(crossSa))
-            }
-            if (options.style == 'bell') {
+            } else {
               return new Path()
                 .move(points.waistFacingF)
                 .line(points.dartTipF)
                 .curve(points.dartTipFCp2, points.dartTipFCp3, points.waist3Right)
-                .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
-                .line(points.waistFacing6B)
-                .offset(sa)
-            }
-            if (options.style == 'umbrella') {
-              return new Path()
-                .move(points.waistFacingF)
-                .line(points.dartTipF)
-                .curve(points.dartTipFCp2, points.dartTipFCp3, points.waist3Right)
-                .curve(points.waist3Cp1, points.waist3Cp2U, points.waist6)
-                .line(points.waistFacing6U)
+                .curve(points.waist3Cp1, waist3Cp2, waist3Left)
+                .line(paths.waistFacing.start())
                 .offset(sa)
             }
           }
@@ -230,22 +292,12 @@ export const sidePanelB = {
                   .line(points.crossHemS)
                   .offset(sa * options.inseamSaWidth * 100)
               )
-          }
-          if (options.style == 'bell') {
+          } else {
             return new Path()
               .move(points.hemF)
               .line(points.dartTipF)
               .curve(points.dartTipFCp2, points.dartTipFCp3, points.waist3Right)
-              .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
-              .line(points.hemK)
-              .offset(sa)
-          }
-          if (options.style == 'umbrella') {
-            return new Path()
-              .move(points.hemF)
-              .line(points.dartTipF)
-              .curve(points.dartTipFCp2, points.dartTipFCp3, points.waist3Right)
-              .curve(points.waist3Cp1, points.waist3Cp2U, points.waist6)
+              .curve(points.waist3Cp1, waist3Cp2, waist3Left)
               .line(points.hemK)
               .offset(sa)
           }
