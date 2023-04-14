@@ -7,6 +7,8 @@ import { skirtBase } from './skirtBase.mjs'
 import { centreFront } from './centreFront.mjs'
 import { swingPanel } from './swingPanel.mjs'
 import { sideFront } from './sideFront.mjs'
+import { sidePanel } from './sidePanel.mjs'
+import { sidePanelB } from './sidePanelB.mjs'
 
 import { inseamPocket } from '@freesewing/wanda'
 import { boxPleatPocket } from '@freesewing/wanda'
@@ -20,6 +22,8 @@ const Scarlett = new Design({
     centreFront,
     swingPanel,
     sideFront,
+    sidePanel,
+    sidePanelB,
     inseamPocket,
     boxPleatPocket,
     pearPocket,
@@ -33,6 +37,8 @@ export {
   centreFront,
   swingPanel,
   sideFront,
+  sidePanel,
+  sidePanelB,
   inseamPocket,
   boxPleatPocket,
   pearPocket,
