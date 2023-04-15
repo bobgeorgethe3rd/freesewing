@@ -159,7 +159,7 @@ export const waistband = {
       })
       //title
       points.title = points.topLeftNotch
-        .shiftFractionTowards(points.topMidNotch, 0.5)
+        .shiftFractionTowards(points.topMidNotch, 0.55)
         .shift(-90, widthHalf)
       macro('title', {
         at: points.title,

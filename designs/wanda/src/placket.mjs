@@ -54,7 +54,6 @@ export const placket = {
 
     //stores
     store.set('placketWidth', placketWidth)
-
     if (complete) {
       //grainline
       points.grainlineFrom = new Point(points.topRight.x / 4, points.topLeft.y)

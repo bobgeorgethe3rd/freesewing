@@ -171,7 +171,7 @@ export const waistband = {
       let rightName
       let exName
       if (options.waistbandClosurePosition == 'side') {
-        if (options.walstbandSideOpening == 'right') {
+        if (options.waistbandSideOpening == 'right') {
           points.bottomMidNotch = paths.bottomCurve.reverse().shiftAlong(lengthBack)
           points.bottomLeftNotch = paths.bottomCurve.shiftAlong((length - lengthBack) / 2)
           points.bottomRightNotch = paths.bottomCurve.reverse().shiftAlong(lengthBack / 2)

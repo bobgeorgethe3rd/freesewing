@@ -57,8 +57,13 @@ export const waistbandStraight = {
         points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
         points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
       } else {
-        points.pleatFrom0 = points.topRightNotch.shiftFractionTowards(points.topMidNotch, 0.5)
-        points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
+        if (options.waistbandSideOpening == 'right') {
+          points.pleatFrom0 = points.topRightNotch.shiftFractionTowards(points.topMidNotch, 0.5)
+          points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
+        } else {
+          points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
+          points.pleatFrom1 = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.5)
+        }
       }
       points.pleatTo0 = new Point(points.pleatFrom0.x, points.bottomLeft.y)
       points.pleatTo1 = new Point(points.pleatFrom1.x, points.bottomLeft.y)
