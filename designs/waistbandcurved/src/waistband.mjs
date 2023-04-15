@@ -35,15 +35,7 @@ export const waistband = {
     Snippet,
     log,
   }) => {
-    //clashing protection
-    if (store.get('waistbandLength') == store.get('waistbandLengthTop')) {
-      part.hide()
-      log.info(
-        'Curved Waistband unavailable due to waistbandLength & waistbandLengthTop being the same'
-      )
-      return part
-    }
-    //measures
+    //void 	measures
     if (options.useVoidStores) {
       void store.setIfUnset('waistbandLength', 900)
       void store.setIfUnset('waistbandLengthTop', store.get('waistbandLength') * 0.98)
@@ -54,6 +46,15 @@ export const waistband = {
     }
     void store.setIfUnset('waistbandBack', store.get('waistbandLength') * 0.5)
     void store.setIfUnset('overlap', store.get('waistbandLength') * options.waistbandOverlap)
+
+    //clashing protection
+    if (store.get('waistbandLength') == store.get('waistbandLengthTop')) {
+      part.hide()
+      log.info(
+        'Curved Waistband unavailable due to waistbandLength & waistbandLengthTop being the same'
+      )
+      return part
+    }
 
     let length = store.get('waistbandLength')
     let lengthTop = store.get('waistbandLengthTop')
@@ -149,7 +150,7 @@ export const waistband = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.topCp3.x * (3 / 4), points.topMid.y)
+      points.grainlineFrom = new Point(points.topCp3.x / 4, points.topMid.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomMid.x)
       macro('grainline', {
         from: points.grainlineFrom,

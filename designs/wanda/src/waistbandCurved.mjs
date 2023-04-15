@@ -34,15 +34,7 @@ export const waistbandCurved = {
     }
 
     if (complete) {
-      //grainline
-      points.grainlineFrom = new Point(points.topCp3.x / 4, points.topMid.y)
-      points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomMid.x)
-      macro('grainline', {
-        from: points.grainlineFrom,
-        to: points.grainlineTo,
-      })
       //title
-      points.title = new Point(points.topCp3.x / 6, points.topMid.y / 2)
       macro('title', {
         nr: 8,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
