@@ -9,9 +9,6 @@ export const waistbandStraight = {
   hide: {
     from: true,
   },
-  options: {
-    waistbandFolded: { bool: true, menu: 'style' }, //altered for Scarlett
-  },
   draft: ({
     store,
     sa,
