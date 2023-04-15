@@ -51,26 +51,34 @@ export const waistbandStraight = {
       if (options.waistbandClosurePosition == 'front') {
         points.pleatFrom0 = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.5)
         points.pleatFrom1 = points.topMidNotch.shiftFractionTowards(points.topRightNotch, 0.5)
-        points.swingButton0 = points.bottomLeft.translate(buttonLength, -buttonWidth)
-        points.swingButton1 = points.bottomRight.translate(-buttonLength, -buttonWidth)
+        if (options.swingPanelStyle != 'none') {
+          points.swingButton0 = points.bottomLeft.translate(buttonLength, -buttonWidth)
+          points.swingButton1 = points.bottomRight.translate(-buttonLength, -buttonWidth)
+        }
       }
       if (options.waistbandClosurePosition == 'back') {
         points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
         points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
-        points.swingButton0 = points.bottomMidNotch.translate(-buttonLength, -buttonWidth)
-        points.swingButton1 = points.bottomMidNotch.translate(buttonLength, -buttonWidth)
+        if (options.swingPanelStyle == 'separate') {
+          points.swingButton0 = points.bottomMidNotch.translate(-buttonLength, -buttonWidth)
+          points.swingButton1 = points.bottomMidNotch.translate(buttonLength, -buttonWidth)
+        }
       }
       if (options.waistbandClosurePosition == 'side') {
         if (options.waistbandSideOpening == 'right') {
           points.pleatFrom0 = points.topRightNotch.shiftFractionTowards(points.topMidNotch, 0.5)
           points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
-          points.swingButton0 = points.bottomLeftNotch.translate(-buttonLength, -buttonWidth)
-          points.swingButton1 = points.bottomLeftNotch.translate(buttonLength, -buttonWidth)
+          if (options.swingPanelStyle == 'separate') {
+            points.swingButton0 = points.bottomLeftNotch.translate(-buttonLength, -buttonWidth)
+            points.swingButton1 = points.bottomLeftNotch.translate(buttonLength, -buttonWidth)
+          }
         } else {
           points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
           points.pleatFrom1 = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.5)
-          points.swingButton0 = points.bottomRightNotch.translate(-buttonLength, -buttonWidth)
-          points.swingButton1 = points.bottomRightNotch.translate(buttonLength, -buttonWidth)
+          if (options.swingPanelStyle == 'separate') {
+            points.swingButton0 = points.bottomRightNotch.translate(-buttonLength, -buttonWidth)
+            points.swingButton1 = points.bottomRightNotch.translate(buttonLength, -buttonWidth)
+          }
         }
       }
       points.pleatTo0 = new Point(points.pleatFrom0.x, points.bottomLeft.y)
@@ -85,17 +93,19 @@ export const waistbandStraight = {
           .attr('data-text-class', 'center')
       }
 
-      macro('sprinkle', {
-        snippet: 'button',
-        on: ['swingButton0', 'swingButton1'],
-      })
-      if (options.waistbandFolded) {
-        points.swingButton0F = points.swingButton0.flipY(points.flipAnchor)
-        points.swingButton1F = points.swingButton1.flipY(points.flipAnchor)
+      if (points.swingButton0) {
         macro('sprinkle', {
           snippet: 'button',
-          on: ['swingButton0F', 'swingButton1F'],
+          on: ['swingButton0', 'swingButton1'],
         })
+        if (options.waistbandFolded) {
+          points.swingButton0F = points.swingButton0.flipY(points.flipAnchor)
+          points.swingButton1F = points.swingButton1.flipY(points.flipAnchor)
+          macro('sprinkle', {
+            snippet: 'button',
+            on: ['swingButton0F', 'swingButton1F'],
+          })
+        }
       }
     }
 

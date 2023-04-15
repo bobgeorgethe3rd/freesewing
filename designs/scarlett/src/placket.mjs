@@ -34,6 +34,7 @@ export const placket = {
   }) => {
     //stores
     store.set('placketLength', points.topLeft.dist(points.bottomLeft))
+    store.set('swingWidth', points.topLeft.dist(points.topRight))
     if (options.waistbandClosurePosition == 'front' && options.swingPanelStyle == 'connected') {
       store.set('placketWidth', 0)
     }
