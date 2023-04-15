@@ -36,7 +36,7 @@ export const backPanel = {
     if (options.style == 'bell') {
       let bellSplit = new Path()
         .move(points.waist6B)
-        .curve(points.waist6Cp1B, points.waist6Cp2B, points.waistEndB)
+        .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
         .split(points.waistL)
       for (let i in bellSplit) {
         paths['bellWaist' + i] = bellSplit[i].hide()
@@ -234,13 +234,13 @@ export const backPanel = {
           points.waistFacingCp2 = points.waistFacing6U
             .shiftTowards(points.origin, waistFacingCpDistance)
             .rotate(90, points.waistFacing6U)
+
           paths.waistFacing = new Path()
             .move(points.waistFacingSplit)
             .curve(points.waistFacingCp1, points.waistFacingCp2, points.waistFacing6U)
             .attr('class', 'interfacing')
             .attr('data-text', 'Waist Facing - Line')
             .attr('data-text-class', 'center')
-            .unhide()
         }
       }
       //pleats

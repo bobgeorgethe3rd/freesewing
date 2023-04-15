@@ -358,7 +358,7 @@ export const skirtBase = {
 
     //back panel shaping
     points.waist6Cp1B = points.waist3Cp2B.rotate(180, points.waist6B)
-    points.waist6Cp2B = utils.beamsIntersect(
+    points.waistEndCp2B = utils.beamsIntersect(
       points.waistEndB,
       points.waistEndB.shift(-90, 1),
       points.waist6B,
@@ -369,7 +369,7 @@ export const skirtBase = {
       points.hemL,
       points.waist6B,
       points.waist6Cp1B,
-      points.waist6Cp2B,
+      points.waistEndCp2B,
       points.waistEndB
     )
 
@@ -606,7 +606,7 @@ export const skirtBase = {
     paths.bellCurve = new Path()
       .move(points.waist3Right)
       .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
-      .curve(points.waist6Cp1B, points.waist6Cp2B, points.waistEndB)
+      .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
 
     paths.umbrellaCurve = new Path()
       .move(points.waist3Right)
@@ -621,7 +621,7 @@ export const skirtBase = {
       let bellSplit = new Path()
         .move(points.waist3Right)
         .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
-        .curve(points.waist6Cp1B, points.waist6Cp2B, points.waistEndB)
+        .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
         .split(points.waistL)
       for (let i in bellSplit) {
         paths['bellWaist' + i] = bellSplit[i].hide()
