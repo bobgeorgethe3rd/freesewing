@@ -32,6 +32,10 @@ export const placket = {
     absoluteOptions,
     log,
   }) => {
+    //set Render
+    if (!options.plackets) {
+      part.hide()
+    }
     //stores
     store.set('placketLength', points.topLeft.dist(points.bottomLeft))
     store.set('swingWidth', points.topLeft.dist(points.topRight))

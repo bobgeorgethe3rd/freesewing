@@ -32,7 +32,6 @@ export const placket = {
     //set Render
     if (!options.plackets) {
       part.hide()
-      return part
     }
     //measures
     let placketWidth = measurements.waist * options.placketWidth
@@ -53,7 +52,9 @@ export const placket = {
       .close()
 
     //stores
-    store.set('placketWidth', placketWidth)
+    if (options.plackets) {
+      store.set('placketWidth', placketWidth)
+    }
     if (complete) {
       //grainline
       points.grainlineFrom = new Point(points.topRight.x / 4, points.topLeft.y)
