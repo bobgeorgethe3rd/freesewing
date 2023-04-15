@@ -19,6 +19,7 @@
  - The `gatsby-remark-jargon` package is not part of FreeSewing v3. While v2 versions remain available, this package is no longer supported.
  - The `remark-jargon` package is not part of FreeSewing v3. While v2 versions remain available, this package is no longer supported. Use `rehype-jargon` instead.
 
+<<<<<<< HEAD
 ### plugin-banner
 
 #### Removed
@@ -30,6 +31,42 @@
 #### Removed
 
  - This plugin no longer sets its version as an SVG attribute when rendering patterns
+=======
+### albert
+
+#### Fixed
+
+ - Workaround for not finding a suitable legband radius
+
+### unice
+
+#### Added
+
+ - Added new Front Curve and Back Curve style options
+
+#### Changed
+
+ - Updated gusset to always curve inward
+
+#### Fixed
+
+ - Fixed bug which prevented parts from being generated as intended
+
+### waralee
+
+#### Added
+
+ - Added *mini* version of main pants part
+ - Added new pocket options
+ - Added seperate waistband options
+ - Added bow tie placement option
+
+#### Fixed
+
+ - Fixed crotch depth issue
+ - Fixed pocket size issue
+ - Fixed waist shaping issue
+>>>>>>> 73b2c4821cc57dfa7c8ca0667ae53a7959135575
 
 ### plugin-bundle
 
@@ -38,24 +75,6 @@
  - Named exports of the bundled plugins are no longer available
 
 ### plugin-bust
-
-#### Removed
-
- - This plugin no longer sets its version as an SVG attribute when rendering patterns
-
-### plugin-buttons
-
-#### Removed
-
- - This plugin no longer sets its version as an SVG attribute when rendering patterns
-
-### plugin-cutonfold
-
-#### Removed
-
- - This plugin no longer sets its version as an SVG attribute when rendering patterns
-
-### plugin-dimension
 
 #### Removed
 
@@ -77,19 +96,7 @@
 
  - This plugin no longer sets its version as an SVG attribute when rendering patterns
 
-### plugin-grainline
-
-#### Removed
-
- - This plugin no longer sets its version as an SVG attribute when rendering patterns
-
 ### plugin-i18n
-
-#### Removed
-
- - This plugin no longer sets its version as an SVG attribute when rendering patterns
-
-### plugin-logo
 
 #### Removed
 
@@ -107,19 +114,7 @@
 
  - This plugin no longer sets its version as an SVG attribute when rendering patterns
 
-### plugin-notches
-
-#### Removed
-
- - This plugin no longer sets its version as an SVG attribute when rendering patterns
-
 ### plugin-round
-
-#### Removed
-
- - This plugin no longer sets its version as an SVG attribute when rendering patterns
-
-### plugin-scalebox
 
 #### Removed
 
@@ -143,16 +138,6 @@
 
  - This plugin no longer sets its version as an SVG attribute when rendering patterns
 
-### plugin-title
-
-#### Changed
-
- - Use localized date format
-
-#### Removed
-
- - This plugin no longer sets its version as an SVG attribute when rendering patterns
-
 ### plugin-versionfree-svg
 
 #### Removed
@@ -169,12 +154,159 @@
 
 ## 2.22.0 (2022-08-23)
 
+<<<<<<< HEAD
 ### plugin-title
 
 #### Added
 
  - Added support for removing the title via a macro call
  - Added a render timestamp to the title
+=======
+### octoplushy
+
+#### Added
+
+ - Octoplushy is a new design for an octopus or squid plushy
+
+### bent
+
+#### Added
+
+ - Support drafting for high bust
+
+### breanna
+
+#### Fixed
+
+ - Fixed bug where a large shoulder slope could cause an error. Fixes [#2516](https://github.com/freesewing/freesewing/issues/2516)
+
+### brian
+
+#### Added
+
+ - Support drafting for high bust
+
+#### Fixed
+
+ - Make s3 options sticky to zero below 10% to avoid path split issues. Fixes [#2249](https://github.com/freesewing/freesewing/issues/2249)
+
+### titan
+
+#### Added
+
+ - Added additional notches to aid alignment
+
+### aaron
+
+#### Added
+
+ - Support drafting for high bust
+
+### carlton
+
+#### Added
+
+ - Support drafting for high bust
+
+### cathrin
+
+#### Fixed
+
+ - Removed seam allowance from Part1a foldline. Fixes [#2545](https://github.com/freesewing/freesewing/issues/2545)
+
+### charlie
+
+#### Changed
+
+ - Renamed back pocket jet to back pocket welt
+
+### diana
+
+#### Added
+
+ - Support drafting for high bust
+
+### huey
+
+#### Added
+
+ - Support drafting for high bust
+
+### hugo
+
+#### Added
+
+ - Support drafting for high bust Closes [#802](https://github.com/freesewing/freesewing/issues/802)
+
+### paco
+
+#### Changed
+
+ - Fix hem allowance. Closes [#2350](https://github.com/freesewing/freesewing/issues/2350)
+
+#### Fixed
+
+ - Make hem allowance taper outwards to match the leg Fixes [#2350](https://github.com/freesewing/freesewing/issues/2350)
+
+### simon
+
+#### Added
+
+ - Support drafting for high bust
+
+#### Fixed
+
+ - Fix issue with boxPleat and yoke Fixes [#2400](https://github.com/freesewing/freesewing/issues/2400)
+ - Removed superfluous notches in button placket, buttonhole placket, and split yoke. Fixes [#2399](https://github.com/freesewing/freesewing/issues/2399)
+
+### simone
+
+#### Added
+
+ - Added Bust-aligned buttons option and functionality. Closes [#2154] (https://github.com/freesewing/freesewing/issues/2154)
+ - Added a notch at the center front bustline.
+
+#### Fixed
+
+ - Don't do a negative FBA from there's no need for an FBA Fixes [#2121](https://github.com/freesewing/freesewing/issues/2121)
+ - Duplicate config rather than mutating the imported simon config
+
+### sven
+
+#### Added
+
+ - Support drafting for high bust
+
+### tamiko
+
+#### Added
+
+ - Support drafting for high bust
+
+### teagan
+
+#### Added
+
+ - Support drafting for high bust
+
+### wahid
+
+#### Added
+
+ - Support drafting for high bust
+
+#### Fixed
+
+ - Prevent facing/lining overlap when shoulders get very narrow fixes [#2233](https://github.com/freesewing/freesewing/issues/2233)
+ - Fixed dependency issue with pocketFacing part
+ - Added grainlines
+
+### yuri
+
+#### Added
+
+ - Support drafting for high bust
+>>>>>>> 73b2c4821cc57dfa7c8ca0667ae53a7959135575
 
 
 ## 2.21.3 (2022-07-02)
@@ -234,18 +366,6 @@
 
  - Migrated from Rollup to Esbuild for all builds
 
-### plugin-banner
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
-
-### plugin-bartack
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
-
 ### plugin-bundle
 
 #### Changed
@@ -253,24 +373,6 @@
  - Migrated from Rollup to Esbuild for all builds
 
 ### plugin-bust
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
-
-### plugin-buttons
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
-
-### plugin-cutonfold
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
-
-### plugin-dimension
 
 #### Changed
 
@@ -288,19 +390,7 @@
 
  - Migrated from Rollup to Esbuild for all builds
 
-### plugin-grainline
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
-
 ### plugin-i18n
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
-
-### plugin-logo
 
 #### Changed
 
@@ -318,19 +408,7 @@
 
  - Migrated from Rollup to Esbuild for all builds
 
-### plugin-notches
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
-
 ### plugin-round
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
-
-### plugin-scalebox
 
 #### Changed
 
@@ -349,12 +427,6 @@
  - Migrated from Rollup to Esbuild for all builds
 
 ### plugin-theme
-
-#### Changed
-
- - Migrated from Rollup to Esbuild for all builds
-
-### plugin-title
 
 #### Changed
 
@@ -487,43 +559,12 @@
 
  - Switched to default import for version from package.json
 
-### plugin-banner
-
-#### Changed
-
- - Changed the default options
- - Now part of `@freesewing/plugin-bundle`
-
-### plugin-bartack
-
-#### Changed
-
- - Now part of `@freesewing/plugin-bundle`
-
-#### Fixed
-
- - Fixed issue with `bartackFractionAlong` macro
- - Handle start and endpoints being the same in `bartackFractionAlong`
- - Support start and endpoints being reversed in `bartackFractionAlong`
-
 ### plugin-bundle
 
 #### Changed
 
  - plugin-banner is now part of plugin-bundle
  - plugin-bartack is now part of plugin-bundle
-
-### plugin-cutonfold
-
-#### Added
-
- - Support for scale setting
-
-### plugin-dimension
-
-#### Fixed
-
- - Support hiding start/end markers on path dimensions (pd macro)
 
 ### plugin-flip
 
@@ -538,28 +579,12 @@
  - The `goreNumber` property of the gore macro has been renamed to `gores`
  - Using `goreNumber` is now deprecated in favor of `gore` and will be removed in the next majot version
 
-### plugin-grainline
-
-#### Added
-
- - Added support for custom text
-
 ### plugin-sprinkle
 
 #### Added
 
  - Added support for `scale` to scale all sprinkled snippets
  - Added support for `rotate` to rotate all sprinkled snippets
-
-### plugin-title
-
-#### Added
-
- - Added support for `settings.scale`
-
-#### Removed
-
- - Removed rendering of config.cut as it's not used
 
 ### core
 
@@ -597,22 +622,6 @@
 
  - Updated the rendertest pattern to be more concise
 
-### plugin-banner
-
-#### Added
-
- - Added (esm) unit tests
-
-### plugin-bartack
-
-#### Added
-
- - Added (esm) unit tests
-
-#### Changed
-
- - Add utility classes and CSS variables for better styling support
-
 ### plugin-bundle
 
 #### Added
@@ -620,32 +629,6 @@
  - Added (esm) unit tests
 
 ### plugin-bust
-
-#### Added
-
- - Added (esm) unit tests
-
-### plugin-buttons
-
-#### Added
-
- - Added (esm) unit tests
-
-#### Changed
-
- - Add utility classes and CSS variables for better styling support
-
-#### Fixed
-
- - Only add snippets once to SVG object
-
-### plugin-cutonfold
-
-#### Added
-
- - Added (esm) unit tests
-
-### plugin-dimension
 
 #### Added
 
@@ -663,19 +646,7 @@
 
  - Added (esm) unit tests
 
-### plugin-grainline
-
-#### Added
-
- - Added (esm) unit tests
-
 ### plugin-i18n
-
-#### Added
-
- - Added (esm) unit tests
-
-### plugin-logo
 
 #### Added
 
@@ -693,27 +664,11 @@
 
  - Added (esm) unit tests
 
-### plugin-notches
-
-#### Added
-
- - Added (esm) unit tests
-
 ### plugin-round
 
 #### Added
 
  - Added (esm) unit tests
-
-### plugin-scalebox
-
-#### Added
-
- - Added (esm) unit tests
-
-#### Changed
-
- - Add utility classes and CSS variables for better styling support
 
 ### plugin-sprinkle
 
@@ -732,16 +687,6 @@
 #### Added
 
  - Added (esm) unit tests
-
-### plugin-title
-
-#### Added
-
- - Added (esm) unit tests
-
-#### Changed
-
- - Add utility classes and CSS variables for better styling support
 
 ### plugin-versionfree-svg
 
@@ -881,12 +826,6 @@
  - Include plugin-buttons
  - Include plugin-mirror
 
-### plugin-buttons
-
-#### Changed
-
- - Is now included in plugin-bundle
-
 ### plugin-mirror
 
 #### Changed
@@ -966,25 +905,6 @@
  - Added examples for bartack plugin
  - Added examples for new buttonhole-start/end snippets
 
-### plugin-buttons
-
-#### Added
-
- - Added the buttonhole-end snippet
- - Added the buttonhole-start snippet
-
-### plugin-dimension
-
-#### Added
-
- - Added the `rmad` macro
-
-### plugin-logo
-
-#### Added
-
- - Render logo in currentColor to support dark mode
-
 ### plugin-theme
 
 #### Added
@@ -1041,6 +961,7 @@
 
 ## 2.11.3 (2021-01-16)
 
+<<<<<<< HEAD
 ### plugin-scalebox
 
 #### Added
@@ -1050,6 +971,95 @@
 #### Changed
 
  - Took my name off the patterns
+=======
+### albert
+
+#### Fixed
+
+ - Added missing scalebox
+
+### florence
+
+#### Fixed
+
+ - Added missing scalebox
+
+### florent
+
+#### Fixed
+
+ - Added missing scalebox
+
+### holmes
+
+#### Fixed
+
+ - Added missing scalebox
+
+### bent
+
+#### Fixed
+
+ - Added missing scalebox
+
+### bruce
+
+#### Fixed
+
+ - Added missing scalebox
+
+### huey
+
+#### Fixed
+
+ - Added missing scalebox
+ - Added cut-on-fold indicator to pocket
+ - Removed lingering notch from pocket part
+
+### hugo
+
+#### Fixed
+
+ - Removed inherited notches
+
+### jaeger
+
+#### Fixed
+
+ - Added missing scalebox
+
+### shin
+
+#### Fixed
+
+ - Added missing scalebox
+
+### simon
+
+#### Fixed
+
+ - Cleaned up notches
+ - Marked where to match fabric on closure
+
+### simone
+
+#### Fixed
+
+ - Cleaned up notches
+
+### wahid
+
+#### Fixed
+
+ - Added missing scalebox
+ - Proper styling for SA on front and back
+
+### waralee
+
+#### Fixed
+
+ - Added missing scalebox
+>>>>>>> 73b2c4821cc57dfa7c8ca0667ae53a7959135575
 
 
 ## 2.11.2 (2021-01-11)
@@ -1060,11 +1070,19 @@
 
 ## 2.11.0 (2021-01-10)
 
+<<<<<<< HEAD
 ### plugin-notches
 
 #### Added
 
  - Initial release. See [#757](https://github.com/freesewing/freesewing/issues/757)
+=======
+### shin
+
+#### Fixed
+
+ - Removed unused lengthBonus option
+>>>>>>> 73b2c4821cc57dfa7c8ca0667ae53a7959135575
 
 ### i18n
 
@@ -1127,6 +1145,7 @@
 
 ## 2.9.0 (2020-10-02)
 
+<<<<<<< HEAD
 ### plugin-dimension
 
 #### Added
@@ -1139,6 +1158,13 @@
 #### Added
 
  - Added support for cutting instructions. Closes [#500](https://github.com/freesewing/freesewing/issues/500)
+=======
+### teagan
+
+#### Added
+
+ - Teagan is a T-shirt pattern
+>>>>>>> 73b2c4821cc57dfa7c8ca0667ae53a7959135575
 
 ### core
 
@@ -1213,16 +1239,6 @@
 #### Changed
 
  - Removed `Circumference` suffix from measurement names
-
-### plugin-buttons
-
-#### Changed
-
- - Snippet names are changed, `snap-male` is now `snap-stud` and `snap-female` is now `snap-socket` Changing this to avoid needless use of gender related terminology.
-
-#### Removed
-
- - Snippet `snap-male` and `snap-female` are no longer available. Use `snap-stud` and `snap-socket` instead
 
 ### plugin-measurements
 
@@ -1304,11 +1320,37 @@
 
 ## 2.4.4 (2020-03-15)
 
+<<<<<<< HEAD
 ### plugin-dimension
 
 #### Changed
 
  - Don't escape inch symbol in text. Instead let Svg.escapeText() handle it at render time
+=======
+### huey
+
+#### Fixed
+
+ - The `sleevecapBackFactorY` and `sleevecapFrontFactorY` options had a minimum above the default
+
+### simon
+
+#### Fixed
+
+ - The `sleevecapBackFactorY` and `sleevecapFrontFactorY` options had a minimum above the default
+
+### simone
+
+#### Fixed
+
+ - The `sleevecapBackFactorY` and `sleevecapFrontFactorY` options had a minimum above the default
+
+### sven
+
+#### Fixed
+
+ - The `sleevecapBackFactorY` and `sleevecapFrontFactorY` options had a minimum above the default
+>>>>>>> 73b2c4821cc57dfa7c8ca0667ae53a7959135575
 
 ### core
 
@@ -1327,12 +1369,6 @@
 
 
 ## 2.4.2 (2020-03-08)
-
-### plugin-title
-
-#### Changed
-
- - Added *for* to title output
 
 ### i18n
 
@@ -1408,12 +1444,6 @@
 
 
 ## 2.1.5 (2019-11-19)
-
-### plugin-dimension
-
-#### Fixed
-
- - Fixed issue where inch marks where breaking SVG because of unescaped double quotes
 
 
 ## 2.1.4 (2019-11-01)
@@ -1508,12 +1538,6 @@
 
  - Initial release
 
-### plugin-banner
-
-#### Added
-
- - Initial release
-
 ### plugin-bundle
 
 #### Added
@@ -1526,31 +1550,7 @@
 
  - Initial release
 
-### plugin-buttons
-
-#### Added
-
- - Initial release
-
-### plugin-cutonfold
-
-#### Added
-
- - Initial release
-
-### plugin-dimension
-
-#### Added
-
- - Initial release
-
 ### plugin-flip
-
-#### Added
-
- - Initial release
-
-### plugin-grainline
 
 #### Added
 
@@ -1562,19 +1562,7 @@
 
  - Initial release
 
-### plugin-logo
-
-#### Added
-
- - Initial release
-
 ### plugin-round
-
-#### Added
-
- - Initial release
-
-### plugin-scalebox
 
 #### Added
 
@@ -1593,12 +1581,6 @@
  - Initial release
 
 ### plugin-theme
-
-#### Added
-
- - Initial release
-
-### plugin-title
 
 #### Added
 
