@@ -27,6 +27,15 @@ export const swingFacing = {
     absoluteOptions,
     log,
   }) => {
+    //Set Render
+    if (
+      options.waistbandStyle == 'none' ||
+      options.waistbandClosurePosition != 'front' ||
+      options.swingPanelStyle != 'connected'
+    ) {
+      part.hide()
+      return part
+    }
     //removing paths
     for (let i in paths) delete paths[i]
     //measures
@@ -36,12 +45,12 @@ export const swingFacing = {
       .move(points.waist0Left)
       .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
       .line(points.hemD)
-    // .hide()
+      .hide()
 
     paths.waist = new Path()
       .move(points.waistPanel0)
       .curve(points.waist0Cp3, points.waist0Cp4, points.waist0Left)
-    // .hide()
+      .hide()
 
     points.swingDLeft = paths.sideSeam.shiftAlong(store.get('placketLength'))
     points.swingDRight = points.swingDLeft
@@ -67,22 +76,56 @@ export const swingFacing = {
       points.waist0Left
     )
 
+    let waistSplit = paths.waist.split(points.waistSplit)
+    for (let i in waistSplit) {
+      paths['waist' + i] = waistSplit[i].hide()
+    }
+
+    paths.saBase = new Path()
+      .move(points.swingDLeft)
+      .line(points.swingDRight)
+      .line(points.swingDartTipD)
+      .curve(points.swingDartTipDCp1, points.swingDartTipDCp2, points.swingWaist0Left)
+      .line(points.waistSplit)
+      .join(paths.waist1)
+      .hide()
+
+    paths.sideFrontSeam = new Path()
+      .move(points.waist0Left)
+      .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
+      .line(points.swingDLeft)
+      .hide()
+
+    paths.seam = paths.saBase.clone().join(paths.sideFrontSeam).close()
+
     if (complete) {
       //grainline
-      // points.grainlineFrom = points.cfUpperLeg.shiftFractionTowards(points.crotch, 0.8)
-      // points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
-      // macro('grainline', {
-      // from: points.grainlineFrom,
-      // to: points.grainlineTo,
-      // })
+      points.grainlineTo = points.swingDLeft.shiftFractionTowards(points.swingDRight, 0.75)
+      points.grainlineFrom = utils.beamsIntersect(
+        points.grainlineTo,
+        points.swingDRight.rotate(90, points.grainlineTo),
+        points.dartTipDCp1,
+        points.dartTipDCp1.shift(points.swingDLeft.angle(points.swingDRight), 1)
+      )
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
       //title
-
-      // macro('title', {
-      // nr: 10,
-      // title: 'Swing Facing',
-      // at: points.title,
-      // })
+      points.title = points.dartTipD.shiftFractionTowards(points.swingDartTipD, 0.15)
+      macro('title', {
+        nr: 10,
+        title: 'Swing Facing',
+        at: points.title,
+        rotation: points.swingDLeft.angle(points.dartTipD) * -1 - 270,
+        scale: 0.25,
+      })
       if (sa) {
+        paths.sa = paths.saBase
+          .offset(sa)
+          .join(paths.sideFrontSeam.offset(sa * options.sideFrontSaWidth * 100))
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 

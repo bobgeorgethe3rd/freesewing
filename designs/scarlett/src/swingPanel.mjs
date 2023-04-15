@@ -86,7 +86,7 @@ export const swingPanel = {
         .attr('data-text', 'Hem Facing - Line')
         .attr('data-text-class', 'center')
 
-      if (options.waistbandStyle == 'none') {
+      if (options.waistbandStyle == 'none' && options.swingPanelStyle != 'separate') {
         paths.waistFacing = new Path()
           .move(points.waistFacingD)
           .curve(points.waistFacingDCp2, points.cfWaistFacingCp1, points.cfWaistFacing)
@@ -116,7 +116,7 @@ export const swingPanel = {
           .close()
           .attr('class', 'interfacing sa')
 
-        if (options.waistbandStyle == 'none') {
+        if (options.waistbandStyle == 'none' && options.swingPanelStyle != 'separate') {
           paths.waistFacingSa = paths.waistFacing
             .offset(sa * options.waistFacingHemWidth * 100)
             .line(points.cfWaistFacing)
