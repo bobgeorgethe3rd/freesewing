@@ -35,7 +35,7 @@ export const backPanel = {
     if (options.style == 'bell') {
       let bellSplit = new Path()
         .move(points.waist6B)
-        .curve(points.waist6Cp1B, points.waist6Cp2B, points.waistEndB)
+        .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
         .split(points.waistL)
       for (let i in bellSplit) {
         paths['bellWaist' + i] = bellSplit[i].hide()
@@ -62,7 +62,7 @@ export const backPanel = {
       } else {
         return new Path()
           .move(points.hemK)
-          .line(points.waist6B)
+          .line(points.waist6)
           .curve(points.waist6Cp1, points.waistHCp2, points.waistH)
       }
     }
@@ -114,16 +114,159 @@ export const backPanel = {
       let skirtHemFacingWidth = store.get('skirtHemFacingWidth')
       points.crossFacingB = points.crossHemB.shiftTowards(points.crossB, skirtHemFacingWidth)
       points.hemFacingL = points.hemLB.shiftTowards(points.waistL, skirtHemFacingWidth)
-      points.hemFacingLCp1
+      points.hemFacingLCp1 = utils.beamsIntersect(
+        points.crossFacingB,
+        points.hemFacingL,
+        points.hemLCp2B,
+        points.origin
+      )
+      points.hemFacingKCp2B = utils.beamsIntersect(
+        points.hemFacingKCp1,
+        points.hemFacingK,
+        points.hemKCp1B,
+        points.origin
+      )
 
       points.crossFacingU = points.crossHemU.shiftTowards(points.crossU, skirtHemFacingWidth)
       points.hemFacingM = points.hemMU.shiftTowards(points.waistH, skirtHemFacingWidth)
+      points.hemFacingMCp1 = utils.beamsIntersect(
+        points.crossFacingU,
+        points.hemFacingM,
+        points.hemMCp2U,
+        points.origin
+      )
+      points.hemFacingKCp2U = utils.beamsIntersect(
+        points.hemFacingKCp1,
+        points.hemFacingK,
+        points.hemKCp1U,
+        points.origin
+      )
 
-      // paths.hemFacing = drawHemFacing()
-      // .attr('class', 'interfacing')
-      // .attr('data-text', 'Hem Facing - Line')
-      // .attr('data-text-class', 'center')
+      const drawHemFacing = () => {
+        if (options.style == 'bell') {
+          return new Path()
+            .move(points.crossFacingB)
+            .line(points.hemFacingL)
+            .curve(points.hemFacingLCp1, points.hemFacingKCp2B, points.hemFacingK)
+        } else {
+          return new Path()
+            .move(points.crossFacingU)
+            .line(points.hemFacingM)
+            .curve(points.hemFacingMCp1, points.hemFacingKCp2U, points.hemFacingK)
+        }
+      }
+
+      paths.hemFacing = drawHemFacing()
+        .attr('class', 'interfacing')
+        .attr('data-text', 'Hem Facing - Line')
+        .attr('data-text-class', 'center')
       if (options.waistbandStyle == 'none') {
+      }
+
+      if (options.waistbandStyle == 'none') {
+        let crossStart
+        let crossSeat
+        let crossCp1
+        let crossEnd
+        let waistFacingStart
+        let waistFacingCp1
+        let waistFacingCp2
+        let waistFacingEnd
+        if (options.style == 'bell') {
+          crossStart = points.waistL
+          crossSeat = points.seatL
+          crossCp1 = points.crossBCp1
+          crossEnd = points.crossB
+          waistFacingStart = points.origin.shiftOutwards(
+            points.waistEndB,
+            points.waist6B.dist(points.waistFacing6B)
+          )
+          waistFacingEnd = points.waistFacing6B
+          waistFacingCp1 = utils.beamsIntersect(
+            points.origin,
+            points.hemLCp2,
+            waistFacingStart,
+            points.origin.rotate(-90, waistFacingStart)
+          )
+          waistFacingCp2 = utils.beamsIntersect(
+            points.origin,
+            points.hemKCp1B,
+            waistFacingEnd,
+            points.origin.rotate(90, waistFacingEnd)
+          )
+        } else {
+          crossStart = points.waistH
+          crossSeat = points.seatM
+          crossCp1 = points.crossUCp1
+          crossEnd = points.crossU
+          waistFacingEnd = points.cfWaistFacing
+          waistFacingStart = points.origin.shiftOutwards(
+            points.waistEnd,
+            points.cfWaist.dist(points.cfWaistFacing)
+          )
+          waistFacingCp1 = utils.beamsIntersect(
+            points.origin,
+            points.waistCp2,
+            waistFacingStart,
+            points.origin.rotate(-90, waistFacingStart)
+          )
+          waistFacingCp2 = utils.beamsIntersect(
+            points.origin,
+            points.waistCp1,
+            waistFacingEnd,
+            points.origin.rotate(90, waistFacingEnd)
+          )
+        }
+
+        points.waistFacingSplit = utils.curvesIntersect(
+          crossStart,
+          crossSeat,
+          crossCp1,
+          crossEnd,
+          waistFacingStart,
+          waistFacingCp1,
+          waistFacingCp2,
+          waistFacingEnd
+        )
+
+        if (options.style == 'bell') {
+          let bellFacingSplit = new Path()
+            .move(waistFacingStart)
+            .curve(waistFacingCp1, waistFacingCp2, waistFacingEnd)
+            .split(points.waistFacingSplit)
+          for (let i in bellFacingSplit) {
+            paths['bellWaistFacing' + i] = bellFacingSplit[i].hide()
+          }
+          paths.waistFacing = paths.bellWaistFacing1
+            .attr('class', 'interfacing')
+            .attr('data-text', 'Waist Facing - Line')
+            .attr('data-text-class', 'center')
+            .unhide()
+        } else {
+          let waistFacingCpDistance =
+            (4 / 3) *
+            points.origin.dist(points.waistFacing6B) *
+            Math.tan(
+              utils.deg2rad(
+                (points.origin.angle(points.waistFacing6U) -
+                  points.origin.angle(points.waistFacingSplit)) /
+                  4
+              )
+            )
+          points.waistFacingCp1 = points.waistFacingSplit
+            .shiftTowards(points.origin, waistFacingCpDistance)
+            .rotate(-90, points.waistFacingSplit)
+          points.waistFacingCp2 = points.waistFacing6U
+            .shiftTowards(points.origin, waistFacingCpDistance)
+            .rotate(90, points.waistFacing6U)
+
+          paths.waistFacing = new Path()
+            .move(points.waistFacingSplit)
+            .curve(points.waistFacingCp1, points.waistFacingCp2, points.waistFacing6U)
+            .attr('class', 'interfacing')
+            .attr('data-text', 'Waist Facing - Line')
+            .attr('data-text-class', 'center')
+        }
       }
 
       //pleats
@@ -198,9 +341,58 @@ export const backPanel = {
       if (sa) {
         let hemSa = sa * options.skirtHemWidth * 100
         let crossSa = sa * options.crossSaWidth * 100
+        let inseamSa = sa * options.inseamSaWidth * 100
+
+        paths.hemFacingSa = drawHemBase()
+          .offset(hemSa)
+          .join(
+            new Path()
+              .move(drawHemBase().end())
+              .line(paths.hemFacing.end())
+              .join(paths.hemFacing.reverse())
+              .offset(sa)
+          )
+          .join(
+            new Path().move(paths.hemFacing.start()).line(drawHemBase().start()).offset(inseamSa)
+          )
+          .close()
+          .attr('class', 'interfacing sa')
 
         if (options.waistbandStyle == 'none') {
+          const drawFacingSaBase = () => {
+            if (options.style == 'bell') {
+              return new Path()
+                .move(points.waistFacing6B)
+                .line(points.waist6B)
+                .join(paths.bellWaist0)
+            } else {
+              return new Path()
+                .move(points.waistFacing6U)
+                .line(points.waist6)
+                .curve(points.waist6Cp1, points.waistHCp2, points.waistH)
+            }
+          }
+
+          let crossFacingSplit = drawCross().split(points.waistFacingSplit)
+          for (let i in crossFacingSplit) {
+            paths['crossFacing' + i] = crossFacingSplit[i].hide()
+          }
+          paths.waistFacingSa = paths.waistFacing
+            .clone()
+            .offset(hemSa)
+            .join(drawSaBase().offset(sa))
+            .join(paths.crossFacing0.offset(crossSa))
+            .close()
+            .attr('class', 'interfacing sa')
         }
+
+        paths.sa = drawHemBase()
+          .offset(hemSa)
+          .join(drawSaBase().offset(sa))
+          .join(drawCross().offset(crossSa))
+          .join(drawInseam().offset(inseamSa))
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 
