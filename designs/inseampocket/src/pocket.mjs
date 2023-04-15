@@ -17,7 +17,7 @@ export const pocket = {
     //Construction
     pocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
     //Advanced
-    inseamPocketCurveLeftBalance: { pct: 100, min: 0, max: 100, menu: 'advanced' },
+    inseamPocketCurveLeftBalance: { pct: 100, min: 0, max: 100, menu: 'advanced.pockets' },
   },
   plugins: [pluginBundle],
   measurements: ['wrist'],
