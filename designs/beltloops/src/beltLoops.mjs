@@ -1,7 +1,7 @@
 import { pluginBundle } from '@freesewing/plugin-bundle'
 
 export const beltLoops = {
-  name: 'beltloop.beltLoops',
+  name: 'beltloops.beltLoops',
   options: {
     //Constants
     useVoidStores: true,
