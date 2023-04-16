@@ -13,7 +13,6 @@ export const frontPocketFacing = {
     coinPocketWidth: { pct: 53.6, min: 50, max: 60, menu: 'pockets.coinPockets' },
     coinPocketHorizontal: { pct: 14.3, min: 14, max: 15, menu: 'pockets.coinPockets' },
     coinPocketVertical: { pct: 13.3, min: 13, max: 14, menu: 'pockets.coinPockets' },
-    coinPocketWidth: { pct: 53.6, min: 50, max: 55, menu: 'pockets.coinPockets' },
   },
   draft: ({
     store,

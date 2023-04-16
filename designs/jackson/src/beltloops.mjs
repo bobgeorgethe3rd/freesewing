@@ -3,7 +3,7 @@ import { flyShield } from './flyShield.mjs'
 
 export const beltLoops = {
   name: 'jackson.beltLoops',
-  from: darftBeltLoops,
+  from: draftBeltLoops,
   after: flyShield,
   hide: {
     from: true,
