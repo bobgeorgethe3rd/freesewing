@@ -14,7 +14,8 @@ import { placket } from './placket.mjs'
 import { waistbandStraight } from './waistbandStraight.mjs'
 import { waistbandCurved } from './waistbandCurved.mjs'
 import { swingFacing } from './swingFacing.mjs'
-
+import { swingWaistband } from './swingWaistband.mjs'
+// Inherited Parts
 import { inseamPocket } from '@freesewing/wanda'
 import { boxPleatPocket } from '@freesewing/wanda'
 import { pearPocket } from '@freesewing/wanda'
@@ -34,6 +35,7 @@ const Scarlett = new Design({
     waistbandStraight,
     waistbandCurved,
     swingFacing,
+    swingWaistband,
     inseamPocket,
     boxPleatPocket,
     pearPocket,
@@ -54,6 +56,7 @@ export {
   waistbandStraight,
   waistbandCurved,
   swingFacing,
+  swingWaistband,
   inseamPocket,
   boxPleatPocket,
   pearPocket,
