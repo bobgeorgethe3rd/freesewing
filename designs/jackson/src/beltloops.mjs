@@ -1,9 +1,9 @@
-import { beltLoops as blBeltLoops } from '@freesewing/beltloops'
+import { beltLoops as draftBeltLoops } from '@freesewing/beltloops'
 import { flyShield } from './flyShield.mjs'
 
 export const beltLoops = {
   name: 'jackson.beltLoops',
-  from: blBeltLoops,
+  from: darftBeltLoops,
   after: flyShield,
   hide: {
     from: true,

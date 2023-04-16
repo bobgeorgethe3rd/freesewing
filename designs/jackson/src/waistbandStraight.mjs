@@ -1,9 +1,9 @@
-import { waistband as waistbandS } from '@freesewing/waistbandstraight'
+import { waistband as draftWaistbandStraight } from '@freesewing/waistbandstraight'
 import { flyShield } from './flyShield.mjs'
 
 export const waistbandStraight = {
   name: 'jackson.waistbandStraight',
-  from: waistbandS,
+  from: draftWaistbandStraight,
   after: flyShield,
   hide: {
     from: true,
