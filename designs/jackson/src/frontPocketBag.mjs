@@ -122,8 +122,8 @@ export const frontPocketBag = {
 
     macro('mirror', {
       mirror: [points.frontPocketWaist, points.frontPocketBottomAnchor],
-      paths: [paths.bottomCurve, paths.outSeam00],
-      points: [points.frontPocketOpeningOut],
+      paths: ['bottomCurve', 'outSeam00'],
+      points: ['frontPocketOpeningOut'],
       prefix: 'm',
     })
 

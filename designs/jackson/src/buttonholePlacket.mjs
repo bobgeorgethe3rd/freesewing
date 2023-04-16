@@ -35,8 +35,8 @@ export const buttonholePlacket = {
 
     macro('mirror', {
       mirror: [points.styleWaistIn, points.flyCurveEnd],
-      paths: [paths.seamHalf],
-      points: [points.flyOut, points.flyCurveStart],
+      paths: ['seamHalf'],
+      points: ['flyOut', 'flyCurveStart'],
       prefix: 'm',
     })
     //paths
@@ -72,9 +72,10 @@ export const buttonholePlacket = {
           snippets['buttonhole' + i] = new Snippet('buttonhole', points['buttonhole' + i])
             .attr('data-rotate', 90 - points.flyOut.angle(points.mFlyOut))
             .attr('data-scale', 2)
+          let buttonhole = 'buttonhole' + i
           macro('mirror', {
             mirror: [points.styleWaistIn, points.flyCurveEnd],
-            points: [points['buttonhole' + i]],
+            points: [buttonhole],
             prefix: 'm',
           })
           snippets['mButtonhole' + i] = new Snippet('buttonhole', points['mButtonhole' + i])
