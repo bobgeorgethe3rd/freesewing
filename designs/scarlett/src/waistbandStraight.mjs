@@ -29,7 +29,10 @@ export const waistbandStraight = {
     log,
   }) => {
     //Set Render
-    if (options.waistbandStyle != 'straight') {
+    if (
+      (options.waistbandStyle != 'straight' && measurements.waistToHips && measurements.hips) ||
+      options.waistbandStyle == 'none'
+    ) {
       part.hide()
       return part
     }

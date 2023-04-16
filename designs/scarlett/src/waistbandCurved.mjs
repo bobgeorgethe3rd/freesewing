@@ -29,7 +29,7 @@ export const waistbandCurved = {
     log,
   }) => {
     //Set Render
-    if (options.waistbandStyle != 'curved') {
+    if (options.waistbandStyle != 'curved' || !measurements.waistToHips || !measurements.hips) {
       part.hide()
       return part
     }

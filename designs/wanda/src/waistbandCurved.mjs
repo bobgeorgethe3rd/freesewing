@@ -28,7 +28,7 @@ export const waistbandCurved = {
     absoluteOptions,
   }) => {
     //set Render
-    if (options.waistbandStyle != 'curved') {
+    if (options.waistbandStyle != 'curved' || !measurements.waistToHips || !measurements.hips) {
       part.hide()
       return part
     }
