@@ -36,7 +36,7 @@ const designs = {
   ...designsByType.swimwear,
   ...designsByType.tops,
   ...designsByType.waistbands,
-  ...designsByType.underwear,
+  ...designsByType.undergarments,
   ...designsByType.utilities,
 }
 

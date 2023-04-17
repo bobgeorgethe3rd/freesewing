@@ -67,9 +67,9 @@ const initialNavigation = (t) => {
       __title: t('Waistbands'),
       __slug: 'waistbands',
     },
-    underwear: {
-      __title: t('Underwear'),
-      __slug: 'underwear',
+    undergarments: {
+      __title: t('Undergarments'),
+      __slug: 'undergarments',
     },
     utilities: {
       __title: t('utilityDesigns'),
