@@ -1,12 +1,10 @@
 const titleMacro = function (so, { points, scale, locale, store }) {
-  const prefix = so.prefix || ''
+  const prefix = (so.prefix || '') + '_title'
 
   // Passing `false` will remove the title
   if (so === false) {
-    for (const id of [`titleNr`, `titleName`, `titlePattern`, `titleFor`, `exportDate`]) {
-      for (const pointName in points) {
-        if (pointName.match(id)) delete points[pointName]
-      }
+    for (const pointName in points) {
+      if (pointName.match('_title')) delete points[pointName]
     }
     return true
   }
@@ -26,14 +24,14 @@ const titleMacro = function (so, { points, scale, locale, store }) {
   so.scale = so.scale * scale
   let overwrite = true
   if (so.append) overwrite = false
-  points[`_${prefix}_titleNr`] = so.at
+  points[prefix + 'titleNr'] = so.at
     .clone()
     .attr('data-text', so.nr, overwrite)
     .attr('data-text-class', 'text-4xl fill-note font-bold')
     .attr('data-text-transform', transform(so.at))
   let shift = 8
   if (so.title) {
-    points[`_${prefix}_titleName`] = so.at
+    points[prefix + 'titleName'] = so.at
       .shift(-90 - so.rotation, shift * so.scale)
       .attr('data-text', so.title)
       .attr('data-text-class', 'text-lg fill-current font-bold')
@@ -42,7 +40,7 @@ const titleMacro = function (so, { points, scale, locale, store }) {
   }
   let name = store.data?.name || 'No Name'
   name = name.replace('@freesewing/', '')
-  points[`_${prefix}_titlePattern`] = so.at
+  points[prefix + 'titlePattern'] = so.at
     .shift(-90 - so.rotation, shift * so.scale)
     .attr('data-text', name)
     .attr('data-text', 'v' + (store.data?.version || 'No Version'))
@@ -50,7 +48,7 @@ const titleMacro = function (so, { points, scale, locale, store }) {
     .attr('data-text-transform', transform(so.at.shift(-90 - so.rotation, shift * so.scale)))
   if (store.data.for) {
     shift += 8
-    points[`_${prefix}_titleFor`] = so.at
+    points[prefix + 'titleFor'] = so.at
       .shift(-90 - so.rotation, shift * so.scale)
       .attr('data-text', '( ' + store.data.for + ' )')
       .attr('data-text-class', 'fill-current font-bold')
@@ -62,7 +60,7 @@ const titleMacro = function (so, { points, scale, locale, store }) {
   let mins = now.getMinutes()
   if (hours < 10) hours = `0${hours}`
   if (mins < 10) mins = `0${mins}`
-  points[`_${prefix}_exportDate`] = so.at
+  points[prefix + 'ExportDate'] = so.at
     .shift(-90 - so.rotation, shift * so.scale)
     .attr(
       'data-text',
