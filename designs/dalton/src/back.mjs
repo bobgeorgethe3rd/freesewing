@@ -422,7 +422,6 @@ export const back = {
       macro('logorg', {
         at: points.logo,
         scale: 0.9,
-        rotation: 50,
       })
       //Fit Guides
       if (options.fitGuides) {
