@@ -352,7 +352,7 @@ function createDesign(name, type) {
 function createPlugin(name) {
   const pluginName = 'plugin-' + name
   const template = ['config', 'templates', 'plugin']
-  const description = 'A FreeSewing plugin that needs a description'
+  const description = 'A plugin that needs a description'
   const plugin = ['plugins', pluginName]
   const capitalized_name = name.charAt(0).toUpperCase() + name.slice(1)
 
