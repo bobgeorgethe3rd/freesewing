@@ -3,6 +3,7 @@ _types:
     peer:
       '@freesewing/core': &freesewing '{{version}}'
       '@freesewing/plugin-bundle': *freesewing
+      '@freesewing/plugin-logorg': *freesewing
     dev:
       'mocha': &mocha '10.2.0'
       'chai': &chai '4.2.0'

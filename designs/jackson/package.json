@@ -48,6 +48,7 @@
   "peerDependencies": {
     "@freesewing/core": "3.0.0-alpha.8",
     "@freesewing/plugin-bundle": "3.0.0-alpha.8",
+    "@freesewing/plugin-logorg": "3.0.0-alpha.8",
     "@freesewing/dalton": "3.0.0-alpha.8",
     "@freesewing/patchpocket": "3.0.0-alpha.8",
     "@freesewing/beltloops": "3.0.0-alpha.8",

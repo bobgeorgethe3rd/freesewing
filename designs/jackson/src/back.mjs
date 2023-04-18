@@ -53,6 +53,8 @@ export const back = {
     //removing paths and snippets not required from backBase
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
+    //macro removal
+    macro('logorg', false)
     //draw guide
     const drawOutseam = () => {
       let waistOut = points.styleWaistOut || points.waistOut
@@ -187,6 +189,12 @@ export const back = {
       })
       //scalebox
       macro('scalebox', { at: points.scalebox })
+      //logo
+      macro('logorg', {
+        at: points.logo,
+        scale: 2 / 3,
+        size: 'm',
+      })
       //fitGuides
       if (options.fitGuides) {
         if (!options.yoke && points.hipsGuideOut) {

@@ -1,5 +1,6 @@
 import { back as backTitan } from '@freesewing/titan'
 import { pctBasedOn } from '@freesewing/core'
+import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const back = {
   name: 'dalton.back',
@@ -7,6 +8,7 @@ export const back = {
   hide: {
     from: true,
   },
+  plugins: [pluginLogoRG],
   options: {
     //Fit
     kneeEase: { pct: 6, min: 0, max: 25, menu: 'fit' }, //altered from Titan
@@ -401,7 +403,10 @@ export const back = {
       //notches
       snippets.crossSeamCurveStart = new Snippet('bnotch', points.crossSeamCurveStart)
       //title
-      points.title = points.knee.shiftFractionTowards(points.kneeIn, 0.25)
+      points.title = new Point(
+        points.knee.shiftFractionTowards(points.kneeIn, 0.2).x,
+        points.fork.y * 1.45
+      )
       macro('title', {
         nr: 1,
         title: 'back',
@@ -409,9 +414,15 @@ export const back = {
       })
 
       //scalebox
-      points.scalebox = points.knee.shiftFractionTowards(points.floor, 0.5)
+      points.scalebox = points.knee.shiftFractionTowards(points.floor, 0.4)
       macro('scalebox', { at: points.scalebox })
 
+      //logo
+      points.logo = points.knee
+      macro('logorg', {
+        at: points.logo,
+        scale: 0.9,
+      })
       //Fit Guides
       if (options.fitGuides) {
         points.waistGuideIn = points.styleWaistIn.shiftFractionTowards(points.dartIn, 0.15)
