@@ -20,7 +20,7 @@ export const plugin = {
       }
 
       let prefixFunction
-      if (prefix != '' || so === false) {
+      if (prefix != '') {
         prefixFunction = (string) => prefix + string.charAt(0).toUpperCase() + string.slice(1)
       } else {
         prefixFunction = (string) => string
@@ -28,11 +28,13 @@ export const plugin = {
       // Passing `false` will remove the scalebox
       if (so === false) {
         for (const pointName in points) {
-          if (pointName.match(prefixFunction('logoRG'))) delete points[pointName]
+          if (pointName.match('logoRG')) delete points[pointName]
+          if (pointName.match('LogoRG')) delete points[pointName]
         }
 
         for (const pathName in paths) {
-          if (pathName.match(prefixFunction('logoRG'))) delete points[pathName]
+          if (pathName.match('logoRG')) delete paths[pathName]
+          if (pathName.match('LogoRG')) delete paths[pathName]
         }
         return true
       }
@@ -233,7 +235,7 @@ export const plugin = {
       points[prefixFunction('logoRGCp8') + suffix] = points[prefixFunction('logoRGLeft') + suffix]
         .shiftTowards(so.at, cpDistance)
         .rotate(-90, points[prefixFunction('logoRGLeft') + suffix])
-      paths[prefixFunction('logoRobertGeorge') + suffix] = new Path()
+      paths[prefixFunction('logoRGRobertGeorge') + suffix] = new Path()
         .move(points[prefixFunction('logoRGLeft') + suffix])
         .curve(
           points[prefixFunction('logoRGCp1') + suffix],
@@ -262,7 +264,7 @@ export const plugin = {
         .attr('data-text', 'suɹǝʇʇɐԀ')
         .attr('data-text-class', size)
       paths[prefixFunction('logoRGOuter') + suffix] = paths[
-        prefixFunction('logoRobertGeorge') + suffix
+        prefixFunction('logoRGRobertGeorge') + suffix
       ]
         .join(paths[prefixFunction('logoRGPatterns') + suffix])
         .offset(-14 * scale)

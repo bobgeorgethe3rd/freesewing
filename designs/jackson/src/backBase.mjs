@@ -1,5 +1,6 @@
 import { back as daltonBack } from '@freesewing/dalton'
 import { pctBasedOn } from '@freesewing/core'
+import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const backBase = {
   name: 'jackson.backBase',
@@ -48,6 +49,7 @@ export const backBase = {
       menu: 'style',
     },
   },
+  plugins: [pluginLogoRG],
   draft: ({
     store,
     sa,
@@ -67,11 +69,12 @@ export const backBase = {
     absoluteOptions,
   }) => {
     //removing paths and snippets not required from Dalton
-    for (let i in paths) delete paths[i]
+    // for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
     //removing macros not required from Dalton
     macro('title', false)
     macro('scalebox', false)
+    macro('logorg', false)
     //outseam guide
     const drawOutseam = () => {
       let waistOut = points.styleWaistOut || points.waistOut
