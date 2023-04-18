@@ -12,12 +12,6 @@ export const plugin = {
 
       const prefix = so.prefix || ''
       const suffix = so.suffix || ''
-      let size
-      if (so.size) {
-        size = 'text-' + so.size
-      } else {
-        size = 'text-lg'
-      }
 
       let prefixFunction
       if (prefix != '') {
@@ -248,7 +242,7 @@ export const plugin = {
           points[prefixFunction('logoRGRight') + suffix]
         )
         .attr('data-text', 'Robert George')
-        .attr('data-text-class', size)
+        .attr('data-text-font-size', 12 * scale)
       paths[prefixFunction('logoRGPatterns') + suffix] = new Path()
         .move(points[prefixFunction('logoRGRight') + suffix])
         .curve(
@@ -262,7 +256,7 @@ export const plugin = {
           points[prefixFunction('logoRGLeft') + suffix]
         )
         .attr('data-text', 'suɹǝʇʇɐԀ')
-        .attr('data-text-class', size)
+        .attr('data-text-font-size', 12 * scale)
       paths[prefixFunction('logoRGOuter') + suffix] = paths[
         prefixFunction('logoRGRobertGeorge') + suffix
       ]
