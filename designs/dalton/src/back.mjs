@@ -422,8 +422,6 @@ export const back = {
       macro('logorg', {
         at: points.logo,
         scale: 0.9,
-        prefix: 'prefix',
-        suffix: 'suffix',
       })
       //Fit Guides
       if (options.fitGuides) {
