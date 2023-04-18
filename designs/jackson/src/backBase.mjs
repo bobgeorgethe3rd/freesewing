@@ -69,7 +69,7 @@ export const backBase = {
     absoluteOptions,
   }) => {
     //removing paths and snippets not required from Dalton
-    // for (let i in paths) delete paths[i]
+    for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
     //removing macros not required from Dalton
     macro('title', false)
