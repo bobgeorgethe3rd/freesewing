@@ -20,61 +20,20 @@ export const plugin = {
       }
 
       let prefixFunction
-      if (prefix != '') {
+      if (prefix != '' || so === false) {
         prefixFunction = (string) => prefix + string.charAt(0).toUpperCase() + string.slice(1)
       } else {
         prefixFunction = (string) => string
       }
       // Passing `false` will remove the scalebox
       if (so === false) {
-        for (let id of [
-          'logoRG0',
-          'logoRG1',
-          'logoRG2',
-          'logoRG3',
-          'logoRG4',
-          'logoRG5',
-          'logoRG6',
-          'logoRG7',
-          'logoRG8',
-          'logoRG9',
-          'logoRG10',
-          'logoRG11',
-          'logoRG12',
-          'logoRG13',
-          'logoRG14',
-          'logoRG15',
-          'logoRG16',
-          'logoRG17',
-          'logoRG18',
-          'logoRG19',
-          'logoRG20',
-          'logoRG21',
-          'logoRG22',
-          'logoRG23',
-          'logoRGTarget',
-          'logoRGLeft',
-          'logoRGTop',
-          'logoRGRight',
-          'logoRGBottom',
-          'logoRGCp1',
-          'logoRGCp2',
-          'logoRGCp3',
-          'logoRGCp4',
-          'logoRGCp5',
-          'logoRGCp6',
-          'logoRGCp7',
-          'logoRGCp8',
-        ])
-          delete points[prefixFunction(id) + suffix]
-        for (let id of [
-          'logoRG',
-          'logoRGCrown',
-          'logoRobertGeorge',
-          'logoRGPatterns',
-          'logoRGOuter',
-        ])
-          delete paths[prefixFunction(id) + suffix]
+        for (const pointName in points) {
+          if (pointName.match(prefixFunction('logoRG'))) delete points[pointName]
+        }
+
+        for (const pathName in paths) {
+          if (pathName.match(prefixFunction('logoRG'))) delete points[pathName]
+        }
         return true
       }
 
