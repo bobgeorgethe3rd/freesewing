@@ -243,6 +243,7 @@ export const plugin = {
         )
         .attr('data-text', 'Robert George')
         .attr('data-text-font-size', 12 * scale)
+        .attr('style', `stroke-width: ${1 * scale};`)
       paths[prefixFunction('logoRGPatterns') + suffix] = new Path()
         .move(points[prefixFunction('logoRGRight') + suffix])
         .curve(
@@ -257,11 +258,13 @@ export const plugin = {
         )
         .attr('data-text', 'suɹǝʇʇɐԀ')
         .attr('data-text-font-size', 12 * scale)
+        .attr('style', `stroke-width: ${1 * scale};`)
       paths[prefixFunction('logoRGOuter') + suffix] = paths[
         prefixFunction('logoRGRobertGeorge') + suffix
       ]
         .join(paths[prefixFunction('logoRGPatterns') + suffix])
         .offset(-14 * scale)
+        .attr('style', `stroke-width: ${1 * scale};`)
     },
   },
 }
