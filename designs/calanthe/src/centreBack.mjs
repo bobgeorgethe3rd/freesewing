@@ -1,4 +1,5 @@
 import { base } from './base.mjs'
+import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const centreBack = {
   name: 'calanthe.centreBack',
@@ -9,6 +10,7 @@ export const centreBack = {
   options: {
     eyeletExtension: { pct: 2.9, min: 0, max: 6, menu: 'style' },
   },
+  plugins: [pluginLogoRG],
   draft: ({
     store,
     sa,
@@ -64,12 +66,26 @@ export const centreBack = {
         to: points.grainlineTo,
       })
       //title
-      points.title = new Point(points.waist50.x * 1.075, points.chest5Cp2.y)
+      points.title = new Point(points.waist50.x * 1.075, points.cbUnderbust.y)
       macro('title', {
         nr: 'B1',
         title: 'Centre Back',
         at: points.title,
         scale: 0.5,
+      })
+      //scalebox
+      points.scalebox = new Point(
+        points.waist50.x * 1.1,
+        (points.cbUnderbust.y + points.cbWaist.y) / 2
+      )
+      macro('miniscale', {
+        at: points.scalebox,
+      })
+      //logo
+      points.logo = new Point(points.scalebox.x, (points.cbWaist.y + points.cbBottom.y) / 2)
+      macro('logorg', {
+        at: points.logo,
+        scale: 1 / 3,
       })
       // waist
       paths.waist = new Path()

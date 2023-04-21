@@ -1,4 +1,5 @@
 import { skirtBase } from './skirtBase.mjs'
+import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const centreFront = {
   name: 'scarlett.centreFront',
@@ -18,6 +19,7 @@ export const centreFront = {
     inseamSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
     crotchSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
   },
+  plugins: [pluginLogoRG],
   draft: ({
     store,
     sa,
@@ -86,17 +88,20 @@ export const centreFront = {
       snippets.crotchNotch = new Snippet('notch', points.crotchNotch)
 
       //title
-      points.title = new Point(
-        points.waist0Left.x,
-        points.waist0Cp2.y + (points.cfHem.y - points.cfWaist.y) / 3
-      )
+      points.title = new Point(points.waist0Left.x * 1.05, points.cfHem.y * 0.6)
       macro('title', {
         nr: 2,
         title: 'Centre Front',
         at: points.title,
       })
+      //logo
+      points.logo = new Point(points.waist0Cp4.x, points.cfHem.y * 0.7)
+      macro('logorg', {
+        at: points.logo,
+        scale: 0.75,
+      })
       //scalebox
-      points.scalebox = new Point(points.waist0Cp4.x, (points.cfWaist.y + points.cfHem.y) / 2)
+      points.scalebox = new Point(points.waist0Cp4.x, points.cfHem.y * 0.8)
       macro('scalebox', {
         at: points.scalebox,
       })
