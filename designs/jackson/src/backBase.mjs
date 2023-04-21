@@ -36,7 +36,7 @@ export const backBase = {
     backDartMultiplier: { count: 1, min: 0, max: 2, menu: 'advanced' }, //altered for Jackson
     //Waistbands
     useVoidStores: false, //locked for Jackson
-    closurePosition: 'front', //locked for Jackson
+    waistbandClosurePosition: 'front', //locked for Jackson
     //Jackson
     //Style
     yokeAngle: { deg: 5.1, min: 3.5, max: 5.6, menu: 'style' },
