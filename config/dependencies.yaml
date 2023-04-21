@@ -222,6 +222,13 @@ teagan:
   peer:
     '@freesewing/brian': *freesewing
     '@freesewing/plugin-bust': *freesewing
+theobald:
+  peer:
+    '@freesewing/dalton': *freesewing
+    '@freesewing/beltloops': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 titan:
   peer:
     '@freesewing/snapseries': *freesewing
