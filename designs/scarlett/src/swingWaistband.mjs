@@ -20,6 +20,15 @@ export const swingWaistband = {
     snippets,
     Snippet,
   }) => {
+    //Set Render
+    if (
+      options.waistbandStyle == 'none' ||
+      options.swingPanelStyle == 'none' ||
+      (options.waistbandClosurePosition != 'front' && options.swingPanelStyle != 'separate')
+    ) {
+      part.hide()
+      return part
+    }
     //measures
     let length = store.get('swingWaisbandLength') * 2
 
