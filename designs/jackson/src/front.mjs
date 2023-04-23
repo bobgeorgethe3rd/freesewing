@@ -85,7 +85,7 @@ export const front = {
           .curve_(points.floorInCp2, points.kneeIn)
           .curve(points.kneeInCp2, points.forkCp1, points.fork)
       }
-      if (!options.fitKnee & !options.fitFloor) {
+      if (!options.fitKnee && !options.fitFloor) {
         return new Path().move(points.floorIn).curve(points.kneeInCp2, points.forkCp1, points.fork)
       }
     }

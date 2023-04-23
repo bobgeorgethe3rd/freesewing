@@ -121,7 +121,7 @@ export const front = {
             .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
             ._curve(points.floorOutCp1, points.floorOut)
       }
-      if (!options.fitKnee & !options.fitFloor) {
+      if (!options.fitKnee && !options.fitFloor) {
         if (points.waistOut.x < points.seatOut.x)
           return new Path().move(waistOut).curve(points.seatOut, points.kneeOutCp1, points.floorOut)
         else
