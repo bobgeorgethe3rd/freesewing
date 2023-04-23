@@ -3,13 +3,13 @@
 import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
-import { box } from './box.mjs'
+import { backBase } from './backBase.mjs'
 
 // Create new design
 const Theobald = new Design({
   data,
-  parts: [box],
+  parts: [backBase],
 })
 
 // Named exports
-export { box, Theobald }
+export { backBase, Theobald }
