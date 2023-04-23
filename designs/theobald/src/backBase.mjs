@@ -33,7 +33,7 @@ export const backBase = {
     waistbandFishtailBack: { pct: 25, min: 10, max: 50, menu: 'style' },
     waistbandFishtailExtension: { pct: 5.9, min: 3, max: 8, menu: 'style' },
     //Darts
-    // backDartWidth: { pct: 1.2, min: 0, max: 3, menu: 'darts' }, //1.2 //altered for Theobald
+    backDartWidth: { pct: 3, min: 1, max: 6, menu: 'darts' }, //altered for Theobald
     // backDartDepth: { pct: 66.7, min: 45, max: 70, menu: 'darts' }, //altered for Theobald
     //Advanced
     backDartMultiplier: { count: 1, min: 0, max: 2, menu: 'advanced' }, //altered for Theobald
@@ -73,7 +73,7 @@ export const backBase = {
     absoluteOptions,
   }) => {
     //removing paths and snippets not required from Dalton
-    // for (let i in paths) delete paths[i]
+    for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
     //removing macros not required from Dalton
     macro('title', false)
@@ -124,19 +124,19 @@ export const backBase = {
         points.waistbandFTop
       )
       //guides
-      paths.waistbandFBackIn = new Path()
-        .move(points.waistbandFOut)
-        .curve_(points.waistbandFCp, points.waistbandFTop)
-        .line(points.waistbandFIn)
-        .line(points.styleWaistIn)
-        .line(points.dartIn)
-        .line(points.waistbandFSplit)
+      // paths.waistbandFBackIn = new Path()
+      // .move(points.waistbandFOut)
+      // .curve_(points.waistbandFCp, points.waistbandFTop)
+      // .line(points.waistbandFIn)
+      // .line(points.styleWaistIn)
+      // .line(points.dartIn)
+      // .line(points.waistbandFSplit)
 
-      paths.waistbandFBackOut = new Path()
-        .move(points.waistbandFSplit)
-        .line(points.dartOut)
-        .line(points.styleWaistOut)
-        .line(points.waistbandFOut)
+      // paths.waistbandFBackOut = new Path()
+      // .move(points.waistbandFSplit)
+      // .line(points.dartOut)
+      // .line(points.styleWaistOut)
+      // .line(points.waistbandFOut)
 
       //stores
       store.set('waistbandFishtailOffset', points.waistbandFOutAnchor.dist(points.waistbandFOut))
@@ -147,10 +147,10 @@ export const backBase = {
     points.floorCp1 = points.floor.shift(180, points.floorOut.dist(points.floorIn) / 4)
     points.floorCp2 = points.floor.shift(0, points.floorIn.dist(points.floorOut) / 4)
     //guide
-    paths.floorHem = new Path()
-      .move(points.floorIn)
-      ._curve(points.floorCp1, points.floor)
-      .curve_(points.floorCp2, points.floorOut)
+    // paths.floorHem = new Path()
+    // .move(points.floorIn)
+    // ._curve(points.floorCp1, points.floor)
+    // .curve_(points.floorCp2, points.floorOut)
 
     //stores
     store.set(
