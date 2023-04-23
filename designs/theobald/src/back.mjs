@@ -15,8 +15,8 @@ export const back = {
     backPocketOpeningWidth: { pct: 62.2, min: 50, max: 80, menu: 'pockets.backPockets' },
     //Construction
     hemWidth: { pct: 4, min: 1, max: 10, menu: 'construction' }, //altered for Jackson
-    crossSeamSaWidth: { pct: 2, min: 1, max: 4, menu: 'construction' },
-    inseamSaWidth: { pct: 2, min: 1, max: 4, menu: 'construction' },
+    crossSeamSaWidth: { pct: 1, min: 1, max: 4, menu: 'construction' },
+    inseamSaWidth: { pct: 1, min: 1, max: 4, menu: 'construction' },
     outSeamSaWidth: { pct: 1, min: 1, max: 4, menu: 'construction' },
   },
   draft: ({
