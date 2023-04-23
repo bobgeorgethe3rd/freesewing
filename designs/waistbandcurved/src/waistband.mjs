@@ -8,11 +8,10 @@ export const waistband = {
     //Style
     waistbandOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'style' },
     waistbandOverlap: { pct: 0, min: 0, max: 15, menu: 'style' },
-    walstbandSideOpening: { dflt: 'right', list: ['left', 'right'], menu: 'style' },
     //Construction
     waistbandClosurePosition: {
       dflt: 'back',
-      list: ['back', 'side', 'front'],
+      list: ['back', 'sideLeft', 'sideRight', 'front'],
       menu: 'construction',
     },
   },
@@ -171,8 +170,11 @@ export const waistband = {
       let leftName
       let rightName
       let exName
-      if (options.waistbandClosurePosition == 'side') {
-        if (options.waistbandSideOpening == 'right') {
+      if (
+        options.waistbandClosurePosition == 'sideLeft' ||
+        options.waistbandClosurePosition == 'sideRight'
+      ) {
+        if (options.waistbandClosurePosition == 'sideRight') {
           points.bottomMidNotch = paths.bottomCurve.reverse().shiftAlong(lengthBack)
           points.bottomLeftNotch = paths.bottomCurve.shiftAlong((length - lengthBack) / 2)
           points.bottomRightNotch = paths.bottomCurve.reverse().shiftAlong(lengthBack / 2)

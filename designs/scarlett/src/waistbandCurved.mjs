@@ -63,29 +63,24 @@ export const waistbandCurved = {
           points.swingButton1A = paths.bottomCurve.shiftAlong(bottomCurveLength / 2 + buttonLength)
         }
       }
-      if (options.waistbandClosurePosition == 'side') {
-        if (options.waistbandSideOpening == 'right') {
-          points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(5 / 8)
-          points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
-          if (options.swingPanelStyle == 'separate') {
-            points.swingButton0A = paths.bottomCurve.shiftAlong(
-              bottomCurveLength / 4 - buttonLength
-            )
-            points.swingButton1A = paths.bottomCurve.shiftAlong(
-              bottomCurveLength / 4 + buttonLength
-            )
-          }
-        } else {
-          points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(1 / 8)
-          points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(3 / 8)
-          if (options.swingPanelStyle == 'separate') {
-            points.swingButton0A = paths.bottomCurve.shiftAlong(
-              bottomCurveLength * (3 / 4) - buttonLength
-            )
-            points.swingButton1A = paths.bottomCurve.shiftAlong(
-              bottomCurveLength * (3 / 4) + buttonLength
-            )
-          }
+      if (options.waistbandClosurePosition == 'sideRight') {
+        points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(5 / 8)
+        points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
+        if (options.swingPanelStyle == 'separate') {
+          points.swingButton0A = paths.bottomCurve.shiftAlong(bottomCurveLength / 4 - buttonLength)
+          points.swingButton1A = paths.bottomCurve.shiftAlong(bottomCurveLength / 4 + buttonLength)
+        }
+      }
+      if (options.waistbandClosurePosition == 'sideLeft') {
+        points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(1 / 8)
+        points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(3 / 8)
+        if (options.swingPanelStyle == 'separate') {
+          points.swingButton0A = paths.bottomCurve.shiftAlong(
+            bottomCurveLength * (3 / 4) - buttonLength
+          )
+          points.swingButton1A = paths.bottomCurve.shiftAlong(
+            bottomCurveLength * (3 / 4) + buttonLength
+          )
         }
       }
 

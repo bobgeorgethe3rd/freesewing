@@ -46,7 +46,7 @@ export const waistbandCurved = {
         points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(1 / 8)
         points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
       } else {
-        if (options.waistbandSideOpening == 'right') {
+        if (options.waistbandClosurePosition == 'sideRight') {
           points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(5 / 8)
           points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
         } else {

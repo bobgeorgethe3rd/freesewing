@@ -9,7 +9,7 @@ export const placket = {
   options: {
     waistbandClosurePosition: {
       dflt: 'front',
-      list: ['back', 'side', 'front'],
+      list: ['back', 'sideLeft', 'sideRight', 'front'],
       menu: 'construction',
     }, //altered for Scarlett
   },

@@ -9,11 +9,10 @@ export const waistband = {
     waistbandFolded: { bool: false, menu: 'style' },
     waistbandOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'style' },
     waistbandOverlap: { pct: 0, min: 0, max: 15, menu: 'style' },
-    waistbandSideOpening: { dflt: 'right', list: ['left', 'right'], menu: 'style' },
     //Construction
     waistbandClosurePosition: {
       dflt: 'back',
-      list: ['back', 'side', 'front'],
+      list: ['back', 'sideLeft', 'sideRight', 'front'],
       menu: 'construction',
     },
   },
@@ -101,8 +100,11 @@ export const waistband = {
       let leftName
       let rightName
       let exName
-      if (options.waistbandClosurePosition == 'side') {
-        if (options.waistbandSideOpening == 'right') {
+      if (
+        options.waistbandClosurePosition == 'sideLeft' ||
+        options.waistbandClosurePosition == 'sideRight'
+      ) {
+        if (options.waistbandClosurePosition == 'sideRight') {
           points.bottomMidNotch = points.bottomRight.shift(180, lengthBack)
           leftName = 'Centre Front'
           rightName = 'Centre Back'

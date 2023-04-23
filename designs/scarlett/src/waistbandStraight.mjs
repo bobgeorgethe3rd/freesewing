@@ -64,21 +64,20 @@ export const waistbandStraight = {
           points.swingButton1 = points.bottomMidNotch.translate(buttonLength, -buttonWidth)
         }
       }
-      if (options.waistbandClosurePosition == 'side') {
-        if (options.waistbandSideOpening == 'right') {
-          points.pleatFrom0 = points.topRightNotch.shiftFractionTowards(points.topMidNotch, 0.5)
-          points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
-          if (options.swingPanelStyle == 'separate') {
-            points.swingButton0 = points.bottomLeftNotch.translate(-buttonLength, -buttonWidth)
-            points.swingButton1 = points.bottomLeftNotch.translate(buttonLength, -buttonWidth)
-          }
-        } else {
-          points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
-          points.pleatFrom1 = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.5)
-          if (options.swingPanelStyle == 'separate') {
-            points.swingButton0 = points.bottomRightNotch.translate(-buttonLength, -buttonWidth)
-            points.swingButton1 = points.bottomRightNotch.translate(buttonLength, -buttonWidth)
-          }
+      if (options.waistbandClosurePosition == 'sideRight') {
+        points.pleatFrom0 = points.topRightNotch.shiftFractionTowards(points.topMidNotch, 0.5)
+        points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
+        if (options.swingPanelStyle == 'separate') {
+          points.swingButton0 = points.bottomLeftNotch.translate(-buttonLength, -buttonWidth)
+          points.swingButton1 = points.bottomLeftNotch.translate(buttonLength, -buttonWidth)
+        }
+      }
+      if (options.waistbandClosurePosition == 'sideLeft') {
+        points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
+        points.pleatFrom1 = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.5)
+        if (options.swingPanelStyle == 'separate') {
+          points.swingButton0 = points.bottomRightNotch.translate(-buttonLength, -buttonWidth)
+          points.swingButton1 = points.bottomRightNotch.translate(buttonLength, -buttonWidth)
         }
       }
       points.pleatTo0 = new Point(points.pleatFrom0.x, points.bottomLeft.y)

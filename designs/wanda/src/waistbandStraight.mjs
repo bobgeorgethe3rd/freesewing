@@ -18,7 +18,11 @@ export const waistbandStraight = {
     }, //altered for Wanda
     waistbandFolded: { bool: true, menu: 'style' }, //altered for Wanda
     //Construction
-    waistbandClosurePosition: { dflt: 'back', list: ['back', 'side'], menu: 'construction' }, //altered for Wanda
+    waistbandClosurePosition: {
+      dflt: 'back',
+      list: ['back', 'sideLeft', 'sideRight'],
+      menu: 'construction',
+    }, //altered for Wanda
   },
   draft: ({
     store,
@@ -60,7 +64,7 @@ export const waistbandStraight = {
         points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
         points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
       } else {
-        if (options.waistbandSideOpening == 'right') {
+        if (options.waistbandClosurePosition == 'sideRight') {
           points.pleatFrom0 = points.topRightNotch.shiftFractionTowards(points.topMidNotch, 0.5)
           points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
         } else {
