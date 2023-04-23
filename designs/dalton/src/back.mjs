@@ -28,7 +28,7 @@ export const back = {
     lengthBonus: { pct: -10, min: -20, max: 10, menu: 'style' },
     //Darts
     backDartPlacement: { pct: 60, min: 40, max: 70, menu: 'darts' },
-    backDartWidth: { pct: 3, min: 0, max: 6, menu: 'darts' }, //1.2
+    backDartWidth: { pct: 3, min: 0, max: 6, menu: 'darts' },
     backDartDepth: { pct: 95, min: 45, max: 100, menu: 'darts' },
     //Construction
     hemWidth: { pct: 3, min: 1, max: 10, menu: 'construction' },

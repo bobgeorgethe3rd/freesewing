@@ -169,6 +169,12 @@ export const back = {
       .join(drawInseam())
       .close()
 
+    //stores
+    store.set('patchPocketWidth', patchPocketWidth)
+    store.set('patchPocketDepth', patchPocketDepth)
+    store.set('sidePocketWidth', sidePocketWidth)
+    store.set('sidePocketDepth', sidePocketDepth)
+    store.set('sidePocketPlacement', sidePocketPlacement)
     if (complete) {
       //grainline
       macro('grainline', {
@@ -191,7 +197,6 @@ export const back = {
       macro('logorg', {
         at: points.logo,
         scale: 2 / 3,
-        size: 'm',
       })
       //fitGuides
       if (options.fitGuides) {
@@ -290,14 +295,6 @@ export const back = {
           .attr('data-text', 'Side Pocket')
           .attr('data-text-class', 'right')
       }
-
-      //stores
-      store.set('patchPocketWidth', patchPocketWidth)
-      store.set('patchPocketDepth', patchPocketDepth)
-      store.set('sidePocketWidth', sidePocketWidth)
-      store.set('sidePocketDepth', sidePocketDepth)
-      store.set('sidePocketPlacement', sidePocketPlacement)
-
       if (sa) {
         let waistSa
         if (options.yoke) {
