@@ -176,7 +176,7 @@ export const back = {
       //logo
       macro('logorg', {
         at: points.logo,
-        scale: 2 / 3,
+        scale: 0.75,
       })
       //dart
       if (options.waistbandFishtailEmbedded && options.waistbandStyle == 'fishtail') {
