@@ -13,6 +13,7 @@ export const frontBase = {
     frontPleatWidth: { pct: 3.5, min: 3, max: 5, menu: 'style' },
     //Pockets
     frontPocketOpeningWidth: { pct: 20.1, min: 15, max: 30, menu: 'pockets.frontPockets' },
+    frontPocketOpening: { pct: 6.4, min: 5, max: 10, menu: 'pockets.frontPockets' },
     frontPocketOpeningDepth: { pct: 15.5, min: 10, max: 20, menu: 'pockets.frontPockets' },
     //Plackets
     flyWidth: { pct: 20.1, min: 15, max: 30, menu: 'plackets' },
@@ -44,6 +45,8 @@ export const frontBase = {
     macro('scalebox', false)
     //measurements
     let frontPleatWidth = measurements.waist * options.frontPleatWidth
+    let frontPocketOpening =
+      measurements.waistToFloor * options.frontPocketOpening - absoluteOptions.waistbandWidth
     let frontPocketOpeningDepth = measurements.waistToFloor * options.frontPocketOpeningDepth
     let flyDepth =
       (measurements.crossSeamFront - measurements.waistToHips - absoluteOptions.waistbandWidth) *
@@ -256,6 +259,9 @@ export const frontBase = {
     )
     points.frontPocketOpeningOut = drawOutseam().shiftAlong(frontPocketOpeningDepth)
     points.frontPocketOpeningOutR = drawOutseamR().shiftAlong(frontPocketOpeningDepth)
+
+    points.frontPocketOpening = drawOutseam().shiftAlong(frontPocketOpening)
+    points.frontPocketOpeningR = drawOutseamR().shiftAlong(frontPocketOpening)
 
     //plackets
     points.flyOut = points.styleWaistIn.shiftFractionTowards(points.styleWaistOut, options.flyWidth)

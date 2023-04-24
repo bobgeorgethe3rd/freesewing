@@ -88,7 +88,7 @@ export const front = {
       .hide()
 
     const drawWaistSeam = () => {
-      if (options.frontPocketStyle == 'slanted') {
+      if (options.frontPocketStyle == 'slanted' && options.frontPocketsBool) {
         return new Path()
           .move(points['styleWaistIn' + suffix])
           .line(points['frontPocketOpeningWaist' + suffix])
@@ -149,7 +149,7 @@ export const front = {
       }
     }
 
-    if (options.frontPocketStyle == 'slanted') {
+    if (options.frontPocketStyle == 'slanted' && options.frontPocketsBool) {
       let outSeamSplit = drawOutseam().split(points['frontPocketOpeningOut' + suffix])
       for (let i in outSeamSplit) {
         paths['outSeam' + i] = outSeamSplit[i].hide()
@@ -178,7 +178,14 @@ export const front = {
         to: points.grainlineTo,
       })
       //notches
-      snippets.flyCrotch = new Snippet('notch', points['flyCrotch' + suffix])
+      if (options.frontPocketStyle == 'inseam' || !options.frontPocketsBool) {
+        snippets.frontPocketOpening = new Snippet('notch', points['frontPocketOpening' + suffix])
+      }
+
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['flyCrotch', 'frontPocketOpeningOut' + suffix],
+      })
       //title
       macro('title', {
         nr: 2,
