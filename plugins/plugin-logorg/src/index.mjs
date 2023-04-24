@@ -198,6 +198,7 @@ export const plugin = {
           points[prefixFunction('logoRG23') + suffix],
           points[prefixFunction('logoRG6') + suffix]
         )
+        .attr('style', `stroke-width: ${1 * scale};`)
 
       const cpDistance = 46 * scale * 0.55191502449
 
