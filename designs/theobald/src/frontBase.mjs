@@ -233,8 +233,7 @@ export const frontBase = {
             ._curve(points.seatOutCp1R, points.seatOutR)
             .curve(points.seatOutCp2R, points.kneeOutCp1R, points.kneeOutR)
             ._curve(points.floorOutCp1R, points.floorOut)
-      }
-      if (!options.fitKnee && !options.fitFloor) {
+      } else {
         if (points.waistOut.x < points.seatOut.x)
           return new Path()
             .move(waistOutR)
@@ -274,6 +273,10 @@ export const frontBase = {
       .curve(points.crotchSeamCurveCp1R, points.crotchSeamCurveCp2R, points.crotchSeamCurveStartR)
       .line(points.styleWaistInR)
       .shiftAlong(flyDepth)
+
+    //stores
+    store.set('frontPleatWidth', frontPleatWidth)
+
     //guide
     paths.seam.attr('class', 'various')
 
