@@ -11,8 +11,8 @@ export const back = {
     waistbandFishtailEmbedded: { bool: false, menu: 'style' },
     //Pockets
     backPocketsBool: { bool: true, menu: 'pockets' },
-    backPocketPlacement: { pct: 50, min: 10, max: 100, menu: 'pockets.backPockets' },
-    backPocketOpeningWidth: { pct: 62.2, min: 50, max: 80, menu: 'pockets.backPockets' },
+    backPocketPlacement: { pct: 50, min: 10, max: 100, menu: 'pockets' },
+    weltPocketOpeningWidth: { pct: 62.2, min: 50, max: 80, menu: 'pockets.weltPockets' },
     //Construction
     hemWidth: { pct: 4, min: 1, max: 10, menu: 'construction' }, //altered for Jackson
     crossSeamSaWidth: { pct: 1, min: 1, max: 4, menu: 'construction' },
@@ -115,8 +115,8 @@ export const back = {
       }
     }
     //measures
-    let backPocketOpeningWidth =
-      ((measurements.waistBack * (1 + options.waistEase)) / 2) * options.backPocketOpeningWidth
+    let weltPocketOpeningWidth =
+      ((measurements.waistBack * (1 + options.waistEase)) / 2) * options.weltPocketOpeningWidth
     //paths
     paths.crossSeam = new Path()
       .move(points.styleWaistIn)
@@ -155,7 +155,7 @@ export const back = {
       'backPocketTopLength',
       points.dartMid.dist(points.dartTip) * options.backPocketPlacement
     )
-    store.set('backPocketOpeningWidth', backPocketOpeningWidth)
+    store.set('weltPocketOpeningWidth', weltPocketOpeningWidth)
 
     if (complete) {
       //grainline
@@ -243,11 +243,11 @@ export const back = {
         )
         points.backPocketIn = points.backPocketDartIn.shift(
           points.styleWaistOut.angle(points.styleWaistIn),
-          backPocketOpeningWidth / 2
+          weltPocketOpeningWidth / 2
         )
         points.backPocketOut = points.backPocketDartOut.shift(
           points.styleWaistIn.angle(points.styleWaistOut),
-          backPocketOpeningWidth / 2
+          weltPocketOpeningWidth / 2
         )
 
         paths.backPocket = new Path()
