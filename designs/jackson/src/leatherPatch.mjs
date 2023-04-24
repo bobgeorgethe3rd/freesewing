@@ -79,7 +79,7 @@ export const leatherPatch = {
       //logo
       macro('logorg', {
         at: points.origin,
-        scale: 0.429,
+        scale: 0.45,
       })
     }
 
