@@ -426,7 +426,7 @@ export const back = {
       //Fit Guides
       if (options.fitGuides) {
         points.waistGuideIn = points.styleWaistIn.shiftFractionTowards(points.dartIn, 0.15)
-        points.waistGuideOut = points.waistGuideIn.shiftFractionTowards(points.dartIn, 0.75)
+        points.waistGuideOut = points.waistGuideIn.shiftFractionTowards(points.dartIn, 2 / 3)
 
         if (measurements.waistToHips * options.waistHeight - absoluteOptions.waistbandWidth > 0) {
           points.hipsGuideOut = points.waistGuideOut
