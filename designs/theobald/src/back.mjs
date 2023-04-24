@@ -11,7 +11,7 @@ export const back = {
     waistbandFishtailEmbedded: { bool: false, menu: 'style' },
     //Pockets
     backPocketsBool: { bool: true, menu: 'pockets' },
-    backPocketPlacement: { pct: 50, min: 10, max: 100, menu: 'pockets' },
+    backPocketPlacement: { pct: 50, min: 40, max: 100, menu: 'pockets' },
     weltPocketOpeningWidth: { pct: 62.2, min: 50, max: 80, menu: 'pockets.weltPockets' },
     //Construction
     hemWidth: { pct: 4, min: 1, max: 10, menu: 'construction' }, //altered for Jackson
