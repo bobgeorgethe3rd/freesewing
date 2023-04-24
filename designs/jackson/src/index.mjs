@@ -18,6 +18,7 @@ import { flyShield } from './flyShield.mjs'
 import { beltLoops } from './beltLoops.mjs'
 import { waistbandStraight } from './waistbandStraight.mjs'
 import { waistbandCurved } from './waistbandCurved.mjs'
+import { leatherPatch } from './leatherPatch.mjs'
 
 // Create new design
 const Jackson = new Design({
@@ -38,6 +39,7 @@ const Jackson = new Design({
     beltLoops,
     waistbandStraight,
     waistbandCurved,
+    leatherPatch,
   ],
 })
 
@@ -58,5 +60,6 @@ export {
   beltLoops,
   waistbandStraight,
   waistbandCurved,
+  leatherPatch,
   Jackson,
 }
