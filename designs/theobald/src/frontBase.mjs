@@ -37,7 +37,7 @@ export const frontBase = {
     absoluteOptions,
   }) => {
     //removing paths and snippets not required from Dalton
-    // for (let i in paths) delete paths[i]
+    for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
     //removing macros not required from Dalton
     macro('title', false)
@@ -278,38 +278,38 @@ export const frontBase = {
     store.set('frontPleatWidth', frontPleatWidth)
 
     //guide
-    paths.seam.attr('class', 'various')
+    // paths.seam.attr('class', 'various')
 
-    paths.crotchSeamR = new Path()
-      .move(points.forkR)
-      .curve(points.crotchSeamCurveCp1R, points.crotchSeamCurveCp2R, points.crotchSeamCurveStartR)
-      .line(points.styleWaistInR)
+    // paths.crotchSeamR = new Path()
+    // .move(points.forkR)
+    // .curve(points.crotchSeamCurveCp1R, points.crotchSeamCurveCp2R, points.crotchSeamCurveStartR)
+    // .line(points.styleWaistInR)
 
     // paths.waistR = new Path()
     // .move(points.styleWaistInR)
     // .line(points.styleWaistOutR)
 
-    paths.pocketline = new Path()
-      .move(points.frontPocketOpeningWaist)
-      .line(points.frontPocketOpeningOut)
-      .move(points.frontPocketOpeningWaistR)
-      .line(points.frontPocketOpeningOutR)
+    // paths.pocketline = new Path()
+    // .move(points.frontPocketOpeningWaist)
+    // .line(points.frontPocketOpeningOut)
+    // .move(points.frontPocketOpeningWaistR)
+    // .line(points.frontPocketOpeningOutR)
 
-    const drawInseamR = () => {
-      if (options.fitKnee || options.fitFloor) {
-        return new Path()
-          .move(points.floorIn)
-          .curve_(points.floorInCp2R, points.kneeInR)
-          .curve(points.kneeInCp2R, points.forkCp1R, points.forkR)
-      } else {
-        return new Path()
-          .move(points.floorIn)
-          .curve(points.kneeInCp2, points.forkCp1R, points.forkR)
-      }
-    }
+    // const drawInseamR = () => {
+    // if (options.fitKnee || options.fitFloor) {
+    // return new Path()
+    // .move(points.floorIn)
+    // .curve_(points.floorInCp2R, points.kneeInR)
+    // .curve(points.kneeInCp2R, points.forkCp1R, points.forkR)
+    // } else {
+    // return new Path()
+    // .move(points.floorIn)
+    // .curve(points.kneeInCp2, points.forkCp1R, points.forkR)
+    // }
+    // }
 
-    paths.outseam = drawOutseamR()
-    paths.inseam = drawInseamR()
+    // paths.outseam = drawOutseamR()
+    // paths.inseam = drawInseamR()
 
     return part
   },
