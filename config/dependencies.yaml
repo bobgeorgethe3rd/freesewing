@@ -225,6 +225,7 @@ teagan:
 theobald:
   peer:
     '@freesewing/dalton': *freesewing
+    '@freesewing/weltpocket': *freesewing
     '@freesewing/beltloops': *freesewing
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing

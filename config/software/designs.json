@@ -93,6 +93,13 @@
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
       "tags": ["pockets"]
+    },
+    "weltpocket": {
+      "description": "Welt Pocket design to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["pockets"]
     }
   },
   "skirts": {
