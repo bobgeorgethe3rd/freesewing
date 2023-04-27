@@ -216,14 +216,14 @@ export const frontPocketBag = {
     const drawSaLeft = () => {
       if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketStyle == 'pear') {
         return new Path()
-          .move(points['frontPocketOpeningOut' + suf])
+          .move(points['frontPocketOpeningWaist' + suf])
           .line(points['frontPocketOpeningOut' + suf])
       } else {
         return paths['outSeam' + suf]
       }
     }
 
-    const drawSaBottom = () => {
+    const drawSeamBottom = () => {
       if (options.frontPocketStyle == 'pear') {
         return new Path()
           .move(points['frontPocketOpeningOut' + suf])
@@ -259,21 +259,26 @@ export const frontPocketBag = {
 
     const drawSaWaist = () => {
       if (options.frontPocketStyle == 'pear' && options.frontPocketOpeningStyle == 'slanted') {
-        return new Path()
-          .move(drawSaRight().end())
-          .line(points['frontPocketOpeningWaist' + suf])
-          .line(points['frontPocketOpeningOut' + suf])
+        return new Path().move(drawSaRight().end()).line(points['frontPocketOpeningWaist' + suf])
       } else {
         return new Path().move(drawSaRight().end()).line(points['styleWaistOut' + suf])
       }
     }
 
-    paths.seam = drawSaLeft().join(drawSaBottom()).join(drawSaRight()).join(drawSaWaist())
+    paths.seam = drawSaLeft().join(drawSeamBottom()).join(drawSaRight()).join(drawSaWaist())
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points['frontPocketWaist' + suf]
-      points.grainlineTo = points['frontPocketBottom' + suf]
+      points.grainlineFrom = points['frontPocketOpeningWaist' + suf].shiftFractionTowards(
+        points['frontPocketWaist' + suf],
+        0.5
+      )
+      points.grainlineTo = utils.beamsIntersect(
+        points.grainlineFrom,
+        points['frontPocketOpeningWaist' + suf].rotate(90, points.grainlineFrom),
+        points['frontPocketBottomLeft' + suf],
+        points['frontPocketBottom' + suf]
+      )
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
@@ -296,24 +301,27 @@ export const frontPocketBag = {
       } else {
         titleNum = 7
       }
-      points.title = points['frontPocketOpeningWaist' + suf].shiftFractionTowards(
-        points['frontPocketBottom' + suf].shiftFractionTowards(
-          points['frontPocketBottomLeftTarget' + suf],
-          0.1
-        ),
-        0.5
+      points.title = points['frontPocketOpeningWaist' + suf].shift(
+        points['styleWaistIn' + suf].angle(points['frontPocketOpeningWaist' + suf]) + 90,
+        points['frontPocketWaist' + suf].dist(points['frontPocketBottom' + suf]) * 0.5
       )
       macro('title', {
         nr: titleNum,
         title: 'Front Pocket Bag',
         at: points.title,
-        scale: 0.75,
+        scale: 2 / 3,
         rotation: 90 - points['frontPocketBottom' + suf].angle(points['frontPocketWaist' + suf]),
       })
 
       if (sa) {
         let outSeamSa = sa * options.outSeamSaWidth * 100
         let bagSa = sa * options.frontPocketBagSaWidth * 100
+        let leftSa
+        if (options.frontPocketStyle == 'pear' && options.frontPocketOpeningStyle == 'slanted') {
+          leftSa = sa
+        } else {
+          leftSa = outSeamSa
+        }
         let rightSa
         if (options.frontPocketStyle == 'pear') {
           rightSa = outSeamSa
@@ -337,36 +345,30 @@ export const frontPocketBag = {
           .shift(saAngle, bagSa)
           .shift(saAngle - 90, bagSa)
 
-        const drawSa = () => {
+        const drawSaBottom = () => {
           if (options.frontPocketStyle == 'pear') {
-            if (options.frontPocketOpeningStyle == 'slanted') {
-              return drawSaBottom().offset(bagSa)
-            } else {
-              return drawSaLeft().offset(outSeamSa).join(drawSaBottom().offset(bagSa))
-            }
+            return drawSeamBottom().offset(bagSa)
           } else {
-            return drawSaLeft()
-              .offset(outSeamSa)
-              .join(
-                new Path()
-                  .move(points['frontPocketOpeningOut' + suf])
-                  .curve_(points['frontPocketCp1' + suf], points['frontPocketBottomLeft' + suf])
-                  .curve(
-                    points['frontPocketCp2' + suf],
-                    points['frontPocketCp3' + suf],
-                    points['frontPocketBottom' + suf]
-                  )
-                  .offset(bagSa)
-                  .curve(
-                    points['frontPocketCp4Sa' + suf],
-                    points['frontPocketCp5Sa' + suf],
-                    points['frontPocketBottomRightSa' + suf]
-                  )
+            return new Path()
+              .move(points['frontPocketOpeningOut' + suf])
+              .curve_(points['frontPocketCp1' + suf], points['frontPocketBottomLeft' + suf])
+              .curve(
+                points['frontPocketCp2' + suf],
+                points['frontPocketCp3' + suf],
+                points['frontPocketBottom' + suf]
+              )
+              .offset(bagSa)
+              .curve(
+                points['frontPocketCp4Sa' + suf],
+                points['frontPocketCp5Sa' + suf],
+                points['frontPocketBottomRightSa' + suf]
               )
           }
         }
 
-        paths.sa = drawSa()
+        paths.sa = drawSaLeft()
+          .offset(leftSa)
+          .join(drawSaBottom())
           .join(drawSaRight().offset(rightSa))
           .join(drawSaWaist().offset(sa))
           .close()
