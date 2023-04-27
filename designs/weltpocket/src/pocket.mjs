@@ -5,9 +5,13 @@ export const pocket = {
   options: {
     //Constants
     useVoidStores: true,
+    cpFraction: 0.55191502449,
     //Pockets
-    weltPocketWidth: { pct: 28.6, min: 20, max: 40, menu: 'pockets.weltPockets' },
     weltPocketOpeningWidth: { pct: 62.2, min: 50, max: 80, menu: 'pockets.weltPockets' },
+    weltPocketWidth: { pct: 28.6, min: 20, max: 40, menu: 'pockets.weltPockets' },
+    weltPocketDepth: { pct: 16.9, min: 15, max: 40, menu: 'pockets.weltPockets' },
+    weltPocketCurve: { pct: (1 / 3) * 100, min: 0, max: 100, menu: 'pockets.weltPockets' },
+    weltPocketStyle: { dflt: 'curved', list: ['straight', 'curved'], menu: 'pockets.weltPockets' },
     //Construction
     pocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
     //Advanced
@@ -35,11 +39,12 @@ export const pocket = {
     if (options.useVoidStores) {
       void store.setIfUnset('weltPocketOpeningWidth', 214 * options.weltPocketOpeningWidth)
       void store.setIfUnset('insertSeamLength', 1184)
-      void store.setIfUnset('toAnchor', 26.2 * (1 + options.weltToAnchorLength))
+      void store.setIfUnset('toAnchor', 43.875 * (1 + options.weltToAnchorLength))
     }
 
     let openingWidth = store.get('weltPocketOpeningWidth')
     let width = openingWidth * (1 + options.weltPocketWidth)
+    let depth = store.get('insertSeamLength') * options.weltPocketDepth
     let toAnchor = store.get('toAnchor') * (1 + options.weltToAnchorLength)
 
     //let's begin
@@ -52,26 +57,84 @@ export const pocket = {
     points.topLeft = points.left.shift(90, toAnchor)
     points.topRight = new Point(points.right.x, points.topLeft.y)
 
-    paths.opening = new Path().move(points.openingLeft).line(points.openingRight)
+    points.bottomMid = points.openingMid.shift(-90, depth)
+    points.bottomLeftCorner = points.bottomMid.shift(180, width / 2)
 
-    paths.seam = new Path()
-      .move(points.right)
-      .line(points.topRight)
-      .line(points.topLeft)
-      .line(points.left)
+    points.bottomLeftCurveEnd = points.bottomLeftCorner.shiftFractionTowards(
+      points.bottomMid,
+      options.weltPocketCurve
+    )
+    points.bottomLeftCurveStart = points.bottomLeftCurveEnd.rotate(90, points.bottomLeftCorner)
+    points.bottomLeftCp1 = points.bottomLeftCurveStart.shiftFractionTowards(
+      points.bottomLeftCorner,
+      options.cpFraction
+    )
+    points.bottomLeftCp2 = points.bottomLeftCp1.rotate(-90, points.bottomLeftCorner)
+
+    points.bottomRightCurveStart = points.bottomLeftCurveEnd.flipX(points.bottomMid)
+    points.bottomRightCurveEnd = points.bottomLeftCurveStart.flipX(points.bottomMid)
+    points.bottomRightCp1 = points.bottomLeftCp2.flipX(points.bottomMid)
+    points.bottomRightCp2 = points.bottomLeftCp1.flipX(points.bottomMid)
+
+    const drawSaBase = () => {
+      if (options.weltPocketStyle == 'straight') {
+        return new Path()
+          .move(points.topLeft)
+          .line(points.bottomLeftCurveStart)
+          .line(points.bottomLeftCurveEnd)
+          .line(points.bottomRightCurveStart)
+          .line(points.bottomRightCurveEnd)
+          .line(points.topRight)
+      } else {
+        return new Path()
+          .move(points.topLeft)
+          .line(points.bottomLeftCurveStart)
+          .curve(points.bottomLeftCp1, points.bottomLeftCp2, points.bottomLeftCurveEnd)
+          .line(points.bottomRightCurveStart)
+          .curve(points.bottomRightCp1, points.bottomRightCp2, points.bottomRightCurveEnd)
+          .line(points.topRight)
+      }
+    }
+
+    paths.opening = new Path()
+      .move(points.openingLeft)
+      .line(points.openingRight)
+      .attr('class', 'interfacing')
+
+    paths.saTop = new Path().move(points.topRight).line(points.topLeft).hide()
+
+    paths.seam = drawSaBase().join(paths.saTop).close()
 
     if (complete) {
       //grainline
-
+      points.grainlineFrom = points.openingMid
+      points.grainlineTo = points.bottomMid
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
       //notches
       macro('sprinkle', {
         snippet: 'notch',
         on: ['openingLeft', 'openingRight'],
       })
+      //title
+      points.title = new Point(points.openingLeft.x, points.bottomMid.y / 2)
+      macro('title', {
+        nr: 1,
+        title: 'Welt Pocket Bag',
+        at: points.title,
+        scale: 0.75,
+      })
       //paths
       paths.opening.attr('data-text', 'Pocket Opening')
 
       if (sa) {
+        paths.sa = drawSaBase()
+          .offset(sa * options.pocketBagSaWidth * 100)
+          .join(paths.saTop.offset(sa * 2))
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 
