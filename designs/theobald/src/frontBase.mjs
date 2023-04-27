@@ -282,6 +282,8 @@ export const frontBase = {
 
     //stores
     store.set('frontPleatWidth', frontPleatWidth)
+    store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
+    store.set('wedgeAngle', wedgeAngle)
 
     //guide
     // paths.seam.attr('class', 'various')

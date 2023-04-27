@@ -1,0 +1,379 @@
+import { frontBase } from './frontBase.mjs'
+
+export const frontPocketBag = {
+  name: 'theobald.frontPocketBag',
+  from: frontBase,
+  hide: {
+    from: true,
+  },
+  options: {
+    //Pockets
+    frontPocketDepth: { pct: 36.8, min: 30, max: 50, menu: 'pockets.frontPockets' },
+    frontPocketWidth: { pct: (2 / 3) * 100, min: 50, max: 75, menu: 'pockets.frontPockets' },
+    frontPocketOgDepth: { pct: 16.8, min: 15, max: 20, menu: 'pockets.frontPockets' },
+    frontPocketStyle: { dflt: 'pear', list: ['pear', 'original'], menu: 'pockets.frontPockets' },
+    //Construction
+    frontPocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+  },
+  draft: ({
+    store,
+    sa,
+    Point,
+    points,
+    Path,
+    paths,
+    options,
+    complete,
+    paperless,
+    macro,
+    utils,
+    measurements,
+    part,
+    snippets,
+    Snippet,
+    absoluteOptions,
+  }) => {
+    //set Render
+    if (!options.frontPocketsBool) {
+      part.hide()
+      return part
+    }
+    //removing paths and snippets not required from Dalton
+    for (let i in paths) delete paths[i]
+    //measurements
+    let frontPocketDepth = store.get('frontPocketOpeningDepth') * (1 + options.frontPocketDepth)
+    let frontPocketOgDepth
+    if (
+      points.styleWaistIn.dist(points.crotchSeamCurveStart) <
+      measurements.crossSeamFront * options.frontPocketOgDepth
+    ) {
+      frontPocketOgDepth = points.styleWaistIn.dist(points.crotchSeamCurveStart)
+    } else {
+      frontPocketOgDepth = measurements.crossSeamFront * options.frontPocketOgDepth
+    }
+    //let's begin
+    points.frontPocketWaist = points.styleWaistOut.shiftFractionTowards(
+      points.styleWaistIn,
+      options.frontPocketWidth
+    )
+    points.frontPocketWaistR = points.styleWaistOutR.shiftTowards(
+      points.styleWaistInR,
+      points.styleWaistOut.dist(points.frontPocketWaist) + (store.get('frontPleatWidth') * 5) / 6
+    )
+    points.frontPocketOgWaist = points.styleWaistIn
+    points.frontPocketOgWaistR = points.styleWaistOutR.shiftTowards(
+      points.styleWaistInR,
+      points.styleWaistOut.dist(points.frontPocketOgWaist)
+    )
+
+    let suffix = ['', 'R']
+    for (const p of suffix) {
+      const drawOutseam = () => {
+        let waistOut = points['styleWaistOut' + p] || points['waistOut' + p]
+        if (options.fitKnee || options.fitFloor) {
+          if (options.frontPleats || options.fitFloor) {
+            if (points.waistOut.x < points.seatOut.x)
+              return new Path()
+                .move(waistOut)
+                .curve(points['seatOut' + p], points['kneeOutCp1' + p], points['kneeOut' + p])
+                ._curve(points['floorOutCp1' + p], points.floorOut)
+            else
+              return new Path()
+                .move(waistOut)
+                ._curve(points['seatOutCp1' + p], points['seatOut' + p])
+                .curve(points['seatOutCp2' + p], points['kneeOutCp1' + p], points['kneeOut' + p])
+                ._curve(points['floorOutCp1' + p], points.floorOut)
+          } else {
+            if (points.waistOut.x < points.seatOut.x)
+              return new Path()
+                .move(waistOut)
+                .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
+                .line(points.floorOut)
+            else
+              return new Path()
+                .move(waistOut)
+                ._curve(points.seatOutCp1, points.seatOut)
+                .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
+                .line(points.floorOut)
+          }
+        } else {
+          if (points.waistOut.x < points.seatOut.x)
+            return new Path()
+              .move(waistOut)
+              .curve(points['seatOut' + p], points.kneeOutCp1, points.floorOut)
+          else
+            return new Path()
+              .move(waistOut)
+              ._curve(points['seatOutCp1' + p], points['seatOut' + p])
+              .curve(points['seatOutCp2' + p], points.kneeOutCp1, points.floorOut)
+        }
+      }
+
+      //all
+      points['frontPocketBottomLeftTarget' + p] = drawOutseam()
+        .shiftAlong(frontPocketDepth)
+        .rotate(5, points['frontPocketOpeningOut' + p])
+      points['frontPocketCp1' + p] = points['frontPocketOpeningOut' + p].shiftFractionTowards(
+        points['frontPocketBottomLeftTarget' + p],
+        2 / 3
+      )
+      points['frontPocketBottom' + p] = utils.beamsIntersect(
+        points['frontPocketBottomLeftTarget' + p],
+        points['frontPocketBottomLeftTarget' + p].shift(
+          points['styleWaistOut' + p].angle(points['styleWaistIn' + p]),
+          1
+        ),
+        points['frontPocketWaist' + p],
+        points['styleWaistOut' + p].rotate(90, points['frontPocketWaist' + p])
+      )
+      points['frontPocketBottomLeft' + p] = points['frontPocketBottom' + p].shiftFractionTowards(
+        points['frontPocketBottomLeftTarget' + p],
+        0.9
+      )
+
+      let outSeamSplit = drawOutseam().split(points['frontPocketOpeningOut' + p])
+      for (let i in outSeamSplit) {
+        paths['outSeam' + p + i] = outSeamSplit[i].hide()
+      }
+
+      paths['outSeam' + p] = paths['outSeam' + p + '0']
+
+      macro('mirror', {
+        mirror: [points['frontPocketWaist' + p], points['frontPocketBottom' + p]],
+        paths: ['outSeam' + p],
+        points: [
+          'frontPocketOpening' + p,
+          'frontPocketOpeningOut' + p,
+          'frontPocketCp1' + p,
+          'frontPocketBottomLeft' + p,
+        ],
+        prefix: 'm',
+      })
+
+      //og
+      points['frontPocketCp2' + p] = points['frontPocketCp1' + p].shiftFractionTowards(
+        points['frontPocketBottomLeft' + p],
+        3
+      )
+      points['frontPocketBottomRight' + p] = points['frontPocketOgWaist' + p].shift(
+        points['styleWaistIn' + p].angle(points['crotchSeamCurveStart' + p]),
+        frontPocketOgDepth
+      )
+
+      let cpAngle =
+        points['frontPocketBottom' + p].angle(points['frontPocketBottomLeft' + p]) +
+        (points['frontPocketBottom' + p].angle(points['frontPocketBottomLeft' + p]) +
+          180 -
+          points['frontPocketBottomLeft' + p].angle(points['frontPocketCp2' + p]))
+
+      points['frontPocketCp3' + p] = points['frontPocketBottom' + p].shift(
+        cpAngle,
+        points['frontPocketBottomLeft' + p].dist(points['frontPocketCp2' + p])
+      )
+      points['frontPocketCp4' + p] = points['frontPocketCp3' + p].rotate(
+        180,
+        points['frontPocketBottom' + p]
+      )
+      points['frontPocketCp5' + p] = points['frontPocketBottomRight' + p]
+        .shiftTowards(
+          points['frontPocketOgWaist' + p],
+          points['frontPocketCp1' + p].dist(points['frontPocketBottomLeft' + p])
+        )
+        .rotate(90, points['frontPocketBottomRight' + p])
+
+      //guides
+      // paths['frontPocket' + p] = new Path()
+      // .move(points['frontPocketOpeningOut' + p])
+      // .curve_(points['frontPocketCp1' + p], points['frontPocketBottomLeft' + p])
+      // .line(points['mFrontPocketBottomLeft' + p])
+      // ._curve(points['mFrontPocketCp1' + p], paths['mOutSeam' + p].end())
+      // .join(paths['mOutSeam' + p].reverse())
+      // .line(points['frontPocketOpeningWaist' + p])
+      // .line(points['frontPocketOpeningOut' + p])
+
+      // paths['og' + p] = new Path()
+      // .move(points['frontPocketBottomLeft' + p])
+      // .curve(points['frontPocketCp2' + p], points['frontPocketCp3' + p], points['frontPocketBottom' + p])
+      // .curve(points['frontPocketCp4' + p], points['frontPocketCp5' + p], points['frontPocketBottomRight' + p])
+      // .line(points['frontPocketOgWaist' + p])
+      // .line(points['styleWaistOut' + p])
+
+      // if (p == 'R'){
+      // paths['frontPocket' + p].attr('class', 'canvas')
+      // paths['og' + p].attr('class', 'canvas')
+      // }
+    }
+
+    //paths
+
+    let suf
+    if (options.frontPleats) {
+      suf = 'R'
+    } else {
+      suf = ''
+    }
+
+    const drawSaLeft = () => {
+      if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketStyle == 'pear') {
+        return new Path()
+          .move(points['frontPocketOpeningOut' + suf])
+          .line(points['frontPocketOpeningOut' + suf])
+      } else {
+        return paths['outSeam' + suf]
+      }
+    }
+
+    const drawSaBottom = () => {
+      if (options.frontPocketStyle == 'pear') {
+        return new Path()
+          .move(points['frontPocketOpeningOut' + suf])
+          .curve_(points['frontPocketCp1' + suf], points['frontPocketBottomLeft' + suf])
+          .line(points['mFrontPocketBottomLeft' + suf])
+          ._curve(points['mFrontPocketCp1' + suf], points['mFrontPocketOpeningOut' + suf])
+      } else {
+        return new Path()
+          .move(points['frontPocketOpeningOut' + suf])
+          .curve_(points['frontPocketCp1' + suf], points['frontPocketBottomLeft' + suf])
+          .curve(
+            points['frontPocketCp2' + suf],
+            points['frontPocketCp3' + suf],
+            points['frontPocketBottom' + suf]
+          )
+          .curve(
+            points['frontPocketCp4' + suf],
+            points['frontPocketCp5' + suf],
+            points['frontPocketBottomRight' + suf]
+          )
+      }
+    }
+
+    const drawSaRight = () => {
+      if (options.frontPocketStyle == 'pear') {
+        return paths['mOutSeam' + suf].reverse()
+      } else {
+        return new Path()
+          .move(points['frontPocketBottomRight' + suf])
+          .line(points['frontPocketOgWaist' + suf])
+      }
+    }
+
+    const drawSaWaist = () => {
+      if (options.frontPocketStyle == 'pear' && options.frontPocketOpeningStyle == 'slanted') {
+        return new Path()
+          .move(drawSaRight().end())
+          .line(points['frontPocketOpeningWaist' + suf])
+          .line(points['frontPocketOpeningOut' + suf])
+      } else {
+        return new Path().move(drawSaRight().end()).line(points['styleWaistOut' + suf])
+      }
+    }
+
+    paths.seam = drawSaLeft().join(drawSaBottom()).join(drawSaRight()).join(drawSaWaist())
+
+    if (complete) {
+      //grainline
+      points.grainlineFrom = points['frontPocketWaist' + suf]
+      points.grainlineTo = points['frontPocketBottom' + suf]
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
+      //notches
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['frontPocketOpeningOut' + suf, 'mFrontPocketOpeningOut' + suf],
+      })
+      if (options.frontPocketStyle == 'original' || options.frontPocketOpeningStyle == 'inseam') {
+        snippets.frontPocketOpening = new Snippet('notch', points['frontPocketOpening' + suf])
+      }
+      if (options.frontPocketStyle == 'pear') {
+        snippets.mFrontPocketOpening = new Snippet('notch', points['mFrontPocketOpening' + suf])
+      }
+      //title
+      let titleNum
+      if (options.frontPocketStyle == 'original' && options.frontPocketOpeningStyle == 'slanted') {
+        titleNum = '7a'
+      } else {
+        titleNum = 7
+      }
+      points.title = points['frontPocketOpeningWaist' + suf].shiftFractionTowards(
+        points['frontPocketBottom' + suf].shiftFractionTowards(
+          points['frontPocketBottomLeftTarget' + suf],
+          0.1
+        ),
+        0.5
+      )
+      macro('title', {
+        nr: titleNum,
+        title: 'Front Pocket Bag',
+        at: points.title,
+        scale: 0.75,
+        rotation: 90 - points['frontPocketBottom' + suf].angle(points['frontPocketWaist' + suf]),
+      })
+
+      if (sa) {
+        let outSeamSa = sa * options.outSeamSaWidth * 100
+        let bagSa = sa * options.frontPocketBagSaWidth * 100
+        let rightSa
+        if (options.frontPocketStyle == 'pear') {
+          rightSa = outSeamSa
+        } else {
+          rightSa = sa * options.crotchSeamSaWidth * 100
+        }
+        points['frontPocketCp4Sa' + suf] = points['frontPocketBottom' + suf]
+          .shiftOutwards(points['frontPocketCp4' + suf], bagSa)
+          .shift(
+            points['frontPocketBottom' + suf].angle(points['frontPocketCp4' + suf]) - 90,
+            bagSa
+          )
+
+        let saAngle = points['frontPocketCp5' + suf].angle(points['frontPocketBottomRight' + suf])
+
+        points['frontPocketCp5Sa' + suf] = points['frontPocketCp5' + suf]
+          .shiftTowards(points['frontPocketBottomRight' + suf], bagSa)
+          .shift(saAngle - 90, bagSa)
+
+        points['frontPocketBottomRightSa' + suf] = points['frontPocketBottomRight' + suf]
+          .shift(saAngle, bagSa)
+          .shift(saAngle - 90, bagSa)
+
+        const drawSa = () => {
+          if (options.frontPocketStyle == 'pear') {
+            if (options.frontPocketOpeningStyle == 'slanted') {
+              return drawSaBottom().offset(bagSa)
+            } else {
+              return drawSaLeft().offset(outSeamSa).join(drawSaBottom().offset(bagSa))
+            }
+          } else {
+            return drawSaLeft()
+              .offset(outSeamSa)
+              .join(
+                new Path()
+                  .move(points['frontPocketOpeningOut' + suf])
+                  .curve_(points['frontPocketCp1' + suf], points['frontPocketBottomLeft' + suf])
+                  .curve(
+                    points['frontPocketCp2' + suf],
+                    points['frontPocketCp3' + suf],
+                    points['frontPocketBottom' + suf]
+                  )
+                  .offset(bagSa)
+                  .curve(
+                    points['frontPocketCp4Sa' + suf],
+                    points['frontPocketCp5Sa' + suf],
+                    points['frontPocketBottomRightSa' + suf]
+                  )
+              )
+          }
+        }
+
+        paths.sa = drawSa()
+          .join(drawSaRight().offset(rightSa))
+          .join(drawSaWaist().offset(sa))
+          .close()
+          .attr('class', 'fabric sa')
+      }
+    }
+
+    return part
+  },
+}

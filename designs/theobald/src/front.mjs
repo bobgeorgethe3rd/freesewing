@@ -1,10 +1,8 @@
 import { frontBase } from './frontBase.mjs'
-import { backBase } from './backBase.mjs'
 
 export const front = {
   name: 'theobald.front',
   from: frontBase,
-  after: backBase,
   hide: {
     from: true,
   },
@@ -14,7 +12,7 @@ export const front = {
     frontPleatDistance: { pct: 4.7, min: 3, max: 6, menu: 'style' },
     //Pockets
     frontPocketsBool: { bool: true, menu: 'pockets' },
-    frontPocketStyle: {
+    frontPocketOpeningStyle: {
       dflt: 'slanted',
       list: ['inseam', 'slanted'],
       menu: 'pockets.frontPockets',
@@ -42,7 +40,6 @@ export const front = {
   }) => {
     //removing paths and snippets not required from Dalton
     for (let i in paths) delete paths[i]
-    for (let i in snippets) delete snippets[i]
     //measurements
     let frontPleatWidth = store.get('frontPleatWidth')
     let frontPleatDistance = measurements.waist * options.frontPleatDistance + frontPleatWidth
@@ -88,7 +85,7 @@ export const front = {
       .hide()
 
     const drawWaistSeam = () => {
-      if (options.frontPocketStyle == 'slanted' && options.frontPocketsBool) {
+      if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool) {
         return new Path()
           .move(points['styleWaistIn' + suffix])
           .line(points['frontPocketOpeningWaist' + suffix])
@@ -149,7 +146,7 @@ export const front = {
       }
     }
 
-    if (options.frontPocketStyle == 'slanted' && options.frontPocketsBool) {
+    if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool) {
       let outSeamSplit = drawOutseam().split(points['frontPocketOpeningOut' + suffix])
       for (let i in outSeamSplit) {
         paths['outSeam' + i] = outSeamSplit[i].hide()
@@ -178,7 +175,7 @@ export const front = {
         to: points.grainlineTo,
       })
       //notches
-      if (options.frontPocketStyle == 'inseam' || !options.frontPocketsBool) {
+      if (options.frontPocketOpeningStyle == 'inseam' || !options.frontPocketsBool) {
         snippets.frontPocketOpening = new Snippet('notch', points['frontPocketOpening' + suffix])
       }
 
