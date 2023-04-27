@@ -7,6 +7,8 @@ export const back = {
     from: true,
   },
   options: {
+    //Constants
+    useVoidStores: false, //locked for Theobald
     //Style
     waistbandFishtailEmbedded: { bool: false, menu: 'style' },
     //Pockets
@@ -14,7 +16,7 @@ export const back = {
     backPocketPlacement: { pct: 50, min: 40, max: 100, menu: 'pockets' },
     weltPocketOpeningWidth: { pct: 62.2, min: 50, max: 80, menu: 'pockets.weltPockets' },
     //Construction
-    hemWidth: { pct: 4, min: 1, max: 10, menu: 'construction' }, //altered for Jackson
+    hemWidth: { pct: 4, min: 1, max: 10, menu: 'construction' }, //altered for Theobald
     crossSeamSaWidth: { pct: 1, min: 1, max: 4, menu: 'construction' },
     inseamSaWidth: { pct: 1, min: 1, max: 4, menu: 'construction' },
     outSeamSaWidth: { pct: 1, min: 1, max: 4, menu: 'construction' },
@@ -149,13 +151,45 @@ export const back = {
       .join(paths.crossSeam)
       .join(drawInseam())
       .close()
+    //backPocket
+    if (options.backPocketsBool) {
+      points.backPocketMid = points.dartMid.shiftFractionTowards(
+        points.dartTip,
+        options.backPocketPlacement
+      )
+      points.backPocketDartIn = utils.beamsIntersect(
+        points.backPocketMid,
+        points.dartMid.rotate(90, points.backPocketMid),
+        points.dartIn,
+        points.dartTip
+      )
+      points.backPocketDartOut = utils.beamsIntersect(
+        points.backPocketMid,
+        points.dartMid.rotate(-90, points.backPocketMid),
+        points.dartOut,
+        points.dartTip
+      )
+      points.backPocketIn = points.backPocketDartIn.shift(
+        points.styleWaistOut.angle(points.styleWaistIn),
+        weltPocketOpeningWidth / 2
+      )
+      points.backPocketOut = points.backPocketDartOut.shift(
+        points.styleWaistIn.angle(points.styleWaistOut),
+        weltPocketOpeningWidth / 2
+      )
 
+      paths.backPocket = new Path()
+        .move(points.backPocketIn)
+        .line(points.backPocketDartIn)
+        .move(points.backPocketDartOut)
+        .line(points.backPocketOut)
+        .attr('class', 'interfacing')
+      //stores
+      store.set('weltPocketOpeningWidth', weltPocketOpeningWidth)
+      store.set('insertSeamLength', measurements.waistToFloor)
+      store.set('weltToAnchor', points.backPocketMid.dist(points.dartMid))
+    }
     //stores
-    store.set(
-      'backPocketTopLength',
-      points.dartMid.dist(points.dartTip) * options.backPocketPlacement
-    )
-    store.set('weltPocketOpeningWidth', weltPocketOpeningWidth)
 
     if (complete) {
       //grainline
@@ -223,40 +257,9 @@ export const back = {
           on: ['seatGuideIn', 'seatGuideOut', 'kneeGuideIn', 'kneeGuideOut'],
         })
       }
-      //backPocket
+      //backPockets
       if (options.backPocketsBool) {
-        points.backPocketMid = points.dartMid.shiftFractionTowards(
-          points.dartTip,
-          options.backPocketPlacement
-        )
-        points.backPocketDartIn = utils.beamsIntersect(
-          points.backPocketMid,
-          points.dartMid.rotate(90, points.backPocketMid),
-          points.dartIn,
-          points.dartTip
-        )
-        points.backPocketDartOut = utils.beamsIntersect(
-          points.backPocketMid,
-          points.dartMid.rotate(-90, points.backPocketMid),
-          points.dartOut,
-          points.dartTip
-        )
-        points.backPocketIn = points.backPocketDartIn.shift(
-          points.styleWaistOut.angle(points.styleWaistIn),
-          weltPocketOpeningWidth / 2
-        )
-        points.backPocketOut = points.backPocketDartOut.shift(
-          points.styleWaistIn.angle(points.styleWaistOut),
-          weltPocketOpeningWidth / 2
-        )
-
-        paths.backPocket = new Path()
-          .move(points.backPocketIn)
-          .line(points.backPocketDartIn)
-          .move(points.backPocketDartOut)
-          .line(points.backPocketOut)
-          .attr('class', 'interfacing')
-          .attr('data-text', 'Back Pocket Line')
+        paths.backPocket.attr('data-text', 'Back Pocket Line')
         macro('sprinkle', {
           snippet: 'notch',
           on: ['backPocketIn', 'backPocketOut'],
