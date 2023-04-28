@@ -317,7 +317,15 @@ export const frontPocketBag = {
         scale: 0.5,
         rotation: 90 - points['frontPocketBottom' + suf].angle(points['frontPocketWaist' + suf]),
       })
-
+      //foldline
+      if (options.frontPocketStyle == 'pear') {
+        paths.foldline = new Path()
+          .move(points['frontPocketWaist' + suf])
+          .line(points['frontPocketBottom' + suf])
+          .attr('class', 'mark')
+          .attr('data-text', 'Fold - line')
+          .attr('data-text-class', 'center')
+      }
       if (sa) {
         let outSeamSa = sa * options.outSeamSaWidth * 100
         let bagSa = sa * options.frontPocketBagSaWidth * 100
