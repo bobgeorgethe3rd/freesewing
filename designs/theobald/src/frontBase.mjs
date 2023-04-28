@@ -122,6 +122,13 @@ export const frontBase = {
         )
       }
     }
+    //fly point
+    points.flyCrotch = new Path()
+      .move(points.fork)
+      .curve(points.crotchSeamCurveCp1, points.crotchSeamCurveCp2, points.crotchSeamCurveStart)
+      .line(points.styleWaistIn)
+      .shiftAlong(flyDepth)
+
     //rotate
     //find the angle
     let wedgeAngle = 1
@@ -157,6 +164,7 @@ export const frontBase = {
       'crotchSeamCurveCp1',
       'crotchSeamCurveCp2',
       'crotchSeamCurveStart',
+      'flyCrotch',
       'styleWaistIn',
       'waistIn',
     ]
@@ -264,21 +272,36 @@ export const frontBase = {
     points.frontPocketOpeningR = drawOutseamR().shiftAlong(frontPocketOpening)
 
     //plackets
-    points.flyOut = points.styleWaistIn.shiftFractionTowards(points.styleWaistOut, options.flyWidth)
-    points.flyOutR = points.styleWaistInR.shiftTowards(
-      points.styleWaistOutR,
-      points.styleWaistIn.dist(points.flyOut)
-    )
-    points.flyCrotch = new Path()
-      .move(points.fork)
-      .curve(points.crotchSeamCurveCp1, points.crotchSeamCurveCp2, points.crotchSeamCurveStart)
-      .line(points.styleWaistIn)
-      .shiftAlong(flyDepth)
-    points.flyCrotchR = new Path()
-      .move(points.forkR)
-      .curve(points.crotchSeamCurveCp1R, points.crotchSeamCurveCp2R, points.crotchSeamCurveStartR)
-      .line(points.styleWaistInR)
-      .shiftAlong(flyDepth)
+    let flyShieldDepthExt = (points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth) / 4
+
+    let suffix = ['', 'R']
+    for (const p of suffix) {
+      points['flyCurveEnd' + p] = utils.beamsIntersect(
+        points['styleWaistIn' + p],
+        points['crotchSeamCurveStart' + p],
+        points['flyCrotch' + p],
+        points['flyCrotch' + p].shift(
+          points['styleWaistIn' + p].angle(points['styleWaistOut' + p]),
+          1
+        )
+      )
+
+      points['flyShieldCurveEnd' + p] = points['styleWaistIn' + p].shiftOutwards(
+        points['flyCurveEnd' + p],
+        flyShieldDepthExt
+      )
+      points['flyShieldCrotch' + p] = utils.lineIntersectsCurve(
+        points['flyShieldCurveEnd' + p],
+        points['flyShieldCurveEnd' + p].shift(
+          points['styleWaistOut' + p].angle(points['styleWaistIn' + p]),
+          measurements.seat
+        ),
+        points['fork' + p],
+        points['crotchSeamCurveCp1' + p],
+        points['crotchSeamCurveCp2' + p],
+        points['crotchSeamCurveStart' + p]
+      )
+    }
 
     //stores
     let frontPleatSuffix
@@ -287,11 +310,12 @@ export const frontBase = {
     } else {
       frontPleatSuffix = ''
     }
-
     store.set('frontPleatWidth', frontPleatWidth)
     store.set('frontPleatSuffix', frontPleatSuffix)
     store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
     store.set('wedgeAngle', wedgeAngle)
+    store.set('flyDepth', flyDepth)
+    store.set('flyShieldDepthExt', flyShieldDepthExt)
 
     //guide
     // paths.seam.attr('class', 'various')

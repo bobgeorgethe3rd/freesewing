@@ -14,6 +14,7 @@ import { frontPocketBag } from './frontPocketBag.mjs'
 import { frontPocketBagB } from './frontPocketBagB.mjs'
 import { frontPocketFacing } from './frontPocketFacing.mjs'
 import { frontPocketFacingB } from './frontPocketFacingB.mjs'
+import { fly } from './fly.mjs'
 
 // Create new design
 const Theobald = new Design({
@@ -30,6 +31,7 @@ const Theobald = new Design({
     frontPocketBagB,
     frontPocketFacing,
     frontPocketFacingB,
+    fly,
   ],
 })
 
@@ -46,5 +48,6 @@ export {
   frontPocketBagB,
   frontPocketFacing,
   frontPocketFacingB,
+  fly,
   Theobald,
 }

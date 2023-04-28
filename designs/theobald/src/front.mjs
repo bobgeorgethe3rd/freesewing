@@ -181,7 +181,7 @@ export const front = {
 
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['flyCrotch', 'frontPocketOpeningOut' + suffix],
+        on: ['flyShieldCrotch' + suffix, 'frontPocketOpeningOut' + suffix],
       })
       //title
       macro('title', {
