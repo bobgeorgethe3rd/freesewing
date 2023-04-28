@@ -136,9 +136,7 @@ export const frontBase = {
       .line(points.styleWaistIn)
       .shiftAlong(flyDepth)
 
-    let flyShieldDepthExt =
-      points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth * 1.25 -
-      points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth
+    let flyShieldDepthExt = (points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth) / 4
 
     points.flyCurveEnd = utils.beamsIntersect(
       points.styleWaistIn,
