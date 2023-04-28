@@ -29,7 +29,7 @@ export const backBase = {
       menu: 'style',
     }, // based on size 40 //altered for Jackson
     waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //altered for Theobald
-    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved', 'fishtail'], menu: 'style' },
+    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'style' },
     waistbandFishtail: { bool: true, menu: 'style' },
     waistbandFishtailBack: { pct: 25, min: 10, max: 50, menu: 'style' },
     waistbandFishtailExtension: { pct: 5.9, min: 3, max: 8, menu: 'style' },
