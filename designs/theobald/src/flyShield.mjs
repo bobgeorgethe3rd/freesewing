@@ -34,43 +34,53 @@ export const flyShield = {
     //removing macros not required from Dalton
     macro('title', false)
     //measures
+    let suffix = store.get('frontPleatSuffix')
     let flyShieldDepthExt = store.get('flyShieldDepthExt')
     //begin
-    points.flyShieldOut = points.flyOut.shiftTowards(points.styleWaistOut, flyShieldDepthExt)
-    points.flyShieldCurveCp1 = utils.beamsIntersect(
-      points.flyShieldOut,
-      points.styleWaistIn.rotate(-90, points.flyShieldOut),
-      points.flyShieldCurveEnd,
-      points.styleWaistIn.rotate(90, points.flyShieldCurveEnd)
+    points['flyShieldOut' + suffix] = points['flyOut' + suffix].shiftTowards(
+      points['styleWaistOut' + suffix],
+      flyShieldDepthExt
     )
-    points.flyShieldCurveStart = points.flyShieldCurveCp1.shiftTowards(
-      points.flyShieldOut,
-      points.flyShieldCurveCp1.dist(points.flyShieldCurveEnd)
+    points['flyShieldCurveCp1' + suffix] = utils.beamsIntersect(
+      points['flyShieldOut' + suffix],
+      points['styleWaistIn' + suffix].rotate(-90, points['flyShieldOut' + suffix]),
+      points['flyShieldCurveEnd' + suffix],
+      points['styleWaistIn' + suffix].rotate(90, points['flyShieldCurveEnd' + suffix])
+    )
+    points['flyShieldCurveStart' + suffix] = points['flyShieldCurveCp1' + suffix].shiftTowards(
+      points['flyShieldOut' + suffix],
+      points['flyShieldCurveCp1' + suffix].dist(points['flyShieldCurveEnd' + suffix])
     )
 
-    points.flyShieldBottomLeft = utils.beamsIntersect(
-      points.flyShieldOut,
-      points.styleWaistIn.rotate(-90, points.flyShieldOut),
-      points.flyShieldCrotch,
-      points.flyShieldCurveEnd
+    points['flyShieldBottomLeft' + suffix] = utils.beamsIntersect(
+      points['flyShieldOut' + suffix],
+      points['styleWaistIn' + suffix].rotate(-90, points['flyShieldOut' + suffix]),
+      points['flyShieldCrotch' + suffix],
+      points['flyShieldCurveEnd' + suffix]
     )
 
     //paths
     const drawSaBase = () => {
       if (options.flyShieldCurve)
         return new Path()
-          .move(points.flyShieldCurveStart)
-          .curve_(points.flyShieldCurveCp1, points.flyShieldCurveEnd)
-          .line(points.flyShieldCrotch)
-      else return new Path().move(points.flyShieldBottomLeft).line(points.flyShieldCrotch)
+          .move(points['flyShieldCurveStart' + suffix])
+          .curve_(points['flyShieldCurveCp1' + suffix], points['flyShieldCurveEnd' + suffix])
+          .line(points['flyShieldCrotch' + suffix])
+      else
+        return new Path()
+          .move(points['flyShieldBottomLeft' + suffix])
+          .line(points['flyShieldCrotch' + suffix])
     }
 
-    let crotchSeamSplit = paths.crotchSeam.split(points.flyShieldCrotch)
+    let crotchSeamSplit = paths['crotchSeam' + suffix].split(points['flyShieldCrotch' + suffix])
     for (let i in crotchSeamSplit) {
       paths['crotchSeam' + i] = crotchSeamSplit[i].hide()
     }
 
-    paths.waist = new Path().move(points.styleWaistIn).line(points.flyShieldOut).hide()
+    paths.waist = new Path()
+      .move(points['styleWaistIn' + suffix])
+      .line(points['flyShieldOut' + suffix])
+      .hide()
 
     paths.seam = drawSaBase()
       .join(paths.crotchSeam1)
@@ -79,28 +89,28 @@ export const flyShield = {
       .close()
 
     //stores
-    store.set('placketWidth', points.styleWaistIn.dist(points.flyShieldOut))
+    store.set('placketWidth', points['styleWaistIn' + suffix].dist(points['flyShieldOut' + suffix]))
 
     if (complete) {
       //grainline
-      points.cutOnFoldFrom = points.flyShieldOut
-      points.cutOnFoldTop = points.flyShieldCurveStart
+      points.cutOnFoldFrom = points['flyShieldOut' + suffix]
+      points.cutOnFoldTo = points['flyShieldCurveStart' + suffix]
       macro('cutonfold', {
         from: points.cutOnFoldFrom,
-        to: points.cutOnFoldTop,
+        to: points.cutOnFoldTo,
         grainline: true,
       })
       //title
-      points.title = points.flyShieldCurveStart.shiftFractionTowards(
-        points.flyShieldCurveEnd,
+      points.title = points['flyShieldCurveStart' + suffix].shiftFractionTowards(
+        points['flyShieldCurveEnd' + suffix],
         1 / 3
       )
       macro('title', {
-        nr: 10,
+        nr: 9,
         title: 'Fly Shield',
         at: points.title,
         scale: 1 / 3,
-        rotation: 180 - points.flyOut.angle(points.styleWaistOut),
+        rotation: 180 - points['flyOut' + suffix].angle(points['styleWaistOut' + suffix]),
       })
 
       if (sa) {
@@ -108,7 +118,7 @@ export const flyShield = {
           .offset(sa)
           .join(paths.crotchSeam1.offset(sa * options.crotchSeamSaWidth * 100))
           .join(paths.waist.offset(sa))
-          .line(points.flyShieldOut)
+          .line(points['flyShieldOut' + suffix])
           .line(drawSaBase().start())
           .close()
           .attr('class', 'fabric sa')
