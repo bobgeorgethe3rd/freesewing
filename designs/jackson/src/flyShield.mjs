@@ -84,10 +84,10 @@ export const flyShield = {
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.flyShieldOut
-      points.cutOnFoldTop = points.flyShieldCurveStart
+      points.cutOnFoldTo = points.flyShieldCurveStart
       macro('cutonfold', {
         from: points.cutOnFoldFrom,
-        to: points.cutOnFoldTop,
+        to: points.cutOnFoldTo,
         grainline: true,
       })
       //title
