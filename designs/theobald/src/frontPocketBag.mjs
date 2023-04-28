@@ -295,9 +295,9 @@ export const frontPocketBag = {
       })
       if (options.frontPocketOpeningStyle == 'inseam') {
         snippets.frontPocketOpening = new Snippet('notch', points['frontPocketOpening' + suf])
-      }
-      if (options.frontPocketStyle == 'pear') {
-        snippets.mFrontPocketOpening = new Snippet('notch', points['mFrontPocketOpening' + suf])
+        if (options.frontPocketStyle == 'pear') {
+          snippets.mFrontPocketOpening = new Snippet('notch', points['mFrontPocketOpening' + suf])
+        }
       }
       //title
       let titleSuffix
