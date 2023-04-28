@@ -102,7 +102,7 @@ export const back = {
     }
 
     const drawWaistSeam = () => {
-      if (options.waistbandFishtailEmbedded && options.waistbandStyle == 'fishtail') {
+      if (options.waistbandFishtailEmbedded && options.waistbandFishtail) {
         return new Path()
           .move(points.waistbandFOut)
           .curve_(points.waistbandFCp, points.waistbandFTop)
@@ -128,7 +128,7 @@ export const back = {
 
     paths.outseam = drawOutseam().hide()
 
-    if (options.waistbandFishtailEmbedded && options.waistbandStyle == 'fishtail') {
+    if (options.waistbandFishtailEmbedded && options.waistbandFishtail) {
       paths.crossSeam = new Path()
         .move(points.waistbandFIn)
         .line(points.styleWaistIn)
@@ -213,7 +213,7 @@ export const back = {
         scale: 0.75,
       })
       //dart
-      if (options.waistbandFishtailEmbedded && options.waistbandStyle == 'fishtail') {
+      if (options.waistbandFishtailEmbedded && options.waistbandFishtail) {
         paths.dart = new Path()
           .move(points.waistbandFSplit)
           .line(points.dartIn)
@@ -267,7 +267,7 @@ export const back = {
       }
       if (sa) {
         const drawWaistSa = () => {
-          if (options.waistbandFishtailEmbedded && options.waistbandStyle == 'fishtail') {
+          if (options.waistbandFishtailEmbedded && options.waistbandFishtail) {
             return drawWaistSeam()
           } else {
             return new Path().move(points.styleWaistOut).line(points.styleWaistIn)

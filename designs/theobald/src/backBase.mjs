@@ -29,7 +29,8 @@ export const backBase = {
       menu: 'style',
     }, // based on size 40 //altered for Jackson
     waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //altered for Theobald
-    waistbandStyle: { dflt: 'fishtail', list: ['straight', 'curved', 'fishtail'], menu: 'style' },
+    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved', 'fishtail'], menu: 'style' },
+    waistbandFishtail: { bool: true, menu: 'style' },
     waistbandFishtailBack: { pct: 25, min: 10, max: 50, menu: 'style' },
     waistbandFishtailExtension: { pct: 5.9, min: 3, max: 8, menu: 'style' },
     //Darts
@@ -83,7 +84,7 @@ export const backBase = {
     let backHemDrop = measurements.waistToFloor * options.backHemDrop
     let waistbandWidth = absoluteOptions.waistbandWidth
     //fishtail
-    if (options.waistbandStyle == 'fishtail') {
+    if (options.waistbandFishtail) {
       let waistbandFishtailBack = waistbandWidth * (1 + options.waistbandFishtailBack)
       let waistAngle = points.styleWaistIn.angle(points.styleWaistOut)
       let waistbandFishtailExtension =
