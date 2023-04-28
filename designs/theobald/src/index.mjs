@@ -11,6 +11,9 @@ import { backPocketBag } from './backPocketBag.mjs'
 import { backPocketWelt } from './backPocketWelt.mjs'
 import { backPocketTab } from './backPocketTab.mjs'
 import { frontPocketBag } from './frontPocketBag.mjs'
+import { frontPocketBagB } from './frontPocketBagB.mjs'
+import { frontPocketFacing } from './frontPocketFacing.mjs'
+import { frontPocketFacingB } from './frontPocketFacingB.mjs'
 
 // Create new design
 const Theobald = new Design({
@@ -24,6 +27,9 @@ const Theobald = new Design({
     backPocketWelt,
     backPocketTab,
     frontPocketBag,
+    frontPocketBagB,
+    frontPocketFacing,
+    frontPocketFacingB,
   ],
 })
 
@@ -37,5 +43,8 @@ export {
   backPocketWelt,
   backPocketTab,
   frontPocketBag,
+  frontPocketBagB,
+  frontPocketFacing,
+  frontPocketFacingB,
   Theobald,
 }

@@ -281,7 +281,15 @@ export const frontBase = {
       .shiftAlong(flyDepth)
 
     //stores
+    let frontPleatSuffix
+    if (options.frontPleats) {
+      frontPleatSuffix = 'R'
+    } else {
+      frontPleatSuffix = ''
+    }
+
     store.set('frontPleatWidth', frontPleatWidth)
+    store.set('frontPleatSuffix', frontPleatSuffix)
     store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
     store.set('wedgeAngle', wedgeAngle)
 

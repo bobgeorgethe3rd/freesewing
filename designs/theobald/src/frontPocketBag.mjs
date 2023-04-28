@@ -181,6 +181,17 @@ export const frontPocketBag = {
         )
         .rotate(90, points['frontPocketBottomRight' + p])
 
+      //facing
+      points['frontPocketFacingWaist' + p] = utils.beamsIntersect(
+        points['frontPocketBottomLeft' + p],
+        points['frontPocketBottomLeft' + p].shift(
+          points['frontPocketOpeningOut' + p].angle(points['frontPocketOpeningWaist' + p]),
+          1
+        ),
+        points['styleWaistOut' + p],
+        points['styleWaistIn' + p]
+      )
+
       //guides
       // paths['frontPocket' + p] = new Path()
       // .move(points['frontPocketOpeningOut' + p])
@@ -205,13 +216,7 @@ export const frontPocketBag = {
     }
 
     //paths
-
-    let suf
-    if (options.frontPleats) {
-      suf = 'R'
-    } else {
-      suf = ''
-    }
+    let suf = store.get('frontPleatSuffix')
 
     const drawSaLeft = () => {
       if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketStyle == 'pear') {
@@ -288,28 +293,28 @@ export const frontPocketBag = {
         snippet: 'notch',
         on: ['frontPocketOpeningOut' + suf, 'mFrontPocketOpeningOut' + suf],
       })
-      if (options.frontPocketStyle == 'original' || options.frontPocketOpeningStyle == 'inseam') {
+      if (options.frontPocketOpeningStyle == 'inseam') {
         snippets.frontPocketOpening = new Snippet('notch', points['frontPocketOpening' + suf])
       }
       if (options.frontPocketStyle == 'pear') {
         snippets.mFrontPocketOpening = new Snippet('notch', points['mFrontPocketOpening' + suf])
       }
       //title
-      let titleNum
+      let titleSuffix
       if (options.frontPocketStyle == 'original' && options.frontPocketOpeningStyle == 'slanted') {
-        titleNum = '7a'
+        titleSuffix = 'a'
       } else {
-        titleNum = 7
+        titleSuffix = ''
       }
       points.title = points['frontPocketOpeningWaist' + suf].shift(
         points['styleWaistIn' + suf].angle(points['frontPocketOpeningWaist' + suf]) + 90,
         points['frontPocketWaist' + suf].dist(points['frontPocketBottom' + suf]) * 0.5
       )
       macro('title', {
-        nr: titleNum,
-        title: 'Front Pocket Bag',
+        nr: 7 + titleSuffix,
+        title: 'Front Pocket Bag ' + utils.capitalize(titleSuffix),
         at: points.title,
-        scale: 2 / 3,
+        scale: 0.5,
         rotation: 90 - points['frontPocketBottom' + suf].angle(points['frontPocketWaist' + suf]),
       })
 
