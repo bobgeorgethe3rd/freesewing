@@ -76,25 +76,25 @@ export const frontPocketBag = {
               return new Path()
                 .move(waistOut)
                 .curve(points['seatOut' + p], points['kneeOutCp1' + p], points['kneeOut' + p])
-                ._curve(points['floorOutCp1' + p], points.floorOut)
+            // ._curve(points['floorOutCp1' + p], points.floorOut)
             else
               return new Path()
                 .move(waistOut)
                 ._curve(points['seatOutCp1' + p], points['seatOut' + p])
                 .curve(points['seatOutCp2' + p], points['kneeOutCp1' + p], points['kneeOut' + p])
-                ._curve(points['floorOutCp1' + p], points.floorOut)
+            // ._curve(points['floorOutCp1' + p], points.floorOut)
           } else {
             if (points.waistOut.x < points.seatOut.x)
               return new Path()
                 .move(waistOut)
-                .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
-                .line(points.floorOut)
+                .curve(points['seatOut' + p], points['kneeOutCp1' + p], points['kneeOut' + p])
+            // .line(points.floorOut)
             else
               return new Path()
                 .move(waistOut)
-                ._curve(points.seatOutCp1, points.seatOut)
-                .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
-                .line(points.floorOut)
+                ._curve(points['seatOutCp1' + p], points['seatOut' + p])
+                .curve(points['seatOutCp2' + p], points['kneeOutCp1' + p], points['kneeOut' + p])
+            // .line(points.floorOut)
           }
         } else {
           if (points.waistOut.x < points.seatOut.x)
