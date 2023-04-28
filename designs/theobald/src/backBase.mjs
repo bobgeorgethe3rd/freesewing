@@ -27,7 +27,7 @@ export const backBase = {
       snap: 5,
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
-    }, // based on size 40 //altered for Jackson
+    }, // based on size 40 //altered for Theobald
     waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //altered for Theobald
     waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'style' },
     waistbandFishtail: { bool: true, menu: 'style' },
@@ -42,7 +42,7 @@ export const backBase = {
     //Waistbands
     useVoidStores: false, //locked for Theobald
     waistbandClosurePosition: 'front', //locked for Theobald
-    //Jackson
+    //Theobald
     //Style
     beltLoopWidth: {
       pct: 1.1,
