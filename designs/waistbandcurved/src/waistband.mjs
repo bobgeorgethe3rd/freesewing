@@ -147,6 +147,50 @@ export const waistband = {
       .close()
       .unhide()
 
+    //notches
+    let centreName
+    let leftName
+    let rightName
+    let exName
+    if (
+      options.waistbandClosurePosition == 'sideLeft' ||
+      options.waistbandClosurePosition == 'sideRight'
+    ) {
+      if (options.waistbandClosurePosition == 'sideRight') {
+        points.bottomMidNotch = paths.bottomCurve.reverse().shiftAlong(lengthBack)
+        points.bottomLeftNotch = paths.bottomCurve.shiftAlong((length - lengthBack) / 2)
+        points.bottomRightNotch = paths.bottomCurve.reverse().shiftAlong(lengthBack / 2)
+        leftName = 'Centre Front'
+        rightName = 'Centre Back'
+      } else {
+        points.bottomMidNotch = paths.bottomCurve.shiftAlong(lengthBack)
+        points.bottomLeftNotch = paths.bottomCurve.shiftAlong(lengthBack / 2)
+        points.bottomRightNotch = paths.bottomCurve.reverse().shiftAlong((length - lengthBack) / 2)
+        leftName = 'Centre Back'
+        rightName = 'Centre Front'
+      }
+      centreName = 'Side Seam'
+      exName = centreName
+    } else {
+      if (options.waistbandClosurePosition == 'back') {
+        points.bottomLeftNotch = paths.bottomCurve.shiftAlong(lengthBack / 2)
+        centreName = 'Centre Front'
+        exName = 'Centre Back'
+      }
+      if (options.waistbandClosurePosition == 'front') {
+        points.bottomLeftNotch = paths.bottomCurve.shiftAlong((length - lengthBack) / 2)
+        centreName = 'Centre Back'
+        exName = 'Centre Front'
+      }
+      points.bottomRightNotch = points.bottomLeftNotch.flipX(points.bottomMid)
+      points.bottomMidNotch = points.bottomMid
+      leftName = 'Side Seam'
+      rightName = 'Side Seam'
+    }
+    points.topLeftNotch = points.bottomLeftNotch.shiftTowards(points.origin, width)
+    points.topRightNotch = points.bottomRightNotch.shiftTowards(points.origin, width)
+    points.topMidNotch = points.bottomMidNotch.shiftTowards(points.origin, width)
+
     if (complete) {
       //grainline
       points.grainlineFrom = new Point(points.topCp3.x / 4, points.topMid.y)
@@ -166,51 +210,6 @@ export const waistband = {
         scale: 1 / 3,
       })
       //notches
-      let centreName
-      let leftName
-      let rightName
-      let exName
-      if (
-        options.waistbandClosurePosition == 'sideLeft' ||
-        options.waistbandClosurePosition == 'sideRight'
-      ) {
-        if (options.waistbandClosurePosition == 'sideRight') {
-          points.bottomMidNotch = paths.bottomCurve.reverse().shiftAlong(lengthBack)
-          points.bottomLeftNotch = paths.bottomCurve.shiftAlong((length - lengthBack) / 2)
-          points.bottomRightNotch = paths.bottomCurve.reverse().shiftAlong(lengthBack / 2)
-          leftName = 'Centre Front'
-          rightName = 'Centre Back'
-        } else {
-          points.bottomMidNotch = paths.bottomCurve.shiftAlong(lengthBack)
-          points.bottomLeftNotch = paths.bottomCurve.shiftAlong(lengthBack / 2)
-          points.bottomRightNotch = paths.bottomCurve
-            .reverse()
-            .shiftAlong((length - lengthBack) / 2)
-          leftName = 'Centre Back'
-          rightName = 'Centre Front'
-        }
-        centreName = 'Side Seam'
-        exName = centreName
-      } else {
-        if (options.waistbandClosurePosition == 'back') {
-          points.bottomLeftNotch = paths.bottomCurve.shiftAlong(lengthBack / 2)
-          centreName = 'Centre Front'
-          exName = 'Centre Back'
-        }
-        if (options.waistbandClosurePosition == 'front') {
-          points.bottomLeftNotch = paths.bottomCurve.shiftAlong((length - lengthBack) / 2)
-          centreName = 'Centre Back'
-          exName = 'Centre Front'
-        }
-        points.bottomRightNotch = points.bottomLeftNotch.flipX(points.bottomMid)
-        points.bottomMidNotch = points.bottomMid
-        leftName = 'Side Seam'
-        rightName = 'Side Seam'
-      }
-      points.topLeftNotch = points.bottomLeftNotch.shiftTowards(points.origin, width)
-      points.topRightNotch = points.bottomRightNotch.shiftTowards(points.origin, width)
-      points.topMidNotch = points.bottomMidNotch.shiftTowards(points.origin, width)
-
       macro('sprinkle', {
         snippet: 'notch',
         on: [

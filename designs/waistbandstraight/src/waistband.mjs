@@ -94,53 +94,51 @@ export const waistband = {
       .line(points.bottomLeftEx)
       .close()
 
+    //notches
+    let centreName
+    let leftName
+    let rightName
+    let exName
+    if (
+      options.waistbandClosurePosition == 'sideLeft' ||
+      options.waistbandClosurePosition == 'sideRight'
+    ) {
+      if (options.waistbandClosurePosition == 'sideRight') {
+        points.bottomMidNotch = points.bottomRight.shift(180, lengthBack)
+        leftName = 'Centre Front'
+        rightName = 'Centre Back'
+      } else {
+        points.bottomMidNotch = points.bottomLeft.shift(0, lengthBack)
+        leftName = 'Centre Back'
+        rightName = 'Centre Front'
+      }
+      points.bottomLeftNotch = points.bottomLeft.shiftFractionTowards(points.bottomMidNotch, 0.5)
+      points.bottomRightNotch = points.bottomMidNotch.shiftFractionTowards(points.bottomRight, 0.5)
+      centreName = 'Side Seam'
+      exName = centreName
+    } else {
+      if (options.waistbandClosurePosition == 'back') {
+        points.bottomLeftNotch = points.bottomLeft.shift(0, lengthBack / 2)
+        centreName = 'Centre Front'
+        exName = 'Centre Back'
+      }
+      if (options.waistbandClosurePosition == 'front') {
+        points.bottomLeftNotch = points.bottomMid.shift(180, lengthBack / 2)
+        centreName = 'Centre Back'
+        exName = 'Centre Front'
+      }
+      points.bottomRightNotch = points.bottomLeftNotch.flipX(points.bottomMid)
+      points.bottomMidNotch = points.bottomMid
+      leftName = 'Side Seam'
+      rightName = 'Side Seam'
+    }
+
+    points.topLeftNotch = new Point(points.bottomLeftNotch.x, points.topMid.y)
+    points.topRightNotch = new Point(points.bottomRightNotch.x, points.topMid.y)
+    points.topMidNotch = new Point(points.bottomMidNotch.x, points.topMid.y)
+
     if (complete) {
       //notches
-      let centreName
-      let leftName
-      let rightName
-      let exName
-      if (
-        options.waistbandClosurePosition == 'sideLeft' ||
-        options.waistbandClosurePosition == 'sideRight'
-      ) {
-        if (options.waistbandClosurePosition == 'sideRight') {
-          points.bottomMidNotch = points.bottomRight.shift(180, lengthBack)
-          leftName = 'Centre Front'
-          rightName = 'Centre Back'
-        } else {
-          points.bottomMidNotch = points.bottomLeft.shift(0, lengthBack)
-          leftName = 'Centre Back'
-          rightName = 'Centre Front'
-        }
-        points.bottomLeftNotch = points.bottomLeft.shiftFractionTowards(points.bottomMidNotch, 0.5)
-        points.bottomRightNotch = points.bottomMidNotch.shiftFractionTowards(
-          points.bottomRight,
-          0.5
-        )
-        centreName = 'Side Seam'
-        exName = centreName
-      } else {
-        if (options.waistbandClosurePosition == 'back') {
-          points.bottomLeftNotch = points.bottomLeft.shift(0, lengthBack / 2)
-          centreName = 'Centre Front'
-          exName = 'Centre Back'
-        }
-        if (options.waistbandClosurePosition == 'front') {
-          points.bottomLeftNotch = points.bottomMid.shift(180, lengthBack / 2)
-          centreName = 'Centre Back'
-          exName = 'Centre Front'
-        }
-        points.bottomRightNotch = points.bottomLeftNotch.flipX(points.bottomMid)
-        points.bottomMidNotch = points.bottomMid
-        leftName = 'Side Seam'
-        rightName = 'Side Seam'
-      }
-
-      points.topLeftNotch = new Point(points.bottomLeftNotch.x, points.topMid.y)
-      points.topRightNotch = new Point(points.bottomRightNotch.x, points.topMid.y)
-      points.topMidNotch = new Point(points.bottomMidNotch.x, points.topMid.y)
-
       macro('sprinkle', {
         snippet: 'notch',
         on: [
