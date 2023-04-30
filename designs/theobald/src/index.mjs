@@ -16,6 +16,7 @@ import { frontPocketFacing } from './frontPocketFacing.mjs'
 import { frontPocketFacingB } from './frontPocketFacingB.mjs'
 import { fly } from './fly.mjs'
 import { flyShield } from './flyShield.mjs'
+import { waistbandStraightLeft } from './waistbandStraightLeft.mjs'
 
 // Create new design
 const Theobald = new Design({
@@ -34,6 +35,7 @@ const Theobald = new Design({
     frontPocketFacingB,
     fly,
     flyShield,
+    waistbandStraightLeft,
   ],
 })
 
@@ -52,5 +54,6 @@ export {
   frontPocketFacingB,
   fly,
   flyShield,
+  waistbandStraightLeft,
   Theobald,
 }

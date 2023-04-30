@@ -310,6 +310,11 @@ export const frontBase = {
     } else {
       frontPleatSuffix = ''
     }
+    store.set(
+      'waistbandLength',
+      points.styleWaistOut.dist(points.styleWaistIn) * 2 + store.get('waistbandBack')
+    )
+    store.set('maxButtons', 1)
     store.set('frontPleatWidth', frontPleatWidth)
     store.set('frontPleatSuffix', frontPleatSuffix)
     store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
