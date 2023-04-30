@@ -270,8 +270,8 @@ export const waistband = {
       //buttons & buttonholes
       if (options.waistbandOverlapSide == 'right') {
         if (leftExtension > 0) {
-          points.buttonholePlacket = points.bottomLeft.shiftFractionTowards(points.topLeftEx, 0.5)
-          points.buttonPlacket = paths.bottomCurve
+          points.buttonPlacket = points.bottomLeft.shiftFractionTowards(points.topLeftEx, 0.5)
+          points.buttonholePlacket = paths.bottomCurve
             .reverse()
             .shiftAlong(widthStatic / 2)
             .shiftTowards(points.origin, width / 2)
@@ -298,8 +298,8 @@ export const waistband = {
         }
       } else {
         if (rightExtension > 0) {
-          points.buttonholePlacket = points.bottomRight.shiftFractionTowards(points.topRightEx, 0.5)
-          points.buttonPlacket = paths.bottomCurve
+          points.buttonPlacket = points.bottomRight.shiftFractionTowards(points.topRightEx, 0.5)
+          points.buttonholePlacket = paths.bottomCurve
             .shiftAlong(widthStatic / 2)
             .shiftTowards(points.origin, width / 2)
           if (leftExtension > widthStatic) {

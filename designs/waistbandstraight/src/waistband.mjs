@@ -226,14 +226,14 @@ export const waistband = {
       points.flipAnchor = points.bottomMid.shiftFractionTowards(points.topMid, 0.5)
       if (options.waistbandOverlapSide == 'right') {
         if (leftExtension > 0) {
-          points.buttonholePlacket = points.bottomLeftEx
+          points.buttonPlacket = points.bottomLeftEx
             .shiftFractionTowards(points.bottomLeft, 0.5)
             .shift(90, widthHalf)
-          points.buttonPlacket = points.bottomRight.translate(placketWidth / -2, -widthHalf)
+          points.buttonholePlacket = points.bottomRight.translate(placketWidth / -2, -widthHalf)
 
           if (options.waistbandFolded) {
-            points.buttonholePlacketF = points.buttonholePlacket.flipY(points.flipAnchor)
             points.buttonPlacketF = points.buttonPlacket.flipY(points.flipAnchor)
+            points.buttonholePlacketF = points.buttonholePlacket.flipY(points.flipAnchor)
           }
         }
         if (rightExtension > width / widthMultiplier) {
@@ -269,14 +269,14 @@ export const waistband = {
         }
       } else {
         if (rightExtension > 0) {
-          points.buttonholePlacket = points.bottomRight
+          points.buttonPlacket = points.bottomRight
             .shiftFractionTowards(points.bottomRightEx, 0.5)
             .shift(90, widthHalf)
-          points.buttonPlacket = points.bottomLeft.translate(placketWidth / 2, -widthHalf)
+          points.buttonholePlacket = points.bottomLeft.translate(placketWidth / 2, -widthHalf)
 
           if (options.waistbandFolded) {
-            points.buttonholePlacketF = points.buttonholePlacket.flipY(points.flipAnchor)
             points.buttonPlacketF = points.buttonPlacket.flipY(points.flipAnchor)
+            points.buttonholePlacketF = points.buttonholePlacket.flipY(points.flipAnchor)
           }
           if (leftExtension > width / widthMultiplier) {
             for (let i = 0; i < maxButtons; i++) {
