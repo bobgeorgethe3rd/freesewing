@@ -37,8 +37,40 @@ export const waistbandStraightLeft = {
       return part
     }
     //removing paths and snippets not required from from
-    for (let i in paths) delete paths[i]
-    for (let i in snippets) delete snippets[i]
+    let leftPathKeep
+    if (options.waistbandFishtail) {
+      leftPathKeep = ''
+    } else {
+      leftPathKeep = 'left'
+    }
+    let keepPaths = ['leftEx', leftPathKeep]
+    for (const name in paths) {
+      if (keepPaths.indexOf(name) === -1) delete paths[name]
+    }
+
+    let buttonKeep
+    if (options.waistbandOverlapSide == 'right') {
+      buttonKeep = ['buttonOverlap0', 'buttonOverlapF0', 'buttonPlacket', 'buttonPlacketF']
+    } else {
+      buttonKeep = [
+        'buttonholeOverlap0',
+        'buttonholeOverlapF0',
+        'buttonholePlacket',
+        'buttonholePlacketF',
+      ]
+    }
+
+    let leftNotchKeep
+    if (options.waistbandFishtail) {
+      leftNotchKeep = ''
+    } else {
+      leftNotchKeep = ['bottomLeftNotch-notch', 'topLeftNotch-notch']
+    }
+
+    let keepSnippets = ['bottomLeft-notch', 'topLeft-notch'] + buttonKeep + leftNotchKeep
+    for (const name in snippets) {
+      if (keepSnippets.indexOf(name) === -1) delete snippets[name]
+    }
     //remove macros
     macro('title', false)
     //measurements
@@ -78,7 +110,7 @@ export const waistbandStraightLeft = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.25)
+      points.grainlineFrom = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomLeft.y)
       macro('grainline', {
         from: points.grainlineFrom,
@@ -101,30 +133,6 @@ export const waistbandStraightLeft = {
         scale: 1 / 3,
       })
       //buttons and buttonholes
-
-      //paths
-      if (points.bottomLeft.dist(points.bottomLeftEx) > 0) {
-        paths.leftEx = new Path()
-          .move(points.topLeft)
-          .line(points.bottomLeft)
-          .attr('class', 'various')
-          .attr('data-text', 'Centre Front')
-          .attr('data-text-class', 'center')
-        macro('sprinkle', {
-          snippet: 'notch',
-          on: ['topLeft', 'bottomLeft'],
-        })
-      }
-
-      if (!options.waistbandFishtail) {
-        paths.left = new Path()
-          .move(points.topLeftNotch)
-          .line(points.bottomLeftNotch)
-          .attr('class', 'various')
-          .attr('data-text', 'Side Seam')
-          .attr('data-text-class', 'center')
-      }
-
       if (options.waistbandFolded) {
         let foldlineTo
         if (options.waistbandFishtail) {
