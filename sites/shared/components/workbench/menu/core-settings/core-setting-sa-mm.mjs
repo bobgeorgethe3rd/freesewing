@@ -5,15 +5,28 @@ import { useTranslation } from 'next-i18next'
 
 export const CoreSettingSaMm = (props) => {
   const { t } = useTranslation(['app', 'settings'])
-  const { dflt, min, max } = props
+  const { dflt, min, max, step, dfltIm, maxIm, stepIm } = props
   const val = props.gist?.[props.setting]
+
+  let dfltVal
+  let maxVal
+  let stepVal
+  if (props.gist.units == 'imperial') {
+    dfltVal = dfltIm
+    maxVal = maxIm
+    stepVal = stepIm
+  } else {
+    dfltVal = dflt
+    maxVal = max
+    stepVal = step
+  }
 
   const [value, setValue] = useState(val)
 
   const handleChange = (evt) => {
     const newVal = parseFloat(evt.target.value)
 
-    setValue(step)
+    setValue(stepVal)
 
     setValue(newVal)
     if (props.gist.saBool)
@@ -25,16 +38,9 @@ export const CoreSettingSaMm = (props) => {
     else props.updateGist(['saMm'], newVal)
   }
   const reset = () => {
-    setValue(dflt)
-    props.updateGist(['saMm'], dflt)
-    props.updateGist(['sa'], dflt)
-  }
-
-  let step
-  if (props.gist.units == 'imperial') {
-    step = 0.15875
-  } else {
-    step = 1
+    setValue(dfltVal)
+    props.updateGist(['saMm'], dfltVal)
+    props.updateGist(['sa'], dfltVal)
   }
 
   return (
@@ -46,24 +52,24 @@ export const CoreSettingSaMm = (props) => {
           dangerouslySetInnerHTML={{ __html: formatMm(min, props.gist.units) }}
         />
         <span
-          className={`font-bold ${val === dflt ? 'text-secondary-focus' : 'text-accent'}`}
+          className={`font-bold ${val === dfltVal ? 'text-secondary-focus' : 'text-accent'}`}
           dangerouslySetInnerHTML={{ __html: formatMm(val, props.gist.units) }}
         />
         <span
           className="opacity-50"
-          dangerouslySetInnerHTML={{ __html: formatMm(max, props.gist.units) }}
+          dangerouslySetInnerHTML={{ __html: formatMm(maxVal, props.gist.units) }}
         />
       </div>
       <input
         type="range"
-        max={max}
+        max={maxVal}
         min={min}
-        step={step}
+        step={stepVal}
         value={value}
         onChange={handleChange}
         className={`
           range range-sm mt-1
-          ${val === dflt ? 'range-secondary' : 'range-accent'}
+          ${val === dfltVal ? 'range-secondary' : 'range-accent'}
         `}
       />
       <div className="flex flex-row justify-between">
@@ -71,7 +77,7 @@ export const CoreSettingSaMm = (props) => {
         <button
           title={t('reset')}
           className="btn btn-ghost btn-xs text-accent"
-          disabled={val === dflt}
+          disabled={val === dfltVal}
           onClick={reset}
         >
           <ClearIcon />
