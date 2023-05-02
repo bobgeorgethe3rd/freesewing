@@ -9,6 +9,8 @@ export const frontBase = {
     from: true,
   },
   options: {
+    //Constants
+    waistbandClosurePosition: 'front', //locked for Theobald
     //Style
     frontPleatWidth: { pct: 3.5, min: 3, max: 5, menu: 'style' },
     //Pockets
@@ -310,10 +312,10 @@ export const frontBase = {
     } else {
       frontPleatSuffix = ''
     }
-    store.set(
-      'waistbandLength',
-      points.styleWaistOut.dist(points.styleWaistIn) * 2 + store.get('waistbandBack')
-    )
+    store.set('waistFront', points.styleWaistOut.dist(points.styleWaistIn))
+    store.set('waistFrontTop', points.waistTopOut.dist(points.waistTopIn))
+    store.set('waistbandLength', store.get('waistFront') * 2 + store.get('waistbandBack'))
+    store.set('waistbandLengthTop', store.get('waistFrontTop') * 2 + store.get('waistBackTop'))
     store.set('maxButtons', 1)
     store.set('frontPleatWidth', frontPleatWidth)
     store.set('frontPleatSuffix', frontPleatSuffix)

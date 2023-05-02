@@ -18,6 +18,8 @@ import { fly } from './fly.mjs'
 import { flyShield } from './flyShield.mjs'
 import { waistbandStraightLeft } from './waistbandStraightLeft.mjs'
 import { waistbandStraightRight } from './waistbandStraightRight.mjs'
+import { waistbandCurvedLeft } from './waistbandCurvedLeft.mjs'
+import { waistbandCurvedRight } from './waistbandCurvedRight.mjs'
 
 // Create new design
 const Theobald = new Design({
@@ -38,6 +40,8 @@ const Theobald = new Design({
     flyShield,
     waistbandStraightLeft,
     waistbandStraightRight,
+    waistbandCurvedLeft,
+    waistbandCurvedRight,
   ],
 })
 
@@ -58,5 +62,7 @@ export {
   flyShield,
   waistbandStraightLeft,
   waistbandStraightRight,
+  waistbandCurvedLeft,
+  waistbandCurvedRight,
   Theobald,
 }

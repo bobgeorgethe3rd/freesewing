@@ -1,10 +1,10 @@
-import { waistband as draftWaistbandStraight } from '@freesewing/waistbandstraight'
+import { waistband as draftWaistbandCurved } from '@freesewing/waistbandcurved'
 import { frontBase } from './frontBase.mjs'
 import { flyShield } from './flyShield.mjs'
 
-export const waistbandStraightLeft = {
-  name: 'theobald.waistbandStraightLeft',
-  from: draftWaistbandStraight,
+export const waistbandCurvedLeft = {
+  name: 'theobald.waistbandCurvedLeft',
+  from: draftWaistbandCurved,
   after: [frontBase, flyShield],
   hide: {
     from: true,
@@ -28,7 +28,7 @@ export const waistbandStraightLeft = {
     absoluteOptions,
   }) => {
     //set Render
-    if (options.waistbandStyle != 'straight') {
+    if (options.waistbandStyle != 'curved') {
       part.hide()
       return part
     }
@@ -70,32 +70,53 @@ export const waistbandStraightLeft = {
     //remove macros
     macro('title', false)
     //measurements
-    let waistbandWidth = store.get('waistbandWidth')
+    let angle
+    let fishtailWidth
+    if (store.get('waistbandLengthTop') > store.get('waistbandLength')) {
+      angle = points.origin.angle(points.bottomLeft) - points.origin.angle(points.bottomLeftNotch)
+      fishtailWidth = store.get('waistbandWidth') * -1
+    } else {
+      angle = points.origin.angle(points.bottomLeftNotch) - points.origin.angle(points.bottomLeft)
+      fishtailWidth = store.get('waistbandWidth')
+    }
+
+    let radius = points.origin.dist(points.bottomLeftNotch)
+    let fishtailCpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 4)
 
     //let's begin
-
     if (options.waistbandFishtail) {
-      points.fishtailLeftEx = points.bottomLeftNotch.translate(
-        store.get('waistbandFishtailOffset'),
-        -waistbandWidth
-      )
+      points.fishtailLeftEx = points.topLeftNotch
+        .shiftTowards(points.bottomLeftNotch, store.get('waistbandFishtailOffset'))
+        .rotate(90, points.topLeftNotch)
+      points.fishtailLeftCp1 = points.bottomLeft
+        .shiftTowards(points.topLeft, fishtailCpDistance)
+        .rotate(-90, points.bottomLeft)
+      points.fishtailLeftCp2 = points.bottomLeftNotch
+        .shiftTowards(points.topLeftNotch, fishtailCpDistance)
+        .rotate(90, points.bottomLeftNotch)
+      points.fishtailLeftCp3 = points.fishtailLeftCp2.shiftTowards(points.origin, fishtailWidth)
+      points.fishtailLeftCp4 = points.fishtailLeftCp1.shiftTowards(points.origin, fishtailWidth)
     }
 
     const drawSeam = () => {
       if (options.waistbandFishtail)
         return new Path()
           .move(points.bottomLeftEx)
-          .line(points.bottomLeftNotch)
+          .line(points.bottomLeft)
+          .curve(points.fishtailLeftCp1, points.fishtailLeftCp2, points.bottomLeftNotch)
           .line(points.fishtailLeftEx)
           .line(points.topLeftNotch)
+          .curve(points.fishtailLeftCp3, points.fishtailLeftCp4, points.topLeft)
           .line(points.topLeftEx)
           .line(points.bottomLeftEx)
           .close()
       else
         return new Path()
           .move(points.bottomLeftEx)
-          .line(points.bottomMid)
+          .line(points.bottomLeft)
+          .curve(points.bottomCp1, points.bottomCp2, points.bottomMid)
           .line(points.topMid)
+          .curve(points.topCp3, points.topCp4, points.topLeft)
           .line(points.topLeftEx)
           .line(points.bottomLeftEx)
           .close()
@@ -104,10 +125,13 @@ export const waistbandStraightLeft = {
     //paths
     paths.seam = drawSeam()
 
+    //stores
+    store.set('fishtailWidth', fishtailWidth)
+
     if (complete) {
       //grainline
-      points.grainlineFrom = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
-      points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomLeft.y)
+      points.grainlineFrom = points.topLeft.shiftFractionTowards(points.topCp4, 0.5)
+      points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomLeft.y * 0.75)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
@@ -119,31 +143,14 @@ export const waistbandStraightLeft = {
       } else {
         titleName = ''
       }
-      points.title = points.topLeftNotch
-        .shiftFractionTowards(points.topLeft, 0.25)
-        .shift(-90, waistbandWidth / 2)
+      points.title = points.topCp4.shiftFractionTowards(points.bottomCp1, 0.4)
       macro('title', {
         nr: 10,
         title: 'Waistband ' + titleName + utils.capitalize(options.waistbandStyle) + ' Left',
         at: points.title,
+        rotation: 90 - points.bottomCp1.angle(points.topCp4),
         scale: 1 / 3,
       })
-      //fold line
-      if (options.waistbandFolded) {
-        let foldlineTo
-        if (options.waistbandFishtail) {
-          foldlineTo = points.fishtailLeftEx
-        } else {
-          foldlineTo = new Point(points.topMid.x, points.topLeftEx.y / 2)
-        }
-
-        paths.foldline = new Path()
-          .move(new Point(points.topLeftEx.x, points.topLeftEx.y / 2))
-          .line(foldlineTo)
-          .attr('class', 'interfacing')
-          .attr('data-text', 'Fold - Line')
-      }
-
       if (sa) {
         paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
       }

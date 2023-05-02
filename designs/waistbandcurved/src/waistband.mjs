@@ -63,7 +63,7 @@ export const waistband = {
       width = widthStatic * -1
     } else width = widthStatic
 
-    let widthHalf = store.get('waistbandWidth') / 2
+    let widthHalf = widthStatic / 2
     //^ Adds support for it lengthTop is greater
 
     let lengthBack = store.get('waistbandBack')
