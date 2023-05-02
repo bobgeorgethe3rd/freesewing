@@ -2,16 +2,12 @@ import { waistband as draftWaistbandStraight } from '@freesewing/waistbandstraig
 import { frontBase } from './frontBase.mjs'
 import { flyShield } from './flyShield.mjs'
 
-export const waistbandStraightLeft = {
-  name: 'theobald.waistbandStraightLeft',
+export const waistbandStraightRight = {
+  name: 'theobald.waistbandStraightRight',
   from: draftWaistbandStraight,
   after: [frontBase, flyShield],
   hide: {
     from: true,
-  },
-  options: {
-    //Constants
-    waistbandClosurePosition: 'front', //locked for Theobald
   },
   draft: ({
     store,
@@ -37,37 +33,37 @@ export const waistbandStraightLeft = {
       return part
     }
     //removing paths and snippets not required from from
-    let leftPathKeep
+    let rightPathKeep
     if (options.waistbandFishtail) {
-      leftPathKeep = ''
+      rightPathKeep = ''
     } else {
-      leftPathKeep = 'left'
+      rightPathKeep = 'right'
     }
-    let keepPaths = ['leftEx', leftPathKeep]
+    let keepPaths = ['rightEx', rightPathKeep]
     for (const name in paths) {
       if (keepPaths.indexOf(name) === -1) delete paths[name]
     }
 
     let buttonKeep
     if (options.waistbandOverlapSide == 'right') {
-      buttonKeep = ['buttonOverlap0', 'buttonOverlapF0', 'buttonPlacket', 'buttonPlacketF']
-    } else {
       buttonKeep = [
         'buttonholeOverlap0',
         'buttonholeOverlapF0',
         'buttonholePlacket',
         'buttonholePlacketF',
       ]
-    }
-
-    let leftNotchKeep
-    if (options.waistbandFishtail) {
-      leftNotchKeep = ''
     } else {
-      leftNotchKeep = ['bottomLeftNotch-notch', 'topLeftNotch-notch']
+      buttonKeep = ['buttonOverlap0', 'buttonOverlapF0', 'buttonPlacket', 'buttonPlacketF']
     }
 
-    let keepSnippets = ['bottomLeft-notch', 'topLeft-notch'] + buttonKeep + leftNotchKeep
+    let rightNotchKeep
+    if (options.waistbandFishtail) {
+      rightNotchKeep = ''
+    } else {
+      rightNotchKeep = ['bottomRightNotch-notch', 'topRightNotch-notch']
+    }
+
+    let keepSnippets = ['bottomRight-notch', 'topRight-notch'] + buttonKeep + rightNotchKeep
     for (const name in snippets) {
       if (keepSnippets.indexOf(name) === -1) delete snippets[name]
     }
@@ -79,8 +75,8 @@ export const waistbandStraightLeft = {
     //let's begin
 
     if (options.waistbandFishtail) {
-      points.fishtailEx = points.bottomLeftNotch.translate(
-        store.get('waistbandFishtailOffset'),
+      points.fishtailEx = points.bottomRightNotch.translate(
+        -store.get('waistbandFishtailOffset'),
         -waistbandWidth
       )
     }
@@ -88,20 +84,20 @@ export const waistbandStraightLeft = {
     const drawSeam = () => {
       if (options.waistbandFishtail)
         return new Path()
-          .move(points.bottomLeftEx)
-          .line(points.bottomLeftNotch)
+          .move(points.bottomRightNotch)
+          .line(points.bottomRightEx)
+          .line(points.topRightEx)
+          .line(points.topRightNotch)
           .line(points.fishtailEx)
-          .line(points.topLeftNotch)
-          .line(points.topLeftEx)
-          .line(points.bottomLeftEx)
+          .line(points.bottomRightNotch)
           .close()
       else
         return new Path()
-          .move(points.bottomLeftEx)
-          .line(points.bottomMid)
+          .move(points.bottomMid)
+          .line(points.bottomRightEx)
+          .line(points.topRightEx)
           .line(points.topMid)
-          .line(points.topLeftEx)
-          .line(points.bottomLeftEx)
+          .line(points.bottomMid)
           .close()
     }
 
@@ -110,7 +106,7 @@ export const waistbandStraightLeft = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
+      points.grainlineFrom = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomLeft.y)
       macro('grainline', {
         from: points.grainlineFrom,
@@ -123,27 +119,27 @@ export const waistbandStraightLeft = {
       } else {
         titleName = ''
       }
-      points.title = points.topLeftNotch
-        .shiftFractionTowards(points.topLeft, 0.25)
+      points.title = points.topRightNotch
+        .shiftFractionTowards(points.topRight, 0.25)
         .shift(-90, waistbandWidth / 2)
       macro('title', {
-        nr: 10,
-        title: 'Waistband ' + titleName + utils.capitalize(options.waistbandStyle) + ' Left',
+        nr: 11,
+        title: 'Waistband ' + titleName + utils.capitalize(options.waistbandStyle) + ' Right',
         at: points.title,
         scale: 1 / 3,
       })
       //buttons and buttonholes
       if (options.waistbandFolded) {
-        let foldlineTo
+        let foldlineFrom
         if (options.waistbandFishtail) {
-          foldlineTo = points.fishtailEx
+          foldlineFrom = points.fishtailEx
         } else {
-          foldlineTo = new Point(points.topMid.x, points.topLeftEx.y / 2)
+          foldlineFrom = new Point(points.topMid.x, points.topRightEx.y / 2)
         }
 
         paths.foldline = new Path()
-          .move(new Point(points.topLeftEx.x, points.topLeftEx.y / 2))
-          .line(foldlineTo)
+          .move(foldlineFrom)
+          .line(new Point(points.topRightEx.x, points.topRightEx.y / 2))
           .attr('class', 'interfacing')
           .attr('data-text', 'Fold - Line')
       }
