@@ -46,14 +46,9 @@ export const waistbandCurvedLeft = {
 
     let buttonKeep
     if (options.waistbandOverlapSide == 'right') {
-      buttonKeep = ['buttonOverlap0', 'buttonOverlapF0', 'buttonPlacket', 'buttonPlacketF']
+      buttonKeep = ['buttonOverlap0', 'buttonPlacket']
     } else {
-      buttonKeep = [
-        'buttonholeOverlap0',
-        'buttonholeOverlapF0',
-        'buttonholePlacket',
-        'buttonholePlacketF',
-      ]
+      buttonKeep = ['buttonholeOverlap0', 'buttonholePlacket']
     }
 
     let leftNotchKeep
