@@ -107,7 +107,7 @@ export const frontPocketBag = {
     //lets create some paths
     paths.outSeam0 = drawOutseam().split(points.frontPocketOutSeam)[0].hide()
 
-    paths.outSeam1 = paths.outSeam0.split(points.frontPocketOpeningOut)[1]
+    paths.outSeam1 = paths.outSeam0.split(points.frontPocketOpeningOut)[1].hide()
 
     paths.bottomCurve = new Path()
       .move(points.frontPocketOutSeam)
