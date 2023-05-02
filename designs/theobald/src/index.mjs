@@ -20,6 +20,8 @@ import { waistbandStraightLeft } from './waistbandStraightLeft.mjs'
 import { waistbandStraightRight } from './waistbandStraightRight.mjs'
 import { waistbandCurvedLeft } from './waistbandCurvedLeft.mjs'
 import { waistbandCurvedRight } from './waistbandCurvedRight.mjs'
+import { waistbandFishtailLeft } from './waistbandFishtailLeft.mjs'
+import { waistbandFishtailRight } from './waistbandFishtailRight.mjs'
 
 // Create new design
 const Theobald = new Design({
@@ -42,6 +44,8 @@ const Theobald = new Design({
     waistbandStraightRight,
     waistbandCurvedLeft,
     waistbandCurvedRight,
+    waistbandFishtailLeft,
+    waistbandFishtailRight,
   ],
 })
 
@@ -64,5 +68,7 @@ export {
   waistbandStraightRight,
   waistbandCurvedLeft,
   waistbandCurvedRight,
+  waistbandFishtailLeft,
+  waistbandFishtailRight,
   Theobald,
 }
