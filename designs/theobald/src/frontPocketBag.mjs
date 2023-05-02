@@ -131,12 +131,9 @@ export const frontPocketBag = {
         0.9
       )
 
-      let outSeamSplit = drawOutseam().split(points['frontPocketOpeningOut' + p])
-      for (let i in outSeamSplit) {
-        paths['outSeam' + p + i] = outSeamSplit[i].hide()
-      }
-
-      paths['outSeam' + p] = paths['outSeam' + p + '0']
+      paths['outSeam' + p] = drawOutseam()
+        .split(points['frontPocketOpeningOut' + p])[0]
+        .hide()
 
       macro('mirror', {
         mirror: [points['frontPocketWaist' + p], points['frontPocketBottom' + p]],

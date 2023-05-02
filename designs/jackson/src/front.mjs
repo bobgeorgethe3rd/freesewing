@@ -108,12 +108,9 @@ export const front = {
     //lets begin
 
     if (options.frontPocketsBool) {
-      let outSeamSplit = drawOutseam().split(points.frontPocketOpeningOut)
-      for (let i in outSeamSplit) {
-        paths['outSeam' + i] = outSeamSplit[i].hide()
-      }
+      paths.outSeam = drawOutseam().split(points.frontPocketOpeningOut)[1].hide()
     } else {
-      paths.outSeam1 = drawOutseam().hide()
+      paths.outSeam = drawOutseam().hide()
     }
 
     //paths
@@ -130,7 +127,7 @@ export const front = {
       .join(drawInseam())
       .join(paths.crotch)
       .join(drawWaistSeam())
-      .join(paths.outSeam1)
+      .join(paths.outSeam)
 
     if (complete) {
       //grainline
@@ -192,7 +189,7 @@ export const front = {
           .join(drawInseam().offset(sa * options.inseamSaWidth * 100))
           .join(paths.crotch.offset(sa * options.crotchSeamSaWidth * 100))
           .join(drawWaistSeam().offset(sa))
-          .join(paths.outSeam1.offset(sa * options.outSeamSaWidth * 100))
+          .join(paths.outSeam.offset(sa * options.outSeamSaWidth * 100))
           .close()
           .attr('class', 'fabric sa')
       }

@@ -144,17 +144,9 @@ export const centreFront = {
           .reverse()
           .shiftAlong(measurements.waistToFloor * options.buttonEnd)
 
-        let sideFrontSplit0 = paths.sideFront.split(points.buttonStart)
-        for (let i in sideFrontSplit0) {
-          paths['sideFront0' + i] = sideFrontSplit0[i].hide()
-        }
-
-        let sideFrontSplit1 = paths.sideFront01.split(points.buttonEnd)
-        for (let i in sideFrontSplit1) {
-          paths['sideFront1' + i] = sideFrontSplit1[i].hide()
-        }
-
-        paths.button = paths.sideFront10
+        paths.button = paths.sideFront
+          .split(points.buttonStart)[1]
+          .split(points.buttonEnd)[0]
           .offset(store.get('fullWaist') / (8 * -(14 - options.buttonOffset)))
           .hide()
 
@@ -202,14 +194,9 @@ export const centreFront = {
           .attr('class', 'interfacing sa')
 
         if (options.waistbandStyle == 'none') {
-          let crotchSplit = paths.crotch.split(points.waistFacingCrotch)
-          for (let i in crotchSplit) {
-            paths['crotch' + i] = crotchSplit[i].hide()
-          }
-
           paths.waistFacingSa = paths.waistFacing
             .offset(sa * options.waistFacingHemWidth * 100)
-            .join(paths.crotch1.offset(crotchSa))
+            .join(paths.crotch.split(points.waistFacingCrotch)[1].offset(crotchSa))
             .join(paths.waist.offset(sa))
             .join(
               new Path()

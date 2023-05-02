@@ -106,10 +106,7 @@ export const frontPocketFacing = {
       .rotate(90, points.frontPocketFacingWaist)
 
     //paths
-    let outSeamSplit = drawOutseam().split(points.frontPocketFacingOutSeam)
-    for (let i in outSeamSplit) {
-      paths['outSeam' + i] = outSeamSplit[i].hide()
-    }
+    paths.outSeam = drawOutseam().split(points.frontPocketFacingOutSeam)[0].hide()
 
     paths.saBase = new Path()
       .move(points.frontPocketFacingOutSeam)
@@ -122,7 +119,7 @@ export const frontPocketFacing = {
 
     paths.waist = new Path().move(points.frontPocketFacingWaist).line(points.styleWaistOut).hide()
 
-    paths.seam = paths.saBase.clone().join(paths.waist).join(paths.outSeam0)
+    paths.seam = paths.saBase.clone().join(paths.waist).join(paths.outSeam)
 
     //coin pockets
     if (options.coinPocketsBool) {
@@ -132,7 +129,7 @@ export const frontPocketFacing = {
         .shiftFractionTowards(points.frontPocketFacingWaist, options.coinPocketHorizontal)
         .shift(
           points.styleWaistOut.angle(points.frontPocketFacingOutSeam),
-          paths.outSeam0.length() * options.coinPocketVertical
+          paths.outSeam.length() * options.coinPocketVertical
         )
       points.coinPocketIn = points.coinPocketOut.shift(
         points.styleWaistOut.angle(points.frontPocketFacingOutSeam) + 90,
@@ -189,7 +186,7 @@ export const frontPocketFacing = {
           .clone()
           .offset(sa * 0.5)
           .join(paths.waist.offset(sa))
-          .join(paths.outSeam0.offset(sa * options.outSeamSaWidth * 100))
+          .join(paths.outSeam.offset(sa * options.outSeamSaWidth * 100))
           .close()
           .attr('class', 'fabric sa')
       }

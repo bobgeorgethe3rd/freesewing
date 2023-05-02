@@ -34,13 +34,11 @@ export const backPanel = {
     for (let i in paths) delete paths[i]
     //let's begin
     if (options.style == 'bell') {
-      let bellSplit = new Path()
+      paths.bellWaist = new Path()
         .move(points.waist6B)
         .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
-        .split(points.waistL)
-      for (let i in bellSplit) {
-        paths['bellWaist' + i] = bellSplit[i].hide()
-      }
+        .split(points.waistL)[0]
+        .hide()
     }
 
     const drawHemBase = () => {
@@ -56,7 +54,7 @@ export const backPanel = {
         return new Path()
           .move(points.hemK)
           .line(points.waist6B)
-          .join(paths.bellWaist0)
+          .join(paths.bellWaist)
           .line(points.hemL)
       } else {
         return new Path()
@@ -137,16 +135,10 @@ export const backPanel = {
         hemFacingEnd
       )
 
-      let hemFacingSplit = new Path()
+      paths.hemFacing = new Path()
         .move(points.hemFacingK)
         .curve(hemFacingCp1, hemFacingCp2, hemFacingEnd)
-        .split(points.hemFacingSplit)
-      for (let i in hemFacingSplit) {
-        paths['hemFacing' + i] = hemFacingSplit[i].hide()
-      }
-
-      paths.hemFacing = paths.hemFacing0
-        .clone()
+        .split(points.hemFacingSplit)[0]
         .reverse()
         .attr('class', 'interfacing')
         .attr('data-text', 'Hem Facing - Line')
@@ -205,14 +197,10 @@ export const backPanel = {
         )
 
         if (options.style == 'bell') {
-          let bellFacingSplit = new Path()
+          paths.waistFacing = new Path()
             .move(waistFacingStart)
             .curve(waistFacingCp1, waistFacingCp2, waistFacingEnd)
-            .split(points.waistFacingSplit)
-          for (let i in bellFacingSplit) {
-            paths['bellWaistFacing' + i] = bellFacingSplit[i].hide()
-          }
-          paths.waistFacing = paths.bellWaistFacing1
+            .split(points.waistFacingSplit)[1]
             .attr('class', 'interfacing')
             .attr('data-text', 'Waist Facing - Line')
             .attr('data-text-class', 'center')
@@ -330,7 +318,7 @@ export const backPanel = {
               return new Path()
                 .move(points.waistFacing6B)
                 .line(points.waist6B)
-                .join(paths.bellWaist0)
+                .join(paths.bellWaist)
                 .line(points.waistFacingSplit)
             } else {
               return new Path()

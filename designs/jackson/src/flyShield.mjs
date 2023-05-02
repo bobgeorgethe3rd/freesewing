@@ -24,12 +24,8 @@ export const flyShield = {
     Snippet,
     absoluteOptions,
   }) => {
-    //keep specific inherited paths
-    let keepThese = ['crotchSeam']
-    for (const name in paths) {
-      if (keepThese.indexOf(name) === -1) delete paths[name]
-    }
     //removing paths and snippets not required from from
+    for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
     //removing macros not required from Dalton
     macro('title', false)
@@ -65,15 +61,17 @@ export const flyShield = {
       else return new Path().move(points.flyShieldBottomLeft).line(points.flyShieldCrotch)
     }
 
-    let crotchSeamSplit = paths.crotchSeam.split(points.flyShieldCrotch)
-    for (let i in crotchSeamSplit) {
-      paths['crotchSeam' + i] = crotchSeamSplit[i].hide()
-    }
+    paths.crotchSeam = new Path()
+      .move(points.fork)
+      .curve(points.crotchSeamCurveCp1, points.crotchSeamCurveCp2, points.crotchSeamCurveStart)
+      .line(points.styleWaistIn)
+      .split(points.flyShieldCrotch)[1]
+      .hide()
 
     paths.waist = new Path().move(points.styleWaistIn).line(points.flyShieldOut).hide()
 
     paths.seam = drawSaBase()
-      .join(paths.crotchSeam1)
+      .join(paths.crotchSeam)
       .join(paths.waist)
       .line(drawSaBase().start())
       .close()
@@ -106,7 +104,7 @@ export const flyShield = {
       if (sa) {
         paths.sa = drawSaBase()
           .offset(sa)
-          .join(paths.crotchSeam1.offset(sa * options.crotchSeamSaWidth * 100))
+          .join(paths.crotchSeam.offset(sa * options.crotchSeamSaWidth * 100))
           .join(paths.waist.offset(sa))
           .line(points.flyShieldOut)
           .line(drawSaBase().start())

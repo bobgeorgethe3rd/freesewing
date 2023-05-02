@@ -33,13 +33,10 @@ export const backPanel = {
     for (let i in paths) delete paths[i]
     //let's begin
     if (options.style == 'bell') {
-      let bellSplit = new Path()
+      paths.bellWaist = new Path()
         .move(points.waist6B)
         .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
-        .split(points.waistL)
-      for (let i in bellSplit) {
-        paths['bellWaist' + i] = bellSplit[i].hide()
-      }
+        .split(points.waistL)[0]
     }
 
     const drawHemBase = () => {
@@ -58,7 +55,7 @@ export const backPanel = {
 
     const drawSaBase = () => {
       if (options.style == 'bell') {
-        return new Path().move(points.hemK).line(points.waist6B).join(paths.bellWaist0)
+        return new Path().move(points.hemK).line(points.waist6B).join(paths.bellWaist)
       } else {
         return new Path()
           .move(points.hemK)
@@ -230,14 +227,10 @@ export const backPanel = {
         )
 
         if (options.style == 'bell') {
-          let bellFacingSplit = new Path()
+          paths.waistFacing = new Path()
             .move(waistFacingStart)
             .curve(waistFacingCp1, waistFacingCp2, waistFacingEnd)
-            .split(points.waistFacingSplit)
-          for (let i in bellFacingSplit) {
-            paths['bellWaistFacing' + i] = bellFacingSplit[i].hide()
-          }
-          paths.waistFacing = paths.bellWaistFacing1
+            .split(points.waistFacingSplit)[1]
             .attr('class', 'interfacing')
             .attr('data-text', 'Waist Facing - Line')
             .attr('data-text-class', 'center')
@@ -364,7 +357,7 @@ export const backPanel = {
               return new Path()
                 .move(points.waistFacing6B)
                 .line(points.waist6B)
-                .join(paths.bellWaist0)
+                .join(paths.bellWaist)
             } else {
               return new Path()
                 .move(points.waistFacing6U)
@@ -373,15 +366,13 @@ export const backPanel = {
             }
           }
 
-          let crossFacingSplit = drawCross().split(points.waistFacingSplit)
-          for (let i in crossFacingSplit) {
-            paths['crossFacing' + i] = crossFacingSplit[i].hide()
-          }
+          paths.crossFacing = drawCross().split(points.waistFacingSplit)[1]
+
           paths.waistFacingSa = paths.waistFacing
             .clone()
             .offset(hemSa)
             .join(drawSaBase().offset(sa))
-            .join(paths.crossFacing0.offset(crossSa))
+            .join(paths.crossFacing.offset(crossSa))
             .close()
             .attr('class', 'interfacing sa')
         }

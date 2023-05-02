@@ -31,16 +31,6 @@ export const fly = {
     //measures
     let suffix = store.get('frontPleatSuffix')
     //lets begin
-    paths['crotchSeam' + suffix] = new Path()
-      .move(points['fork' + suffix])
-      .curve(
-        points['crotchSeamCurveCp1' + suffix],
-        points['crotchSeamCurveCp2' + suffix],
-        points['crotchSeamCurveStart' + suffix]
-      )
-      .line(points['styleWaistIn' + suffix])
-      .hide()
-
     points['flyOut' + suffix] = points['styleWaistIn' + suffix].shiftTowards(
       points['styleWaistOut' + suffix],
       points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth
@@ -61,10 +51,16 @@ export const fly = {
     )
 
     //Paths
-    let crotchSeamSplit = paths['crotchSeam' + suffix].split(points['flyCrotch' + suffix])
-    for (let i in crotchSeamSplit) {
-      paths['crotchSeam' + i] = crotchSeamSplit[i].hide()
-    }
+    paths['crotchSeam' + suffix] = new Path()
+      .move(points['fork' + suffix])
+      .curve(
+        points['crotchSeamCurveCp1' + suffix],
+        points['crotchSeamCurveCp2' + suffix],
+        points['crotchSeamCurveStart' + suffix]
+      )
+      .line(points['styleWaistIn' + suffix])
+      .split(points['flyCrotch' + suffix])[1]
+      .hide()
 
     paths.seam = new Path()
       .move(points['styleWaistIn' + suffix])
@@ -72,7 +68,7 @@ export const fly = {
       .line(points['flyCurveStart' + suffix])
       .curve_(points['flyCurveCp1' + suffix], points['flyCurveEnd' + suffix])
       .line(points['flyCrotch' + suffix])
-      .join(paths.crotchSeam1)
+      .join(paths['crotchSeam' + suffix])
       .close()
 
     if (complete) {
@@ -112,7 +108,7 @@ export const fly = {
           .curve_(points['flyCurveCp1' + suffix], points['flyCurveEnd' + suffix])
           .line(points['flyCrotch' + suffix])
           .offset(sa)
-          .join(paths.crotchSeam1.offset(sa * options.crotchSeamSaWidth * 100))
+          .join(paths['crotchSeam' + suffix].offset(sa * options.crotchSeamSaWidth * 100))
           .close()
           .attr('class', 'fabric sa')
       }

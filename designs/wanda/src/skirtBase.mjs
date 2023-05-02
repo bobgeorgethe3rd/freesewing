@@ -618,16 +618,14 @@ export const skirtBase = {
       let pleatTo = waist - waist / 4 - sideWaistFront - sideWaist
       let pleatFromStraight = paths.straightCurve.length()
 
-      let bellSplit = new Path()
+      paths.bellWaist = new Path()
         .move(points.waist3Right)
         .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
         .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
-        .split(points.waistL)
-      for (let i in bellSplit) {
-        paths['bellWaist' + i] = bellSplit[i].hide()
-      }
+        .split(points.waistL)[0]
+        .hide()
 
-      let pleatFromBell = paths.bellWaist0.length()
+      let pleatFromBell = paths.bellWaist.length()
       let pleatFromUmbrella = paths.umbrellaCurve.length()
 
       let pleatKeep = pleatTo / (options.pleatNumber + 1)
@@ -651,10 +649,10 @@ export const skirtBase = {
           .shiftTowards(points['pleatFromTopS' + i], pleatLineLength)
           .rotate(90, points['pleatToTopS' + i])
 
-        points['pleatFromTopB' + i] = paths.bellWaist0.shiftAlong(
+        points['pleatFromTopB' + i] = paths.bellWaist.shiftAlong(
           pleatKeep + (pleatKeep + pleatLengthBell) * i
         )
-        points['pleatToTopB' + i] = paths.bellWaist0.shiftAlong((pleatKeep + pleatLengthBell) * i)
+        points['pleatToTopB' + i] = paths.bellWaist.shiftAlong((pleatKeep + pleatLengthBell) * i)
 
         points['pleatFromBottomB' + i] = points['pleatFromTopB' + i]
           .shiftTowards(points['pleatToTopB' + i], pleatLineLength)

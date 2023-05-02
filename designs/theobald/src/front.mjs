@@ -147,11 +147,9 @@ export const front = {
     }
 
     if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool) {
-      let outSeamSplit = drawOutseam().split(points['frontPocketOpeningOut' + suffix])
-      for (let i in outSeamSplit) {
-        paths['outSeam' + i] = outSeamSplit[i].hide()
-      }
-      paths.outSeam = paths.outSeam1.hide()
+      paths.outSeam = drawOutseam()
+        .split(points['frontPocketOpeningOut' + suffix])[1]
+        .hide()
     } else {
       paths.outSeam = drawOutseam().hide()
     }

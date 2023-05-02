@@ -97,21 +97,14 @@ export const yokeBack = {
       }
     }
 
-    let outSeamSplit = drawOutseamR().split(points.yokeOutR)
-    for (let i in outSeamSplit) {
-      paths['outSeam' + i] = outSeamSplit[i].hide()
-    }
+    paths.outSeam = drawOutseamR().split(points.yokeOutR)[1].hide()
 
     paths.crossSeam = new Path()
       .move(points.styleWaistIn)
       .line(points.crossSeamCurveStart)
       .curve(points.crossSeamCurveCp1, points.crossSeamCurveCp2, points.fork)
+      .split(points.yokeIn)[0]
       .hide()
-
-    let crossSeamSplit = paths.crossSeam.split(points.yokeIn)
-    for (let i in crossSeamSplit) {
-      paths['crossSeam' + i] = crossSeamSplit[i].hide()
-    }
 
     //paths
     paths.yokeSeam = new Path()
@@ -126,9 +119,9 @@ export const yokeBack = {
 
     paths.seam = paths.yokeSeam
       .clone()
-      .join(paths.outSeam1)
+      .join(paths.outSeam)
       .join(paths.waist)
-      .join(paths.crossSeam0)
+      .join(paths.crossSeam)
       .close()
 
     //stores
@@ -157,9 +150,9 @@ export const yokeBack = {
         paths.sa = paths.yokeSeam
           .clone()
           .offset(sa * options.yokeSeamSaWidth * 100)
-          .join(paths.outSeam1.offset(sa * options.outSeamSaWidth * 100))
+          .join(paths.outSeam.offset(sa * options.outSeamSaWidth * 100))
           .join(paths.waist.offset(sa))
-          .join(paths.crossSeam0.offset(sa * options.crossSeamSaWidth * 100))
+          .join(paths.crossSeam.offset(sa * options.crossSeamSaWidth * 100))
           .close()
           .attr('class', 'fabric sa')
       }

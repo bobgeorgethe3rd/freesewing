@@ -33,6 +33,7 @@ export const fly = {
       .move(points.fork)
       .curve(points.crotchSeamCurveCp1, points.crotchSeamCurveCp2, points.crotchSeamCurveStart)
       .line(points.styleWaistIn)
+      .split(points.flyCrotch)[1]
       .hide()
 
     points.flyOut = points.styleWaistIn.shiftFractionTowards(points.styleWaistOut, options.flyWidth)
@@ -49,18 +50,13 @@ export const fly = {
     )
 
     //Paths
-    let crotchSeamSplit = paths.crotchSeam.split(points.flyCrotch)
-    for (let i in crotchSeamSplit) {
-      paths['crotchSeam' + i] = crotchSeamSplit[i].hide()
-    }
-
     paths.seam = new Path()
       .move(points.styleWaistIn)
       .line(points.flyOut)
       .line(points.flyCurveStart)
       .curve_(points.flyCurveCp1, points.flyCurveEnd)
       .line(points.flyCrotch)
-      .join(paths.crotchSeam1)
+      .join(paths.crotchSeam)
       .close()
 
     if (complete) {
@@ -94,7 +90,7 @@ export const fly = {
           .curve_(points.flyCurveCp1, points.flyCurveEnd)
           .line(points.flyCrotch)
           .offset(sa)
-          .join(paths.crotchSeam1.offset(sa * options.crotchSeamSaWidth * 100))
+          .join(paths.crotchSeam.offset(sa * options.crotchSeamSaWidth * 100))
           .close()
           .attr('class', 'fabric sa')
       }

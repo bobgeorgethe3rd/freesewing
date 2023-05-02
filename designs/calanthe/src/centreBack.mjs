@@ -39,14 +39,10 @@ export const centreBack = {
     paths.topCurve = new Path()
       .move(points.cbTop)
       .curve(points.cbCp1, points.sideTopCp2, points.sideChest)
+      .split(points.top5)[0]
       .hide()
 
-    let topSplit = paths.topCurve.split(points.top5)
-    for (let i in topSplit) {
-      paths['topCurve' + i] = topSplit[i].hide()
-    }
-
-    paths.seam = paths.topCurve0
+    paths.seam = paths.topCurve
       .line(points.chest5)
       .curve(points.chest5Cp2, points.waist50Cp1, points.waist50)
       .curve(points.waist50Cp2, points.hips50Cp1, points.b0BottomLeft)

@@ -30,19 +30,11 @@ export const back1 = {
     paths.topCurve = new Path()
       .move(points.cbTop)
       .curve(points.cbCp1, points.sideTopCp2, points.sideChest)
+      .split(points.top4)[0]
+      .split(points.top5)[1]
       .hide()
 
-    let topSplit0 = paths.topCurve.split(points.top4)
-    for (let i in topSplit0) {
-      paths['topCurve' + i] = topSplit0[i].hide()
-    }
-
-    let topSplit1 = paths.topCurve0.split(points.top5)
-    for (let i in topSplit1) {
-      paths['topCurve' + i] = topSplit1[i].hide()
-    }
-
-    paths.seam = paths.topCurve1
+    paths.seam = paths.topCurve
       .line(points.chest4)
       .curve(points.chest4Cp2, points.waist40Cp1, points.waist40)
       .curve(points.waist40Cp2, points.hips40Cp1, points.b1BottomLeft)

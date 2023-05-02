@@ -47,11 +47,6 @@ export const swingFacing = {
       .line(points.hemD)
       .hide()
 
-    paths.waist = new Path()
-      .move(points.waistPanel0)
-      .curve(points.waist0Cp3, points.waist0Cp4, points.waist0Left)
-      .hide()
-
     points.swingDLeft = paths.sideSeam.shiftAlong(store.get('placketLength'))
     points.swingDRight = points.swingDLeft
       .shiftTowards(points.dartTipD, swingWidth)
@@ -76,10 +71,11 @@ export const swingFacing = {
       points.waist0Left
     )
 
-    let waistSplit = paths.waist.split(points.waistSplit)
-    for (let i in waistSplit) {
-      paths['waist' + i] = waistSplit[i].hide()
-    }
+    paths.waist = new Path()
+      .move(points.waistPanel0)
+      .curve(points.waist0Cp3, points.waist0Cp4, points.waist0Left)
+      .split(points.waistSplit)[1]
+      .hide()
 
     paths.saBase = new Path()
       .move(points.swingDLeft)
@@ -87,7 +83,7 @@ export const swingFacing = {
       .line(points.swingDartTipD)
       .curve(points.swingDartTipDCp1, points.swingDartTipDCp2, points.swingWaist0Left)
       .line(points.waistSplit)
-      .join(paths.waist1)
+      .join(paths.waist)
       .hide()
 
     paths.sideFrontSeam = new Path()

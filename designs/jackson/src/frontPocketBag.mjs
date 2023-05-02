@@ -105,15 +105,9 @@ export const frontPocketBag = {
       points.frontPocketWaist.rotate(90, points.frontPocketBottom)
     )
     //lets create some paths
-    let outSeamSplit0 = drawOutseam().split(points.frontPocketOutSeam)
-    for (let i in outSeamSplit0) {
-      paths['outSeam0' + i] = outSeamSplit0[i].hide()
-    }
+    paths.outSeam0 = drawOutseam().split(points.frontPocketOutSeam)[0].hide()
 
-    let outSeamSplit1 = paths.outSeam00.split(points.frontPocketOpeningOut)
-    for (let i in outSeamSplit1) {
-      paths['outSeam1' + i] = outSeamSplit1[i].hide()
-    }
+    paths.outSeam1 = paths.outSeam0.split(points.frontPocketOpeningOut)[1]
 
     paths.bottomCurve = new Path()
       .move(points.frontPocketOutSeam)
@@ -122,7 +116,7 @@ export const frontPocketBag = {
 
     macro('mirror', {
       mirror: [points.frontPocketWaist, points.frontPocketBottomAnchor],
-      paths: ['bottomCurve', 'outSeam00'],
+      paths: ['bottomCurve', 'outSeam0'],
       points: ['frontPocketOpeningOut'],
       prefix: 'm',
     })
@@ -131,7 +125,7 @@ export const frontPocketBag = {
 
     paths.bottomCurve = paths.bottomCurve.join(paths.mBottomCurve.reverse()).hide()
 
-    paths.mFrontPocketOutSeam = paths.mOutSeam00.reverse().hide()
+    paths.mFrontPocketOutSeam = paths.mOutSeam0.reverse().hide()
 
     paths.waistSeam = new Path()
       .move(paths.mFrontPocketOutSeam.end())
@@ -147,7 +141,7 @@ export const frontPocketBag = {
       .clone()
       .join(paths.mFrontPocketOutSeam)
       .join(paths.waistSeam)
-      .join(paths.outSeam11)
+      .join(paths.outSeam1)
       .close()
 
     if (complete) {
@@ -178,7 +172,7 @@ export const frontPocketBag = {
       if (sa) {
         let outSeamSa = sa * options.outSeamSaWidth * 100
         let frontPocketBagSa = sa * options.frontPocketBagSaWidth * 100
-        points.saFrontPocketOutSeam = paths.outSeam11
+        points.saFrontPocketOutSeam = paths.outSeam1
           .offset(outSeamSa)
           .end()
           .shift(points.frontPocketWaist.angle(points.frontPocketBottom), frontPocketBagSa)
@@ -210,7 +204,7 @@ export const frontPocketBag = {
           .curve(points.saFrontPocketCp3, points.saFrontPocketCp4, points.saMFrontPocketOutSeam)
           .join(paths.mFrontPocketOutSeam.offset(outSeamSa))
           .join(paths.waistSeam.offset(sa))
-          .join(paths.outSeam11.offset(outSeamSa))
+          .join(paths.outSeam1.offset(outSeamSa))
           .close()
           .attr('class', 'fabric sa')
       }

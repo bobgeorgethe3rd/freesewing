@@ -135,17 +135,9 @@ export const back = {
     if (options.yoke) {
       paths.waist = new Path().move(points.yokeOut).line(points.yokeIn).hide()
 
-      let outSeamSplit = drawOutseam().split(points.yokeOut)
-      for (let i in outSeamSplit) {
-        paths['outSeam' + i] = outSeamSplit[i].hide()
-      }
-      paths.outSeam = paths.outSeam0
+      paths.outSeam = drawOutseam().split(points.yokeOut)[0].hide()
 
-      let crossSeamSplit = paths.crossSeam.split(points.yokeIn)
-      for (let i in crossSeamSplit) {
-        paths['crossSeam' + i] = crossSeamSplit[i].hide()
-      }
-      paths.crossSeam = paths.crossSeam1
+      paths.crossSeam = paths.crossSeam.split(points.yokeIn)[1].hide()
     } else {
       paths.waist = new Path()
         .move(points.styleWaistOut)

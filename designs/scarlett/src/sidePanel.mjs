@@ -341,13 +341,6 @@ export const sidePanel = {
           .attr('class', 'interfacing sa')
 
         if (options.waistbandStyle == 'none') {
-          if (options.style == 'straight' && options.sideDart == 'dart') {
-            let crossSplit = paths.cross.split(points.waistFacingCrossS)
-            for (let i in crossSplit) {
-              paths['cross' + i] = crossSplit[i].hide()
-            }
-          }
-
           const drawWaistFacingSa = () => {
             if (options.sideDart == 'dart') {
               if (options.style == 'straight') {
@@ -361,7 +354,7 @@ export const sidePanel = {
                   .line(points.waist3Right)
                   .curve(points.waist3Cp1, points.waist3Cp2, points.waist3LeftS)
                   .offset(sa)
-                  .join(paths.cross0.offset(crossSa))
+                  .join(paths.cross.split(points.waistFacingCrossS)[0].offset(crossSa))
               } else {
                 return new Path()
                   .move(points.waistFacingE)

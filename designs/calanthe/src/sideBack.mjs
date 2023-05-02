@@ -30,14 +30,10 @@ export const sideBack = {
     paths.topCurve = new Path()
       .move(points.cbTop)
       .curve(points.cbCp1, points.sideTopCp2, points.sideChest)
+      .split(points.top4)[1]
       .hide()
 
-    let topSplit = paths.topCurve.split(points.top4)
-    for (let i in topSplit) {
-      paths['topCurve' + i] = topSplit[i].hide()
-    }
-
-    paths.seam = paths.topCurve1
+    paths.seam = paths.topCurve
       .curve(points.sideChestCp2, points.waist30Cp1, points.waist30)
       .curve(points.waist30Cp2, points.hips30Cp1, points.b2BottomLeft)
       .curve_(points.b2BottomCp1, points.b2BottomRight)

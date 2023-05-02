@@ -63,17 +63,9 @@ export const coinPocket = {
         points.frontPocketFacingCp2,
         points.frontPocketFacingWaist
       )
+      .split(points.coinPocketBottomIn)[0]
+      .split(points.coinPocketBottomOut)[1]
       .hide()
-
-    let bottomCurveSplit0 = paths.bottomCurve.split(points.coinPocketBottomIn)
-    for (let i in bottomCurveSplit0) {
-      paths['bottomCurve0' + i] = bottomCurveSplit0[i].hide()
-    }
-
-    let bottomCurveSplit1 = paths.bottomCurve00.split(points.coinPocketBottomOut)
-    for (let i in bottomCurveSplit1) {
-      paths['bottomCurve1' + i] = bottomCurveSplit1[i].hide()
-    }
 
     paths.saTop = new Path().move(points.coinPocketIn).line(points.coinPocketOut).hide()
 
@@ -81,7 +73,7 @@ export const coinPocket = {
 
     paths.saLeft = new Path().move(points.coinPocketOut).line(points.coinPocketBottomOut).hide()
 
-    paths.seam = paths.bottomCurve11
+    paths.seam = paths.bottomCurve
       .clone()
       .join(paths.saRight)
       .join(paths.saTop)
@@ -108,7 +100,7 @@ export const coinPocket = {
       })
 
       if (sa) {
-        paths.sa = paths.bottomCurve11
+        paths.sa = paths.bottomCurve
           .clone()
           .offset(sa * 0.5)
           .join(paths.saRight.offset(sa))
