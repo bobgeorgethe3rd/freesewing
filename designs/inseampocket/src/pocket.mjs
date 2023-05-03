@@ -6,9 +6,9 @@ export const pocket = {
     //Constants
     useVoidStores: true,
     //Pockets
-    inseamPocketWidth: { pct: 50, min: 40, max: 200, menu: 'pockets.inseamPockets' },
     pocketOpening: { pct: 6.4, min: 5, max: 15, menu: 'pockets' },
     pocketOpeningLength: { pct: 63.5, min: 40, max: 70, menu: 'pockets' },
+    inseamPocketWidth: { pct: 50, min: 40, max: 200, menu: 'pockets.inseamPockets' },
     inseamPocketDepth: { pct: 18.5, min: 15, max: 40, menu: 'pockets.inseamPockets' },
     inseamPocketAngle: { deg: 15, min: 0, max: 15, menu: 'pockets.inseamPockets' },
     inseamPocketCurveLeft: { pct: 100, min: 0, max: 100, menu: 'pockets.inseamPockets' },
