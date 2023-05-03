@@ -103,6 +103,13 @@
     }
   },
   "skirts": {
+    "claude": {
+      "description": "A Cricle design to be both independent and extended in to other desgins",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["skirts", "circle"]
+    },
     "scarlett": {
       "description": "A Split Skirt based off of Wanda",
       "code": "bobgeorgethe3rd",

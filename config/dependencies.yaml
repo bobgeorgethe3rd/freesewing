@@ -60,6 +60,11 @@ charlie:
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/titan': *freesewing
     '@freesewing/snapseries': *freesewing
+claude:
+    peer:
+    '@freesewing/inseampocket': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
 core:
   _:
     'bezier-js': '6.1.3'
