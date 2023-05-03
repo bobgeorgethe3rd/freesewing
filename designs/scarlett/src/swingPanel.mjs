@@ -34,13 +34,14 @@ export const swingPanel = {
       return part
     }
     //removing paths and in heritance
-    macro('scalebox', false)
     delete points.scalebox
     let keepThese = ['waist', 'sideFront']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
-
+    macro('scalebox', false)
+    macro('logorg', false)
+    delete points.logo
     //let's begin
     //paths
     paths.hemBase = new Path()
