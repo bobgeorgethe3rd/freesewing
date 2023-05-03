@@ -3,13 +3,17 @@
 import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
-import { box } from './box.mjs'
+import { skirtBase } from './skirtBase.mjs'
+import { skirtFront } from './skirtFront.mjs'
+import { pocket } from './pocket.mjs'
+import { waistbandStraight } from './waistbandStraight.mjs'
+import { waistbandCurved } from './waistbandCurved.mjs'
 
 // Create new design
 const Claude = new Design({
   data,
-  parts: [box],
+  parts: [skirtBase, skirtFront, pocket, waistbandStraight, waistbandCurved],
 })
 
 // Named exports
-export { box, Claude }
+export { skirtBase, skirtFront, pocket, waistbandStraight, waistbandCurved, Claude }
