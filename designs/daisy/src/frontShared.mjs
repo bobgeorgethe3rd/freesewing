@@ -29,7 +29,7 @@ export const frontShared = {
     if (complete) {
       macro('title', {
         at: points.titleAnchor,
-        nr: 'X',
+        nr: '1',
         title: 'Front ' + utils.capitalize(options.bustDartPlacement) + ' Dart',
       })
     }
