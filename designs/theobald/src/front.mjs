@@ -41,8 +41,8 @@ export const front = {
     //removing paths and snippets not required from Dalton
     for (let i in paths) delete paths[i]
     //measurements
-    let frontPleatWidth = store.get('frontPleatWidth')
-    let frontPleatDistance = measurements.waist * options.frontPleatDistance + frontPleatWidth
+    const frontPleatWidth = store.get('frontPleatWidth')
+    const frontPleatDistance = measurements.waist * options.frontPleatDistance + frontPleatWidth
     //draw guides
     let suffix
     if (options.frontPleats) {
@@ -155,7 +155,6 @@ export const front = {
     }
 
     //let's begin
-
     //paths
     paths.hemBase = new Path().move(points.floorOut).line(points.floorIn).hide()
 

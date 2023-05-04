@@ -21,11 +21,11 @@ export const frontShoulderDart = ({
   //removing scalebox
   macro('scalebox', false)
   //measures
-  let bustDartAngleSide = store.get('bustDartAngleSide')
+  const bustDartAngleSide = store.get('bustDartAngleSide')
   //let's begin
   points.bustDartTop = points.hps.shiftFractionTowards(points.shoulder, options.bustDartFraction)
   //Rotate Armhole
-  let rot = [
+  const rot = [
     'armhole',
     'armholeCp2',
     'armholePitchCp1',

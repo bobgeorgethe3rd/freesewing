@@ -85,7 +85,7 @@ export const backPanel = {
         rotation: 90 - points.hemK.angle(points.origin),
       })
       //facings
-      let skirtHemFacingWidth = store.get('skirtHemFacingWidth')
+      const skirtHemFacingWidth = store.get('skirtHemFacingWidth')
 
       let lineFrom
       let lineTo
@@ -206,7 +206,7 @@ export const backPanel = {
             .attr('data-text-class', 'center')
             .unhide()
         } else {
-          let waistFacingCpDistance =
+          const waistFacingCpDistance =
             (4 / 3) *
             points.origin.dist(points.waistFacing6B) *
             Math.tan(
@@ -233,9 +233,9 @@ export const backPanel = {
       }
       //pleats
       if (options.pleats) {
-        let pleatKeep = store.get('pleatKeep')
-        let pleatLengthBell = store.get('pleatLengthBell')
-        let pleatLengthUmbrella = store.get('pleatLengthUmbrella')
+        const pleatKeep = store.get('pleatKeep')
+        const pleatLengthBell = store.get('pleatLengthBell')
+        const pleatLengthUmbrella = store.get('pleatLengthUmbrella')
 
         for (let i = 0; i < options.pleatNumber; i++) {
           if (options.style == 'bell') {

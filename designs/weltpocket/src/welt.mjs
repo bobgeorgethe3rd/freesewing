@@ -25,12 +25,12 @@ export const welt = {
     Snippet,
   }) => {
     //keep paths
-    let keepThese = ['opening']
+    const keepThese = ['opening']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
     //measures
-    let width = store.get('insertSeamLength') * options.weltPocketWeltWidth
+    const width = store.get('insertSeamLength') * options.weltPocketWeltWidth
     //let's begin
     if (width / -2 < points.topLeft.y) {
       points.weltTopLeft = points.topLeft

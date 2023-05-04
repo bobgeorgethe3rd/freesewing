@@ -39,7 +39,7 @@ export const waistbandStraightLeft = {
     } else {
       leftPathKeep = 'left'
     }
-    let keepPaths = ['leftEx', leftPathKeep]
+    const keepPaths = ['leftEx', leftPathKeep]
     for (const name in paths) {
       if (keepPaths.indexOf(name) === -1) delete paths[name]
     }
@@ -63,14 +63,14 @@ export const waistbandStraightLeft = {
       leftNotchKeep = ['bottomLeftNotch-notch', 'topLeftNotch-notch']
     }
 
-    let keepSnippets = ['bottomLeft-notch', 'topLeft-notch'] + buttonKeep + leftNotchKeep
+    const keepSnippets = ['bottomLeft-notch', 'topLeft-notch'] + buttonKeep + leftNotchKeep
     for (const name in snippets) {
       if (keepSnippets.indexOf(name) === -1) delete snippets[name]
     }
     //remove macros
     macro('title', false)
     //measurements
-    let waistbandWidth = store.get('waistbandWidth')
+    const waistbandWidth = store.get('waistbandWidth')
 
     //let's begin
 

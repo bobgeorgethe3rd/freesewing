@@ -50,8 +50,8 @@ export const sideFront = {
       })
 
       if (sa) {
-        let hemSa = sa * options.skirtHemWidth * 100
-        let sideFrontSa = store.get('sideFrontSa')
+        const hemSa = sa * options.skirtHemWidth * 100
+        const sideFrontSa = store.get('sideFrontSa')
 
         paths.hemFacingSa = paths.hemBase
           .clone()

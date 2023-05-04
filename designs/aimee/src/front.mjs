@@ -54,11 +54,11 @@ export const front = {
     macro('title', false)
     macro('scalebox', false)
     //measures
-    let shoulderRise = measurements.hpsToWaistBack * options.shoulderRise
-    let shoulderToWrist = measurements.shoulderToWrist * (1 + options.sleeveLengthBonus)
-    let wrist = measurements.wrist * (1 + options.wristEase)
-    let armholeDrop = measurements.hpsToWaistBack * options.armholeDrop
-    let underArmSleeveLength = measurements.shoulderToWrist * options.underArmSleeveLength
+    const shoulderRise = measurements.hpsToWaistBack * options.shoulderRise
+    const shoulderToWrist = measurements.shoulderToWrist * (1 + options.sleeveLengthBonus)
+    const wrist = measurements.wrist * (1 + options.wristEase)
+    const armholeDrop = measurements.hpsToWaistBack * options.armholeDrop
+    const underArmSleeveLength = measurements.shoulderToWrist * options.underArmSleeveLength
 
     //creating shoulder Top
     points.shoulderRise = points.armholePitchCp2.shiftOutwards(points.shoulder, shoulderRise)

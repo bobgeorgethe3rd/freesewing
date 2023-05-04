@@ -31,7 +31,7 @@ export const centreBack = {
     //removing paths and snippets not required from Dalton
     for (let i in paths) delete paths[i]
     //measures
-    let eyeletExtension = measurements.waist * options.eyeletExtension
+    const eyeletExtension = measurements.waist * options.eyeletExtension
     //let's begin
     points.eyeletBottom = points.cbBottom.shift(0, eyeletExtension)
     points.eyeletTop = points.cbTop.shift(0, eyeletExtension)

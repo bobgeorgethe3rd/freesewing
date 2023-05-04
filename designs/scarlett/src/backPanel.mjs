@@ -108,7 +108,7 @@ export const backPanel = {
         rotation: 90 - points.hemK.angle(points.origin),
       })
       //facings
-      let skirtHemFacingWidth = store.get('skirtHemFacingWidth')
+      const skirtHemFacingWidth = store.get('skirtHemFacingWidth')
       points.crossFacingB = points.crossHemB.shiftTowards(points.crossB, skirtHemFacingWidth)
       points.hemFacingL = points.hemLB.shiftTowards(points.waistL, skirtHemFacingWidth)
       points.hemFacingLCp1 = utils.beamsIntersect(
@@ -236,7 +236,7 @@ export const backPanel = {
             .attr('data-text-class', 'center')
             .unhide()
         } else {
-          let waistFacingCpDistance =
+          const waistFacingCpDistance =
             (4 / 3) *
             points.origin.dist(points.waistFacing6B) *
             Math.tan(
@@ -264,9 +264,9 @@ export const backPanel = {
 
       //pleats
       if (options.pleats) {
-        let pleatKeep = store.get('pleatKeep')
-        let pleatLengthBell = store.get('pleatLengthBell')
-        let pleatLengthUmbrella = store.get('pleatLengthUmbrella')
+        const pleatKeep = store.get('pleatKeep')
+        const pleatLengthBell = store.get('pleatLengthBell')
+        const pleatLengthUmbrella = store.get('pleatLengthUmbrella')
 
         for (let i = 0; i < options.pleatNumber; i++) {
           if (options.style == 'bell') {
@@ -332,9 +332,9 @@ export const backPanel = {
         }
       }
       if (sa) {
-        let hemSa = sa * options.skirtHemWidth * 100
-        let crossSa = sa * options.crossSaWidth * 100
-        let inseamSa = sa * options.inseamSaWidth * 100
+        const hemSa = sa * options.skirtHemWidth * 100
+        const crossSa = sa * options.crossSaWidth * 100
+        const inseamSa = sa * options.inseamSaWidth * 100
 
         paths.hemFacingSa = drawHemBase()
           .offset(hemSa)

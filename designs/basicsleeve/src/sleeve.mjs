@@ -49,7 +49,7 @@ export const sleeve = {
     paths.sleevecap.render = false
 
     //measures
-    let top = paths.sleevecap.bbox().topLeft.y
+    const top = paths.sleevecap.bbox().topLeft.y
 
     //calculating sleeveBandWidth
     let sleeveBandWidth
@@ -85,9 +85,9 @@ export const sleeve = {
     } else sleeveLength = sleeveLengthTarget
 
     //horizontal measures
-    let biceps = points.bicepsLeft.dist(points.bicepsRight)
-    let elbow = measurements.elbow * (1 + options.elbowEase)
-    let wrist = measurements.wrist * (1 + options.wristEase)
+    const biceps = points.bicepsLeft.dist(points.bicepsRight)
+    const elbow = measurements.elbow * (1 + options.elbowEase)
+    const wrist = measurements.wrist * (1 + options.wristEase)
 
     //calculating bottomWidth
     let bottomWidth

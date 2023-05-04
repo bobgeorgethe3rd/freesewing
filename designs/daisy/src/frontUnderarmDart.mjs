@@ -21,7 +21,7 @@ export const frontUnderarmDart = ({
   //removing scalebox
   macro('scalebox', false)
   //measures
-  let bustDartAngleSide = store.get('bustDartAngleSide')
+  const bustDartAngleSide = store.get('bustDartAngleSide')
 
   //let's begin
   points.bustDartClosed = points.bustDartBottom

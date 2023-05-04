@@ -31,7 +31,7 @@ export const frontPocketFacingB = {
     for (let i in snippets) delete snippets[i]
     macro('title', false)
     //measurements
-    let suffix = store.get('frontPleatSuffix')
+    const suffix = store.get('frontPleatSuffix')
     //let's begin
     //paths
     paths.saBottom = new Path()

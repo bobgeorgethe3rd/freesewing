@@ -39,7 +39,7 @@ export const frontPocketBag = {
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
     //measurements
-    let frontPocketDepth =
+    const frontPocketDepth =
       (measurements.waistToKnee - measurements.waistToHips - absoluteOptions.waistbandWidth) *
       options.frontPocketDepth
 
@@ -170,8 +170,8 @@ export const frontPocketBag = {
       })
 
       if (sa) {
-        let outSeamSa = sa * options.outSeamSaWidth * 100
-        let frontPocketBagSa = sa * options.frontPocketBagSaWidth * 100
+        const outSeamSa = sa * options.outSeamSaWidth * 100
+        const frontPocketBagSa = sa * options.frontPocketBagSaWidth * 100
         points.saFrontPocketOutSeam = paths.outSeam1
           .offset(outSeamSa)
           .end()

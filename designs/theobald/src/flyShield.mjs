@@ -30,8 +30,8 @@ export const flyShield = {
     //removing macros not required from Dalton
     macro('title', false)
     //measures
-    let suffix = store.get('frontPleatSuffix')
-    let flyShieldDepthExt = store.get('flyShieldDepthExt')
+    const suffix = store.get('frontPleatSuffix')
+    const flyShieldDepthExt = store.get('flyShieldDepthExt')
     //begin
     points['flyShieldOut' + suffix] = points['flyOut' + suffix].shiftTowards(
       points['styleWaistOut' + suffix],

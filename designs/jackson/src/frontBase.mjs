@@ -45,13 +45,13 @@ export const frontBase = {
     macro('title', false)
     macro('scalebox', false)
     //measurements
-    let frontPocketOpeningDepth =
+    const frontPocketOpeningDepth =
       (measurements.waistToKnee - measurements.waistToHips - absoluteOptions.waistbandWidth) *
       options.frontPocketOpeningDepth
-    let frontPocketOutSeamDepth =
+    const frontPocketOutSeamDepth =
       (measurements.waistToKnee - measurements.waistToHips - absoluteOptions.waistbandWidth) *
       options.frontPocketOutSeamDepth
-    let flyDepth =
+    const flyDepth =
       (measurements.crossSeamFront - measurements.waistToHips - absoluteOptions.waistbandWidth) *
       (1 - options.flyDepth)
     //draw guides
@@ -136,7 +136,8 @@ export const frontBase = {
       .line(points.styleWaistIn)
       .shiftAlong(flyDepth)
 
-    let flyShieldDepthExt = (points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth) / 4
+    const flyShieldDepthExt =
+      (points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth) / 4
 
     points.flyCurveEnd = utils.beamsIntersect(
       points.styleWaistIn,

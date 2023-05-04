@@ -259,10 +259,10 @@ export const sidePanel = {
       }
       //pleats
       if (options.pleats && options.sideDart == 'dart') {
-        let pleatKeep = store.get('pleatKeep')
-        let pleatLengthStraight = store.get('pleatLengthStraight')
-        let pleatLengthBell = store.get('pleatLengthBell')
-        let pleatLengthUmbrella = store.get('pleatLengthUmbrella')
+        const pleatKeep = store.get('pleatKeep')
+        const pleatLengthStraight = store.get('pleatLengthStraight')
+        const pleatLengthBell = store.get('pleatLengthBell')
+        const pleatLengthUmbrella = store.get('pleatLengthUmbrella')
 
         paths.pleatLine = new Path()
           .move(points.waist3Right)
@@ -325,8 +325,8 @@ export const sidePanel = {
       }
 
       if (sa) {
-        let hemSa = sa * options.skirtHemWidth * 100
-        let crossSa = sa * options.crossSaWidth * 100
+        const hemSa = sa * options.skirtHemWidth * 100
+        const crossSa = sa * options.crossSaWidth * 100
         paths.hemFacingSa = drawHemBase()
           .offset(hemSa)
           .join(

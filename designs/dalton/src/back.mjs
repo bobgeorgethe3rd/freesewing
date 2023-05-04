@@ -72,22 +72,22 @@ export const back = {
     macro('title', false)
     macro('scalebox', false)
     //measures
-    let backDartWidth =
+    const backDartWidth =
       measurements.waist * options.backDartWidth +
       measurements.waist * options.backDartWidth * options.backDartMultiplier * options.waistHeight
-    // let backDartDepth =
+    // const backDartDepth =
     // (measurements.waistToSeat -
     // measurements.waistToHips * (1 - options.waistHeight) -
     // absoluteOptions.waistbandWidth) *
     // options.backDartDepth
 
-    let backDartDepth =
+    const backDartDepth =
       (measurements.waistToSeat - measurements.waistToHips) * options.backDartDepth +
       measurements.waistToHips * options.waistHeight -
       absoluteOptions.waistbandWidth
 
-    let ankle = measurements.ankle * (1 + options.ankleEase)
-    let heel = measurements.heel * (1 + options.heelEase)
+    const ankle = measurements.ankle * (1 + options.ankleEase)
+    const heel = measurements.heel * (1 + options.heelEase)
 
     let floorMeasure
     if (options.useHeel) {
@@ -96,16 +96,16 @@ export const back = {
       floorMeasure = ankle
     }
 
-    let floor =
+    const floor =
       floorMeasure +
       absoluteOptions.legbandWidth *
         ((store.get('kneeTotal') - floorMeasure) /
           (measurements.waistToFloor - measurements.waistToKnee))
 
-    let floorBack = floor * options.legBalance
-    let floorFront = floor * (1 - options.legBalance)
+    const floorBack = floor * options.legBalance
+    const floorFront = floor * (1 - options.legBalance)
     store.set('floorFront', floorFront)
-    // let kneeBack = measurements.knee * (1 + options.kneeEase) * options.legBalance
+    // const kneeBack = measurements.knee * (1 + options.kneeEase) * options.legBalance
 
     //let's begin
     points.styleWaistOut = points.styleWaistIn.shiftOutwards(points.styleWaistOut, backDartWidth)

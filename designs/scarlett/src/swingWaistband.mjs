@@ -30,15 +30,15 @@ export const swingWaistband = {
       return part
     }
     //measures
-    let length = store.get('swingWaisbandLength') * 2
+    const length = store.get('swingWaisbandLength') * 2
 
     let widthMultiplier
     if (options.waistbandFolded) {
       widthMultiplier = 2
     } else widthMultiplier = 1
 
-    let width = store.get('waistbandWidth') * widthMultiplier
-    let widthHalf = width / widthMultiplier / 2
+    const width = store.get('waistbandWidth') * widthMultiplier
+    const widthHalf = width / widthMultiplier / 2
 
     //begin
     points.bottomMid = new Point(0, 0)

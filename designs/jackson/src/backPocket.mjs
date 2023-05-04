@@ -38,13 +38,13 @@ export const backPocket = {
     absoluteOptions,
   }) => {
     // keep paths
-    let keepThese = ['top', 'grainline']
+    const keepThese = ['top', 'grainline']
 
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
     //measures
-    let backPocketPleatWidth = store.get('patchPocketDepth') * options.backPocketPleatWidth
+    const backPocketPleatWidth = store.get('patchPocketDepth') * options.backPocketPleatWidth
 
     if (options.backPocketPleat) {
       points.pleatMid = points.bottomMid.shiftFractionTowards(
@@ -61,7 +61,7 @@ export const backPocket = {
       points.pleatLeft2 = points.pleatLeft0.shift(-90, backPocketPleatWidth)
       points.pleatRight2 = points.pleatLeft2.flipX(points.pleatMid)
 
-      let shift = ['peakLeftStart', 'peak', 'peakRightEnd']
+      const shift = ['peakLeftStart', 'peak', 'peakRightEnd']
       for (const p of shift) points[p] = points[p].shift(-90, backPocketPleatWidth)
 
       paths.saBase = new Path()

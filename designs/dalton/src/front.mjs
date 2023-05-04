@@ -35,7 +35,7 @@ export const front = {
     macro('scalebox', false)
     //measures
     // let kneeFront = measurements.knee * (1 + options.kneeEase) * (1 - options.legBalance)
-    let floorFront = store.get('floorFront')
+    const floorFront = store.get('floorFront')
 
     points.floor = points.floor.shiftTowards(points.knee, absoluteOptions.legbandWidth)
     points.floorOut = new Point(points.kneeOut.x, points.floor.y)

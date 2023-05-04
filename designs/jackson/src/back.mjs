@@ -112,19 +112,19 @@ export const back = {
     }
     //measures
     // let backPocketPlacement = measurements.waistToFloor * options.backPocketPlacement
-    let backPocketPlacement =
+    const backPocketPlacement =
       points.dartTip.dist(points.dartSeat) * (1 - options.backPocketPlacement)
-    let patchPocketDepth = measurements.waistToFloor * options.patchPocketDepth
-    let patchPocketWidth = measurements.waist * options.patchPocketWidth
-    let patchPocketBottomWidth = patchPocketWidth * options.patchPocketBottomWidth
-    let backPocketPeak = patchPocketBottomWidth * options.patchPocketPeak * 0.5
-    let sidePocketPlacement =
+    const patchPocketDepth = measurements.waistToFloor * options.patchPocketDepth
+    const patchPocketWidth = measurements.waist * options.patchPocketWidth
+    const patchPocketBottomWidth = patchPocketWidth * options.patchPocketBottomWidth
+    const backPocketPeak = patchPocketBottomWidth * options.patchPocketPeak * 0.5
+    const sidePocketPlacement =
       drawOutseam().length() -
       measurements.waistToKnee * (1 - options.sidePocketPlacement) +
       measurements.waistToHips * (1 - options.waistHeight) +
       absoluteOptions.waistbandWidth
-    let sidePocketWidth = measurements.waist * options.sidePocketWidth
-    let sidePocketDepth = measurements.waistToKnee * options.sidePocketDepth
+    const sidePocketWidth = measurements.waist * options.sidePocketWidth
+    const sidePocketDepth = measurements.waistToKnee * options.sidePocketDepth
     //lets begin
     paths.crossSeam = new Path()
       .move(points.styleWaistIn)

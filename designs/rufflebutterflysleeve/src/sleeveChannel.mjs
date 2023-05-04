@@ -29,9 +29,9 @@ export const sleeveChannel = {
       return part
     }
     //measures
-    let sleeveTieWidth = store.get('sleeveTieWidth')
-    let sleeveSlitWidth = store.get('sleeveSlitWidth')
-    let channelLength = store.get('sleeveChannelLengh')
+    const sleeveTieWidth = store.get('sleeveTieWidth')
+    const sleeveSlitWidth = store.get('sleeveSlitWidth')
+    const channelLength = store.get('sleeveChannelLengh')
 
     //let's begin
     points.topLeft = new Point(0, 0)

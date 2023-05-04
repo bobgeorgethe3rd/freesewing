@@ -32,14 +32,14 @@ export const back = {
     //removing macros not required from Bella
     macro('title', false)
     //measures
-    let shoulderRise = store.get('shoulderRise')
-    let shoulderTop = store.get('shoulderTop')
-    let wrist = store.get('wrist')
-    let armholeDrop = store.get('armholeDrop')
-    let shoulderWidth = store.get('shoulderWidth')
-    let underArmSleeveLength = store.get('underArmSleeveLength')
-    let underArmLength = store.get('underArmLength')
-    let underArmCurveLength = store.get('underArmCurveLength')
+    const shoulderRise = store.get('shoulderRise')
+    const shoulderTop = store.get('shoulderTop')
+    const wrist = store.get('wrist')
+    const armholeDrop = store.get('armholeDrop')
+    const shoulderWidth = store.get('shoulderWidth')
+    const underArmSleeveLength = store.get('underArmSleeveLength')
+    const underArmLength = store.get('underArmLength')
+    const underArmCurveLength = store.get('underArmCurveLength')
 
     //let's begin
     //shoudler top

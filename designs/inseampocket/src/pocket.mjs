@@ -44,11 +44,11 @@ export const pocket = {
       void store.setIfUnset('insertSeamLength', 1184)
     }
     void store.setIfUnset('waistbandWidth', 0)
-    let width = store.get('anchorSeamLength') * options.inseamPocketWidth
-    let openingDepth =
+    const width = store.get('anchorSeamLength') * options.inseamPocketWidth
+    const openingDepth =
       store.get('insertSeamLength') * options.pocketOpening - store.get('waistbandWidth')
-    let openingLength = measurements.wrist * options.pocketOpeningLength
-    let depth = store.get('insertSeamLength') * options.inseamPocketDepth
+    const openingLength = measurements.wrist * options.pocketOpeningLength
+    const depth = store.get('insertSeamLength') * options.inseamPocketDepth
 
     //let's begin
     points.topLeft = new Point(0, 0)
@@ -82,7 +82,7 @@ export const pocket = {
       points.topRight.rotate(90, points.curveBREnd)
     )
 
-    let curveBRCPDistance =
+    const curveBRCPDistance =
       (4 / 3) *
       points.curveBROrigin.dist(points.curveBRStart) *
       Math.tan(utils.deg2rad((points.curveBROrigin.angle(points.curveBRMid) - 270) / 2))
@@ -155,9 +155,9 @@ export const pocket = {
       if (sa) {
         void store.setIfUnset('anchorSeamSa', sa)
         void store.setIfUnset('insertSeamSa', sa)
-        let anchorSeamSa = store.get('anchorSeamSa')
-        let insertSeamSa = store.get('insertSeamSa')
-        let pocketBagSaWidth = sa * options.pocketBagSaWidth * 100
+        const anchorSeamSa = store.get('anchorSeamSa')
+        const insertSeamSa = store.get('insertSeamSa')
+        const pocketBagSaWidth = sa * options.pocketBagSaWidth * 100
 
         if (options.inseamPocketCurveLeft == 0) {
           points.curveBLStartSa = points.curveBLStart.translate(-insertSeamSa, pocketBagSaWidth)

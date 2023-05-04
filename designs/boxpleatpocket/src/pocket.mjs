@@ -61,8 +61,8 @@ export const pocket = {
       width = store.get('anchorSeamLength') * options.boxPleatPocketWidth
       depth = store.get('insertSeamLength') * options.boxPleatPocketDepth
     }
-    let widthTop = width * options.boxPleatPocketTopWidth
-    let depthRight = depth * options.boxPleatPocketDepthRight
+    const widthTop = width * options.boxPleatPocketTopWidth
+    const depthRight = depth * options.boxPleatPocketDepthRight
     //let's begin
     points.topLeft = new Point(0, 0)
     points.topRight = points.topLeft.shift(0, width)

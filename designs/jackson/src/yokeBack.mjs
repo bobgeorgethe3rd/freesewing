@@ -35,10 +35,10 @@ export const yokeBack = {
     for (let i in snippets) delete snippets[i]
 
     //measurements
-    let dartAngle = points.dartTip.angle(points.dartIn) - points.dartTip.angle(points.dartOut)
+    const dartAngle = points.dartTip.angle(points.dartIn) - points.dartTip.angle(points.dartOut)
     //lets begin
 
-    let rot = [
+    const rot = [
       'floorOut',
       'kneeOut',
       'kneeOutCp2',

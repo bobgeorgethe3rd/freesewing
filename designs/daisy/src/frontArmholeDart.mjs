@@ -22,9 +22,9 @@ export const frontArmholeDart = ({
   //removing scalebox
   macro('scalebox', false)
   //measures
-  let bustDartAngleSide = store.get('bustDartAngleSide')
+  const bustDartAngleSide = store.get('bustDartAngleSide')
   //Rotate Armhole
-  let rot = ['armhole', 'armholeCp2', 'armholePitchCp1']
+  const rot = ['armhole', 'armholeCp2', 'armholePitchCp1']
   for (const p of rot) points[p] = points[p].rotate(-bustDartAngleSide, points.bust)
   //closing bust dart
   points.bustDartClosed = points.bustDartBottom

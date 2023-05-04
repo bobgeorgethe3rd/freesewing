@@ -38,7 +38,7 @@ export const sleeve = {
     //removing macros not required from sleevecap
     macro('title', false)
     //measures
-    let sleeveReduction = measurements.shoulderToElbow * options.sleeveReduction
+    const sleeveReduction = measurements.shoulderToElbow * options.sleeveReduction
     //let's begin
     points.hemAnchor = points.gridAnchor.shift(90, sleeveReduction)
 
@@ -94,8 +94,8 @@ export const sleeve = {
         scale: 0.4,
       })
       if (sa) {
-        let capSa = sa * options.sleeveCapSaWidth * 100
-        let hemA = sa * options.sleeveHemWidth * 100
+        const capSa = sa * options.sleeveCapSaWidth * 100
+        const hemA = sa * options.sleeveHemWidth * 100
 
         points.saLeft = points.capQ4Cp1.shiftOutwards(points.capQ4, sa)
         points.saRight = points.capQ1Cp2.shiftOutwards(points.capQ1, sa)

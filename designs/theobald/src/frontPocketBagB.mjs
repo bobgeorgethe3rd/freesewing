@@ -31,13 +31,13 @@ export const frontPocketBagB = {
       return part
     }
     //removing paths and snippets not required from Dalton
-    let keepThese = ['grainline']
+    const keepThese = ['grainline']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
     for (let i in snippets) delete snippets[i]
     //measures
-    let suffix = store.get('frontPleatSuffix')
+    const suffix = store.get('frontPleatSuffix')
     //let's begin
     //paths
 

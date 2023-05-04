@@ -347,7 +347,7 @@ export const skirtBase = {
     points.waistBackMid = points.waistBackMidStatic
 
     if (skirtFrontGatheringMethod == 'spread') {
-      let rotFront0 = [
+      const rotFront0 = [
         'gatherFrontPivot1',
         'gatherFrontPivot2',
         'waistFrontMid',
@@ -357,11 +357,11 @@ export const skirtBase = {
       for (const p of rotFront0)
         points[p] = points[p].rotate(frontGatheringAngle, points.gatherFrontPivot0)
 
-      let rotFront1 = ['gatherFrontPivot2', 'sideWaistFront', 'sideFrontHem']
+      const rotFront1 = ['gatherFrontPivot2', 'sideWaistFront', 'sideFrontHem']
       for (const p of rotFront1)
         points[p] = points[p].rotate(frontGatheringAngle, points.gatherFrontPivot1)
 
-      let rotFront2 = ['sideWaistFront', 'sideFrontHem']
+      const rotFront2 = ['sideWaistFront', 'sideFrontHem']
       for (const p of rotFront2)
         points[p] = points[p].rotate(frontGatheringAngle, points.gatherFrontPivot2)
 

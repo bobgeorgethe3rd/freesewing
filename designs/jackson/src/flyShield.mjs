@@ -30,7 +30,7 @@ export const flyShield = {
     //removing macros not required from Dalton
     macro('title', false)
     //measures
-    let flyShieldDepthExt = store.get('flyShieldDepthExt')
+    const flyShieldDepthExt = store.get('flyShieldDepthExt')
     //begin
     points.flyShieldOut = points.flyOut.shiftTowards(points.styleWaistOut, flyShieldDepthExt)
     points.flyShieldCurveCp1 = utils.beamsIntersect(

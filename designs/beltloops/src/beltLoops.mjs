@@ -33,7 +33,7 @@ export const beltLoops = {
       void store.setIfUnset('beltLoopLength', 100)
     }
 
-    let length = store.get('beltLoopLength') * options.beltLoopNumber
+    const length = store.get('beltLoopLength') * options.beltLoopNumber
     let width
     if (options.beltLoopType == 'single') {
       width = store.get('beltLoopWidth')

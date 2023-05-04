@@ -26,10 +26,10 @@ export const tab = {
     Snippet,
   }) => {
     //measures
-    let width =
+    const width =
       (store.get('weltPocketOpeningWidth') * options.weltPocketTabWidth) /
       options.weltPocketOpeningWidth
-    let length = store.get('weltWidth') * (1 + options.weltPocketTabLengthBonus)
+    const length = store.get('weltWidth') * (1 + options.weltPocketTabLengthBonus)
     //let's begin
     points.topMid = new Point(0, 0)
     points.topLeft = points.topMid.shift(180, width / 2)

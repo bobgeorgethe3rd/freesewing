@@ -117,7 +117,7 @@ export const back = {
       }
     }
     //measures
-    let weltPocketOpeningWidth =
+    const weltPocketOpeningWidth =
       ((measurements.waistBack * (1 + options.waistEase)) / 2) * options.weltPocketOpeningWidth
     //paths
     paths.crossSeam = new Path()

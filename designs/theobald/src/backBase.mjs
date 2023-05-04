@@ -81,13 +81,13 @@ export const backBase = {
     macro('scalebox', false)
     macro('logorg', false)
     //measurements
-    let backHemDrop = measurements.waistToFloor * options.backHemDrop
-    let waistbandWidth = absoluteOptions.waistbandWidth
+    const backHemDrop = measurements.waistToFloor * options.backHemDrop
+    const waistbandWidth = absoluteOptions.waistbandWidth
     //fishtail
     if (options.waistbandFishtail) {
-      let waistbandFishtailBack = waistbandWidth * (1 + options.waistbandFishtailBack)
-      let waistAngle = points.styleWaistIn.angle(points.styleWaistOut)
-      let waistbandFishtailExtension =
+      const waistbandFishtailBack = waistbandWidth * (1 + options.waistbandFishtailBack)
+      const waistAngle = points.styleWaistIn.angle(points.styleWaistOut)
+      const waistbandFishtailExtension =
         measurements.waistToFloor * options.waistbandFishtailExtension
       let waistbandFishtailMultiplier
       if (options.backDartMultiplier == 0) {

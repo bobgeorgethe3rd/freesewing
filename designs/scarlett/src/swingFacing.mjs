@@ -39,7 +39,7 @@ export const swingFacing = {
     //removing paths
     for (let i in paths) delete paths[i]
     //measures
-    let swingWidth = store.get('swingWidth')
+    const swingWidth = store.get('swingWidth')
     //let's begin
     paths.sideSeam = new Path()
       .move(points.waist0Left)

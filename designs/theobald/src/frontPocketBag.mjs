@@ -41,7 +41,7 @@ export const frontPocketBag = {
     //removing paths and snippets not required from Dalton
     for (let i in paths) delete paths[i]
     //measurements
-    let frontPocketDepth = store.get('frontPocketOpeningDepth') * (1 + options.frontPocketDepth)
+    const frontPocketDepth = store.get('frontPocketOpeningDepth') * (1 + options.frontPocketDepth)
     let frontPocketOgDepth
     if (
       points.styleWaistIn.dist(points.crotchSeamCurveStart) <
@@ -66,7 +66,7 @@ export const frontPocketBag = {
       points.styleWaistOut.dist(points.frontPocketOgWaist)
     )
 
-    let suffix = ['', 'R']
+    const suffix = ['', 'R']
     for (const p of suffix) {
       const drawOutseam = () => {
         let waistOut = points['styleWaistOut' + p] || points['waistOut' + p]
@@ -157,7 +157,7 @@ export const frontPocketBag = {
         frontPocketOgDepth
       )
 
-      let cpAngle =
+      const cpAngle =
         points['frontPocketBottom' + p].angle(points['frontPocketBottomLeft' + p]) +
         (points['frontPocketBottom' + p].angle(points['frontPocketBottomLeft' + p]) +
           180 -
@@ -213,7 +213,7 @@ export const frontPocketBag = {
     }
 
     //paths
-    let suf = store.get('frontPleatSuffix')
+    const suf = store.get('frontPleatSuffix')
 
     const drawSaLeft = () => {
       if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketStyle == 'pear') {

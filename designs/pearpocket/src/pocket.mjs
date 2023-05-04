@@ -42,8 +42,8 @@ export const pocket = {
     }
     void store.setIfUnset('waistbandWidth', 0)
 
-    let pocketOpening = store.get('insertSeamLength') * options.pocketOpening
-    let depthTop = pocketOpening * options.pearPocketToAnchor
+    const pocketOpening = store.get('insertSeamLength') * options.pocketOpening
+    const depthTop = pocketOpening * options.pearPocketToAnchor
 
     let width
     let depth

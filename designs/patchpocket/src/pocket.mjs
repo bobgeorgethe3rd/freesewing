@@ -42,10 +42,10 @@ export const pocket = {
       void store.setIfUnset('patchPocketWidth', 150 * (1 + options.patchPocketWidth))
     }
 
-    let patchPocketDepth = store.get('patchPocketDepth')
-    let patchPocketWidth = store.get('patchPocketWidth')
-    let patchPocketBottomWidth = patchPocketWidth * options.patchPocketBottomWidth
-    let patchPocketPeak = patchPocketBottomWidth * options.patchPocketPeak * 0.5
+    const patchPocketDepth = store.get('patchPocketDepth')
+    const patchPocketWidth = store.get('patchPocketWidth')
+    const patchPocketBottomWidth = patchPocketWidth * options.patchPocketBottomWidth
+    const patchPocketPeak = patchPocketBottomWidth * options.patchPocketPeak * 0.5
 
     //let's begin
     points.topMid = new Point(0, 0)
@@ -94,12 +94,12 @@ export const pocket = {
         points.peakLeftEnd,
         points.peakLeftEnd.shift(90, 1)
       )
-      let radius = points.peakLeftAnchor.dist(points.peakLeftStart)
-      let angle =
+      const radius = points.peakLeftAnchor.dist(points.peakLeftStart)
+      const angle =
         points.peakLeftAnchor.angle(points.peakLeftEnd) -
         points.peakLeftAnchor.angle(points.peakLeftStart)
 
-      let cpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 4)
+      const cpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 4)
 
       points.peakCp1 = points.peakLeftStart.shiftTowards(points.peakLeft, cpDistance)
       points.peakCp2 = points.peakLeftEnd.shiftTowards(points.peakLeft, cpDistance)

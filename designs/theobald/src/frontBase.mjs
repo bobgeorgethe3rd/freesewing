@@ -46,11 +46,11 @@ export const frontBase = {
     macro('title', false)
     macro('scalebox', false)
     //measurements
-    let frontPleatWidth = measurements.waist * options.frontPleatWidth
-    let frontPocketOpening =
+    const frontPleatWidth = measurements.waist * options.frontPleatWidth
+    const frontPocketOpening =
       measurements.waistToFloor * options.frontPocketOpening - absoluteOptions.waistbandWidth
-    let frontPocketOpeningDepth = measurements.waistToFloor * options.frontPocketOpeningDepth
-    let flyDepth =
+    const frontPocketOpeningDepth = measurements.waistToFloor * options.frontPocketOpeningDepth
+    const flyDepth =
       (measurements.crossSeamFront - measurements.waistToHips - absoluteOptions.waistbandWidth) *
       (1 - options.flyDepth)
     //let's begin
@@ -145,7 +145,7 @@ export const frontBase = {
       else wedgeAngle = wedgeAngle * 1.01
     } while (Math.abs(delta) > 1)
 
-    let rotOut = [
+    const rotOut = [
       'waistOut',
       'styleWaistOut',
       'seatOutCp1',
@@ -158,7 +158,7 @@ export const frontBase = {
       points[p + 'R'] = points[p].rotate(wedgeAngle, points.pivotOut)
     }
 
-    let rotIn = [
+    const rotIn = [
       'kneeIn',
       'kneeInCp2',
       'forkCp1',
@@ -274,9 +274,10 @@ export const frontBase = {
     points.frontPocketOpeningR = drawOutseamR().shiftAlong(frontPocketOpening)
 
     //plackets
-    let flyShieldDepthExt = (points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth) / 4
+    const flyShieldDepthExt =
+      (points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth) / 4
 
-    let suffix = ['', 'R']
+    const suffix = ['', 'R']
     for (const p of suffix) {
       points['flyCurveEnd' + p] = utils.beamsIntersect(
         points['styleWaistIn' + p],

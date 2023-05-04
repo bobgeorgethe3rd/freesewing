@@ -43,9 +43,9 @@ export const waistbandCurved = {
         scale: 1 / 3,
       })
       //pleat lines & buttons
-      let buttonWidth = store.get('waistbandWidth') / 2
-      let buttonLength = store.get('swingWaisbandLength') - buttonWidth
-      let bottomCurveLength = paths.bottomCurve.length()
+      const buttonWidth = store.get('waistbandWidth') / 2
+      const buttonLength = store.get('swingWaisbandLength') - buttonWidth
+      const bottomCurveLength = paths.bottomCurve.length()
 
       if (options.waistbandClosurePosition == 'front') {
         points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(3 / 8)

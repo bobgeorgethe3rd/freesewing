@@ -87,7 +87,7 @@ export const sharedBase = {
         absoluteOptions.waistbandWidth
     }
 
-    let cbNeck = measurements.hpsToWaistBack * options.cbNeck
+    const cbNeck = measurements.hpsToWaistBack * options.cbNeck
 
     let chest
     if (options.useHighBust && measurements.highBust) {
@@ -119,10 +119,11 @@ export const sharedBase = {
         log.warning('chestFront measurements not available please add for separate chest measures')
     }
 
-    let neck = measurements.neck * (1 + options.neckEase)
-    let shoulderToShoulder = measurements.shoulderToShoulder * (1 + options.shoulderToShoulderEase)
+    const neck = measurements.neck * (1 + options.neckEase)
+    const shoulderToShoulder =
+      measurements.shoulderToShoulder * (1 + options.shoulderToShoulderEase)
 
-    let waist = measurements.waist * (1 + options.waistEase)
+    const waist = measurements.waist * (1 + options.waistEase)
 
     let waistFront
     let waistBack
@@ -136,7 +137,7 @@ export const sharedBase = {
         log.warning('waistBack measurements not available please add for separate waist measures')
     }
 
-    let hips = measurements.hips * (1 + options.hipsEase)
+    const hips = measurements.hips * (1 + options.hipsEase)
 
     let hipsFront
     let hipsBack
@@ -150,7 +151,7 @@ export const sharedBase = {
         log.warning('hipsBack measurements not available please add for separate hips measures')
     }
 
-    let seat = measurements.seat * (1 + options.seatEase)
+    const seat = measurements.seat * (1 + options.seatEase)
 
     let seatFront
     let seatBack

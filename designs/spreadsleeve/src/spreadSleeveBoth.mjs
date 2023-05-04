@@ -17,13 +17,13 @@ export const spreadSleeveBoth = ({
   //removing any paths from sleeveBase. This may not be necessary but is useful when working with the guides on.
   for (let i in paths) delete paths[i]
   //measurements
-  let spread = points.bicepsLeft.dist(points.bicepsRight) * options.spread
-  let sleeveCapFraction = store.get('sleeveCapFraction')
-  let sleeveLength = store.get('sleeveLength')
+  const spread = points.bicepsLeft.dist(points.bicepsRight) * options.spread
+  const sleeveCapFraction = store.get('sleeveCapFraction')
+  const sleeveLength = store.get('sleeveLength')
   //store before rotate
   store.set('hemWidth', points.bottomLeft.dist(points.bottomRight))
   //left shift
-  let shiftLeft0 = [
+  const shiftLeft0 = [
     'bicepsLeft',
     'bottomLeft',
     'capQ4Cp2',
@@ -38,7 +38,7 @@ export const spreadSleeveBoth = ({
   ]
   for (const p of shiftLeft0) points[p] = points[p].shift(180, spread / 10)
 
-  let shiftLeft1 = [
+  const shiftLeft1 = [
     'bicepsLeft',
     'bottomLeft',
     'capQ4Cp2',
@@ -51,7 +51,7 @@ export const spreadSleeveBoth = ({
   points.capQ3M = points.capQ3.shift(180, spread / 5)
   points.capQ3BottomM = points.capQ3Bottom.shift(180, spread / 5)
 
-  let shiftLeft2 = ['bicepsLeft', 'bottomLeft', 'capQ4Cp2']
+  const shiftLeft2 = ['bicepsLeft', 'bottomLeft', 'capQ4Cp2']
   for (const p of shiftLeft2) points[p] = points[p].shift(180, spread / 5)
   points.capQ4M = points.capQ4.shift(180, spread / 5)
   points.capQ4BottomM = points.capQ4Bottom.shift(180, spread / 5)
@@ -67,7 +67,7 @@ export const spreadSleeveBoth = ({
   // .line(points.bottomAnchor)
 
   //right shift
-  let shiftRight0 = [
+  const shiftRight0 = [
     'bicepsRight',
     'bottomRight',
     'capQ1Cp1',
@@ -82,7 +82,7 @@ export const spreadSleeveBoth = ({
   ]
   for (const p of shiftRight0) points[p] = points[p].shift(0, spread / 10)
 
-  let shiftRight1 = [
+  const shiftRight1 = [
     'bicepsRight',
     'bottomRight',
     'capQ1Cp1',
@@ -95,7 +95,7 @@ export const spreadSleeveBoth = ({
   points.capQ2M = points.capQ2.shift(0, spread / 5)
   points.capQ2BottomM = points.capQ2Bottom.shift(0, spread / 5)
 
-  let shiftRight2 = ['bicepsRight', 'bottomRight', 'capQ1Cp1']
+  const shiftRight2 = ['bicepsRight', 'bottomRight', 'capQ1Cp1']
   for (const p of shiftRight2) points[p] = points[p].shift(0, spread / 5)
   points.capQ1M = points.capQ1.shift(0, spread / 5)
   points.capQ1BottomM = points.capQ1Bottom.shift(0, spread / 5)

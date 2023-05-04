@@ -42,10 +42,10 @@ export const pocket = {
       void store.setIfUnset('weltToAnchor', 43.875 * (1 + options.weltToAnchorLength))
     }
 
-    let openingWidth = store.get('weltPocketOpeningWidth')
-    let width = openingWidth * (1 + options.weltPocketWidth)
-    let depth = store.get('insertSeamLength') * options.weltPocketDepth
-    let toAnchor = store.get('weltToAnchor') * (1 + options.weltToAnchorLength)
+    const openingWidth = store.get('weltPocketOpeningWidth')
+    const width = openingWidth * (1 + options.weltPocketWidth)
+    const depth = store.get('insertSeamLength') * options.weltPocketDepth
+    const toAnchor = store.get('weltToAnchor') * (1 + options.weltToAnchorLength)
 
     //let's begin
     points.openingMid = new Point(0, 0)

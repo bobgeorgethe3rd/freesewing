@@ -38,12 +38,12 @@ export const back = {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     //measures
-    let chestBack = store.get('chestBack')
-    let hipsBack = store.get('hipsBack')
-    let seatBack = store.get('seatBack')
-    let shoulderToShoulder = store.get('shoulderToShoulder')
-    let waistBack = store.get('waistBack')
-    let waistbandWidth = absoluteOptions.waistbandWidth
+    const chestBack = store.get('chestBack')
+    const hipsBack = store.get('hipsBack')
+    const seatBack = store.get('seatBack')
+    const shoulderToShoulder = store.get('shoulderToShoulder')
+    const waistBack = store.get('waistBack')
+    const waistbandWidth = absoluteOptions.waistbandWidth
 
     let hemLengthTarget
     if (options.bodyLength < 0.5) {

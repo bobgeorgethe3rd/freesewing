@@ -30,8 +30,8 @@ export const sleeveBand = {
       return part
     }
     //measures
-    let sleeveBandLength = store.get('sleeveBandLength') * 2
-    let sleeveBandWidth = store.get('sleeveBandWidth') * 2
+    const sleeveBandLength = store.get('sleeveBandLength') * 2
+    const sleeveBandWidth = store.get('sleeveBandWidth') * 2
 
     //let's begin
     points.topLeft = new Point(0, 0)

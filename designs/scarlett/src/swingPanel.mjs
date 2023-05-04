@@ -35,7 +35,7 @@ export const swingPanel = {
     }
     //removing paths and in heritance
     delete points.scalebox
-    let keepThese = ['waist', 'sideFront']
+    const keepThese = ['waist', 'sideFront']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
@@ -105,8 +105,8 @@ export const swingPanel = {
         }
       }
       if (sa) {
-        let hemSa = sa * options.skirtHemWidth * 100
-        let sideFrontSa = sa * options.sideFrontSaWidth * 100
+        const hemSa = sa * options.skirtHemWidth * 100
+        const sideFrontSa = sa * options.sideFrontSaWidth * 100
 
         paths.hemFacingSa = paths.hemBase
           .offset(hemSa)

@@ -65,19 +65,19 @@ export const base = {
     Snippet,
   }) => {
     //measures
-    let chest = measurements.chest * (1 + options.chestEase)
-    let bustFront = measurements.bustFront * (1 + options.chestEase)
-    let chestBack = chest - bustFront
-    let bustSpan = measurements.bustSpan * (1 + options.bustSpanEase)
-    let waist = measurements.waist * (1 + options.waistEase)
-    let hips = measurements.hips * (1 + options.hipsEase)
+    const chest = measurements.chest * (1 + options.chestEase)
+    const bustFront = measurements.bustFront * (1 + options.chestEase)
+    const chestBack = chest - bustFront
+    const bustSpan = measurements.bustSpan * (1 + options.bustSpanEase)
+    const waist = measurements.waist * (1 + options.waistEase)
+    const hips = measurements.hips * (1 + options.hipsEase)
 
-    let waistCF = waist * options.cfPanel
-    let waistF1 = waist * options.f1Panel
-    let waistF2 = waist * options.f2Panel
-    let waistB2 = waist * options.b2Panel
-    let waistB1 = waist * options.b1Panel
-    let waistCB = waist * options.cbPanel
+    const waistCF = waist * options.cfPanel
+    const waistF1 = waist * options.f1Panel
+    const waistF2 = waist * options.f2Panel
+    const waistB2 = waist * options.b2Panel
+    const waistB1 = waist * options.b1Panel
+    const waistCB = waist * options.cbPanel
 
     //let's begin
     //scaffold
@@ -135,13 +135,13 @@ export const base = {
     //the hips
     points.hips01 = new Point(points.waist01.x * (1 + options.cfHipsBonus), points.cfHips.y)
 
-    let hipsDiff = hips - points.cfHips.dist(points.hips01) * 2
+    const hipsDiff = hips - points.cfHips.dist(points.hips01) * 2
 
-    let hipsF1 = hipsDiff * options.f1Panel
-    let hipsF2 = hipsDiff * options.f2Panel
-    let hipsB2 = hipsDiff * options.b2Panel
-    let hipsB1 = hipsDiff * options.b1Panel
-    let hipsCB = hipsDiff * options.cbPanel
+    const hipsF1 = hipsDiff * options.f1Panel
+    const hipsF2 = hipsDiff * options.f2Panel
+    const hipsB2 = hipsDiff * options.b2Panel
+    const hipsB1 = hipsDiff * options.b1Panel
+    const hipsCB = hipsDiff * options.cbPanel
 
     points.hips1 = new Point(points.waist1.x, points.cfHips.y)
     points.hips10 = points.hips1.shift(180, hipsF1 / 4)
@@ -163,7 +163,7 @@ export const base = {
 
     //style time
     //front top
-    let frontTopDepth = measurements.hpsToBust * options.frontTopDepth
+    const frontTopDepth = measurements.hpsToBust * options.frontTopDepth
     points.top1 = points.apex.shift(90, frontTopDepth)
     points.cfTop = new Point(points.cfHips.x, points.top1.y).shiftFractionTowards(
       points.cfChest,
@@ -184,7 +184,7 @@ export const base = {
     )
 
     //back top
-    let backTopDepth = measurements.hpsToWaistBack * options.backTopDepth
+    const backTopDepth = measurements.hpsToWaistBack * options.backTopDepth
 
     points.cbTop = points.cbChest.shift(90, backTopDepth)
     points.sideTopCp2 = points.chest4
@@ -209,9 +209,9 @@ export const base = {
     )
 
     //bottom
-    let frontBottomDepth = measurements.waistToHips * options.frontBottomDepth
-    let sideBottomReduction = measurements.waistToHips * options.sideBottomReduction
-    let backBottomDepth = measurements.waistToHips * options.backBottomDepth
+    const frontBottomDepth = measurements.waistToHips * options.frontBottomDepth
+    const sideBottomReduction = measurements.waistToHips * options.sideBottomReduction
+    const backBottomDepth = measurements.waistToHips * options.backBottomDepth
 
     points.cfBottom = points.cfHips.shift(-90, frontBottomDepth)
     points.sideBottom = points.hips30.shift(90, sideBottomReduction)

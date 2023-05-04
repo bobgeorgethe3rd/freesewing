@@ -60,8 +60,8 @@ export const sleeve = {
     //removing macros not required from sleevecap
     macro('title', false)
     //measures
-    let sleeveTieWidth = absoluteOptions.sleeveTieWidth
-    let sleeveSlitWidth = absoluteOptions.sleeveSlitWidth
+    const sleeveTieWidth = absoluteOptions.sleeveTieWidth
+    const sleeveSlitWidth = absoluteOptions.sleeveSlitWidth
 
     let hemA
     if (options.sleeveTieChannel == 'hem') {

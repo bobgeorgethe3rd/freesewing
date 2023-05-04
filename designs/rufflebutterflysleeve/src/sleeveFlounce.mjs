@@ -32,9 +32,9 @@ export const sleeveFlounce = {
     log,
   }) => {
     //measures
-    let sleeveSlitWidth = store.get('sleeveSlitWidth')
-    let innerRadius = sleeveSlitWidth * 2
-    let slitFlounceLength = store.get('slitFlounceLength') - innerRadius * Math.PI
+    const sleeveSlitWidth = store.get('sleeveSlitWidth')
+    const innerRadius = sleeveSlitWidth * 2
+    const slitFlounceLength = store.get('slitFlounceLength') - innerRadius * Math.PI
 
     //let's begin
     points.origin = new Point(0, 0)
@@ -63,7 +63,7 @@ export const sleeveFlounce = {
     points.ocBottomLeft = points.icLeft.shift(-90, slitFlounceLength / 2)
     points.ocBottomRight = new Point(points.icRight.x, points.ocBottomLeft.y)
 
-    let outerRadius = points.origin.dist(points.ocBottomRight)
+    const outerRadius = points.origin.dist(points.ocBottomRight)
 
     points.ocLeft = points.origin.shift(180, outerRadius)
     points.ocTop = points.ocLeft.rotate(-90, points.origin)
@@ -208,8 +208,8 @@ export const sleeveFlounce = {
       points.ocCp5 = points.ocCp4.flipX(points.origin)
       points.ocCp6 = points.ocCp3.flipX(points.origin)
 
-      let ocAngle = 360 - points.origin.angle(points.ocBottomRight)
-      let ocCpDistance = (4 / 3) * outerRadius * Math.tan(utils.deg2rad(ocAngle / 4))
+      const ocAngle = 360 - points.origin.angle(points.ocBottomRight)
+      const ocCpDistance = (4 / 3) * outerRadius * Math.tan(utils.deg2rad(ocAngle / 4))
       points.ocCp1 = points.ocBottomRight
         .shiftTowards(points.origin, ocCpDistance)
         .rotate(-90, points.ocBottomRight)
@@ -282,7 +282,7 @@ export const sleeveFlounce = {
       })
 
       if (sa) {
-        let hemA = sa * options.sleeveHemWidth * 100
+        const hemA = sa * options.sleeveHemWidth * 100
         points.saLeft = utils.beamsIntersect(
           paths.hemBase.offset(hemA).end(),
           points.ocBottomLeft.rotate(-90, paths.hemBase.offset(hemA).end()),

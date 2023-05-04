@@ -55,20 +55,20 @@ export const waistband = {
       return part
     }
 
-    let length = store.get('waistbandLength')
-    let lengthTop = store.get('waistbandLengthTop')
-    let widthStatic = store.get('waistbandWidth')
+    const length = store.get('waistbandLength')
+    const lengthTop = store.get('waistbandLengthTop')
+    const widthStatic = store.get('waistbandWidth')
     let width
     if (lengthTop > length) {
       width = widthStatic * -1
     } else width = widthStatic
 
-    let widthHalf = widthStatic / 2
+    const widthHalf = widthStatic / 2
     //^ Adds support for it lengthTop is greater
 
-    let lengthBack = store.get('waistbandBack')
-    let overlap = store.get('overlap')
-    let placketWidth = store.get('placketWidth')
+    const lengthBack = store.get('waistbandBack')
+    const overlap = store.get('overlap')
+    const placketWidth = store.get('placketWidth')
 
     let leftExtension
     let rightExtension
@@ -81,13 +81,13 @@ export const waistband = {
       rightExtension = placketWidth
       void store.setIfUnset('maxButtons', leftExtension)
     }
-    let maxButtons = store.get('maxButtons')
+    const maxButtons = store.get('maxButtons')
 
-    let angleRads = (length - lengthTop) / widthStatic
-    let radius = length / angleRads
-    let angleDegs = utils.rad2deg(angleRads)
+    const angleRads = (length - lengthTop) / widthStatic
+    const radius = length / angleRads
+    const angleDegs = utils.rad2deg(angleRads)
 
-    let cpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angleDegs / 8))
+    const cpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angleDegs / 8))
 
     //begins
     points.bottomMid = new Point(0, 0)

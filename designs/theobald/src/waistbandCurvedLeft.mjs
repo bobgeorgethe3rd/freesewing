@@ -39,7 +39,7 @@ export const waistbandCurvedLeft = {
     } else {
       leftPathKeep = 'left'
     }
-    let keepPaths = ['leftEx', leftPathKeep]
+    const keepPaths = ['leftEx', leftPathKeep]
     for (const name in paths) {
       if (keepPaths.indexOf(name) === -1) delete paths[name]
     }
@@ -58,7 +58,7 @@ export const waistbandCurvedLeft = {
       leftNotchKeep = ['bottomLeftNotch-notch', 'topLeftNotch-notch']
     }
 
-    let keepSnippets = ['bottomLeft-notch', 'topLeft-notch'] + buttonKeep + leftNotchKeep
+    const keepSnippets = ['bottomLeft-notch', 'topLeft-notch'] + buttonKeep + leftNotchKeep
     for (const name in snippets) {
       if (keepSnippets.indexOf(name) === -1) delete snippets[name]
     }
@@ -75,8 +75,8 @@ export const waistbandCurvedLeft = {
       fishtailWidth = store.get('waistbandWidth')
     }
 
-    let radius = points.origin.dist(points.bottomLeftNotch)
-    let fishtailCpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 4)
+    const radius = points.origin.dist(points.bottomLeftNotch)
+    const fishtailCpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 4)
 
     //let's begin
     if (options.waistbandFishtail) {

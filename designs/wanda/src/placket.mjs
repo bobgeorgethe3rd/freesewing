@@ -34,8 +34,8 @@ export const placket = {
       part.hide()
     }
     //measures
-    let placketWidth = measurements.waist * options.placketWidth
-    let placketLength = measurements.waistToFloor * options.placketLength
+    const placketWidth = measurements.waist * options.placketWidth
+    const placketLength = measurements.waistToFloor * options.placketLength
     //let's begin
     points.topLeft = new Point(0, 0)
     points.topRight = points.topLeft.shift(0, placketWidth)

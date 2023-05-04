@@ -27,14 +27,14 @@ export const frontPocketFacing = {
       return part
     }
     //Keep paths
-    let keepThese = ['outSeam', 'outSeamR']
+    const keepThese = ['outSeam', 'outSeamR']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
     for (let i in snippets) delete snippets[i]
     macro('title', false)
     //measurements
-    let suffix = store.get('frontPleatSuffix')
+    const suffix = store.get('frontPleatSuffix')
     //let's begin
     //paths
 

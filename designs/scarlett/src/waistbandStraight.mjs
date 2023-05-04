@@ -46,8 +46,8 @@ export const waistbandStraight = {
         scale: 1 / 3,
       })
       //pleat lines & buttons
-      let buttonWidth = store.get('waistbandWidth') / 2
-      let buttonLength = store.get('swingWaisbandLength') - buttonWidth
+      const buttonWidth = store.get('waistbandWidth') / 2
+      const buttonLength = store.get('swingWaisbandLength') - buttonWidth
       if (options.waistbandClosurePosition == 'front') {
         points.pleatFrom0 = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.5)
         points.pleatFrom1 = points.topMidNotch.shiftFractionTowards(points.topRightNotch, 0.5)

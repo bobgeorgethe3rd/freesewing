@@ -45,19 +45,19 @@ export const waistband = {
     void store.setIfUnset('waistbandBack', store.get('waistbandLength') * 0.5)
     void store.setIfUnset('overlap', store.get('waistbandLength') * options.waistbandOverlap)
 
-    let length = store.get('waistbandLength')
+    const length = store.get('waistbandLength')
 
     let widthMultiplier
     if (options.waistbandFolded) {
       widthMultiplier = 2
     } else widthMultiplier = 1
 
-    let width = store.get('waistbandWidth') * widthMultiplier
-    let widthHalf = width / widthMultiplier / 2
-    let lengthBack = store.get('waistbandBack')
+    const width = store.get('waistbandWidth') * widthMultiplier
+    const widthHalf = width / widthMultiplier / 2
+    const lengthBack = store.get('waistbandBack')
 
-    let overlap = store.get('overlap')
-    let placketWidth = store.get('placketWidth')
+    const overlap = store.get('overlap')
+    const placketWidth = store.get('placketWidth')
 
     let leftExtension
     let rightExtension
@@ -70,7 +70,7 @@ export const waistband = {
       rightExtension = placketWidth
       void store.setIfUnset('maxButtons', leftExtension)
     }
-    let maxButtons = store.get('maxButtons')
+    const maxButtons = store.get('maxButtons')
     //begin
     points.bottomMid = new Point(0, 0)
     points.topMid = points.bottomMid.shift(90, width)

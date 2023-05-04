@@ -24,8 +24,8 @@ export const sleeveTie = {
     log,
   }) => {
     //measures
-    let sleeveTieWidth = store.get('sleeveTieWidth')
-    let sleeveTieLength = store.get('sleeveChannelLengh') * 2
+    const sleeveTieWidth = store.get('sleeveTieWidth')
+    const sleeveTieLength = store.get('sleeveChannelLengh') * 2
 
     //let's begin
     points.topLeft = new Point(0, 0)

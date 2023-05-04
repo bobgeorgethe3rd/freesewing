@@ -49,13 +49,14 @@ export const skirtBase = {
     log,
   }) => {
     //measures
-    let waistbandWidth = store.get('waistbandWidth')
-    let crossSeam = measurements.crossSeam * (1 + options.crossSeamEase) - waistbandWidth * 2
-    let crossSeamFront = measurements.crossSeamFront * (1 + options.crossSeamEase) - waistbandWidth
-    let crossSeamBack = crossSeam - crossSeamFront
-    let toSeat = measurements.waistToSeat - waistbandWidth
-    let toUpperLeg = measurements.waistToUpperLeg * (1 + options.crossSeamDrop) - waistbandWidth
-    let skirtHemFacingWidth = store.get('skirtHemFacingWidth')
+    const waistbandWidth = store.get('waistbandWidth')
+    const crossSeam = measurements.crossSeam * (1 + options.crossSeamEase) - waistbandWidth * 2
+    const crossSeamFront =
+      measurements.crossSeamFront * (1 + options.crossSeamEase) - waistbandWidth
+    const crossSeamBack = crossSeam - crossSeamFront
+    const toSeat = measurements.waistToSeat - waistbandWidth
+    const toUpperLeg = measurements.waistToUpperLeg * (1 + options.crossSeamDrop) - waistbandWidth
+    const skirtHemFacingWidth = store.get('skirtHemFacingWidth')
     //let's begin
     //crotch
     points.cfSeat = points.cfWaist.shiftTowards(points.cfHem, toSeat)
@@ -79,7 +80,7 @@ export const skirtBase = {
 
     points.crotchHem = new Point(points.crotch.x, points.cfHem.y)
 
-    let inseam = points.crotch.dist(points.crotchHem)
+    const inseam = points.crotch.dist(points.crotchHem)
     //cross straight
     points.seatK = points.waist3LeftS.shiftTowards(points.hemK, toSeat)
     points.upperLegK = points.waist3LeftS.shiftTowards(points.hemK, toUpperLeg)
@@ -102,7 +103,7 @@ export const skirtBase = {
       else crossTweak = crossTweak * 1.01
     } while (Math.abs(crossDelta) > 1)
 
-    let crossDepth = points.upperLegK.dist(points.crossS)
+    const crossDepth = points.upperLegK.dist(points.crossS)
 
     //cross bell
     points.seatL = points.waistL.shiftTowards(points.hemL, toSeat)

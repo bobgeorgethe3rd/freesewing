@@ -21,11 +21,11 @@ export const frontWaistDart = ({
   macro('title', false)
   macro('scalebox', false)
   //inherit from bella
-  let bustDartAngleSide = store.get('bustDartAngleSide')
+  const bustDartAngleSide = store.get('bustDartAngleSide')
   //rotate to close bust dart
   points.bustDartClosed = points.bustDartTop
 
-  let rot = ['waistDartRightCp', 'waistDartRight', 'sideWaistInitial']
+  const rot = ['waistDartRightCp', 'waistDartRight', 'sideWaistInitial']
   for (const p of rot) points[p] = points[p].rotate(bustDartAngleSide, points.bust)
 
   points.waistDartMiddle = points.waistDartLeft.shiftFractionTowards(points.waistDartRight, 0.5)

@@ -98,17 +98,17 @@ export const skirtBase = {
     }
 
     //measures cont.
-    let fullWaist = store.get('storedWaist')
-    let waist = fullWaist / 2
-    let frontLength = measurements.waistToFloor * (1 + options.skirtLengthBonus) - waistbandWidth
-    let frontDart = measurements.waist * options.frontDartWidth
-    let sideDart = measurements.waist * options.sideDartWidth
-    let hipDart = measurements.waist * options.hipDartWidth
-    let dartLength = measurements.waistToFloor * options.dartLength
-    let backFullness = measurements.waist * options.umbrellaFullness
-    let umbrellaExtenstion = measurements.waist * options.umbrellaExtenstion
-    let skirtWaistFacingWidth = dartLength * (1 + options.skirtWaistFacingWidth)
-    let skirtHemFacingWidth = measurements.waistToFloor * options.skirtHemFacingWidth
+    const fullWaist = store.get('storedWaist')
+    const waist = fullWaist / 2
+    const frontLength = measurements.waistToFloor * (1 + options.skirtLengthBonus) - waistbandWidth
+    const frontDart = measurements.waist * options.frontDartWidth
+    const sideDart = measurements.waist * options.sideDartWidth
+    const hipDart = measurements.waist * options.hipDartWidth
+    const dartLength = measurements.waistToFloor * options.dartLength
+    const backFullness = measurements.waist * options.umbrellaFullness
+    const umbrellaExtenstion = measurements.waist * options.umbrellaExtenstion
+    const skirtWaistFacingWidth = dartLength * (1 + options.skirtWaistFacingWidth)
+    const skirtHemFacingWidth = measurements.waistToFloor * options.skirtHemFacingWidth
 
     //let's begin
     //centre front
@@ -139,7 +139,7 @@ export const skirtBase = {
       .hide()
 
     //front darts
-    let sideWaistFront = waist / options.sideWaistFront
+    const sideWaistFront = waist / options.sideWaistFront
 
     let sideWaist
     if (options.fullDress) sideWaist = waist / 3
@@ -157,13 +157,13 @@ export const skirtBase = {
     // waist / 2 + waist2 + frontDart + sideDart + hipDart / 2
     // )
 
-    let radius = points.origin.dist(points.cfWaist)
-    let angleCFFront = utils.rad2deg(waist / 4 / radius)
-    let angleFrontDart = utils.rad2deg(frontDart / radius)
-    let angleSideFront = utils.rad2deg(sideWaistFront / radius)
-    let angleSideDart = utils.rad2deg(sideDart / radius)
-    let angleSide = utils.rad2deg(sideWaist / radius)
-    let angleHipDart = utils.rad2deg(hipDart / radius)
+    const radius = points.origin.dist(points.cfWaist)
+    const angleCFFront = utils.rad2deg(waist / 4 / radius)
+    const angleFrontDart = utils.rad2deg(frontDart / radius)
+    const angleSideFront = utils.rad2deg(sideWaistFront / radius)
+    const angleSideDart = utils.rad2deg(sideDart / radius)
+    const angleSide = utils.rad2deg(sideWaist / radius)
+    const angleHipDart = utils.rad2deg(hipDart / radius)
 
     points.waist1 = points.cfWaist.rotate(-angleCFFront, points.origin)
     points.waist2 = points.waist1.rotate(-angleFrontDart, points.origin)
@@ -258,8 +258,8 @@ export const skirtBase = {
     points.waistEndB = points.waistEnd.shift(180, points.waist6.dist(points.waist3LeftS))
 
     //shaping front panel waist
-    let dartExtension = measurements.waistToFloor * options.dartExtension
-    let waistFrontCpDistance =
+    const dartExtension = measurements.waistToFloor * options.dartExtension
+    const waistFrontCpDistance =
       (4 / 3) *
       points.origin.dist(points.cfWaist) *
       Math.tan(utils.deg2rad((270 - points.origin.angle(points.waist1)) / 8))
@@ -280,7 +280,7 @@ export const skirtBase = {
       .shiftTowards(points.dartTipDCp1, waistFrontCpDistance)
       .rotate(90, points.waist0Left)
 
-    let sideWaistFrontCpDistance =
+    const sideWaistFrontCpDistance =
       (4 / 3) *
       points.origin.dist(points.waist2) *
       Math.tan(
@@ -307,7 +307,7 @@ export const skirtBase = {
       .rotate(90, points.waist1Left)
 
     //shaping side panel
-    let sideWaistCpDistance0 =
+    const sideWaistCpDistance0 =
       (4 / 3) *
       points.origin.dist(points.waist0) *
       Math.tan(
@@ -333,7 +333,7 @@ export const skirtBase = {
       .shiftTowards(points.dartTipFCp1, sideWaistCpDistance0)
       .rotate(90, points.waist2Left)
 
-    let sideWaistCpDistance1 =
+    const sideWaistCpDistance1 =
       (4 / 3) *
       points.origin.dist(points.waist5) *
       Math.tan(
@@ -375,7 +375,7 @@ export const skirtBase = {
 
     //Ok time for some hem control points
     //front panels
-    let frontHemCpDistance =
+    const frontHemCpDistance =
       (4 / 3) *
       points.origin.dist(points.cfHem) *
       Math.tan(utils.deg2rad((270 - points.origin.angle(points.hemD)) / 4))
@@ -403,7 +403,7 @@ export const skirtBase = {
           utils.deg2rad((points.origin.angle(points.hemE) - points.origin.angle(points.hemF)) / 4)
         )
     else sideHemCpDistanceA = frontHemCpDistance
-    let sideHemCpDistanceB =
+    const sideHemCpDistanceB =
       (4 / 3) *
       points.origin.dist(points.hemF) *
       Math.tan(
@@ -424,7 +424,7 @@ export const skirtBase = {
       .rotate(90, points.hemE)
 
     //bell skirt
-    let bellBackHemCpDistance =
+    const bellBackHemCpDistance =
       (4 / 3) *
       points.origin.dist(points.hemK) *
       Math.tan(
@@ -439,7 +439,7 @@ export const skirtBase = {
       .rotate(90, points.hemK)
 
     //umbrella skirt
-    let umbrellaHemGuideCpDistance =
+    const umbrellaHemGuideCpDistance =
       (4 / 3) *
       points.origin.dist(points.hemL) *
       Math.tan(utils.deg2rad((points.origin.angle(points.hemL) - 180) / 4))
@@ -474,7 +474,7 @@ export const skirtBase = {
       points.waistEnd
     )
 
-    let umbrellaWaistGuideCpDistance =
+    const umbrellaWaistGuideCpDistance =
       (4 / 3) *
       points.origin.dist(points.waist6) *
       Math.tan(
@@ -498,7 +498,7 @@ export const skirtBase = {
       points.waistFacing6B = points.waist6B.shiftTowards(points.hemK, skirtWaistFacingWidth)
       points.waistFacing6U = points.waist6.shiftTowards(points.hemK, skirtWaistFacingWidth)
 
-      let sideWaistFrontFacingCpDistance =
+      const sideWaistFrontFacingCpDistance =
         (4 / 3) *
         points.origin.dist(points.waistFacingD) *
         Math.tan(
@@ -507,7 +507,7 @@ export const skirtBase = {
               4
           )
         )
-      let sideWaistFacingCpDistance =
+      const sideWaistFacingCpDistance =
         (4 / 3) *
         points.origin.dist(points.waistFacingF) *
         Math.tan(
@@ -615,8 +615,8 @@ export const skirtBase = {
 
     //pleats
     if (options.pleats) {
-      let pleatTo = waist - waist / 4 - sideWaistFront - sideWaist
-      let pleatFromStraight = paths.straightCurve.length()
+      const pleatTo = waist - waist / 4 - sideWaistFront - sideWaist
+      const pleatFromStraight = paths.straightCurve.length()
 
       paths.bellWaist = new Path()
         .move(points.waist3Right)
@@ -625,14 +625,14 @@ export const skirtBase = {
         .split(points.waistL)[0]
         .hide()
 
-      let pleatFromBell = paths.bellWaist.length()
-      let pleatFromUmbrella = paths.umbrellaCurve.length()
+      const pleatFromBell = paths.bellWaist.length()
+      const pleatFromUmbrella = paths.umbrellaCurve.length()
 
-      let pleatKeep = pleatTo / (options.pleatNumber + 1)
-      let pleatLengthStraight = (pleatFromStraight - pleatTo) / options.pleatNumber
-      let pleatLengthBell = (pleatFromBell - pleatTo) / options.pleatNumber
-      let pleatLengthUmbrella = (pleatFromUmbrella - pleatTo) / options.pleatNumber
-      let pleatLineLength = frontLength / 15
+      const pleatKeep = pleatTo / (options.pleatNumber + 1)
+      const pleatLengthStraight = (pleatFromStraight - pleatTo) / options.pleatNumber
+      const pleatLengthBell = (pleatFromBell - pleatTo) / options.pleatNumber
+      const pleatLengthUmbrella = (pleatFromUmbrella - pleatTo) / options.pleatNumber
+      const pleatLineLength = frontLength / 15
 
       for (let i = 0; i < options.pleatNumber + 1; i++) {
         points['pleatFromTopS' + i] = paths.straightCurve.shiftAlong(

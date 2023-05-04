@@ -32,12 +32,12 @@ export const front = {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     //measures
-    let chestFront = store.get('chestFront')
-    let hipsFront = store.get('hipsFront')
-    let neck = store.get('neck')
-    let seatFront = store.get('seatFront')
-    let shoulderToShoulder = store.get('shoulderToShoulder')
-    let waistFront = store.get('waistFront')
+    const chestFront = store.get('chestFront')
+    const hipsFront = store.get('hipsFront')
+    const neck = store.get('neck')
+    const seatFront = store.get('seatFront')
+    const shoulderToShoulder = store.get('shoulderToShoulder')
+    const waistFront = store.get('waistFront')
 
     let hemLengthTarget
     if (options.bodyLength < 0.5) {

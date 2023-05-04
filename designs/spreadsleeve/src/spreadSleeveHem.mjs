@@ -17,12 +17,12 @@ export const spreadSleeveHem = ({
   //removing any paths from sleeveBase. This may not be necessary but is useful when working with the guides on.
   for (let i in paths) delete paths[i]
   //measurements
-  let spreadAngle = store.get('spreadAngle')
-  let sleeveCapFraction = store.get('sleeveCapFraction')
-  let sleeveLength = store.get('sleeveLength')
+  const spreadAngle = store.get('spreadAngle')
+  const sleeveCapFraction = store.get('sleeveCapFraction')
+  const sleeveLength = store.get('sleeveLength')
 
   //left rotate
-  let rotLeft0 = [
+  const rotLeft0 = [
     'bicepsLeft',
     'bottomLeft',
     'capQ4Cp2',
@@ -36,7 +36,7 @@ export const spreadSleeveHem = ({
   ]
   for (const p of rotLeft0) points[p] = points[p].rotate(spreadAngle / 10, points.sleeveTipBottom)
 
-  let rotLeft1 = [
+  const rotLeft1 = [
     'bicepsLeft',
     'bottomLeft',
     'capQ4Cp2',
@@ -48,7 +48,7 @@ export const spreadSleeveHem = ({
   for (const p of rotLeft1) points[p] = points[p].rotate(spreadAngle / 5, points.capQ3Bottom)
   points.capQ3R = points.capQ3.rotate(spreadAngle / 5, points.capQ3Bottom)
 
-  let rotLeft2 = ['bicepsLeft', 'bottomLeft', 'capQ4Cp2']
+  const rotLeft2 = ['bicepsLeft', 'bottomLeft', 'capQ4Cp2']
   for (const p of rotLeft2) points[p] = points[p].rotate(spreadAngle / 5, points.capQ4Bottom)
   points.capQ4R = points.capQ4.rotate(spreadAngle / 5, points.capQ4Bottom)
 
@@ -65,7 +65,7 @@ export const spreadSleeveHem = ({
   // .line(points.sleeveTipBottom)
 
   //right rotate
-  let rotRight0 = [
+  const rotRight0 = [
     'bicepsRight',
     'bottomRight',
     'capQ1Cp1',
@@ -79,7 +79,7 @@ export const spreadSleeveHem = ({
   ]
   for (const p of rotRight0) points[p] = points[p].rotate(-spreadAngle / 10, points.sleeveTipBottom)
 
-  let rotRight1 = [
+  const rotRight1 = [
     'bicepsRight',
     'bottomRight',
     'capQ1Cp1',
@@ -91,7 +91,7 @@ export const spreadSleeveHem = ({
   for (const p of rotRight1) points[p] = points[p].rotate(-spreadAngle / 5, points.capQ2Bottom)
   points.capQ2R = points.capQ2.rotate(-spreadAngle / 5, points.capQ2Bottom)
 
-  let rotRight2 = ['bicepsRight', 'bottomRight', 'capQ1Cp1']
+  const rotRight2 = ['bicepsRight', 'bottomRight', 'capQ1Cp1']
   for (const p of rotRight2) points[p] = points[p].rotate(-spreadAngle / 5, points.capQ1Bottom)
   points.capQ1R = points.capQ1.rotate(-spreadAngle / 5, points.capQ1Bottom)
 
@@ -207,7 +207,7 @@ export const spreadSleeveHem = ({
     points.capQ1Cp2Target0,
     points.capQ2Cp1
   )
-  let capQ1Cp2Fraction =
+  const capQ1Cp2Fraction =
     points.capQ1.dist(points.capQ1Cp2) / points.capQ1.dist(points.capQ1Cp2Target0)
   points.capQ1Cp2N = points.capQ1N.shiftFractionTowards(points.capQ1Cp2Target1, capQ1Cp2Fraction)
 
@@ -223,7 +223,7 @@ export const spreadSleeveHem = ({
     points.capQ4Cp1Target0,
     points.capQ3Cp2
   )
-  let capQ4Cp1Fraction =
+  const capQ4Cp1Fraction =
     points.capQ4.dist(points.capQ4Cp1) / points.capQ4.dist(points.capQ4Cp1Target0)
   points.capQ4Cp1N = points.capQ4N.shiftFractionTowards(points.capQ4Cp1Target1, capQ4Cp1Fraction)
 

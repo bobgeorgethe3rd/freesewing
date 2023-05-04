@@ -29,7 +29,7 @@ export const fly = {
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
     //measures
-    let suffix = store.get('frontPleatSuffix')
+    const suffix = store.get('frontPleatSuffix')
     //lets begin
     points['flyOut' + suffix] = points['styleWaistIn' + suffix].shiftTowards(
       points['styleWaistOut' + suffix],

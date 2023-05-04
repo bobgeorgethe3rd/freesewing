@@ -172,9 +172,9 @@ export const centreFront = {
         }
       }
       if (sa) {
-        let hemSa = sa * options.skirtHemWidth * 100
-        let inseamSa = sa * options.inseamSaWidth * 100
-        let crotchSa = sa * options.crotchSaWidth * 100
+        const hemSa = sa * options.skirtHemWidth * 100
+        const inseamSa = sa * options.inseamSaWidth * 100
+        const crotchSa = sa * options.crotchSaWidth * 100
 
         let sideFrontSa
         if (options.swingPanelStyle == 'none') {

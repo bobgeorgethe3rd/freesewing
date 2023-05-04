@@ -41,7 +41,7 @@ export const frontPocketFacing = {
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
     //measures
-    let frontPocketFacingDepth =
+    const frontPocketFacingDepth =
       store.get('frontPocketOpeningDepth') +
       points.frontPocketOpeningWaist.dist(points.frontPocketWaist) * options.frontPocketFacingWidth
     //draw guides
@@ -93,7 +93,7 @@ export const frontPocketFacing = {
       points.frontPocketOpeningCp2.shift(points.styleWaistIn.angle(points.styleWaistOut) + 90, 1)
     )
     // points.frontPocketFacingCp1 = points.frontPocketOpeningCp2.rotate(-90, points.frontPocketFacingCp1Anchor)
-    let frontPocketFacingWidth = points.frontPocketOpeningCp2.dist(points.frontPocketFacingCp1)
+    const frontPocketFacingWidth = points.frontPocketOpeningCp2.dist(points.frontPocketFacingCp1)
     points.frontPocketFacingWaist = points.frontPocketOpeningWaist.shiftTowards(
       points.frontPocketWaist,
       frontPocketFacingWidth
@@ -123,7 +123,7 @@ export const frontPocketFacing = {
 
     //coin pockets
     if (options.coinPocketsBool) {
-      let coinPocketWidth =
+      const coinPocketWidth =
         points.styleWaistOut.dist(points.frontPocketFacingWaist) * options.coinPocketWidth
       points.coinPocketOut = points.styleWaistOut
         .shiftFractionTowards(points.frontPocketFacingWaist, options.coinPocketHorizontal)
