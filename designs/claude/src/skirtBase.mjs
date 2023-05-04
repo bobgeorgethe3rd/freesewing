@@ -95,15 +95,43 @@ export const skirtBase = {
     log,
   }) => {
     //measures
-    let waist = measurements.waist * (1 + options.waistEase)
-    let hips = measurements.hips * (1 + options.hipsEase)
-    let seat = measurements.seat * (1 + options.seatEase)
+
+    if (options.useVoidStores) {
+      void store.setIfUnset('waistBack', measurements.waistBack * (1 + options.waistEase) * 2)
+      void store.setIfUnset(
+        'waistFront',
+        (measurements.waist - measurements.waistBack) * (1 + options.waistEase) * 2
+      )
+      void store.setIfUnset('storedWaist', measurements.waist * (1 + options.waistEase))
+
+      void store.setIfUnset('hipsBack', measurements.hipsBack * (1 + options.hipsEase) * 2)
+      void store.setIfUnset(
+        'hipsFront',
+        (measurements.hips - measurements.hipsBack) * (1 + options.hipsEase) * 2
+      )
+      void store.setIfUnset('storedHips', measurements.hips * (1 + options.hipsEase))
+
+      void store.setIfUnset('seatBack', measurements.seatBack * (1 + options.seatEase) * 2)
+      void store.setIfUnset(
+        'seatFront',
+        (measurements.seat - measurements.seatBack) * (1 + options.seatEase) * 2
+      )
+      void store.setIfUnset('storedSeat', measurements.seat * (1 + options.seatEase))
+
+      void store.setIfUnset('waistHeigthDist', measurements.waistToHips)
+    }
+
+    const waistHeightDist = store.get('waistHeigthDist')
+
+    const waist = store.get('storedWaist')
+    const hips = store.get('storedHips')
+    const seat = store.get('storedSeat')
 
     let waistFront
     let waistBack
     if (options.useBackMeasures && measurements.waistBack) {
-      waistFront = (measurements.waist - measurements.waistBack) * (1 + options.waistEase) * 2
-      waistBack = measurements.waistBack * (1 + options.waistEase) * 2
+      waistFront = store.get('waistFront')
+      waistBack = store.get('waistBack')
     } else {
       waistFront = waist
       waistBack = waist
@@ -112,8 +140,8 @@ export const skirtBase = {
     let hipsFront
     let hipsBack
     if (options.useBackMeasures && measurements.hipsBack) {
-      hipsFront = (measurements.hips - measurements.hipsBack) * (1 + options.hipsEase) * 2
-      hipsBack = measurements.hipsBack * (1 + options.hipsEase) * 2
+      hipsFront = store.get('hipsFront')
+      hipsBack = store.get('hipsBack')
     } else {
       hipsFront = hips
       hipsBack = hips
@@ -122,8 +150,8 @@ export const skirtBase = {
     let seatFront
     let seatBack
     if (options.useBackMeasures && measurements.seatBack) {
-      seatFront = (measurements.seat - measurements.seatBack) * (1 + options.seatEase) * 2
-      seatBack = measurements.seatBack * (1 + options.seatEase) * 2
+      seatFront = store.get('seatFront')
+      seatBack = store.get('seatBack')
     } else {
       seatFront = seat
       seatBack = seat
@@ -147,23 +175,6 @@ export const skirtBase = {
       waistbandWidth = store.get('waistbandWidth')
     }
 
-    if (options.useVoidStores) {
-      void store.setIfUnset('waistHeightFrontTop', waistFront)
-      void store.setIfUnset('waistHeightFrontBottom', hipsFront)
-      void store.setIfUnset('waistHeightFrontSeat', seatFront)
-      void store.setIfUnset('waistHeightBackTop', waistBack)
-      void store.setIfUnset('waistHeightBackBottom', hipsBack)
-      void store.setIfUnset('waistHeightBackSeat', seatBack)
-      void store.setIfUnset('waistHeigthDist', measurements.waistToHips)
-    }
-
-    let waistHeightFrontTop = store.get('waistHeightFrontTop')
-    let waistHeightFrontBottom = store.get('waistHeightFrontBottom')
-    let waistHeightFrontSeat = store.get('waistHeightFrontSeat')
-    let waistHeightBackTop = store.get('waistHeightBackTop')
-    let waistHeightBackBottom = store.get('waistHeightBackBottom')
-    let waistHeightBackSeat = store.get('waistHeightBackSeat')
-
     let waistHeight
     if (options.skirtLength == 'toHips' || options.skirtHighLength == 'toHips') {
       waistHeight = 1
@@ -172,17 +183,13 @@ export const skirtBase = {
       waistHeight = options.waistHeight
     }
 
-    let waistHeightDist = store.get('waistHeigthDist')
-
     let waistbandFrontDiff
     let waistbandBackDiff
     if (options.calculateWaistbandDiff || options.waistbandStyle == 'curved') {
       waistbandFrontDiff =
-        ((waistbandWidth * (waistHeightFrontBottom - waistHeightFrontTop)) / waistHeightDist) *
-        (1 / skirtFrontFullness)
+        ((waistbandWidth * (hipsFront - waistFront)) / waistHeightDist) * (1 / skirtFrontFullness)
       waistbandBackDiff =
-        ((waistbandWidth * (waistHeightBackBottom - waistHeightBackTop)) / waistHeightDist) *
-        (1 / skirtBackFullness)
+        ((waistbandWidth * (hipsBack - waistBack)) / waistHeightDist) * (1 / skirtBackFullness)
     } else {
       waistbandFrontDiff = 0
       waistbandBackDiff = 0
@@ -191,44 +198,32 @@ export const skirtBase = {
     let frontTopCircumference
     let backTopCircumference
     if (options.waistbandElastic && options.waistbandStyle != 'none') {
-      if (
-        waistHeightFrontTop + waistHeightBackTop >
-        (waistHeightFrontBottom + waistHeightBackBottom &&
-          waistHeightFrontSeat + waistHeightBackSeat)
-      ) {
-        frontTopCircumference = waistHeightFrontTop * (1 / skirtFrontFullness)
-        backTopCircumference = waistHeightBackTop * (1 / skirtBackFullness)
+      if (waist > (hips && seat)) {
+        frontTopCircumference = waistFront * (1 / skirtFrontFullness)
+        backTopCircumference = waistBack * (1 / skirtBackFullness)
         log.debug('Waist measure has been used to calculate elastic waistband')
       }
-      if (
-        waistHeightFrontBottom + waistHeightBackBottom >
-        (waistHeightFrontTop + waistHeightBackTop && waistHeightFrontSeat + waistHeightBackSeat)
-      ) {
-        frontTopCircumference = waistHeightFrontBottom * (1 / skirtFrontFullness)
-        backTopCircumference = waistHeightBackBottom * (1 / skirtBackFullness)
+      if (hips > (waist && seat)) {
+        frontTopCircumference = hipsFront * (1 / skirtFrontFullness)
+        backTopCircumference = hipsBack * (1 / skirtBackFullness)
         log.debug('Hips measure has been used to calculate elastic waistband')
       }
-      if (
-        waistHeightFrontSeat + waistHeightBackSeat >
-        (waistHeightFrontTop + waistHeightBackTop && waistHeightFrontBottom + waistHeightBackBottom)
-      ) {
-        frontTopCircumference = waistHeightFrontSeat * (1 / skirtFrontFullness)
-        backTopCircumference = waistHeightBackSeat * (1 / skirtBackFullness)
+      if (seat > (waist && hips)) {
+        frontTopCircumference = seatFront * (1 / skirtFrontFullness)
+        backTopCircumference = seatBack * (1 / skirtBackFullness)
         log.debug('Seat measure has been used to calculate elastic waistband')
       }
     } else {
       frontTopCircumference =
-        (waistHeightFrontTop * waistHeight + waistHeightFrontBottom * (1 - waistHeight)) *
-        (1 / skirtFrontFullness)
+        (waistFront * waistHeight + hipsFront * (1 - waistHeight)) * (1 / skirtFrontFullness)
       backTopCircumference =
-        (waistHeightBackTop * waistHeight + waistHeightBackBottom * (1 - waistHeight)) *
-        (1 / skirtBackFullness)
+        (waistBack * waistHeight + hipsBack * (1 - waistHeight)) * (1 / skirtBackFullness)
     }
 
-    let frontBottomCircumference = frontTopCircumference + waistbandFrontDiff
-    let backBottomCircumference = backTopCircumference + waistbandBackDiff
+    const frontBottomCircumference = frontTopCircumference + waistbandFrontDiff
+    const backBottomCircumference = backTopCircumference + waistbandBackDiff
 
-    let gatherAngleFactor = 46 / -9
+    const gatherAngleFactor = 46 / -9
 
     let skirtFrontGathering
     let skirtBackGathering
@@ -256,21 +251,21 @@ export const skirtBase = {
       backGathering = skirtBackGathering
     } else backGathering = 0
 
-    let frontGatheringAngle = skirtFrontGathering * gatherAngleFactor
-    let backGatheringAngle = skirtBackGathering * gatherAngleFactor
+    const frontGatheringAngle = skirtFrontGathering * gatherAngleFactor
+    const backGatheringAngle = skirtBackGathering * gatherAngleFactor
 
-    let frontCircumference = frontBottomCircumference * (1 + frontGathering)
-    let backCircumference = backBottomCircumference * (1 + backGathering)
+    const frontCircumference = frontBottomCircumference * (1 + frontGathering)
+    const backCircumference = backBottomCircumference * (1 + backGathering)
 
-    let frontRadius = frontCircumference / Math.PI / 2
-    let backRadius = backCircumference / Math.PI / 2
-    let frontAngle = 90 * skirtFrontFullness
-    let backAngle = 90 * skirtBackFullness
+    const frontRadius = frontCircumference / Math.PI / 2
+    const backRadius = backCircumference / Math.PI / 2
+    const frontAngle = 90 * skirtFrontFullness
+    const backAngle = 90 * skirtBackFullness
 
-    let waistFrontCpDistance = (4 / 3) * frontRadius * Math.tan(utils.deg2rad(frontAngle / 8))
-    let waistBackCpDistance = (4 / 3) * backRadius * Math.tan(utils.deg2rad(backAngle / 8))
+    const waistFrontCpDistance = (4 / 3) * frontRadius * Math.tan(utils.deg2rad(frontAngle / 8))
+    const waistBackCpDistance = (4 / 3) * backRadius * Math.tan(utils.deg2rad(backAngle / 8))
 
-    let rise = store.get('waistHeigthDist') * (1 - waistHeight) + waistbandWidth
+    const rise = store.get('waistHeigthDist') * (1 - waistHeight) + waistbandWidth
 
     let skirtHighLengthTarget
     if (measurements['waist' + utils.capitalize(options.skirtHighLength)]) {
@@ -302,8 +297,8 @@ export const skirtBase = {
       skirtHighLength = skirtHighLengthTarget - rise
     }
 
-    let toHips = measurements.waistToHips - rise
-    let toSeat = measurements.waistToSeat - rise
+    const toHips = measurements.waistToHips - rise
+    const toSeat = measurements.waistToSeat - rise
 
     //let's begin
     points.origin = new Point(0, 0)
@@ -564,7 +559,7 @@ export const skirtBase = {
         )
 
         let seatDiff =
-          ((waistHeightFrontSeat + waistHeightBackSeat) / 4 -
+          (seat / 2 -
             new Path()
               .move(points.cfSeat)
               .curve(points.seatFrontCp1, points.seatFrontCp2, points.seatFrontMid)
@@ -663,7 +658,7 @@ export const skirtBase = {
         )
 
         let hipsDiff =
-          ((waistHeightFrontBottom + waistHeightBackBottom) / 4 -
+          (hips / 2 -
             new Path()
               .move(points.cfHips)
               .curve(points.hipsFrontCp1, points.hipsFrontCp2, points.hipsFrontMid)
@@ -799,10 +794,7 @@ export const skirtBase = {
     store.set('frontOrigin', frontOrigin)
     store.set('backOrigin', backOrigin)
 
-    store.set(
-      'anchorSeamLength',
-      (waistHeightFrontTop * waistHeight + waistHeightFrontBottom * (1 - waistHeight)) / 4
-    )
+    store.set('anchorSeamLength', (waistFront * waistHeight + hipsFront * (1 - waistHeight)) / 4)
     store.set('insertSeamLength', measurements.waistToFloor)
 
     //guides

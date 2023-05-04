@@ -11,7 +11,7 @@ export const pocket = {
   options: {
     //Pockets
     pocketsBool: { bool: true, menu: 'pockets' },
-    inseamPocketWidth: { pct: (2 / 3) * 100, min: 40, max: 90, menu: 'pockets.inseamPockets' },
+    inseamPocketWidth: { pct: 75, min: 40, max: 90, menu: 'pockets.inseamPockets' },
     inseamPocketDepth: { pct: 15, min: 15, max: 40, menu: 'pockets.inseamPockets' },
   },
   draft: ({
