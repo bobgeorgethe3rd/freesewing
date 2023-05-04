@@ -10,6 +10,8 @@ export const skirtFront = {
     from: true,
   },
   options: {
+    //Style
+    skirtPanels: { count: 1, min: 1, max: 20, menu: 'style' },
     //Construction
     skirtHemWidth: { pct: 2, min: 0, max: 5, menu: 'construction' },
     skirtFacings: { bool: true, menu: 'construction' },
@@ -149,6 +151,44 @@ export const skirtFront = {
           .split(paths.hemBase.end())[1]
           .split(paths.facing.end())[0]
           .hide()
+      }
+      //panels
+      if (options.skirtPanels > 1) {
+        for (let i = 0; i < options.skirtPanels - 1; i++) {
+          points['waistPanel' + i] = paths.waist
+            .reverse()
+            .shiftFractionAlong((i + 1) / options.skirtPanels)
+          points['hemPanel' + i] = new Path()
+            .move(points.cfHem)
+            .curve(points.frontHemCp1, points.frontHemCp2, points.frontHemMid)
+            .curve(points.frontHemCp3, points.frontHemCp4, points.sideFrontHem)
+            .shiftFractionAlong((i + 1) / options.skirtPanels)
+
+          points['grainlineFrom' + i] = points['waistPanel' + i].shiftFractionTowards(
+            points['hemPanel' + i],
+            0.01
+          )
+          points['grainlineTo' + i] = points['hemPanel' + i].shiftFractionTowards(
+            points['waistPanel' + i],
+            0.01
+          )
+
+          paths['grainline' + i] = new Path()
+            .move(points['waistPanel' + i].rotate(-90, points['grainlineFrom' + i]))
+            .line(points['hemPanel' + i].rotate(90, points['grainlineTo' + i]))
+            .attr('class', 'note')
+            .attr('data-text', 'Grainline')
+            .attr('data-text-class', 'fill-note center')
+            .attr('marker-start', 'url(#grainlineFrom)')
+            .attr('marker-end', 'url(#grainlineTo)')
+
+          paths['panel' + i] = new Path()
+            .move(points['waistPanel' + i])
+            .line(points['hemPanel' + i])
+            .attr('class', 'fabric help')
+            .attr('data-text', 'Cut and add seam allowance')
+            .attr('data-text-class', 'center')
+        }
       }
       //grainline
       let cfSa

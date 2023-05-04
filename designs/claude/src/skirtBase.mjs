@@ -34,7 +34,7 @@ export const skirtBase = {
     waistbandStyle: { dflt: 'straight', list: ['straight', 'curved', 'none'], menu: 'style' },
     waistbandElastic: { bool: false, menu: 'style' },
     waistbandWidth: {
-      pct: 4.5,
+      pct: 4.2,
       min: 1,
       max: 6,
       snap: 5,
