@@ -162,7 +162,6 @@ export const skirtBack = {
           .hide()
       }
       //panels
-      let titleNum
       if (options.skirtPanels > 1) {
         let j
         let k

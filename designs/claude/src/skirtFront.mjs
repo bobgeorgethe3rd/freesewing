@@ -156,8 +156,30 @@ export const skirtFront = {
           .split(paths.facing.end())[0]
           .hide()
       }
+      //back titles
+      let titleBack
+      let titleBackNum
+      let titleBackFacingNum
+      if (
+        !options.useBackMeasures &&
+        !options.independentSkirtFullness &&
+        !options.independentSkirtGathering
+      ) {
+        if (options.skirtPanels > 1) {
+          titleBack = ' & Back A'
+          titleBackNum = ' & 2a'
+          titleBackFacingNum = ' & 7a'
+        } else {
+          titleBack = ' & Back'
+          titleBackNum = ' & 2'
+          titleBackFacingNum = ' & 7'
+        }
+      } else {
+        titleBack = ''
+        titleBackNum = ''
+        titleBackFacingNum = ''
+      }
       //panels
-      let titleNum
       if (options.skirtPanels > 1) {
         let j
         let k
@@ -206,10 +228,27 @@ export const skirtFront = {
               points['frontHemPanel' + i].dist(points['grainlineTo' + i]) * 2
             )
 
+          let titleBackI
+          let titleBackNumI
+          let titleBackFacingNumI
+          if (
+            !options.useBackMeasures &&
+            !options.independentSkirtFullness &&
+            !options.independentSkirtGathering
+          ) {
+            titleBackI = ' & Back ' + k
+            titleBackNumI = ' & 2' + j
+            titleBackFacingNumI = ' & 7' + j
+          } else {
+            titleBackI = ''
+            titleBackNumI = ''
+            titleBackFacingNumI = ''
+          }
+
           macro('title', {
             at: points['title' + i],
-            nr: '1' + j,
-            title: 'Skirt Front ' + k + ')',
+            nr: '1' + j + titleBackNumI,
+            title: 'Skirt Front ' + k + titleBackI,
             prefix: 'title' + i,
             scale: 0.15,
             rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
@@ -225,8 +264,8 @@ export const skirtFront = {
 
             macro('title', {
               at: points['titleFacing' + i],
-              nr: '6' + j,
-              title: 'Skirt Facing (Front ' + k + ')',
+              nr: '6' + j + titleBackFacingNumI,
+              title: 'Skirt Facing (Front ' + k + titleBackI + ')',
               prefix: 'titleFacing' + i,
               scale: 0.15,
               rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
@@ -236,8 +275,8 @@ export const skirtFront = {
               .shift(0, skirtLength * 0.02)
             macro('title', {
               at: points.titleFacing,
-              nr: '6a',
-              title: 'Skirt Facing (Front A)',
+              nr: '6a' + titleBackFacingNum,
+              title: 'Skirt Facing (Front A' + titleBack + ')',
               prefix: 'titleFacing',
               scale: 0.15,
             })
@@ -249,8 +288,8 @@ export const skirtFront = {
           .shift(0, skirtLength * 0.02)
         macro('title', {
           at: points.title,
-          nr: '1a',
-          title: 'Skirt Front',
+          nr: '1a' + titleBackNum,
+          title: 'Skirt Front' + titleBack,
           scale: 0.15,
           prefix: 'title',
         })
@@ -261,8 +300,8 @@ export const skirtFront = {
           .shift(0, skirtLength * 0.13)
         macro('title', {
           at: points.title,
-          nr: '1',
-          title: 'Skirt Front',
+          nr: '1' + titleBackNum,
+          title: 'Skirt Front' + titleBack,
           scale: 0.5,
           prefix: 'title',
         })
@@ -271,8 +310,8 @@ export const skirtFront = {
           points.titleFacing = new Point(points.title.x, points.cfHem.y - skirtFacingWidth / 2)
           macro('title', {
             at: points.titleFacing,
-            nr: '6',
-            title: 'Skirt Facing (Front)',
+            nr: '6' + titleBackFacingNum,
+            title: 'Skirt Facing (Front' + titleBack + ')',
             scale: 0.5,
             prefix: 'titleFacing',
           })
@@ -331,6 +370,27 @@ export const skirtFront = {
         at: points.scalebox,
         scale: 0.25,
       })
+      //add seam allowance
+      if (
+        !options.useBackMeasures &&
+        !options.independentSkirtFullness &&
+        !options.independentSkirtGathering &&
+        !options.waistbandElastic &&
+        (options.waistbandClosurePosition == 'front' || options.waistbandClosurePosition == 'back')
+      ) {
+        let addSa
+        if (options.waistbandClosurePosition == 'front') {
+          addSa = 'FRONT'
+        } else {
+          addSa = 'BACK'
+        }
+        paths.cf
+          .attr('class', 'fabric hidden')
+          .attr('data-text', 'ADD SEAM ALLOWANCE FOR ' + addSa)
+          .attr('data-text-class', 'center')
+          .unhide()
+      }
+
       if (sa) {
         let hemSa
         if (options.skirtFacings) {
