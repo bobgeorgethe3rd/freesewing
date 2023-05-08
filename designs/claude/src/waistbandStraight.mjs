@@ -1,11 +1,11 @@
 import { waistband as draftWaistbandStraight } from '@freesewing/waistbandstraight'
 import { skirtBase } from './skirtBase.mjs'
-// import { placket } from './placket.mjs'
+import { placket } from './placket.mjs'
 
 export const waistbandStraight = {
   name: 'claude.waistbandStraight',
   from: draftWaistbandStraight,
-  after: skirtBase, //placket,
+  after: [skirtBase, placket],
   options: {
     //Style
     waistbandOverlapSide: { dflt: 'right', list: ['left', 'right'], menu: 'style' },

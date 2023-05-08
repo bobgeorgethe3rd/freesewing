@@ -1,11 +1,11 @@
 import { waistband as draftWaistbandCurved } from '@freesewing/waistbandcurved'
 import { skirtBase } from './skirtBase.mjs'
-// import { placket } from './placket.mjs'
+import { placket } from './placket.mjs'
 
 export const waistbandCurved = {
   name: 'claude.waistbandCurved',
   from: draftWaistbandCurved,
-  after: skirtBase, //placket,
+  after: [skirtBase, placket],
   hide: {
     from: true,
   },
