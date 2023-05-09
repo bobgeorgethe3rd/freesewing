@@ -251,8 +251,8 @@ export const skirtBase = {
       backGathering = skirtBackGathering
     } else backGathering = 0
 
-    const frontGatheringAngle = skirtFrontGathering * gatherAngleFactor
-    const backGatheringAngle = skirtBackGathering * gatherAngleFactor
+    // const frontGatheringAngle = skirtFrontGathering * gatherAngleFactor
+    // const backGatheringAngle = skirtBackGathering * gatherAngleFactor
 
     const frontCircumference = frontBottomCircumference * (1 + frontGathering)
     const backCircumference = backBottomCircumference * (1 + backGathering)
@@ -261,6 +261,13 @@ export const skirtBase = {
     const backRadius = backCircumference / Math.PI / 2
     const frontAngle = 90 * skirtFrontFullness
     const backAngle = 90 * skirtBackFullness
+
+    const frontGatheringAngle = -utils.rad2deg(
+      Math.asin((frontBottomCircumference * skirtFrontGathering) / 48 / frontRadius)
+    )
+    const backGatheringAngle = -utils.rad2deg(
+      Math.asin((backBottomCircumference * skirtBackGathering) / 48 / backRadius)
+    )
 
     const waistFrontCpDistance = (4 / 3) * frontRadius * Math.tan(utils.deg2rad(frontAngle / 8))
     const waistBackCpDistance = (4 / 3) * backRadius * Math.tan(utils.deg2rad(backAngle / 8))
