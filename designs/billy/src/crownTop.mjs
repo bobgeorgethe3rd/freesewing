@@ -106,7 +106,7 @@ export const crownTop = {
         rotation: 360 - points.origin.angle(points.mid),
       })
       //scalebox
-      points.scalebox = points.origin.translate(-radius, -radius)
+      points.scalebox = points.origin.translate(-radius, radius)
       macro('miniscale', {
         at: points.scalebox,
       })
