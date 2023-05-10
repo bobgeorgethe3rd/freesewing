@@ -55,7 +55,15 @@
   },
   "costumes": {},
   "dresses": {},
-  "hats": {},
+  "hats": {
+    "billy": {
+      "description": "A Bucket Hat design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 2,
+      "tags": ["hats"]
+    }
+  },
   "jackets": {},
   "jumpsuits": {},
   "pockets": {
