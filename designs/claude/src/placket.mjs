@@ -30,7 +30,7 @@ export const placket = {
     absoluteOptions,
   }) => {
     //set Render
-    if (!options.placket && !options.waistbandElastic) {
+    if (!options.placket || options.waistbandElastic) {
       store.set('placketWidth', 0)
       part.hide()
       return part

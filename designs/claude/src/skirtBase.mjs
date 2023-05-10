@@ -197,7 +197,7 @@ export const skirtBase = {
 
     let frontTopCircumference
     let backTopCircumference
-    if (options.waistbandElastic && options.waistbandStyle != 'none') {
+    if (options.waistbandElastic /*  && options.waistbandStyle != 'none' */) {
       if (waist > (hips && seat)) {
         frontTopCircumference = waistFront * (1 / skirtFrontFullness)
         backTopCircumference = waistBack * (1 / skirtBackFullness)
@@ -789,12 +789,17 @@ export const skirtBase = {
       'waistbandLengthTop',
       (frontTopCircumference * skirtFrontFullness + backTopCircumference * skirtBackFullness) / 2
     )
-    store.set('waistbandWidth', waistbandWidth)
     store.set('maxButtons', 1)
 
     store.set('skirtLength', skirtLength)
     store.set('skirtFrontFullness', skirtFrontFullness)
     store.set('skirtBackFullness', skirtBackFullness)
+    store.set('frontRadius', frontRadius)
+    store.set('backRadius', backRadius)
+    store.set('frontAngle', frontAngle)
+    store.set('backAngle', backAngle)
+    store.set('waistFrontCpDistance', waistFrontCpDistance)
+    store.set('waistBackCpDistance', waistBackCpDistance)
     store.set('toHips', toHips)
     store.set('toSeat', toSeat)
     store.set('rise', rise)
