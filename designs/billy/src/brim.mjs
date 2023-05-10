@@ -130,6 +130,7 @@ export const brim = {
       .curve(points.ocCp3, points.ocCp4, points.ocMid)
       .curve(points.ocCp5, points.ocCp6, points.ocQ2)
       .curve(points.ocCp7, points.ocCp8, points.ocEnd)
+      .hide()
 
     paths.seam = paths.oc.join(drawHem())
 
