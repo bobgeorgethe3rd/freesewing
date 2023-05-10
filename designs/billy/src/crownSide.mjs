@@ -190,8 +190,8 @@ export const crownSide = {
           break
         case 3:
           //notch 3
-          points.bnotch = paths.hemBase.shiftFractionAlong(1 / 3)
-          points.notch = points.bnotch.shift(angle / 3 + 180, crownLength)
+          points.bnotch = paths.hemBase.shiftFractionAlong(1 / 4)
+          points.notch = points.bnotch.shift(angle / 4 + 180, crownLength)
           snippets.notch = new Snippet('notch', points.notch)
           snippets.bnotch = new Snippet('bnotch', points.bnotch)
           //snap 3
@@ -202,10 +202,10 @@ export const crownSide = {
           //vent
           if (options.vents) {
             points.vent0 = paths.vent.shiftFractionAlong(
-              1 / 3 - options.ventsH * options.crownSideNumber
+              1 / 4 - options.ventsH * options.crownSideNumber
             )
             points.vent1 = paths.vent.shiftFractionAlong(
-              1 / 3 + options.ventsH * options.crownSideNumber
+              1 / 4 + options.ventsH * options.crownSideNumber
             )
             for (let i = 0; i < 2; i++) {
               snippets['vent' + i] = new Snippet('buttonhole', points['vent' + i]).attr(
