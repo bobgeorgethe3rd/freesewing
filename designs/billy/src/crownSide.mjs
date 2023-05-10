@@ -227,7 +227,6 @@ export const crownSide = {
               180 - points.origin.angle(points.vent)
             )
           }
-          break
       }
       //title
       points.title = paths.hemBase

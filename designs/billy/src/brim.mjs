@@ -8,6 +8,8 @@ export const brim = {
     brimAngle: { count: 315, min: 270, max: 360, menu: 'style' },
     brimNumber: { count: 2, min: 1, max: 8, menu: 'style' },
     brimWidth: { pct: 66.7, min: 50, max: 200, menu: 'style' },
+    stitchingGuides: { bool: true, menu: 'style' },
+    stitchingNumber: { count: 6, min: 2, max: 10, menu: 'style' },
   },
   draft: ({
     store,
@@ -130,6 +132,126 @@ export const brim = {
       .curve(points.ocCp7, points.ocCp8, points.ocEnd)
 
     paths.seam = paths.oc.join(drawHem())
+
+    if (complete) {
+      //stitchlines
+      if (options.stitchingGuides) {
+        let j
+        let k
+        for (let i = 0; i < options.stitchingNumber; i++) {
+          j = i + 1
+          k = options.stitchingNumber + 1
+          paths['stitch' + i] = paths.hemBase
+            .offset(brimWidth * -(j / k))
+            .attr('class', 'interfacing')
+            .attr('data-text', 'Stitching Line')
+            .attr('data-text-class', 'left')
+        }
+      }
+      //grainline
+      points.grainlineFrom = points.icMid
+      points.grainlineTo = points.ocMid
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
+      //notches
+      switch (options.brimNumber) {
+        case 1:
+          macro('sprinkle', {
+            snippet: 'bnotch',
+            on: ['icQ1', 'icMid', 'icQ2'],
+          })
+          if (options.brimAngle == 360) {
+            snippets.icStart = new Snippet('bnotch', points.icStart)
+          }
+          //snaps 1
+          if (options.snaps) {
+            points.snap0 = points.ocQ2.shiftFractionTowards(points.icQ1, options.snapSockets)
+            points.snap1 = points.ocQ1.shiftFractionTowards(points.icQ2, options.snapSockets)
+            macro('sprinkle', {
+              snippet: 'snap-socket',
+              on: ['snap0', 'snap1'],
+            })
+          }
+          break
+        case 2:
+          snippets.bnotch = new Snippet('bnotch', points.icMid)
+          //snaps 2
+          if (options.snaps) {
+            points.snap0 = points.ocEnd.shiftFractionTowards(points.icStart, options.snapSockets)
+            points.snap1 = points.ocStart.shiftFractionTowards(points.icEnd, options.snapSockets)
+            macro('sprinkle', {
+              snippet: 'snap-socket',
+              on: ['snap0', 'snap1'],
+            })
+          }
+          break
+        case 3:
+          snippets.bnotch = new Snippet('bnotch', points.icQ2)
+          if (options.snaps) {
+            points.snap = points.ocQ1.shiftFractionTowards(points.icQ2, options.snapSockets)
+            snippets.snap = new Snippet('snap-socket', points.snap)
+          }
+          break
+        case 4:
+          if (options.snaps) {
+            points.snap = points.ocStart.shiftFractionTowards(points.icEnd, options.snapSockets)
+            snippets.snap = new Snippet('snap-socket', points.snap)
+          }
+      }
+      //title
+      points.title = paths.oc.shiftFractionAlong(0.25).shiftTowards(points.origin, brimWidth * 0.75)
+      macro('title', {
+        at: points.title,
+        nr: 3,
+        title: 'Brim',
+        scale: 0.5 / options.brimNumber,
+        rotation: 360 - points.origin.angle(points.icQ2),
+      })
+
+      if (options.brimAngle == 360 && options.brimNumber == 1) {
+        points.cutoutFrom = points.origin
+        points.cutoutTo = points.icMid.shiftFractionTowards(points.origin, 1 / 3)
+        paths.cutoutGrainline = new Path()
+          .move(points.cutoutFrom)
+          .line(points.cutoutTo)
+          .attr('class', 'note')
+          .attr('data-text', 'Grainline')
+          .attr('data-text-class', 'fill-note center')
+          .attr('marker-start', 'url(#grainlineFrom)')
+          .attr('marker-end', 'url(#grainlineTo)')
+
+        points.cutoutTitle = points.origin.shiftFractionTowards(points.icQ2, 0.1)
+        macro('title', {
+          at: points.cutoutTitle,
+          nr: 'Cut-out',
+          title: 'Brim (Cut-out) PLEASE KEEP!!!',
+          scale: 0.25,
+          rotation: 360 - points.origin.angle(points.icQ2),
+          prefix: 'cutout',
+        })
+      }
+
+      if (sa) {
+        paths.hemSa = paths.hemBase
+          .offset(sa * options.brimSaWidth * 100)
+          .attr('class', 'fabric sa')
+          .hide()
+        if (options.brimAngle == 360 && options.brimNumber == 1) {
+          paths.hemSa.unhide().close()
+          paths.sa = paths.oc.offset(sa).attr('class', 'fabric sa').close()
+        } else {
+          paths.sa = paths.oc
+            .line(points.icStart)
+            .offset(sa)
+            .join(paths.hemSa)
+            .join(new Path().move(points.icEnd).line(points.ocStart).offset(sa))
+            .close()
+            .attr('class', 'fabric sa')
+        }
+      }
+    }
 
     return part
   },

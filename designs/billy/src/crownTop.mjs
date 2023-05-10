@@ -7,6 +7,7 @@ export const crownTop = {
   options: {
     //Style
     crownTopNumber: { count: 1, min: 1, max: 8, menu: 'style' },
+    snapSockets: { pct: 15, min: 5, max: 20, menu: 'style.snaps' },
   },
   plugins: [pluginLogoRG],
   draft: ({
@@ -73,7 +74,6 @@ export const crownTop = {
         to: points.grainlineTo,
       })
       //notches
-      let notch
       switch (options.crownTopNumber) {
         case 1:
           macro('sprinkle', {
