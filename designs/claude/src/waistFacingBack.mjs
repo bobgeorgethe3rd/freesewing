@@ -25,7 +25,12 @@ export const waistFacingBack = {
     absoluteOptions,
   }) => {
     //set render
-    if (options.waistbandStyle != 'none') {
+    if (
+      options.waistbandStyle != 'none' ||
+      (!options.useBackMeasures &&
+        !options.independentSkirtFullness &&
+        !options.independentSkirtGathering)
+    ) {
       part.hide()
       return part
     }
