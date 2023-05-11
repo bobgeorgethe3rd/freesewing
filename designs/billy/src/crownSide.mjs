@@ -111,6 +111,9 @@ export const crownSide = {
     store.set('headCircumference', headCircumference)
     store.set('headRadius', headRadius)
     store.set('crownTopRadius', crownTopRadius)
+    store.set('crownLength', crownLength)
+    store.set('radius', radius)
+    store.set('angle', angle)
 
     if (complete) {
       //grainline
@@ -230,7 +233,7 @@ export const crownSide = {
       //title
       points.title = paths.hemBase
         .shiftFractionAlong(0.25)
-        .shift(angle / 4 + 189, crownLength * 0.6)
+        .shift(angle / 4 + 180, crownLength * 0.6)
       macro('title', {
         at: points.title,
         nr: 2,
