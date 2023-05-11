@@ -147,16 +147,22 @@ export const crownSide = {
           }
           //vents 1
           if (options.vents) {
-            points.vent0 = paths.vent.shiftFractionAlong(0.25 - options.ventsH)
-            points.vent1 = paths.vent.shiftFractionAlong(0.25 + options.ventsH)
-            points.vent2 = paths.vent.shiftFractionAlong(0.75 - options.ventsH)
-            points.vent3 = paths.vent.shiftFractionAlong(0.75 + options.ventsH)
-            for (let i = 0; i < 4; i++) {
-              snippets['vent' + i] = new Snippet('buttonhole', points['vent' + i]).attr(
-                'data-rotate',
-                360 - angle * ((i + 1) / 4)
-              )
-            }
+            points.vent0 = paths.vent
+              .shiftFractionAlong(0.25 - options.ventsH)
+              .attr('data-circle', 3.4)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
+            points.vent1 = paths.vent
+              .shiftFractionAlong(0.25 + options.ventsH)
+              .attr('data-circle', 3.4)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
+            points.vent2 = paths.vent
+              .shiftFractionAlong(0.75 - options.ventsH)
+              .attr('data-circle', 3.4)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
+            points.vent3 = paths.vent
+              .shiftFractionAlong(0.75 + options.ventsH)
+              .attr('data-circle', 3.4)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
           }
           break
         case 2:
@@ -176,16 +182,14 @@ export const crownSide = {
           }
           //vent 2
           if (options.vents) {
-            points.vent0 = paths.vent.shiftFractionAlong(options.ventsH * options.crownSideNumber)
-            points.vent1 = paths.vent.shiftFractionAlong(
-              1 - options.ventsH * options.crownSideNumber
-            )
-            for (let i = 0; i < 2; i++) {
-              snippets['vent' + i] = new Snippet('buttonhole', points['vent' + i]).attr(
-                'data-rotate',
-                180 - points.origin.angle(points['vent' + i])
-              )
-            }
+            points.vent0 = paths.vent
+              .shiftFractionAlong(options.ventsH * options.crownSideNumber)
+              .attr('data-circle', 3.4)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
+            points.vent1 = paths.vent
+              .shiftFractionAlong(1 - options.ventsH * options.crownSideNumber)
+              .attr('data-circle', 3.4)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
           }
           break
         case 3:
@@ -201,18 +205,14 @@ export const crownSide = {
           }
           //vent
           if (options.vents) {
-            points.vent0 = paths.vent.shiftFractionAlong(
-              1 / 4 - options.ventsH * options.crownSideNumber
-            )
-            points.vent1 = paths.vent.shiftFractionAlong(
-              1 / 4 + options.ventsH * options.crownSideNumber
-            )
-            for (let i = 0; i < 2; i++) {
-              snippets['vent' + i] = new Snippet('buttonhole', points['vent' + i]).attr(
-                'data-rotate',
-                180 - points.origin.angle(points['vent' + i])
-              )
-            }
+            points.vent0 = paths.vent
+              .shiftFractionAlong(1 / 4 - options.ventsH * options.crownSideNumber)
+              .attr('data-circle', 3.4)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
+            points.vent1 = paths.vent
+              .shiftFractionAlong(1 / 4 + options.ventsH * options.crownSideNumber)
+              .attr('data-circle', 3.4)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
           }
           break
         case 4:
@@ -221,17 +221,16 @@ export const crownSide = {
             snippets.snap = new Snippet('snap-stud', points.snap)
           }
           if (options.vents) {
-            points.vent = paths.vent.shiftFractionAlong(options.ventsH * options.crownSideNumber)
-            snippets.vent = new Snippet('buttonhole', points.vent).attr(
-              'data-rotate',
-              180 - points.origin.angle(points.vent)
-            )
+            points.vent = paths.vent
+              .shiftFractionAlong(options.ventsH * options.crownSideNumber)
+              .attr('data-circle', 3.4)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
           }
       }
       //title
       points.title = paths.hemBase
         .shiftFractionAlong(0.25)
-        .shift(angle / 4 + 189, crownLength * 0.75)
+        .shift(angle / 4 + 189, crownLength * 0.6)
       macro('title', {
         at: points.title,
         nr: 2,

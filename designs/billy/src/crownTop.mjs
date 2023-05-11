@@ -7,6 +7,7 @@ export const crownTop = {
   options: {
     //Style
     crownTopNumber: { count: 1, min: 1, max: 8, menu: 'style' },
+    crownTopStyle: { dflt: 'pizza', list: ['pizza', 'striped', 'shapes'], menu: 'style' },
     snapSockets: { pct: 15, min: 5, max: 20, menu: 'style.snaps' },
   },
   plugins: [pluginLogoRG],
@@ -30,7 +31,13 @@ export const crownTop = {
   }) => {
     //measures
     const radius = store.get('crownTopRadius')
-    const angle = 360 / options.crownTopNumber
+    let crownTopNumber
+    if (options.crownTopStyle == 'pizza') {
+      crownTopNumber = options.crownTopNumber
+    } else {
+      crownTopNumber = 1
+    }
+    const angle = 360 / crownTopNumber
     const cpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 16)
 
     //let's begin
@@ -50,7 +57,7 @@ export const crownTop = {
     points.cp8 = points.end.shiftTowards(points.origin, cpDistance).rotate(90, points.end)
     //paths
     const drawEnd = () => {
-      if (options.crownTopNumber > 1) {
+      if (crownTopNumber > 1) {
         return new Path().move(points.end).line(points.origin).line(points.start)
       } else {
         return new Path().move(points.end).line(points.start)
@@ -66,6 +73,62 @@ export const crownTop = {
       .join(drawEnd())
 
     if (complete) {
+      //strips
+      const crownTopHalf = options.crownTopNumber / 2
+
+      if (options.crownTopStyle != 'pizza' && options.crownTopNumber > 1) {
+        let j
+        for (let i = 0; i < options.crownTopNumber; i++) {
+          j = i + 1
+          points['split' + i] = paths.seam.shiftFractionAlong(j / options.crownTopNumber)
+        }
+        if (options.crownTopStyle == 'striped') {
+          let k
+          for (let i = 0; i < crownTopHalf; i++) {
+            k = options.crownTopNumber - 1 - i
+            paths['split' + i] = new Path()
+              .move(points['split' + k])
+              .line(points['split' + i])
+              .attr('class', 'fabric help')
+              .attr('data-text', 'Cut & Add Seam All.')
+              .attr('data-text-class', 'center text-xs')
+            if (crownTopHalf % 1 != 0) {
+              points['split' + crownTopHalf] = utils.beamsIntersect(
+                points['split' + (crownTopHalf - 1.5)],
+                points['split' + (crownTopHalf + 0.5)],
+                points.origin,
+                points['split' + (crownTopHalf - 0.5)]
+              )
+              paths['split' + (crownTopHalf - 0.5)] = new Path()
+                .move(points['split' + crownTopHalf])
+                .line(points['split' + (crownTopHalf - 0.5)])
+                .attr('class', 'fabric help')
+                .attr('data-text', 'Cut & Add Seam All.')
+                .attr('data-text-class', 'center text-xs')
+            }
+          }
+        }
+        if (options.crownTopStyle == 'shapes') {
+          let l
+          for (let i = 0; i < options.crownTopNumber - 1; i++) {
+            l = i + 1
+            paths['split' + i] = new Path()
+              .move(points['split' + l])
+              .line(points['split' + i])
+              .attr('class', 'fabric help')
+              .attr('data-text', 'Cut & Add Seam All.')
+              .attr('data-text-class', 'center text-xs')
+            if (l == options.crownTopNumber - 1) {
+              paths['split' + (options.crownTopNumber - 1)] = new Path()
+                .move(points.split0)
+                .line(points['split' + l])
+                .attr('class', 'fabric help')
+                .attr('data-text', 'Cut & Add Seam All.')
+                .attr('data-text-class', 'center text-xs')
+            }
+          }
+        }
+      }
       //grainline
       points.grainlineFrom = points.origin
       points.grainlineTo = points.mid
@@ -74,7 +137,7 @@ export const crownTop = {
         to: points.grainlineTo,
       })
       //notches
-      switch (options.crownTopNumber) {
+      switch (crownTopNumber) {
         case 1:
           macro('sprinkle', {
             snippet: 'notch',
@@ -95,14 +158,14 @@ export const crownTop = {
         at: points.title,
         nr: 1,
         title: 'Crown (Top)',
-        scale: 0.5 / options.crownTopNumber,
+        scale: 0.5 / crownTopNumber,
         rotation: 360 - points.origin.angle(points.mid),
       })
       //logo
       points.logo = points.origin.shiftFractionTowards(points.q1, 0.5)
       macro('logorg', {
         at: points.logo,
-        scale: 0.5 / options.crownTopNumber,
+        scale: radius / 175 / crownTopNumber,
         rotation: 360 - points.origin.angle(points.mid),
       })
       //scalebox
