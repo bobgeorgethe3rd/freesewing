@@ -5,7 +5,7 @@ export const band = {
   after: crownSide,
   options: {
     //Style
-    band: { bool: false, menu: 'style' },
+    band: { bool: true, menu: 'style' },
     bandWidth: { pct: 30, min: 25, max: 45, menu: 'style' },
   },
   draft: ({
