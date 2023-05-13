@@ -24,7 +24,7 @@ export const logotgs = {
   plugins: logoTGSPlugin,
   options: {
     logoTGSScale: { pct: 100, min: 10, max: 300, menu: 'logotgs' },
-    logoTGSRotate: { deg: 0, min: -360, max: 360 },
+    logoTGSRotate: { deg: 0, min: -360, max: 360, menu: 'logotgs' },
   },
   after: base,
   draft: pluginLogoTGS,
