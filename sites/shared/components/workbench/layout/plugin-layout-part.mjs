@@ -257,7 +257,7 @@ const basePlugin = ({
                 `stroke-opacity: 0; fill-opacity: ${(col + row) % 2 === 0 ? 0.03 : 0.09};`
               )
           } else {
-            paths[pageName].attr('class', 'interfacing stroke-xs')
+            paths[pageName].attr('class', 'fabric stroke-xs')
             // add markers and rulers
             macro('addPageMarkers', { row, col, pageName, withContent }, shorthand)
             macro('addRuler', { xAxis: true, pageName }, shorthand)
@@ -291,7 +291,7 @@ const basePlugin = ({
         // add a label to it
         .attr('data-text', rulerLength + (isMetric ? 'cm' : '&quot;'))
         // space the text properly from the end of the line
-        .attr('data-text-class', 'fill-interfacing baseline-center' + (xAxis ? ' center' : ''))
+        .attr('data-text-class', 'fill-fabric baseline-center' + (xAxis ? ' center' : ''))
         .attr(`data-text-d${xAxis ? 'y' : 'x'}`, xAxis ? 5 : 3)
         // give the text an explicit id in case we need to hide it later
         .attr('data-text-id', `${rulerName}-ruler-text`)
@@ -301,7 +301,7 @@ const basePlugin = ({
         .move(points[`${pageName}-tl`])
         // give it an explicit id in case we need to hide it later
         .attr('id', `${rulerName}-ruler`)
-        .attr('class', 'interfacing stroke-xs')
+        .attr('class', 'fabric stroke-xs')
 
       // get the distance between the smaller ticks on the rule
       const division = (isMetric ? 0.1 : 0.125) / rulerLength
@@ -392,7 +392,7 @@ const basePlugin = ({
           .line(points[`${dName}-bl`])
           .move(points[`${dName}-tl`])
           .line(points[`${dName}-br`])
-          .attr('class', 'interfacing stroke-xs')
+          .attr('class', 'fabric stroke-xs')
           // give it an explicit ID in case we need to hide it later
           .attr('id', dName)
 
@@ -401,7 +401,7 @@ const basePlugin = ({
         for (var i = 0; i < 2; i++) {
           points[`${dName}-label-${i + 1}`] = points[centerName]
             .shift(angle, markSize)
-            .setText(label[i], 'text-xs center baseline-center fill-interfacing')
+            .setText(label[i], 'text-xs center baseline-center fill-fabric')
             // give it an explicit ID in case we need to hide it later
             .attr('data-text-id', `${dName}-text-${i + 1}`)
           // rotate for the next one

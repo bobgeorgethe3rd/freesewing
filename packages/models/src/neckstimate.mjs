@@ -87,7 +87,7 @@ const ratio = {
   waistToUpperLeg: v,
   // Other
   crossSeam: 0.6,
-  crossSeamFront: 0.6,
+  crossSeamFront: 0.3,
   crossSeamBack: 0.6,
   head: 0.35,
   heel: 0.25,
