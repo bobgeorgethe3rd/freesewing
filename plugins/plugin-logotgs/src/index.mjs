@@ -501,6 +501,92 @@ export const plugin = {
         prefixFunction('logoTGS150') + suffix
       ].shift(40.8 - rotation, 3.8 * scale)
 
+      const cpDistance = 46 * scale * 0.55191502449
+
+      points[prefixFunction('logoTGSLeft') + suffix] = so.at.shift(180 - rotation, 46 * scale)
+      points[prefixFunction('logoTGSTop') + suffix] = so.at.shift(90 - rotation, 46 * scale)
+      points[prefixFunction('logoTGSRight') + suffix] = so.at.shift(-rotation, 46 * scale)
+      points[prefixFunction('logoTGSBottom') + suffix] = so.at.shift(-90 - rotation, 46 * scale)
+      points[prefixFunction('logoTGSCp1') + suffix] = points[prefixFunction('logoTGSLeft') + suffix]
+        .shiftTowards(so.at, cpDistance)
+        .rotate(90, points[prefixFunction('logoTGSLeft') + suffix])
+      points[prefixFunction('logoTGSCp2') + suffix] = points[prefixFunction('logoTGSTop') + suffix]
+        .shiftTowards(so.at, cpDistance)
+        .rotate(-90, points[prefixFunction('logoTGSTop') + suffix])
+      points[prefixFunction('logoTGSCp3') + suffix] = points[prefixFunction('logoTGSTop') + suffix]
+        .shiftTowards(so.at, cpDistance)
+        .rotate(90, points[prefixFunction('logoTGSTop') + suffix])
+      points[prefixFunction('logoTGSCp4') + suffix] = points[
+        prefixFunction('logoTGSRight') + suffix
+      ]
+        .shiftTowards(so.at, cpDistance)
+        .rotate(-90, points[prefixFunction('logoTGSRight') + suffix])
+      points[prefixFunction('logoTGSCp5') + suffix] = points[
+        prefixFunction('logoTGSRight') + suffix
+      ]
+        .shiftTowards(so.at, cpDistance)
+        .rotate(90, points[prefixFunction('logoTGSRight') + suffix])
+      points[prefixFunction('logoTGSCp6') + suffix] = points[
+        prefixFunction('logoTGSBottom') + suffix
+      ]
+        .shiftTowards(so.at, cpDistance)
+        .rotate(-90, points[prefixFunction('logoTGSBottom') + suffix])
+      points[prefixFunction('logoTGSCp7') + suffix] = points[
+        prefixFunction('logoTGSBottom') + suffix
+      ]
+        .shiftTowards(so.at, cpDistance)
+        .rotate(90, points[prefixFunction('logoTGSBottom') + suffix])
+      points[prefixFunction('logoTGSCp8') + suffix] = points[prefixFunction('logoTGSLeft') + suffix]
+        .shiftTowards(so.at, cpDistance)
+        .rotate(-90, points[prefixFunction('logoTGSLeft') + suffix])
+      paths[prefixFunction('logoTGSTangerineShark') + suffix] = new Path()
+        .move(points[prefixFunction('logoTGSLeft') + suffix])
+        .curve(
+          points[prefixFunction('logoTGSCp1') + suffix],
+          points[prefixFunction('logoTGSCp2') + suffix],
+          points[prefixFunction('logoTGSTop') + suffix]
+        )
+        .curve(
+          points[prefixFunction('logoTGSCp3') + suffix],
+          points[prefixFunction('logoTGSCp4') + suffix],
+          points[prefixFunction('logoTGSRight') + suffix]
+        )
+        .curve(
+          points[prefixFunction('logoTGSCp5') + suffix],
+          points[prefixFunction('logoTGSCp6') + suffix],
+          points[prefixFunction('logoTGSBottom') + suffix]
+        )
+        .curve(
+          points[prefixFunction('logoTGSCp7') + suffix],
+          points[prefixFunction('logoTGSCp8') + suffix],
+          points[prefixFunction('logoTGSLeft') + suffix]
+        )
+        .attr('data-text', 'Tangerine Shark')
+        .attr('data-text-font-size', 12 * scale)
+        .attr('style', `stroke-width: ${1 * scale};`)
+      paths[prefixFunction('logoTGSPatterns') + suffix] = new Path()
+        .move(points[prefixFunction('logoTGSLeft') + suffix])
+        .curve(
+          points[prefixFunction('logoTGSCp8') + suffix],
+          points[prefixFunction('logoTGSCp7') + suffix],
+          points[prefixFunction('logoTGSBottom') + suffix]
+        )
+        .curve(
+          points[prefixFunction('logoTGSCp6') + suffix],
+          points[prefixFunction('logoTGSCp5') + suffix],
+          points[prefixFunction('logoTGSRight') + suffix]
+        )
+        .offset(14 * scale)
+        .attr('data-text', 'Patterns')
+        .attr('data-text-class', 'right')
+        .attr('data-text-font-size', 12 * scale)
+        .attr('style', `stroke-width: ${1 * scale};`)
+      paths[prefixFunction('logoTGSOuter') + suffix] = paths[
+        prefixFunction('logoTGSTangerineShark') + suffix
+      ]
+        .offset(-14 * scale)
+        .attr('style', `stroke-width: ${1 * scale};`)
+
       paths[prefixFunction('logoTGSShark') + suffix] = new Path()
         .move(points[prefixFunction('logoTGS0') + suffix])
         .curve_(
@@ -794,83 +880,8 @@ export const plugin = {
           points[prefixFunction('logoTGS151') + suffix]
         )
 
-        .attr('class', 'canvas')
+        .attr('class', 'canvas fill-canvas')
         .attr('style', `stroke-width: ${0.5 * scale};`)
-
-      const cpDistance = 46 * scale * 0.55191502449
-
-      points[prefixFunction('logoTGSLeft') + suffix] = so.at.shift(180 - rotation, 46 * scale)
-      points[prefixFunction('logoTGSTop') + suffix] = so.at.shift(90 - rotation, 46 * scale)
-      points[prefixFunction('logoTGSRight') + suffix] = so.at.shift(-rotation, 46 * scale)
-      points[prefixFunction('logoTGSBottom') + suffix] = so.at.shift(-90 - rotation, 46 * scale)
-      points[prefixFunction('logoTGSCp1') + suffix] = points[prefixFunction('logoTGSLeft') + suffix]
-        .shiftTowards(so.at, cpDistance)
-        .rotate(90, points[prefixFunction('logoTGSLeft') + suffix])
-      points[prefixFunction('logoTGSCp2') + suffix] = points[prefixFunction('logoTGSTop') + suffix]
-        .shiftTowards(so.at, cpDistance)
-        .rotate(-90, points[prefixFunction('logoTGSTop') + suffix])
-      points[prefixFunction('logoTGSCp3') + suffix] = points[prefixFunction('logoTGSTop') + suffix]
-        .shiftTowards(so.at, cpDistance)
-        .rotate(90, points[prefixFunction('logoTGSTop') + suffix])
-      points[prefixFunction('logoTGSCp4') + suffix] = points[
-        prefixFunction('logoTGSRight') + suffix
-      ]
-        .shiftTowards(so.at, cpDistance)
-        .rotate(-90, points[prefixFunction('logoTGSRight') + suffix])
-      points[prefixFunction('logoTGSCp5') + suffix] = points[
-        prefixFunction('logoTGSRight') + suffix
-      ]
-        .shiftTowards(so.at, cpDistance)
-        .rotate(90, points[prefixFunction('logoTGSRight') + suffix])
-      points[prefixFunction('logoTGSCp6') + suffix] = points[
-        prefixFunction('logoTGSBottom') + suffix
-      ]
-        .shiftTowards(so.at, cpDistance)
-        .rotate(-90, points[prefixFunction('logoTGSBottom') + suffix])
-      points[prefixFunction('logoTGSCp7') + suffix] = points[
-        prefixFunction('logoTGSBottom') + suffix
-      ]
-        .shiftTowards(so.at, cpDistance)
-        .rotate(90, points[prefixFunction('logoTGSBottom') + suffix])
-      points[prefixFunction('logoTGSCp8') + suffix] = points[prefixFunction('logoTGSLeft') + suffix]
-        .shiftTowards(so.at, cpDistance)
-        .rotate(-90, points[prefixFunction('logoTGSLeft') + suffix])
-      paths[prefixFunction('logoTGSTangerineShark') + suffix] = new Path()
-        .move(points[prefixFunction('logoTGSLeft') + suffix])
-        .curve(
-          points[prefixFunction('logoTGSCp1') + suffix],
-          points[prefixFunction('logoTGSCp2') + suffix],
-          points[prefixFunction('logoTGSTop') + suffix]
-        )
-        .curve(
-          points[prefixFunction('logoTGSCp3') + suffix],
-          points[prefixFunction('logoTGSCp4') + suffix],
-          points[prefixFunction('logoTGSRight') + suffix]
-        )
-        .attr('data-text', 'Tangerine Shark')
-        .attr('data-text-font-size', 12 * scale)
-        .attr('style', `stroke-width: ${1 * scale};`)
-      paths[prefixFunction('logoTGSPatterns') + suffix] = new Path()
-        .move(points[prefixFunction('logoTGSRight') + suffix])
-        .curve(
-          points[prefixFunction('logoTGSCp5') + suffix],
-          points[prefixFunction('logoTGSCp6') + suffix],
-          points[prefixFunction('logoTGSBottom') + suffix]
-        )
-        .curve(
-          points[prefixFunction('logoTGSCp7') + suffix],
-          points[prefixFunction('logoTGSCp8') + suffix],
-          points[prefixFunction('logoTGSLeft') + suffix]
-        )
-        .attr('data-text', 'suɹǝʇʇɐԀ')
-        .attr('data-text-font-size', 12 * scale)
-        .attr('style', `stroke-width: ${1 * scale};`)
-      paths[prefixFunction('logoTGSOuter') + suffix] = paths[
-        prefixFunction('logoTGSTangerineShark') + suffix
-      ]
-        .join(paths[prefixFunction('logoTGSPatterns') + suffix])
-        .offset(-14 * scale)
-        .attr('style', `stroke-width: ${1 * scale};`)
     },
   },
 }
