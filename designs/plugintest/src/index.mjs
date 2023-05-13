@@ -8,11 +8,12 @@ import { measurements } from './plugin-measurements.mjs'
 import { mirror } from './plugin-mirror.mjs'
 import { round } from './plugin-round.mjs'
 import { sprinkle } from './plugin-sprinkle.mjs'
+import { logotgs } from './plugin-logotgs.mjs'
 
 // Setup our new design
 const Plugintest = new Design({
   data,
-  parts: [annotations, flip, gore, i18n, measurements, mirror, round, sprinkle],
+  parts: [annotations, flip, gore, i18n, logotgs, measurements, mirror, round, sprinkle],
 })
 
 // Named exports
@@ -29,6 +30,7 @@ export {
   //grainline,
   i18n,
   //logo,
+  logotgs,
   measurements,
   mirror,
   //notches,

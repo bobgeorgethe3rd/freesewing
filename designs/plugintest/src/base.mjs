@@ -34,6 +34,7 @@ export const base = {
         'grainline',
         'i18n',
         'logo',
+        'logotgs',
         'measurements',
         'mirror',
         'notches',

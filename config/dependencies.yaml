@@ -134,6 +134,7 @@ plugintest:
     '@freesewing/plugin-svgattr': *freesewing
     '@freesewing/plugin-theme': *freesewing
     '@freesewing/plugin-validate': *freesewing
+    '@freesewing/plugin-logotgs': *freesewing
 rehype-jargon:
   _:
     'unist-util-visit': &unist-util-visit '4.1.2'
