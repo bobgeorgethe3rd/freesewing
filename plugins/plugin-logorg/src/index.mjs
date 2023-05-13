@@ -242,11 +242,6 @@ export const plugin = {
           points[prefixFunction('logoRGCp4') + suffix],
           points[prefixFunction('logoRGRight') + suffix]
         )
-        .attr('data-text', 'Robert George')
-        .attr('data-text-font-size', 12 * scale)
-        .attr('style', `stroke-width: ${1 * scale};`)
-      paths[prefixFunction('logoRGPatterns') + suffix] = new Path()
-        .move(points[prefixFunction('logoRGRight') + suffix])
         .curve(
           points[prefixFunction('logoRGCp5') + suffix],
           points[prefixFunction('logoRGCp6') + suffix],
@@ -257,13 +252,30 @@ export const plugin = {
           points[prefixFunction('logoRGCp8') + suffix],
           points[prefixFunction('logoRGLeft') + suffix]
         )
-        .attr('data-text', 'suɹǝʇʇɐԀ')
+        .attr('data-text', 'Robert George')
+        .attr('data-text-font-size', 12 * scale)
+        .attr('style', `stroke-width: ${1 * scale};`)
+      paths[prefixFunction('logoRGPatterns') + suffix] = new Path()
+        .move(points[prefixFunction('logoRGLeft') + suffix])
+        .curve(
+          points[prefixFunction('logoRGCp8') + suffix],
+          points[prefixFunction('logoRGCp7') + suffix],
+          points[prefixFunction('logoRGBottom') + suffix]
+        )
+        .curve(
+          points[prefixFunction('logoRGCp6') + suffix],
+          points[prefixFunction('logoRGCp5') + suffix],
+          points[prefixFunction('logoRGRight') + suffix]
+        )
+        .offset(14 * scale)
+        .attr('class', 'fabric hidden')
+        .attr('data-text', 'Patterns')
+        .attr('data-text-class', 'right')
         .attr('data-text-font-size', 12 * scale)
         .attr('style', `stroke-width: ${1 * scale};`)
       paths[prefixFunction('logoRGOuter') + suffix] = paths[
         prefixFunction('logoRGRobertGeorge') + suffix
       ]
-        .join(paths[prefixFunction('logoRGPatterns') + suffix])
         .offset(-14 * scale)
         .attr('style', `stroke-width: ${1 * scale};`)
     },
