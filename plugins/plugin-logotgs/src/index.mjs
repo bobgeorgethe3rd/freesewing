@@ -500,6 +500,48 @@ export const plugin = {
       points[prefixFunction('logoTGS151') + suffix] = points[
         prefixFunction('logoTGS150') + suffix
       ].shift(40.8 - rotation, 3.8 * scale)
+      points[prefixFunction('logoTGS152') + suffix] = points[
+        prefixFunction('logoTGS151') + suffix
+      ].shift(321.9 - rotation, 6.5 * scale)
+      points[prefixFunction('logoTGS153') + suffix] = points[
+        prefixFunction('logoTGS152') + suffix
+      ].shift(270 - rotation, 6.4 * scale)
+      points[prefixFunction('logoTGS154') + suffix] = points[
+        prefixFunction('logoTGS153') + suffix
+      ].shift(270 - rotation, 3.8 * scale)
+      points[prefixFunction('logoTGS155') + suffix] = points[
+        prefixFunction('logoTGS154') + suffix
+      ].shift(221.5 - rotation, 4.7 * scale)
+      points[prefixFunction('logoTGS156') + suffix] = points[
+        prefixFunction('logoTGS155') + suffix
+      ].shift(221.5 - rotation, 2.3 * scale)
+      points[prefixFunction('logoTGS157') + suffix] = points[
+        prefixFunction('logoTGS156') + suffix
+      ].shift(221.5 - rotation, 3.2 * scale)
+      points[prefixFunction('logoTGS158') + suffix] = points[
+        prefixFunction('logoTGS157') + suffix
+      ].shift(270 - rotation, 0.3 * scale)
+      points[prefixFunction('logoTGS159') + suffix] = points[
+        prefixFunction('logoTGS158') + suffix
+      ].shift(0 - rotation, 1.6 * scale)
+      points[prefixFunction('logoTGS160') + suffix] = points[
+        prefixFunction('logoTGS159') + suffix
+      ].shift(29 - rotation, 1 * scale)
+      points[prefixFunction('logoTGS161') + suffix] = points[
+        prefixFunction('logoTGS160') + suffix
+      ].shift(0 - rotation, 0.9 * scale)
+      points[prefixFunction('logoTGS162') + suffix] = points[
+        prefixFunction('logoTGS161') + suffix
+      ].shift(0 - rotation, 0.6 * scale)
+      points[prefixFunction('logoTGS163') + suffix] = points[
+        prefixFunction('logoTGS162') + suffix
+      ].shift(308.6 - rotation, 0.6 * scale)
+      points[prefixFunction('logoTGS164') + suffix] = points[
+        prefixFunction('logoTGS163') + suffix
+      ].shift(238.1 - rotation, 8.1 * scale)
+      points[prefixFunction('logoTGS165') + suffix] = points[
+        prefixFunction('logoTGS164') + suffix
+      ].shift(180 - rotation, 4.6 * scale)
 
       const cpDistance = 46 * scale * 0.55191502449
 
@@ -878,6 +920,32 @@ export const plugin = {
         .curve_(
           points[prefixFunction('logoTGS150') + suffix],
           points[prefixFunction('logoTGS151') + suffix]
+        )
+        .curve_(
+          points[prefixFunction('logoTGS152') + suffix],
+          points[prefixFunction('logoTGS153') + suffix]
+        )
+        .curve_(
+          points[prefixFunction('logoTGS154') + suffix],
+          points[prefixFunction('logoTGS155') + suffix]
+        )
+        .curve(
+          points[prefixFunction('logoTGS156') + suffix],
+          points[prefixFunction('logoTGS157') + suffix],
+          points[prefixFunction('logoTGS158') + suffix]
+        )
+        .curve(
+          points[prefixFunction('logoTGS159') + suffix],
+          points[prefixFunction('logoTGS160') + suffix],
+          points[prefixFunction('logoTGS161') + suffix]
+        )
+        .curve_(
+          points[prefixFunction('logoTGS162') + suffix],
+          points[prefixFunction('logoTGS163') + suffix]
+        )
+        .curve_(
+          points[prefixFunction('logoTGS164') + suffix],
+          points[prefixFunction('logoTGS165') + suffix]
         )
 
         .attr('class', 'canvas') // fill-canvas')
