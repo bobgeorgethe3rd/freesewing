@@ -165,7 +165,7 @@ export const scaleboxMacros = {
     if (typeof so.text === 'string') {
       points.__scaleboxText.attr('data-text', so.text)
     } else {
-      points.__scaleboxText.attr('data-text', 'Find out more at:')
+      points.__scaleboxText.attr('data-text', 'Get help and find more patterns at:')
       points.__scaleboxLink = points.__scaleboxLink
         .attr('data-text', 'twitch.tv/bobgeorgethe3rd')
         .attr('data-text-class', 'text-sm fill-note')
