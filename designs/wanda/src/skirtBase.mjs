@@ -761,10 +761,6 @@ export const skirtBase = {
       .curve(points.dartTipFCp1, points.dartTipFCp2, points.dartTipF)
       .curve(points.dartTipFCp2, points.dartTipFCp3, points.waist3Right)
 
-    paths.lineGU = new Path().move(points.waistG).line(points.hemU).attr('class', 'fabric help')
-
-    paths.lineAL = new Path().move(points.waistA).line(points.hemL).attr('class', 'fabric help')
-
     paths.originLines = new Path()
       .move(points.cfHem)
       .line(points.origin)
@@ -789,6 +785,10 @@ export const skirtBase = {
 
     if (!options.fullDress) {
       paths.lineAN = new Path().move(points.waistA).line(points.hemN).attr('class', 'fabric help')
+
+      paths.lineGU = new Path().move(points.waistG).line(points.hemU).attr('class', 'fabric help')
+
+      paths.lineAL = new Path().move(points.waistA).line(points.hemL).attr('class', 'fabric help')
 
       paths.umbrellaHem = new Path()
         .move(points.hemK)
