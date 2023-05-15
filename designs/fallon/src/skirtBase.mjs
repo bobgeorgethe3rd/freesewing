@@ -121,30 +121,74 @@ export const skirtBase = {
       .shiftTowards(points.origin, backCpDistance)
       .rotate(90 + hemLAngle, points.hemY)
 
+    //waist facings
+    if (options.waistbandStyle == 'none') {
+      points.cfWaistFacingCp1 = utils.beamsIntersect(
+        points.cfHemCp1,
+        points.origin,
+        points.cfWaistFacing,
+        points.origin.rotate(90, points.cfWaistFacing)
+      )
+      points.waistFacingDCp2 = utils.beamsIntersect(
+        points.hemDCp2,
+        points.origin,
+        points.waistFacingD,
+        points.origin.rotate(-90, points.waistFacingD)
+      )
+      points.waistFacingFCp2 = utils.beamsIntersect(
+        points.hemFCp2,
+        points.origin,
+        points.waistFacingF,
+        points.origin.rotate(-90, points.waistFacingF)
+      )
+      points.waistFacingECp1 = utils.beamsIntersect(
+        points.hemECp1,
+        points.origin,
+        points.waistFacingE,
+        points.origin.rotate(90, points.waistFacingE)
+      )
+    }
+
+    //pleats
+    paths.waistBack = new Path()
+      .move(points.waistF)
+      .curve(points.waistFCp2, points.waist6BCp1, points.waist6B)
+    //.hide()
+    if (options.pleats) {
+      const pleatTo = store.get('fullWaist') * (1 / 12)
+      const pleatFrom = paths.waistBack.length()
+
+      const pleatKeep = pleatTo / (options.pleatNumber + 1)
+      const pleatLength = (pleatFrom - pleatTo) / options.pleatNumber
+      const pleatLineLength = store.get('frontLength') / 15
+
+      for (let i = 0; i < options.pleatNumber + 1; i++) {
+        points['pleatFromTop' + i] = paths.waistBack.shiftAlong(
+          pleatKeep + (pleatKeep + pleatLength) * i
+        )
+        points['pleatToTop' + i] = paths.waistBack.shiftAlong((pleatKeep + pleatLength) * i)
+        points['pleatFromBottom' + i] = points['pleatFromTop' + i]
+          .shiftTowards(points['pleatToTop' + i], pleatLineLength)
+          .rotate(-90, points['pleatFromTop' + i])
+        points['pleatToBottom' + i] = points['pleatToTop' + i]
+          .shiftTowards(points['pleatFromTop' + i], pleatLineLength)
+          .rotate(90, points['pleatToTop' + i])
+      }
+      for (let i = 0; i < options.pleatNumber; i++) {
+        paths['pleatFrom' + i] = new Path()
+          .move(points['pleatFromTop' + i])
+          .line(points['pleatFromBottom' + i])
+          .attr('class', 'fabric lashed')
+
+        paths['pleatTo' + i] = new Path()
+          .move(points['pleatToTop' + (i + 1)])
+          .line(points['pleatToBottom' + (i + 1)])
+      }
+    }
+
     //guides
 
-    // paths.sideBackHem0 = new Path()
-    // .move(points.hemL)
-    // .curve(points.hemLCp2, points.hemZCp1, points.hemZ)
-    // .line(points.hemD)
-
-    // paths.sideBackHem1 = new Path()
-    // .move(points.hemL)
-    // .curve(points.hemLCp2, points.hemZCp1, points.hemD)
-    // .attr('class', 'lining')
-
-    // paths.sideBackHem2 = new Path()
-    // .move(points.hemL)
-    // .curve(points.hemLCp2, points.hemDCp1, points.hemD)
-    // .attr('class', 'mark')
-
     paths.sideBackHem = new Path().move(points.hemL)._curve(points.hemLCp2, points.hemD)
-
-    // paths.sideBackHem4 = new Path()
-    // .move(points.hemL)
-    // ._curve(points.hemLCp2, points.hemZ)
-    // .line(points.hemD)
-    // .attr('class', 'various')
 
     paths.lineKJ = new Path().move(points.hemK).line(points.hemJ).attr('class', 'various')
 
@@ -155,10 +199,6 @@ export const skirtBase = {
       .curve(points.hemDCp2, points.cfHemCp1, points.cfHem)
 
     paths.backhem = new Path().move(points.hemJ).curve(points.hemJCp2, points.hemYCp1, points.hemY)
-
-    paths.sideCurve = new Path()
-      .move(points.waistF)
-      .curve(points.waistFCp2, points.waist6BCp1, points.waist6B)
 
     return part
   },
