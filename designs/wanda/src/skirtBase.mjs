@@ -211,10 +211,17 @@ export const skirtBase = {
       .shiftFractionTowards(points.waist5, 2 / 3)
       .rotate(-5, points.dartTipF)
 
-    points.waistG = points.waistF.shiftTowards(
-      points.origin.rotate(90, points.waistF),
-      fullWaist * options.sidePanelFullness + hipDart / 2
-    )
+    if (options.fullDress) {
+      points.waistG = points.waistF.shiftTowards(
+        points.origin.rotate(90, points.waistF),
+        fullWaist * options.sidePanelFullness - hipDart / 2
+      )
+    } else {
+      points.waistG = points.waistF.shiftTowards(
+        points.origin.rotate(90, points.waistF),
+        fullWaist * options.sidePanelFullness + hipDart / 2
+      )
+    }
     points.hemUTarget = points.waistG.shift(points.waistE.angle(points.dartTipE), frontLength * 2)
     points.hemU = utils.lineIntersectsCurve(
       points.waistG,
