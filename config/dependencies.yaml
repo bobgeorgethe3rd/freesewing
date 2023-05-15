@@ -94,6 +94,14 @@ examples:
   peer:
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/plugin-gore': *freesewing
+fallon:
+  peer:
+    '@freesewing/wanda': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/inseampocket': *freesewing
+    '@freesewing/boxpleatpocket': *freesewing
+    '@freesewing/pearpocket': *freesewing
 holmes:
   _:
     '@freesewing/plugin-gore': *freesewing
