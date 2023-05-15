@@ -12,7 +12,6 @@ export const skirtBase = {
     fullDress: true, //altered frot Fallon
     umbrellaFullness: 0,
     umbrellaExtenstion: 0,
-    pleats: false,
     //Style
     sidePanelFullness: { pct: 50, min: 50, max: 75, menu: 'style' },
   },

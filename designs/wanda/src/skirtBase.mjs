@@ -603,7 +603,7 @@ export const skirtBase = {
     )
 
     //pleats
-    if (options.pleats) {
+    if (options.pleats && !options.fullDress) {
       //needed for pleating
       paths.straightCurve = new Path()
         .move(points.waist3Right)
