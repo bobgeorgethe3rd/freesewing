@@ -357,22 +357,23 @@ export const skirtBase = {
       .rotate(-90, points.waist6)
 
     //back panel shaping
-    points.waist6Cp1B = points.waist3Cp2B.rotate(180, points.waist6B)
-    points.waistEndCp2B = utils.beamsIntersect(
-      points.waistEndB,
-      points.waistEndB.shift(-90, 1),
-      points.waist6B,
-      points.waist6Cp1B
-    )
-    points.waistL = utils.lineIntersectsCurve(
-      points.waistA,
-      points.hemL,
-      points.waist6B,
-      points.waist6Cp1B,
-      points.waistEndCp2B,
-      points.waistEndB
-    )
-
+    if (!options.fullDress) {
+      points.waist6Cp1B = points.waist3Cp2B.rotate(180, points.waist6B)
+      points.waistEndCp2B = utils.beamsIntersect(
+        points.waistEndB,
+        points.waistEndB.shift(-90, 1),
+        points.waist6B,
+        points.waist6Cp1B
+      )
+      points.waistL = utils.lineIntersectsCurve(
+        points.waistA,
+        points.hemL,
+        points.waist6B,
+        points.waist6Cp1B,
+        points.waistEndCp2B,
+        points.waistEndB
+      )
+    }
     //Ok time for some hem control points
     //front panels
     const frontHemCpDistance =
@@ -423,71 +424,74 @@ export const skirtBase = {
       .shiftTowards(points.origin, sideHemCpDistanceA)
       .rotate(90, points.hemE)
 
-    //bell skirt
-    const bellBackHemCpDistance =
-      (4 / 3) *
-      points.origin.dist(points.hemK) *
-      Math.tan(
-        utils.deg2rad((points.origin.angle(points.hemK) - points.origin.angle(points.hemL)) / 4)
+    if (!options.fullDress) {
+      //bell skirt
+      const bellBackHemCpDistance =
+        (4 / 3) *
+        points.origin.dist(points.hemK) *
+        Math.tan(
+          utils.deg2rad((points.origin.angle(points.hemK) - points.origin.angle(points.hemL)) / 4)
+        )
+
+      points.hemLCp2 = points.hemL
+        .shiftTowards(points.origin, bellBackHemCpDistance)
+        .rotate(-90, points.hemL)
+      points.hemKCp1B = points.hemK
+        .shiftTowards(points.origin, bellBackHemCpDistance)
+        .rotate(90, points.hemK)
+
+      //umbrella skirt
+      const umbrellaHemGuideCpDistance =
+        (4 / 3) *
+        points.origin.dist(points.hemL) *
+        Math.tan(utils.deg2rad((points.origin.angle(points.hemL) - 180) / 4))
+
+      points.hemEndCp2 = points.hemEnd
+        .shiftTowards(points.origin, umbrellaHemGuideCpDistance)
+        .rotate(-90, points.hemEnd)
+      points.hemLCp1 = points.hemL
+        .shiftTowards(points.origin, umbrellaHemGuideCpDistance)
+        .rotate(90, points.hemL)
+
+      paths.umbrellaHemGuide = new Path()
+        .move(points.hemL)
+        .curve(points.hemLCp1, points.hemEndCp2, points.hemEnd)
+      //.hide()
+      points.hemM = paths.umbrellaHemGuide.shiftAlong(backFullness)
+      points.hemN = points.waistA.shiftOutwards(points.hemM, umbrellaExtenstion)
+      points.hemNCp2 = utils.beamsIntersect(
+        points.hemK,
+        points.origin.rotate(90, points.hemK),
+        points.hemN,
+        points.hemN.shift(-90, 1)
+      )
+      points.hemKCp1U = points.hemK.shiftFractionTowards(points.hemNCp2, 0.1)
+
+      points.waistH = utils.lineIntersectsCurve(
+        points.hemM,
+        points.waistA,
+        points.cfWaist,
+        points.waistCp1,
+        points.waistCp2,
+        points.waistEnd
       )
 
-    points.hemLCp2 = points.hemL
-      .shiftTowards(points.origin, bellBackHemCpDistance)
-      .rotate(-90, points.hemL)
-    points.hemKCp1B = points.hemK
-      .shiftTowards(points.origin, bellBackHemCpDistance)
-      .rotate(90, points.hemK)
+      const umbrellaWaistGuideCpDistance =
+        (4 / 3) *
+        points.origin.dist(points.waist6) *
+        Math.tan(
+          utils.deg2rad(
+            (points.origin.angle(points.waist6) - points.origin.angle(points.waistH)) / 4
+          )
+        )
 
-    //umbrella skirt
-    const umbrellaHemGuideCpDistance =
-      (4 / 3) *
-      points.origin.dist(points.hemL) *
-      Math.tan(utils.deg2rad((points.origin.angle(points.hemL) - 180) / 4))
-
-    points.hemEndCp2 = points.hemEnd
-      .shiftTowards(points.origin, umbrellaHemGuideCpDistance)
-      .rotate(-90, points.hemEnd)
-    points.hemLCp1 = points.hemL
-      .shiftTowards(points.origin, umbrellaHemGuideCpDistance)
-      .rotate(90, points.hemL)
-
-    paths.umbrellaHemGuide = new Path()
-      .move(points.hemL)
-      .curve(points.hemLCp1, points.hemEndCp2, points.hemEnd)
-    //.hide()
-    points.hemM = paths.umbrellaHemGuide.shiftAlong(backFullness)
-    points.hemN = points.waistA.shiftOutwards(points.hemM, umbrellaExtenstion)
-    points.hemNCp2 = utils.beamsIntersect(
-      points.hemK,
-      points.origin.rotate(90, points.hemK),
-      points.hemN,
-      points.hemN.shift(-90, 1)
-    )
-    points.hemKCp1U = points.hemK.shiftFractionTowards(points.hemNCp2, 0.1)
-
-    points.waistH = utils.lineIntersectsCurve(
-      points.hemM,
-      points.waistA,
-      points.cfWaist,
-      points.waistCp1,
-      points.waistCp2,
-      points.waistEnd
-    )
-
-    const umbrellaWaistGuideCpDistance =
-      (4 / 3) *
-      points.origin.dist(points.waist6) *
-      Math.tan(
-        utils.deg2rad((points.origin.angle(points.waist6) - points.origin.angle(points.waistH)) / 4)
-      )
-
-    points.waist6Cp1 = points.waist6
-      .shiftTowards(points.origin, umbrellaWaistGuideCpDistance)
-      .rotate(90, points.waist6)
-    points.waistHCp2 = points.waistH
-      .shiftTowards(points.origin, umbrellaWaistGuideCpDistance)
-      .rotate(-90, points.waistH)
-
+      points.waist6Cp1 = points.waist6
+        .shiftTowards(points.origin, umbrellaWaistGuideCpDistance)
+        .rotate(90, points.waist6)
+      points.waistHCp2 = points.waistH
+        .shiftTowards(points.origin, umbrellaWaistGuideCpDistance)
+        .rotate(-90, points.waistH)
+    }
     //facings
     if (options.waistbandStyle == 'none') {
       points.cfWaistFacing = points.cfWaist.shiftTowards(points.cfHem, skirtWaistFacingWidth)
@@ -598,23 +602,23 @@ export const skirtBase = {
       points.waist3Right
     )
 
-    //needed for pleating
-    paths.straightCurve = new Path()
-      .move(points.waist3Right)
-      .curve(points.waist3Cp1, points.waist3Cp2, points.waist3LeftS)
-
-    paths.bellCurve = new Path()
-      .move(points.waist3Right)
-      .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
-      .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
-
-    paths.umbrellaCurve = new Path()
-      .move(points.waist3Right)
-      .curve(points.waist3Cp1, points.waist3Cp2U, points.waist6)
-      .curve(points.waist6Cp1, points.waistHCp2, points.waistH)
-
     //pleats
     if (options.pleats) {
+      //needed for pleating
+      paths.straightCurve = new Path()
+        .move(points.waist3Right)
+        .curve(points.waist3Cp1, points.waist3Cp2, points.waist3LeftS)
+
+      paths.bellCurve = new Path()
+        .move(points.waist3Right)
+        .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
+        .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
+
+      paths.umbrellaCurve = new Path()
+        .move(points.waist3Right)
+        .curve(points.waist3Cp1, points.waist3Cp2U, points.waist6)
+        .curve(points.waist6Cp1, points.waistHCp2, points.waistH)
+
       const pleatTo = waist - waist / 4 - sideWaistFront - sideWaist
       const pleatFromStraight = paths.straightCurve.length()
 
@@ -757,8 +761,6 @@ export const skirtBase = {
       .curve(points.dartTipFCp1, points.dartTipFCp2, points.dartTipF)
       .curve(points.dartTipFCp2, points.dartTipFCp3, points.waist3Right)
 
-    paths.lineAN = new Path().move(points.waistA).line(points.hemN).attr('class', 'fabric help')
-
     paths.lineGU = new Path().move(points.waistG).line(points.hemU).attr('class', 'fabric help')
 
     paths.lineAL = new Path().move(points.waistA).line(points.hemL).attr('class', 'fabric help')
@@ -775,10 +777,6 @@ export const skirtBase = {
       .line(points.hemK)
       .attr('class', 'various')
 
-    paths.umbrellaHem = new Path()
-      .move(points.hemK)
-      .curve(points.hemKCp1U, points.hemNCp2, points.hemN)
-
     paths.frontHem = new Path()
       .move(points.hemE)
       .curve(points.hemECp2, points.hemDCp1, points.hemD)
@@ -789,7 +787,17 @@ export const skirtBase = {
       .curve(points.hemKCp2, points.hemFCp1, points.hemF)
       .curve(points.hemFCp2, points.hemECp1, points.hemE)
 
-    paths.bellHem = new Path().move(points.hemL).curve(points.hemLCp2, points.hemKCp1B, points.hemK)
+    if (!options.fullDress) {
+      paths.lineAN = new Path().move(points.waistA).line(points.hemN).attr('class', 'fabric help')
+
+      paths.umbrellaHem = new Path()
+        .move(points.hemK)
+        .curve(points.hemKCp1U, points.hemNCp2, points.hemN)
+
+      paths.bellHem = new Path()
+        .move(points.hemL)
+        .curve(points.hemLCp2, points.hemKCp1B, points.hemK)
+    }
 
     paths.fullHemFacingGuide = paths.hemGuide
       .offset(skirtHemFacingWidth)
