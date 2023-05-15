@@ -150,7 +150,7 @@ export const skirtBase = {
     }
 
     //pleats
-    paths.waistBack = new Path()
+    /*  paths.waistBack = new Path()
       .move(points.waistF)
       .curve(points.waistFCp2, points.waist6BCp1, points.waist6B)
     //.hide()
@@ -184,7 +184,7 @@ export const skirtBase = {
           .move(points['pleatToTop' + (i + 1)])
           .line(points['pleatToBottom' + (i + 1)])
       }
-    }
+    } */ //Add to back only points are required on this one.
 
     //guides
 
