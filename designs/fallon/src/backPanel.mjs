@@ -63,7 +63,7 @@ export const backPanel = {
         to: points.hemY.rotate(-90, points.grainlineTo),
       })
       //notches
-      if (options.pocketsBool && (options.seams == 'none' || options.seams == 'sideFront')) {
+      if (options.pocketsBool && (options.seam == 'none' || options.seam == 'sideFront')) {
         points.pocketOpeningTop = points.waistF.shiftTowards(
           points.hemF,
           store.get('pocketOpening')
