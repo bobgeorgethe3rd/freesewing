@@ -149,43 +149,6 @@ export const skirtBase = {
       )
     }
 
-    //pleats
-    /*  paths.waistBack = new Path()
-      .move(points.waistF)
-      .curve(points.waistFCp2, points.waist6BCp1, points.waist6B)
-    //.hide()
-    if (options.pleats) {
-      const pleatTo = store.get('fullWaist') * (1 / 12)
-      const pleatFrom = paths.waistBack.length()
-
-      const pleatKeep = pleatTo / (options.pleatNumber + 1)
-      const pleatLength = (pleatFrom - pleatTo) / options.pleatNumber
-      const pleatLineLength = store.get('frontLength') / 15
-
-      for (let i = 0; i < options.pleatNumber + 1; i++) {
-        points['pleatFromTop' + i] = paths.waistBack.shiftAlong(
-          pleatKeep + (pleatKeep + pleatLength) * i
-        )
-        points['pleatToTop' + i] = paths.waistBack.shiftAlong((pleatKeep + pleatLength) * i)
-        points['pleatFromBottom' + i] = points['pleatFromTop' + i]
-          .shiftTowards(points['pleatToTop' + i], pleatLineLength)
-          .rotate(-90, points['pleatFromTop' + i])
-        points['pleatToBottom' + i] = points['pleatToTop' + i]
-          .shiftTowards(points['pleatFromTop' + i], pleatLineLength)
-          .rotate(90, points['pleatToTop' + i])
-      }
-      for (let i = 0; i < options.pleatNumber; i++) {
-        paths['pleatFrom' + i] = new Path()
-          .move(points['pleatFromTop' + i])
-          .line(points['pleatFromBottom' + i])
-          .attr('class', 'fabric lashed')
-
-        paths['pleatTo' + i] = new Path()
-          .move(points['pleatToTop' + (i + 1)])
-          .line(points['pleatToBottom' + (i + 1)])
-      }
-    } */ //Add to back only points are required on this one.
-
     //guides
 
     paths.sideBackHem = new Path().move(points.hemL)._curve(points.hemLCp2, points.hemD)
@@ -197,6 +160,10 @@ export const skirtBase = {
     paths.frontHem = new Path()
       .move(points.hemD)
       .curve(points.hemDCp2, points.cfHemCp1, points.cfHem)
+
+    paths.waistBack = new Path()
+      .move(points.waistF)
+      .curve(points.waistFCp2, points.waist6BCp1, points.waist6B)
 
     paths.backhem = new Path().move(points.hemJ).curve(points.hemJCp2, points.hemYCp1, points.hemY)
 
