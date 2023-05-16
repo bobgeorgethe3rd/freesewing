@@ -54,7 +54,7 @@ export const back = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 1 / 3)
+      points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 0.25)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.cbWaist.y)
       macro('grainline', {
         from: points.grainlineFrom,
@@ -70,7 +70,7 @@ export const back = {
         title: 'Back',
       })
       //scalebox
-      points.scalebox = new Point(points.hps.x, points.cbArmhole.y / 3)
+      points.scalebox = new Point(points.cbNeckCp1.x, points.cbArmhole.y / 2)
       macro('scalebox', {
         at: points.scalebox,
       })
