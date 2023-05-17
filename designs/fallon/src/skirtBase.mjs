@@ -9,7 +9,7 @@ export const skirtBase = {
   },
   options: {
     //Constants
-    fullDress: true, //altered frot Fallon
+    fullDress: true, //altered for Fallon
     umbrellaFullness: 0,
     umbrellaExtenstion: 0,
     //Style
