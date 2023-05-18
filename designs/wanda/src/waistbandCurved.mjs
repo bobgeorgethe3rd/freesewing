@@ -36,7 +36,7 @@ export const waistbandCurved = {
     if (complete) {
       //title
       macro('title', {
-        nr: 8,
+        nr: 4,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
         scale: 0.1,
