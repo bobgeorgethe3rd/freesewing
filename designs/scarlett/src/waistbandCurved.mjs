@@ -1,10 +1,11 @@
 import { swingPanel } from './swingPanel.mjs'
 import { placket } from './placket.mjs'
+import { waistbandStraight } from './waistbandStraight.mjs'
 import { waistband as draftWaistbandCurved } from '@freesewing/waistbandcurved'
 
 export const waistbandCurved = {
   name: 'scarlett.waistbandCurved',
-  after: [swingPanel, placket],
+  after: [waistbandStraight, swingPanel, placket],
   from: draftWaistbandCurved,
   hide: {
     from: true,
