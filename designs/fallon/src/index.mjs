@@ -14,6 +14,7 @@ import { placket } from '@freesewing/wanda'
 import { inseamPocket } from '@freesewing/wanda'
 import { boxPleatPocket } from '@freesewing/wanda'
 import { pearPocket } from '@freesewing/wanda'
+import { watchPocket } from '@freesewing/wanda'
 
 // Create new design
 const Fallon = new Design({
@@ -28,6 +29,7 @@ const Fallon = new Design({
     inseamPocket,
     boxPleatPocket,
     pearPocket,
+    watchPocket,
   ],
 })
 
@@ -42,5 +44,6 @@ export {
   inseamPocket,
   boxPleatPocket,
   pearPocket,
+  watchPocket,
   Fallon,
 }
