@@ -7,9 +7,9 @@ export const sideFront = {
   name: 'fallon.sideFront',
   from: skirtBase,
   after: [inseamPocket, boxPleatPocket, pearPocket],
-  // hide: {
-  // from: true,
-  // },
+  hide: {
+    from: true,
+  },
   draft: ({
     store,
     sa,
@@ -182,7 +182,7 @@ export const sideFront = {
           .offset(hemSa)
           .join(paths.saLeft.split(points.hemFacingD)[0].offset(sa))
           .join(paths.hemFacing.reverse().offset(sa))
-          // .join(drawSaRight().split(hemFacingSplit)[1].offset(sa))
+          .join(drawSaRight().split(hemFacingSplit)[1].offset(sa))
           .close()
           .attr('class', 'interfacing sa')
 
@@ -192,7 +192,7 @@ export const sideFront = {
             .offset(sa * options.waistFacingHemWidth * 100)
             .join(paths.saLeft.split(points.waistFacingD)[1].offset(sa))
             .join(drawWaistSa().offset(sa))
-            // .join(drawSaRight().split(paths.waistFacing.start())[0].offset(sa))
+            .join(drawSaRight().split(paths.waistFacing.start())[0].offset(sa))
             .close()
             .attr('class', 'interfacing sa')
         }

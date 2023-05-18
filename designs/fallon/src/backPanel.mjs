@@ -7,9 +7,9 @@ export const backPanel = {
   name: 'fallon.backPanel',
   from: skirtBase,
   after: [inseamPocket, boxPleatPocket, pearPocket],
-  // hide: {
-  // from: true,
-  // },
+  hide: {
+    from: true,
+  },
   draft: ({
     store,
     sa,

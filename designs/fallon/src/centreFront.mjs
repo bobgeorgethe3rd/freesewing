@@ -8,9 +8,9 @@ export const centreFront = {
   name: 'fallon.centreFront',
   from: skirtBase,
   after: [inseamPocket, boxPleatPocket, pearPocket],
-  // hide: {
-  // from: true,
-  // },
+  hide: {
+    from: true,
+  },
   options: {
     //Construction
     seams: { dflt: 'all', list: ['all', 'sideSeam', 'sideFront', 'none'], menu: 'construction' },

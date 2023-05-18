@@ -6,6 +6,7 @@ import { data } from '../data.mjs'
 import { skirtBase } from './skirtBase.mjs'
 import { centreFront } from './centreFront.mjs'
 import { sideFront } from './sideFront.mjs'
+import { sideBack } from './sideBack.mjs'
 import { backPanel } from './backPanel.mjs'
 
 // Inherited Parts
@@ -21,6 +22,7 @@ const Fallon = new Design({
     skirtBase,
     centreFront,
     sideFront,
+    sideBack,
     backPanel,
     placket,
     inseamPocket,
@@ -33,6 +35,7 @@ const Fallon = new Design({
 export {
   skirtBase,
   sideFront,
+  sideBack,
   centreFront,
   backPanel,
   placket,
