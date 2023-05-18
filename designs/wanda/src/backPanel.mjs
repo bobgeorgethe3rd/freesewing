@@ -301,8 +301,10 @@ export const backPanel = {
         }
       }
       if (sa) {
+        const hemSa = sa * options.skirtHemWidth * 100
+
         paths.hemFacingSa = drawHemBase()
-          .offset(sa * options.skirtHemWidth * 100)
+          .offset(hemSa)
           .join(
             new Path()
               .move(points.hemFacingK)
@@ -337,7 +339,7 @@ export const backPanel = {
         }
 
         paths.sa = drawHemBase()
-          .offset(sa * options.skirtHemWidth * 100)
+          .offset(hemSa)
           .join(drawSaBase().offset(sa))
           .close()
           .attr('class', 'fabric sa')

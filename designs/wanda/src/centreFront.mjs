@@ -200,6 +200,8 @@ export const centreFront = {
       }
 
       if (sa) {
+        const hemSa = sa * options.skirtHemWidth * 100
+
         if (options.waistbandStyle == 'none') {
           const drawWaistFacingSaBase = () => {
             if (options.frontDart == 'dart') {
@@ -254,14 +256,14 @@ export const centreFront = {
         }
 
         paths.hemFacingSa = drawHemBase()
-          .offset(sa * options.skirtHemWidth * 100)
+          .offset(hemSa)
           .line(points.cfHem)
           .line(points.cfWaist)
           .join(drawHemFacing().reverse().line(drawHemBase().start()).offset(sa))
           .attr('class', 'interfacing sa')
 
         paths.sa = drawHemBase()
-          .offset(sa * options.skirtHemWidth * 100)
+          .offset(hemSa)
           .line(points.cfHem)
           .line(points.cfWaist)
           .join(drawSaBase().offset(sa))

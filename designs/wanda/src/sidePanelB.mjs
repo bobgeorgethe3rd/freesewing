@@ -183,9 +183,11 @@ export const sidePanelB = {
       }
 
       if (sa) {
+        const hemSa = sa * options.skirtHemWidth * 100
+
         paths.hemFacingSa = paths.hemBase
           .clone()
-          .offset(sa * options.skirtHemWidth * 100)
+          .offset(hemSa)
           .join(
             new Path()
               .move(points.hemF)
@@ -215,7 +217,7 @@ export const sidePanelB = {
 
         paths.sa = paths.hemBase
           .clone()
-          .offset(sa * options.skirtHemWidth * 100)
+          .offset(hemSa)
           .join(paths.saBase.offset(sa))
           .close()
           .attr('class', 'fabric sa')
