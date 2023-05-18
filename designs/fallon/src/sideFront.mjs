@@ -36,8 +36,6 @@ export const sideFront = {
     }
     //removing paths
     for (let i in paths) delete paths[i]
-    //measures
-    const skirtHemFacingWidth = store.get('skirtHemFacingWidth')
     //let's begin
     //paths
 

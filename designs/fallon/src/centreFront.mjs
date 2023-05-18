@@ -39,8 +39,6 @@ export const centreFront = {
   }) => {
     //removing paths
     for (let i in paths) delete paths[i]
-    //measures
-    const skirtHemFacingWidth = store.get('skirtHemFacingWidth')
     //let's begin
     //paths
     paths.hemBase = new Path()
