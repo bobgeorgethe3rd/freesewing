@@ -157,7 +157,7 @@ export const sideFront = {
           .attr('data-text-class', 'center')
       }
       //darts
-      if ((options.seams = 'sideFront')) {
+      if (options.seams == 'sideFront') {
         paths.dart = new Path()
           .move(points.waist1Left)
           .line(points.dartTopE)
@@ -184,7 +184,7 @@ export const sideFront = {
           .offset(hemSa)
           .join(paths.saLeft.split(points.hemFacingD)[0].offset(sa))
           .join(paths.hemFacing.reverse().offset(sa))
-          .join(drawSaRight().split(hemFacingSplit)[1].offset(sa))
+          // .join(drawSaRight().split(hemFacingSplit)[1].offset(sa))
           .close()
           .attr('class', 'interfacing sa')
 
@@ -194,7 +194,7 @@ export const sideFront = {
             .offset(sa * options.waistFacingHemWidth * 100)
             .join(paths.saLeft.split(points.waistFacingD)[1].offset(sa))
             .join(drawWaistSa().offset(sa))
-            .join(drawSaRight().split(paths.waistFacing.start())[0].offset(sa))
+            // .join(drawSaRight().split(paths.waistFacing.start())[0].offset(sa))
             .close()
             .attr('class', 'interfacing sa')
         }
