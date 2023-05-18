@@ -8,6 +8,8 @@ import { centreFront } from './centreFront.mjs'
 import { sideFront } from './sideFront.mjs'
 import { sideBack } from './sideBack.mjs'
 import { backPanel } from './backPanel.mjs'
+import { waistbandStraight } from './waistbandStraight.mjs'
+import { waistbandCurved } from './waistbandCurved.mjs'
 
 // Inherited Parts
 import { placket } from '@freesewing/wanda'
@@ -25,6 +27,8 @@ const Fallon = new Design({
     sideFront,
     sideBack,
     backPanel,
+    waistbandStraight,
+    waistbandCurved,
     placket,
     inseamPocket,
     boxPleatPocket,
@@ -40,6 +44,8 @@ export {
   sideBack,
   centreFront,
   backPanel,
+  waistbandStraight,
+  waistbandCurved,
   placket,
   inseamPocket,
   boxPleatPocket,

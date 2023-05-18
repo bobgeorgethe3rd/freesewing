@@ -151,6 +151,7 @@ export const backPanel = {
             .attr('data-text', 'Pleat. Fold - To')
             .attr('data-text-class', 'center')
         }
+        store.set('pleatTo', pleatTo)
       }
 
       if (sa) {
