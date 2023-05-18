@@ -80,7 +80,7 @@ export const backPanel = {
       //title
       points.title = points.waistF.shiftFractionTowards(points.hemYCp1, 0.5)
       macro('title', {
-        nr: '3',
+        nr: '4',
         title: 'Back Panel',
         at: points.title,
         rotation: 90 - points.hemY.angle(points.origin),

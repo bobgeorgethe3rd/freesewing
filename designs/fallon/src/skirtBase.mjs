@@ -191,7 +191,7 @@ export const skirtBase = {
     //guides
 
     paths.sideBackHem = new Path().move(points.hemL)._curve(points.hemLCp2, points.hemD)
-    paths.sideBackHemOffset = new Path()
+    paths.sideBackHemFacing = new Path()
       .move(points.cfHemFacing)
       .curve(points.cfHemFacingCp2, points.hemFacingDCp1, points.hemFacingD)
       .curve_(points.hemFacingLCp1, points.hemFacingL)
