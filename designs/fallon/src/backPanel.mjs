@@ -117,7 +117,7 @@ export const backPanel = {
       }
       //pleats
       if (options.pleats) {
-        const pleatTo = store.get('fullWaist') * (1 / 12)
+        const pleatTo = store.get('fullWaist') / 12
         const pleatFrom = paths.waist.length()
 
         const pleatKeep = pleatTo / (options.pleatNumber + 1)

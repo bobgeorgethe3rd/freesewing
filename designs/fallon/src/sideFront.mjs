@@ -131,7 +131,7 @@ export const sideFront = {
 
       paths.hemFacing = new Path()
         .move(points.hemFacingL)
-        ._curve(points.hemFacingLCp1, points.hemFacingD)
+        .curve(points.hemFacingLCp1, points.hemFacingDCp2, points.hemFacingD)
         .split(hemFacingSplit)[1]
         .attr('class', 'interfacing')
         .attr('data-text', 'Hem Facing - Line')

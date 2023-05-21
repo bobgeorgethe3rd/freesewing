@@ -96,7 +96,7 @@ export const sideBack = {
       //facings
       paths.hemFacing = new Path()
         .move(points.hemFacingL)
-        ._curve(points.hemFacingLCp1, points.hemFacingD)
+        .curve(points.hemFacingLCp1, points.hemFacingDCp2, points.hemFacingD)
         .curve(points.hemFacingDCp1, points.cfHemFacingCp2, points.cfHemFacing)
         .split(points.hemFacingSplitZ)[0]
         .split(points.hemFacingSplitL)[1]

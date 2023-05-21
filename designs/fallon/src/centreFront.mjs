@@ -174,7 +174,7 @@ export const centreFront = {
 
       paths.hemFacing = new Path()
         .move(points.hemFacingL)
-        ._curve(points.hemFacingLCp1, points.hemFacingD)
+        .curve(points.hemFacingLCp1, points.hemFacingDCp2, points.hemFacingD)
         .curve(points.hemFacingDCp1, points.cfHemFacingCp2, points.cfHemFacing)
         .split(hemFacingSplit)[1]
         .attr('class', 'interfacing')
