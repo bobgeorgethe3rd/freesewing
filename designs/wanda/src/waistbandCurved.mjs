@@ -56,26 +56,18 @@ export const waistbandCurved = {
         }
       }
 
-      if (points.origin < points.bottomMid) {
-        points.pleatFrom0 = points.origin.shiftOutwards(
-          points.pleatTo0,
-          points.topMid.dist(points.bottomMid)
-        )
-        points.pleatFrom1 = points.origin.shiftOutwards(
-          points.pleatTo1,
-          points.topMid.dist(points.bottomMid)
-        )
-      } else {
-        points.pleatFrom0 = points.pleatTo0.shiftTowards(
-          points.origin,
-          points.topMid.dist(points.bottomMid)
-        )
-        points.pleatFrom1 = points.pleatTo1.shiftTowards(
-          points.origin,
-          points.topMid.dist(points.bottomMid)
-        )
-      }
       for (let i = 0; i < 2; i++) {
+        if (points.origin < points.bottomMid) {
+          points['pleatFrom' + i] = points.origin.shiftOutwards(
+            points['pleatTo' + i],
+            points.topMid.dist(points.bottomMid)
+          )
+        } else {
+          points['pleatFrom' + i] = points['pleatTo' + i].shiftTowards(
+            points.origin,
+            points.topMid.dist(points.bottomMid)
+          )
+        }
         paths['pleatStart' + i] = new Path()
           .move(points['pleatFrom' + i])
           .line(points['pleatTo' + i])

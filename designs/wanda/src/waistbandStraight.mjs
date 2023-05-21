@@ -72,10 +72,9 @@ export const waistbandStraight = {
           points.pleatFrom1 = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.5)
         }
       }
-      points.pleatTo0 = new Point(points.pleatFrom0.x, points.bottomLeft.y)
-      points.pleatTo1 = new Point(points.pleatFrom1.x, points.bottomLeft.y)
 
       for (let i = 0; i < 2; i++) {
+        points['pleatTo' + i] = new Point(points['pleatFrom' + i].x, points.bottomLeft.y)
         paths['pleatStart' + i] = new Path()
           .move(points['pleatFrom' + i])
           .line(points['pleatTo' + i])
