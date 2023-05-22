@@ -209,6 +209,13 @@
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
       "tags": ["corset"]
+    },
+    "camden": {
+      "description": "A Camisole pattern",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 2,
+      "tags": ["undergarments", "tops"]
     }
   },
   "utilities": {

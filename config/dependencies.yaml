@@ -65,6 +65,9 @@ claude:
     '@freesewing/inseampocket': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/waistbandcurved': *freesewing
+camden:
+    peer:
+    '@freesewing/daisy': *freesewing
 core:
   _:
     'bezier-js': '6.1.3'
