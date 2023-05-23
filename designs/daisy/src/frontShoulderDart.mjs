@@ -57,12 +57,12 @@ export const frontShoulderDart = ({
       points.bustDartTop
     )
   }
-  points.bustDartCpTop = points.bust
+  points.bustDartCpTop = points.bustDartTip
     .shiftFractionTowards(points.bustDartTop, 2 / 3)
-    .rotate(5 * options.bustDartCurve, points.bust)
-  points.bustDartCpBottom = points.bust
+    .rotate(5 * options.bustDartCurve, points.bustDartTip)
+  points.bustDartCpBottom = points.bustDartTip
     .shiftFractionTowards(points.bustDartBottom, 2 / 3)
-    .rotate(-5 * options.bustDartCurve, points.bust)
+    .rotate(-5 * options.bustDartCurve, points.bustDartTip)
   //reset side hem
   points.sideWaist = utils.beamsIntersect(
     points.waistDartRight,

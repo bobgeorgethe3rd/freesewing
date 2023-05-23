@@ -26,6 +26,7 @@ export const frontShared = {
     points.sideWaistInitial = points.sideHemInitial
     points.sideWaist = points.sideHem
     points.waistDartEdge = points.waistDartHem
+
     if (complete) {
       macro('title', {
         at: points.titleAnchor,
