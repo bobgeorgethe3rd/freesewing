@@ -1,4 +1,4 @@
-import { skirtBase } from './skirtBase'
+import { skirtBase } from './skirtBase.mjs'
 import { inseamPocket } from '@freesewing/wanda'
 import { boxPleatPocket } from '@freesewing/wanda'
 import { pearPocket } from '@freesewing/wanda'
