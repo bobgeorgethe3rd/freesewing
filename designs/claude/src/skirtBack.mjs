@@ -1,12 +1,12 @@
 import { skirtBase } from './skirtBase.mjs'
 import { skirtFront } from './skirtFront.mjs'
 import { pocket } from './pocket.mjs'
-import { waistbandStraight } from './waistbandStraight.mjs'
+import { waistband } from './waistband.mjs'
 
 export const skirtBack = {
   name: 'claude.skirtBack',
   from: skirtBase,
-  after: [skirtFront, pocket, waistbandStraight],
+  after: [skirtFront, pocket, waistband],
   hide: {
     from: true,
   },

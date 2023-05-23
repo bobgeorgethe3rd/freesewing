@@ -1,12 +1,10 @@
 import { skirtBase } from './skirtBase.mjs'
-import { inseamPocket } from '@freesewing/wanda'
-import { boxPleatPocket } from '@freesewing/wanda'
-import { pearPocket } from '@freesewing/wanda'
+import { pocket } from '@freesewing/wanda'
 
 export const backPanel = {
   name: 'fallon.backPanel',
   from: skirtBase,
-  after: [inseamPocket, boxPleatPocket, pearPocket],
+  after: pocket,
   hide: {
     from: true,
   },

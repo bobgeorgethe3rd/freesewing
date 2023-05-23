@@ -16,8 +16,9 @@ import { fly } from './fly.mjs'
 import { buttonholePlacket } from './buttonholePlacket.mjs'
 import { flyShield } from './flyShield.mjs'
 import { beltLoops } from './beltLoops.mjs'
-import { waistbandStraight } from './waistbandStraight.mjs'
-import { waistbandCurved } from './waistbandCurved.mjs'
+import { waistband } from './waistband.mjs'
+// import { waistbandStraight } from './waistbandStraight.mjs'
+// import { waistbandCurved } from './waistbandCurved.mjs'
 import { leatherPatch } from './leatherPatch.mjs'
 
 // Create new design
@@ -37,8 +38,9 @@ const Jackson = new Design({
     buttonholePlacket,
     flyShield,
     beltLoops,
-    waistbandStraight,
-    waistbandCurved,
+    waistband,
+    // waistbandStraight,
+    // waistbandCurved,
     leatherPatch,
   ],
 })
@@ -58,8 +60,9 @@ export {
   buttonholePlacket,
   flyShield,
   beltLoops,
-  waistbandStraight,
-  waistbandCurved,
+  waistband,
+  // waistbandStraight,
+  // waistbandCurved,
   leatherPatch,
   Jackson,
 }

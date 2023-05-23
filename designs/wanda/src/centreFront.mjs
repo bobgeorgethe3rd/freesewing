@@ -1,13 +1,11 @@
 import { skirtBase } from './skirtBase.mjs'
-import { inseamPocket } from './inseamPocket.mjs'
-import { boxPleatPocket } from './boxPleatPocket.mjs'
-import { pearPocket } from './pearPocket.mjs'
+import { pocket } from './pocket.mjs'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const centreFront = {
   name: 'wanda.centreFront',
   from: skirtBase,
-  after: [inseamPocket, boxPleatPocket, pearPocket],
+  after: pocket,
   hide: {
     from: true,
   },

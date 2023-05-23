@@ -41,7 +41,6 @@ export const backBase = {
     waistbandFishtailOffset: { pct: (1 / 3) * 100, min: 0, max: (1 / 3) * 100, menu: 'advanced' },
     //Waistbands
     useVoidStores: false, //locked for Theobald
-    waistbandClosurePosition: 'front', //locked for Theobald
     //Theobald
     //Style
     beltLoopWidth: {

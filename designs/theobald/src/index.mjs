@@ -16,10 +16,12 @@ import { frontPocketFacing } from './frontPocketFacing.mjs'
 import { frontPocketFacingB } from './frontPocketFacingB.mjs'
 import { fly } from './fly.mjs'
 import { flyShield } from './flyShield.mjs'
-import { waistbandStraightLeft } from './waistbandStraightLeft.mjs'
-import { waistbandStraightRight } from './waistbandStraightRight.mjs'
-import { waistbandCurvedLeft } from './waistbandCurvedLeft.mjs'
-import { waistbandCurvedRight } from './waistbandCurvedRight.mjs'
+import { waistbandLeft } from './waistbandLeft.mjs'
+import { waistbandRight } from './waistbandRight.mjs'
+// import { waistbandStraightLeft } from './waistbandStraightLeft.mjs'
+// import { waistbandStraightRight } from './waistbandStraightRight.mjs'
+// import { waistbandCurvedLeft } from './waistbandCurvedLeft.mjs'
+// import { waistbandCurvedRight } from './waistbandCurvedRight.mjs'
 import { waistbandFishtailLeft } from './waistbandFishtailLeft.mjs'
 import { waistbandFishtailRight } from './waistbandFishtailRight.mjs'
 import { beltLoops } from './beltLoops.mjs'
@@ -41,10 +43,12 @@ const Theobald = new Design({
     frontPocketFacingB,
     fly,
     flyShield,
-    waistbandStraightLeft,
-    waistbandStraightRight,
-    waistbandCurvedLeft,
-    waistbandCurvedRight,
+    waistbandLeft,
+    waistbandRight,
+    // waistbandStraightLeft,
+    // waistbandStraightRight,
+    // waistbandCurvedLeft,
+    // waistbandCurvedRight,
     waistbandFishtailLeft,
     waistbandFishtailRight,
     beltLoops,
@@ -66,10 +70,12 @@ export {
   frontPocketFacingB,
   fly,
   flyShield,
-  waistbandStraightLeft,
-  waistbandStraightRight,
-  waistbandCurvedLeft,
-  waistbandCurvedRight,
+  waistbandLeft,
+  waistbandRight,
+  // waistbandStraightLeft,
+  // waistbandStraightRight,
+  // waistbandCurvedLeft,
+  // waistbandCurvedRight,
   waistbandFishtailLeft,
   waistbandFishtailRight,
   beltLoops,

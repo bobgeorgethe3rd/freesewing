@@ -1,12 +1,12 @@
 import { skirtBase } from './skirtBase.mjs'
 import { pocket } from './pocket.mjs'
-import { waistbandStraight } from './waistbandStraight.mjs'
+import { waistband } from './waistband.mjs'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const skirtFront = {
   name: 'claude.skirtFront',
   from: skirtBase,
-  after: [pocket, waistbandStraight],
+  after: [pocket, waistband],
   hide: {
     from: true,
   },

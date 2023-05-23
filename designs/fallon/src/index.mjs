@@ -8,14 +8,16 @@ import { centreFront } from './centreFront.mjs'
 import { sideFront } from './sideFront.mjs'
 import { sideBack } from './sideBack.mjs'
 import { backPanel } from './backPanel.mjs'
-import { waistbandStraight } from './waistbandStraight.mjs'
-import { waistbandCurved } from './waistbandCurved.mjs'
+import { waistband } from './waistband.mjs'
+// import { waistbandStraight } from './waistbandStraight.mjs'
+// import { waistbandCurved } from './waistbandCurved.mjs'
 
 // Inherited Parts
 import { placket } from '@freesewing/wanda'
-import { inseamPocket } from '@freesewing/wanda'
-import { boxPleatPocket } from '@freesewing/wanda'
-import { pearPocket } from '@freesewing/wanda'
+import { pocket } from '@freesewing/wanda'
+// import { inseamPocket } from '@freesewing/wanda'
+// import { boxPleatPocket } from '@freesewing/wanda'
+// import { pearPocket } from '@freesewing/wanda'
 import { watchPocket } from '@freesewing/wanda'
 
 // Create new design
@@ -27,12 +29,14 @@ const Fallon = new Design({
     sideFront,
     sideBack,
     backPanel,
-    waistbandStraight,
-    waistbandCurved,
+    waistband,
+    // waistbandStraight,
+    // waistbandCurved,
     placket,
-    inseamPocket,
-    boxPleatPocket,
-    pearPocket,
+    pocket,
+    // inseamPocket,
+    // boxPleatPocket,
+    // pearPocket,
     watchPocket,
   ],
 })
@@ -44,12 +48,14 @@ export {
   sideBack,
   centreFront,
   backPanel,
-  waistbandStraight,
-  waistbandCurved,
+  waistband,
+  // waistbandStraight,
+  // waistbandCurved,
   placket,
-  inseamPocket,
-  boxPleatPocket,
-  pearPocket,
+  pocket,
+  // inseamPocket,
+  // boxPleatPocket,
+  // pearPocket,
   watchPocket,
   Fallon,
 }

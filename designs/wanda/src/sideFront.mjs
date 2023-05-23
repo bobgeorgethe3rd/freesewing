@@ -1,12 +1,10 @@
 import { skirtBase } from './skirtBase.mjs'
-import { inseamPocket } from './inseamPocket.mjs'
-import { boxPleatPocket } from './boxPleatPocket.mjs'
-import { pearPocket } from './pearPocket.mjs'
+import { pocket } from './pocket.mjs'
 
 export const sideFront = {
   name: 'wanda.sideFront',
   from: skirtBase,
-  after: [inseamPocket, boxPleatPocket, pearPocket],
+  after: pocket,
   hide: {
     from: true,
   },

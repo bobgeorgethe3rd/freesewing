@@ -66,9 +66,7 @@ export const waistbandCurvedRight = {
     //remove macros
     macro('title', false)
     //measurements
-
     const fishtailWidth = store.get('fishtailWidth')
-
     let angle
     if (store.get('waistbandLengthTop') > store.get('waistbandLength')) {
       angle = points.origin.angle(points.bottomRightNotch) - points.origin.angle(points.bottomRight)

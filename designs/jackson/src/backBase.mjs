@@ -11,6 +11,7 @@ export const backBase = {
   options: {
     //Dalton
     //Constants
+    useVoidStores: false, //locked for Jackson
     legBandWidth: 0, //locked for Jackson
     //Fit
     waistEase: { pct: 5.7, min: -20, max: 20, menu: 'fit' }, //altered for Jackson 5.7 //11.8
@@ -34,9 +35,6 @@ export const backBase = {
     backDartDepth: { pct: 66.7, min: 45, max: 70, menu: 'darts' }, //altered for Jackson
     //Advanced
     backDartMultiplier: { count: 1, min: 0, max: 2, menu: 'advanced' }, //altered for Jackson
-    //Waistbands
-    useVoidStores: false, //locked for Jackson
-    waistbandClosurePosition: 'front', //locked for Jackson
     //Jackson
     //Style
     yokeAngle: { deg: 5.1, min: 3.5, max: 5.6, menu: 'style' },

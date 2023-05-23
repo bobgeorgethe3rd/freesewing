@@ -1,29 +1,15 @@
-import { waistband as waistbandS } from '@freesewing/waistbandstraight'
+import { waistband as waistbandC } from '@freesewing/waistbandcurved'
 import { skirtBase } from './skirtBase.mjs'
+import { waistbandStraight } from './waistbandStraight.mjs'
 import { backPanel } from './backPanel.mjs'
 import { placket } from '@freesewing/wanda'
 
-export const waistbandStraight = {
-  name: 'fallon.waistbandStraight',
-  after: [placket, backPanel, skirtBase],
-  from: waistbandS,
+export const waistbandCurved = {
+  name: 'fallon.waistbandCurved',
+  after: [waistbandStraight, placket, backPanel, skirtBase],
+  from: waistbandC,
   hide: {
     from: true,
-  },
-  options: {
-    //Style
-    waistbandOverlapSide: {
-      dflt: 'right',
-      list: ['right', 'left'],
-      menu: 'style',
-    }, //altered for  Fallon
-    waistbandFolded: { bool: true, menu: 'style' }, //altered for Fallon
-    //Construction
-    waistbandClosurePosition: {
-      dflt: 'back',
-      list: ['back', 'sideLeft', 'sideRight'],
-      menu: 'construction',
-    }, //altered for Fallon
   },
   draft: ({
     store,
@@ -43,17 +29,16 @@ export const waistbandStraight = {
     log,
     absoluteOptions,
   }) => {
-    //measures
-    const fullWaist = store.get('fullWaist')
     //set Render
-    if (
-      (options.waistbandStyle != 'straight' && measurements.waistToHips && measurements.hips) ||
-      options.waistbandStyle == 'none'
-    ) {
+    if (options.waistbandStyle != 'curved' || !measurements.waistToHips || !measurements.hips) {
       part.hide()
       return part
     }
-
+    //measures
+    let width
+    if (points.topLeft.x < points.bottomLeft.x) {
+      width = store.get('waistbandWidth') * -1
+    } else width = store.get('waistbandWidth')
     if (complete) {
       //lines
       if (options.seams == 'none' || options.seams == 'sideFront') {
@@ -61,28 +46,15 @@ export const waistbandStraight = {
           let leftName
           let rightName
           let midName
-          let centreName
           if (options.waistbandClosurePosition == 'sideRight') {
             leftName = 'Side Dart'
             rightName = 'Centre Back'
             midName = 'Centre Front'
 
-            points.bottomLeftNotch = points.bottomLeft.shiftTowards(
-              points.bottomRight,
-              fullWaist / 6
-            )
-            points.bottomMidNotch = points.bottomLeftNotch.shiftTowards(
-              points.bottomRight,
-              fullWaist / 4
-            )
-            points.bottomCNotch = points.bottomMidNotch.shiftTowards(
-              points.bottomRight,
-              fullWaist / 4
-            )
-            points.bottomRightNotch = points.bottomCNotch.shiftTowards(
-              points.bottomRight,
-              fullWaist / 4
-            )
+            points.bottomLeftNotch = paths.bottomCurve.shiftFractionAlong(1 / 6)
+            points.bottomMidNotch = paths.bottomCurve.shiftFractionAlong(5 / 12)
+            points.bottomCNotch = paths.bottomCurve.shiftFractionAlong(2 / 3)
+            points.bottomRightNotch = paths.bottomCurve.shiftFractionAlong(11 / 12)
 
             if (paths.rightEx) {
               if (options.waistbandOverlapSide == 'right' && options.pleats) {
@@ -96,22 +68,10 @@ export const waistbandStraight = {
             rightName = 'Centre Front'
             midName = 'Side Dart'
 
-            points.bottomLeftNotch = points.bottomLeft.shiftTowards(
-              points.bottomRight,
-              fullWaist / 12
-            )
-            points.bottomMidNotch = points.bottomLeftNotch.shiftTowards(
-              points.bottomRight,
-              fullWaist / 4
-            )
-            points.bottomRightNotch = points.bottomMidNotch.shiftTowards(
-              points.bottomRight,
-              fullWaist / 4
-            )
-            points.bottomCNotch = points.bottomRightNotch.shiftTowards(
-              points.bottomRight,
-              fullWaist / 4
-            )
+            points.bottomLeftNotch = paths.bottomCurve.shiftFractionAlong(1 / 12)
+            points.bottomMidNotch = paths.bottomCurve.shiftFractionAlong(1 / 3)
+            points.bottomRightNotch = paths.bottomCurve.shiftFractionAlong(7 / 12)
+            points.bottomCNotch = paths.bottomCurve.shiftFractionAlong(5 / 6)
 
             if (paths.leftEx) {
               if (options.waistbandOverlapSide == 'left' && options.pleats) {
@@ -121,10 +81,10 @@ export const waistbandStraight = {
               }
             }
           }
-          points.topLeftNotch = new Point(points.bottomLeftNotch.x, points.topMid.y)
-          points.topRightNotch = new Point(points.bottomRightNotch.x, points.topMid.y)
-          points.topCNotch = new Point(points.bottomCNotch.x, points.topMid.y)
-          points.topMidNotch = new Point(points.bottomMidNotch.x, points.topMid.y)
+          points.topLeftNotch = points.bottomLeftNotch.shiftTowards(points.origin, width)
+          points.topRightNotch = points.bottomRightNotch.shiftTowards(points.origin, width)
+          points.topMidNotch = points.bottomMidNotch.shiftTowards(points.origin, width)
+          points.topCNotch = points.bottomCNotch.shiftTowards(points.origin, width)
 
           paths.mid = new Path()
             .move(points.topMidNotch)
@@ -176,23 +136,31 @@ export const waistbandStraight = {
       if (options.pleats) {
         const pleatTo = store.get('pleatTo')
         if (options.waistbandClosurePosition == 'back') {
-          points.pleatFrom0 = points.topLeft.shiftTowards(points.topRight, pleatTo)
-          points.pleatFrom1 = points.topRight.shiftTowards(points.topLeft, pleatTo)
+          points.pleatTo0 = paths.bottomCurve.shiftAlong(pleatTo)
+          points.pleatTo1 = paths.bottomCurve.reverse().shiftAlong(pleatTo)
         } else {
           if (options.waistbandClosurePosition == 'sideRight') {
-            points.pleatFrom0 = points.topRightNotch.shiftTowards(points.topMidNotch, pleatTo)
-            points.pleatFrom1 = points.topRightNotch.shiftTowards(points.topRight, pleatTo)
+            points.pleatTo0 = paths.bottomCurve
+              .split(points.bottomRightNotch)[0]
+              .reverse()
+              .shiftAlong(pleatTo)
+            points.pleatTo1 = paths.bottomCurve
+              .split(points.bottomRightNotch)[1]
+              .shiftAlong(pleatTo)
           } else {
-            points.pleatFrom0 = points.topLeftNotch.shiftTowards(points.topLeft, pleatTo)
-            points.pleatFrom1 = points.topLeftNotch.shiftTowards(points.topMidNotch, pleatTo)
+            points.pleatTo0 = paths.bottomCurve
+              .split(points.bottomLeftNotch)[0]
+              .reverse()
+              .shiftAlong(pleatTo)
+            points.pleatTo1 = paths.bottomCurve.split(points.bottomLeftNotch)[1].shiftAlong(pleatTo)
           }
         }
         for (let i = 0; i < 2; i++) {
           if (
-            points['pleatFrom' + i].x != points.topLeftEx.x &&
-            points['pleatFrom' + i].x != points.topRightEx.x
+            points['pleatTo' + i].x != points.bottomLeftEx.x &&
+            points['pleatTo' + i].x != points.bottomRightEx.x
           ) {
-            points['pleatTo' + i] = new Point(points['pleatFrom' + i].x, points.bottomLeft.y)
+            points['pleatFrom' + i] = points['pleatTo' + i].shiftTowards(points.origin, width)
             paths['pleatStart' + i] = new Path()
               .move(points['pleatFrom' + i])
               .line(points['pleatTo' + i])

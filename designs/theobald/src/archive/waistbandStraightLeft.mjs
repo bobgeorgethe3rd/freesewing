@@ -73,7 +73,6 @@ export const waistbandStraightLeft = {
     const waistbandWidth = store.get('waistbandWidth')
 
     //let's begin
-
     if (options.waistbandFishtail) {
       points.fishtailLeftEx = points.bottomLeftNotch.translate(
         store.get('waistbandFishtailOffset'),

@@ -1,13 +1,11 @@
 import { sideFront as wandaSideFront } from '@freesewing/wanda'
 import { centreFront } from './centreFront.mjs'
-import { inseamPocket } from '@freesewing/wanda'
-import { boxPleatPocket } from '@freesewing/wanda'
-import { pearPocket } from '@freesewing/wanda'
+import { pocket } from '@freesewing/wanda'
 
 export const sideFront = {
   name: 'scarlett.sideFront',
   from: wandaSideFront,
-  after: [centreFront, inseamPocket, boxPleatPocket, pearPocket],
+  after: [centreFront, pocket],
   hide: {
     from: true,
   },

@@ -9,8 +9,6 @@ export const frontBase = {
     from: true,
   },
   options: {
-    //Constants
-    waistbandClosurePosition: 'front', //locked for Theobald
     //Style
     frontPleatWidth: { pct: 3.5, min: 3, max: 5, menu: 'style' },
     //Pockets

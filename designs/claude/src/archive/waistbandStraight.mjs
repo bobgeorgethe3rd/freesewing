@@ -6,10 +6,6 @@ export const waistbandStraight = {
   name: 'claude.waistbandStraight',
   from: draftWaistbandStraight,
   after: [skirtBase, placket],
-  options: {
-    //Style
-    waistbandOverlapSide: { dflt: 'right', list: ['left', 'right'], menu: 'style' },
-  },
   hide: {
     from: true,
   },
@@ -31,12 +27,6 @@ export const waistbandStraight = {
     log,
     absoluteOptions,
   }) => {
-    //set Render
-    if (options.waistbandStyle != 'straight') {
-      part.hide()
-      return part
-    }
-
     if (complete) {
       //title
       macro('title', {
