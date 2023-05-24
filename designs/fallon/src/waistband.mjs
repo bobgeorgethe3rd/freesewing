@@ -39,11 +39,14 @@ export const waistband = {
       complete,
       part,
     } = sh
-
-    if (options.waistbandStyle == 'straight' || !measurements.waistToHips || !measurements.hips)
-      waistbandStraight.draft(sh)
-    else waistbandCurved.draft(sh)
-
+    if (options.waistbandStyle == 'none') {
+      part.hide()
+      return part
+    } else {
+      if (options.waistbandStyle == 'straight' || !measurements.waistToHips || !measurements.hips)
+        waistbandStraight.draft(sh)
+      else waistbandCurved.draft(sh)
+    }
     //measures
     const fullWaist = store.get('fullWaist')
 

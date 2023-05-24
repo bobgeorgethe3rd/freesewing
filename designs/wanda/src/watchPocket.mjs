@@ -1,34 +1,22 @@
 import { pocket as draftWatchPocket } from '@freesewing/watchpocket'
+import { skirtBase } from './skirtBase.mjs'
 
 export const watchPocket = {
   name: 'wanda.watchPocket',
-  from: draftWatchPocket,
-  hide: {
-    from: true,
-  },
   options: {
+    //Imported
+    ...draftWatchPocket.options,
+    //Pockets
     watchPocket: { bool: true, menu: 'pockets.watchPockets' },
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    log,
-    absoluteOptions,
-  }) => {
+  after: skirtBase,
+  draft: (sh) => {
     //set Render
-    if (!options.watchPocket || !options.pocketsBool) {
+    const { macro, points, options, complete, part } = sh
+
+    if (options.watchPocket && options.pocketsBool) {
+      draftWatchPocket.draft(sh)
+    } else {
       part.hide()
       return part
     }

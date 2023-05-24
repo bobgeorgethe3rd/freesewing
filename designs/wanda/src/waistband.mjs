@@ -27,9 +27,14 @@ export const waistband = {
   draft: (sh) => {
     const { macro, points, Point, paths, Path, utils, options, measurements, complete, part } = sh
 
-    if (options.waistbandStyle == 'straight' || !measurements.waistToHips || !measurements.hips)
-      waistbandStraight.draft(sh)
-    else waistbandCurved.draft(sh)
+    if (options.waistbandStyle == 'none') {
+      part.hide()
+      return part
+    } else {
+      if (options.waistbandStyle == 'straight' || !measurements.waistToHips || !measurements.hips)
+        waistbandStraight.draft(sh)
+      else waistbandCurved.draft(sh)
+    }
 
     if (complete) {
       if (options.waistbandStyle == 'straight' || !measurements.waistToHips || !measurements.hips) {
