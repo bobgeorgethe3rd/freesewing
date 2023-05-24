@@ -1,34 +1,19 @@
-import { welt as draftWelt } from '@freesewing/weltpocket'
+import { welt } from '@freesewing/weltpocket'
 import { backPocketBag } from './backPocketBag.mjs'
 
 export const backPocketWelt = {
   name: 'theobald.backPocketWelt',
-  from: draftWelt,
-  after: backPocketBag,
-  hide: {
-    from: true,
+  from: backPocketBag,
+  options: {
+    //Imported
+    ...welt.options,
   },
-  options: {},
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    log,
-    absoluteOptions,
-  }) => {
-    //set Render
-    if (!options.backPocketsBool) {
+  draft: (sh) => {
+    const { macro, points, options, complete, part } = sh
+    //set Render stroek Draft
+    if (options.backPocketsBool) {
+      welt.draft(sh)
+    } else {
       part.hide()
       return part
     }

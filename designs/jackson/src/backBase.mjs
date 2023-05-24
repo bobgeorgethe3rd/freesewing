@@ -38,14 +38,6 @@ export const backBase = {
     //Jackson
     //Style
     yokeAngle: { deg: 5.1, min: 3.5, max: 5.6, menu: 'style' },
-    beltLoopWidth: {
-      pct: 1.1,
-      min: 1,
-      max: 2,
-      snap: 5,
-      ...pctBasedOn('waist'),
-      menu: 'style',
-    },
   },
   plugins: [pluginLogoRG],
   draft: ({
@@ -186,8 +178,6 @@ export const backBase = {
     )
     store.set('waistBackTop', points.waistTopIn.dist(points.waistTopOut) * 2)
     store.set('waistbandWidth', absoluteOptions.waistbandWidth)
-    store.set('beltLoopLength', absoluteOptions.waistbandWidth * 2)
-    store.set('beltLoopWidth', absoluteOptions.beltLoopWidth)
     return part
   },
 }

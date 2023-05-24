@@ -1,34 +1,19 @@
-import { tab as draftTab } from '@freesewing/weltpocket'
+import { tab } from '@freesewing/weltpocket'
 import { backPocketWelt } from './backPocketWelt.mjs'
 
 export const backPocketTab = {
   name: 'theobald.backPocketTab',
-  from: draftTab,
   after: backPocketWelt,
-  hide: {
-    from: true,
+  options: {
+    //Imported
+    ...tab.options,
   },
-  options: {},
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    log,
-    absoluteOptions,
-  }) => {
-    //set Render
-    if (!options.backPocketsBool) {
+  draft: (sh) => {
+    const { macro, points, options, complete, part } = sh
+    //set Render stroke Draft
+    if (options.backPocketsBool) {
+      tab.draft(sh)
+    } else {
       part.hide()
       return part
     }

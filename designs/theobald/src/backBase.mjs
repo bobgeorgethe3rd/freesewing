@@ -43,14 +43,6 @@ export const backBase = {
     useVoidStores: false, //locked for Theobald
     //Theobald
     //Style
-    beltLoopWidth: {
-      pct: 1.1,
-      min: 1,
-      max: 2,
-      snap: 5,
-      ...pctBasedOn('waist'),
-      menu: 'style',
-    },
     backHemDrop: { pct: 0.8, min: 0, max: 1.5, menu: 'style' },
   },
   plugins: [pluginLogoRG],
@@ -159,8 +151,6 @@ export const backBase = {
     )
     store.set('waistBackTop', points.waistTopIn.dist(points.waistTopOut) * 2)
     store.set('waistbandWidth', absoluteOptions.waistbandWidth)
-    store.set('beltLoopLength', absoluteOptions.waistbandWidth * 2)
-    store.set('beltLoopWidth', absoluteOptions.beltLoopWidth)
     return part
   },
 }

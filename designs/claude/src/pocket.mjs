@@ -1,39 +1,23 @@
-import { pocket as draftInseamPocket } from '@freesewing/inseampocket'
+import { pocket as innseamPocket } from '@freesewing/inseampocket'
 import { skirtBase } from './skirtBase.mjs'
 
 export const pocket = {
   name: 'claude.inseamPocket',
-  from: draftInseamPocket,
   after: skirtBase,
-  hide: {
-    from: true,
-  },
   options: {
+    //Imported
+    ...innseamPocket.options,
     //Pockets
     pocketsBool: { bool: true, menu: 'pockets' },
     inseamPocketWidth: { pct: 75, min: 40, max: 90, menu: 'pockets.inseamPockets' },
     inseamPocketDepth: { pct: 15, min: 15, max: 40, menu: 'pockets.inseamPockets' },
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    log,
-    absoluteOptions,
-  }) => {
-    //set Render
-    if (!options.pocketsBool) {
+  draft: (sh) => {
+    const { macro, points, options, store, complete, part } = sh
+    //set Render stroke Draft
+    if (options.pocketsBool) {
+      innseamPocket.draft(sh)
+    } else {
       part.hide()
       return part
     }

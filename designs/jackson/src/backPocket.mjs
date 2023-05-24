@@ -3,12 +3,10 @@ import { back } from './back.mjs'
 
 export const backPocket = {
   name: 'jackson.backPocket',
-  from: pocket,
   after: back,
-  hide: {
-    from: true,
-  },
   options: {
+    //Imported
+    ...pocket.options,
     //Constants
     patchPocketPeakPlateau: false, //locked for Jackson
     patchPocketPeakCurve: 1, //locked for Jackson
@@ -19,24 +17,12 @@ export const backPocket = {
     //Pockets
     backPocketPleat: { bool: true, menu: 'pockets.backPockets' },
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    log,
-    absoluteOptions,
-  }) => {
+  draft: (sh) => {
+    //draft
+    const { store, sa, Point, points, Path, paths, options, complete, macro, utils, part } = sh
+
+    pocket.draft(sh)
+
     // keep paths
     const keepThese = ['top', 'grainline']
 
