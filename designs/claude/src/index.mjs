@@ -8,6 +8,7 @@ import { skirtFront } from './skirtFront.mjs'
 import { skirtBack } from './skirtBack.mjs'
 import { pocket } from './pocket.mjs'
 import { placket } from './placket.mjs'
+import { beltLoops } from './beltLoops.mjs'
 import { waistband } from './waistband.mjs'
 // import { waistbandStraight } from './waistbandStraight.mjs'
 // import { waistbandCurved } from './waistbandCurved.mjs'
@@ -24,6 +25,7 @@ const Claude = new Design({
     skirtBack,
     pocket,
     placket,
+    beltLoops,
     waistband,
     // waistbandStraight,
     // waistbandCurved,
@@ -40,6 +42,7 @@ export {
   skirtBack,
   pocket,
   placket,
+  beltLoops,
   waistband,
   // waistbandStraight,
   // waistbandCurved,

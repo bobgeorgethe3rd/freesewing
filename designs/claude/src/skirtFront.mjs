@@ -344,7 +344,7 @@ export const skirtFront = {
         })
       }
       //notches
-      if (store.get('pocketOpeningLength') < paths.sideSeam.length()) {
+      if (store.get('pocketLength') < skirtLength) {
         points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
         points.pocketOpeningBottom = paths.sideSeam
           .reverse()
