@@ -180,7 +180,7 @@ export const strap = {
       macro('title', {
         at: points.title,
         nr: 3,
-        title: 'Strap / Ties',
+        title: 'Strap / Tie',
         scale: 1 / 3,
       })
 
