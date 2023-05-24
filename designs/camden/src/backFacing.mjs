@@ -76,7 +76,7 @@ export const backFacing = {
         to: points.cutOnFoldTo,
       })
       //title
-      points.title = new Point(points.dartTip.x, points.armholePitchCp1New.y) //points.strapMid.y + ((points.armholePitchCp1New.y - points.strapMid.y) * 0.75))
+      points.title = new Point(points.dartTip.x, points.armholePitchCp1New.y)
       macro('title', {
         at: points.title,
         nr: 5,
