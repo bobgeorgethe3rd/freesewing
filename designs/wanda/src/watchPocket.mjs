@@ -8,6 +8,8 @@ export const watchPocket = {
     ...draftWatchPocket.options,
     //Pockets
     watchPocket: { bool: true, menu: 'pockets.watchPockets' },
+    //Advanced
+    scalePockets: { bool: true, menu: 'advanced.pockets' },
   },
   after: skirtBase,
   draft: (sh) => {
