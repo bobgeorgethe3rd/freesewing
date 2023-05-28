@@ -33,14 +33,14 @@ const titleMacro = function (so, { points, scale, locale, store, complete }) {
     so.scale = so.scale * scale
     let overwrite = true
     if (so.append) overwrite = false
-    points[id + 'titleNr'] = so.at
+    points[id + 'Nr'] = so.at
       .clone()
       .attr('data-text', so.nr, overwrite)
       .attr('data-text-class', 'text-4xl fill-note font-bold')
       .attr('data-text-transform', transform(so.at))
     let shift = 8
     if (so.title) {
-      points[id + 'titleName'] = so.at
+      points[id + 'Name'] = so.at
         .shift(-90 - so.rotation, shift * so.scale)
         .attr('data-text', so.title)
         .attr('data-text-class', 'text-lg fill-current font-bold')
@@ -49,7 +49,7 @@ const titleMacro = function (so, { points, scale, locale, store, complete }) {
     }
     let name = store.data?.name || 'No Name'
     name = name.replace('@freesewing/', '')
-    points[id + 'titlePattern'] = so.at
+    points[id + 'Pattern'] = so.at
       .shift(-90 - so.rotation, shift * so.scale)
       .attr('data-text', name)
       .attr('data-text', 'v' + (store.data?.version || 'No Version'))
@@ -57,7 +57,7 @@ const titleMacro = function (so, { points, scale, locale, store, complete }) {
       .attr('data-text-transform', transform(so.at.shift(-90 - so.rotation, shift * so.scale)))
     if (store.data.for) {
       shift += 8
-      points[id + 'titleFor'] = so.at
+      points[id + 'For'] = so.at
         .shift(-90 - so.rotation, shift * so.scale)
         .attr('data-text', '( ' + store.data.for + ' )')
         .attr('data-text-class', 'fill-current font-bold')
