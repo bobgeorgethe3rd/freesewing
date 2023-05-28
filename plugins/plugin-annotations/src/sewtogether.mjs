@@ -40,10 +40,11 @@ export const sewtogetherMacros = {
       return true
     }
     so = {
+      detail: true,
       ...so,
     }
 
-    if (complete) {
+    if ((complete && so.detail) || !so.detail) {
       if (null == so.middle) {
         so.middle = so.from.shiftFractionTowards(so.to, 0.5)
       }

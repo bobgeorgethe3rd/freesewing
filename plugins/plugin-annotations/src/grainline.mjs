@@ -6,7 +6,7 @@ const markers = `
 	<path class="note fill-note" d="M 12,4 L 0,0 C 2,2 2,6  0,8 z" />
 </marker>`
 
-const dflts = { text: 'grainline' }
+const dflts = { text: 'grainline', detail: true }
 
 // Export hooks and macros
 export const grainlineHooks = {
@@ -18,7 +18,7 @@ export const grainlineHooks = {
 }
 
 export const grainlineMacros = {
-  grainline: function (so = {}, { points, paths, Path, complete, setGrain }) {
+  grainline: function (so = {}, { points, paths, Path, complete, store, setGrain }) {
     let prefix
     if (so.id) {
       prefix = '_' + so.id
@@ -35,18 +35,18 @@ export const grainlineMacros = {
       for (const pathName in paths) {
         if (pathName.match('_grainline')) delete paths[pathName]
       }
-      setGrain(90) // Restoring default
+      store.cutlist.setGrain(90) // Restoring default
       return true
     }
     so = {
       ...dflts,
       ...so,
     }
-    // setGrain relies on plugin-cutlist
-    if (typeof setGrain === 'function') {
-      setGrain(so.from.angle(so.to))
+    // store.cutlist.setGrain relies on plugin-cutlist
+    if (typeof store.cutlist.setGrain === 'function') {
+      store.cutlist.setGrain(so.from.angle(so.to))
     }
-    if (complete) {
+    if ((complete && so.detail) || !so.detail) {
       points[id + 'From'] = so.from.shiftFractionTowards(so.to, 0.05)
       points[id + 'To'] = so.to.shiftFractionTowards(so.from, 0.05)
       paths[id] = new Path()

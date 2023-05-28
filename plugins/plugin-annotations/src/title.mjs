@@ -1,4 +1,4 @@
-const titleMacro = function (so, { points, scale, locale, store }) {
+const titleMacro = function (so, { points, scale, locale, store, complete }) {
   let prefix
   if (so.id) {
     prefix = '_' + so.id
@@ -25,62 +25,65 @@ const titleMacro = function (so, { points, scale, locale, store }) {
   const defaults = {
     scale: 1,
     rotation: 0,
+    detail: true,
   }
 
   so = { ...defaults, ...so }
-  so.scale = so.scale * scale
-  let overwrite = true
-  if (so.append) overwrite = false
-  points[id + 'titleNr'] = so.at
-    .clone()
-    .attr('data-text', so.nr, overwrite)
-    .attr('data-text-class', 'text-4xl fill-note font-bold')
-    .attr('data-text-transform', transform(so.at))
-  let shift = 8
-  if (so.title) {
-    points[id + 'titleName'] = so.at
+  if ((complete && so.detail) || !so.detail) {
+    so.scale = so.scale * scale
+    let overwrite = true
+    if (so.append) overwrite = false
+    points[id + 'titleNr'] = so.at
+      .clone()
+      .attr('data-text', so.nr, overwrite)
+      .attr('data-text-class', 'text-4xl fill-note font-bold')
+      .attr('data-text-transform', transform(so.at))
+    let shift = 8
+    if (so.title) {
+      points[id + 'titleName'] = so.at
+        .shift(-90 - so.rotation, shift * so.scale)
+        .attr('data-text', so.title)
+        .attr('data-text-class', 'text-lg fill-current font-bold')
+        .attr('data-text-transform', transform(so.at.shift(-90 - so.rotation, 13 * so.scale)))
+      shift += 8
+    }
+    let name = store.data?.name || 'No Name'
+    name = name.replace('@freesewing/', '')
+    points[id + 'titlePattern'] = so.at
       .shift(-90 - so.rotation, shift * so.scale)
-      .attr('data-text', so.title)
-      .attr('data-text-class', 'text-lg fill-current font-bold')
-      .attr('data-text-transform', transform(so.at.shift(-90 - so.rotation, 13 * so.scale)))
-    shift += 8
-  }
-  let name = store.data?.name || 'No Name'
-  name = name.replace('@freesewing/', '')
-  points[id + 'titlePattern'] = so.at
-    .shift(-90 - so.rotation, shift * so.scale)
-    .attr('data-text', name)
-    .attr('data-text', 'v' + (store.data?.version || 'No Version'))
-    .attr('data-text-class', 'fill-note')
-    .attr('data-text-transform', transform(so.at.shift(-90 - so.rotation, shift * so.scale)))
-  if (store.data.for) {
-    shift += 8
-    points[id + 'titleFor'] = so.at
+      .attr('data-text', name)
+      .attr('data-text', 'v' + (store.data?.version || 'No Version'))
+      .attr('data-text-class', 'fill-note')
+      .attr('data-text-transform', transform(so.at.shift(-90 - so.rotation, shift * so.scale)))
+    if (store.data.for) {
+      shift += 8
+      points[id + 'titleFor'] = so.at
+        .shift(-90 - so.rotation, shift * so.scale)
+        .attr('data-text', '( ' + store.data.for + ' )')
+        .attr('data-text-class', 'fill-current font-bold')
+        .attr('data-text-transform', transform(so.at.shift(-90 - so.rotation, shift * so.scale)))
+    }
+    shift += 6
+    const now = new Date()
+    let hours = now.getHours()
+    let mins = now.getMinutes()
+    if (hours < 10) hours = `0${hours}`
+    if (mins < 10) mins = `0${mins}`
+    points[id + 'ExportDate'] = so.at
       .shift(-90 - so.rotation, shift * so.scale)
-      .attr('data-text', '( ' + store.data.for + ' )')
-      .attr('data-text-class', 'fill-current font-bold')
+      .attr(
+        'data-text',
+        now.toLocaleDateString(locale || 'en', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        })
+      )
+      .attr('data-text', `@ ${hours}:${mins}`)
+      .attr('data-text-class', 'text-sm')
       .attr('data-text-transform', transform(so.at.shift(-90 - so.rotation, shift * so.scale)))
   }
-  shift += 6
-  const now = new Date()
-  let hours = now.getHours()
-  let mins = now.getMinutes()
-  if (hours < 10) hours = `0${hours}`
-  if (mins < 10) mins = `0${mins}`
-  points[id + 'ExportDate'] = so.at
-    .shift(-90 - so.rotation, shift * so.scale)
-    .attr(
-      'data-text',
-      now.toLocaleDateString(locale || 'en', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      })
-    )
-    .attr('data-text', `@ ${hours}:${mins}`)
-    .attr('data-text-class', 'text-sm')
-    .attr('data-text-transform', transform(so.at.shift(-90 - so.rotation, shift * so.scale)))
 }
 
 // Export macros
