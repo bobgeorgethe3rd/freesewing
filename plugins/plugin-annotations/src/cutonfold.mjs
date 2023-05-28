@@ -18,7 +18,13 @@ export const cutonfoldHooks = {
 // Export macros
 export const cutonfoldMacros = {
   cutonfold: function (so, { points, paths, Path, complete, setCutOnFold, setGrain, scale }) {
-    const prefix = (so.prefix || '') + '_cutonfold'
+    let prefix
+    if (so.id) {
+      prefix = '_' + so.id
+    } else {
+      prefix = ''
+    }
+    const id = prefix + '_cutonfold'
 
     if (so === false) {
       for (const pointName in points) {
@@ -44,20 +50,20 @@ export const cutonfoldMacros = {
       if (so.grainline) setGrain(so.from.angle(so.to))
     }
     if (complete) {
-      points[prefix + 'From'] = so.from.shiftFractionTowards(so.to, so.margin / 100)
-      points[prefix + 'To'] = so.to.shiftFractionTowards(so.from, so.margin / 100)
-      points[prefix + 'Via1'] = points[prefix + 'From']
+      points[id + 'From'] = so.from.shiftFractionTowards(so.to, so.margin / 100)
+      points[id + 'To'] = so.to.shiftFractionTowards(so.from, so.margin / 100)
+      points[id + 'Via1'] = points[id + 'From']
         .shiftTowards(so.from, so.offset * scale)
-        .rotate(-90, points[prefix + 'From'])
-      points[prefix + 'Via2'] = points[prefix + 'To']
+        .rotate(-90, points[id + 'From'])
+      points[id + 'Via2'] = points[id + 'To']
         .shiftTowards(so.to, so.offset * scale)
-        .rotate(90, points[prefix + 'To'])
+        .rotate(90, points[id + 'To'])
       const text = so.grainline ? 'cutOnFoldAndGrainline' : 'cutOnFold'
-      paths[prefix + 'Cutonfold'] = new Path()
-        .move(points[prefix + 'From'])
-        .line(points[prefix + 'Via1'])
-        .line(points[prefix + 'Via2'])
-        .line(points[prefix + 'To'])
+      paths[id + 'Cutonfold'] = new Path()
+        .move(points[id + 'From'])
+        .line(points[id + 'Via1'])
+        .line(points[id + 'Via2'])
+        .line(points[id + 'To'])
         .attr('class', 'note')
         .attr('marker-start', 'url(#cutonfoldFrom)')
         .attr('marker-end', 'url(#cutonfoldTo)')

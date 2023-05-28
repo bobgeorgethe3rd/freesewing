@@ -1,5 +1,12 @@
 const titleMacro = function (so, { points, scale, locale, store }) {
-  const prefix = (so.prefix || '') + '_title'
+  let prefix
+  if (so.id) {
+    prefix = '_' + so.id
+  } else {
+    prefix = ''
+  }
+
+  const id = prefix + '_title'
 
   // Passing `false` will remove the title
   if (so === false) {
@@ -24,14 +31,14 @@ const titleMacro = function (so, { points, scale, locale, store }) {
   so.scale = so.scale * scale
   let overwrite = true
   if (so.append) overwrite = false
-  points[prefix + 'titleNr'] = so.at
+  points[id + 'titleNr'] = so.at
     .clone()
     .attr('data-text', so.nr, overwrite)
     .attr('data-text-class', 'text-4xl fill-note font-bold')
     .attr('data-text-transform', transform(so.at))
   let shift = 8
   if (so.title) {
-    points[prefix + 'titleName'] = so.at
+    points[id + 'titleName'] = so.at
       .shift(-90 - so.rotation, shift * so.scale)
       .attr('data-text', so.title)
       .attr('data-text-class', 'text-lg fill-current font-bold')
@@ -40,7 +47,7 @@ const titleMacro = function (so, { points, scale, locale, store }) {
   }
   let name = store.data?.name || 'No Name'
   name = name.replace('@freesewing/', '')
-  points[prefix + 'titlePattern'] = so.at
+  points[id + 'titlePattern'] = so.at
     .shift(-90 - so.rotation, shift * so.scale)
     .attr('data-text', name)
     .attr('data-text', 'v' + (store.data?.version || 'No Version'))
@@ -48,7 +55,7 @@ const titleMacro = function (so, { points, scale, locale, store }) {
     .attr('data-text-transform', transform(so.at.shift(-90 - so.rotation, shift * so.scale)))
   if (store.data.for) {
     shift += 8
-    points[prefix + 'titleFor'] = so.at
+    points[id + 'titleFor'] = so.at
       .shift(-90 - so.rotation, shift * so.scale)
       .attr('data-text', '( ' + store.data.for + ' )')
       .attr('data-text-class', 'fill-current font-bold')
@@ -60,7 +67,7 @@ const titleMacro = function (so, { points, scale, locale, store }) {
   let mins = now.getMinutes()
   if (hours < 10) hours = `0${hours}`
   if (mins < 10) mins = `0${mins}`
-  points[prefix + 'ExportDate'] = so.at
+  points[id + 'ExportDate'] = so.at
     .shift(-90 - so.rotation, shift * so.scale)
     .attr(
       'data-text',
