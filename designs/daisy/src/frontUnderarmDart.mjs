@@ -89,7 +89,7 @@ export const frontUnderarmDart = ({
     points.title = new Point(points.hps.x, points.armholePitchCp1.y)
     macro('title', {
       at: points.title,
-      nr: 'X',
+      nr: '1',
       title: 'Front ' + utils.capitalize(options.bustDartPlacement) + ' Dart',
     })
 

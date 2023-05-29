@@ -102,7 +102,7 @@ export const frontCfDart = ({
     points.title = new Point(points.armholePitchCp1.x * (3 / 4), points.bust.y)
     macro('title', {
       at: points.title,
-      nr: 'X',
+      nr: '1',
       title: 'Front ' + utils.capitalize(options.bustDartPlacement) + ' Dart',
     })
 
