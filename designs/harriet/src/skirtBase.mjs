@@ -34,6 +34,7 @@ export const skirtBase = {
     //measures
     const skirtHighLength = store.get('skirtHighLength')
     const skirtLength = store.get('skirtLength')
+    const skirtFraction = skirtHighLength / skirtLength
 
     paths.backHemTest = new Path()
       .move(points.cbHem)
@@ -54,9 +55,9 @@ export const skirtBase = {
 
     //let's begin
     points.cfHem = points.cfWaist.shiftTowards(points.cfHem, skirtHighLength)
-    points.frontHemMid = points.frontHemMidMin.shiftFractionTowards(
+    points.frontHemMidAnchor = points.frontHemMidMin.shiftFractionTowards(
       points.frontHemMid,
-      options.sideSkirtFraction * 0.35
+      options.sideSkirtFraction * skirtFraction
     )
     points.sideFrontHem = points.sideFrontHemMin.shiftFractionTowards(
       points.sideFrontHemMax,
@@ -66,9 +67,9 @@ export const skirtBase = {
       points.sideBackHemMax,
       options.sideSkirtFraction
     )
-    points.backHemMid = points.backHemMid.shiftFractionTowards(
+    points.backHemMidAnchor = points.backHemMid.shiftFractionTowards(
       points.backHemMidMin,
-      (1 - options.sideSkirtFraction) * (1 - 0.35)
+      (1 - options.sideSkirtFraction) * skirtFraction
     )
     //front control points
     points.frontHemCp1 = utils.beamsIntersect(
@@ -92,65 +93,90 @@ export const skirtBase = {
     )
 
     points.frontHemCp2 = utils.beamsIntersect(
-      points.frontHemMid,
-      points.frontHemMid.shift(points.frontHemCp4.angle(points.frontHemCp1), 1),
+      points.frontHemMidAnchor,
+      points.frontHemMidAnchor.shift(points.frontHemCp4.angle(points.frontHemCp1), 1),
       points.frontHemCp2,
       points.waistFrontCp3
     )
+
     points.frontHemCp3 = utils.beamsIntersect(
       points.frontHemCp2,
-      points.frontHemMid,
+      points.frontHemMidAnchor,
       points.frontHemCp3,
       points.waistFrontCp2
     )
 
+    points.frontHemCp2Anchor = utils.beamsIntersect(
+      points.frontHemMidMin,
+      points.frontHemMidMin.shift(points.waistFrontCp2.angle(points.waistFrontCp3), 1),
+      points.frontHemCp2,
+      points.waistFrontCp3
+    )
+
+    points.frontHemCp3Anchor = utils.beamsIntersect(
+      points.frontHemMid,
+      points.frontHemMid.shift(points.waistFrontCp3.angle(points.waistFrontCp2), 1),
+      points.frontHemCp3,
+      points.waistFrontCp2
+    )
+    if (points.frontHemCp2.y < points.frontHemCp2Anchor.y) {
+      points.frontHemCp2 = points.frontHemCp2Anchor.clone()
+    }
+    if (points.frontHemCp3.y > points.frontHemCp3Anchor.y) {
+      points.frontHemCp3 = points.frontHemCp3Anchor.clone()
+    }
+
+    points.frontHemMid = utils.beamsIntersect(
+      points.frontHemCp2,
+      points.frontHemCp3,
+      points.frontHemMid,
+      points.waistFrontMid
+    )
+
     points.backHemCp3 = utils.beamsIntersect(
-      points.backHemMid,
-      points.backHemMid.shift(points.backHemCp1.angle(points.backHemCp4), 1),
+      points.backHemMidAnchor,
+      points.backHemMidAnchor.shift(points.backHemCp1.angle(points.backHemCp4), 1),
       points.backHemCp3,
       points.waistBackCp2
     )
 
     points.backHemCp2 = utils.beamsIntersect(
       points.backHemCp3,
-      points.backHemMid,
+      points.backHemMidAnchor,
       points.backHemCp2,
-      points.waistFrontCp3
+      points.waistBackCp3
     )
 
-    // points.frontHemCp2Min = utils.beamsIntersect(
-    // points.frontHemMidMin,
-    // points.waistFrontMid.rotate(90, points.frontHemMidMin),
-    // points.frontHemCp2,
-    // points.waistFrontCp3
-    // )
+    points.backHemCp3Anchor = utils.beamsIntersect(
+      points.backHemMidMin.shiftFractionTowards(points.backHemMid, options.sideSkirtFraction),
+      points.backHemMidMin
+        .shiftFractionTowards(points.backHemMid, options.sideSkirtFraction)
+        .shift(points.waistBackCp3.angle(points.waistBackCp2), 1),
+      points.backHemCp3,
+      points.waistBackCp2
+    )
 
-    // points.frontHemCp2 = points.frontHemCp2Min.shiftFractionTowards(points.frontHemCp2, options.sideSkirtFraction / 8)
+    points.backHemCp2Anchor = utils.beamsIntersect(
+      points.backHemMid,
+      points.backHemMid.shift(points.waistBackCp2.angle(points.waistBackCp3), 1),
+      points.backHemCp2,
+      points.waistBackCp3
+    )
 
-    // points.frontHemCp3Min = utils.beamsIntersect(
-    // points.frontHemMidMin,
-    // points.waistFrontMid.rotate(-90, points.frontHemMidMin),
-    // points.frontHemCp3,
-    // points.waistFrontCp2
-    // )
+    if (points.backHemCp3.y < points.backHemCp3Anchor.y) {
+      points.backHemCp3 = points.backHemCp3Anchor.clone()
+    }
 
-    // points.frontHemCp3 = points.frontHemCp3Min.shiftFractionTowards(points.frontHemCp3, options.sideSkirtFraction * (7 / 8))
+    if (points.backHemCp2.y > points.backHemCp2Anchor.y) {
+      points.backHemCp2 = points.backHemCp2Anchor.clone()
+    }
 
-    // points.frontHemMid = utils.beamsIntersect(
-    // points.frontHemCp2,
-    // points.frontHemCp3,
-    // points.waistFrontMid,
-    // points.frontHemMid
-    // )
-
-    // points.backHemCp2Max = utils.beamsIntersect(
-    // points.backHemMidMin,
-    // points.waistBackMid.rotate(90, points.backHemMidMin),
-    // points.backHemCp2,
-    // points.waistFrontCp3
-    // )
-
-    // points.backHemCp2 = points.backHemCp2.shiftFractionTowards(points.backHemCp2Max, (1 - options.sideSkirtFraction) / 4)
+    points.backHemMid = utils.beamsIntersect(
+      points.backHemCp2,
+      points.backHemCp3,
+      points.backHemMid,
+      points.waistFrontMid
+    )
 
     //guides
     if (points.frontHemExtension) {
@@ -191,14 +217,26 @@ export const skirtBase = {
 
     paths.test0 = paths.backHemTest
       .offset((skirtHighLength - skirtLength) / 4)
-      .attr('class', 'canvas')
+      .attr('class', 'interfacing lashed')
     paths.test1 = paths.backHemTest
       .offset((skirtHighLength - skirtLength) / 2)
-      .attr('class', 'canvas')
+      .attr('class', 'interfacing lashed')
     paths.test2 = paths.backHemTest
       .offset((skirtHighLength - skirtLength) * (3 / 4))
-      .attr('class', 'canvas')
-    paths.test3 = paths.backHemTest.offset(skirtHighLength - skirtLength).attr('class', 'canvas')
+      .attr('class', 'interfacing lashed')
+    paths.test3 = paths.backHemTest
+      .offset(skirtHighLength - skirtLength)
+      .attr('class', 'interfacing lashed')
+
+    paths.test4 = new Path()
+      .move(points.sideBackHemMax)
+      .line(points.sideWaistBack)
+      .attr('class', 'interfacing lashed')
+
+    paths.test5 = new Path()
+      .move(points.frontHemMid)
+      .line(points.backHemMid)
+      .attr('class', 'interfacing lashed')
 
     return part
   },
