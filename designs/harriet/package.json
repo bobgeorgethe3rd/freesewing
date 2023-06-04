@@ -1,7 +1,7 @@
 {
-  "name": "@freesewing/claude",
+  "name": "@freesewing/harriet",
   "version": "3.0.0-alpha.8",
-  "description": "A Cricle Skirt design to be both independent and extended in to other desgins",
+  "description": "A High - Low circle skirt design to be both independent and extended in to other desgins",
   "author": "bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)",
   "homepage": "https://freesewing.org/",
   "repository": "github:freesewing/freesewing",
@@ -50,7 +50,12 @@
     "@freesewing/plugin-bundle": "3.0.0-alpha.8",
     "@freesewing/plugin-logorg": "3.0.0-alpha.8"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@freesewing/claude": "3.0.0-alpha.8",
+    "@freesewing/inseampocket": "3.0.0-alpha.8",
+    "@freesewing/waistbandstraight": "3.0.0-alpha.8",
+    "@freesewing/waistbandcurved": "3.0.0-alpha.8"
+  },
   "devDependencies": {
     "mocha": "10.2.0",
     "chai": "4.2.0"

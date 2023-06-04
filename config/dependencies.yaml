@@ -105,6 +105,12 @@ fallon:
     '@freesewing/inseampocket': *freesewing
     '@freesewing/boxpleatpocket': *freesewing
     '@freesewing/pearpocket': *freesewing
+harriet:
+  _:
+    '@freesewing/claude': *freesewing
+    '@freesewing/inseampocket': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
 holmes:
   _:
     '@freesewing/plugin-gore': *freesewing

@@ -792,6 +792,7 @@ export const skirtBase = {
     store.set('maxButtons', 1)
 
     store.set('skirtLength', skirtLength)
+    store.set('skirtHighLength', skirtHighLength)
     store.set('skirtFrontFullness', skirtFrontFullness)
     store.set('skirtBackFullness', skirtBackFullness)
     store.set('frontRadius', frontRadius)
