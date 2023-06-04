@@ -740,7 +740,6 @@ export const skirtBase = {
               points.sideWaistBack
             )
           }
-
           if (!points.sideBackExtension || backIntersect) {
             points.sideBackExtension = points.hipsBackCp4.shiftOutwards(points.sideHipsBack, ex)
             points.backHemExtension = points.backHemCp4.shiftOutwards(points.sideBackHem, ex)
