@@ -177,6 +177,10 @@ export const skirtBase = {
       points.backHemMid,
       points.waistFrontMid
     )
+    //side split
+    if (points.frontHemExtension) {
+      const ex = points.sideFrontHem.dist(points.frontHemExtension)
+    }
 
     //guides
     if (points.frontHemExtension) {
