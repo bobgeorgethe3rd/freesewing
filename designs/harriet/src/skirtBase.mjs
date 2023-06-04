@@ -56,7 +56,7 @@ export const skirtBase = {
     points.cfHem = points.cfWaist.shiftTowards(points.cfHem, skirtHighLength)
     points.frontHemMid = points.frontHemMidMin.shiftFractionTowards(
       points.frontHemMid,
-      options.sideSkirtFraction * 0.375
+      options.sideSkirtFraction * 0.35
     )
     points.sideFrontHem = points.sideFrontHemMin.shiftFractionTowards(
       points.sideFrontHemMax,
@@ -68,7 +68,7 @@ export const skirtBase = {
     )
     points.backHemMid = points.backHemMid.shiftFractionTowards(
       points.backHemMidMin,
-      (1 - options.sideSkirtFraction) * (1 - 0.375)
+      (1 - options.sideSkirtFraction) * (1 - 0.35)
     )
     //front control points
     points.frontHemCp1 = utils.beamsIntersect(
