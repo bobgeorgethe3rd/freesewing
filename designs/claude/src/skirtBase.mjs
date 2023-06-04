@@ -262,12 +262,12 @@ export const skirtBase = {
     const frontAngle = 90 * skirtFrontFullness
     const backAngle = 90 * skirtBackFullness
 
-    const frontGatheringAngle = -utils.rad2deg(
-      Math.asin((frontBottomCircumference * skirtFrontGathering) / 48 / frontRadius)
-    )
-    const backGatheringAngle = -utils.rad2deg(
-      Math.asin((backBottomCircumference * skirtBackGathering) / 48 / backRadius)
-    )
+    // const frontGatheringAngle = -utils.rad2deg(
+    // Math.asin((frontBottomCircumference * skirtFrontGathering) / 48 / frontRadius)
+    // )
+    // const backGatheringAngle = -utils.rad2deg(
+    // Math.asin((backBottomCircumference * skirtBackGathering) / 48 / backRadius)
+    // )
 
     const waistFrontCpDistance = (4 / 3) * frontRadius * Math.tan(utils.deg2rad(frontAngle / 8))
     const waistBackCpDistance = (4 / 3) * backRadius * Math.tan(utils.deg2rad(backAngle / 8))
@@ -303,6 +303,17 @@ export const skirtBase = {
       skirtLength = skirtLengthTarget - rise
       skirtHighLength = skirtHighLengthTarget - rise
     }
+
+    const frontGatheringAngle = -utils.rad2deg(
+      Math.asin(
+        (frontBottomCircumference * skirtFrontFullness * skirtFrontGathering) / 12 / skirtLength
+      )
+    )
+    const backGatheringAngle = -utils.rad2deg(
+      Math.asin(
+        (backBottomCircumference * skirtBackFullness * skirtBackGathering) / 12 / skirtLength
+      )
+    )
 
     const toHips = measurements.waistToHips - rise
     const toSeat = measurements.waistToSeat - rise
