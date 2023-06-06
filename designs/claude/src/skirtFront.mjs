@@ -131,7 +131,7 @@ export const skirtFront = {
             points.sideFrontFacing,
             points.frontFacingCp1.shiftOutwards(
               points.sideFrontFacing,
-              points.sideFrontHem.dist(points.frontHemExtension)
+              points.sideFrontHem.dist(points.frontHemExtension) * 29
             ),
             points.sideFrontExtension,
             points.sideSeamFrontCp,
@@ -151,10 +151,7 @@ export const skirtFront = {
           }
           paths.facing = paths.facing.line(points.facingFrontExtension)
         }
-        paths.sideFrontFacing = paths.sideSeam
-          .split(paths.hemBase.end())[1]
-          .split(paths.facing.end())[0]
-          .hide()
+        paths.sideFrontFacing = paths.sideSeam.split(paths.facing.end())[0].hide()
       }
       //back titles
       let titleBack
