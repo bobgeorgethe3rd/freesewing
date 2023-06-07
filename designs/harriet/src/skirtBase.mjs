@@ -119,10 +119,16 @@ export const skirtBase = {
       points.frontHemCp3,
       points.waistFrontCp2
     )
-    if (points.frontHemCp2.y < points.frontHemCp2Anchor.y) {
+    if (
+      points.frontHemCp2.y < points.frontHemCp2Anchor.y ||
+      points.frontHemCp2.x < points.frontHemCp2Anchor.x
+    ) {
       points.frontHemCp2 = points.frontHemCp2Anchor.clone()
     }
-    if (points.frontHemCp3.y > points.frontHemCp3Anchor.y) {
+    if (
+      points.frontHemCp3.y > points.frontHemCp3Anchor.y &&
+      points.frontHemCp3.x > points.frontHemCp3Anchor.x
+    ) {
       points.frontHemCp3 = points.frontHemCp3Anchor.clone()
     }
 
@@ -163,11 +169,17 @@ export const skirtBase = {
       points.waistBackCp3
     )
 
-    if (points.backHemCp3.y < points.backHemCp3Anchor.y) {
+    if (
+      points.backHemCp3.y < points.backHemCp3Anchor.y &&
+      points.backHemCp3.x < points.backHemCp3Anchor.x
+    ) {
       points.backHemCp3 = points.backHemCp3Anchor.clone()
     }
 
-    if (points.backHemCp2.y > points.backHemCp2Anchor.y) {
+    if (
+      points.backHemCp2.y > points.backHemCp2Anchor.y ||
+      points.backHemCp2.x < points.backHemCp2Anchor.x
+    ) {
       points.backHemCp2 = points.backHemCp2Anchor.clone()
     }
 
@@ -179,7 +191,37 @@ export const skirtBase = {
     )
     //side split
     if (points.frontHemExtension) {
-      const ex = points.sideFrontHem.dist(points.frontHemExtension)
+      const ex = points.sideFrontHemMax.dist(points.frontHemExtension)
+      points.frontHemExtension = points.frontHemCp4.shiftOutwards(points.sideFrontHem, ex)
+      points.backHemExtension = points.backHemCp4.shiftOutwards(points.sideBackHem, ex)
+
+      let frontIntersect = utils.lineIntersectsCurve(
+        points.sideFrontHem,
+        points.frontHemExtension,
+        points.sideFrontExtension,
+        points.sideSeamFrontCp,
+        points.sideWaistFront,
+        points.sideWaistFront
+      )
+      if (frontIntersect) {
+        points.frontHemExSplit = frontIntersect
+      } else {
+        points.frontHemExSplit = points.frontHemExtension
+      }
+
+      let backIntersect = utils.lineIntersectsCurve(
+        points.sideBackHem,
+        points.backHemExtension,
+        points.sideBackExtension,
+        points.sideSeamBackCp,
+        points.sideWaistBack,
+        points.sideWaistBack
+      )
+      if (backIntersect) {
+        points.backHemExSplit = backIntersect
+      } else {
+        points.backHemExSplit = points.backHemExtension
+      }
     }
 
     //guides
@@ -211,7 +253,7 @@ export const skirtBase = {
     paths.frontHem = new Path()
       .move(points.cfHem)
       .curve(points.frontHemCp1, points.frontHemCp2, points.frontHemMid)
-      .curve(points.frontHemCp3, points.frontHemCp4, points.sideBackHem)
+      .curve(points.frontHemCp3, points.frontHemCp4, points.sideFrontHem)
 
     paths.backHem = new Path()
       .move(points.cbHem)
