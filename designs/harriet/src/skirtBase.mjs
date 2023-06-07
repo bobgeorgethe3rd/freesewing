@@ -120,14 +120,20 @@ export const skirtBase = {
       points.waistFrontCp2
     )
     if (
-      points.frontHemCp2.y < points.frontHemCp2Anchor.y ||
-      points.frontHemCp2.x < points.frontHemCp2Anchor.x
+      utils.pointOnLine(
+        points.frontHemCp2Anchor,
+        points.frontHemCp2Anchor.shiftOutwards(points.waistFrontCp3, skirtLength * 100),
+        points.frontHemCp2
+      )
     ) {
       points.frontHemCp2 = points.frontHemCp2Anchor.clone()
     }
     if (
-      points.frontHemCp3.y > points.frontHemCp3Anchor.y &&
-      points.frontHemCp3.x > points.frontHemCp3Anchor.x
+      utils.pointOnLine(
+        points.frontHemCp3Anchor,
+        points.waistFrontCp2.shiftOutwards(points.frontHemCp3Anchor, skirtLength * 100),
+        points.frontHemCp3
+      )
     ) {
       points.frontHemCp3 = points.frontHemCp3Anchor.clone()
     }
@@ -170,15 +176,21 @@ export const skirtBase = {
     )
 
     if (
-      points.backHemCp3.y < points.backHemCp3Anchor.y &&
-      points.backHemCp3.x < points.backHemCp3Anchor.x
+      utils.pointOnLine(
+        points.backHemCp3Anchor,
+        points.backHemCp3Anchor.shiftOutwards(points.waistBackCp2, skirtLength * 100),
+        points.backHemCp3
+      )
     ) {
       points.backHemCp3 = points.backHemCp3Anchor.clone()
     }
 
     if (
-      points.backHemCp2.y > points.backHemCp2Anchor.y ||
-      points.backHemCp2.x < points.backHemCp2Anchor.x
+      utils.pointOnLine(
+        points.backHemCp2Anchor,
+        points.waistBackCp3.shiftOutwards(points.backHemCp2Anchor, skirtLength * 100),
+        points.backHemCp2
+      )
     ) {
       points.backHemCp2 = points.backHemCp2Anchor.clone()
     }
@@ -223,7 +235,8 @@ export const skirtBase = {
         points.backHemExSplit = points.backHemExtension
       }
     }
-
+    //stores
+    store.set('skirtLength', points.sideWaistFront.dist(points.sideFrontHem))
     //guides
     if (points.frontHemExtension) {
       paths.sideseamFront = new Path()
