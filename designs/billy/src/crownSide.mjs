@@ -38,11 +38,16 @@ export const crownSide = {
     part,
     snippets,
     Snippet,
+    log,
     // absoluteOptions,
   }) => {
     //measures
     // void store.setIfUnset('headCircumference', measurements.head + absoluteOptions.headEase)
-    void store.setIfUnset('headCircumference', measurements.head + 635 * options.headEase)
+    void store.setIfUnset(
+      'headCircumference',
+      measurements.head + 635 * options.headEase,
+      log.info('Head Ease has been set at ' + utils.units(635 * options.headEase))
+    )
     const headCircumference = store.get('headCircumference')
     const headRadius = headCircumference / 2 / Math.PI
     const crownTopCircumference = headCircumference * (1 - options.headReduction)

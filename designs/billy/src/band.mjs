@@ -24,6 +24,7 @@ export const band = {
     part,
     snippets,
     Snippet,
+    log,
   }) => {
     //render
     if (!options.band) {
@@ -31,7 +32,11 @@ export const band = {
       return part
     }
     //measures
-    void store.setIfUnset('headCircumference', measurements.head + 635 * options.headEase)
+    void store.setIfUnset(
+      'headCircumference',
+      measurements.head + 635 * options.headEase,
+      'Head Ease has been set at ' + utils.units(635 * options.headEase)
+    )
     const headCircumference = store.get('headCircumference')
     const radius = store.get('radius')
     const angle = store.get('angle') * options.crownSideNumber

@@ -28,10 +28,15 @@ export const brim = {
     snippets,
     Snippet,
     // absoluteOptions,
+    log,
   }) => {
     //measures
     // void store.setIfUnset('headCircumference', measurements.head + absoluteOptions.headEase)
-    void store.setIfUnset('headCircumference', measurements.head + 635 * options.headEase)
+    void store.setIfUnset(
+      'headCircumference',
+      measurements.head + 635 * options.headEase,
+      'Head Ease has been set at ' + utils.units(635 * options.headEase)
+    )
     void store.setIfUnset('headRadius', store.get('headCircumference') / 2 / Math.PI)
     const headCircumference = store.get('headCircumference')
     const angle = options.brimAngle / options.brimNumber
