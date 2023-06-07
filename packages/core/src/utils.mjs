@@ -434,7 +434,7 @@ export function lineIntersectsCurve(start, end, from, cp1, cp2, to) {
  */
 export function pctBasedOn(measurement) {
   return {
-    toAbs: (val, { measurements }) => measurements[measurement] * val,
+    toAbs: (val, { measurements }) => Math.round(measurements[measurement] * val),
     fromAbs: (val, { measurements }) =>
       Math.round((10000 * val) / measurements[measurement]) / 10000,
   }
