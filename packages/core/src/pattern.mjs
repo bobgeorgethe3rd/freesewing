@@ -1029,7 +1029,7 @@ Pattern.prototype.__snappedPercentageOption = function (optionName, set) {
   if (!Array.isArray(snapConf) && snapConf.metric && snapConf.imperial)
     snapConf = snapConf[this.settings[set].units]
   // Simple steps
-  if (typeof snapConf === 'number') return Math.ceil(abs / snapConf) * snapConf
+  if (typeof snapConf === 'number') return Math.round(abs / snapConf) * snapConf
   // List of snaps
   if (Array.isArray(snapConf) && snapConf.length > 1) {
     for (const snap of snapConf
