@@ -42,11 +42,11 @@ export const skirtBase = {
     const skirtFrontFullness = store.get('skirtFrontFullness')
     const skirtBackFullness = store.get('skirtBackFullness')
 
-    paths.backHemTest = new Path()
-      .move(points.cbHem)
-      .curve(points.backHemCp1, points.backHemCp2, points.backHemMid)
-      .curve(points.backHemCp3, points.backHemCp4, points.sideBackHem)
-      .attr('class', 'various')
+    // paths.backHemTest = new Path()
+    // .move(points.cbHem)
+    // .curve(points.backHemCp1, points.backHemCp2, points.backHemMid)
+    // .curve(points.backHemCp3, points.backHemCp4, points.sideBackHem)
+    // .attr('class', 'various')
 
     //Let's create some anchors
     points.sideFrontHemMax = points.sideFrontHem
@@ -244,47 +244,6 @@ export const skirtBase = {
     //facings
     if (complete && options.skirtFacings) {
       //frontHemFacing
-
-      // points.frontHemFacingMidAnchor = points.frontHemMid.shiftTowards(points.frontHemCp2, skirtFacingWidth).rotate(-90, points.frontHemMid)
-
-      // let skirtFacingWidthHL
-      // if (utils.linesIntersect(
-      // points.frontHemMid,
-      // points.frontHemFacingMidAnchor,
-      // points.frontHemCp4,
-      // points.waistFrontCp1
-      // )){
-      // skirtFacingWidthHL = skirtHighLength * 0.1
-      // }
-      // else {
-      // skirtFacingWidthHL = skirtFacingWidth
-      // }
-
-      // points.cfHemFacing = points.cfHem.shiftTowards(points.cfWaist, skirtFacingWidthHL)
-      // points.frontHemFacingMid = points.frontHemMid.shiftTowards(points.frontHemCp2, skirtFacingWidthHL).rotate(-90, points.frontHemMid)
-      // points.sideFrontHemFacing = points.sideFrontHem.shiftTowards(points.sideWaistFront, skirtFacingWidthHL)
-
-      // points.frontHemFacingCp1 = utils.beamsIntersect(
-      // points.cfHemFacing,
-      // points.cfWaist.rotate(-90, points.cfHemFacing),
-      // points.frontHemCp1,
-      // points.waistFrontCp4
-      // )
-      // points.frontHemFacingCp2 = points.frontHemCp2.shiftTowards(points.frontHemMid, skirtFacingWidthHL).rotate(90, points.frontHemCp2)
-      // points.frontHemFacingCp3 = points.frontHemCp3.shiftTowards(points.frontHemMid, skirtFacingWidthHL).rotate(-90, points.frontHemCp3)
-
-      // points.frontHemFacingCp4 = points.sideFrontHemFacing.shiftFractionTowards(utils.beamsIntersect(
-      // points.sideFrontHemFacing,
-      // points.sideWaistFront.rotate(90, points.sideFrontHemFacing),
-      // points.frontHemCp4,
-      // points.waistFrontCp1
-      // ), 0.85)
-
-      // paths.test = new Path()
-      // .move(points.cfHemFacing)
-      // .curve(points.frontHemFacingCp1, points.frontHemFacingCp2, points.frontHemFacingMid)
-      // .curve(points.frontHemFacingCp3, points.frontHemFacingCp4, points.sideFrontHemFacing)
-
       const skirtFrontFacingAngle =
         points.frontHemMid.angle(points.waistFrontMid) -
         (points.frontHemMid.angle(points.frontHemCp2) - 90)
@@ -300,7 +259,6 @@ export const skirtBase = {
         points.sideWaistFront,
         skirtFacingWidth
       )
-
       points.frontHemFacingMid = points.frontHemMid.shiftTowards(
         points.waistFrontMid.rotate(
           -skirtFrontFacingAngle * skirtFrontFullnessMultiplier,
@@ -371,28 +329,135 @@ export const skirtBase = {
         )
       }
       //back skirt facing
+      const skirtBackFacingAngle =
+        points.backHemMid.angle(points.waistBackMid) -
+        (points.backHemMid.angle(points.backHemCp2) - 90)
+      let skirtBackFullnessMultiplier
+      if (skirtBackFullness > 1) {
+        skirtBackFullnessMultiplier = 1
+      } else {
+        skirtBackFullnessMultiplier = skirtBackFullness
+      }
+
+      points.cbHemFacing = points.cbHem.shiftTowards(points.cbWaist, skirtFacingWidth)
+      points.backHemFacingMid = points.backHemMid.shiftTowards(
+        points.waistBackMid.rotate(
+          -skirtBackFacingAngle * skirtBackFullnessMultiplier,
+          points.backHemMid
+        ),
+        skirtFacingWidth
+      )
+      points.sideBackHemFacing = points.sideBackHem.shiftTowards(
+        points.sideWaistBack,
+        skirtFacingWidth
+      )
+      points.backHemFacingCp1 = utils.beamsIntersect(
+        points.backHemCp1,
+        points.waistBackCp4.rotate(
+          -skirtBackFacingAngle * skirtBackFullnessMultiplier,
+          points.backHemCp1
+        ),
+        points.cbHemFacing,
+        points.cbWaist.rotate(-90, points.cbHemFacing)
+      )
+      points.backHemFacingCp4 = utils.beamsIntersect(
+        points.backHemCp4,
+        points.waistBackCp1.rotate(
+          -skirtBackFacingAngle * skirtBackFullnessMultiplier,
+          points.backHemCp1
+        ),
+        points.sideBackHemFacing,
+        points.sideWaistBack.rotate(90, points.sideBackHemFacing)
+      )
+      points.backHemFacingCp2 = utils.beamsIntersect(
+        points.backHemCp2,
+        points.waistBackCp3.rotate(
+          -skirtBackFacingAngle * skirtBackFullnessMultiplier,
+          points.backHemCp2
+        ),
+        points.backHemFacingMid,
+        points.backHemMid.rotate(-90, points.backHemFacingMid)
+      )
+      points.backHemFacingCp3 = utils.beamsIntersect(
+        points.backHemCp3,
+        points.waistBackCp2.rotate(
+          -skirtBackFacingAngle * skirtBackFullnessMultiplier,
+          points.backHemCp2
+        ),
+        points.backHemFacingMid,
+        points.backHemMid.rotate(90, points.backHemFacingMid)
+      )
+      if (skirtBackFullness < 1) {
+        points.backHemFacingCp2 = utils.beamsIntersect(
+          points.backHemFacingMid,
+          points.backHemFacingCp2.rotate(
+            (1 - skirtBackFullness) * -skirtBackFacingAngle,
+            points.backHemFacingMid
+          ),
+          points.backHemFacingCp2,
+          points.backHemFacingMid.rotate(90, points.backHemFacingCp2)
+        )
+
+        points.backHemFacingCp3 = utils.beamsIntersect(
+          points.backHemFacingCp2,
+          points.backHemFacingMid,
+          points.backHemFacingCp3,
+          points.backHemFacingMid.rotate(90, points.backHemFacingCp3)
+        )
+      }
+
+      //side extension
+      if (points.frontHemExtension) {
+        const ex = points.sideFrontHemMax.dist(points.frontHemExtension)
+        points.frontHemFacingExtension = points.frontHemFacingCp4.shiftOutwards(
+          points.sideFrontHemFacing,
+          ex
+        )
+        points.backHemFacingExtension = points.backHemFacingCp4.shiftOutwards(
+          points.sideBackHemFacing,
+          ex
+        )
+
+        let frontFacingIntersect = utils.lineIntersectsCurve(
+          points.sideFrontHemFacing,
+          points.frontHemFacingExtension,
+          points.sideFrontExtension,
+          points.sideSeamFrontCp,
+          points.sideWaistFront,
+          points.sideWaistFront
+        )
+        if (frontFacingIntersect) {
+          points.frontHemFacingExSplit = frontFacingIntersect
+        } else {
+          points.frontHemFacingExSplit = points.frontHemFacingExtension
+        }
+
+        let backFacingIntersect = utils.lineIntersectsCurve(
+          points.sideBackHemFacing,
+          points.backHemFacingExtension,
+          points.sideBackExtension,
+          points.sideSeamBackCp,
+          points.sideWaistBack,
+          points.sideWaistBack
+        )
+        if (backFacingIntersect) {
+          points.backHemFacingExSplit = backFacingIntersect
+        } else {
+          points.backHemFacingExSplit = points.backHemFacingExtension
+        }
+      }
 
       //guides
-      paths.helper = new Path()
-        .move(points.frontHemCp3)
-        .line(points.waistFrontCp2)
-        .line(points.waistFrontCp3)
-        .line(points.frontHemCp2)
-
-      paths.frontHemFacingHelper = new Path()
-        .move(points.cfHemFacing)
-        .line(points.frontHemFacingCp1)
-        .line(points.frontHemFacingMid)
-        .line(points.frontHemFacingCp4)
-        .line(points.sideFrontHemFacing)
-        .line(points.frontHemFacingCp4)
-        .line(points.frontHemFacingCp1)
-        .attr('class', 'interfacing lashed')
-
       paths.frontHemFacing = new Path()
         .move(points.cfHemFacing)
         .curve(points.frontHemFacingCp1, points.frontHemFacingCp2, points.frontHemFacingMid)
         .curve(points.frontHemFacingCp3, points.frontHemFacingCp4, points.sideFrontHemFacing)
+
+      paths.backHemFacing = new Path()
+        .move(points.cbHemFacing)
+        .curve(points.backHemFacingCp1, points.backHemFacingCp2, points.backHemFacingMid)
+        .curve(points.backHemFacingCp3, points.backHemFacingCp4, points.sideBackHemFacing)
+        .attr('class', 'various')
     }
     //stores
     store.set('skirtLength', points.sideWaistFront.dist(points.sideFrontHem))
@@ -434,31 +499,31 @@ export const skirtBase = {
       .curve(points.backHemCp3, points.backHemCp4, points.sideBackHem)
       .attr('class', 'various')
 
-    paths.test0 = paths.backHemTest
-      .offset((skirtHighLength - skirtLength) / 4)
-      .attr('class', 'interfacing lashed')
-    paths.test1 = paths.backHemTest
-      .offset((skirtHighLength - skirtLength) / 2)
-      .attr('class', 'interfacing lashed')
-    paths.test2 = paths.backHemTest
-      .offset((skirtHighLength - skirtLength) * (3 / 4))
-      .attr('class', 'interfacing lashed')
-    paths.test3 = paths.backHemTest
-      .offset(skirtHighLength - skirtLength)
-      .attr('class', 'interfacing lashed')
+    // paths.test0 = paths.backHemTest
+    // .offset((skirtHighLength - skirtLength) / 4)
+    // .attr('class', 'interfacing lashed')
+    // paths.test1 = paths.backHemTest
+    // .offset((skirtHighLength - skirtLength) / 2)
+    // .attr('class', 'interfacing lashed')
+    // paths.test2 = paths.backHemTest
+    // .offset((skirtHighLength - skirtLength) * (3 / 4))
+    // .attr('class', 'interfacing lashed')
+    // paths.test3 = paths.backHemTest
+    // .offset(skirtHighLength - skirtLength)
+    // .attr('class', 'interfacing lashed')
 
-    paths.test4 = new Path()
-      .move(points.sideBackHemMax)
-      .line(points.sideWaistBack)
-      .attr('class', 'interfacing lashed')
+    // paths.test4 = new Path()
+    // .move(points.sideBackHemMax)
+    // .line(points.sideWaistBack)
+    // .attr('class', 'interfacing lashed')
 
-    paths.test5 = new Path()
-      .move(points.frontHemMid)
-      .line(points.backHemMid)
-      .attr('class', 'interfacing lashed')
+    // paths.test5 = new Path()
+    // .move(points.frontHemMid)
+    // .line(points.backHemMid)
+    // .attr('class', 'interfacing lashed')
 
-    paths.test6 = paths.frontHem.offset(-skirtFacingWidth).attr('class', 'interfacing lashed')
-    paths.test7 = paths.backHem.offset(-skirtFacingWidth).attr('class', 'canvas lashed')
+    // paths.test6 = paths.frontHem.offset(-skirtFacingWidth).attr('class', 'interfacing lashed')
+    // paths.test7 = paths.backHem.offset(-skirtFacingWidth).attr('class', 'canvas lashed')
 
     return part
   },

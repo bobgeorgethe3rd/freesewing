@@ -12,7 +12,7 @@ import { skirtBase } from './skirtBase.mjs'
 // Create new design
 const Harriet = new Design({
   data,
-  parts: [skirtBase /* pocket, placket, waistband, beltLoops */],
+  parts: [skirtBase /*, pocket, placket, waistband, beltLoops */],
 })
 
 // Named exports
