@@ -11,6 +11,7 @@ export const beltLoops = {
     //Constants
     beltLoopNumber: 7, //locked for Theobald
     //Style
+    beltLoops: { bool: true, menu: 'style' },
     beltLoopWidth: {
       pct: 1.1,
       min: 1,
@@ -22,12 +23,16 @@ export const beltLoops = {
   },
   draft: (sh) => {
     //draft
-    const { macro, points, absoluteOptions, store, complete, part } = sh
+    const { macro, points, options, absoluteOptions, store, complete, part } = sh
 
     store.set('beltLoopLength', absoluteOptions.waistbandWidth * 2)
     store.set('beltLoopWidth', absoluteOptions.beltLoopWidth)
 
-    draftBeltLoops.draft(sh)
+    if (options.beltLoops) {
+      draftBeltLoops.draft(sh)
+    } else {
+      return part
+    }
 
     if (complete) {
       macro('title', {
