@@ -88,38 +88,38 @@ export const skirtFront = {
       //facing
       if (options.skirtFacings) {
         points.cfFacing = points.cfHem.shiftTowards(points.cfWaist, skirtFacingWidth)
-        points.frontFacingMid = points.frontHemMid.shiftTowards(
+        points.frontHemFacingMid = points.frontHemMid.shiftTowards(
           points.waistFrontMid,
           skirtFacingWidth
         )
-        points.sideFrontFacing = points.sideFrontHem.shiftTowards(
+        points.sideFrontHemFacing = points.sideFrontHem.shiftTowards(
           points.sideWaistFront,
           skirtFacingWidth
         )
-        points.frontFacingCp4 = utils.beamsIntersect(
+        points.frontHemFacingCp4 = utils.beamsIntersect(
           points.frontHemCp1,
           points.waistFrontCp4,
           points.cfFacing,
           points.cfWaist.rotate(-90, points.cfFacing)
         )
-        points.frontFacingCp3 = utils.beamsIntersect(
+        points.frontHemFacingCp3 = utils.beamsIntersect(
           points.frontHemCp2,
           points.waistFrontCp3,
-          points.frontFacingMid,
-          points.waistFrontMid.rotate(90, points.frontFacingMid)
+          points.frontHemFacingMid,
+          points.waistFrontMid.rotate(90, points.frontHemFacingMid)
         )
-        points.frontFacingCp2 = points.frontFacingCp3.rotate(180, points.frontFacingMid)
-        points.frontFacingCp1 = utils.beamsIntersect(
+        points.frontHemFacingCp2 = points.frontHemFacingCp3.rotate(180, points.frontHemFacingMid)
+        points.frontHemFacingCp1 = utils.beamsIntersect(
           points.frontHemCp4,
           points.waistFrontCp1,
-          points.sideFrontFacing,
-          points.sideWaistFront.rotate(90, points.sideFrontFacing)
+          points.sideFrontHemFacing,
+          points.sideWaistFront.rotate(90, points.sideFrontHemFacing)
         )
 
         paths.facing = new Path()
           .move(points.cfFacing)
-          .curve(points.frontFacingCp4, points.frontFacingCp3, points.frontFacingMid)
-          .curve(points.frontFacingCp2, points.frontFacingCp1, points.sideFrontFacing)
+          .curve(points.frontHemFacingCp4, points.frontHemFacingCp3, points.frontHemFacingMid)
+          .curve(points.frontHemFacingCp2, points.frontHemFacingCp1, points.sideFrontHemFacing)
           .attr('class', 'interfacing')
           .attr('data-text', 'Facing Line')
           .attr('data-text-class', 'center')
@@ -128,9 +128,9 @@ export const skirtFront = {
 
         if (points.sideFrontExtension) {
           let facingFrontExtension = utils.lineIntersectsCurve(
-            points.sideFrontFacing,
-            points.frontFacingCp1.shiftOutwards(
-              points.sideFrontFacing,
+            points.sideFrontHemFacing,
+            points.frontHemFacingCp1.shiftOutwards(
+              points.sideFrontHemFacing,
               points.sideFrontHem.dist(points.frontHemExtension) * 29
             ),
             points.sideFrontExtension,
@@ -143,15 +143,15 @@ export const skirtFront = {
             points.facingFrontExtension = facingFrontExtension
           } else {
             points.facingFrontExtension = utils.beamsIntersect(
-              points.frontFacingCp1,
-              points.sideFrontFacing,
+              points.frontHemFacingCp1,
+              points.sideFrontHemFacing,
               points.frontHemExtension,
               points.sideFrontExtension
             )
           }
           paths.facing = paths.facing.line(points.facingFrontExtension)
         }
-        paths.sideFrontFacing = paths.sideSeam.split(paths.facing.end())[0].hide()
+        paths.sideFrontHemFacing = paths.sideSeam.split(paths.facing.end())[0].hide()
       }
       //back titles
       let titleBack
@@ -399,7 +399,7 @@ export const skirtFront = {
         if (options.skirtFacings) {
           paths.facingSa = paths.hemBase
             .offset(hemSa)
-            .join(paths.sideFrontFacing.offset(sa))
+            .join(paths.sideFrontHemFacing.offset(sa))
             .join(paths.facing.reverse().offset(sa))
             .join(paths.cfFacing.offset(cfSa))
             .close()
