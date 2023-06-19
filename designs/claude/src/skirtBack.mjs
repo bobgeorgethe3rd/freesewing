@@ -264,25 +264,30 @@ export const skirtBack = {
         })
       } else {
         //title
-        points.title = points.cbWaist
-          .shiftTowards(points.cbHem, (skirtLength - skirtFacingWidth) / 2)
-          .shift(0, skirtLength * 0.13)
+        points.title = points.backHemMid
+          .shiftTowards(points.waistBackMid, skirtFacingWidth)
+          .shiftFractionTowards(points.waistBackMid, 0.5)
         macro('title', {
           at: points.title,
           nr: '2',
           title: 'Skirt Back',
           scale: 0.5,
           prefix: 'title',
+          rotation: 90 - points.backHemMid.angle(points.waistBackMid),
         })
 
         if (options.skirtFacings) {
-          points.titleFacing = new Point(points.title.x, points.cbHem.y - skirtFacingWidth / 2)
+          points.titleFacing = points.backHemMid.shiftTowards(
+            points.waistBackMid,
+            skirtFacingWidth / 2
+          )
           macro('title', {
             at: points.titleFacing,
             nr: '7',
             title: 'Skirt Facing (Back)',
             scale: 0.5,
             prefix: 'titleFacing',
+            rotation: 90 - points.backHemMid.angle(points.waistBackMid),
           })
         }
       }

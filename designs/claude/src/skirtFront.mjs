@@ -292,25 +292,30 @@ export const skirtFront = {
         })
       } else {
         //title
-        points.title = points.cfWaist
-          .shiftTowards(points.cfHem, (skirtLength - skirtFacingWidth) / 2)
-          .shift(0, skirtLength * 0.13)
+        points.title = points.frontHemMid
+          .shiftTowards(points.waistFrontMid, skirtFacingWidth)
+          .shiftFractionTowards(points.waistFrontMid, 0.5)
         macro('title', {
           at: points.title,
           nr: '1' + titleBackNum,
           title: 'Skirt Front' + titleBack,
           scale: 0.5,
           prefix: 'title',
+          rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
         })
 
         if (options.skirtFacings) {
-          points.titleFacing = new Point(points.title.x, points.cfHem.y - skirtFacingWidth / 2)
+          points.titleFacing = points.frontHemMid.shiftTowards(
+            points.waistFrontMid,
+            skirtFacingWidth / 2
+          )
           macro('title', {
             at: points.titleFacing,
             nr: '6' + titleBackFacingNum,
             title: 'Skirt Facing (Front' + titleBack + ')',
             scale: 0.5,
             prefix: 'titleFacing',
+            rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
           })
         }
       }
@@ -352,17 +357,18 @@ export const skirtFront = {
         })
       }
       //logo
-      points.logo = points.cfWaist
-        .shiftTowards(points.cfHem, (skirtLength - skirtFacingWidth) / 4)
-        .shift(0, skirtLength * 0.15)
+      points.logo = points.frontHemMid
+        .shiftTowards(points.waistFrontMid, skirtFacingWidth)
+        .shiftFractionTowards(points.waistFrontMid, 2 / 3)
       macro('logorg', {
         at: points.logo,
         scale: 0.5,
+        rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
       })
       //scalebox
-      points.scalebox = points.cfWaist
-        .shiftTowards(points.cfHem, (skirtLength - skirtFacingWidth) * (3 / 4))
-        .shift(0, skirtLength * 0.15)
+      points.scalebox = points.frontHemMid
+        .shiftTowards(points.waistFrontMid, skirtFacingWidth)
+        .shiftFractionTowards(points.waistFrontMid, 1 / 3)
       macro('scalebox', {
         at: points.scalebox,
         scale: 0.25,
