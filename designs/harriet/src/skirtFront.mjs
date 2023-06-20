@@ -110,6 +110,9 @@ export const skirtFront = {
     //paths
     paths.seam = paths.hemBase.join(paths.sideSeam).join(paths.waist).join(paths.cf).close()
 
+    //stores
+    store.set('includeBack', includeBack)
+
     if (complete) {
       //facing
       if (options.skirtFacings) {
@@ -474,10 +477,8 @@ export const skirtFront = {
           grainline: true,
         })
       }
-      let cbSa
       if (includeBack) {
         if (options.waistbandClosurePosition == 'back' && !options.waistbandElastic) {
-          cbSa = sa
           points.grainlineBackFrom = points.cfHem.shiftFractionTowards(points.cbHem, 0.02)
           points.grainlineBackTo = points.cbHem.shiftFractionTowards(points.cfHem, 0.02)
           macro('grainline', {
@@ -485,7 +486,6 @@ export const skirtFront = {
             to: points.cbHem.rotate(90, points.grainlineBackTo),
           })
         } else {
-          cbSa = 0
           points.cutOnFoldBackFrom = points.cfHem
           points.cutOnFoldBackTo = points.cbHem
           macro('cutonfold', {
@@ -544,6 +544,17 @@ export const skirtFront = {
         } else {
           hemSa = sa * options.skirtHemWidth * 100
         }
+
+        let cbSa
+        if (options.waistbandClosurePosition == 'back' && !options.waistbandElastic) {
+          cbSa = sa
+        } else {
+          cbSa = 0
+        }
+
+        store.set('hemSa', hemSa)
+        store.set('cbSa', cbSa)
+
         if (options.skirtFacings) {
           if (includeBack) {
             paths.backFacingSa = paths.hemBaseBack

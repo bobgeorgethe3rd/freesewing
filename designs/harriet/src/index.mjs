@@ -5,6 +5,7 @@ import { data } from '../data.mjs'
 // Parts
 import { skirtBase } from './skirtBase.mjs'
 import { skirtFront } from './skirtFront.mjs'
+import { skirtBack } from './skirtBack.mjs'
 //Inherited Parts
 import { pocket } from '@freesewing/claude'
 import { placket } from '@freesewing/claude'
@@ -18,6 +19,7 @@ const Harriet = new Design({
   parts: [
     skirtBase,
     skirtFront,
+    skirtBack,
     pocket,
     placket,
     waistband,
@@ -31,6 +33,7 @@ const Harriet = new Design({
 export {
   skirtBase,
   skirtFront,
+  skirtBack,
   pocket,
   placket,
   waistband,
