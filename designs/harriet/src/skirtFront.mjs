@@ -1,6 +1,7 @@
 import { skirtBase } from './skirtBase.mjs'
 import { pocket } from '@freesewing/claude'
 import { waistband } from '@freesewing/claude'
+import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const skirtFront = {
   name: 'harriet.skirtFront',
@@ -9,6 +10,7 @@ export const skirtFront = {
   hide: {
     from: true,
   },
+  plugins: [pluginLogoRG],
   options: {
     //Style
     skirtPanels: { count: 1, min: 1, max: 20, menu: 'style' },
@@ -21,6 +23,8 @@ export const skirtFront = {
       max: 50,
       menu: 'construction',
     },
+    //Advanced
+    separateBack: { bool: false, menu: 'advanced.style' },
   },
   draft: ({
     store,
@@ -45,7 +49,8 @@ export const skirtFront = {
     for (let i in paths) delete paths[i]
     //measures
     const skirtLength = store.get('skirtLength')
-    const skirtFacingWidth = skirtLength * options.skirtFacingWidth
+    const skirtHighLength = store.get('skirtHighLength')
+    const skirtFacingWidth = store.get('skirtFacingWidth')
     const frontOrigin = store.get('frontOrigin')
 
     //let's begin
@@ -81,7 +86,8 @@ export const skirtFront = {
     const includeBack =
       !options.useBackMeasures &&
       !options.independentSkirtFullness &&
-      !options.independentSkirtGathering
+      !options.independentSkirtGathering &&
+      !options.separateBack
 
     if (includeBack) {
       if (points.sideBackExtension) {
@@ -162,6 +168,21 @@ export const skirtFront = {
         }
         paths.sideFrontFacing = paths.sideSeam.split(paths.facing.end())[0].hide()
       }
+      //back titles
+      let titleBack
+      let titleBackNum
+      if (includeBack) {
+        if (options.skirtPanels > 1) {
+          titleBack = ' & Back A'
+          titleBackNum = ' & 2a'
+        } else {
+          titleBack = ' & Back'
+          titleBackNum = ' & 2'
+        }
+      } else {
+        titleBack = ''
+        titleBackNum = ''
+      }
       //panels
       if (options.skirtPanels > 1) {
         let j
@@ -207,6 +228,62 @@ export const skirtFront = {
             points['frontHemPanel' + i] = points.frontHemMid
           }
 
+          if (options.skirtFacings) {
+            const frontPanelFacingIntersect0 = utils.lineIntersectsCurve(
+              frontOrigin,
+              points['frontPanelTarget' + i],
+              points.frontHemFacingMid,
+              points.frontHemFacingCp3,
+              points.frontHemFacingCp4,
+              points.cfHemFacing
+            )
+
+            const frontPanelFacingIntersect1 = utils.lineIntersectsCurve(
+              frontOrigin,
+              points['frontPanelTarget' + i],
+              points.sideFrontHemFacing,
+              points.frontHemFacingCp1,
+              points.frontHemFacingCp2,
+              points.frontHemFacingMid
+            )
+
+            if (frontPanelFacingIntersect0) {
+              points['frontHemFacingPanel' + i] = frontPanelFacingIntersect0
+            }
+            if (frontPanelFacingIntersect1) {
+              points['frontHemFacingPanel' + i] = frontPanelFacingIntersect1
+            }
+            if (!frontPanelFacingIntersect0 && !frontPanelFacingIntersect1) {
+              points['frontHemFacingPanel' + i] = points.frontHemFacingMid
+            }
+
+            points['titleFacing' + i] = points['frontHemPanel' + i]
+              .shiftFractionTowards(points['frontHemFacingPanel' + i], 1 / 3)
+              .shift(
+                points['frontHemPanel' + i].angle(points['frontHemFacingPanel' + i]) - 90,
+                points['frontHemPanel' + i].dist(points['frontHemFacingPanel' + i]) * 0.15
+              )
+            macro('title', {
+              at: points['titleFacing' + i],
+              nr: '6' + j,
+              title: 'Skirt Facing (Front ' + k + ')',
+              prefix: 'titleFacing' + i,
+              scale: 0.15,
+              rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
+            })
+
+            points.titleFacing = points.cfHem
+              .shiftFractionTowards(points.cfHemFacing, 1 / 3)
+              .shift(points.cfHem.angle(points.cfHemFacing) - 90, skirtFacingWidth * 0.15)
+            macro('title', {
+              at: points.titleFacing,
+              nr: '6a',
+              title: 'Skirt Facing (Front A)',
+              prefix: 'titleFacing',
+              scale: 0.15,
+            })
+          }
+
           if (includeBack) {
             const backPanelIntersect0 = utils.lineIntersectsCurve(
               frontOrigin,
@@ -236,6 +313,61 @@ export const skirtFront = {
               points['backHemPanel' + i] = points.backHemMid
             }
 
+            if (options.skirtFacings) {
+              const backPanelFacingIntersect0 = utils.lineIntersectsCurve(
+                frontOrigin,
+                points['frontPanelTarget' + i],
+                points.backHemFacingMid,
+                points.backHemFacingCp3,
+                points.backHemFacingCp4,
+                points.cbHemFacing
+              )
+
+              const backPanelFacingIntersect1 = utils.lineIntersectsCurve(
+                frontOrigin,
+                points['frontPanelTarget' + i],
+                points.sideBackHemFacing,
+                points.backHemFacingCp1,
+                points.backHemFacingCp2,
+                points.backHemFacingMid
+              )
+
+              if (backPanelFacingIntersect0) {
+                points['backHemFacingPanel' + i] = backPanelFacingIntersect0
+              }
+              if (backPanelFacingIntersect1) {
+                points['backHemFacingPanel' + i] = backPanelFacingIntersect1
+              }
+              if (!backPanelFacingIntersect0 && !backPanelFacingIntersect1) {
+                points['backHemFacingPanel' + i] = points.backHemFacingMid
+              }
+
+              points['titleBackFacing' + i] = points['backHemPanel' + i]
+                .shiftFractionTowards(points['backHemFacingPanel' + i], 0.25)
+                .shift(
+                  points['backHemPanel' + i].angle(points['backHemFacingPanel' + i]) - 90,
+                  points['backHemPanel' + i].dist(points['backHemFacingPanel' + i]) * 0.15
+                )
+              macro('title', {
+                at: points['titleBackFacing' + i],
+                nr: '7' + j,
+                title: 'Skirt Facing (Back ' + k + ')',
+                prefix: 'titleBackFacing' + i,
+                scale: 0.15,
+                rotation: 90 - points['backHemPanel' + i].angle(points['waistFrontPanel' + i]),
+              })
+
+              points.titleBackFacing = points.cbHem
+                .shiftFractionTowards(points.cbHemFacing, 0.25)
+                .shift(points.cbHem.angle(points.cbHemFacing) - 90, skirtFacingWidth * 0.15)
+              macro('title', {
+                at: points.titleBackFacing,
+                nr: '7a',
+                title: 'Skirt Facing (Back A)',
+                prefix: 'titleBackFacing',
+                scale: 0.15,
+              })
+            }
             points['panelTo' + i] = points['backHemPanel' + i]
           } else {
             points['panelTo' + i] = points['frontHemPanel' + i]
@@ -265,8 +397,149 @@ export const skirtFront = {
             .attr('class', 'fabric help')
             .attr('data-text', 'Cut and add seam allowance')
             .attr('data-text-class', 'center')
+
+          points['title' + i] = points['waistFrontPanel' + i]
+            .shiftTowards(points['frontHemPanel' + i], (skirtHighLength - skirtFacingWidth) / 2)
+            .shift(
+              points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]) - 90,
+              points['waistFrontPanel' + i].dist(points['grainlineFrom' + i])
+            )
+
+          let titleBackI
+          let titleBackNumI
+          if (includeBack) {
+            titleBackI = ' & Back ' + k
+            titleBackNumI = ' & 2' + j
+          } else {
+            titleBackI = ''
+            titleBackNumI = ''
+          }
+
+          macro('title', {
+            at: points['title' + i],
+            nr: '1' + j + titleBackNumI,
+            title: 'Skirt Front ' + k + titleBackI,
+            prefix: 'title' + i,
+            scale: 0.15,
+            rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
+          })
+          //title
+          points.title = points.cfWaist
+            .shiftTowards(points.cfHem, (skirtHighLength - skirtFacingWidth) / 2)
+            .shift(0, skirtHighLength * 0.02)
+          macro('title', {
+            at: points.title,
+            nr: '1a' + titleBackNum,
+            title: 'Skirt Front' + titleBack,
+            scale: 0.15,
+            prefix: 'title',
+          })
+        }
+      } else {
+        points.title = points.frontHemMidMin.shiftFractionTowards(points.waistFrontMid, 0.5)
+        macro('title', {
+          at: points.title,
+          nr: '1' + titleBackNum,
+          title: 'Skirt (Front' + titleBack + ')',
+          prefix: 'title',
+          scale: 0.5,
+          rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
+        })
+        if (options.skirtFacings) {
+          points.titleFacing = points.frontHemMid.shiftFractionTowards(
+            points.frontHemFacingMid,
+            0.5
+          )
+          macro('title', {
+            at: points.titleFacing,
+            nr: '6',
+            title: 'Skirt Facing (Front)',
+            prefix: 'titleFacing',
+            scale: 0.5,
+            rotation: 90 - points.frontHemMid.angle(points.frontHemFacingMid),
+          })
+          if (includeBack) {
+            points.titleBackFacing = points.backHemMid.shiftFractionTowards(
+              points.backHemFacingMid,
+              0.5
+            )
+            macro('title', {
+              at: points.titleBackFacing,
+              nr: '7',
+              title: 'Skirt Facing (Back)',
+              prefix: 'titleBackFacing',
+              scale: 0.5,
+              rotation: 90 - points.backHemMid.angle(points.backHemFacingMid),
+            })
+          }
         }
       }
+      //grainline
+      let cfSa
+      if (options.waistbandClosurePosition == 'front' && !options.waistbandElastic) {
+        cfSa = sa
+        points.grainlineFrom = points.cfWaist.shiftFractionTowards(points.cfHem, 0.01)
+        points.grainlineTo = points.cfHem.shiftFractionTowards(points.cfWaist, 0.01)
+        macro('grainline', {
+          from: points.cfWaist.rotate(-90, points.grainlineFrom),
+          to: points.cfHem.rotate(90, points.grainlineTo),
+        })
+      } else {
+        cfSa = 0
+        points.cutOnFoldFrom = points.cfWaist
+        points.cutOnFoldTo = points.cfHem
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      }
+      let cbSa
+      if (includeBack) {
+        if (options.waistbandClosurePosition == 'back' && !options.waistbandElastic) {
+          cbSa = sa
+          points.grainlineBackFrom = points.cfHem.shiftFractionTowards(points.cbHem, 0.02)
+          points.grainlineBackTo = points.cbHem.shiftFractionTowards(points.cfHem, 0.02)
+          macro('grainline', {
+            from: points.cfHem.rotate(-90, points.grainlineBackFrom),
+            to: points.cbHem.rotate(90, points.grainlineBackTo),
+          })
+        } else {
+          cbSa = 0
+          points.cutOnFoldBackFrom = points.cfHem
+          points.cutOnFoldBackTo = points.cbHem
+          macro('cutonfold', {
+            from: points.cutOnFoldBackFrom,
+            to: points.cutOnFoldBackTo,
+            grainline: true,
+            prefix: 'back',
+          })
+        }
+      }
+      //notches
+      if (store.get('pocketLength') < store.get('sideSkirtLength')) {
+        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
+        points.pocketOpeningBottom = paths.sideSeam
+          .reverse()
+          .shiftAlong(store.get('pocketOpeningLength'))
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
+      }
+      //logo
+      points.logo = points.frontHemMidMin.shiftFractionTowards(points.waistFrontMid, 2 / 3)
+      macro('logorg', {
+        at: points.logo,
+        scale: 0.5,
+        rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
+      })
+      //scalebox
+      points.scalebox = points.frontHemMidMin.shiftFractionTowards(points.waistFrontMid, 1 / 3)
+      macro('scalebox', {
+        at: points.scalebox,
+        scale: 0.25,
+      })
     }
 
     return part

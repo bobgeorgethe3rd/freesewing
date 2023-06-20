@@ -404,7 +404,7 @@ export const skirtBase = {
 
       //side extension
       if (points.frontHemExtension) {
-        const ex = points.sideFrontHemMax.dist(points.frontHemExtension)
+        const ex = points.sideFrontHem.dist(points.frontHemExtension)
         points.frontHemFacingExtension = points.frontHemFacingCp1.shiftOutwards(
           points.sideFrontHemFacing,
           ex
@@ -456,7 +456,7 @@ export const skirtBase = {
         .attr('class', 'various')
     }
     //stores
-    store.set('skirtLength', points.sideWaistFront.dist(points.sideFrontHem))
+    store.set('sideSkirtLength', points.sideWaistFront.dist(points.sideFrontHem))
     store.set('skirtFacingWidth', skirtFacingWidth)
     //guides
     if (points.frontHemExtension) {
