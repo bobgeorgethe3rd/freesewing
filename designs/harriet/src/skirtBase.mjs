@@ -42,7 +42,7 @@ export const skirtBase = {
     const skirtFrontFullness = store.get('skirtFrontFullness')
     const skirtBackFullness = store.get('skirtBackFullness')
 
-    // paths.backHemTest = new Path()
+    // paths.backHemOriginal = new Path()
     // .move(points.cbHem)
     // .curve(points.backHemCp1, points.backHemCp2, points.backHemMid)
     // .curve(points.backHemCp3, points.backHemCp4, points.sideBackHem)
@@ -459,52 +459,52 @@ export const skirtBase = {
     store.set('sideSkirtLength', points.sideWaistFront.dist(points.sideFrontHem))
     store.set('skirtFacingWidth', skirtFacingWidth)
     //guides
-    if (points.frontHemExtension) {
-      paths.sideseamFront = new Path()
-        .move(points.frontHemExtension)
-        .line(points.sideFrontExtension)
-        .curve_(points.sideSeamFrontCp, points.sideWaistFront)
-    }
-    if (points.backHemExtension) {
-      paths.sideseamBack = new Path()
-        .move(points.backHemExtension)
-        .line(points.sideBackExtension)
-        .curve_(points.sideSeamBackCp, points.sideWaistBack)
-        .attr('class', 'various')
-    }
+    // if (points.frontHemExtension) {
+    // paths.sideseamFront = new Path()
+    // .move(points.frontHemExtension)
+    // .line(points.sideFrontExtension)
+    // .curve_(points.sideSeamFrontCp, points.sideWaistFront)
+    // }
+    // if (points.backHemExtension) {
+    // paths.sideseamBack = new Path()
+    // .move(points.backHemExtension)
+    // .line(points.sideBackExtension)
+    // .curve_(points.sideSeamBackCp, points.sideWaistBack)
+    // .attr('class', 'various')
+    // }
 
-    paths.waistFront = new Path()
-      .move(points.sideWaistFront)
-      .curve(points.waistFrontCp1, points.waistFrontCp2, points.waistFrontMid)
-      .curve(points.waistFrontCp3, points.waistFrontCp4, points.cfWaist)
+    // paths.waistFront = new Path()
+    // .move(points.sideWaistFront)
+    // .curve(points.waistFrontCp1, points.waistFrontCp2, points.waistFrontMid)
+    // .curve(points.waistFrontCp3, points.waistFrontCp4, points.cfWaist)
 
-    paths.waistBack = new Path()
-      .move(points.sideWaistBack)
-      .curve(points.waistBackCp1, points.waistBackCp2, points.waistBackMid)
-      .curve(points.waistBackCp3, points.waistBackCp4, points.cbWaist)
-      .attr('class', 'various')
+    // paths.waistBack = new Path()
+    // .move(points.sideWaistBack)
+    // .curve(points.waistBackCp1, points.waistBackCp2, points.waistBackMid)
+    // .curve(points.waistBackCp3, points.waistBackCp4, points.cbWaist)
+    // .attr('class', 'various')
 
-    paths.frontHem = new Path()
-      .move(points.cfHem)
-      .curve(points.frontHemCp1, points.frontHemCp2, points.frontHemMid)
-      .curve(points.frontHemCp3, points.frontHemCp4, points.sideFrontHem)
+    // paths.frontHem = new Path()
+    // .move(points.cfHem)
+    // .curve(points.frontHemCp1, points.frontHemCp2, points.frontHemMid)
+    // .curve(points.frontHemCp3, points.frontHemCp4, points.sideFrontHem)
 
-    paths.backHem = new Path()
-      .move(points.cbHem)
-      .curve(points.backHemCp1, points.backHemCp2, points.backHemMid)
-      .curve(points.backHemCp3, points.backHemCp4, points.sideBackHem)
-      .attr('class', 'various')
+    // paths.backHem = new Path()
+    // .move(points.cbHem)
+    // .curve(points.backHemCp1, points.backHemCp2, points.backHemMid)
+    // .curve(points.backHemCp3, points.backHemCp4, points.sideBackHem)
+    // .attr('class', 'various')
 
-    // paths.test0 = paths.backHemTest
+    // paths.test0 = paths.backHemOriginal
     // .offset((skirtHighLength - skirtLength) / 4)
     // .attr('class', 'interfacing lashed')
-    // paths.test1 = paths.backHemTest
+    // paths.test1 = paths.backHemOriginal
     // .offset((skirtHighLength - skirtLength) / 2)
     // .attr('class', 'interfacing lashed')
-    // paths.test2 = paths.backHemTest
+    // paths.test2 = paths.backHemOriginal
     // .offset((skirtHighLength - skirtLength) * (3 / 4))
     // .attr('class', 'interfacing lashed')
-    // paths.test3 = paths.backHemTest
+    // paths.test3 = paths.backHemOriginal
     // .offset(skirtHighLength - skirtLength)
     // .attr('class', 'interfacing lashed')
 
