@@ -9,12 +9,33 @@ import { skirtFront } from './skirtFront.mjs'
 import { pocket } from '@freesewing/claude'
 import { placket } from '@freesewing/claude'
 import { waistband } from '@freesewing/claude'
+import { waistFacingFront } from '@freesewing/claude'
+import { waistFacingBack } from '@freesewing/claude'
 import { beltLoops } from '@freesewing/claude'
 // Create new design
 const Harriet = new Design({
   data,
-  parts: [skirtBase, skirtFront, pocket, placket, waistband, beltLoops],
+  parts: [
+    skirtBase,
+    skirtFront,
+    pocket,
+    placket,
+    waistband,
+    waistFacingFront,
+    waistFacingBack,
+    beltLoops,
+  ],
 })
 
 // Named exports
-export { skirtBase, skirtFront, pocket, placket, waistband, beltLoops, Harriet }
+export {
+  skirtBase,
+  skirtFront,
+  pocket,
+  placket,
+  waistband,
+  waistFacingFront,
+  waistFacingBack,
+  beltLoops,
+  Harriet,
+}

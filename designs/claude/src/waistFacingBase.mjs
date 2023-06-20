@@ -36,9 +36,16 @@ export const waistFacingBase = {
     const toHips = store.get('toHips')
     const toSeat = store.get('toSeat')
 
+    let skirtLengthCheck
+    if (options.highLow) {
+      skirtLengthCheck = store.get('skirtHighLength')
+    } else {
+      skirtLengthCheck = store.get('skirtLength')
+    }
+
     let waistFacingWidth
-    if (store.get('waistbandWidth') > store.get('skirtLength')) {
-      waistFacingWidth = store.get('skirtLength') / 4
+    if (store.get('waistbandWidth') > skirtLengthCheck) {
+      waistFacingWidth = skirtLengthCheck / 4
     } else {
       waistFacingWidth = store.get('waistbandWidth')
     }

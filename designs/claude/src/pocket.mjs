@@ -7,6 +7,8 @@ export const pocket = {
   options: {
     //Imported
     ...inseamPocket.options,
+    //Constants
+    sideSkirtFraction: 1,
     //Pockets
     pocketsBool: { bool: true, menu: 'pockets' },
     inseamPocketWidth: { pct: 75, min: 40, max: 90, menu: 'pockets.inseamPockets' },
@@ -27,7 +29,16 @@ export const pocket = {
     store.set('pocketOpeningLength', points.topLeft.dist(points.openingBottom))
     store.set('pocketLength', points.curveBRStart.y - points.pocketTopLeft.y)
 
-    if (store.get('skirtLength') < store.get('pocketLength')) {
+    let pocketLengthCheck
+    if (options.highLow) {
+      pocketLengthCheck =
+        store.get('skirtHighLength') +
+        (store.get('skirtLength') - store.get('skirtHighLength')) * options.sideSkirtFraction
+    } else {
+      pocketLengthCheck = store.get('skirtLength')
+    }
+
+    if (pocketLengthCheck < store.get('pocketLength')) {
       log.warning('Pocket Length is greater than Skirt Length so Pocket has been hidden')
       part.hide()
       return part
