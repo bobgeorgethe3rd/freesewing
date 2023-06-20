@@ -82,6 +82,13 @@ export const frontCfDart = ({
     .close()
 
   if (complete) {
+    //dart
+    paths.dart = new Path()
+      .move(points.bustDartBottom)
+      .line(points.bustDartEdge)
+      .line(points.bustDartTop)
+      .attr('class', 'fabric help')
+
     //grainline
     points.grainlineFrom = points.cfNeckCp1
     points.grainlineTo = new Point(points.cfNeckCp1.x, points.waistDartRight.y)
@@ -124,8 +131,7 @@ export const frontCfDart = ({
         .line(points.hps)
         .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
         .line(points.bustDartBottom)
-        .line(points.bustDartEdge)
-        .line(points.bustDartTop)
+        .join(paths.dart)
         .line(points.cfWaist)
         .offset(sa)
         .close()

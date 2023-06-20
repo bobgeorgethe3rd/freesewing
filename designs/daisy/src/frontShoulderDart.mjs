@@ -99,6 +99,13 @@ export const frontShoulderDart = ({
     .close()
 
   if (complete) {
+    //dart
+    paths.dart = new Path()
+      .move(points.bustDartBottom)
+      .line(points.bustDartEdge)
+      .line(points.bustDartTop)
+      .attr('class', 'fabric help')
+
     //grainline
     points.cutOnFoldFrom = points.cfNeck
     points.cutOnFoldTo = points.cfWaist
@@ -138,8 +145,7 @@ export const frontShoulderDart = ({
         .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
         .curve_(points.armholePitchCp2, points.shoulder)
         .line(points.bustDartBottom)
-        .line(points.bustDartEdge)
-        .line(points.bustDartTop)
+        .join(paths.dart)
         .line(points.hps)
         .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
         .offset(sa)

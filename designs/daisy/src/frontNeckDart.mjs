@@ -1,4 +1,4 @@
-export const frontArmholeDart = ({
+export const frontNeckDart = ({
   store,
   sa,
   points,
@@ -23,24 +23,43 @@ export const frontArmholeDart = ({
   macro('scalebox', false)
   //measures
   const bustDartAngleSide = store.get('bustDartAngleSide')
+  //let's begin
+  paths.neck = new Path()
+    .move(points.hps)
+    .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+    .hide()
+
+  points.bustDartTop = paths.neck.reverse().shiftFractionAlong(options.bustDartFraction)
+
+  if (options.bustDartFraction <= 0.003) {
+    paths.neck = new Path().move(points.bustDartTop).line(paths.neck.end()).hide()
+  } else {
+    paths.neck = paths.neck.split(points.bustDartTop)[1].hide()
+  }
   //Rotate Armhole
-  const rot = ['armhole', 'armholeCp2', 'armholePitchCp1']
+  const rot = [
+    'armhole',
+    'armholeCp2',
+    'armholePitchCp1',
+    'armholePitch',
+    'armholePitchCp2',
+    'shoulder',
+    'hps',
+    'hpsCp2',
+    'cfNeckCp1',
+    'cfNeck',
+  ]
   for (const p of rot) points[p] = points[p].rotate(-bustDartAngleSide, points.bust)
-  //closing bust dart
+  //let's continue
   points.bustDartClosed = points.bustDartBottom
-  points.bustDartTop = points.armholePitch
   points.bustDartBottom = points.bustDartTop.rotate(-bustDartAngleSide, points.bust)
   points.bustDartMiddle = points.bustDartTop.shiftFractionTowards(points.bustDartBottom, 0.5)
   points.bustDartTip = points.bustDartMiddle.shiftFractionTowards(
     points.bust,
     options.bustDartLength
   )
-  points.bustDartEdge = utils.beamsIntersect(
-    points.bust,
-    points.bustDartMiddle,
-    points.hps,
-    points.bustDartTop
-  )
+  points.bustDartEdge = points.bustDartMiddle
+
   points.bustDartCpTop = points.bustDartTip
     .shiftFractionTowards(points.bustDartTop, 2 / 3)
     .rotate(5 * options.bustDartCurve, points.bustDartTip)
@@ -56,6 +75,16 @@ export const frontArmholeDart = ({
   )
 
   //paths
+  if (options.bustDartFraction >= 0.997) {
+    paths.neckRotated = new Path().move(points.hps).line(points.bustDartBottom)
+  } else {
+    paths.neckRotated = new Path()
+      .move(points.hps)
+      .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+      .split(points.bustDartBottom)[0]
+      .hide()
+  }
+
   paths.seam = new Path()
     .move(points.cfWaist)
     .line(points.waistDartLeft)
@@ -63,12 +92,13 @@ export const frontArmholeDart = ({
     ._curve(points.waistDartRightCp, points.waistDartRight)
     .line(points.sideWaist)
     .line(points.armhole)
-    .curve(points.armholeCp2, points.armholePitchCp1, points.bustDartBottom)
-    ._curve(points.bustDartCpBottom, points.bustDartTip)
-    .curve_(points.bustDartCpTop, points.bustDartTop)
+    .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
     .curve_(points.armholePitchCp2, points.shoulder)
     .line(points.hps)
-    .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+    .join(paths.neckRotated)
+    ._curve(points.bustDartCpBottom, points.bustDartTip)
+    .curve_(points.bustDartCpTop, points.bustDartTop)
+    .join(paths.neck)
     .line(points.cfWaist)
     .close()
 
@@ -81,7 +111,7 @@ export const frontArmholeDart = ({
       .attr('class', 'fabric help')
 
     //grainline
-    points.cutOnFoldFrom = points.cfNeck
+    points.cutOnFoldFrom = paths.neck.end()
     points.cutOnFoldTo = points.cfWaist
     macro('cutonfold', {
       from: points.cutOnFoldFrom,
@@ -92,11 +122,13 @@ export const frontArmholeDart = ({
     //notches
     macro('sprinkle', {
       snippet: 'notch',
-      on: ['cfBust', 'bust'],
+      on: ['bust', 'armholePitch'],
     })
-
+    if (options.bustDartFraction > 0) {
+      snippets.cfBustNotch = new Snippet('notch', points.cfBust)
+    }
     //title
-    points.title = new Point(points.hps.x, points.bustDartCpTop.y)
+    points.title = new Point(points.armholePitchCp1.x * (3 / 4), points.bust.y)
     macro('title', {
       at: points.title,
       nr: '1',
@@ -116,13 +148,14 @@ export const frontArmholeDart = ({
         .line(points.waistDartRight)
         .line(points.sideWaist)
         .line(points.armhole)
-        .curve(points.armholeCp2, points.armholePitchCp1, points.bustDartBottom)
-        .join(paths.dart)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
         .curve_(points.armholePitchCp2, points.shoulder)
         .line(points.hps)
-        .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+        .join(paths.neckRotated)
+        .join(paths.dart)
+        .join(paths.neck)
         .offset(sa)
-        .line(points.cfNeck)
+        .line(paths.neck.end())
         .line(points.cfWaist)
         .close()
         .attr('class', 'fabric sa')
