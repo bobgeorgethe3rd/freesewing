@@ -23,7 +23,16 @@ export const frontShoulderDart = ({
   //measures
   const bustDartAngleSide = store.get('bustDartAngleSide')
   //let's begin
-  points.bustDartTop = points.hps.shiftFractionTowards(points.shoulder, options.bustDartFraction)
+  if (options.parallelShoulder) {
+    points.bustDartTop = utils.beamsIntersect(
+      points.waistDartEdge,
+      points.bust,
+      points.hps,
+      points.shoulder
+    )
+  } else {
+    points.bustDartTop = points.hps.shiftFractionTowards(points.shoulder, options.bustDartFraction)
+  }
   //Rotate Armhole
   const rot = [
     'armhole',
@@ -42,7 +51,7 @@ export const frontShoulderDart = ({
     points.bust,
     options.bustDartLength
   )
-  if (options.bustDartFraction < 0.5) {
+  if (options.bustDartFraction < 0.5 && !options.parallelShoulder) {
     points.bustDartEdge = utils.beamsIntersect(
       points.bust,
       points.bustDartMiddle,

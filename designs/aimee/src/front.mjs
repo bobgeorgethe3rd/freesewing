@@ -13,6 +13,7 @@ export const front = {
     bustDartLength: 1,
     bustDartCurve: 1,
     bustDartFraction: 0.5,
+    parallelShoulder: false,
     //Fit
     wristEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
     //Style

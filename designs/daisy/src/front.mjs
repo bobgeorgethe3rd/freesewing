@@ -38,6 +38,7 @@ export const front = {
     },
     bustDartCurve: { pct: 100, min: -100, max: 100, menu: 'darts' },
     bustDartFraction: { pct: 50, min: 0, max: 100, menu: 'darts' },
+    parallelShoulder: { bool: false, menu: 'darts' },
   },
   draft: daisyFront,
 }

@@ -14,6 +14,7 @@ export const front = {
     waistDartLength: 1, //locked for Camden
     bustDartPlacement: 'side', //locked for Camden
     bustDartFraction: 0.5, //locked for Camden
+    parallelShoulder: false, //locked for Camden
     //Fit
     daisyGuide: { bool: false, menu: 'fit' },
     hipsEase: { pct: 11, min: 0, max: 20, menu: 'fit' },
