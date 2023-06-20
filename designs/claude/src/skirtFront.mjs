@@ -151,7 +151,6 @@ export const skirtFront = {
           }
           paths.facing = paths.facing.line(points.facingFrontExtension)
         }
-        paths.sideFrontHemFacing = paths.sideSeam.split(paths.facing.end())[0].hide()
       }
       //back titles
       let titleBack
@@ -405,7 +404,7 @@ export const skirtFront = {
         if (options.skirtFacings) {
           paths.facingSa = paths.hemBase
             .offset(hemSa)
-            .join(paths.sideFrontHemFacing.offset(sa))
+            .join(paths.sideSeam.split(paths.facing.end())[0].offset(sa))
             .join(paths.facing.reverse().offset(sa))
             .join(paths.cfFacing.offset(cfSa))
             .close()

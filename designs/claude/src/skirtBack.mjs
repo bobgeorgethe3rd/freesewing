@@ -159,10 +159,6 @@ export const skirtBack = {
           }
           paths.facing = paths.facing.line(points.facingBackExtension)
         }
-        paths.sideBackHemFacing = paths.sideSeam
-          .split(paths.hemBase.end())[1]
-          .split(paths.facing.end())[0]
-          .hide()
       }
       //panels
       if (options.skirtPanels > 1) {
@@ -339,7 +335,7 @@ export const skirtBack = {
         if (options.skirtFacings) {
           paths.facingSa = paths.hemBase
             .offset(hemSa)
-            .join(paths.sideBackHemFacing.offset(sa))
+            .join(paths.sideSeam.split(paths.facing.end())[0].offset(sa))
             .join(paths.facing.reverse().offset(sa))
             .join(paths.cbFacing.offset(cbSa))
             .close()
