@@ -90,25 +90,6 @@ export const skirtFront = {
       !options.separateBack
 
     if (includeBack) {
-      if (points.sideBackExtension) {
-        paths.sideSeamBack = new Path()
-          .move(points.backHemExtension)
-          .line(points.sideBackExtension)
-          .curve_(points.sideSeamBackCp, points.sideWaistBack)
-          .hide()
-
-        if (points.backHemExSplit) {
-          paths.sideSeamBack = paths.sideSeamBack.split(points.backHemExSplit)[1].hide()
-        }
-      } else {
-        paths.sideSeamBack = new Path().move(points.sideBackHem).line(points.sideWaistBack).hide()
-      }
-      paths.waistBack = new Path()
-        .move(points.sideWaistBack)
-        .curve(points.waistBackCp1, points.waistBackCp2, points.waistBackMid)
-        .curve(points.waistBackCp3, points.waistBackCp4, points.cbWaist)
-        .hide()
-
       paths.cb = new Path().move(points.cfHem).line(points.cbHem).hide()
 
       paths.hemBaseBack = new Path()
@@ -119,8 +100,8 @@ export const skirtFront = {
         .hide()
 
       paths.seamBack = paths.hemBaseBack
-        .join(paths.sideSeamBack)
-        .join(paths.waistBack)
+        .join(paths.sideSeam)
+        .join(paths.waist)
         .join(paths.cf)
         .join(paths.cb)
         .close()
@@ -148,7 +129,6 @@ export const skirtFront = {
               paths.backFacing = paths.backFacing.line(points.backHemFacingExSplit)
             }
           }
-          paths.sideBackFacing = paths.sideSeam.split(paths.backFacing.end())[0].hide()
         }
 
         paths.facing = new Path()
@@ -540,8 +520,68 @@ export const skirtFront = {
         at: points.scalebox,
         scale: 0.25,
       })
-    }
+      //add seam allowance
+      if (includeBack && !options.waistbandElastic) {
+        if (options.waistbandClosurePosition == 'back') {
+          paths.cf
+            .attr('class', 'fabric hidden')
+            .attr('data-text', 'ADD SEAM ALLOWANCE FOR BACK')
+            .attr('data-text-class', 'center')
+            .unhide()
+        }
+        if (options.waistbandClosurePosition == 'front') {
+          paths.cf
+            .attr('class', 'fabric hidden')
+            .attr('data-text', 'REMOVE SEAM ALLOWANCE FOR BACK')
+            .attr('data-text-class', 'center')
+            .unhide()
+        }
+      }
+      if (sa) {
+        let hemSa
+        if (options.skirtFacings) {
+          hemSa = sa
+        } else {
+          hemSa = sa * options.skirtHemWidth * 100
+        }
+        if (options.skirtFacings) {
+          if (includeBack) {
+            paths.backFacingSa = paths.hemBaseBack
+              .offset(hemSa)
+              .join(paths.sideSeam.split(paths.backFacing.end())[0].offset(sa))
+              .join(paths.backFacing.offset(-sa).reverse()) //yea weird but due to a bug has to be this way
+              .join(paths.cbHemFacing.offset(cbSa))
+              .close()
+              .attr('class', 'interfacing sa')
+          }
+          paths.facingSa = paths.hemBase
+            .offset(hemSa)
+            .join(paths.sideSeam.split(paths.facing.end())[0].offset(sa))
+            .join(paths.facing.offset(-sa).reverse()) //yea weird but due to a bug has to be this way
+            .join(paths.cfHemFacing.offset(cfSa))
+            .close()
+            .attr('class', 'interfacing sa')
+        }
 
+        if (includeBack) {
+          paths.saBack = paths.hemBaseBack
+            .offset(hemSa)
+            .join(paths.sideSeam.offset(sa))
+            .join(paths.waist.offset(sa))
+            .join(paths.cf.offset(cfSa))
+            .join(paths.cb.offset(cbSa))
+            .close()
+            .attr('class', 'fabric sa')
+        }
+        paths.sa = paths.hemBase
+          .offset(hemSa)
+          .join(paths.sideSeam.offset(sa))
+          .join(paths.waist.offset(sa))
+          .join(paths.cf.offset(cfSa))
+          .close()
+          .attr('class', 'fabric sa')
+      }
+    }
     return part
   },
 }
