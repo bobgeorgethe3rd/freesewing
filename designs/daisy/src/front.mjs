@@ -1,7 +1,11 @@
 import { frontShared } from './frontShared.mjs'
 import { frontWaistDart } from './frontWaistDart.mjs'
+import { frontWaistSplitDart } from './frontWaistSplitDart.mjs'
+import { front2WaistDart } from './front2WaistDart.mjs'
 import { frontFrenchDart } from './frontFrenchDart.mjs'
 import { frontSideDart } from './frontSideDart.mjs'
+import { frontSideSplitDart } from './frontSideSplitDart.mjs'
+import { front2SideDart } from './front2SideDart.mjs'
 import { frontUnderarmDart } from './frontUnderarmDart.mjs'
 import { frontArmholeDart } from './frontArmholeDart.mjs'
 import { frontShoulderDart } from './frontShoulderDart.mjs'
@@ -13,8 +17,16 @@ const daisyFront = (params) => {
   switch (params.options.bustDartPlacement) {
     case 'waist':
       return frontWaistDart(params)
+    case 'waistSplit':
+      return frontWaistSplitDart(params)
+    case '2waist':
+      return front2WaistDart(params)
     case 'french':
       return frontFrenchDart(params)
+    case 'sideSplit':
+      return frontSideSplitDart(params)
+    case '2side':
+      return front2SideDart(params)
     case 'underarm':
       return frontUnderarmDart(params)
     case 'armhole':
@@ -44,8 +56,12 @@ export const front = {
       dflt: 'side',
       list: [
         'waist',
+        'waistSplit',
+        '2waist',
         'french',
         'side',
+        'sideSplit',
+        '2side',
         'underarm',
         'armhole',
         'shoulder',
