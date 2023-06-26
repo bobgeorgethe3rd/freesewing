@@ -11,10 +11,12 @@ export const backBase = {
     inherited: true,
   },
   options: {
+    //Fit
+    daisyGuides: { bool: false, menu: 'fit' },
     //Style
     armholeDrop: { pct: 15, min: 10, max: 50, menu: 'style' },
     backDrop: { pct: 0, min: 0, max: 100, menu: 'style' },
-    straightBack: { bool: false },
+    straightBack: { bool: false, menu: 'style' },
   },
   draft: ({
     store,
@@ -66,16 +68,16 @@ export const backBase = {
     points.cbWaistNew = new Point(points.cbTop.x, points.cbWaist.y)
 
     //control points and splits
-    points.backCp = points.cbTop.shift(
+    points.cbTopCp1 = points.cbTop.shift(
       points.waistCenter.angle(points.dartBottomLeft) * options.backDrop,
       points.waistCenter.dist(points.dartBottomLeft) * 0.25
     )
-    points.armholeDropCp = points.armholeDrop.shiftFractionTowards(points.backCp, 0.125)
+    points.armholeDropCp2 = points.armholeDrop.shiftFractionTowards(points.cbTopCp1, 0.125)
 
     points.dartLeftSplit = utils.curvesIntersect(
       points.armholeDrop,
-      points.armholeDropCp,
-      points.backCp,
+      points.armholeDropCp2,
+      points.cbTopCp1,
       points.cbTop,
       points.dartBottomLeft,
       points.dartLeftCp,
@@ -83,15 +85,21 @@ export const backBase = {
       points.dartTip
     )
     points.dartRightSplit = points.dartLeftSplit.flipX(points.dartBottomCenter)
-    points.sideBackCp = points.dartRightSplit.shift(
-      points.backCp.angle(points.dartLeftSplit),
+    points.dartRightSplitCp1 = points.dartRightSplit.shift(
+      points.cbTopCp1.angle(points.dartLeftSplit),
       points.dartBottomRight.dist(points.waistSide) * 0.25
     )
+    points.dartLeftNotch = new Path()
+      .move(points.dartBottomLeft)
+      .curve_(points.dartLeftCp, points.dartTip)
+      .split(points.dartLeftSplit)[0]
+      .shiftFractionAlong(0.5)
+    points.dartRightNotch = points.dartLeftNotch.flipX(points.dartBottomCenter)
     //stores
     store.set('sideLength', paths.side.split(points.armholeDrop)[0].length())
     store.set(
       'cpAngle',
-      points.armholeDrop.angle(points.sideBackCp) - points.armhole.angle(points.armholeCp2)
+      points.armholeDrop.angle(points.dartRightSplitCp1) - points.armhole.angle(points.armholeCp2)
     )
     if (options.straightBack) {
       store.set(
@@ -110,31 +118,33 @@ export const backBase = {
     }
 
     //guides
-    paths.daisyGuide = new Path()
-      .move(points.cbNeck)
-      .curve_(points.cbNeckCp2, points.waistCenter)
-      .line(points.dartBottomLeft)
-      .curve_(points.dartLeftCp, points.dartTip)
-      ._curve(points.dartRightCp, points.dartBottomRight)
-      .line(points.waistSide)
-      .curve_(points.waistSideCp2, points.armhole)
-      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-      .curve_(points.armholePitchCp2, points.shoulder)
-      .line(points.hps)
-      ._curve(points.cbNeckCp1, points.cbNeck)
-      .close()
-      .attr('class', 'various lashed')
+    if (options.daisyGuides) {
+      paths.daisyGuide = new Path()
+        .move(points.cbNeck)
+        .curve_(points.cbNeckCp2, points.waistCenter)
+        .line(points.dartBottomLeft)
+        .curve_(points.dartLeftCp, points.dartTip)
+        ._curve(points.dartRightCp, points.dartBottomRight)
+        .line(points.waistSide)
+        .curve_(points.waistSideCp2, points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .line(points.hps)
+        ._curve(points.cbNeckCp1, points.cbNeck)
+        .close()
+        .attr('class', 'various lashed')
+    }
 
-    paths.fullCurve = new Path()
-      .move(points.armholeDrop)
-      .curve(points.armholeDropCp, points.backCp, points.cbTop)
-      .attr('class', 'various lashed')
+    // paths.fullCurve = new Path()
+    // .move(points.armholeDrop)
+    // .curve(points.armholeDropCp2, points.cbTopCp1, points.cbTop)
+    // .attr('class', 'various lashed')
 
-    paths.backNeck = new Path().move(points.dartLeftSplit)._curve(points.backCp, points.cbTop)
+    // paths.backNeck = new Path().move(points.dartLeftSplit)._curve(points.cbTopCp1, points.cbTop)
 
-    paths.sideBackNeck = new Path()
-      .move(points.armholeDrop)
-      ._curve(points.sideBackCp, points.dartRightSplit)
+    // paths.sideBackNeck = new Path()
+    // .move(points.armholeDrop)
+    // ._curve(points.dartRightSplitCp1, points.dartRightSplit)
 
     return part
   },

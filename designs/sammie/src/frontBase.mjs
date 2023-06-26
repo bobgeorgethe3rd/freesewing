@@ -105,7 +105,7 @@ export const frontBase = {
     )
     points.sideFrontTopLeftCp1 = points.sideFrontTopLeft.shift(
       points.cfBust.angle(points.bust) - options.frontAngle - bustDartAngleSide,
-      points.frontTopRightAnchor.dist(points.frontTopRight) * 0.5 * (2 - options.bustDartFraction)
+      points.frontTopRightAnchor.dist(points.frontTopRight) * (options.bustDartFraction * -0.5 + 1)
     )
 
     //stores
@@ -116,23 +116,25 @@ export const frontBase = {
     store.set('storedWaist', (store.get('waistBack') + store.get('waistFront')) / 2)
 
     //guides
-    paths.daisyGuide = new Path()
-      .move(points.cfWaist)
-      .line(points.waistDartLeft)
-      .curve_(points.waistDartLeftCp, points.waistDartTip)
-      ._curve(points.waistDartRightCp, points.waistDartRight)
-      .line(points.sideWaist)
-      .line(points.armhole)
-      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-      .curve_(points.armholePitchCp2, points.shoulder)
-      .line(points.bustDartBottom)
-      ._curve(points.bustDartCpBottom, points.bustDartTip)
-      .curve_(points.bustDartCpTop, points.bustDartTop)
-      .line(points.hps)
-      .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
-      .line(points.cfWaist)
-      .close()
-      .attr('class', 'various lashed')
+    if (options.daisyGuides) {
+      paths.daisyGuide = new Path()
+        .move(points.cfWaist)
+        .line(points.waistDartLeft)
+        .curve_(points.waistDartLeftCp, points.waistDartTip)
+        ._curve(points.waistDartRightCp, points.waistDartRight)
+        .line(points.sideWaist)
+        .line(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .line(points.bustDartBottom)
+        ._curve(points.bustDartCpBottom, points.bustDartTip)
+        .curve_(points.bustDartCpTop, points.bustDartTop)
+        .line(points.hps)
+        .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+        .line(points.cfWaist)
+        .close()
+        .attr('class', 'various lashed')
+    }
 
     paths.frontRight = new Path()
       .move(points.waistDartLeft)
