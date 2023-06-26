@@ -11,6 +11,9 @@ export const backBase = {
     inherited: true,
   },
   options: {
+    //Constants
+    backArmholeCurvature: 0.63, //locked for Sammie
+    backArmholePitchDepth: 0.35, //locked for Sammie
     //Fit
     daisyGuides: { bool: false, menu: 'fit' },
     //Style
@@ -135,16 +138,16 @@ export const backBase = {
         .attr('class', 'various lashed')
     }
 
-    paths.fullCurve = new Path()
-      .move(points.armholeDrop)
-      .curve(points.armholeDropCp2, points.cbTopCp1, points.cbTop)
-      .attr('class', 'various lashed')
+    // paths.fullCurve = new Path()
+    // .move(points.armholeDrop)
+    // .curve(points.armholeDropCp2, points.cbTopCp1, points.cbTop)
+    // .attr('class', 'various lashed')
 
-    paths.backNeck = new Path().move(points.dartLeftSplit)._curve(points.cbTopCp1, points.cbTop)
+    // paths.backNeck = new Path().move(points.dartLeftSplit)._curve(points.cbTopCp1, points.cbTop)
 
-    paths.sideBackNeck = new Path()
-      .move(points.armholeDrop)
-      ._curve(points.dartRightSplitCp1, points.dartRightSplit)
+    // paths.sideBackNeck = new Path()
+    // .move(points.armholeDrop)
+    // ._curve(points.dartRightSplitCp1, points.dartRightSplit)
 
     return part
   },

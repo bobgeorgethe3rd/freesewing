@@ -40,7 +40,7 @@ export const backFacing = {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
-    //let's begin
+    //measures
     const bodiceFacingWidthTarget = store.get('sideLength') * options.bodiceFacingWidth
     const bodiceFacingWidthMax = store.get('bodiceFacingWidthMax')
     let bodiceFacingWidth
@@ -50,6 +50,7 @@ export const backFacing = {
       bodiceFacingWidth = bodiceFacingWidthTarget
     }
     const dartOffset = points.dartLeftSplit.dist(points.dartRightSplit)
+    //let's begin
     const shift = [
       'armhole',
       'waistSideCp2',
@@ -63,18 +64,18 @@ export const backFacing = {
     points.cbFacing = points.cbTop.shift(-90, bodiceFacingWidth)
     points.cbFacingCp2 = points.cbTopCp1.shift(-90, bodiceFacingWidth)
     points.armholeFacing = points.armholeDrop.shift(-90, bodiceFacingWidth)
-    points.facingMid = points.dartRightSplit.shift(-90, bodiceFacingWidth)
-    points.facingMidCp2 = points.dartRightSplitCp1.shift(-90, bodiceFacingWidth)
+    points.facingBottomMid = points.dartRightSplit.shift(-90, bodiceFacingWidth)
+    points.facingBottomMidCp2 = points.dartRightSplitCp1.shift(-90, bodiceFacingWidth)
 
-    points.armholeFacingTarget = points.facingMidCp2.shiftOutwards(
+    points.armholeFacingTarget = points.facingBottomMidCp2.shiftOutwards(
       points.armholeFacing,
       measurements.waist * 10
     )
 
-    paths.facingBottom = new Path()
+    paths.hemBase = new Path()
       .move(points.cbFacing)
-      .curve_(points.cbFacingCp2, points.facingMid)
-      .curve_(points.facingMidCp2, points.armholeFacing)
+      .curve_(points.cbFacingCp2, points.facingBottomMid)
+      .curve_(points.facingBottomMidCp2, points.armholeFacing)
       .line(points.armholeFacingTarget)
       .hide()
 
@@ -83,7 +84,7 @@ export const backFacing = {
       measurements.hpsToWaistBack * 10
     )
 
-    paths.facingLeft = new Path()
+    paths.cb = new Path()
       .move(points.cbNeck)
       .curve_(points.cbNeckCp2, points.waistCenter)
       .line(points.bottomTarget)
@@ -97,8 +98,8 @@ export const backFacing = {
       points.waistCenter,
       points.cbFacing,
       points.cbFacingCp2,
-      points.facingMid,
-      points.facingMid
+      points.facingBottomMid,
+      points.facingBottomMid
     )
 
     if (cbIntersect) {
@@ -109,16 +110,16 @@ export const backFacing = {
         points.bottomTarget,
         points.cbFacing,
         points.cbFacingCp2,
-        points.facingMid,
-        points.facingMid
+        points.facingBottomMid,
+        points.facingBottomMid
       )
     }
 
     if (!options.centreBackFold) {
-      paths.facingBottom = paths.facingBottom.split(points.cbSplit)[1].hide()
-      paths.facingLeft = paths.facingLeft.split(points.cbSplit)[0].hide()
+      paths.hemBase = paths.hemBase.split(points.cbSplit)[1].hide()
+      paths.cb = paths.cb.split(points.cbSplit)[0].hide()
     } else {
-      paths.facingLeft = new Path().move(points.cbTop).line(points.cbFacing).hide()
+      paths.cb = new Path().move(points.cbTop).line(points.cbFacing).hide()
     }
 
     const sideIntersect = utils.curvesIntersect(
@@ -126,8 +127,8 @@ export const backFacing = {
       points.waistSideCp2,
       points.armhole,
       points.armhole,
-      points.facingMid,
-      points.facingMidCp2,
+      points.facingBottomMid,
+      points.facingBottomMidCp2,
       points.armholeFacing,
       points.armholeFacing
     )
@@ -135,7 +136,7 @@ export const backFacing = {
       points.armholeSplit = sideIntersect
     } else {
       points.armholeSplit = utils.lineIntersectsCurve(
-        points.facingMidCp2,
+        points.facingBottomMidCp2,
         points.armholeFacingTarget,
         points.waistSide,
         points.waistSideCp2,
@@ -145,7 +146,7 @@ export const backFacing = {
     }
 
     //paths
-    paths.facingBottom = paths.facingBottom.split(points.armholeSplit)[0].hide()
+    paths.hemBase = paths.hemBase.split(points.armholeSplit)[0].hide()
 
     paths.saBase = new Path()
       .move(points.waistSide)
@@ -156,10 +157,10 @@ export const backFacing = {
       ._curve(points.cbTopCp1, points.cbTop)
       .hide()
 
-    paths.seam = paths.facingBottom.join(paths.saBase).join(paths.facingLeft).close()
+    paths.seam = paths.hemBase.join(paths.saBase).join(paths.cb).close()
 
     //stores
-    store.set('bodiceFacingWidth')
+    store.set('bodiceFacingWidth', bodiceFacingWidth)
 
     if (complete) {
       //grainline
@@ -176,7 +177,7 @@ export const backFacing = {
       } else {
         cbSa = sa
         points.grainlineFrom = points.dartRightSplit
-        points.grainlineTo = points.facingMid
+        points.grainlineTo = points.facingBottomMid
 
         macro('grainline', {
           from: points.grainlineFrom,
@@ -184,7 +185,7 @@ export const backFacing = {
         })
       }
       //title
-      points.title = points.facingMidCp2.shiftFractionTowards(points.dartRightSplitCp1, 0.5)
+      points.title = points.facingBottomMidCp2.shiftFractionTowards(points.dartRightSplitCp1, 0.5)
       macro('title', {
         nr: 6,
         title: 'Back Facing',
@@ -193,10 +194,10 @@ export const backFacing = {
       })
 
       if (sa) {
-        paths.sa = paths.facingBottom
+        paths.sa = paths.hemBase
           .offset(sa * options.bodiceFacingHemWidth * 100)
           .join(paths.saBase.offset(sa))
-          .join(paths.facingLeft.offset(cbSa))
+          .join(paths.cb.offset(cbSa))
           .close()
           .attr('class', 'fabric sa')
       }
