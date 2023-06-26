@@ -22,7 +22,7 @@ export const skirtBase = {
   ],
   options: {
     //Constants
-    //useVoidStores: true,
+    useVoidStores: true,
     highLow: false,
     skirtHighLength: 'toSeat',
     skirtHighLengthBonus: 0,
@@ -96,30 +96,47 @@ export const skirtBase = {
   }) => {
     //measures
 
-    //if (options.useVoidStores) {
-    void store.setIfUnset('waistBack', measurements.waistBack * (1 + options.waistEase) * 2)
-    void store.setIfUnset(
-      'waistFront',
-      (measurements.waist - measurements.waistBack) * (1 + options.waistEase) * 2
-    )
-    void store.setIfUnset('storedWaist', measurements.waist * (1 + options.waistEase))
+    if (options.useVoidStores) {
+      void store.setIfUnset('storedWaist', measurements.waist * (1 + options.waistEase))
+      if (measurements.waistBack) {
+        void store.setIfUnset('waistBack', measurements.waistBack * (1 + options.waistEase) * 2)
+        void store.setIfUnset(
+          'waistFront',
+          (measurements.waist - measurements.waistBack) * (1 + options.waistEase) * 2
+        )
+      } else {
+        void store.setIfUnset('waistBack', store.get('storedWaist'))
+        void store.setIfUnset('waistFront', store.get('storedWaist'))
+      }
 
-    void store.setIfUnset('hipsBack', measurements.hipsBack * (1 + options.hipsEase) * 2)
-    void store.setIfUnset(
-      'hipsFront',
-      (measurements.hips - measurements.hipsBack) * (1 + options.hipsEase) * 2
-    )
-    void store.setIfUnset('storedHips', measurements.hips * (1 + options.hipsEase))
+      void store.setIfUnset('storedHips', measurements.hips * (1 + options.hipsEase))
 
-    void store.setIfUnset('seatBack', measurements.seatBack * (1 + options.seatEase) * 2)
-    void store.setIfUnset(
-      'seatFront',
-      (measurements.seat - measurements.seatBack) * (1 + options.seatEase) * 2
-    )
-    void store.setIfUnset('storedSeat', measurements.seat * (1 + options.seatEase))
+      if (measurements.hipsBack) {
+        void store.setIfUnset('hipsBack', measurements.hipsBack * (1 + options.hipsEase) * 2)
+        void store.setIfUnset(
+          'hipsFront',
+          (measurements.hips - measurements.hipsBack) * (1 + options.hipsEase) * 2
+        )
+      } else {
+        void store.setIfUnset('hipsBack', store.get('storedHips'))
+        void store.setIfUnset('hipsFront', store.get('storedHips'))
+      }
 
-    void store.setIfUnset('waistHeigthDist', measurements.waistToHips)
-    //}
+      void store.setIfUnset('storedSeat', measurements.seat * (1 + options.seatEase))
+
+      if (measurements.seatBack) {
+        void store.setIfUnset('seatBack', measurements.seatBack * (1 + options.seatEase) * 2)
+        void store.setIfUnset(
+          'seatFront',
+          (measurements.seat - measurements.seatBack) * (1 + options.seatEase) * 2
+        )
+      } else {
+        void store.setIfUnset('seatBack', store.get('storedSeat'))
+        void store.setIfUnset('seatFront', store.get('storedSeat'))
+      }
+
+      void store.setIfUnset('waistHeigthDist', measurements.waistToHips)
+    }
 
     const waistHeightDist = store.get('waistHeigthDist')
 
@@ -129,7 +146,7 @@ export const skirtBase = {
 
     let waistFront
     let waistBack
-    if (options.useBackMeasures && measurements.waistBack) {
+    if (options.useBackMeasures) {
       waistFront = store.get('waistFront')
       waistBack = store.get('waistBack')
     } else {
@@ -139,7 +156,7 @@ export const skirtBase = {
 
     let hipsFront
     let hipsBack
-    if (options.useBackMeasures && measurements.hipsBack) {
+    if (options.useBackMeasures) {
       hipsFront = store.get('hipsFront')
       hipsBack = store.get('hipsBack')
     } else {
@@ -149,7 +166,7 @@ export const skirtBase = {
 
     let seatFront
     let seatBack
-    if (options.useBackMeasures && measurements.seatBack) {
+    if (options.useBackMeasures) {
       seatFront = store.get('seatFront')
       seatBack = store.get('seatBack')
     } else {
