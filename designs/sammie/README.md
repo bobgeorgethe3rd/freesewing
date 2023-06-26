@@ -1,13 +1,13 @@
 ![FreeSewing](https://static.freesewing.org/banner.png)
 <p align='center'><a
-  href="https://www.npmjs.com/package/@freesewing/claude"
-  title="@freesewing/claude on NPM"
-  ><img src="https://img.shields.io/npm/v/@freesewing/claude.svg"
-  alt="@freesewing/claude on NPM"/>
+  href="https://www.npmjs.com/package/@freesewing/sammie"
+  title="@freesewing/sammie on NPM"
+  ><img src="https://img.shields.io/npm/v/@freesewing/sammie.svg"
+  alt="@freesewing/sammie on NPM"/>
   </a><a
   href="https://opensource.org/licenses/MIT"
   title="License: MIT"
-  ><img src="https://img.shields.io/npm/l/@freesewing/claude.svg?label=License"
+  ><img src="https://img.shields.io/npm/l/@freesewing/sammie.svg?label=License"
   alt="License: MIT"/>
   </a><a
   href="https://deepscan.io/dashboard#view=project&tid=2114&pid=2993&bid=23256"
@@ -15,10 +15,10 @@
   ><img src="https://deepscan.io/api/teams/2114/projects/2993/branches/23256/badge/grade.svg"
   alt="Code quality on DeepScan"/>
   </a><a
-  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Aclaude"
-  title="Open issues tagged pkg:claude"
-  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:claude.svg?label=Issues"
-  alt="Open issues tagged pkg:claude"/>
+  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Asammie"
+  title="Open issues tagged pkg:sammie"
+  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:sammie.svg?label=Issues"
+  alt="Open issues tagged pkg:sammie"/>
   </a><a
   href="#contributors-"
   title="All Contributors"
@@ -46,9 +46,9 @@
   alt="Follow @freesewing_org on Twitter"/>
   </a></p>
 
-# @freesewing/claude
+# @freesewing/sammie
 
-A Cricle Skirt design for independent use and extension into other desgins
+A Strapless Bodice design for independent use and extension into other desgins
 
 
 
@@ -65,7 +65,7 @@ A Cricle Skirt design for independent use and extension into other desgins
 
 This repository is our *monorepo* holding all our NPM designs, plugins, other NPM packages, and (web)sites.
 
-This folder holds: @freesewing/claude
+This folder holds: @freesewing/sammie
 
 If you're not entirely sure what to do or how to start, type this command:
 

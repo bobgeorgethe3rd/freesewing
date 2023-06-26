@@ -1,7 +1,7 @@
 {
-  "name": "@freesewing/rufflebutterflysleeve",
+  "name": "@freesewing/sammie",
   "version": "3.0.0-alpha.8",
-  "description": "Ruffle Butterfly sleeves to be used in other designs",
+  "description": "A Strapless Bodice design for independent use and extension into other desgins",
   "author": "bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)",
   "homepage": "https://freesewing.org/",
   "repository": "github:freesewing/freesewing",
@@ -49,7 +49,7 @@
     "@freesewing/core": "3.0.0-alpha.8",
     "@freesewing/plugin-bundle": "3.0.0-alpha.8",
     "@freesewing/plugin-logorg": "3.0.0-alpha.8",
-    "@freesewing/basicsleeve": "3.0.0-alpha.8"
+    "@freesewing/daisy": "3.0.0-alpha.8"
   },
   "dependencies": {},
   "devDependencies": {

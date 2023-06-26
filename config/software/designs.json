@@ -36,7 +36,15 @@
       "tags": ["tops", "blocks"]
     }
   },
-  "bodices": {},
+  "bodices": {
+    "sammie": {
+      "description": "A Strapless Bodice design for independent use and extension into other desgins",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "bodices", "strapless"]
+    }
+  },
   "bottoms": {
     "jackson": {
       "description": "A Jean pattern",
@@ -112,7 +120,7 @@
   },
   "skirts": {
     "claude": {
-      "description": "A Cricle Skirt design to be both independent and extended in to other desgins",
+      "description": "A Cricle Skirt design for independent use and extension into other desgins",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -126,7 +134,7 @@
       "tags": ["skirts", "keystone"]
     },
     "harriet": {
-      "description": "A High - Low circle skirt design to be both independent and extended in to other desgins",
+      "description": "A High - Low circle skirt design for independent use and extension into other desgins",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,

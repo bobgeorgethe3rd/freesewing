@@ -1,7 +1,7 @@
 {
   "name": "@freesewing/claude",
   "version": "3.0.0-alpha.8",
-  "description": "A Cricle Skirt design to be both independent and extended in to other desgins",
+  "description": "A Cricle Skirt design for independent use and extension into other desgins",
   "author": "bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)",
   "homepage": "https://freesewing.org/",
   "repository": "github:freesewing/freesewing",
