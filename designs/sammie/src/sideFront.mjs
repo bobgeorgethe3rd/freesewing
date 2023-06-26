@@ -60,7 +60,7 @@ export const sideFront = {
         to: points.grainlineTo,
       })
       //notches
-      snippets.notch = new Snippet('notch', points.bust)
+      snippets.bust = new Snippet('notch', points.bust)
       //title
       points.title = new Point(
         points.bust.shiftFractionTowards(points.armholeDrop, 0.5).x,

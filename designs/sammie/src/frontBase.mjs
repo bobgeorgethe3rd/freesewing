@@ -114,6 +114,7 @@ export const frontBase = {
       (points.cfWaist.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideWaist)) * 4
     )
     store.set('storedWaist', (store.get('waistBack') + store.get('waistFront')) / 2)
+    store.set('bodiceFacingWidthMax', points.bust.dist(points.frontTopRight))
 
     //guides
     if (options.daisyGuides) {
@@ -136,23 +137,23 @@ export const frontBase = {
         .attr('class', 'various lashed')
     }
 
-    paths.frontRight = new Path()
-      .move(points.waistDartLeft)
-      .curve(points.waistDartLeftCp, points.waistDartMiddleCp, points.bust)
-      .curve(points.bustDartCpMid, points.bustDartCpTop, points.bustDartTop)
+    // paths.centreFrontRight = new Path()
+    // .move(points.waistDartLeft)
+    // .curve(points.waistDartLeftCp, points.waistDartMiddleCp, points.bust)
+    // .curve(points.bustDartCpMid, points.bustDartCpTop, points.bustDartTop)
 
-    paths.sideFrontLeft = new Path()
-      .move(points.bustDartBottom)
-      .curve(points.bustDartCpBottom, points.bustDartCpMid, points.bust)
-      .curve(points.waistDartMiddleCp, points.waistDartRightCp, points.waistDartRight)
+    // paths.sideFrontLeft = new Path()
+    // .move(points.bustDartBottom)
+    // .curve(points.bustDartCpBottom, points.bustDartCpMid, points.bust)
+    // .curve(points.waistDartMiddleCp, points.waistDartRightCp, points.waistDartRight)
 
-    paths.sideFrontCurve = new Path()
-      .move(points.armholeDrop)
-      .curve(points.armholeDropCp2, points.sideFrontTopLeftCp1, points.sideFrontTopLeft)
+    // paths.sideFrontCurve = new Path()
+    // .move(points.armholeDrop)
+    // .curve(points.armholeDropCp2, points.sideFrontTopLeftCp1, points.sideFrontTopLeft)
 
-    paths.cfCurve = new Path()
-      .move(points.frontTopRight)
-      .curve_(points.frontTopRightCp2, points.cfTop)
+    // paths.cfCurve = new Path()
+    // .move(points.frontTopRight)
+    // .curve_(points.frontTopRightCp2, points.cfTop)
 
     return part
   },

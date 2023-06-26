@@ -8,12 +8,14 @@ import { frontBase } from './frontBase.mjs'
 import { centreBack } from './centreBack.mjs'
 import { sideBack } from './sideBack.mjs'
 import { sideFront } from './sideFront.mjs'
+import { centreFront } from './centreFront.mjs'
+import { backFacing } from './backFacing.mjs'
 
 // Create new design
 const Sammie = new Design({
   data,
-  parts: [backBase, frontBase, centreBack, sideBack, sideFront],
+  parts: [backBase, frontBase, centreBack, sideBack, sideFront, backFacing, centreFront],
 })
 
 // Named exports
-export { backBase, frontBase, centreBack, sideBack, sideFront, Sammie }
+export { backBase, frontBase, centreBack, sideBack, sideFront, centreFront, backFacing, Sammie }

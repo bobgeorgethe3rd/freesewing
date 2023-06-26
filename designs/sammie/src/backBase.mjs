@@ -16,7 +16,7 @@ export const backBase = {
     //Style
     armholeDrop: { pct: 15, min: 10, max: 50, menu: 'style' },
     backDrop: { pct: 0, min: 0, max: 100, menu: 'style' },
-    straightBack: { bool: false, menu: 'style' },
+    centreBackFold: { bool: false, menu: 'construction' },
   },
   draft: ({
     store,
@@ -101,7 +101,7 @@ export const backBase = {
       'cpAngle',
       points.armholeDrop.angle(points.dartRightSplitCp1) - points.armhole.angle(points.armholeCp2)
     )
-    if (options.straightBack) {
+    if (options.centreBackFold) {
       store.set(
         'waistBack',
         (points.cbWaistNew.dist(points.dartBottomLeft) +
@@ -135,16 +135,16 @@ export const backBase = {
         .attr('class', 'various lashed')
     }
 
-    // paths.fullCurve = new Path()
-    // .move(points.armholeDrop)
-    // .curve(points.armholeDropCp2, points.cbTopCp1, points.cbTop)
-    // .attr('class', 'various lashed')
+    paths.fullCurve = new Path()
+      .move(points.armholeDrop)
+      .curve(points.armholeDropCp2, points.cbTopCp1, points.cbTop)
+      .attr('class', 'various lashed')
 
-    // paths.backNeck = new Path().move(points.dartLeftSplit)._curve(points.cbTopCp1, points.cbTop)
+    paths.backNeck = new Path().move(points.dartLeftSplit)._curve(points.cbTopCp1, points.cbTop)
 
-    // paths.sideBackNeck = new Path()
-    // .move(points.armholeDrop)
-    // ._curve(points.dartRightSplitCp1, points.dartRightSplit)
+    paths.sideBackNeck = new Path()
+      .move(points.armholeDrop)
+      ._curve(points.dartRightSplitCp1, points.dartRightSplit)
 
     return part
   },

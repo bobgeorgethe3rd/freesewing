@@ -37,7 +37,7 @@ export const centreBack = {
     //let's begin
     //paths
     const drawCB = () => {
-      if (options.straightBack || options.backDrop > 0.997) {
+      if (options.centreBackFold || options.backDrop > 0.997) {
         return new Path().move(points.cbTop).line(points.cbWaistNew)
       } else {
         return new Path()
@@ -64,7 +64,11 @@ export const centreBack = {
     if (complete) {
       //grainline
       let cbSa
-      if (options.straightBack && options.closurePosition != 'back' && options.backDrop <= 0.997) {
+      if (
+        options.centreBackFold &&
+        options.closurePosition != 'back' &&
+        options.backDrop <= 0.997
+      ) {
         cbSa = 0
         points.cutOnFoldFrom = points.cbTop
         points.cutOnFoldTo = points.cbWaistNew

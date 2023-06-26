@@ -63,7 +63,7 @@ export const sideBack = {
       })
 
       //notches
-      snippets.bnotch = new Snippet('bnotch', points.dartRightNotch)
+      snippets.dartRightNotch = new Snippet('bnotch', points.dartRightNotch)
 
       //title
       points.title = points.dartRightSplit
