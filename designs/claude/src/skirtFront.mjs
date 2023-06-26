@@ -321,7 +321,7 @@ export const skirtFront = {
       //grainline
       let cfSa
       if (
-        options.waistbandClosurePosition == 'front' &&
+        options.closurePosition == 'front' &&
         !options.waistbandElastic &&
         (options.useBackMeasures ||
           options.independentSkirtFullness ||
@@ -378,10 +378,10 @@ export const skirtFront = {
         !options.independentSkirtFullness &&
         !options.independentSkirtGathering &&
         !options.waistbandElastic &&
-        (options.waistbandClosurePosition == 'front' || options.waistbandClosurePosition == 'back')
+        (options.closurePosition == 'front' || options.closurePosition == 'back')
       ) {
         let addSa
-        if (options.waistbandClosurePosition == 'front') {
+        if (options.closurePosition == 'front') {
           addSa = 'FRONT'
         } else {
           addSa = 'BACK'

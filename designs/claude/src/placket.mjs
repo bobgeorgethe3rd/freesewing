@@ -85,7 +85,7 @@ export const placket = {
         to: points.grainlineTo,
       })
       //notches
-      if (options.waistbandClosurePosition == 'side') {
+      if (options.closurePosition == 'side') {
         points.pocketOpeningNotch0 = points.topRight.shift(-90, pocketOpening)
         points.pocketOpeningNotch1 = points.topRight.shift(-90, pocketOpeningLength)
         macro('sprinkle', {

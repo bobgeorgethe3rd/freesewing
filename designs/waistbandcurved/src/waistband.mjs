@@ -9,7 +9,7 @@ export const waistband = {
     waistbandOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'style' },
     waistbandOverlap: { pct: 0, min: 0, max: 15, menu: 'style' },
     //Construction
-    waistbandClosurePosition: {
+    closurePosition: {
       dflt: 'back',
       list: ['back', 'sideLeft', 'sideRight', 'front'],
       menu: 'construction',
@@ -152,11 +152,8 @@ export const waistband = {
     let leftName
     let rightName
     let exName
-    if (
-      options.waistbandClosurePosition == 'sideLeft' ||
-      options.waistbandClosurePosition == 'sideRight'
-    ) {
-      if (options.waistbandClosurePosition == 'sideRight') {
+    if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
+      if (options.closurePosition == 'sideRight') {
         points.bottomMidNotch = paths.bottomCurve.reverse().shiftAlong(lengthBack)
         points.bottomLeftNotch = paths.bottomCurve.shiftAlong((length - lengthBack) / 2)
         points.bottomRightNotch = paths.bottomCurve.reverse().shiftAlong(lengthBack / 2)
@@ -172,12 +169,12 @@ export const waistband = {
       centreName = 'Side Seam'
       exName = centreName
     } else {
-      if (options.waistbandClosurePosition == 'back') {
+      if (options.closurePosition == 'back') {
         points.bottomLeftNotch = paths.bottomCurve.shiftAlong(lengthBack / 2)
         centreName = 'Centre Front'
         exName = 'Centre Back'
       }
-      if (options.waistbandClosurePosition == 'front') {
+      if (options.closurePosition == 'front') {
         points.bottomLeftNotch = paths.bottomCurve.shiftAlong((length - lengthBack) / 2)
         centreName = 'Centre Back'
         exName = 'Centre Front'

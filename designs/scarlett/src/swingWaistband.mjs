@@ -24,7 +24,7 @@ export const swingWaistband = {
     if (
       options.waistbandStyle == 'none' ||
       options.swingPanelStyle == 'none' ||
-      (options.waistbandClosurePosition != 'front' && options.swingPanelStyle != 'separate')
+      (options.closurePosition != 'front' && options.swingPanelStyle != 'separate')
     ) {
       part.hide()
       return part

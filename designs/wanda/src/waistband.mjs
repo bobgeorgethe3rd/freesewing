@@ -17,7 +17,7 @@ export const waistband = {
     }, //altered for Wanda
     waistbandFolded: { bool: true, menu: 'style' }, //altered for Wanda
     //Construction
-    waistbandClosurePosition: {
+    closurePosition: {
       dflt: 'back',
       list: ['back', 'sideLeft', 'sideRight'],
       menu: 'construction',
@@ -39,11 +39,11 @@ export const waistband = {
     if (complete) {
       if (options.waistbandStyle == 'straight' || !measurements.waistToHips || !measurements.hips) {
         //pleat lines
-        if (options.waistbandClosurePosition == 'back') {
+        if (options.closurePosition == 'back') {
           points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
           points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
         } else {
-          if (options.waistbandClosurePosition == 'sideRight') {
+          if (options.closurePosition == 'sideRight') {
             points.pleatFrom0 = points.topRightNotch.shiftFractionTowards(points.topMidNotch, 0.5)
             points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
           } else {
@@ -56,11 +56,11 @@ export const waistband = {
           points['pleatTo' + i] = new Point(points['pleatFrom' + i].x, points.bottomLeft.y)
         }
       } else {
-        if (options.waistbandClosurePosition == 'back') {
+        if (options.closurePosition == 'back') {
           points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(1 / 8)
           points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
         } else {
-          if (options.waistbandClosurePosition == 'sideRight') {
+          if (options.closurePosition == 'sideRight') {
             points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(5 / 8)
             points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
           } else {

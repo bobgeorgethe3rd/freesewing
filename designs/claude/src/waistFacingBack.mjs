@@ -77,7 +77,7 @@ export const waistFacingBack = {
       //grainline
       let cbSa
       if (
-        options.waistbandClosurePosition == 'back' &&
+        options.closurePosition == 'back' &&
         !options.waistbandElastic &&
         (options.useBackMeasures ||
           options.independentSkirtFullness ||

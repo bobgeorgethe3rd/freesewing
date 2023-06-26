@@ -7,7 +7,7 @@ export const placket = {
     from: true,
   },
   options: {
-    waistbandClosurePosition: {
+    closurePosition: {
       dflt: 'front',
       list: ['back', 'sideLeft', 'sideRight', 'front'],
       menu: 'construction',
@@ -39,7 +39,7 @@ export const placket = {
     //stores
     store.set('placketLength', points.topLeft.dist(points.bottomLeft))
     store.set('swingWidth', points.topLeft.dist(points.topRight))
-    if (options.waistbandClosurePosition == 'front' && options.swingPanelStyle == 'connected') {
+    if (options.closurePosition == 'front' && options.swingPanelStyle == 'connected') {
       store.set('placketWidth', 0)
     }
 

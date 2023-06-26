@@ -30,7 +30,7 @@ export const swingFacing = {
     //Set Render
     if (
       options.waistbandStyle == 'none' ||
-      options.waistbandClosurePosition != 'front' ||
+      options.closurePosition != 'front' ||
       options.swingPanelStyle != 'connected'
     ) {
       part.hide()

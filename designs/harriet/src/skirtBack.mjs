@@ -269,7 +269,7 @@ export const skirtBack = {
         }
       }
       //grainline
-      if (options.waistbandClosurePosition == 'back' && !options.waistbandElastic) {
+      if (options.closurePosition == 'back' && !options.waistbandElastic) {
         points.grainlineBackFrom = points.cbWaist.shiftFractionTowards(points.cbHem, 0.02)
         points.grainlineBackTo = points.cbHem.shiftFractionTowards(points.cbWaist, 0.02)
         macro('grainline', {

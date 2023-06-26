@@ -459,7 +459,7 @@ export const skirtFront = {
       }
       //grainline
       let cfSa
-      if (options.waistbandClosurePosition == 'front' && !options.waistbandElastic) {
+      if (options.closurePosition == 'front' && !options.waistbandElastic) {
         cfSa = sa
         points.grainlineFrom = points.cfWaist.shiftFractionTowards(points.cfHem, 0.01)
         points.grainlineTo = points.cfHem.shiftFractionTowards(points.cfWaist, 0.01)
@@ -478,7 +478,7 @@ export const skirtFront = {
         })
       }
       if (includeBack) {
-        if (options.waistbandClosurePosition == 'back' && !options.waistbandElastic) {
+        if (options.closurePosition == 'back' && !options.waistbandElastic) {
           points.grainlineBackFrom = points.cfHem.shiftFractionTowards(points.cbHem, 0.02)
           points.grainlineBackTo = points.cbHem.shiftFractionTowards(points.cfHem, 0.02)
           macro('grainline', {
@@ -522,14 +522,14 @@ export const skirtFront = {
       })
       //add seam allowance
       if (includeBack && !options.waistbandElastic) {
-        if (options.waistbandClosurePosition == 'back') {
+        if (options.closurePosition == 'back') {
           paths.cf
             .attr('class', 'fabric hidden')
             .attr('data-text', 'ADD SEAM ALLOWANCE FOR BACK')
             .attr('data-text-class', 'center')
             .unhide()
         }
-        if (options.waistbandClosurePosition == 'front') {
+        if (options.closurePosition == 'front') {
           paths.cf
             .attr('class', 'fabric hidden')
             .attr('data-text', 'REMOVE SEAM ALLOWANCE FOR BACK')
@@ -546,7 +546,7 @@ export const skirtFront = {
         }
 
         let cbSa
-        if (options.waistbandClosurePosition == 'back' && !options.waistbandElastic) {
+        if (options.closurePosition == 'back' && !options.waistbandElastic) {
           cbSa = sa
         } else {
           cbSa = 0

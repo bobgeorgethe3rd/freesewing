@@ -10,7 +10,7 @@ export const waistband = {
     ...waistbandStraight.options,
     ...waistbandCurved.options,
     //Constants
-    waistbandClosurePosition: 'front', //locked for Jackson
+    closurePosition: 'front', //locked for Jackson
   },
   after: [frontBase, flyShield],
   draft: (sh) => {

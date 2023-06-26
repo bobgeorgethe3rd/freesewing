@@ -56,7 +56,7 @@ export const waistband = {
         //pleat lines & buttons
         const buttonWidth = store.get('waistbandWidth') / 2
         const buttonLength = store.get('swingWaisbandLength') - buttonWidth
-        if (options.waistbandClosurePosition == 'front') {
+        if (options.closurePosition == 'front') {
           points.pleatFrom0 = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.5)
           points.pleatFrom1 = points.topMidNotch.shiftFractionTowards(points.topRightNotch, 0.5)
           if (options.swingPanelStyle != 'none') {
@@ -64,7 +64,7 @@ export const waistband = {
             points.swingButton1 = points.bottomRight.translate(-buttonLength, -buttonWidth)
           }
         }
-        if (options.waistbandClosurePosition == 'back') {
+        if (options.closurePosition == 'back') {
           points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
           points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
           if (options.swingPanelStyle == 'separate') {
@@ -72,7 +72,7 @@ export const waistband = {
             points.swingButton1 = points.bottomMidNotch.translate(buttonLength, -buttonWidth)
           }
         }
-        if (options.waistbandClosurePosition == 'sideRight') {
+        if (options.closurePosition == 'sideRight') {
           points.pleatFrom0 = points.topRightNotch.shiftFractionTowards(points.topMidNotch, 0.5)
           points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
           if (options.swingPanelStyle == 'separate') {
@@ -80,7 +80,7 @@ export const waistband = {
             points.swingButton1 = points.bottomLeftNotch.translate(buttonLength, -buttonWidth)
           }
         }
-        if (options.waistbandClosurePosition == 'sideLeft') {
+        if (options.closurePosition == 'sideLeft') {
           points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
           points.pleatFrom1 = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.5)
           if (options.swingPanelStyle == 'separate') {
@@ -104,7 +104,7 @@ export const waistband = {
         const buttonLength = store.get('swingWaisbandLength') - buttonWidth
         const bottomCurveLength = paths.bottomCurve.length()
 
-        if (options.waistbandClosurePosition == 'front') {
+        if (options.closurePosition == 'front') {
           points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(3 / 8)
           points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(5 / 8)
           if (options.swingPanelStyle != 'none') {
@@ -112,7 +112,7 @@ export const waistband = {
             points.swingButton1A = paths.bottomCurve.reverse().shiftAlong(buttonLength)
           }
         }
-        if (options.waistbandClosurePosition == 'back') {
+        if (options.closurePosition == 'back') {
           points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(1 / 8)
           points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
           if (options.swingPanelStyle == 'separate') {
@@ -124,7 +124,7 @@ export const waistband = {
             )
           }
         }
-        if (options.waistbandClosurePosition == 'sideRight') {
+        if (options.closurePosition == 'sideRight') {
           points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(5 / 8)
           points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
           if (options.swingPanelStyle == 'separate') {
@@ -136,7 +136,7 @@ export const waistband = {
             )
           }
         }
-        if (options.waistbandClosurePosition == 'sideLeft') {
+        if (options.closurePosition == 'sideLeft') {
           points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(1 / 8)
           points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(3 / 8)
           if (options.swingPanelStyle == 'separate') {

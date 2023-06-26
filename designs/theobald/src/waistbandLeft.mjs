@@ -10,7 +10,7 @@ export const waistbandLeft = {
     ...waistbandStraight.options,
     ...waistbandCurved.options,
     //Constants
-    waistbandClosurePosition: 'front', //locked for Theobald
+    closurePosition: 'front', //locked for Theobald
   },
   after: [frontBase, flyShield],
   draft: (sh) => {

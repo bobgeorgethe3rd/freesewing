@@ -18,7 +18,7 @@ export const waistband = {
     }, //altered for Fallon
     waistbandFolded: { bool: true, menu: 'style' }, //altered for Fallon
     //Construction
-    waistbandClosurePosition: {
+    closurePosition: {
       dflt: 'back',
       list: ['back', 'sideLeft', 'sideRight'],
       menu: 'construction',
@@ -53,8 +53,8 @@ export const waistband = {
     if (complete) {
       if (options.waistbandStyle == 'straight' || !measurements.waistToHips || !measurements.hips) {
         if (options.seams == 'none' || options.seams == 'sideFront') {
-          if (options.waistbandClosurePosition != 'back') {
-            if (options.waistbandClosurePosition == 'sideRight') {
+          if (options.closurePosition != 'back') {
+            if (options.closurePosition == 'sideRight') {
               points.bottomLeftNotch = points.bottomLeft.shiftTowards(
                 points.bottomRight,
                 fullWaist / 6
@@ -99,11 +99,11 @@ export const waistband = {
         //pleat lines
         if (options.pleats) {
           const pleatTo = store.get('pleatTo')
-          if (options.waistbandClosurePosition == 'back') {
+          if (options.closurePosition == 'back') {
             points.pleatFrom0 = points.topLeft.shiftTowards(points.topRight, pleatTo)
             points.pleatFrom1 = points.topRight.shiftTowards(points.topLeft, pleatTo)
           } else {
-            if (options.waistbandClosurePosition == 'sideRight') {
+            if (options.closurePosition == 'sideRight') {
               points.pleatFrom0 = points.topRightNotch.shiftTowards(points.topMidNotch, pleatTo)
               points.pleatFrom1 = points.topRightNotch.shiftTowards(points.topRight, pleatTo)
             } else {
@@ -129,8 +129,8 @@ export const waistband = {
       } else {
         const waistbandWidth = store.get('waistbandWidth')
         if (options.seams == 'none' || options.seams == 'sideFront') {
-          if (options.waistbandClosurePosition != 'back') {
-            if (options.waistbandClosurePosition == 'sideRight') {
+          if (options.closurePosition != 'back') {
+            if (options.closurePosition == 'sideRight') {
               points.bottomLeftNotch = paths.bottomCurve.shiftFractionAlong(1 / 6)
               points.bottomMidNotch = paths.bottomCurve.shiftFractionAlong(5 / 12)
               points.bottomCNotch = paths.bottomCurve.shiftFractionAlong(2 / 3)
@@ -174,11 +174,11 @@ export const waistband = {
         }
         if (options.pleats) {
           const pleatTo = store.get('pleatTo')
-          if (options.waistbandClosurePosition == 'back') {
+          if (options.closurePosition == 'back') {
             points.pleatTo0 = paths.bottomCurve.shiftAlong(pleatTo)
             points.pleatTo1 = paths.bottomCurve.reverse().shiftAlong(pleatTo)
           } else {
-            if (options.waistbandClosurePosition == 'sideRight') {
+            if (options.closurePosition == 'sideRight') {
               points.pleatTo0 = paths.bottomCurve
                 .split(points.bottomRightNotch)[0]
                 .reverse()
@@ -217,11 +217,11 @@ export const waistband = {
       }
       //lines
       if (options.seams == 'none' || options.seams == 'sideFront') {
-        if (options.waistbandClosurePosition != 'back') {
+        if (options.closurePosition != 'back') {
           let leftName
           let rightName
           let midName
-          if (options.waistbandClosurePosition == 'sideRight') {
+          if (options.closurePosition == 'sideRight') {
             leftName = 'Side Dart'
             rightName = 'Centre Back'
             midName = 'Centre Front'
@@ -278,8 +278,7 @@ export const waistband = {
       }
       if (paths.rightEx) {
         if (
-          (options.waistbandOverlapSide == 'right' ||
-            options.waistbandClosurePosition == 'sideLeft') &&
+          (options.waistbandOverlapSide == 'right' || options.closurePosition == 'sideLeft') &&
           options.pleats
         ) {
           delete paths.rightEx
@@ -289,8 +288,7 @@ export const waistband = {
       }
       if (paths.leftEx) {
         if (
-          (options.waistbandOverlapSide == 'left' ||
-            options.waistbandClosurePosition == 'sideLeft') &&
+          (options.waistbandOverlapSide == 'left' || options.closurePosition == 'sideLeft') &&
           options.pleats
         ) {
           delete paths.leftEx
