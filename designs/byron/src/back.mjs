@@ -14,7 +14,7 @@ export const back = {
     hemWidth: { pct: 3, min: 1, max: 5, menu: 'construction' },
     //Advanced
     fitSide: { bool: true, menu: 'advanced' },
-    forceSide: { bool: false, menu: 'advanced' },
+    // forceSide: { bool: false, menu: 'advanced' },
   },
   draft: ({
     store,
@@ -39,50 +39,50 @@ export const back = {
     for (let i in paths) delete paths[i]
     //measures
     const chestBack = store.get('chestBack')
-    const hipsBack = store.get('hipsBack')
-    const seatBack = store.get('seatBack')
+    // const hipsBack = store.get('hipsBack')
+    // const seatBack = store.get('seatBack')
     const shoulderToShoulder = store.get('shoulderToShoulder')
     const waistBack = store.get('waistBack')
     const waistbandWidth = absoluteOptions.waistbandWidth
 
-    let hemLengthTarget
-    if (options.bodyLength < 0.5) {
-      if (waistBack > hipsBack) {
-        hemLengthTarget = waistBack
-      } else {
-        hemLengthTarget =
-          waistBack * (1 - options.bodyLength * 2) + hipsBack * options.bodyLength * 2
-      }
-    } else {
-      if (waistBack > seatBack) {
-        hemLengthTarget = waistBack
-      } else {
-        if (waistBack > hipsBack) {
-          hemLengthTarget =
-            waistBack * (1 - (2 * options.bodyLength - 1)) + seatBack * (2 * options.bodyLength - 1)
-        } else {
-          hemLengthTarget =
-            hipsBack * (1 - (2 * options.bodyLength - 1)) + seatBack * (2 * options.bodyLength - 1)
-        }
-      }
-    }
+    // let hemLengthTarget
+    // if (options.bodyLength < 0.5) {
+    // if (waistBack > hipsBack) {
+    // hemLengthTarget = waistBack
+    // } else {
+    // hemLengthTarget =
+    // waistBack * (1 - options.bodyLength * 2) + hipsBack * options.bodyLength * 2
+    // }
+    // } else {
+    // if (waistBack > seatBack) {
+    // hemLengthTarget = waistBack
+    // } else {
+    // if (waistBack > hipsBack) {
+    // hemLengthTarget =
+    // waistBack * (1 - (2 * options.bodyLength - 1)) + seatBack * (2 * options.bodyLength - 1)
+    // } else {
+    // hemLengthTarget =
+    // hipsBack * (1 - (2 * options.bodyLength - 1)) + seatBack * (2 * options.bodyLength - 1)
+    // }
+    // }
+    // }
 
-    let hemLength
-    if (options.fitSide) {
-      hemLength = hemLengthTarget
-    } else {
-      if (hemLengthTarget > chestBack) {
-        if (options.forceSide) {
-          hemLength = chestBack
-          log.warning('options.forceSide is on but chestBack is less than back hem length')
-        } else {
-          hemLength = hemLengthTarget
-          log.info('Back hem length is greater than chestBack so has been fit accordingly')
-        }
-      } else {
-        hemLength = chestBack
-      }
-    }
+    // let hemLength
+    // if (options.fitSide) {
+    // hemLength = hemLengthTarget
+    // } else {
+    // if (hemLengthTarget > chestBack) {
+    // if (options.forceSide) {
+    // hemLength = chestBack
+    // log.warning('options.forceSide is on but chestBack is less than back hem length')
+    // } else {
+    // hemLength = hemLengthTarget
+    // log.info('Back hem length is greater than chestBack so has been fit accordingly')
+    // }
+    // } else {
+    // hemLength = chestBack
+    // }
+    // }
     //cbNeck
     points.cbNeckCp1 = new Point(points.hps.x * 0.8, points.cbNeck.y)
 
@@ -105,12 +105,12 @@ export const back = {
     )
 
     //body
-    points.sideChest = points.cChest.shift(0, chestBack)
+    // points.sideChest = points.cChest.shift(0, chestBack)
     points.sideWaist = points.cWaist.shift(0, waistBack)
-    points.sideHips = points.cHips.shift(0, hipsBack)
-    points.sideSeat = points.cSeat.shift(0, seatBack)
-    points.sideHem = points.cHem.shift(0, hemLength)
-    points.sideCp1 = new Point(points.sideHem.x, (points.armhole.y + points.sideHem.y) / 2)
+    // points.sideHips = points.cHips.shift(0, hipsBack)
+    // points.sideSeat = points.cSeat.shift(0, seatBack)
+    // points.sideHem = points.cHem.shift(0, hemLength)
+    points.sideCp1 = new Point(points.sideWaist.x, (points.armhole.y + points.sideWaist.y) / 2)
 
     //guides
     // paths.cbNeck = new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck)
@@ -132,10 +132,10 @@ export const back = {
     // .curve_(points.sideCp1, points.armhole)
 
     //seam paths
-    paths.hemBase = new Path().move(points.cHem).line(points.sideHem).hide()
+    paths.hemBase = new Path().move(points.cWaist).line(points.sideWaist).hide()
 
     paths.saBase = new Path()
-      .move(points.sideHem)
+      .move(points.sideWaist)
       .curve_(points.sideCp1, points.armhole)
       .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
@@ -143,12 +143,12 @@ export const back = {
       ._curve(points.cbNeckCp1, points.cbNeck)
       .hide()
 
-    paths.seam = paths.hemBase.clone().join(paths.saBase).line(points.cHem).close()
+    paths.seam = paths.hemBase.clone().join(paths.saBase).line(points.cWaist).close()
 
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.cbNeck
-      points.cutOnFoldTo = points.cHem
+      points.cutOnFoldTo = points.cWaist
       macro('cutonfold', {
         from: points.cutOnFoldFrom,
         to: points.cutOnFoldTo,
@@ -164,7 +164,7 @@ export const back = {
         title: 'Back',
       })
       //scalebox
-      points.scalebox = new Point((points.hps.x + points.shoulder.x) / 3, points.sideChest.y)
+      points.scalebox = new Point((points.hps.x + points.shoulder.x) / 3, points.armhole.y)
       macro('scalebox', {
         at: points.scalebox,
       })
@@ -174,7 +174,7 @@ export const back = {
           .offset(sa * options.hemWidth * 100)
           .join(paths.saBase.offset(sa))
           .line(points.cbNeck)
-          .line(points.cHem)
+          .line(points.cWaist)
           .close()
           .attr('class', 'fabric sa')
       }
