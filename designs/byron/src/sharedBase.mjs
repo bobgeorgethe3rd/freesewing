@@ -1,6 +1,5 @@
 import { pctBasedOn } from '@freesewing/core'
 import { pluginBundle } from '@freesewing/plugin-bundle'
-import { pluginBust } from '@freesewing/plugin-bust'
 
 export const sharedBase = {
   name: 'byron.sharedBase',
@@ -14,7 +13,6 @@ export const sharedBase = {
     waistEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
     // hipsEase: { pct: 5.5, min: 0, max: 20, menu: 'fit' },
     // seatEase: { pct: 4.7, min: 0, max: 20, menu: 'fit' },
-    draftForHighBust: { bool: false, menu: 'fit' },
     //Style
     // bodyLength: { pct: 75, min: 0, max: 100, menu: 'style' },
     // bodyLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
@@ -52,7 +50,7 @@ export const sharedBase = {
     // 'hipsBack',
     // 'seatBack',
   ],
-  plugins: [pluginBundle, pluginBust],
+  plugins: [pluginBundle],
   draft: ({
     store,
     sa,
@@ -99,7 +97,7 @@ export const sharedBase = {
     } else {
       chestFront = chest / 4
       chestBack = chest / 4
-      if (options.separateHorizontals && options.useHighBust)
+      if (options.separateHorizontals)
         if (options.separateHorizontals)
           log.warning(
             'chestFront measurements not available please add for separate chest measures'
