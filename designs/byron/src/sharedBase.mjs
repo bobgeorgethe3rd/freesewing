@@ -7,19 +7,19 @@ export const sharedBase = {
   options: {
     //Constants
     cbNeck: 0.044,
-    neckEase: 0,
+    neckEase: 0.064,
     //Fit
     chestEase: { pct: 4.6, min: 0, max: 20, menu: 'fit' },
     shoulderToShoulderEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
     waistEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
-    hipsEase: { pct: 5.5, min: 0, max: 20, menu: 'fit' },
-    seatEase: { pct: 4.7, min: 0, max: 20, menu: 'fit' },
+    // hipsEase: { pct: 5.5, min: 0, max: 20, menu: 'fit' },
+    // seatEase: { pct: 4.7, min: 0, max: 20, menu: 'fit' },
     draftForHighBust: { bool: false, menu: 'fit' },
     //Style
     // bodyLength: { pct: 75, min: 0, max: 100, menu: 'style' },
     // bodyLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
     //Armhole
-    armholeDrop: { pct: 5, min: 0, max: 20, menu: 'armhole' },
+    armholeDrop: { pct: 14, min: 10, max: 30, menu: 'armhole' },
     armholePitchDepth: { pct: 50, min: 45, max: 60, menu: 'armhole' },
     //Advanced
     separateHorizontals: { bool: false, menu: 'advanced' },
@@ -33,18 +33,18 @@ export const sharedBase = {
     // },
   },
   measurements: [
+    'neck',
     'chest',
-    'hips',
+    // 'hips',
+    // 'seat',
     // 'hpsToChestBack',
     'hpsToWaistBack',
-    'neck',
-    'seat',
     'shoulderSlope',
     'shoulderToShoulder',
     'waist',
     'waistToArmpit',
-    'waistToHips',
-    'waistToSeat',
+    // 'waistToHips',
+    // 'waistToSeat',
   ],
   optionalMeasurements: [
     'chestFront',
