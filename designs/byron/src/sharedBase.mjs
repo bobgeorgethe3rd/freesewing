@@ -19,7 +19,7 @@ export const sharedBase = {
     // bodyLength: { pct: 75, min: 0, max: 100, menu: 'style' },
     // bodyLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
     //Armhole
-    armholeDrop: { pct: -5, min: -20, max: 0, menu: 'armhole' },
+    armholeDrop: { pct: 5, min: 0, max: 20, menu: 'armhole' },
     armholePitchDepth: { pct: 50, min: 45, max: 60, menu: 'armhole' },
     //Advanced
     separateHorizontals: { bool: false, menu: 'advanced' },
@@ -73,19 +73,19 @@ export const sharedBase = {
     log,
   }) => {
     //measures
-    let bodyLength
-    if (options.bodyLength < 0.5) {
-      bodyLength =
-        2 * measurements.waistToHips * options.bodyLength * (1 + options.bodyLengthBonus) -
-        absoluteOptions.waistbandWidth
-    } else {
-      bodyLength =
-        measurements.waistToHips +
-        (measurements.waistToSeat - measurements.waistToHips) *
-          (2 * options.bodyLength - 1) *
-          (1 + options.bodyLengthBonus) -
-        absoluteOptions.waistbandWidth
-    }
+    // let bodyLength
+    // if (options.bodyLength < 0.5) {
+    // bodyLength =
+    // 2 * measurements.waistToHips * options.bodyLength * (1 + options.bodyLengthBonus) -
+    // absoluteOptions.waistbandWidth
+    // } else {
+    // bodyLength =
+    // measurements.waistToHips +
+    // (measurements.waistToSeat - measurements.waistToHips) *
+    // (2 * options.bodyLength - 1) *
+    // (1 + options.bodyLengthBonus) -
+    // absoluteOptions.waistbandWidth
+    // }
 
     const cbNeck = measurements.hpsToWaistBack * options.cbNeck
 
@@ -164,7 +164,7 @@ export const sharedBase = {
     points.cWaist = points.origin.shift(-90, measurements.hpsToWaistBack)
     points.cArmhole = points.cWaist.shift(
       90,
-      measurements.waistToArmpit * (1 + options.armholeDrop)
+      measurements.waistToArmpit * (1 - options.armholeDrop)
     )
     // points.cHips = points.cWaist.shift(-90, measurements.waistToHips)
     // points.cSeat = points.cWaist.shift(-90, measurements.waistToSeat)

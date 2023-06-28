@@ -105,7 +105,14 @@ export const front = {
 
     //body
     // points.sideChest = points.cChest.shift(0, chestFront)
-    points.sideWaist = points.cWaist.shift(0, waistFront)
+    if (options.fitSide) {
+      points.sideWaist = points.cWaist.shift(0, waistFront)
+    } else {
+      points.sideWaist = new Point(points.armhole.x, points.cWaist.y)
+      if (waistFront > chestFront) {
+        log.warning('waistFront is > chestFront so you may want to turn options.fitSide back on')
+      }
+    }
     // points.sideHips = points.cHips.shift(0, hipsFront)
     // points.sideSeat = points.cSeat.shift(0, seatFront)
     // points.sideHem = points.cHem.shift(0, hemLength)
