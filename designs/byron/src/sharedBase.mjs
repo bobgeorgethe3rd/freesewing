@@ -46,7 +46,12 @@ export const sharedBase = {
     'waistToHips',
     'waistToSeat',
   ],
-  optionalMeasurements: ['chestFront', 'waistBack', 'hipsBack', 'seatBack'],
+  optionalMeasurements: [
+    'chestFront',
+    'waistBack',
+    // 'hipsBack',
+    // 'seatBack',
+  ],
   plugins: [pluginBundle, pluginBust],
   draft: ({
     store,
