@@ -6,7 +6,7 @@ export const sharedBase = {
   options: {
     //Constants
     cbNeck: 0.044,
-    neckEase: 0.064,
+    neckEase: 0, //.064,
     //Fit
     chestEase: { pct: 4.6, min: 0, max: 20, menu: 'fit' },
     shoulderToShoulderEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
