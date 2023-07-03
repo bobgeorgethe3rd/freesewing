@@ -38,7 +38,7 @@ export const front = {
     const neck = store.get('neck')
     // const seatFront = store.get('seatFront')
     const shoulderToShoulder = store.get('shoulderToShoulder')
-    const waistFront = store.get('waistFront')
+    const waistDiff = store.get('waistDiff')
 
     // let hemLengthTarget
     // if (options.bodyLength < 0.5) {
@@ -106,11 +106,12 @@ export const front = {
 
     //body
     // points.sideChest = points.cChest.shift(0, chestFront)
+    points.sideWaistAnchor = new Point(points.armhole.x, points.cWaist.y)
     if (options.fitSide) {
-      points.sideWaist = points.cWaist.shift(0, waistFront)
+      points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff)
     } else {
-      points.sideWaist = new Point(points.armhole.x, points.cWaist.y)
-      if (waistFront > chestFront) {
+      points.sideWaist = points.sideWaistAnchor
+      if (waistDiff < 0) {
         log.warning('waistFront is > chestFront so you may want to turn options.fitSide back on')
       }
     }

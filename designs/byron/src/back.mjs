@@ -42,7 +42,7 @@ export const back = {
     // const hipsBack = store.get('hipsBack')
     // const seatBack = store.get('seatBack')
     const shoulderToShoulder = store.get('shoulderToShoulder')
-    const waistBack = store.get('waistBack')
+    const waistDiff = store.get('waistDiff')
     // const waistbandWidth = absoluteOptions.waistbandWidth
 
     // let hemLengthTarget
@@ -106,11 +106,12 @@ export const back = {
 
     //body
     // points.sideChest = points.cChest.shift(0, chestBack)
+    points.sideWaistAnchor = new Point(points.armhole.x, points.cWaist.y)
     if (options.fitSide) {
-      points.sideWaist = points.cWaist.shift(0, waistBack)
+      points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff)
     } else {
-      points.sideWaist = new Point(points.armhole.x, points.cWaist.y)
-      if (waistBack > chestBack) {
+      points.sideWaist = points.sideWaistAnchor
+      if (waistDiff < 0) {
         log.warning('waistFront is > chestFront so you may want to turn options.fitSide back on')
       }
     }

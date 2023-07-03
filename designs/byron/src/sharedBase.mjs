@@ -46,7 +46,7 @@ export const sharedBase = {
   ],
   optionalMeasurements: [
     'chestFront',
-    'waistBack',
+    // 'waistBack',
     // 'hipsBack',
     // 'seatBack',
   ],
@@ -110,17 +110,7 @@ export const sharedBase = {
 
     const waist = measurements.waist * (1 + options.waistEase)
 
-    let waistFront
-    let waistBack
-    if (options.separateHorizontals && measurements.waistBack) {
-      waistBack = (measurements.waistBack * (1 + options.waistEase)) / 2
-      waistFront = (waist - waistBack * 2) / 2
-    } else {
-      waistBack = waist / 4
-      waistFront = waist / 4
-      if (options.separateHorizontals)
-        log.warning('waistBack measurements not available please add for separate waist measures')
-    }
+    const waistDiff = (chest - waist) / 4
 
     // const hips = measurements.hips * (1 + options.hipsEase)
 
@@ -198,8 +188,7 @@ export const sharedBase = {
     // store.set('seatBack', seatBack)
     // store.set('seatFront', seatFront)
     store.set('shoulderToShoulder', shoulderToShoulder)
-    store.set('waistBack', waistBack)
-    store.set('waistFront', waistFront)
+    store.set('waistDiff', waistDiff)
 
     return part
   },
