@@ -21,6 +21,7 @@ export const sharedBase = {
     armholePitchDepth: { pct: 50, min: 45, max: 60, menu: 'armhole' },
     //Advanced
     separateHorizontals: { bool: false, menu: 'advanced' },
+    draftForHighBust: { bool: false, menu: 'advanced' },
     // waistbandWidth: {
     // pct: 0,
     // min: 0,
@@ -46,6 +47,8 @@ export const sharedBase = {
   ],
   optionalMeasurements: [
     'chestFront',
+    'highBust',
+    'highBustFront',
     // 'waistBack',
     // 'hipsBack',
     // 'seatBack',
@@ -84,6 +87,10 @@ export const sharedBase = {
     // (1 + options.bodyLengthBonus) -
     // absoluteOptions.waistbandWidth
     // }
+    if (options.draftForHighBust && measurements.highBust && measurements.highBustFront) {
+      measurements.chest = measurements.highBust
+      measurements.chestFront = measurements.highBustFront
+    }
 
     const cbNeck = measurements.hpsToWaistBack * options.cbNeck
 
