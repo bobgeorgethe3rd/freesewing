@@ -100,11 +100,11 @@ export const sleeve = {
         to: points.grainlineTo,
       })
       //title
-      points.title = new Point(points.capQ3.x * 0.5, (points.sleeveTip.y + points.hemAnchor.y) / 2)
+      points.title = new Point(points.capQ3.x * 0.65, (points.sleeveTip.y + points.hemAnchor.y) / 2)
       macro('title', {
         at: points.title,
         nr: '1',
-        title: 'Cap Sleeve',
+        title: 'Cap Sleeve (' + utils.capitalize(options.spreadType) + ' Spread)',
         scale: 0.4,
       })
       if (sa) {

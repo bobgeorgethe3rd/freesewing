@@ -322,7 +322,7 @@ export const spreadSleeveHem = ({
     macro('title', {
       at: points.title,
       nr: '1',
-      title: 'sleeve' + ' (spread ' + options.spreadType + ')',
+      title: 'Sleeve' + ' (' + utils.capitalize(options.spreadType) + ' Spread)',
       scale: 0.5,
     })
     //hemA
