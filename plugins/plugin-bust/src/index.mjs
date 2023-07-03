@@ -10,7 +10,6 @@ export const plugin = {
           if (typeof settings[i].measurements.bust === 'undefined') {
             settings[i].measurements.bust = settings[i].measurements.chest
             settings[i].measurements.chest = settings[i].measurements.highBust
-            settings[i].measurements.chestFront = settings[i].measurements.highBustFront
           }
         }
       }
