@@ -4,13 +4,13 @@ export const sleeveFlounce = {
   name: 'rufflebutterflysleeve.sleeveFlounce',
   after: sleeve,
   options: {
-    //Style
+    //Sleeves
     sleeveFlounceType: {
       dflt: 'circular',
       list: ['circular', 'butterfly', 'square', 'diamond', 'star'],
-      menu: 'style',
+      menu: 'sleeves',
     },
-    sleeveFlounceButterfly: { deg: 20, min: 5, max: 45, menu: 'style' },
+    sleeveFlounceButterfly: { deg: 20, min: 5, max: 45, menu: 'sleeves' },
   },
   draft: ({
     store,

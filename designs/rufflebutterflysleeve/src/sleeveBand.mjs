@@ -89,7 +89,7 @@ export const sleeveBand = {
         .shift(-90, sleeveBandWidth / 4)
       macro('title', {
         at: points.title,
-        nr: 'X',
+        nr: '5',
         title: 'Sleeve Bands',
         scale: 0.25,
       })

@@ -177,13 +177,6 @@
       "difficulty": 1,
       "tags": ["sleeve"]
     },
-    "sleevecap": {
-      "description": "Sleevecap to be exported into other designs",
-      "code": "bobgeorgethe3rd",
-      "design": "bobgeorgethe3rd",
-      "difficulty": 1,
-      "tags": ["sleeve"]
-    },
     "spreadsleeve": {
       "description": "Spread sleeve of the Basic sleeve",
       "code": "bobgeorgethe3rd",

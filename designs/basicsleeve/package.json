@@ -48,8 +48,7 @@
   "peerDependencies": {
     "@freesewing/core": "3.0.0-alpha.8",
     "@freesewing/plugin-bundle": "3.0.0-alpha.8",
-    "@freesewing/plugin-logorg": "3.0.0-alpha.8",
-    "@freesewing/sleevecap": "3.0.0-alpha.8"
+    "@freesewing/plugin-logorg": "3.0.0-alpha.8"
   },
   "dependencies": {},
   "devDependencies": {

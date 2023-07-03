@@ -3,59 +3,65 @@ import { sleeve as basicsleeve } from '@freesewing/basicsleeve'
 
 export const sleeve = {
   name: 'rufflebutterflysleeve.sleeve',
-  from: basicsleeve,
-  hide: {
-    from: true,
-    inherited: true,
-  },
   options: {
+    //Imported
+    ...basicsleeve.options,
     //Constants
     cpFraction: 0.55191502449,
     sleeveBands: false, //locked
     sleeveBandWidth: 0, //locked
     flounces: 'none', //locked
-    //Style
-    sleeveLength: { pct: 30, min: 15, max: 100, menu: 'style' },
+    //Sleeves
+    sleeveLength: { pct: 30, min: 15, max: 100, menu: 'sleeves' },
     sleeveSlitWidth: {
       pct: 5,
       min: 2,
       max: 7.5,
       snap: 2.5,
       ...pctBasedOn('shoulderToElbow'),
-      menu: 'style',
+      menu: 'sleeves',
     },
-    sleeveFlounceLength: { pct: 75, min: 50, max: 90, menu: 'style' },
-    sleeveTieChannel: { dflt: 'mid', list: ['mid', 'hem', 'band'], menu: 'style' },
-    sleeveTiePlacement: { pct: 50, min: 40, max: 60, menu: 'style' },
+    sleeveFlounceLength: { pct: 75, min: 50, max: 90, menu: 'sleeves' },
+    sleeveTieChannel: { dflt: 'mid', list: ['mid', 'hem', 'band'], menu: 'sleeves' },
+    sleeveTiePlacement: { pct: 50, min: 40, max: 60, menu: 'sleeves' },
     sleeveTieWidth: {
       pct: 5.9,
       min: 1.4,
       max: 15,
       snap: 2.5,
       ...pctBasedOn('wrist'),
-      menu: 'style',
+      menu: 'sleeves',
     },
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    Snippet,
-    absoluteOptions,
-    log,
-  }) => {
-    for (let i in paths) delete paths[i]
+  measurements: [...basicsleeve.measurements],
+  plugins: [...basicsleeve.plugins],
+  draft: (sh) => {
+    const {
+      store,
+      sa,
+      Point,
+      points,
+      Path,
+      paths,
+      options,
+      complete,
+      paperless,
+      macro,
+      utils,
+      measurements,
+      part,
+      snippets,
+      Snippet,
+      absoluteOptions,
+      log,
+    } = sh
+    //draft sleeve
+    basicsleeve.draft(sh)
+
+    const keepThese = 'sleevecap'
+    for (const name in paths) {
+      if (keepThese.indexOf(name) === -1) delete paths[name]
+    }
     for (let i in snippets) delete snippets[i]
     //removing macros not required from sleevecap
     macro('title', false)
@@ -105,10 +111,10 @@ export const sleeve = {
     points.slitMidLeft = utils.beamsIntersect(
       points.slitMid,
       points.slitMid.shift(180, 1),
-      points.bicepsLeft,
+      points.sleeveCapLeft,
       points.bottomLeft
     )
-    points.slitMidRight = points.slitMidLeft.flipX(points.bottomAnchor)
+    points.slitMidRight = points.slitMidLeft.flipX(points.sleeveTip)
 
     //paths
     let bottomLeft
@@ -158,18 +164,9 @@ export const sleeve = {
     //seam paths
     paths.hemBase = new Path().move(bottomLeft).line(bottomRight).hide()
 
-    paths.saRight = new Path().move(bottomRight).line(points.bicepsRight).hide()
+    paths.saRight = new Path().move(bottomRight).line(points.sleeveCapRight).hide()
 
-    paths.saLeft = new Path().move(points.bicepsLeft).line(bottomLeft).hide()
-
-    paths.sleevecap = new Path()
-      .move(points.bicepsRight)
-      .curve(points.bicepsRight, points.capQ1Cp1, points.capQ1)
-      .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2)
-      .curve(points.capQ2Cp2, points.capQ3Cp1, points.capQ3)
-      .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
-      .curve(points.capQ4Cp2, points.bicepsLeft, points.bicepsLeft)
-      .hide()
+    paths.saLeft = new Path().move(points.sleeveCapLeft).line(bottomLeft).hide()
 
     paths.seam = paths.hemBase.join(paths.saRight).join(paths.sleevecap).join(paths.saLeft).close()
 
@@ -184,13 +181,13 @@ export const sleeve = {
       points.channelTopLeft = utils.beamsIntersect(
         points.channelTopMid,
         points.channelTopMid.shift(180, 1),
-        points.bicepsLeft,
+        points.sleeveCapLeft,
         points.bottomLeft
       )
       points.channelBottomLeft = utils.beamsIntersect(
         points.channelBottomMid,
         points.channelBottomMid.shift(180, 1),
-        points.bicepsLeft,
+        points.sleeveCapLeft,
         points.bottomLeft
       )
       points.channelTopRight = points.channelTopLeft.flipX(points.bottomAnchor)

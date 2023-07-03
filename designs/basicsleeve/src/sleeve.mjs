@@ -1,55 +1,62 @@
 import { pctBasedOn } from '@freesewing/core'
-import { sleevecap } from '@freesewing/sleevecap'
+import { sleevecap } from './sleevecap.mjs'
 
 export const sleeve = {
   name: 'basicsleeve.sleeve',
-  from: sleevecap,
-  hide: {
-    from: true,
-  },
-  measurements: ['shoulderToElbow', 'shoulderToWrist', 'elbow', 'wrist'],
+  measurements: ['shoulderToElbow', 'shoulderToWrist', 'biceps', 'elbow', 'wrist'],
   options: {
+    //Imported
+    ...sleevecap.options,
     //Fit
-    elbowEase: { pct: 10, min: 0, max: 50, menu: 'fit' },
+    bicepsEase: { pct: 5, min: 0, max: 20, menu: 'fit' },
+    elbowEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
     wristEase: { pct: 15, min: 0, max: 50, menu: 'fit' },
-    //Style
-    fitSleeveWidth: { bool: true, menu: 'style' },
-    sleeveLength: { pct: 100, min: 0, max: 100, menu: 'style' },
-    sleeveLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
-    sleeveBands: { bool: false, menu: 'style' },
+    //Sleeves
+    fitSleeveWidth: { bool: true, menu: 'sleeves' },
+    sleeveLength: { pct: 100, min: 0, max: 100, menu: 'sleeves' },
+    sleeveLengthBonus: { pct: 0, min: -20, max: 20, menu: 'sleeves' },
+    sleeveBands: { bool: false, menu: 'sleeves' },
     sleeveBandWidth: {
       pct: 7.8,
       min: 1,
       max: 30,
       snap: 5,
       ...pctBasedOn('shoulderToWrist'),
-      menu: 'style',
+      menu: 'sleeves',
     },
-    flounces: { dflt: 'none', list: ['flounce', 'ruffle', 'none'], menu: 'style' },
+    flounces: { dflt: 'none', list: ['flounce', 'ruffle', 'none'], menu: 'sleeves' },
+    //Construction
+    sleeveCapSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    absoluteOptions,
-    log,
-  }) => {
+  plugins: [...sleevecap.plugins],
+  draft: (sh) => {
+    const {
+      store,
+      sa,
+      Point,
+      points,
+      Path,
+      paths,
+      options,
+      complete,
+      paperless,
+      macro,
+      utils,
+      measurements,
+      part,
+      snippets,
+      absoluteOptions,
+      log,
+    } = sh
+    //draft sleevecap
+    sleevecap.draft(sh)
+
     //renders
-    paths.sleevecap.render = false
+    paths.sleevecap.hide()
 
     //measures
-    const top = paths.sleevecap.bbox().topLeft.y
+    const sleeveCapDepth = points.sleeveTip.y
 
     //calculating sleeveBandWidth
     let sleeveBandWidth
@@ -61,14 +68,14 @@ export const sleeve = {
     let sleeveLengthTarget
     if (options.sleeveLength < 0.5)
       sleeveLengthTarget =
-        (measurements.shoulderToElbow + top) *
+        (measurements.shoulderToElbow + sleeveCapDepth) *
           options.sleeveLength *
           2 *
           (1 + options.sleeveLengthBonus) -
         sleeveBandWidth
     else
       sleeveLengthTarget =
-        top +
+        sleeveCapDepth +
         (measurements.shoulderToElbow +
           (measurements.shoulderToWrist - measurements.shoulderToElbow) *
             (2 * options.sleeveLength - 1)) *
@@ -85,37 +92,47 @@ export const sleeve = {
     } else sleeveLength = sleeveLengthTarget
 
     //horizontal measures
-    const biceps = points.bicepsLeft.dist(points.bicepsRight)
+    const minWidth = points.sleeveCapLeft.dist(points.sleeveCapRight)
+    const biceps = measurements.biceps * (1 + options.bicepsEase)
     const elbow = measurements.elbow * (1 + options.elbowEase)
     const wrist = measurements.wrist * (1 + options.wristEase)
-
+    const bandOffset =
+      ((sleeveBandWidth * (minWidth - biceps)) / (sleeveCapDepth + measurements.shoulderToElbow)) *
+      2
     //calculating bottomWidth
     let bottomWidth
-    if (sleeveLength == 0 || !options.fitSleeveWidth) bottomWidth = biceps
+    if (sleeveLength == 0 || !options.fitSleeveWidth) bottomWidth = minWidth
     else {
-      if (options.sleeveLength < 0.5)
-        bottomWidth =
-          biceps * (1 - options.sleeveLength * 2) +
-          elbow * options.sleeveLength * 2 +
-          (sleeveBandWidth * (biceps - elbow)) / (top + measurements.shoulderToElbow)
-      else
+      if (options.sleeveLength < 0.5) {
+        if (options.sleeveLength < 0.25) {
+          bottomWidth =
+            minWidth * (1 + options.sleeveLength * -4) +
+            biceps * (4 * options.sleeveLength) +
+            bandOffset
+        } else {
+          bottomWidth =
+            biceps * (2 - options.sleeveLength * 4) +
+            elbow * (4 * options.sleeveLength - 1) +
+            bandOffset
+        }
+      } else
         bottomWidth =
           elbow * (1 - (2 * options.sleeveLength - 1)) +
           wrist * (2 * options.sleeveLength - 1) +
-          (sleeveBandWidth * (biceps - elbow)) / (top + measurements.shoulderToElbow)
+          bandOffset
     }
 
     //creating the arm
-    points.bottomAnchor = points.gridAnchor.shift(-90, sleeveLength)
+    points.bottomAnchor = points.midAnchor.shift(-90, sleeveLength)
     points.bottomRight = points.bottomAnchor.shift(0, bottomWidth / 2)
     points.bottomLeft = points.bottomAnchor.shift(180, bottomWidth / 2)
 
     //paths
-    paths.saLeft = new Path().move(points.bicepsLeft).line(points.bottomLeft).hide()
+    paths.saLeft = new Path().move(points.sleeveCapLeft).line(points.bottomLeft).hide()
 
     paths.hemBase = new Path().move(points.bottomLeft).line(points.bottomRight).hide()
 
-    paths.saRight = new Path().move(points.bottomRight).line(points.bicepsRight).hide()
+    paths.saRight = new Path().move(points.bottomRight).line(points.sleeveCapRight).hide()
 
     paths.seam = paths.hemBase
       .clone()
@@ -131,14 +148,14 @@ export const sleeve = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.gridAnchor.x, points.sleeveTip.y)
+      points.grainlineFrom = new Point(points.midAnchor.x, points.sleeveTip.y)
       points.grainlineTo = points.bottomAnchor
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //title
-      points.title = new Point(points.capQ3.x, points.title.y)
+      points.title = new Point(points.capQ3.x, (points.grainlineTo.y + points.grainlineFrom.y) / 2)
       macro('title', {
         at: points.title,
         nr: '1',
@@ -152,8 +169,8 @@ export const sleeve = {
         else hemSa = sa * options.sleeveHemWidth * 100
 
         if (sleeveLength == 0) {
-          points.saLeft = points.bicepsLeft.shift(180, sa)
-          points.saRight = points.bicepsRight.shift(0, sa)
+          points.saLeft = points.sleeveCapLeft.shift(180, sa)
+          points.saRight = points.sleeveCapRight.shift(0, sa)
           paths.sa = paths.hemBase
             .clone()
             .offset(hemSa)

@@ -22,8 +22,8 @@ export const sleeve = {
     inherited: true,
   },
   options: {
-    //Style
-    spreadType: { dflt: 'cap', list: ['cap', 'hem', 'both'], menu: 'style' },
+    //Sleeves
+    spreadType: { dflt: 'cap', list: ['cap', 'hem', 'both'], menu: 'sleeves' },
   },
   draft: spreadSleeveSleeve,
 }

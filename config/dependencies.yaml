@@ -20,9 +20,6 @@ aaron:
 aimee:
   peer:
     '@freesewing/daisy': *freesewing
-basicsleeve:
-  peer:
-    '@freesewing/sleevecap': *freesewing
 bee:
   peer:
     '@freesewing/bella': *freesewing
@@ -40,7 +37,8 @@ brian:
     '@freesewing/plugin-bust': *freesewing
 capsleeve:
   peer:
-    '@freesewing/sleevecap': *freesewing
+    # '@freesewing/basicsleeve': *freesewing
+    '@freesewing/spreadsleeve': *freesewing
 carlita:
   peer:
     '@freesewing/brian': *freesewing

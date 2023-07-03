@@ -9,7 +9,7 @@ import { sleeve } from './sleeve.mjs'
 // Create new design
 const Spreadsleeve = new Design({
   data,
-  parts: [sleeveBase, sleeve],
+  parts: [sleeve],
 })
 
 // Named exports

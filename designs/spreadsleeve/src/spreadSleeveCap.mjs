@@ -15,17 +15,17 @@ export const spreadSleeveCap = ({
   utils,
 }) => {
   //removing any paths from sleeveBase. This may not be necessary but is useful when working with the guides on.
+  // paths.sleeveInitial = paths.spread.attr('class', 'lining lashed', true)
   for (let i in paths) delete paths[i]
   //measurements
   const spreadAngle = store.get('spreadAngle')
-  const sleeveCapFraction = store.get('sleeveCapFraction')
   const sleeveLength = store.get('sleeveLength')
   //store before rotate
-  store.set('hemWidth', points.bottomLeft.dist(points.bottomRight))
+  store.set('bandLength', points.bottomLeft.dist(points.bottomRight))
   //rotate left
   const rotLeft0 = [
     'bottomLeft',
-    'bicepsLeft',
+    'sleeveCapLeft',
     'capQ4Cp2',
     'capQ4',
     'capQ4Cp1',
@@ -40,7 +40,7 @@ export const spreadSleeveCap = ({
 
   const rotLeft1 = [
     'bottomLeft',
-    'bicepsLeft',
+    'sleeveCapLeft',
     'capQ4Cp2',
     'capQ4',
     'capQ4Cp1',
@@ -50,15 +50,15 @@ export const spreadSleeveCap = ({
   for (const p of rotLeft1) points[p] = points[p].rotate(-spreadAngle / 5, points.capQ3)
   points.capQ3BottomR = points.capQ3Bottom.rotate(-spreadAngle / 5, points.capQ3)
 
-  const rotLeft2 = ['bottomLeft', 'bicepsLeft', 'capQ4Cp2']
+  const rotLeft2 = ['bottomLeft', 'sleeveCapLeft', 'capQ4Cp2']
   for (const p of rotLeft2) points[p] = points[p].rotate(-spreadAngle / 5, points.capQ4)
   points.capQ4BottomR = points.capQ4Bottom.rotate(-spreadAngle / 5, points.capQ4)
 
   // paths.rotateLeft = new Path()
   // .move(points.sleeveTip)
-  // .line(points.capQ3)
-  // .line(points.capQ4)
-  // .line(points.bicepsLeft)
+  // .curve_(points.capQ3Cp1, points.capQ3)
+  // .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
+  // ._curve(points.capQ4Cp2, points.sleeveCapLeft)
   // .line(points.bottomLeft)
   // .line(points.capQ4BottomR)
   // .line(points.capQ4Bottom)
@@ -70,7 +70,7 @@ export const spreadSleeveCap = ({
   //rotate right
   const rotRight0 = [
     'bottomRight',
-    'bicepsRight',
+    'sleeveCapRight',
     'capQ1Cp1',
     'capQ1',
     'capQ1Cp2',
@@ -85,7 +85,7 @@ export const spreadSleeveCap = ({
 
   const rotRight1 = [
     'bottomRight',
-    'bicepsRight',
+    'sleeveCapRight',
     'capQ1Cp1',
     'capQ1',
     'capQ1Cp2',
@@ -95,7 +95,7 @@ export const spreadSleeveCap = ({
   for (const p of rotRight1) points[p] = points[p].rotate(spreadAngle / 5, points.capQ2)
   points.capQ2BottomR = points.capQ2Bottom.rotate(spreadAngle / 5, points.capQ2)
 
-  const rotRight2 = ['bottomRight', 'bicepsRight', 'capQ1Cp1']
+  const rotRight2 = ['bottomRight', 'sleeveCapRight', 'capQ1Cp1']
   for (const p of rotRight2) points[p] = points[p].rotate(spreadAngle / 5, points.capQ1)
   points.capQ1BottomR = points.capQ1Bottom.rotate(spreadAngle / 5, points.capQ1)
 
@@ -107,25 +107,26 @@ export const spreadSleeveCap = ({
   // .line(points.capQ1Bottom)
   // .line(points.capQ1BottomR)
   // .line(points.bottomRight)
-  // .line(points.bicepsRight)
-  // .line(points.capQ1)
-  // .line(points.capQ2)
-  // .line(points.sleeveTip)
-
+  // .line(points.sleeveCapRight)
+  // .curve_(points.capQ1Cp1, points.capQ1)
+  // .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2)
+  // ._curve(points.capQ2Cp2, points.sleeveTip)
   //sleevecap revision
 
   points.capQ1Cp2 = points.capQ1Cp1.shiftOutwards(points.capQ1, points.capQ1.dist(points.capQ1Cp2))
   points.capQ2Cp1 = points.capQ2Cp2.shiftOutwards(points.capQ2, points.capQ2.dist(points.capQ2Cp1))
   points.capQ3Cp2 = points.capQ3Cp1.shiftOutwards(points.capQ3, points.capQ3.dist(points.capQ3Cp2))
   points.capQ4Cp1 = points.capQ4Cp2.shiftOutwards(points.capQ4, points.capQ4.dist(points.capQ4Cp1))
+  points.sleeveTip = new Point(points.sleeveTip.x, points.capQ3Cp1.y)
 
-  paths.sleevecapN = new Path()
-    .move(points.bicepsRight)
-    .curve(points.bicepsRight, points.capQ1Cp1, points.capQ1)
+  paths.sleevecap = new Path()
+    .move(points.sleeveCapRight)
+    .curve_(points.capQ1Cp1, points.capQ1)
     .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2)
-    .curve(points.capQ2Cp2, points.capQ3Cp1, points.capQ3)
+    ._curve(points.capQ2Cp2, points.sleeveTip)
+    .curve_(points.capQ3Cp1, points.capQ3)
     .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
-    .curve(points.capQ4Cp2, points.bicepsLeft, points.bicepsLeft)
+    ._curve(points.capQ4Cp2, points.sleeveCapLeft)
     .hide()
 
   //guide
@@ -148,12 +149,13 @@ export const spreadSleeveCap = ({
   // .line(points.capQ1)
   // .line(points.capQ1BottomR)
   // .line(points.bottomRight)
-  // .line(points.bicepsRight)
-  // .curve(points.bicepsRight, points.capQ1Cp1, points.capQ1)
+  // .line(points.sleeveCapRight)
+  // .curve_(points.capQ1Cp1, points.capQ1)
   // .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2)
-  // .curve(points.capQ2Cp2, points.capQ3Cp1, points.capQ3)
+  // ._curve(points.capQ2Cp2, points.sleeveTip)
+  // .curve_(points.capQ3Cp1, points.capQ3)
   // .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
-  // .curve(points.capQ4Cp2, points.bicepsLeft, points.bicepsLeft)
+  // ._curve(points.capQ4Cp2, points.sleeveCapLeft)
   // .line(points.bottomLeft)
   // .attr('class', 'various lashed')
 
@@ -161,9 +163,10 @@ export const spreadSleeveCap = ({
   points.bottomMid = utils.beamsIntersect(
     points.capQ3BottomR,
     points.sleeveTipBottomLeft,
-    points.gridAnchor,
+    points.midAnchor,
     points.bottomAnchor
   )
+
   if (spreadAngle == 0) {
     points.bottomCp1 = points.capQ3BottomR
     points.bottomCp4 = points.capQ2BottomR
@@ -171,7 +174,7 @@ export const spreadSleeveCap = ({
     points.topAnchor = new Point(points.bottomAnchor.x, points.sleeveTip.y)
     points.bottomCp1Target = utils.beamsIntersect(
       points.bottomLeft,
-      points.capQ4BottomR,
+      points.bottomLeft.shift(points.sleeveCapLeft.angle(points.capQ4Cp2), 1),
       points.topAnchor,
       points.bottomAnchor.rotate(-spreadAngle / 5, points.topAnchor)
     )
@@ -186,7 +189,7 @@ export const spreadSleeveCap = ({
   points.bottomCp2 = points.bottomMid.shiftFractionTowards(points.bottomCp1, 0.1)
   points.bottomCp3 = points.bottomCp2.flipX(points.bottomAnchor)
 
-  if (points.capQ4BottomR.x < points.bottomLeft.x) {
+  if (utils.pointOnLine(points.sleeveCapLeft, points.bottomLeft, points.capQ4BottomR)) {
     paths.hemBaseLeft = new Path()
       .move(points.bottomLeft)
       .curve(points.bottomCp1, points.bottomCp2, points.bottomMid)
@@ -199,27 +202,27 @@ export const spreadSleeveCap = ({
       .hide()
   }
 
-  if (points.bottomRight.x > points.capQ1BottomR.x) {
+  if (utils.pointOnLine(points.sleeveCapRight, points.bottomRight, points.capQ1BottomR)) {
     paths.hemBaseRight = new Path()
       .move(points.bottomMid)
-      .curve(points.bottomCp3, points.bottomCp4, points.capQ1BottomR)
-      .line(points.bottomRight)
+      .curve(points.bottomCp3, points.bottomCp4, points.bottomRight)
       .hide()
   } else {
     paths.hemBaseRight = new Path()
       .move(points.bottomMid)
-      .curve(points.bottomCp3, points.bottomCp4, points.bottomRight)
+      .curve(points.bottomCp3, points.bottomCp4, points.capQ1BottomR)
+      .line(points.bottomRight)
       .hide()
   }
 
   paths.hemBase = paths.hemBaseLeft.join(paths.hemBaseRight).hide()
 
   //seam paths
-  paths.saRight = new Path().move(points.bottomRight).line(points.bicepsRight).hide()
+  paths.saRight = new Path().move(points.bottomRight).line(points.sleeveCapRight).hide()
 
-  paths.saLeft = new Path().move(points.bicepsLeft).line(points.bottomLeft).hide()
+  paths.saLeft = new Path().move(points.sleeveCapLeft).line(points.bottomLeft).hide()
 
-  paths.seam = paths.hemBase.join(paths.saRight).join(paths.sleevecapN).join(paths.saLeft).close()
+  paths.seam = paths.hemBase.join(paths.saRight).join(paths.sleevecap).join(paths.saLeft).close()
 
   if (complete) {
     //grainline
@@ -230,12 +233,11 @@ export const spreadSleeveCap = ({
       to: points.grainlineTo,
     })
     //sleeve head notches
-    points.frontNotch = paths.sleevecapN.shiftAlong(store.get('frontArmholeToArmholePitch'))
-    points.backNotch = paths.sleevecapN.reverse().shiftAlong(store.get('backArmholeToArmholePitch'))
-    points.sleeveTipNotch = paths.sleevecapN.shiftFractionAlong(sleeveCapFraction)
+    points.frontNotch = paths.sleevecap.shiftAlong(store.get('frontArmholeToArmholePitch'))
+    points.backNotch = paths.sleevecap.reverse().shiftAlong(store.get('backArmholeToArmholePitch'))
     macro('sprinkle', {
       snippet: 'notch',
-      on: ['frontNotch', 'sleeveTipNotch'],
+      on: ['frontNotch', 'sleeveTip'],
     })
     snippets.backNotch = new Snippet('bnotch', points.backNotch)
     //sleeve hem notches
@@ -262,12 +264,12 @@ export const spreadSleeveCap = ({
 
     if (sa) {
       if (sleeveLength == 0) {
-        points.saRight = points.bottomCp4.shiftOutwards(points.bicepsRight, sa)
-        points.saLeft = points.bottomCp1.shiftOutwards(points.bicepsLeft, sa)
+        points.saRight = points.bottomCp4.shiftOutwards(points.sleeveCapRight, sa)
+        points.saLeft = points.bottomCp1.shiftOutwards(points.sleeveCapLeft, sa)
         paths.sa = paths.hemBase
           .offset(hemA)
           .line(points.saRight)
-          .join(paths.sleevecapN.offset(sa * options.sleeveCapSaWidth * 100))
+          .join(paths.sleevecap.offset(sa * options.sleeveCapSaWidth * 100))
           .line(points.saLeft)
           .close()
           .attr('class', 'fabric sa')
@@ -275,7 +277,7 @@ export const spreadSleeveCap = ({
         paths.sa = paths.hemBase
           .offset(hemA)
           .join(paths.saRight.offset(sa))
-          .join(paths.sleevecapN.offset(sa * options.sleeveCapSaWidth * 100))
+          .join(paths.sleevecap.offset(sa * options.sleeveCapSaWidth * 100))
           .join(paths.saLeft.offset(sa))
           .close()
           .attr('class', 'fabric sa')
