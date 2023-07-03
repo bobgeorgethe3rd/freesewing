@@ -7,6 +7,7 @@ export const sharedBase = {
     //Constants
     cbNeck: 0.044,
     neckEase: 0, //.064,
+    waistDiffDivider: 4,
     //Fit
     chestEase: { pct: 4.6, min: 0, max: 20, menu: 'fit' },
     shoulderToShoulderEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
@@ -117,7 +118,7 @@ export const sharedBase = {
 
     const waist = measurements.waist * (1 + options.waistEase)
 
-    const waistDiff = (chest - waist) / 4
+    const waistDiff = (chest - waist) / options.waistDiffDivider
 
     // const hips = measurements.hips * (1 + options.hipsEase)
 
