@@ -152,6 +152,32 @@ export const back = {
 
     paths.seam = paths.hemBase.clone().join(paths.saBase).line(points.cWaist).close()
 
+    //stores
+    store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
+    store.set(
+      'scyeBackDepth',
+      points.armhole.dist(points.shoulder) *
+        Math.sin(
+          utils.deg2rad(
+            points.armhole.angle(points.shoulder) - (points.shoulder.angle(points.hps) - 90)
+          )
+        )
+    )
+    store.set(
+      'backArmholeLength',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .length()
+    )
+    store.set(
+      'backArmholeToArmholePitch',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .length()
+    )
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.cbNeck

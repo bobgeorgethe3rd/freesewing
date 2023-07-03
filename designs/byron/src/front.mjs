@@ -6,6 +6,7 @@ export const front = {
   options: {
     //Constants
     cfNeck: 0.55191502449,
+    useVoidStores: false,
     //Armhole
     frontArmholePitchWidth: { pct: 95.3, min: 95, max: 97, menu: 'armhole' },
     frontArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },
@@ -153,6 +154,32 @@ export const front = {
 
     paths.seam = paths.hemBase.clone().join(paths.saBase).line(points.cWaist).close()
 
+    //stores
+    store.set('scyeFrontWidth', points.armhole.dist(points.shoulder))
+    store.set(
+      'scyeFrontDepth',
+      points.armhole.dist(points.shoulder) *
+        Math.sin(
+          utils.deg2rad(
+            points.armhole.angle(points.shoulder) - (points.shoulder.angle(points.hps) - 90)
+          )
+        )
+    )
+    store.set(
+      'frontArmholeLength',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .length()
+    )
+    store.set(
+      'frontArmholeToArmholePitch',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .length()
+    )
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.cfNeck
