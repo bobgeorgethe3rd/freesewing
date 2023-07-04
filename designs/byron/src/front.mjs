@@ -107,13 +107,13 @@ export const front = {
     //body
     // points.sideChest = points.cChest.shift(0, chestFront)
     points.sideWaistAnchor = new Point(points.armhole.x, points.cWaist.y)
-    if (options.fitSide) {
+    if (options.fitSide || waistDiff < 0) {
       points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff)
+      if (waistDiff < 0) {
+        log.warning('waist is > chest so options.fitSide is locked on')
+      }
     } else {
       points.sideWaist = points.sideWaistAnchor
-      if (waistDiff < 0) {
-        log.warning('waistFront is > chestFront so you may want to turn options.fitSide back on')
-      }
     }
     // points.sideHips = points.cHips.shift(0, hipsFront)
     // points.sideSeat = points.cSeat.shift(0, seatFront)

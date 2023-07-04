@@ -16,12 +16,12 @@ export const sharedBase = {
     // seatEase: { pct: 4.7, min: 0, max: 20, menu: 'fit' },
     //Style
     // bodyLength: { pct: 75, min: 0, max: 100, menu: 'style' },
-    // bodyLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
+    lengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
     //Armhole
     armholeDrop: { pct: 14, min: 10, max: 30, menu: 'armhole' },
     armholePitchDepth: { pct: 50, min: 45, max: 60, menu: 'armhole' },
     //Advanced
-    separateHorizontals: { bool: false, menu: 'advanced' },
+    useChestFront: { bool: false, menu: 'advanced' },
     draftForHighBust: { bool: false, menu: 'advanced' },
     // waistbandWidth: {
     // pct: 0,
@@ -78,14 +78,14 @@ export const sharedBase = {
     // let bodyLength
     // if (options.bodyLength < 0.5) {
     // bodyLength =
-    // 2 * measurements.waistToHips * options.bodyLength * (1 + options.bodyLengthBonus) -
+    // 2 * measurements.waistToHips * options.bodyLength * (1 + options.lengthBonus) -
     // absoluteOptions.waistbandWidth
     // } else {
     // bodyLength =
     // measurements.waistToHips +
     // (measurements.waistToSeat - measurements.waistToHips) *
     // (2 * options.bodyLength - 1) *
-    // (1 + options.bodyLengthBonus) -
+    // (1 + options.lengthBonus) -
     // absoluteOptions.waistbandWidth
     // }
     if (options.draftForHighBust && measurements.highBust && measurements.highBustFront) {
@@ -99,14 +99,14 @@ export const sharedBase = {
 
     let chestBack
     let chestFront
-    if (options.separateHorizontals && measurements.chestFront) {
+    if (options.useChestFront && measurements.chestFront) {
       chestFront = (measurements.chestFront * (1 + options.chestEase)) / 2
       chestBack = (chest - chestFront * 2) / 2
     } else {
       chestFront = chest / 4
       chestBack = chest / 4
-      if (options.separateHorizontals)
-        if (options.separateHorizontals)
+      if (options.useChestFront)
+        if (options.useChestFront)
           log.warning(
             'chestFront measurements not available please add for separate chest measures'
           )
@@ -157,10 +157,13 @@ export const sharedBase = {
     // measurements.hpsToChestBack * (1 + options.armholeDrop)
     // )
     // points.cChest = points.origin.shift(-90, measurements.hpsToChestBack)
-    points.cWaist = points.origin.shift(-90, measurements.hpsToWaistBack)
-    points.cArmhole = points.cWaist.shift(
-      90,
-      measurements.waistToArmpit * (1 - options.armholeDrop)
+    points.cWaist = points.origin.shift(
+      -90,
+      measurements.hpsToWaistBack * (1 + options.lengthBonus)
+    )
+    points.cArmhole = points.origin.shift(
+      -90,
+      measurements.hpsToWaistBack - measurements.waistToArmpit * (1 - options.armholeDrop)
     )
     // points.cHips = points.cWaist.shift(-90, measurements.waistToHips)
     // points.cSeat = points.cWaist.shift(-90, measurements.waistToSeat)
