@@ -107,10 +107,10 @@ export const back = {
     //body
     // points.sideChest = points.cChest.shift(0, chestBack)
     points.sideWaistAnchor = new Point(points.armhole.x, points.cWaist.y)
-    if (options.fitSide || waistDiff < 0) {
+    if (options.fitSide || waistDiff <= 0) {
       points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff)
-      if (waistDiff < 0) {
-        log.warning('waist is > chest so options.fitSide is locked on')
+      if (waistDiff <= 0) {
+        log.warning('waist is >= chest so options.fitSide is locked on')
       }
     } else {
       points.sideWaist = points.sideWaistAnchor
