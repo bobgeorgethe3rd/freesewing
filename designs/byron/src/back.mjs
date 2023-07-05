@@ -141,17 +141,27 @@ export const back = {
 
     //seam paths
     paths.hemBase = new Path().move(points.cWaist).line(points.sideWaist).hide()
+    paths.saWaist = new Path().move(points.sideWaist).curve_(points.sideCp1, points.armhole).hide()
 
-    paths.saBase = new Path()
-      .move(points.sideWaist)
-      .curve_(points.sideCp1, points.armhole)
+    paths.armhole = new Path()
+      .move(points.armhole)
       .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
+      .hide()
+
+    paths.saBase = new Path()
+      .move(points.shoulder)
       .line(points.hps)
       ._curve(points.cbNeckCp1, points.cbNeck)
       .hide()
 
-    paths.seam = paths.hemBase.clone().join(paths.saBase).line(points.cWaist).close()
+    paths.seam = paths.hemBase
+      .clone()
+      .join(paths.saWaist)
+      .join(paths.armhole)
+      .join(paths.saBase)
+      .line(points.cWaist)
+      .close()
 
     //stores
     store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
@@ -204,8 +214,32 @@ export const back = {
       })
 
       if (sa) {
+        points.saArmhole = points.armhole.shift(45, sa)
+        points.saArmholeCp1 = points.armholeCp1.shift(45, sa)
+        points.saArmholePitch = points.armholePitch.shift(0, sa)
+        points.saArmholePitchCp1 = utils.beamsIntersect(
+          points.saArmholePitch,
+          points.armholePitch.rotate(-90, points.saArmholePitch),
+          points.armholePitchCp1,
+          points.armholePitchCp1.shift(45, 1)
+        )
+        points.saArmholePitchCp2 = utils.beamsIntersect(
+          points.armholePitchCp2,
+          points.shoulder.rotate(-90, points.armholePitchCp2),
+          points.saArmholePitchCp1,
+          points.saArmholePitch
+        )
+        points.saShoulder = points.hps.shiftOutwards(points.shoulder, sa)
+        paths.saArmhole = new Path()
+          .move(points.saArmhole)
+          .curve(points.saArmholeCp1, points.saArmholePitchCp1, points.saArmholePitch)
+          .curve_(points.saArmholePitchCp2, points.saShoulder)
+          .hide()
+
         paths.sa = paths.hemBase
           .offset(sa * options.hemWidth * 100)
+          .join(paths.saWaist.offset(sa))
+          .join(paths.saArmhole)
           .join(paths.saBase.offset(sa))
           .line(points.cbNeck)
           .line(points.cWaist)
