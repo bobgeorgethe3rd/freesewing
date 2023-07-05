@@ -186,7 +186,15 @@
     }
   },
   "swimwear": {},
-  "tops": {},
+  "tops": {
+    "shaun": {
+      "description": "A Shirt pattern",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "shirts"]
+    }
+  },
   "waistbands": {
     "beltloops": {
       "description": "A pattern that needs a description",
