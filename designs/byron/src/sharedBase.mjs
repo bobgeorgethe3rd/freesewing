@@ -118,8 +118,12 @@ export const sharedBase = {
 
     const waist = measurements.waist * (1 + options.waistEase)
 
-    const waistDiff = (chest - waist) / options.waistDiffDivider
-
+    let waistDiff = chest - waist
+    if (waistDiff > 0) {
+      waistDiff = waistDiff / options.waistDiffDivider
+    } else {
+      waistDiff = waistDiff / 4
+    }
     // const hips = measurements.hips * (1 + options.hipsEase)
 
     // let hipsFront
@@ -193,6 +197,8 @@ export const sharedBase = {
     //Stores
     store.set('chestBack', chestBack)
     store.set('chestFront', chestFront)
+    store.set('chest', chest)
+    store.set('waist', waist)
     // store.set('hipsBack', hipsBack)
     // store.set('hipsFront', hipsFront)
     store.set('neck', neck)

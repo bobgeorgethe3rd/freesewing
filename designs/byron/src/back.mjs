@@ -118,7 +118,7 @@ export const back = {
     // points.sideHips = points.cHips.shift(0, hipsBack)
     // points.sideSeat = points.cSeat.shift(0, seatBack)
     // points.sideHem = points.cHem.shift(0, hemLength)
-    points.sideCp1 = new Point(points.sideWaist.x, (points.armhole.y + points.sideWaist.y) / 2)
+    points.sideWaistCp2 = new Point(points.sideWaist.x, (points.armhole.y + points.sideWaist.y) / 2)
 
     //guides
     // paths.cbNeck = new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck)
@@ -137,11 +137,14 @@ export const back = {
     // paths.hem = new Path()
     // .move(points.cHem)
     // .line(points.sideHem)
-    // .curve_(points.sideCp1, points.armhole)
+    // .curve_(points.sideWaistCp2, points.armhole)
 
     //seam paths
     paths.hemBase = new Path().move(points.cWaist).line(points.sideWaist).hide()
-    paths.saWaist = new Path().move(points.sideWaist).curve_(points.sideCp1, points.armhole).hide()
+    paths.saWaist = new Path()
+      .move(points.sideWaist)
+      .curve_(points.sideWaistCp2, points.armhole)
+      .hide()
 
     paths.armhole = new Path()
       .move(points.armhole)
