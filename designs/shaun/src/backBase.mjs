@@ -82,10 +82,10 @@ export const backBase = {
     } else {
       points.cbYokeMin = new Point(points.cbNeck.x, points.shoulder.y)
     }
-    points.cbYoke = points.cbYokeMin.shiftFractionTowards(points.cArmhole, options.yokeBackDepth)
-    points.yokeBackAnchor = new Point(points.armhole.x * 10, points.cbYoke.y)
 
     if (options.yokeBack) {
+      points.cbYoke = points.cbYokeMin.shiftFractionTowards(points.cArmhole, options.yokeBackDepth)
+      points.yokeBackAnchor = new Point(points.armhole.x * 10, points.cbYoke.y)
       let yokeBackIntersect = utils.lineIntersectsCurve(
         points.cbYoke,
         points.yokeBackAnchor,

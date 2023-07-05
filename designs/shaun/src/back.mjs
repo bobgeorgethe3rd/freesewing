@@ -10,6 +10,7 @@ export const back = {
     //Style
     backBoxPleat: { bool: false, menu: 'style' },
     backBoxPleatWidth: { pct: 4.3, min: 4, max: 6, menu: 'style' },
+    skirtWidth: { pct: 36.4, min: 0, max: 50, menu: 'style' },
     //Darts
     backDarts: { bool: false, menu: 'darts' },
     backDartWidth: { pct: 75, min: 50, max: 100, menu: 'darts' },
@@ -48,8 +49,15 @@ export const back = {
     const shirtLength = store.get('shirtLength')
     const waistDiff = store.get('waistDiff')
     const hemDiff = store.get('hemDiff')
+    const hemWidth = measurements.waistToSeat * options.skirtWidth
     const backBoxPleatWidth = measurements.chest * options.backBoxPleatWidth
     //let's begin
+    //hem
+    points.cHemMin = points.cWaist.shift(-90, shirtLength)
+    points.cHem = points.cHemMin.shift(-90, hemWidth)
+    points.sideHemAnchor = new Point(points.armhole.x, points.cHemMin.y)
+    points.sideHem = points.sideHemAnchor.shift(180, hemDiff)
+    points.sideWaistCp1 = new Point(points.sideWaist.x, (points.sideWaist.y + points.sideHem.y) / 2)
     //yoke
     if (options.yokeBack) {
       points.backTopCurveEnd = points.yokeBack.shiftFractionTowards(
@@ -60,29 +68,17 @@ export const back = {
         points.yokeBack,
         options.backTopCurve
       )
-      //guides
-      paths.backTopCurve = new Path()
-        .move(points.backTopRight)
-        .curve_(points.backTopCurveCp1, points.backTopCurveEnd)
-    }
-
-    //hem
-    points.cHem = points.cWaist.shift(-90, shirtLength)
-    points.sideHemAnchor = new Point(points.armhole.x, points.cHem.y)
-    points.sideHem = points.sideHemAnchor.shift(180, hemDiff)
-    points.sideWaistCp1 = new Point(points.sideWaist.x, (points.sideWaist.y + points.sideHem.y) / 2)
-
-    //box pleat extension
-    if (options.yokeBack && options.backBoxPleat) {
-      points.yokeBackPleat = points.cbYoke.shift(180, backBoxPleatWidth / 2)
-      points.hemBackPleat = new Point(points.yokeBackPleat.x, points.cHem.y)
+      //box pleat extension
+      if (options.backBoxPleat) {
+        points.yokeBackPleat = points.cbYoke.shift(180, backBoxPleatWidth / 2)
+        points.hemBackPleat = new Point(points.yokeBackPleat.x, points.cHem.y)
+      }
     }
 
     //dart
     if (options.backDarts && waistDiff > 0) {
       const dartWidth =
-        ((store.get('chest') - store.get('waist')) / options.waistDiffDivider) *
-        2 *
+        ((store.get('chest') - store.get('waist')) / (options.waistDiffDivider / 2)) *
         options.backDartWidth
       points.cHips = points.cWaist.shift(
         -90,
@@ -124,6 +120,34 @@ export const back = {
       }
     }
 
+    paths.armhole = new Path()
+      .move(points.armhole)
+      .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+      .curve_(points.armholePitchCp2, points.shoulder)
+      .hide()
+
+    const drawArmhole = () => {
+      if (options.yokeBack) {
+        return paths.armhole.split(points.backTopRight)[0]
+      } else {
+        return paths.armhole
+      }
+    }
+
+    const drawSaTop = () => {
+      if (options.yokeBack) {
+        return new Path()
+          .move(points.backTopRight)
+          .curve_(points.backTopCurveCp1, points.backTopCurveEnd)
+          .line(drawSeamLeft().start())
+      } else {
+        return new Path()
+          .move(points.shoulder)
+          .line(points.hps)
+          ._curve(points.cbNeckCp1, points.cbNeck)
+      }
+    }
+
     //guides
     paths.byronGuide = new Path()
       .move(points.cWaist)
@@ -137,7 +161,9 @@ export const back = {
       .close()
       .attr('class', 'various dashed')
 
-    paths.seamLeft = drawSeamLeft()
+    paths.seamLeftGuide = drawSeamLeft()
+    paths.armholeGuide = drawArmhole().unhide()
+    paths.seamTopGuide = drawSaTop()
 
     paths.hemGuide = new Path()
       .move(points.cWaist)
