@@ -1,4 +1,4 @@
-import { pctBasedOn } from '@freesewing/core'
+// import { pctBasedOn } from '@freesewing/core'
 import { pluginBundle } from '@freesewing/plugin-bundle'
 
 export const sharedBase = {
