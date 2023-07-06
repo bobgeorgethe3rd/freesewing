@@ -11,7 +11,7 @@ export const back = {
     backBoxPleat: { bool: false, menu: 'style' },
     backBoxPleatWidth: { pct: 4.3, min: 4, max: 6, menu: 'style' },
     skirtWidth: { pct: 36.4, min: 0, max: 50, menu: 'style' }, //15.4
-    hemStyle: { dflt: 'curved', list: ['curved', 'straight'], menu: 'style' },
+    // hemStyle: { dflt: 'curved', list: ['curved', 'straight'], menu: 'style' },
     //Darts
     backDarts: { bool: false, menu: 'darts' },
     backDartWidth: { pct: 75, min: 50, max: 100, menu: 'darts' },
@@ -190,6 +190,7 @@ export const back = {
       .join(drawSaTop())
       .join(drawSeamLeft())
       .close()
+
     //guides
     // paths.byronGuide = new Path()
     // .move(points.cWaist)
