@@ -121,6 +121,7 @@ export const yokeBack = {
       if (options.yokeBackOnBias && options.yokeBackOnFold) {
         snippets.cb = new Snippet('bnotch', points.cbYoke)
       }
+      snippets.backTopCurveEnd = new Snippet('notch', points.backTopCurveEnd)
       //title
       points.title = points.cbNeckCp1.shift(-90, points.cbNeck.dist(points.cbYoke) / 2)
       macro('title', {

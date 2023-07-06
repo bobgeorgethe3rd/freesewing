@@ -68,10 +68,7 @@ export const backBase = {
     const waistDiff = store.get('waistDiff')
 
     let hemDiff = (store.get('chest') - hemWidth) / 4
-    if (
-      hemDiff > waistDiff ||
-      (options.fitSide && waistDiff > 0 && hemDiff && hemDiff > waistDiff)
-    ) {
+    if (hemDiff > waistDiff) {
       hemDiff = waistDiff
     }
 
@@ -107,6 +104,10 @@ export const backBase = {
           points.armholePitch
         )
       }
+      points.backTopCurveEnd = points.yokeBack.shiftFractionTowards(
+        points.cbYoke,
+        options.backTopCurve
+      )
 
       points.backTopRight = new Path()
         .move(points.armhole)
