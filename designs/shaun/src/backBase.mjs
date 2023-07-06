@@ -118,7 +118,7 @@ export const backBase = {
         .shiftAlong(yokeBackDip)
 
       //yoke guides
-      paths.yokeLine = new Path().move(points.cbYoke).line(points.yokeBack)
+      // paths.yokeLine = new Path().move(points.cbYoke).line(points.yokeBack)
     }
     //stores
     store.set('shirtLength', shirtLength)
@@ -152,17 +152,17 @@ export const backBase = {
     }
 
     //guides
-    paths.byronGuide = new Path()
-      .move(points.cWaist)
-      .line(points.sideWaist)
-      .curve_(points.sideWaistCp2, points.armhole)
-      .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
-      .curve_(points.armholePitchCp2, points.shoulder)
-      .line(points.hps)
-      ._curve(points.cbNeckCp1, points.cbNeck)
-      .line(points.cWaist)
-      .close()
-      .attr('class', 'various dashed')
+    // paths.byronGuide = new Path()
+    // .move(points.cWaist)
+    // .line(points.sideWaist)
+    // .curve_(points.sideWaistCp2, points.armhole)
+    // .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+    // .curve_(points.armholePitchCp2, points.shoulder)
+    // .line(points.hps)
+    // ._curve(points.cbNeckCp1, points.cbNeck)
+    // .line(points.cWaist)
+    // .close()
+    // .attr('class', 'various dashed')
 
     return part
   },

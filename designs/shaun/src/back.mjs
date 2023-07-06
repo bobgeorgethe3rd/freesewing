@@ -10,7 +10,7 @@ export const back = {
     //Style
     backBoxPleat: { bool: false, menu: 'style' },
     backBoxPleatWidth: { pct: 4.3, min: 4, max: 6, menu: 'style' },
-    skirtWidth: { pct: 36.4, min: 30, max: 50, menu: 'style' },
+    skirtWidth: { pct: 36.4, min: 0, max: 50, menu: 'style' }, //15.4
     hemStyle: { dflt: 'curved', list: ['curved', 'straight'], menu: 'style' },
     //Darts
     backDarts: { bool: false, menu: 'darts' },
@@ -51,33 +51,34 @@ export const back = {
     const shirtLength = store.get('shirtLength')
     const waistDiff = store.get('waistDiff')
     const hemDiff = store.get('hemDiff')
-    const hemWidth = measurements.waistToSeat * options.skirtWidth
+    const skirtWidth = measurements.waistToSeat * options.skirtWidth
     const backBoxPleatWidth = measurements.chest * options.backBoxPleatWidth
     //let's begin
     //hem
-    points.cHemMin = points.cWaist.shift(-90, shirtLength)
-    points.sideHemAnchor = new Point(points.armhole.x, points.cHemMin.y)
+    points.cHemAnchor = points.cWaist.shift(-90, shirtLength)
+    points.sideHemAnchor = new Point(points.armhole.x, points.cHemAnchor.y)
     if (options.fitSide || hemDiff <= 0) {
       points.sideHem = points.sideHemAnchor.shift(180, hemDiff)
     } else {
       points.sideHem = points.sideHemAnchor
     }
     points.sideWaistCp1 = new Point(points.sideWaist.x, (points.sideWaist.y + points.sideHem.y) / 2)
-
-    points.cHem = points.cHemMin.shift(-90, hemWidth)
-    points.cHemCp2 = new Point(points.sideHem.x / 2, points.cHem.y)
+    points.sideHemCp2Anchor = new Point(points.sideHem.x / 2, points.sideHem.y)
 
     points.sideHemCp1 = utils.beamsIntersect(
       points.sideHem,
       points.sideWaistCp1.rotate(90, points.sideHem),
-      points.cHemCp2,
-      points.cHem.rotate(-90, points.cHemCp2)
+      points.sideHemCp2Anchor,
+      points.sideHemCp2Anchor.shift(-90, 1)
     )
 
-    if (options.hemStyle == 'straight') {
-      points.cHem = new Point(points.cbNeck.x, points.sideHemCp1.y)
-      points.sideHemCp1 = points.sideHem.shiftFractionTowards(points.sideHemCp1, 0.75)
-      points.cHemCp2 = new Point((points.sideHem.x / 2) * 0.75, points.cHem.y)
+    points.cHemMin = new Point(points.cbNeck.x, points.sideHemCp1.y)
+    points.cHem = points.cHemMin.shift(-90, skirtWidth)
+    points.cHemCp2 = new Point(points.sideHem.x / 2, points.cHem.y)
+
+    if (options.skirtWidth == 0) {
+      points.sideHemCp1 = points.sideHem.shiftFractionTowards(points.sideHemCp1, 0.8)
+      points.cHemCp2 = points.cHem.shiftFractionTowards(points.cHemCp2, 0.8)
     }
 
     //yoke
