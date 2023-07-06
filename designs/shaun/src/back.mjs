@@ -11,6 +11,7 @@ export const back = {
     backBoxPleat: { bool: false, menu: 'style' },
     backBoxPleatWidth: { pct: 4.3, min: 4, max: 6, menu: 'style' },
     skirtWidth: { pct: 36.4, min: 0, max: 50, menu: 'style' }, //15.4
+    skirtCurve: { pct: 50, min: 10, max: 50, menu: 'style' }, //15.4
     // hemStyle: { dflt: 'curved', list: ['curved', 'straight'], menu: 'style' },
     //Darts
     backDarts: { bool: false, menu: 'darts' },
@@ -63,20 +64,23 @@ export const back = {
       points.sideHem = points.sideHemAnchor
     }
     points.sideWaistCp1 = new Point(points.sideWaist.x, (points.sideWaist.y + points.sideHem.y) / 2)
-    points.sideHemCp2Anchor = new Point(points.sideHem.x / 2, points.sideHem.y)
+    points.sideHemCp1Anchor = new Point(
+      points.sideHem.x * (1 - options.skirtCurve),
+      points.sideHem.y
+    )
 
     points.sideHemCp1 = utils.beamsIntersect(
       points.sideHem,
       points.sideWaistCp1.rotate(90, points.sideHem),
-      points.sideHemCp2Anchor,
-      points.sideHemCp2Anchor.shift(-90, 1)
+      points.sideHemCp1Anchor,
+      points.sideHemCp1Anchor.shift(-90, 1)
     )
 
     points.cHemMin = new Point(points.cbNeck.x, points.sideHemCp1.y)
     points.cHem = points.cHemMin.shift(-90, skirtWidth)
     points.cHemCp2 = new Point(points.sideHem.x / 2, points.cHem.y)
 
-    if (options.skirtWidth == 0) {
+    if (options.skirtWidth == 0 && options.skirtCurve == 0.5) {
       points.sideHemCp1 = points.sideHem.shiftFractionTowards(points.sideHemCp1, 0.8)
       points.cHemCp2 = points.cHem.shiftFractionTowards(points.cHemCp2, 0.8)
     }
