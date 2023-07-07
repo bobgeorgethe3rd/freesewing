@@ -204,7 +204,7 @@ export const frontRight = {
       )
       macro('title', {
         at: points.title,
-        nr: '3b',
+        nr: '1b',
         title: 'Front Right',
         scale: 2 / 3,
       })
