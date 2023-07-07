@@ -12,12 +12,6 @@ export const frontBase = {
   },
   options: {
     //Plackets
-    placketOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'plackets' },
-    buttonholePlacketStyle: {
-      dflt: 'separate',
-      list: ['separate', 'inbuilt', 'facing'],
-      menu: 'plackets',
-    },
     buttonholePlacketWidth: {
       pct: 3.7,
       min: 3,
@@ -26,8 +20,8 @@ export const frontBase = {
       ...pctBasedOn('chest'),
       menu: 'plackets',
     },
-    buttonStart: { pct: 10.9, min: 5, max: 15, menu: 'plackets' },
-    buttonEnd: { pct: 22.6, min: 20, max: 30, menu: 'plackets' },
+    buttonStart: { pct: 12.3, min: 5, max: 15, menu: 'plackets' },
+    buttonEnd: { pct: 12.7, min: 5, max: 15, menu: 'plackets' },
     buttonNumber: { count: 6, min: 5, max: 10, menu: 'plackets' },
     //Pockets
     patchPocketWidth: { pct: 27, min: 20, max: 30, menu: 'pockets' },
@@ -36,12 +30,6 @@ export const frontBase = {
     skirtFrontWidth: { pct: 36.4, min: 0, max: 50, menu: 'advanced.style' },
     skirtFrontCurve: { pct: 50, min: 0, max: 50, menu: 'advanced.style' },
     independentSkirtFront: { bool: false, menu: 'advanced.style' },
-    independentPlacketStyles: { bool: false, menu: 'advanced.plackets' },
-    buttonPlacketStyle: {
-      dflt: 'separate',
-      list: ['separate', 'inbuilt', 'facing'],
-      menu: 'advanced.plackets',
-    },
     independentPlacketWidths: { bool: false, menu: 'advanced.plackets' },
     buttonPlacketWidth: {
       pct: 3.7,
@@ -91,8 +79,8 @@ export const frontBase = {
     if (options.independentSkirtFront) {
       skirtWidth = measurements.waistToSeat * options.skirtFrontWidth
     }
-    const buttonholePlacketWidth = /* measurements.chest * */ absoluteOptions.buttonholePlacketWidth
-    const buttonPlacketWidth = /* measurements.chest * */ absoluteOptions.buttonPlacketWidth
+    const buttonholePlacketWidth = absoluteOptions.buttonholePlacketWidth
+    const buttonPlacketWidth = absoluteOptions.buttonPlacketWidth
     const patchPocketWidth = measurements.shoulderToShoulder * options.patchPocketWidth
     //let's begin
     //hem
@@ -169,8 +157,8 @@ export const frontBase = {
       points['fB' + utils.capitalize(p)] = points[p].flipX(points.buttonNeckEx)
 
     //button points
-    points.buttonStart = points.cfNeck.shiftFractionTowards(points.cHem, options.buttonStart)
-    points.buttonEnd = points.cHem.shiftFractionTowards(points.cfNeck, options.buttonEnd)
+    points.buttonStart = points.cfNeck.shiftFractionTowards(points.cHemMin, options.buttonStart)
+    points.buttonEnd = points.cHemMin.shiftFractionTowards(points.cfNeck, options.buttonEnd)
 
     for (let i = 0; i <= options.buttonNumber - 1; i++) {
       points['button' + i] = points.buttonStart.shiftFractionTowards(
@@ -187,6 +175,8 @@ export const frontBase = {
     points.pocketLeft = points.pocketMid.shift(180, patchPocketWidth / 2)
     points.pocketRight = points.pocketLeft.flipX(points.pocketMid)
     //stores
+    store.set('buttonholePlacketWidth', buttonholePlacketWidth)
+    store.set('buttonPlacketWidth', buttonPlacketWidth)
     store.set('patchPocketWidth', patchPocketWidth)
     store.set('patchPocketDepth', measurements.hpsToWaistBack * options.patchPocketDepth)
     //guides

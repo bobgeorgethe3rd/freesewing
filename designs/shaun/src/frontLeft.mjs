@@ -11,7 +11,25 @@ export const frontLeft = {
   hide: {
     from: true,
   },
-  options: {},
+  options: {
+    //Plackets
+    buttonholePlacketStyle: {
+      dflt: 'separate',
+      list: ['separate', 'inbuilt', 'facing'],
+      menu: 'plackets',
+    },
+    placketOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'plackets' },
+    //Pockets
+    frontPockets: { bool: true, menu: 'pockets' },
+    //Advanced
+    independentPlacketStyles: { bool: false, menu: 'advanced.plackets' },
+    buttonPlacketStyle: {
+      dflt: 'separate',
+      list: ['separate', 'inbuilt', 'facing'],
+      menu: 'advanced.plackets',
+    },
+    separateFronts: { bool: false, menu: 'advanced' },
+  },
   plugins: [pluginLogoRG],
   draft: ({
     store,
@@ -155,7 +173,7 @@ export const frontLeft = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.cfNeckCorner
+      points.grainlineFrom = new Point(points.cfNeckCorner.x, points.armhole.y)
       points.grainlineTo = new Point(points.cfNeckCorner.x, points.sideHem.y)
       macro('grainline', {
         from: points.grainlineFrom,
@@ -167,14 +185,28 @@ export const frontLeft = {
         on: ['armholePitch', 'sideWaist'],
       })
       //title
+      let titleNum
+      let titleName
+      if (
+        options.separateFronts ||
+        store.get('buttonholePlacketWidth') != store.get('buttonPlacketWidth') ||
+        (options.independentPlacketStyles &&
+          options.buttonholePlacketStyle != options.buttonPlacketStyle)
+      ) {
+        titleNum = '3a'
+        titleName = 'Front Left'
+      } else {
+        titleNum = '3'
+        titleName = 'Front'
+      }
       points.title = new Point(
         points.hps.x + (points.shoulder.x - points.hps.x) * 0.4,
         points.armhole.y
       )
       macro('title', {
         at: points.title,
-        nr: '3',
-        title: 'Front',
+        nr: titleNum,
+        title: titleName,
         scale: 2 / 3,
       })
       //logo
@@ -196,8 +228,60 @@ export const frontLeft = {
       })
       //button and buttonholes
       for (let i = 0; i <= options.buttonNumber - 1; i++) {
-        snippets['buttonhole' + i] = new Snippet('buttonhole', points['button' + i])
-        snippets['button' + i] = new Snippet('button', points['button' + i])
+        if (
+          (options.placketOverlapSide == 'left' && options.buttonholePlacketStyle != 'separate') ||
+          (store.get('buttonholePlacketWidth') == store.get('buttonPlacketWidth') &&
+            (!options.independentPlacketStyles ||
+              options.buttonholePlacketStyle == options.buttonPlacketStyle) &&
+            options.placketOverlapSide == 'right' &&
+            !options.separateFronts)
+        ) {
+          snippets['buttonhole' + i] = new Snippet('buttonhole', points['button' + i])
+        }
+        if (
+          (options.placketOverlapSide == 'right' && options.buttonPlacketStyle != 'separate') ||
+          (store.get('buttonholePlacketWidth') == store.get('buttonPlacketWidth') &&
+            (!options.independentPlacketStyles ||
+              options.buttonholePlacketStyle == options.buttonPlacketStyle) &&
+            options.placketOverlapSide == 'left' &&
+            !options.separateFronts)
+        ) {
+          snippets['button' + i] = new Snippet('button', points['button' + i])
+        }
+      }
+      //lines
+      if (options.placketOverlapSide == 'left' && options.buttonholePlacketStyle != 'separate') {
+        paths.facingLing = new Path()
+          .move(points.buttonholeNeck)
+          .line(points.buttonholeHem)
+          .attr('class', 'mark sa')
+          .attr('data-text', 'Facing line')
+          .attr('data-text-class', 'center')
+        if (options.buttonholePlacketStyle == 'inbuilt') {
+          paths.foldline = new Path()
+            .move(points.buttonholeNeckEx)
+            .line(points.buttonholeHemEx)
+            .attr('class', 'mark help')
+            .attr('data-text', 'Fold-line')
+            .attr('data-text-class', 'center')
+        }
+      }
+
+      if (options.placketOverlapSide == 'right' && options.buttonPlacketStyle != 'separate') {
+        paths.facingLing = new Path()
+          .move(points.buttonNeck)
+          .line(points.buttonHem)
+          .attr('class', 'mark sa')
+          .attr('data-text', 'Facing line')
+          .attr('data-text-class', 'center')
+        if (options.buttonPlacketStyle == 'inbuilt') {
+          paths.foldline = new Path()
+            .move(points.buttonNeckEx)
+            .line(points.buttonHemEx)
+            .attr('class', 'mark help')
+            .attr('data-text', 'Fold-line')
+            .attr('data-text-class', 'center')
+        }
       }
 
       if (sa) {
