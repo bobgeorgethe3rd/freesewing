@@ -133,22 +133,21 @@ export const frontLeft = {
       .move(drawSeamLeft().end())
       .line(points.hemCurveStart)
       .curve(points.cHemCp2, points.sideHemCp1, points.sideHem)
-    // .hide()
+      .hide()
 
     paths.sideSeam = new Path()
       .move(points.sideHem)
       ._curve(points.sideWaistCp1, points.sideWaist)
       .curve_(points.sideWaistCp2, points.armhole)
-    // .hide()
+      .hide()
 
     paths.armhole = new Path()
       .move(points.armhole)
       .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
-    // .hide()
+      .hide()
 
-    paths.shoulder = new Path().move(points.shoulder).line(points.hps)
-    //.hide()
+    paths.shoulder = new Path().move(points.shoulder).line(points.hps).hide()
 
     paths.seam = paths.hemBase
       .join(paths.sideSeam)
@@ -201,7 +200,7 @@ export const frontLeft = {
       }
       points.title = new Point(
         points.hps.x + (points.shoulder.x - points.hps.x) * 0.4,
-        points.armhole.y
+        points.armhole.y * 1.1
       )
       macro('title', {
         at: points.title,
@@ -283,7 +282,19 @@ export const frontLeft = {
             .attr('data-text-class', 'center')
         }
       }
-
+      //pockets
+      if (options.frontPockets) {
+        paths.pocketline = new Path()
+          .move(points.pocketLeft)
+          .line(points.pocketRight)
+          .attr('class', 'mark')
+          .attr('data-text', 'Pocket-line')
+          .attr('data-text-class', 'center')
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketLeft', 'pocketRight'],
+        })
+      }
       if (sa) {
         paths.saArmhole = new Path()
           .move(points.saArmhole)
