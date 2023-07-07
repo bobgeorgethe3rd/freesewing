@@ -8,12 +8,14 @@ import { back } from './back.mjs'
 import { yokeBack } from './yokeBack.mjs'
 import { frontBase } from './frontBase.mjs'
 import { frontLeft } from './frontLeft.mjs'
+import { frontRight } from './frontRight.mjs'
+import { buttonholePlacket } from './buttonholePlacket.mjs'
 
 // Create new design
 const Shaun = new Design({
   data,
-  parts: [backBase, back, yokeBack, frontBase, frontLeft],
+  parts: [backBase, back, yokeBack, frontBase, frontLeft, frontRight, buttonholePlacket],
 })
 
 // Named exports
-export { backBase, back, yokeBack, frontBase, frontLeft, Shaun }
+export { backBase, back, yokeBack, frontBase, frontLeft, frontRight, buttonholePlacket, Shaun }

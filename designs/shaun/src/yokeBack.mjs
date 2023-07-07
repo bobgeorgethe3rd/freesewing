@@ -126,7 +126,7 @@ export const yokeBack = {
       points.title = points.cbNeckCp1.shift(-90, points.cbNeck.dist(points.cbYoke) / 2)
       macro('title', {
         at: points.title,
-        nr: '2',
+        nr: '4',
         title: 'Yoke Back',
         scale: 1 / 3,
       })

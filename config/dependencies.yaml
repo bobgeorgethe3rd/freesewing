@@ -221,7 +221,7 @@ shaun:
     peer:
     '@freesewing/byron': *freesewing
     '@freesewing/basicsleeve': *freesewing
-    '@freesewing/plugin-mirror': *freesewing
+    '@freesewing/plugin-flip': *freesewing
 shin:
   peer:
     '@freesewing/snapseries': *freesewing

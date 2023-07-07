@@ -1,36 +1,20 @@
-import { pctBasedOn } from '@freesewing/core'
-import { pluginLogoRG } from '@freesewing/plugin-logorg'
+import { flipPlugin } from '@freesewing/plugin-flip'
 import { backBase } from './backBase.mjs'
 import { back } from './back.mjs'
 import { frontBase } from './frontBase.mjs'
+import { frontLeft } from './frontLeft.mjs'
 
-export const frontLeft = {
-  name: 'shaun.frontLeft',
+export const frontRight = {
+  name: 'shaun.frontRight',
   from: frontBase,
-  after: [backBase, back],
+  after: [backBase, back, frontLeft],
   hide: {
     from: true,
   },
   options: {
-    //Plackets
-    buttonholePlacketStyle: {
-      dflt: 'separate',
-      list: ['separate', 'inbuilt', 'facing'],
-      menu: 'plackets',
-    },
-    placketOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'plackets' },
-    //Pockets
-    frontPockets: { bool: true, menu: 'pockets' },
-    //Advanced
-    independentPlacketStyles: { bool: false, menu: 'advanced.plackets' },
-    buttonPlacketStyle: {
-      dflt: 'separate',
-      list: ['separate', 'inbuilt', 'facing'],
-      menu: 'advanced.plackets',
-    },
-    separateFronts: { bool: false, menu: 'advanced' },
+    frontRightPocket: { bool: false, menu: 'pockets' },
   },
-  plugins: [pluginLogoRG],
+  plugins: [flipPlugin],
   draft: ({
     store,
     sa,
@@ -50,6 +34,16 @@ export const frontLeft = {
     absoluteOptions,
     log,
   }) => {
+    //set render
+    if (
+      !options.separateFronts &&
+      store.get('buttonholePlacketWidth') == store.get('buttonPlacketWidth') &&
+      (!options.independentPlacketStyles ||
+        options.buttonholePlacketStyle == options.buttonPlacketStyle)
+    ) {
+      part.hide()
+      return part
+    }
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
@@ -60,16 +54,6 @@ export const frontLeft = {
     //let's begin
     const drawSeamLeft = () => {
       if (options.placketOverlapSide == 'right') {
-        if (options.buttonPlacketStyle == 'separate') {
-          return new Path().move(points.buttonNeck).line(points.buttonHem)
-        }
-        if (options.buttonPlacketStyle == 'inbuilt') {
-          return new Path().move(points.fBButtonNeck).line(points.fBButtonHem)
-        }
-        if (options.buttonPlacketStyle == 'facing') {
-          return new Path().move(points.buttonNeckEx).line(points.buttonHemEx)
-        }
-      } else {
         if (options.buttonholePlacketStyle == 'separate') {
           return new Path().move(points.buttonholeNeck).line(points.buttonholeHem)
         }
@@ -79,32 +63,21 @@ export const frontLeft = {
         if (options.buttonholePlacketStyle == 'facing') {
           return new Path().move(points.buttonholeNeckEx).line(points.buttonholeHemEx)
         }
+      } else {
+        if (options.buttonPlacketStyle == 'separate') {
+          return new Path().move(points.buttonNeck).line(points.buttonHem)
+        }
+        if (options.buttonPlacketStyle == 'inbuilt') {
+          return new Path().move(points.fBButtonNeck).line(points.fBButtonHem)
+        }
+        if (options.buttonPlacketStyle == 'facing') {
+          return new Path().move(points.buttonNeckEx).line(points.buttonHemEx)
+        }
       }
     }
 
     const drawNeck = () => {
       if (options.placketOverlapSide == 'right') {
-        if (options.buttonPlacketStyle == 'separate') {
-          return new Path()
-            .move(points.hps)
-            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
-            .split(points.buttonNeck)[0]
-        }
-        if (options.buttonPlacketStyle == 'inbuilt') {
-          return new Path()
-            .move(points.hps)
-            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
-            .line(points.fBCfNeck)
-            .curve(points.fBCfNeckCp2, points.fBCfNeckCp1, points.fBHps)
-            .split(points.fBButtonNeck)[0]
-        }
-        if (options.buttonPlacketStyle == 'facing') {
-          return new Path()
-            .move(points.hps)
-            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
-            .line(points.buttonNeckEx)
-        }
-      } else {
         if (options.buttonholePlacketStyle == 'separate') {
           return new Path()
             .move(points.hps)
@@ -124,6 +97,27 @@ export const frontLeft = {
             .move(points.hps)
             .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
             .line(points.buttonholeNeckEx)
+        }
+      } else {
+        if (options.buttonPlacketStyle == 'separate') {
+          return new Path()
+            .move(points.hps)
+            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+            .split(points.buttonNeck)[0]
+        }
+        if (options.buttonPlacketStyle == 'inbuilt') {
+          return new Path()
+            .move(points.hps)
+            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+            .line(points.fBCfNeck)
+            .curve(points.fBCfNeckCp2, points.fBCfNeckCp1, points.fBHps)
+            .split(points.fBButtonNeck)[0]
+        }
+        if (options.buttonPlacketStyle == 'facing') {
+          return new Path()
+            .move(points.hps)
+            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+            .line(points.buttonNeckEx)
         }
       }
     }
@@ -170,6 +164,26 @@ export const frontLeft = {
     // .close()
     // .attr('class', 'various dashed')
 
+    if (complete && sa) {
+      paths.saArmhole = new Path()
+        .move(points.saArmhole)
+        .curve(points.saArmholeCp1, points.saArmholePitchCp1, points.saArmholePitch)
+        .curve_(points.saArmholePitchCp2, points.saShoulder)
+        .hide()
+
+      paths.sa = paths.hemBase
+        .offset(sa * options.hemWidth * 100)
+        .join(paths.sideSeam.offset(sa * options.sideSeamSaWidth * 100))
+        .join(paths.saArmhole)
+        .join(paths.shoulder.offset(sa))
+        .join(drawNeck().offset(sa))
+        .join(drawSeamLeft().offset(sa))
+        .close()
+        .attr('class', 'fabric sa')
+    }
+    //flip macro
+    macro('flip')
+
     if (complete) {
       //grainline
       points.grainlineFrom = new Point(points.cfNeckCorner.x, points.armhole.y)
@@ -184,65 +198,34 @@ export const frontLeft = {
         on: ['armholePitch', 'sideWaist'],
       })
       //title
-      let titleNum
-      let titleName
-      if (
-        options.separateFronts ||
-        store.get('buttonholePlacketWidth') != store.get('buttonPlacketWidth') ||
-        (options.independentPlacketStyles &&
-          options.buttonholePlacketStyle != options.buttonPlacketStyle)
-      ) {
-        titleNum = '1a'
-        titleName = 'Front Left'
-      } else {
-        titleNum = '1'
-        titleName = 'Front'
-      }
       points.title = new Point(
-        points.hps.x + (points.shoulder.x - points.hps.x) * 0.4,
+        points.hps.x + (points.shoulder.x - points.hps.x) * 0.6,
         points.armhole.y * 1.1
       )
       macro('title', {
         at: points.title,
-        nr: titleNum,
-        title: titleName,
+        nr: '3b',
+        title: 'Front Right',
         scale: 2 / 3,
-      })
-      //logo
-      points.logo = new Point(
-        points.hps.x + (points.shoulder.x - points.hps.x) * 0.5,
-        points.armhole.y + (points.sideHem.y - points.armhole.y) / 3
-      )
-      macro('logorg', {
-        at: points.logo,
-        scale: 0.6,
-      })
-      //scalebox
-      points.scalebox = new Point(
-        points.hps.x + (points.shoulder.x - points.hps.x) * 0.5,
-        points.armhole.y + ((points.sideHem.y - points.armhole.y) * 2) / 3
-      )
-      macro('scalebox', {
-        at: points.scalebox,
       })
       //button and buttonholes
       for (let i = 0; i <= options.buttonNumber - 1; i++) {
         if (
-          (options.placketOverlapSide == 'left' && options.buttonholePlacketStyle != 'separate') ||
+          (options.placketOverlapSide == 'right' && options.buttonholePlacketStyle != 'separate') ||
           (store.get('buttonholePlacketWidth') == store.get('buttonPlacketWidth') &&
             (!options.independentPlacketStyles ||
               options.buttonholePlacketStyle == options.buttonPlacketStyle) &&
-            options.placketOverlapSide == 'right' &&
+            options.placketOverlapSide == 'left' &&
             !options.separateFronts)
         ) {
           snippets['buttonhole' + i] = new Snippet('buttonhole', points['button' + i])
         }
         if (
-          (options.placketOverlapSide == 'right' && options.buttonPlacketStyle != 'separate') ||
+          (options.placketOverlapSide == 'left' && options.buttonPlacketStyle != 'separate') ||
           (store.get('buttonholePlacketWidth') == store.get('buttonPlacketWidth') &&
             (!options.independentPlacketStyles ||
               options.buttonholePlacketStyle == options.buttonPlacketStyle) &&
-            options.placketOverlapSide == 'left' &&
+            options.placketOverlapSide == 'right' &&
             !options.separateFronts)
         ) {
           snippets['button' + i] = new Snippet('button', points['button' + i])
@@ -283,10 +266,10 @@ export const frontLeft = {
         }
       }
       //pockets
-      if (options.frontPockets) {
+      if (options.frontRightPocket) {
         paths.pocketline = new Path()
-          .move(points.pocketLeft)
-          .line(points.pocketRight)
+          .move(points.pocketRight)
+          .line(points.pocketLeft)
           .attr('class', 'mark')
           .attr('data-text', 'Pocket line')
           .attr('data-text-class', 'center')
@@ -294,23 +277,6 @@ export const frontLeft = {
           snippet: 'notch',
           on: ['pocketLeft', 'pocketRight'],
         })
-      }
-      if (sa) {
-        paths.saArmhole = new Path()
-          .move(points.saArmhole)
-          .curve(points.saArmholeCp1, points.saArmholePitchCp1, points.saArmholePitch)
-          .curve_(points.saArmholePitchCp2, points.saShoulder)
-          .hide()
-
-        paths.sa = paths.hemBase
-          .offset(sa * options.hemWidth * 100)
-          .join(paths.sideSeam.offset(sa * options.sideSeamSaWidth * 100))
-          .join(paths.saArmhole)
-          .join(paths.shoulder.offset(sa))
-          .join(drawNeck().offset(sa))
-          .join(drawSeamLeft().offset(sa))
-          .close()
-          .attr('class', 'fabric sa')
       }
     }
     return part

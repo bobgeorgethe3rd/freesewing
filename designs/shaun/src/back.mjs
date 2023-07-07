@@ -252,7 +252,7 @@ export const back = {
       )
       macro('title', {
         at: points.title,
-        nr: '1',
+        nr: '3',
         title: 'Back',
         scale: 2 / 3,
       })
