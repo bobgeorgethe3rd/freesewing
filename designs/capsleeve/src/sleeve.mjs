@@ -24,7 +24,7 @@ export const sleeve = {
     spread: { pct: 0, min: 0, max: 120, menu: 'sleeves' },
     sleeveReduction: { pct: 9, min: 7.5, max: 12, menu: 'sleeves' },
     //Construction
-    sleeveCapSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   // plugins: [...spreadsleeve.plugins],
@@ -108,7 +108,7 @@ export const sleeve = {
         scale: 0.4,
       })
       if (sa) {
-        const capSa = sa * options.sleeveCapSaWidth * 100
+        const capSa = sa * options.armholeSaWidth * 100
         const hemA = sa * options.sleeveHemWidth * 100
 
         points.saLeft = points.capQ4Cp1.shiftOutwards(points.capQ4, sa)

@@ -24,9 +24,9 @@ export const sleeve = {
       ...pctBasedOn('shoulderToWrist'),
       menu: 'sleeves',
     },
-    flounces: { dflt: 'none', list: ['flounce', 'ruffle', 'none'], menu: 'sleeves' },
+    sleeveFlounces: { dflt: 'none', list: ['flounce', 'ruffle', 'none'], menu: 'sleeves' },
     //Construction
-    sleeveCapSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   plugins: [...sleevecap.plugins],
@@ -183,7 +183,7 @@ export const sleeve = {
             .clone()
             .offset(hemSa)
             .line(points.saRight)
-            .join(paths.sleevecap.offset(sa * options.sleeveCapSaWidth * 100))
+            .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
             .line(points.saLeft)
             .close()
             .attr('class', 'fabric sa')
@@ -192,7 +192,7 @@ export const sleeve = {
             .clone()
             .offset(hemSa)
             .join(paths.saRight.offset(sa))
-            .join(paths.sleevecap.offset(sa * options.sleeveCapSaWidth * 100))
+            .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
             .join(paths.saLeft.offset(sa))
             .close()
             .attr('class', 'fabric sa')

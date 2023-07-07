@@ -336,7 +336,7 @@ export const spreadSleeveHem = ({
         paths.sa = paths.hemBase
           .offset(hemA)
           .line(points.saRight)
-          .join(paths.sleevecap.offset(sa * options.sleeveCapSaWidth * 100))
+          .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
           .line(points.saLeft)
           .close()
           .attr('class', 'fabric sa')
@@ -344,7 +344,7 @@ export const spreadSleeveHem = ({
         paths.sa = paths.hemBase
           .offset(hemA)
           .join(paths.saRight.offset(sa))
-          .join(paths.sleevecap.offset(sa * options.sleeveCapSaWidth * 100))
+          .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
           .join(paths.saLeft.offset(sa))
           .close()
           .attr('class', 'fabric sa')

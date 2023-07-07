@@ -245,7 +245,7 @@ export const sleeve = {
         paths.sa = paths.hemBase
           .offset(hemA)
           .join(paths.saRight.offset(sa))
-          .join(paths.sleevecap.offset(sa * options.sleeveCapSaWidth * 100))
+          .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
           .join(paths.saLeft.offset(sa))
           .close()
           .attr('class', 'fabric sa')
