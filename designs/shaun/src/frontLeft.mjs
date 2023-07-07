@@ -3,11 +3,12 @@ import { pluginLogoRG } from '@freesewing/plugin-logorg'
 import { backBase } from './backBase.mjs'
 import { back } from './back.mjs'
 import { frontBase } from './frontBase.mjs'
+import { pocket } from './pocket.mjs'
 
 export const frontLeft = {
   name: 'shaun.frontLeft',
   from: frontBase,
-  after: [backBase, back],
+  after: [backBase, back, pocket],
   hide: {
     from: true,
   },
@@ -19,8 +20,6 @@ export const frontLeft = {
       menu: 'plackets',
     },
     placketOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'plackets' },
-    //Pockets
-    frontPockets: { bool: true, menu: 'pockets' },
     //Advanced
     independentPlacketStyles: { bool: false, menu: 'advanced.plackets' },
     buttonPlacketStyle: {
@@ -283,7 +282,7 @@ export const frontLeft = {
         }
       }
       //pockets
-      if (options.frontPockets) {
+      if (options.pockets) {
         paths.pocketline = new Path()
           .move(points.pocketLeft)
           .line(points.pocketRight)

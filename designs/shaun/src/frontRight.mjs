@@ -12,7 +12,7 @@ export const frontRight = {
     from: true,
   },
   options: {
-    frontRightPocket: { bool: false, menu: 'pockets' },
+    rightPocket: { bool: false, menu: 'pockets' },
   },
   plugins: [flipPlugin],
   draft: ({
@@ -34,6 +34,10 @@ export const frontRight = {
     absoluteOptions,
     log,
   }) => {
+    //settings
+    if (!options.independentPlacketStyles) {
+      options.buttonPlacketStyle = options.buttonholePlacketStyle
+    }
     //set render
     if (
       !options.separateFronts &&
@@ -47,10 +51,6 @@ export const frontRight = {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
-    //settings
-    if (!options.independentPlacketStyles) {
-      options.buttonPlacketStyle = options.buttonholePlacketStyle
-    }
     //let's begin
     const drawSeamLeft = () => {
       if (options.placketOverlapSide == 'right') {
@@ -232,7 +232,7 @@ export const frontRight = {
         }
       }
       //lines
-      if (options.placketOverlapSide == 'left' && options.buttonholePlacketStyle != 'separate') {
+      if (options.placketOverlapSide == 'right' && options.buttonholePlacketStyle != 'separate') {
         paths.facingLing = new Path()
           .move(points.buttonholeNeck)
           .line(points.buttonholeHem)
@@ -249,7 +249,7 @@ export const frontRight = {
         }
       }
 
-      if (options.placketOverlapSide == 'right' && options.buttonPlacketStyle != 'separate') {
+      if (options.placketOverlapSide == 'left' && options.buttonPlacketStyle != 'separate') {
         paths.facingLing = new Path()
           .move(points.buttonNeck)
           .line(points.buttonHem)
@@ -266,7 +266,7 @@ export const frontRight = {
         }
       }
       //pockets
-      if (options.frontRightPocket) {
+      if (options.pockets && options.rightPocket) {
         paths.pocketline = new Path()
           .move(points.pocketRight)
           .line(points.pocketLeft)
