@@ -97,8 +97,7 @@ export const sleeve = {
     const elbow = measurements.elbow * (1 + options.elbowEase)
     const wrist = measurements.wrist * (1 + options.wristEase)
     const bandOffset =
-      ((sleeveBandWidth * (minWidth - biceps)) / (sleeveCapDepth + measurements.shoulderToElbow)) *
-      2
+      (sleeveBandWidth * (minWidth - biceps)) / (sleeveCapDepth + measurements.shoulderToElbow)
     //calculating bottomWidth
     let bottomWidth
     if (sleeveLength == 0 || !options.fitSleeveWidth) bottomWidth = minWidth
