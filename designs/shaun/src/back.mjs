@@ -24,7 +24,7 @@ export const back = {
     hemWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Shaun
     backOnFold: { bool: true, menu: 'construction' },
     //Advanced
-    backTopCurve: { pct: 54.8, min: 50, max: 60, menu: 'advanced' }, // 45.2, 40, 50
+    backTopCurve: { pct: 54.8, min: 50, max: 60, menu: 'advanced.style' }, // 45.2, 40, 50
   },
   draft: ({
     store,
@@ -80,7 +80,7 @@ export const back = {
     points.cHem = points.cHemMin.shift(-90, skirtWidth)
     points.cHemCp2 = new Point(points.sideHem.x / 2, points.cHem.y)
 
-    if (options.skirtWidth == 0 && options.skirtCurve == 0.5) {
+    if (skirtWidth == 0 && options.skirtCurve == 0.5) {
       points.sideHemCp1 = points.sideHem.shiftFractionTowards(points.sideHemCp1, 0.8)
       points.cHemCp2 = points.cHem.shiftFractionTowards(points.cHemCp2, 0.8)
     }
@@ -254,7 +254,7 @@ export const back = {
         at: points.title,
         nr: '1',
         title: 'Back',
-        scale: 0.5,
+        scale: 2 / 3,
       })
       //foldline
       if (options.backBoxPleat && options.yokeBack) {
