@@ -92,33 +92,42 @@ export const sleeve = {
     } else sleeveLength = sleeveLengthTarget
 
     //horizontal measures
+    const fullSleeveLength =
+      sleeveCapDepth + measurements.shoulderToWrist * (1 + options.sleeveLengthBonus)
     const minWidth = points.sleeveCapLeft.dist(points.sleeveCapRight)
     const biceps = measurements.biceps * (1 + options.bicepsEase)
     const elbow = measurements.elbow * (1 + options.elbowEase)
     const wrist = measurements.wrist * (1 + options.wristEase)
-    const bandOffset =
-      (sleeveBandWidth * (minWidth - biceps)) / (sleeveCapDepth + measurements.shoulderToElbow)
+    const bandOffset25 =
+      (sleeveBandWidth * (minWidth - elbow)) /
+      (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
+    const bandOffset50 =
+      (sleeveBandWidth * (biceps - elbow)) /
+      (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
+    const bandOffset100 =
+      (sleeveBandWidth * (elbow - wrist)) /
+      (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
     //calculating bottomWidth
     let bottomWidth
     if (sleeveLength == 0 || !options.fitSleeveWidth) bottomWidth = minWidth
     else {
-      if (options.sleeveLength < 0.5) {
-        if (options.sleeveLength < 0.25) {
+      if (sleeveLength / fullSleeveLength < 0.5) {
+        if (sleeveLength / fullSleeveLength < 0.25) {
           bottomWidth =
             minWidth * (1 + options.sleeveLength * -4) +
             biceps * (4 * options.sleeveLength) +
-            bandOffset
+            bandOffset25
         } else {
           bottomWidth =
             biceps * (2 - options.sleeveLength * 4) +
             elbow * (4 * options.sleeveLength - 1) +
-            bandOffset
+            bandOffset50
         }
       } else
         bottomWidth =
           elbow * (1 - (2 * options.sleeveLength - 1)) +
           wrist * (2 * options.sleeveLength - 1) +
-          bandOffset
+          bandOffset100
     }
 
     //creating the arm
