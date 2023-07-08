@@ -41,10 +41,10 @@ export const NavButton = ({
   children,
   onClick = false,
   active = false,
-  extraClasses = 'lg:bg-neutral lg:text-neutral-content lg:hover:bg-secondary lg:hover:text-secondary-content hover:text-secondary',
+  extraClasses = 'bg-neutral lg:text-neutral-content lg:hover:bg-secondary',
 }) => {
   const className = `w-full flex flex-row items-center px-4 py-2 ${extraClasses} ${
-    active ? 'text-secondary' : ''
+    active ? 'bg-secondary' : ''
   }`
   const span = <span className="font-bold block grow text-left">{label}</span>
 
@@ -70,15 +70,12 @@ const NavIcons = ({ setView, setDense, dense, view }) => {
       <NavButton
         onClick={() => setDense(!dense)}
         label={t('workbench:viewMenu')}
-        extraClasses="hidden lg:flex text-success bg-neutral hover:bg-success hover:text-neutral"
+        extraClasses="hidden lg:flex text-neutral-content bg-primary hover:bg-success"
       >
         {dense ? (
-          <RightIcon
-            className={`${iconSize} group-hover:animate-[bounceright_1s_infinite] animate-[bounceright_1s_5]`}
-            stroke={4}
-          />
+          <RightIcon className={`${iconSize}`} stroke={4} />
         ) : (
-          <LeftIcon className={`${iconSize} animate-bounce-right`} stroke={4} />
+          <LeftIcon className={`${iconSize}`} stroke={4} />
         )}
       </NavButton>
       <NavButton
