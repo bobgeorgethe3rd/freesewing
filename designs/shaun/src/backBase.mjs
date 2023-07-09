@@ -127,6 +127,16 @@ export const backBase = {
       'backNeck',
       new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck).length()
     )
+    store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
+    store.set(
+      'scyeBackDepth',
+      points.armhole.dist(points.shoulder) *
+        Math.sin(
+          utils.deg2rad(
+            points.armhole.angle(points.shoulder) - (points.shoulder.angle(points.hps) - 90)
+          )
+        )
+    )
     if (options.yokeBack) {
       store.set(
         'backArmholeLength',
@@ -149,6 +159,22 @@ export const backBase = {
         }
         store.set('backArmholeToArmholePitch', backArmholeToArmholePitch)
       }
+    } else {
+      store.set(
+        'backArmholeLength',
+        new Path()
+          .move(points.armhole)
+          .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+          .curve_(points.armholePitchCp2, points.shoulder)
+          .length()
+      )
+      store.set(
+        'backArmholeToArmholePitch',
+        new Path()
+          .move(points.armhole)
+          .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+          .length()
+      )
     }
 
     //guides

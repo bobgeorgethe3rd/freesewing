@@ -11,6 +11,7 @@ import { frontLeft } from './frontLeft.mjs'
 import { frontRight } from './frontRight.mjs'
 import { buttonholePlacket } from './buttonholePlacket.mjs'
 import { buttonPlacket } from './buttonPlacket.mjs'
+import { sleeve } from './sleeve.mjs'
 
 // Create new design
 const Shaun = new Design({
@@ -24,6 +25,7 @@ const Shaun = new Design({
     frontRight,
     buttonholePlacket,
     buttonPlacket,
+    sleeve,
   ],
 })
 
@@ -37,5 +39,6 @@ export {
   frontRight,
   buttonholePlacket,
   buttonPlacket,
+  sleeve,
   Shaun,
 }

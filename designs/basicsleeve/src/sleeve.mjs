@@ -8,14 +8,14 @@ export const sleeve = {
     //Imported
     ...sleevecap.options,
     //Fit
-    bicepsEase: { pct: 5, min: 0, max: 20, menu: 'fit' },
+    bicepsEase: { pct: 12, min: 0, max: 20, menu: 'fit' },
     elbowEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
-    wristEase: { pct: 15, min: 0, max: 50, menu: 'fit' },
+    wristEase: { pct: 18, min: 0, max: 50, menu: 'fit' },
     //Sleeves
     fitSleeveWidth: { bool: true, menu: 'sleeves' },
     sleeveLength: { pct: 100, min: 0, max: 100, menu: 'sleeves' },
     sleeveLengthBonus: { pct: 0, min: -20, max: 20, menu: 'sleeves' },
-    sleeveBands: { bool: false, menu: 'sleeves' },
+    sleeveBands: false,
     sleeveBandWidth: {
       pct: 7.8,
       min: 1,
@@ -49,6 +49,7 @@ export const sleeve = {
       absoluteOptions,
       log,
     } = sh
+
     //draft sleevecap
     sleevecap.draft(sh)
 

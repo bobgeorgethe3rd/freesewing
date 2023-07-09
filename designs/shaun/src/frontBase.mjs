@@ -179,6 +179,31 @@ export const frontBase = {
     store.set('buttonPlacketWidth', buttonPlacketWidth)
     store.set('patchPocketWidth', patchPocketWidth)
     store.set('patchPocketDepth', measurements.hpsToWaistBack * options.patchPocketDepth)
+    store.set('scyeFrontWidth', points.armhole.dist(points.shoulder))
+    store.set(
+      'scyeFrontDepth',
+      points.armhole.dist(points.shoulder) *
+        Math.sin(
+          utils.deg2rad(
+            points.armhole.angle(points.shoulder) - (points.shoulder.angle(points.hps) - 90)
+          )
+        )
+    )
+    store.set(
+      'frontArmholeLength',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .length()
+    )
+    store.set(
+      'frontArmholeToArmholePitch',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .length()
+    )
     //guides
     paths.buttonholeEx = new Path()
       .move(points.cfNeck)
