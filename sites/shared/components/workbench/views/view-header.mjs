@@ -34,8 +34,8 @@ const IconButton = ({ Icon, onClick, dflt = true, title, hide = false, extraClas
     <button
       onClick={onClick}
       className={`text-${
-        !hide ? (dflt ? 'neutral-content' : 'active') : 'gray-500'
-      } hover:text-secondary-focus ${extraClasses}`}
+        !hide ? (dflt ? 'neutral-content' : 'accent') : ''
+      } hover:text-secondary-focus ${hide ? 'text-gray-500' : ''} ${extraClasses}`}
       title={title}
     >
       <Icon />
