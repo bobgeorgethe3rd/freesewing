@@ -46,7 +46,7 @@ export const NavButton = ({
   const className = `w-full flex flex-row items-center px-4 py-2 ${extraClasses} ${
     active ? 'bg-secondary' : ''
   }`
-  const span = <span className="font-bold block grow text-left">{label}</span>
+  const span = <span className="block grow text-left">{label}</span>
 
   return onClick ? (
     <button {...{ onClick, className }} title={label}>
@@ -70,7 +70,7 @@ const NavIcons = ({ setView, setDense, dense, view }) => {
       <NavButton
         onClick={() => setDense(!dense)}
         label={t('workbench:viewMenu')}
-        extraClasses="hidden lg:flex text-neutral-content bg-primary hover:bg-success"
+        extraClasses="hidden lg:flex font-bold text-neutral-content bg-primary hover:bg-success"
       >
         {dense ? (
           <RightIcon className={`${iconSize}`} stroke={4} />
