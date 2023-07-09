@@ -156,6 +156,37 @@ export const sleeve = {
         .close()
 
       if (complete) {
+        //grainline
+        points.grainlineFrom = new Point(
+          points.sleeveTip.x,
+          points.backNotch.y
+        ).shiftFractionTowards(points.backNotch, 0.15)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomAnchor.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+        // pleats
+        if (
+          options.sleevePleats &&
+          storedBottomWidth < points.sleeveCapLeft.dist(points.sleeveCapRight) * (2 / 3)
+        ) {
+          const sleevePleatWidth =
+            (points.bottomLeft.dist(points.bottomRight) - storedBottomWidth) / 2
+          points.pleatFromBottom0 = points.bottomAnchor
+          points.pleatToBottom0 = points.bottomAnchor.shiftTowards(
+            points.bottomRight,
+            sleevePleatWidth
+          )
+          points.pleatFromBottom1 = points.bottomAnchor.shiftFractionTowards(
+            points.bottomRight,
+            0.5
+          )
+          points.pleatToBottom1 = points.pleatFromBottom1.shiftTowards(
+            points.bottomRight,
+            sleevePleatWidth
+          )
+        }
         if (sa) {
           paths.sa = paths.hemBase
             .offset(sa * options.hemWidth * 100)
