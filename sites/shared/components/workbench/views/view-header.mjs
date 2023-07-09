@@ -49,6 +49,7 @@ const ZoomButtons = ({ t, zoomFunctions, zoomed }) => {
   if (!zoomFunctions) return null
   return (
     <div className="flex flex-col lg:flex-row items-center lg:content-center lg:gap-4">
+      <text>quickSettings:</text>
       <IconButton
         Icon={ClearIcon}
         onClick={zoomFunctions.reset}
