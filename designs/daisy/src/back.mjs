@@ -35,8 +35,13 @@ export const back = {
       points.cbNeck,
       points.cbWaist
     )
-    points.cbNeckCp1 = new Point(points.hps.x * 0.8, points.cbNeck.y)
-
+    // points.cbNeckCp1 = new Point(points.hps.x * 0.8, points.cbNeck.y)
+    points.cbNeckCp1 = utils.beamsIntersect(
+      points.hps,
+      points.shoulder.rotate((180 - (store.get('shoulderFrontAngleDaisy') - 270)) * -1, points.hps),
+      points.cbNeck,
+      points.cbNeck.shift(0, 1)
+    )
     //seam paths
     paths.seam = new Path()
       .move(points.cbNeck)

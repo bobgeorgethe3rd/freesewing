@@ -85,7 +85,13 @@ export const back = {
     // }
     // }
     //cbNeck
-    points.cbNeckCp1 = new Point(points.hps.x * 0.8, points.cbNeck.y)
+    // points.cbNeckCp1 = new Point(points.hps.x * 0.8, points.cbNeck.y)
+    points.cbNeckCp1 = utils.beamsIntersect(
+      points.hps,
+      points.shoulder.rotate((180 - (points.hps.angle(points.shoulder) - 270)) * -1, points.hps),
+      points.cbNeck,
+      points.cbNeck.shift(0, 1)
+    )
 
     //armhole
     points.armhole = points.cArmhole.shift(0, chestBack)

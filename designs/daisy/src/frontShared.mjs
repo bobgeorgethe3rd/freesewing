@@ -37,6 +37,7 @@ export const frontShared = {
 
     //stores
     store.set('shoulderWidthDaisy', points.shoulder.dist(points.hps))
+    store.set('shoulderFrontAngleDaisy', points.hps.angle(points.shoulder))
 
     return part
   },
