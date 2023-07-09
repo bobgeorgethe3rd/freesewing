@@ -47,9 +47,9 @@ export const buttonholePlacket = {
       if (options.buttonholePlacketStyle == 'separate') {
         return new Path()
           .move(points.hps)
-          .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+          .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
           .line(points.fBHCfNeck)
-          .curve(points.fBHCfNeckCp2, points.fBHCfNeckCp1, points.fBHHps)
+          .curve(points.fBHCfNeckCp1, points.fBHHpsCp2, points.fBHHps)
           .split(points.buttonholeNeck)[1]
           .split(points.fBHButtonholeNeck)[0]
       }
@@ -57,7 +57,7 @@ export const buttonholePlacket = {
       if (options.buttonholePlacketStyle == 'facing') {
         return new Path()
           .move(points.hps)
-          .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+          .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
           .line(points.buttonholeNeckEx)
           .split(points.buttonholeNeck)[1]
       }

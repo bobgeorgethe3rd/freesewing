@@ -12,9 +12,10 @@ export const sleeve = {
     //Imported
     ...basicsleeve.options,
     //Constants
+    sleeveBands: 'false', //Locked for Shaun
     sleeveFlounces: 'none', //Locked for Shaun
     //Sleeves
-    sleeveType: { dflt: 'long', list: ['short', 'long'], menu: 'sleeves' },
+    sleeveType: { dflt: 'full', list: ['short', 'full'], menu: 'sleeves' },
     sleevePleats: { bool: true, menu: 'sleeves' },
     sleeveLength: { pct: 25, min: 15, max: 50, menu: 'sleeves' }, //Altered for Shaun
     sleeveBandWidth: {
@@ -50,12 +51,10 @@ export const sleeve = {
       log,
     } = sh
     //settings
-    if (options.sleeveType == 'long') {
+    if (options.sleeveType == 'full') {
       options.sleeveLength = 1
       options.sleeveBands = true
       options.fitSleeveWidth = true
-    } else {
-      absoluteOptions.sleeveBandWidth = new Number(0)
     }
     //draft
     basicsleeve.draft(sh)
@@ -173,20 +172,44 @@ export const sleeve = {
         ) {
           const sleevePleatWidth =
             (points.bottomLeft.dist(points.bottomRight) - storedBottomWidth) / 2
-          points.pleatFromBottom0 = points.bottomAnchor
-          points.pleatToBottom0 = points.bottomAnchor.shiftTowards(
+          const sleevePleatLength = points.bottomAnchor.dist(points.bottomRight) / 2
+
+          points.pleatToBottom0 = points.bottomAnchor
+          points.pleatFromBottom0 = points.bottomAnchor.shiftTowards(
             points.bottomRight,
             sleevePleatWidth
           )
-          points.pleatFromBottom1 = points.bottomAnchor.shiftFractionTowards(
+          points.pleatToTop0 = points.pleatToBottom0.shift(90, sleevePleatLength)
+          points.pleatFromTop0 = points.pleatFromBottom0.shift(90, sleevePleatLength)
+          points.pleatToBottom1 = points.pleatToBottom0.shiftFractionTowards(
             points.bottomRight,
             0.5
           )
-          points.pleatToBottom1 = points.pleatFromBottom1.shiftTowards(
+          points.pleatFromBottom1 = points.pleatToBottom1.shiftTowards(
             points.bottomRight,
             sleevePleatWidth
           )
+          points.pleatToTop1 = points.pleatToBottom1.shift(90, sleevePleatLength)
+          points.pleatFromTop1 = points.pleatFromBottom1.shift(90, sleevePleatLength)
+
+          for (let i = 0; i < 2; i++) {
+            paths['pleatFrom' + i] = new Path()
+              .move(points['pleatFromBottom' + i])
+              .line(points['pleatFromTop' + i])
+              .attr('class', 'mark help')
+              .attr('data-text', 'Pleat - From')
+              .attr('data-text-class', 'center')
+
+            paths['pleatTo' + i] = new Path()
+              .move(points['pleatToBottom' + i])
+              .line(points['pleatToTop' + i])
+              .attr('class', 'mark')
+              .attr('data-text', 'Pleat - To')
+              .attr('data-text-class', 'center')
+          }
         }
+        //slit
+
         if (sa) {
           paths.sa = paths.hemBase
             .offset(sa * options.hemWidth * 100)

@@ -124,16 +124,16 @@ export const frontBase = {
       points.buttonholeHem,
       points.buttonholeHem.shift(90, shirtLength * 100),
       points.hps,
+      points.hpsCp2,
       points.cfNeckCp1,
-      points.cfNeckCp2,
       points.cfNeck
     )
     points.buttonNeck = utils.lineIntersectsCurve(
       points.buttonHem,
       points.buttonHem.shift(90, shirtLength * 100),
       points.hps,
+      points.hpsCp2,
       points.cfNeckCp1,
-      points.cfNeckCp2,
       points.cfNeck
     )
     points.buttonholeNeckEx = points.cfNeck.shift(180, buttonholePlacketWidth / 2)
@@ -141,18 +141,11 @@ export const frontBase = {
     points.buttonholeHemEx = new Point(points.buttonholeNeckEx.x, points.cHem.y)
     points.buttonHemEx = new Point(points.buttonNeckEx.x, points.cHem.y)
 
-    let flipButtonhole = [
-      'cfNeck',
-      'cfNeckCp2',
-      'cfNeckCp1',
-      'hps',
-      'buttonholeNeck',
-      'buttonholeHem',
-    ]
+    let flipButtonhole = ['cfNeck', 'cfNeckCp1', 'hpsCp2', 'hps', 'buttonholeNeck', 'buttonholeHem']
     for (const p of flipButtonhole)
       points['fBH' + utils.capitalize(p)] = points[p].flipX(points.buttonholeNeckEx)
 
-    let flipButton = ['cfNeck', 'cfNeckCp2', 'cfNeckCp1', 'hps', 'buttonNeck', 'buttonHem']
+    let flipButton = ['cfNeck', 'cfNeckCp1', 'hpsCp2', 'hps', 'buttonNeck', 'buttonHem']
     for (const p of flipButton)
       points['fB' + utils.capitalize(p)] = points[p].flipX(points.buttonNeckEx)
 
@@ -213,15 +206,15 @@ export const frontBase = {
 
     paths.buttonholeNeck = new Path()
       .move(points.hps)
-      .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+      .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .line(points.fBHCfNeck)
-      .curve(points.fBHCfNeckCp2, points.fBHCfNeckCp1, points.fBHHps)
+      .curve(points.fBHCfNeckCp1, points.fBHHpsCp2, points.fBHHps)
 
     paths.buttonNeck = new Path()
       .move(points.hps)
-      .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+      .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .line(points.fBCfNeck)
-      .curve(points.fBCfNeckCp2, points.fBCfNeckCp1, points.fBHps)
+      .curve(points.fBCfNeckCp1, points.fBHpsCp2, points.fBHps)
 
     paths.buttonEx = new Path()
       .move(points.cfNeck)
@@ -242,7 +235,7 @@ export const frontBase = {
       .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
       .line(points.hps)
-      .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+      .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .line(points.cWaist)
       .close()
       .attr('class', 'various dashed')

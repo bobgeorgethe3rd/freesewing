@@ -86,42 +86,42 @@ export const frontLeft = {
         if (options.buttonPlacketStyle == 'separate') {
           return new Path()
             .move(points.hps)
-            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+            .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
             .split(points.buttonNeck)[0]
         }
         if (options.buttonPlacketStyle == 'inbuilt') {
           return new Path()
             .move(points.hps)
-            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+            .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
             .line(points.fBCfNeck)
-            .curve(points.fBCfNeckCp2, points.fBCfNeckCp1, points.fBHps)
+            .curve(points.fBCfNeckCp1, points.fBHpsCp2, points.fBHps)
             .split(points.fBButtonNeck)[0]
         }
         if (options.buttonPlacketStyle == 'facing') {
           return new Path()
             .move(points.hps)
-            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+            .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
             .line(points.buttonNeckEx)
         }
       } else {
         if (options.buttonholePlacketStyle == 'separate') {
           return new Path()
             .move(points.hps)
-            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+            .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
             .split(points.buttonholeNeck)[0]
         }
         if (options.buttonholePlacketStyle == 'inbuilt') {
           return new Path()
             .move(points.hps)
-            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+            .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
             .line(points.fBHCfNeck)
-            .curve(points.fBHCfNeckCp2, points.fBHCfNeckCp1, points.fBHHps)
+            .curve(points.fBHCfNeckCp1, points.fBHHpsCp2, points.fBHHps)
             .split(points.fBHButtonholeNeck)[0]
         }
         if (options.buttonholePlacketStyle == 'facing') {
           return new Path()
             .move(points.hps)
-            .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+            .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
             .line(points.buttonholeNeckEx)
         }
       }
@@ -164,7 +164,7 @@ export const frontLeft = {
     // .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
     // .curve_(points.armholePitchCp2, points.shoulder)
     // .line(points.hps)
-    // .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+    // .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
     // .line(points.cWaist)
     // .close()
     // .attr('class', 'various dashed')

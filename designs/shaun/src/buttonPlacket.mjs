@@ -57,9 +57,9 @@ export const buttonPlacket = {
       if (options.buttonPlacketStyle == 'separate') {
         return new Path()
           .move(points.hps)
-          .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+          .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
           .line(points.fBCfNeck)
-          .curve(points.fBCfNeckCp2, points.fBCfNeckCp1, points.fBHps)
+          .curve(points.fBCfNeckCp1, points.fBHpsCp2, points.fBHps)
           .split(points.buttonNeck)[1]
           .split(points.fBButtonNeck)[0]
       }
@@ -67,7 +67,7 @@ export const buttonPlacket = {
       if (options.buttonPlacketStyle == 'facing') {
         return new Path()
           .move(points.hps)
-          .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+          .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
           .line(points.buttonNeckEx)
           .split(points.buttonNeck)[1]
       }

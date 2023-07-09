@@ -83,8 +83,8 @@ export const front = {
     //cfNeck
     points.cfNeck = points.origin.shift(-90, neck / 4)
     points.cfNeckCorner = new Point(points.hps.x, points.cfNeck.y)
-    points.cfNeckCp1 = points.hps.shiftFractionTowards(points.cfNeckCorner, options.cfNeck)
-    points.cfNeckCp2 = points.cfNeck.shiftFractionTowards(points.cfNeckCorner, options.cfNeck)
+    points.hpsCp2 = points.hps.shiftFractionTowards(points.cfNeckCorner, options.cfNeck)
+    points.cfNeckCp1 = points.cfNeck.shiftFractionTowards(points.cfNeckCorner, options.cfNeck)
 
     //armhole
     points.armhole = points.cArmhole.shift(0, chestFront)
@@ -123,7 +123,7 @@ export const front = {
     //guides
     // paths.cfNeck = new Path()
     // .move(points.hps)
-    // .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+    // .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
 
     // paths.armhole = new Path()
     // .move(points.armhole)
@@ -157,7 +157,7 @@ export const front = {
     paths.saBase = new Path()
       .move(points.shoulder)
       .line(points.hps)
-      .curve(points.cfNeckCp1, points.cfNeckCp2, points.cfNeck)
+      .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .hide()
 
     paths.seam = paths.hemBase
