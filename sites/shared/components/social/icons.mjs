@@ -19,11 +19,10 @@ const iconClasses = (i) => ({
 })
 
 export const socialList = {
-  MSF: {
-    icon: <MsfIcon {...iconClasses(0)} fill />,
-    href: 'https://www.youtube.com/channel/UCLAyxEL72gHvuKBpa-GmCvQ',
-    name: 'Doctors Without Borders / Médecins Sans Frontières',
-    community: false,
+  Youtube: {
+    icon: <YouTubeIcon {...iconClasses(0)} fill stroke={0} />,
+    href: social.YouTube,
+    community: true,
   },
   Discord: {
     icon: <DiscordIcon {...iconClasses(1)} />,
@@ -55,10 +54,11 @@ export const socialList = {
     href: social.Twitter,
     community: true,
   },
-  YouTube: {
-    icon: <YouTubeIcon {...iconClasses(7)} fill stroke={0} />,
-    href: social.YouTube,
-    community: true,
+  MSF: {
+    icon: <MsfIcon {...iconClasses(7)} />,
+    href: 'https://www.msf-azg.be/fr',
+    name: 'Doctors Without Borders / Médecins Sans Frontières',
+    community: false,
   },
   'Open Souce License: MIT': {
     icon: <OpenSourceIcon {...iconClasses(8)} />,
