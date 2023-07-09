@@ -113,7 +113,9 @@ export const MenuItem = ({
     )
   const ResetButton = ({ open, disabled = false }) => (
     <button
-      className={`${open ? openButtonClass : 'btn btn-accent'} disabled:bg-opacity-0`}
+      className={`${
+        open ? openButtonClass : 'btn btn-accent'
+      } disabled:bg-opacity-0 disabled:text-gray-500`}
       disabled={disabled}
       onClick={(evt) => {
         evt.stopPropagation()

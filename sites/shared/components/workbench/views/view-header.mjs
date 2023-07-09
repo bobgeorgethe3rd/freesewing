@@ -33,9 +33,9 @@ const IconButton = ({ Icon, onClick, dflt = true, title, hide = false, extraClas
   <div className="tooltip tooltip-bottom tooltip-primary flex items-center" data-tip={title}>
     <button
       onClick={onClick}
-      className={`text-${dflt ? 'neutral-content' : 'accent'} hover:text-secondary-focus ${
-        hide ? 'invisible' : ''
-      } ${extraClasses}`}
+      className={`text-${
+        !hide ? (dflt ? 'neutral-content' : 'active') : 'gray-500'
+      } hover:text-secondary-focus ${extraClasses}`}
       title={title}
     >
       <Icon />
@@ -51,13 +51,6 @@ const ZoomButtons = ({ t, zoomFunctions, zoomed }) => {
     <div className="flex flex-col lg:flex-row items-center lg:content-center lg:gap-4">
       <text>quickSettings:</text>
       <IconButton
-        Icon={ClearIcon}
-        onClick={zoomFunctions.reset}
-        title={t('resetZoom')}
-        hide={!zoomed}
-        extraClasses={smZoomClasses}
-      />
-      <IconButton
         Icon={ZoomOutIcon}
         onClick={() => zoomFunctions.zoomOut()}
         title={t('zoomOut')}
@@ -69,6 +62,13 @@ const ZoomButtons = ({ t, zoomFunctions, zoomed }) => {
         onClick={() => zoomFunctions.zoomIn()}
         title={t('zoomIn')}
         dflt
+        extraClasses={smZoomClasses}
+      />
+      <IconButton
+        Icon={ClearIcon}
+        onClick={zoomFunctions.reset}
+        title={t('resetZoom')}
+        hide={!zoomed}
         extraClasses={smZoomClasses}
       />
     </div>
