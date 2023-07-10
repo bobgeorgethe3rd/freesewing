@@ -232,7 +232,8 @@ export const frontLeft = {
             (!options.independentPlacketStyles ||
               options.buttonholePlacketStyle == options.buttonPlacketStyle) &&
             options.placketOverlapSide == 'right' &&
-            !options.separateFronts)
+            !options.separateFronts &&
+            options.buttonPlacketStyle != 'separate')
         ) {
           snippets['buttonhole' + i] = new Snippet('buttonhole', points['button' + i])
         }
@@ -242,7 +243,8 @@ export const frontLeft = {
             (!options.independentPlacketStyles ||
               options.buttonholePlacketStyle == options.buttonPlacketStyle) &&
             options.placketOverlapSide == 'left' &&
-            !options.separateFronts)
+            !options.separateFronts &&
+            options.buttonholePlacketStyle != 'separate')
         ) {
           snippets['button' + i] = new Snippet('button', points['button' + i])
         }

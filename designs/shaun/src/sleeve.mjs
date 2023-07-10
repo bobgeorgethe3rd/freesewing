@@ -224,7 +224,7 @@ export const sleeve = {
 
         if (sa) {
           paths.sa = paths.hemBase
-            .offset(sa * options.sleeveHemWidth * 100)
+            .offset(sa)
             .join(paths.saRight.offset(sa))
             .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
             .join(paths.saLeft.offset(sa))
