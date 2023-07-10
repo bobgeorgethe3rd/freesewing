@@ -9,10 +9,11 @@ export const sleeve = {
     //Imported
     ...basicsleeve.options,
     //Constants
+    bicepsEase: 0.12, //Locked for Fullshirtsleeve
     sleeveLength: 1, //Locked for Fullshirtsleeve
     sleeveBands: 'true', //Locked for Fullshirtsleeve
     sleeveFlounces: 'none', //Locked for Fullshirtsleeve
-    sleeveHemWidth: 1, //Locked for fullshirtsleeve
+    sleeveHemWidth: 1, //Locked for Fullshirtsleeve
     //Sleeves
     sleevePleats: { bool: true, menu: 'sleeves' },
     sleeveBandWidth: {
@@ -22,9 +23,10 @@ export const sleeve = {
       snap: 5,
       ...pctBasedOn('shoulderToWrist'),
       menu: 'sleeves',
-    }, //Altered for Shaun
+    }, //Altered for Fullshirtsleeve
     sleeveSideCurve: { pct: 50, min: 0, max: 100, menu: 'sleeves' },
     sleeveSlitLength: { pct: 25, min: 15, max: 35, menu: 'sleeves' },
+    sleevePleatWidth: { pct: 10, min: 5, max: 15, menu: 'sleeves' },
     sleeveHemCurve: { pct: 1.7, min: 0, max: 2, menu: 'sleeves' },
   },
   plugins: [pluginBundle],
@@ -58,22 +60,23 @@ export const sleeve = {
     }
     //removing macros not required from sleeve
     macro('title', false)
-    //let's begin
     //measures
     const storedBottomWidth = points.bottomLeft.dist(points.bottomRight)
     const sleeveSlitLength = measurements.shoulderToWrist * options.sleeveSlitLength
     const sleeveHemDrop = measurements.shoulderToWrist * options.sleeveHemCurve
-    //settings
-    if (
-      options.sleevePleats &&
-      storedBottomWidth < points.sleeveCapLeft.dist(points.sleeveCapRight) * (2 / 3)
-    ) {
-      points.bottomLeft = new Point(points.sleeveCapLeft.x * (2 / 3), points.bottomAnchor.y)
-      points.bottomRight = new Point(points.sleeveCapRight.x * (2 / 3), points.bottomAnchor.y)
+    let sleevePleatWidth
+    if (options.sleevePleats) {
+      sleevePleatWidth = measurements.wrist * options.sleevePleatWidth
+    } else {
+      sleevePleatWidth = 0
+    }
+    //let's begin
+    if (options.sleevePleats && options.fitSleeveWidth) {
+      points.bottomLeft = points.bottomLeft.shift(180, sleevePleatWidth)
+      points.bottomRight = points.bottomRight.shift(0, sleevePleatWidth)
     }
     const sleeveSideAngle = points.sleeveCapLeft.angle(points.bottomLeft) - 270
 
-    //let's begin
     points.bottomLeftCp1 = new Point(points.sleeveCapLeft.x, points.bottomAnchor.y / 2).rotate(
       sleeveSideAngle * (1 - options.sleeveSideCurve),
       points.sleeveCapLeft
@@ -109,14 +112,15 @@ export const sleeve = {
 
     //stores
     store.set('sleeveSlitLength', sleeveSlitLength)
+    store.set(
+      'sleeveCuffBaseLength',
+      points.bottomLeft.dist(points.bottomRight) - sleevePleatWidth * 2
+    )
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.sleeveTip.x, points.backNotch.y).shiftFractionTowards(
-        points.backNotch,
-        0.15
-      )
-      points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomAnchor.y)
+      points.grainlineFrom = points.sleeveTip
+      points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomAnchor.y * 0.85)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
@@ -129,12 +133,7 @@ export const sleeve = {
         scale: 0.5,
       })
       // pleats
-      if (
-        options.sleevePleats &&
-        storedBottomWidth < points.sleeveCapLeft.dist(points.sleeveCapRight) * (2 / 3)
-      ) {
-        const sleevePleatWidth =
-          (points.bottomLeft.dist(points.bottomRight) - storedBottomWidth) / 2
+      if (options.sleevePleats) {
         const sleevePleatLength = points.bottomAnchor.dist(points.bottomRight) / 2
 
         points.pleatToBottom0 = points.bottomAnchor
@@ -144,13 +143,29 @@ export const sleeve = {
         )
         points.pleatToTop0 = points.pleatToBottom0.shift(90, sleevePleatLength)
         points.pleatFromTop0 = points.pleatFromBottom0.shift(90, sleevePleatLength)
-        points.pleatToBottom1 = points.pleatToBottom0.shiftFractionTowards(points.bottomRight, 0.5)
-        points.pleatFromBottom1 = points.pleatToBottom1.shiftTowards(
-          points.bottomRight,
-          sleevePleatWidth
+        points.pleatToBottom1 = utils.lineIntersectsCurve(
+          points.pleatToBottom0.shiftFractionTowards(points.bottomLeft, 0.25),
+          points.pleatToBottom0
+            .shiftFractionTowards(points.bottomLeft, 0.25)
+            .shift(-90, sleevePleatLength * 10),
+          points.slitBottom,
+          points.slitBottomCp2,
+          points.bottomAnchor,
+          points.bottomAnchor
         )
-        points.pleatToTop1 = points.pleatToBottom1.shift(90, sleevePleatLength)
-        points.pleatFromTop1 = points.pleatFromBottom1.shift(90, sleevePleatLength)
+
+        points.pleatFromBottom1 = utils.lineIntersectsCurve(
+          points.pleatToBottom1.shiftTowards(points.bottomRight, sleevePleatWidth),
+          points.pleatToBottom1
+            .shiftTowards(points.bottomRight, sleevePleatWidth)
+            .shift(90, sleevePleatLength * 10),
+          points.slitBottom,
+          points.slitBottomCp2,
+          points.bottomAnchor,
+          points.bottomAnchor
+        )
+        points.pleatToTop1 = new Point(points.pleatToBottom1.x, points.pleatToTop0.y)
+        points.pleatFromTop1 = new Point(points.pleatFromBottom1.x, points.pleatFromTop0.y)
 
         for (let i = 0; i < 2; i++) {
           paths['pleatFrom' + i] = new Path()
