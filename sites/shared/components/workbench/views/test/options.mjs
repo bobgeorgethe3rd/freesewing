@@ -1,9 +1,6 @@
 import { useRef } from 'react'
 import { WorkbenchMenu } from 'shared/components/workbench/menus/shared/index.mjs'
-import {
-  emojis,
-  ns as designMenuNs,
-} from 'shared/components/workbench/menus/design-options/index.mjs'
+import { ns as designMenuNs } from 'shared/components/workbench/menus/design-options/index.mjs'
 import { OptionsIcon } from 'shared/components/icons.mjs'
 import { optionsMenuStructure } from 'shared/utils.mjs'
 
@@ -75,7 +72,6 @@ export const TestOptions = ({
         config: optionsMenu,
         control: account.control,
         DynamicDocs,
-        emojis,
         getDocsPath,
         Icon: OptionsIcon,
         Item: SampleItem,

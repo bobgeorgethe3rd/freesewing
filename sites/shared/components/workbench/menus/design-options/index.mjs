@@ -9,15 +9,6 @@ import { MenuItem } from '../shared/menu-item.mjs'
 
 export const ns = ['design-options']
 
-// Emojis for option groups :)
-export const emojis = {
-  advanced: '🤓',
-  fit: '👕',
-  style: '💃🏽',
-  dflt: '🕹️',
-  groupDflt: '📁',
-}
-
 /**
  * A wrapper for {@see MenuItem} to handle design option-specific business
  * @param  {Object}    options.config   the config for the item
@@ -82,7 +73,6 @@ export const DesignOptions = ({
         control: account.control,
         currentValues: settings.options,
         DynamicDocs,
-        emojis,
         getDocsPath,
         Icon: OptionsIcon,
         Item: DesignOption,
