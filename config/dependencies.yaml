@@ -103,6 +103,9 @@ fallon:
     '@freesewing/inseampocket': *freesewing
     '@freesewing/boxpleatpocket': *freesewing
     '@freesewing/pearpocket': *freesewing
+fulldressshirt:
+  peer:
+    '@freesewing/basicsleeve': *freesewing
 harriet:
   _:
     '@freesewing/claude': *freesewing
