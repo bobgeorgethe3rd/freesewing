@@ -27,6 +27,7 @@ export const sleeve = {
       menu: 'sleeves',
     }, //Altered for Shaun
     sleeveSideCurve: { pct: 50, min: 0, max: 100, menu: 'sleeves' },
+    sleeveSlitLength: { pct: 25, min: 15, max: 35, menu: 'sleeves' },
     sleeveHemCurve: { pct: 1.7, min: 0, max: 2, menu: 'sleeves' },
   },
   draft: (sh) => {
@@ -105,6 +106,7 @@ export const sleeve = {
     } else {
       //measures
       const storedBottomWidth = points.bottomLeft.dist(points.bottomRight)
+      const sleeveSlitLength = measurements.shoulderToWrist * options.sleeveSlitLength
       const sleeveHemDrop = measurements.shoulderToWrist * options.sleeveHemCurve
       //settings
       if (
@@ -154,6 +156,9 @@ export const sleeve = {
         .join(paths.saLeft)
         .close()
 
+      //stores
+      store.set('sleeveSlitLength', sleeveSlitLength)
+
       if (complete) {
         //grainline
         points.grainlineFrom = new Point(
@@ -196,19 +201,26 @@ export const sleeve = {
             paths['pleatFrom' + i] = new Path()
               .move(points['pleatFromBottom' + i])
               .line(points['pleatFromTop' + i])
-              .attr('class', 'mark help')
+              .attr('class', 'mark')
               .attr('data-text', 'Pleat - From')
               .attr('data-text-class', 'center')
 
             paths['pleatTo' + i] = new Path()
               .move(points['pleatToBottom' + i])
               .line(points['pleatToTop' + i])
-              .attr('class', 'mark')
+              .attr('class', 'mark help')
               .attr('data-text', 'Pleat - To')
               .attr('data-text-class', 'center')
           }
         }
         //slit
+        points.slitTop = points.slitBottom.shift(90, sleeveSlitLength)
+        paths.slit = new Path()
+          .move(points.slitBottom)
+          .line(points.slitTop)
+          .attr('class', 'mark')
+          .attr('data-text', 'Placket Slit')
+          .attr('data-text-class', 'center')
 
         if (sa) {
           paths.sa = paths.hemBase

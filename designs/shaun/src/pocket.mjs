@@ -7,6 +7,8 @@ export const pocket = {
   options: {
     //Imported
     ...patchPocket.options,
+    //Constant
+    patchPocketBottomWidth: 1, //Locked for Shaun
     //Pockets
     pockets: { bool: true, menu: 'pockets' },
     patchPocketPeakPlateau: { bool: false, menu: 'pockets' }, //Altered for Shaun
@@ -23,7 +25,6 @@ export const pocket = {
     patchPocket.draft(sh)
 
     if (complete) {
-      //notches
       //title
       macro('title', {
         nr: 2,
