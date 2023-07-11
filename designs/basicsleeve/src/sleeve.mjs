@@ -17,9 +17,9 @@ export const sleeve = {
     sleeveLengthBonus: { pct: 0, min: -20, max: 20, menu: 'sleeves' },
     sleeveBands: { bool: false, menu: 'sleeves' },
     sleeveBandWidth: {
-      pct: 7.8,
-      min: 1,
-      max: 30,
+      pct: 9.2,
+      min: 7,
+      max: 17,
       snap: 5,
       ...pctBasedOn('shoulderToWrist'),
       menu: 'sleeves',
@@ -100,7 +100,7 @@ export const sleeve = {
     const elbow = measurements.elbow * (1 + options.elbowEase)
     const wrist = measurements.wrist * (1 + options.wristEase)
     const bandOffset25 =
-      (sleeveBandWidth * (minWidth - elbow)) /
+      (sleeveBandWidth * (minWidth - biceps)) /
       (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
     const bandOffset50 =
       (sleeveBandWidth * (biceps - elbow)) /
