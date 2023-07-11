@@ -7,6 +7,7 @@ export const back = {
     from: true,
   },
   options: {
+    //Constants
     armholeSaWidth: 0.01,
     //Armhole
     backArmholePitchWidth: { pct: 98.4, min: 97, max: 98.5, menu: 'armhole' },
