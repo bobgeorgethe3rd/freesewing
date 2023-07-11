@@ -23,6 +23,10 @@ const initialNavigation = (t) => {
       __title: t('Bottoms'),
       __slug: 'bottoms',
     },
+    collars: {
+      __title: t('Collars'),
+      __slug: 'collars',
+    },
     costumes: {
       __title: t('Costumes'),
       __slug: 'costumes',

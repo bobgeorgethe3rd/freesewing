@@ -58,6 +58,11 @@ async function addDesign() {
         description: 'For bottom that are not define by skirt designs',
       },
       {
+        title: 'Collars',
+        value: 'collars',
+        description: 'For collars designs',
+      },
+      {
         title: 'Costumes',
         value: 'costumes',
         description: 'For costume designs',
@@ -278,6 +283,7 @@ function validateDesignName(name) {
       ...Object.keys(designs.blocks),
       ...Object.keys(designs.bodices),
       ...Object.keys(designs.bottoms),
+      ...Object.keys(designs.collars),
       ...Object.keys(designs.costumes),
       ...Object.keys(designs.dresses),
       ...Object.keys(designs.hats),

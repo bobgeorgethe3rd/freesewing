@@ -25,6 +25,7 @@ const designs = {
   ...designsByType.blocks,
   ...designsByType.bodices,
   ...designsByType.bottoms,
+  ...designsByType.collars,
   ...designsByType.costumes,
   ...designsByType.dresses,
   ...designsByType.hats,
