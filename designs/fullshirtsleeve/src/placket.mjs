@@ -83,8 +83,8 @@ export const placket = {
         .attr('data-text-class', 'center')
       snippets.slitNotch = new Snippet('notch', points.slitFrom)
       //stitching line
-      points.stitchingFrom = points.bottomLeft.shift(90, store.get('sleeveSlitLength'))
-      points.stitchingTo = new Point(points.topRight.x, points.stitchingFrom.y)
+      points.stitchingFrom = new Point(points.topLeft.x, points.topCorner.y)
+      points.stitchingTo = points.topCorner
       paths.stitchingLine = new Path()
         .move(points.stitchingFrom)
         .line(points.stitchingTo)
