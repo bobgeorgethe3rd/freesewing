@@ -224,7 +224,9 @@ scarlett:
 shaun:
     peer:
     '@freesewing/byron': *freesewing
-    '@freesewing/basicsleeve': *freesewing
+    '@freesewing/fullshirtsleeve': *freesewing
+    '@freesewing/simpleshirtsleeve': *freesewing
+    '@freesewing/shirtcollar': *freesewing
     '@freesewing/plugin-flip': *freesewing
     '@freesewing/plugin-mirror': *freesewing
 shin:

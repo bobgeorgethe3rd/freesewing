@@ -61,6 +61,15 @@
       "tags": ["bottoms", "trousers"]
     }
   },
+  "collars": {
+    "shirtcollar": {
+      "description": "Shirt collar design to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["collars", "shirt"]
+    }
+  },
   "costumes": {},
   "dresses": {},
   "hats": {
