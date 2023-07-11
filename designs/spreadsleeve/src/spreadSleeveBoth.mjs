@@ -264,7 +264,7 @@ export const spreadSleeveBoth = ({
     })
     snippets.backNotch = new Snippet('bnotch', points.backNotch)
     //sleeve hem notches
-    if (options.sleeveBands || options.flounces != 'none') {
+    if (options.sleeveBands || options.sleeveFlounces != 'none') {
       let j
       for (let i = 0; i < 3; i++) {
         j = i + 1
@@ -283,16 +283,16 @@ export const spreadSleeveBoth = ({
       title: 'Sleeve' + ' (' + utils.capitalize(options.spreadType) + ' Spread)',
       scale: 0.5,
     })
-    //hemA
-    let hemA
-    if (options.sleeveBands || options.flounces != 'none') hemA = sa
-    else hemA = sa * options.sleeveHemWidth * 100
+    //hemSa
+    let hemSa
+    if (options.sleeveBands || options.sleeveFlounces != 'none') hemSa = sa
+    else hemSa = sa * options.sleeveHemWidth * 100
     if (sa) {
       if (sleeveLength == 0) {
         points.saRight = points.bottomCp2.shiftOutwards(points.sleeveCapRight, sa)
         points.saLeft = points.bottomCp1.shiftOutwards(points.sleeveCapLeft, sa)
         paths.sa = paths.hemBase
-          .offset(hemA)
+          .offset(hemSa)
           .line(points.saRight)
           .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
           .line(points.saLeft)
@@ -300,7 +300,7 @@ export const spreadSleeveBoth = ({
           .attr('class', 'fabric sa')
       } else {
         paths.sa = paths.hemBase
-          .offset(hemA)
+          .offset(hemSa)
           .join(paths.saRight.offset(sa))
           .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
           .join(paths.saLeft.offset(sa))

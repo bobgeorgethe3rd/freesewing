@@ -15,7 +15,7 @@ export const sleeve = {
     fitSleeveWidth: { bool: true, menu: 'sleeves' },
     sleeveLength: { pct: 100, min: 0, max: 100, menu: 'sleeves' },
     sleeveLengthBonus: { pct: 0, min: -20, max: 20, menu: 'sleeves' },
-    sleeveBands: false,
+    sleeveBands: { bool: false, menu: 'sleeves' },
     sleeveBandWidth: {
       pct: 7.8,
       min: 1,
@@ -174,7 +174,7 @@ export const sleeve = {
 
       if (sa) {
         let hemSa
-        if (options.sleeveBands) hemSa = sa
+        if (options.sleeveBands || options.sleeveFlounces != 'none') hemSa = sa
         else hemSa = sa * options.sleeveHemWidth * 100
 
         if (sleeveLength == 0) {
