@@ -1,9 +1,10 @@
 import { cuff } from '@freesewing/fullshirtsleeve'
 import { sleeve } from './sleeve.mjs'
+import { sleevePlacket } from './sleevePlacket.mjs'
 
 export const sleeveCuff = {
   name: 'shaun.sleeveCuff',
-  after: [sleeve],
+  after: [sleeve, sleevePlacket],
   options: {
     //Imported
     ...cuff.options,

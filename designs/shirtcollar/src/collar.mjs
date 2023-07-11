@@ -10,7 +10,7 @@ export const collar = {
     //Collar
     collarPlacement: { pct: 0, min: 0, max: 50, menu: 'collar' },
     collarWidth: { pct: 50, min: 0, max: 100, menu: 'collar' },
-    collarPeakWidth: { pct: 25, min: 25, max: 100, menu: 'collarPeakWidth' },
+    collarPeakWidth: { pct: 25, min: 25, max: 100, menu: 'collar' },
   },
   after: [collarBand],
   draft: (sh) => {

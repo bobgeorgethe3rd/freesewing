@@ -240,6 +240,12 @@ export const frontBase = {
       .close()
       .attr('class', 'various dashed')
 
+    //stores
+    store.set(
+      'neckFront',
+      new Path().move(points.hps).curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck).length()
+    )
+
     return part
   },
 }

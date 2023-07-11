@@ -124,7 +124,7 @@ export const backBase = {
     store.set('shirtLength', shirtLength)
     store.set('hemDiff', hemDiff)
     store.set(
-      'backNeck',
+      'neckBack',
       new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck).length()
     )
     store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
