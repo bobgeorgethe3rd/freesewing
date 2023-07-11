@@ -4,6 +4,7 @@ export const placket = {
   name: 'fullshirtsleeve.placket',
   after: sleeve,
   options: {
+    sleevePlacketStyle: { dflt: 'peaked', list: ['peaked', 'straight'], menu: 'sleeves.plackets' },
     sleevePlacketWidth: { pct: 15.5, min: 10, max: 20, menu: 'sleeves.plackets' },
     sleevePlacketTopFactor: { pct: 40, min: 30, max: 100, menu: 'sleeves.plackets' },
   },
@@ -37,8 +38,11 @@ export const placket = {
     points.topRight = points.bottomRight.shift(90, sleeveSlitLength)
     points.topCorner = points.topRight.shift(180, placketWidth * 2)
     points.peakRight = points.topLeft.shift(0, placketWidth)
-    points.peakMid = points.topLeft.translate(placketWidth / 2, -placketTopLength)
-
+    if (options.sleevePlacketStyle == 'peaked') {
+      points.peakMid = points.topLeft.translate(placketWidth / 2, -placketTopLength)
+    } else {
+      points.peakMid = points.topLeft.shiftFractionTowards(points.peakRight, 0.5)
+    }
     paths.saBase = new Path()
       .move(points.peakRight)
       .line(points.peakMid)
@@ -92,10 +96,7 @@ export const placket = {
         .attr('data-text', 'Stitching Line')
         .attr('data-text-class', 'center')
       //buttonhole
-      points.buttonhole = points.bottomLeft.translate(
-        placketWidth / 2,
-        store.get('sleeveSlitLength') / -2
-      )
+      points.buttonhole = points.bottomLeft.translate(placketWidth / 2, sleeveSlitLength / -2)
       snippets.buttonhole = new Snippet('buttonhole', points.buttonhole)
       //foldline
       points.foldlineFrom = points.topCorner
