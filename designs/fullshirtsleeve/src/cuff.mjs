@@ -9,9 +9,9 @@ export const cuff = {
     //Constants
     cpFraction: 0.55191502449,
     //Sleeves
-    sleeveCuffFolded: { bool: false, menu: 'sleeves.cuffs' },
-    sleeveCuffType: { dflt: 'straight', list: ['straight', 'curved'], menu: 'sleeves.cuffs' },
-    sleeveCuffCurve: { pct: 100, min: 0, max: 100, menu: 'sleeves.cuffs' },
+    sleeveBandFolded: { bool: false, menu: 'sleeves.cuffs' },
+    sleeveBandType: { dflt: 'straight', list: ['straight', 'curved'], menu: 'sleeves.cuffs' },
+    sleeveBandCurve: { pct: 100, min: 0, max: 100, menu: 'sleeves.cuffs' },
   },
   plugins: [pluginMirror],
   draft: ({
@@ -46,7 +46,7 @@ export const cuff = {
     //curves
     points.leftEnd = points.bottomLeftCorner.shiftFractionTowards(
       points.bottomLeft,
-      options.sleeveCuffCurve
+      options.sleeveBandCurve
     )
     points.leftCp2 = points.leftEnd.shiftFractionTowards(
       points.bottomLeftCorner,
@@ -56,7 +56,7 @@ export const cuff = {
     points.leftStart = points.leftEnd.rotate(90, points.bottomLeftCorner)
     points.rightStart = points.bottomRightCorner.shiftFractionTowards(
       points.bottomRight,
-      options.sleeveCuffCurve
+      options.sleeveBandCurve
     )
     points.rightCp1 = points.rightStart.shiftFractionTowards(
       points.bottomRightCorner,
@@ -74,7 +74,7 @@ export const cuff = {
     // .close()
     //paths
     const drawSaBase = () => {
-      if (options.sleeveCuffType == 'curved') {
+      if (options.sleeveBandType == 'curved') {
         return new Path()
           .move(points.rightStart)
           .curve(points.rightCp1, points.rightCp2, points.rightEnd)
@@ -102,7 +102,7 @@ export const cuff = {
     })
 
     const drawSaBottom = () => {
-      if (options.sleeveCuffFolded) {
+      if (options.sleeveBandFolded) {
         return paths.mSaBase
       } else {
         return new Path().move(points.leftEnd).move(points.rightStart)
@@ -147,7 +147,7 @@ export const cuff = {
       snippets.buttonhole = new Snippet('buttonhole', points.buttonhole).attr('data-rotate', 90)
       snippets.button = new Snippet('button', points.button)
       //if folded
-      if (options.sleeveCuffFolded) {
+      if (options.sleeveBandFolded) {
         points.bottomNotch = points.topNotch.flipY(points.bottomLeft)
         points.fButtonhole = points.buttonhole.flipY(points.bottomLeft)
         points.fButton = points.button.flipY(points.bottomLeft)
@@ -157,7 +157,7 @@ export const cuff = {
       }
 
       if (sa) {
-        if (options.sleeveCuffFolded) {
+        if (options.sleeveBandFolded) {
           paths.sa = new Path()
             .move(points.topLeft)
             .line(points.topLeft.shift(-90, cuffWidth * 2))
