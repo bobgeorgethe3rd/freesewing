@@ -25,9 +25,12 @@ export const sleeve = {
       menu: 'sleeves',
     }, //Altered for Fullshirtsleeve
     sleeveSideCurve: { pct: 50, min: 0, max: 100, menu: 'sleeves' },
-    sleeveSlitLength: { pct: 25, min: 15, max: 35, menu: 'sleeves' },
+    sleevePlacketLength: { pct: 25, min: 15, max: 35, menu: 'sleeves' },
+    sleeveSlitFactor: { pct: 78.7, min: 75, max: 80, menu: 'sleeves' },
     sleevePleatWidth: { pct: 10, min: 5, max: 15, menu: 'sleeves' },
     sleeveHemCurve: { pct: 1.7, min: 0, max: 2, menu: 'sleeves' },
+    //Advanced
+    sleeveSideCurveDepth: { pct: 50, min: 30, max: 70, menu: 'advanced.sleeves' },
   },
   plugins: [pluginBundle],
   draft: (sh) => {
@@ -62,7 +65,8 @@ export const sleeve = {
     macro('title', false)
     //measures
     const storedBottomWidth = points.bottomLeft.dist(points.bottomRight)
-    const sleeveSlitLength = measurements.shoulderToWrist * options.sleeveSlitLength
+    const sleevePlacketLength = measurements.shoulderToWrist * options.sleevePlacketLength
+    const sleeveSlitLength = sleevePlacketLength * options.sleeveSlitFactor
     const sleeveHemDrop = measurements.shoulderToWrist * options.sleeveHemCurve
     let sleevePleatWidth
     if (options.sleevePleats) {
@@ -77,14 +81,14 @@ export const sleeve = {
     }
     const sleeveSideAngle = points.sleeveCapLeft.angle(points.bottomLeft) - 270
 
-    points.bottomLeftCp1 = new Point(points.sleeveCapLeft.x, points.bottomAnchor.y / 2).rotate(
-      sleeveSideAngle * (1 - options.sleeveSideCurve),
-      points.sleeveCapLeft
-    )
-    points.bottomRightCp2 = new Point(points.sleeveCapRight.x, points.bottomAnchor.y / 2).rotate(
-      sleeveSideAngle * (1 - options.sleeveSideCurve) * -1,
-      points.sleeveCapRight
-    )
+    points.bottomLeftCp1 = new Point(
+      points.sleeveCapLeft.x,
+      points.bottomAnchor.y * options.sleeveSideCurveDepth
+    ).rotate(sleeveSideAngle * (1 - options.sleeveSideCurve), points.sleeveCapLeft)
+    points.bottomRightCp2 = new Point(
+      points.sleeveCapRight.x,
+      points.bottomAnchor.y * options.sleeveSideCurveDepth
+    ).rotate(sleeveSideAngle * (1 - options.sleeveSideCurve) * -1, points.sleeveCapRight)
 
     points.slitBottom = new Point(points.bottomLeft.x / 2, points.bottomAnchor.y + sleeveHemDrop)
     points.slitBottomCp1 = new Point((points.bottomLeft.x * 3) / 4, points.slitBottom.y)
@@ -111,10 +115,13 @@ export const sleeve = {
     paths.seam = paths.hemBase.join(paths.saRight).join(paths.sleevecap).join(paths.saLeft).close()
 
     //stores
+    store.set('sleevePlacketLength', sleevePlacketLength)
     store.set('sleeveSlitLength', sleeveSlitLength)
+    store.set('sleeveCuffLength', paths.hemBase.length() - sleevePleatWidth * 2)
     store.set(
-      'sleeveCuffBaseLength',
-      points.bottomLeft.dist(points.bottomRight) - sleevePleatWidth * 2
+      'sleeveCuffNotchLength',
+      new Path().move(points.bottomLeft)._curve(points.slitBottomCp1, points.slitBottom).length() +
+        points.bottomAnchor.dist(points.bottomRight) / 2
     )
 
     if (complete) {
@@ -125,6 +132,11 @@ export const sleeve = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      //notches
+      snippets.cuffNotch = new Snippet(
+        'notch',
+        points.bottomAnchor.shiftFractionTowards(points.bottomRight, 0.5)
+      )
       //title
       macro('title', {
         at: points.title,
@@ -132,6 +144,14 @@ export const sleeve = {
         title: 'Sleeve',
         scale: 0.5,
       })
+      //slit
+      points.slitTop = points.slitBottom.shift(90, sleeveSlitLength)
+      paths.slit = new Path()
+        .move(points.slitBottom)
+        .line(points.slitTop)
+        .attr('class', 'mark')
+        .attr('data-text', 'Placket Slit')
+        .attr('data-text-class', 'center')
       // pleats
       if (options.sleevePleats) {
         const sleevePleatLength = points.bottomAnchor.dist(points.bottomRight) / 2
@@ -183,15 +203,6 @@ export const sleeve = {
             .attr('data-text-class', 'center')
         }
       }
-      //slit
-      points.slitTop = points.slitBottom.shift(90, sleeveSlitLength)
-      paths.slit = new Path()
-        .move(points.slitBottom)
-        .line(points.slitTop)
-        .attr('class', 'mark')
-        .attr('data-text', 'Placket Slit')
-        .attr('data-text-class', 'center')
-
       if (sa) {
         paths.sa = paths.hemBase
           .offset(sa)

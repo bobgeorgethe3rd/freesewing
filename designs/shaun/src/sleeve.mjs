@@ -29,6 +29,8 @@ export const sleeve = {
     sleeveSideCurve: { pct: 50, min: 0, max: 100, menu: 'sleeves' },
     sleeveSlitLength: { pct: 25, min: 15, max: 35, menu: 'sleeves' },
     sleeveHemCurve: { pct: 1.7, min: 0, max: 2, menu: 'sleeves' },
+    //Advanced
+    sleeveSideCurveDepth: { pct: 50, min: 30, max: 70, menu: 'advanced.sleeves' },
   },
   draft: (sh) => {
     //draft
@@ -61,7 +63,10 @@ export const sleeve = {
     basicsleeve.draft(sh)
     //let's begin
     if (options.sleeveType == 'short') {
-      points.bottomLeftCp1Max = new Point(points.bottomLeft.x, points.bottomLeft.y / 2)
+      points.bottomLeftCp1Max = new Point(
+        points.bottomLeft.x,
+        points.bottomLeft.y * options.sleeveSideCurveDepth
+      )
 
       const sleeveSideAngle =
         points.sleeveCapLeft.angle(points.bottomLeftCp1Max) -
@@ -71,10 +76,10 @@ export const sleeve = {
         sleeveSideAngle * (1 - options.sleeveSideCurve),
         points.bottomLeft
       )
-      points.bottomRightCp2 = new Point(points.bottomRight.x, points.bottomRight.y / 2).rotate(
-        sleeveSideAngle * (1 - options.sleeveSideCurve) * -1,
-        points.bottomRight
-      )
+      points.bottomRightCp2 = new Point(
+        points.bottomRight.x,
+        points.bottomRight.y * options.sleeveSideCurveDepth
+      ).rotate(sleeveSideAngle * (1 - options.sleeveSideCurve) * -1, points.bottomRight)
 
       paths.saLeft = new Path()
         .move(points.sleeveCapLeft)
@@ -119,14 +124,14 @@ export const sleeve = {
       const sleeveSideAngle = points.sleeveCapLeft.angle(points.bottomLeft) - 270
 
       //let's begin
-      points.bottomLeftCp1 = new Point(points.sleeveCapLeft.x, points.bottomAnchor.y / 2).rotate(
-        sleeveSideAngle * (1 - options.sleeveSideCurve),
-        points.sleeveCapLeft
-      )
-      points.bottomRightCp2 = new Point(points.sleeveCapRight.x, points.bottomAnchor.y / 2).rotate(
-        sleeveSideAngle * (1 - options.sleeveSideCurve) * -1,
-        points.sleeveCapRight
-      )
+      points.bottomLeftCp1 = new Point(
+        points.sleeveCapLeft.x,
+        points.bottomAnchor.y * options.sleeveSideCurveDepth
+      ).rotate(sleeveSideAngle * (1 - options.sleeveSideCurve), points.sleeveCapLeft)
+      points.bottomRightCp2 = new Point(
+        points.sleeveCapRight.x,
+        points.bottomAnchor.y * options.sleeveSideCurveDepth
+      ).rotate(sleeveSideAngle * (1 - options.sleeveSideCurve) * -1, points.sleeveCapRight)
 
       points.slitBottom = new Point(points.bottomLeft.x / 2, points.bottomAnchor.y + sleeveHemDrop)
       points.slitBottomCp1 = new Point((points.bottomLeft.x * 3) / 4, points.slitBottom.y)

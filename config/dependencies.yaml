@@ -106,6 +106,7 @@ fallon:
 fulldressshirt:
   peer:
     '@freesewing/basicsleeve': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 harriet:
   _:
     '@freesewing/claude': *freesewing
@@ -225,6 +226,7 @@ shaun:
     '@freesewing/byron': *freesewing
     '@freesewing/basicsleeve': *freesewing
     '@freesewing/plugin-flip': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 shin:
   peer:
     '@freesewing/snapseries': *freesewing
