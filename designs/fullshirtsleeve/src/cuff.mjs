@@ -9,9 +9,9 @@ export const cuff = {
     //Constants
     cpFraction: 0.55191502449,
     //Sleeves
-    sleeveCuffFolded: { bool: false, menu: 'sleeves' },
-    sleeveCuffType: { dflt: 'straight', list: ['straight', 'curved'], menu: 'sleeves' },
-    sleeveCuffCurve: { pct: 100, min: 0, max: 100, menu: 'sleeves' },
+    sleeveCuffFolded: { bool: false, menu: 'sleeves.cuffs' },
+    sleeveCuffType: { dflt: 'straight', list: ['straight', 'curved'], menu: 'sleeves.cuffs' },
+    sleeveCuffCurve: { pct: 100, min: 0, max: 100, menu: 'sleeves.cuffs' },
   },
   plugins: [pluginMirror],
   draft: ({

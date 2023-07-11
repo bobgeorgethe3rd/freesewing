@@ -22,13 +22,13 @@ export const sleeve = {
       max: 17,
       snap: 5,
       ...pctBasedOn('shoulderToWrist'),
-      menu: 'sleeves',
+      menu: 'sleeves.cuffs',
     }, //Altered for Fullshirtsleeve
     sleeveSideCurve: { pct: 50, min: 0, max: 100, menu: 'sleeves' },
-    sleevePlacketLength: { pct: 25, min: 15, max: 35, menu: 'sleeves' },
-    sleeveSlitFactor: { pct: 78.7, min: 75, max: 80, menu: 'sleeves' },
+    sleevePlacketLength: { pct: 25, min: 15, max: 35, menu: 'sleeves.plackets' },
+    sleeveSlitFactor: { pct: 78.7, min: 75, max: 80, menu: 'sleeves.plackets' },
     sleevePleatWidth: { pct: 10, min: 5, max: 15, menu: 'sleeves' },
-    sleeveHemCurve: { pct: 1.7, min: 0, max: 2, menu: 'sleeves' },
+    sleeveBottomCurve: { pct: 1.7, min: 0, max: 2, menu: 'sleeves' },
     //Advanced
     sleeveSideCurveDepth: { pct: 50, min: 30, max: 70, menu: 'advanced.sleeves' },
   },
@@ -67,7 +67,7 @@ export const sleeve = {
     const storedBottomWidth = points.bottomLeft.dist(points.bottomRight)
     const sleevePlacketLength = measurements.shoulderToWrist * options.sleevePlacketLength
     const sleeveSlitLength = sleevePlacketLength * options.sleeveSlitFactor
-    const sleeveHemDrop = measurements.shoulderToWrist * options.sleeveHemCurve
+    const sleeveHemDrop = measurements.shoulderToWrist * options.sleeveBottomCurve
     let sleevePleatWidth
     if (options.sleevePleats) {
       sleevePleatWidth = measurements.wrist * options.sleevePleatWidth
