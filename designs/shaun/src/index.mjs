@@ -16,6 +16,7 @@ import { sleevePlacket } from './sleevePlacket.mjs'
 import { sleeveCuff } from './sleeveCuff.mjs'
 import { collarBand } from './collarBand.mjs'
 import { collar } from './collar.mjs'
+import { backTab } from './backTab.mjs'
 
 // Create new design
 const Shaun = new Design({
@@ -34,6 +35,7 @@ const Shaun = new Design({
     sleeveCuff,
     collarBand,
     collar,
+    backTab,
   ],
 })
 
@@ -52,5 +54,6 @@ export {
   sleeveCuff,
   collarBand,
   collar,
+  backTab,
   Shaun,
 }
