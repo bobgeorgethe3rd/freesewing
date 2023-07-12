@@ -17,7 +17,7 @@ export const sleeve = {
     sleeveLengthBonus: { pct: 0, min: -20, max: 20, menu: 'sleeves' },
     sleeveBands: { bool: false, menu: 'sleeves' },
     sleeveBandWidth: {
-      pct: 9.2,
+      pct: 9.5,
       min: 7,
       max: 17,
       snap: 5,
