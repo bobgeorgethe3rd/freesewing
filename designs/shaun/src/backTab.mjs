@@ -56,6 +56,8 @@ export const backTab = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      //notches
+      snippets.topNotch = new Snippet('notch', points.topMid)
       //title
       points.title = points.topLeft.translate(backTabWidth / 4, backTabLength / 2)
       macro('title', {
