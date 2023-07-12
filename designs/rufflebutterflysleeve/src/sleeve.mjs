@@ -242,11 +242,12 @@ export const sleeve = {
       })
 
       if (sa) {
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
         paths.sa = paths.hemBase
           .offset(hemA)
-          .join(paths.saRight.offset(sa))
+          .join(paths.saRight.offset(sideSeamSa))
           .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
-          .join(paths.saLeft.offset(sa))
+          .join(paths.saLeft.offset(sideSeamSa))
           .close()
           .attr('class', 'fabric sa')
       }

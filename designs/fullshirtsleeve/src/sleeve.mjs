@@ -25,9 +25,9 @@ export const sleeve = {
       menu: 'sleeves.cuffs',
     }, //Altered for Fullshirtsleeve
     sleeveSideCurve: { pct: 50, min: 0, max: 100, menu: 'sleeves' },
-    sleevePlacketLength: { pct: 25, min: 15, max: 35, menu: 'sleeves.plackets' },
+    sleevePlacketLength: { pct: 26.1, min: 15, max: 35, menu: 'sleeves.plackets' },
     sleeveSlitFactor: { pct: 70, min: 75, max: 80, menu: 'sleeves.plackets' },
-    sleevePleatWidth: { pct: 10, min: 5, max: 15, menu: 'sleeves' },
+    sleevePleatWidth: { pct: 9.7, min: 5, max: 15, menu: 'sleeves' },
     sleeveBottomCurve: { pct: 1.7, min: 0, max: 2, menu: 'sleeves' },
     //Advanced
     sleeveSideCurveDepth: { pct: 50, min: 30, max: 70, menu: 'advanced.sleeves' },
@@ -204,11 +204,12 @@ export const sleeve = {
         }
       }
       if (sa) {
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
         paths.sa = paths.hemBase
           .offset(sa)
-          .join(paths.saRight.offset(sa))
+          .join(paths.saRight.offset(sideSeamSa))
           .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
-          .join(paths.saLeft.offset(sa))
+          .join(paths.saLeft.offset(sideSeamSa))
           .close()
           .attr('class', 'fabric sa')
       }

@@ -8,7 +8,7 @@ export const band = {
     //Constants
     cpFraction: 0.55191502449,
     //Sleeves
-    sleeveBandFold: { bool: true, menu: 'sleeves' },
+    sleeveBandFolded: { bool: true, menu: 'sleeves' },
     sleeveBandType: { dflt: 'straight', list: ['straight', 'curved'], menu: 'sleeves' },
     sleeveBandCurve: { pct: 0, min: 0, max: 100, menu: 'sleeves' },
   },
@@ -31,6 +31,11 @@ export const band = {
     Snippet,
     absoluteOptions,
   }) => {
+    //render
+    if (options.sleeveHemStyle != 'band') {
+      part.hide()
+      return part
+    }
     //measures
     const bandWidth = absoluteOptions.sleeveBandWidth
     const bandLength = store.get('sleeveBandLength')

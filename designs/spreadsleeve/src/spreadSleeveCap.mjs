@@ -261,11 +261,11 @@ export const spreadSleeveCap = ({
     let hemSa
     if (options.sleeveBands || options.sleeveFlounces != 'none') hemSa = sa
     else hemSa = sa * options.sleeveHemWidth * 100
-
+    const sideSeamSa = sa * options.sideSeamSaWidth * 100
     if (sa) {
       if (sleeveLength == 0) {
-        points.saRight = points.bottomCp4.shiftOutwards(points.sleeveCapRight, sa)
-        points.saLeft = points.bottomCp1.shiftOutwards(points.sleeveCapLeft, sa)
+        points.saRight = points.bottomCp4.shiftOutwards(points.sleeveCapRight, sideSeamSa)
+        points.saLeft = points.bottomCp1.shiftOutwards(points.sleeveCapLeft, sideSeamSa)
         paths.sa = paths.hemBase
           .offset(hemSa)
           .line(points.saRight)
@@ -276,9 +276,9 @@ export const spreadSleeveCap = ({
       } else {
         paths.sa = paths.hemBase
           .offset(hemSa)
-          .join(paths.saRight.offset(sa))
+          .join(paths.saRight.offset(sideSeamSa))
           .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
-          .join(paths.saLeft.offset(sa))
+          .join(paths.saLeft.offset(sideSeamSa))
           .close()
           .attr('class', 'fabric sa')
       }

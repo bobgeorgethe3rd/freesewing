@@ -3,7 +3,7 @@ export const backTab = {
   measurements: ['chest', 'hpsToWaistBack'],
   options: {
     //Style
-    backTabWidth: { pct: 2, min: 2, max: 5, menu: 'style' },
+    backTabWidth: { pct: 2.7, min: 2, max: 5, menu: 'style' },
     backTabLength: { pct: 10.2, min: 10, max: 15, menu: 'style' },
     backTabPeak: { pct: 60, min: 40, max: 100, menu: 'style' },
   },

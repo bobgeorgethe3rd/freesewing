@@ -245,6 +245,12 @@ export const back = {
       if (options.yokeBack) {
         snippets.backTopCurveEnd = new Snippet('notch', points.backTopCurveEnd)
       }
+      if (options.backDarts) {
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['dartLeft', 'dartRight'],
+        })
+      }
       //title
       points.title = new Point(
         points.armholePitchCp1.x / 3,

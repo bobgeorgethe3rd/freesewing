@@ -27,6 +27,7 @@ export const sleeve = {
     sleeveFlounces: { dflt: 'none', list: ['flounce', 'ruffle', 'none'], menu: 'sleeves' },
     //Construction
     armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   plugins: [...sleevecap.plugins],
@@ -176,10 +177,11 @@ export const sleeve = {
         let hemSa
         if (options.sleeveBands || options.sleeveFlounces != 'none') hemSa = sa
         else hemSa = sa * options.sleeveHemWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
 
         if (sleeveLength == 0) {
-          points.saLeft = points.sleeveCapLeft.shift(180, sa)
-          points.saRight = points.sleeveCapRight.shift(0, sa)
+          points.saLeft = points.sleeveCapLeft.shift(180, sideSeamSa)
+          points.saRight = points.sleeveCapRight.shift(0, sideSeamSa)
           paths.sa = paths.hemBase
             .clone()
             .offset(hemSa)
@@ -192,9 +194,9 @@ export const sleeve = {
           paths.sa = paths.hemBase
             .clone()
             .offset(hemSa)
-            .join(paths.saRight.offset(sa))
+            .join(paths.saRight.offset(sideSeamSa))
             .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
-            .join(paths.saLeft.offset(sa))
+            .join(paths.saLeft.offset(sideSeamSa))
             .close()
             .attr('class', 'fabric sa')
         }

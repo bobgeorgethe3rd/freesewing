@@ -5,7 +5,7 @@ export const placket = {
   after: sleeve,
   options: {
     sleevePlacketStyle: { dflt: 'peaked', list: ['peaked', 'straight'], menu: 'sleeves.plackets' },
-    sleevePlacketWidth: { pct: 15.5, min: 10, max: 20, menu: 'sleeves.plackets' },
+    sleevePlacketWidth: { pct: 15.2, min: 10, max: 20, menu: 'sleeves.plackets' },
     sleevePlacketTopFactor: { pct: 40, min: 30, max: 100, menu: 'sleeves.plackets' },
   },
   draft: ({
