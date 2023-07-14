@@ -225,7 +225,7 @@ export const front = {
       if (sa) {
         const armholeSa = sa * options.armholeSaWidth * 100
         points.saArmhole = points.armhole.shift(45, armholeSa)
-        points.saArmholeCp1 = points.armholeCp2.shift(45, armholeSa)
+        points.saArmholeCp2 = points.armholeCp2.shift(45, armholeSa)
         points.saArmholePitch = points.armholePitch.shift(0, armholeSa)
         points.saArmholePitchCp1 = utils.beamsIntersect(
           points.saArmholePitch,
@@ -242,7 +242,7 @@ export const front = {
         points.saShoulder = points.hps.shiftOutwards(points.shoulder, armholeSa)
         paths.saArmhole = new Path()
           .move(points.saArmhole)
-          .curve(points.saArmholeCp1, points.saArmholePitchCp1, points.saArmholePitch)
+          .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
           .curve_(points.saArmholePitchCp2, points.saShoulder)
           .hide()
 

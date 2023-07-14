@@ -299,7 +299,7 @@ export const frontLeft = {
       if (sa) {
         paths.saArmhole = new Path()
           .move(points.saArmhole)
-          .curve(points.saArmholeCp1, points.saArmholePitchCp1, points.saArmholePitch)
+          .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
           .curve_(points.saArmholePitchCp2, points.saShoulder)
           .hide()
 

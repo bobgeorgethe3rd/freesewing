@@ -275,7 +275,7 @@ export const back = {
       if (sa) {
         paths.saArmhole = new Path()
           .move(points.saArmhole)
-          .curve(points.saArmholeCp1, points.saArmholePitchCp1, points.saArmholePitch)
+          .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
           .curve_(points.saArmholePitchCp2, points.saShoulder)
           .hide()
         if (options.yokeBack) {
@@ -295,7 +295,7 @@ export const back = {
               points.backTopCurveCp1,
               points.backTopCurveCp1.shiftOutwards(points.backTopRight, shirtLength),
               points.saArmhole,
-              points.saArmholeCp1,
+              points.saArmholeCp2,
               points.saArmholePitchCp1,
               points.saArmholePitch
             )
