@@ -38,7 +38,7 @@ export const front = {
     // const hipsFront = store.get('hipsFront')
     const neck = store.get('neck')
     // const seatFront = store.get('seatFront')
-    const shoulderToShoulder = store.get('shoulderToShoulder')
+    // const shoulderToShoulder = store.get('shoulderToShoulder')
     const waistDiff = store.get('waistDiff')
 
     // let hemLengthTarget

@@ -44,7 +44,7 @@ export const back = {
     const chestBack = store.get('chestBack')
     // const hipsBack = store.get('hipsBack')
     // const seatBack = store.get('seatBack')
-    const shoulderToShoulder = store.get('shoulderToShoulder')
+    // const shoulderToShoulder = store.get('shoulderToShoulder')
     const waistDiff = store.get('waistDiff')
     // const waistbandWidth = absoluteOptions.waistbandWidth
 
