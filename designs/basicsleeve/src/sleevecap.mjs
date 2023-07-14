@@ -38,13 +38,13 @@ export const sleevecap = {
   }) => {
     //void stores
     if (options.useVoidStores) {
-      void store.setIfUnset('scyeFrontDepth', 100)
-      void store.setIfUnset('scyeBackDepth', 100)
-      void store.setIfUnset('scyeFrontWidth', 200)
-      void store.setIfUnset('scyeBackWidth', 200)
-      void store.setIfUnset('backArmholeLength', 225)
+      void store.setIfUnset('scyeFrontDepth', 108)
+      void store.setIfUnset('scyeBackDepth', 108)
+      void store.setIfUnset('scyeFrontWidth', 193)
+      void store.setIfUnset('scyeBackWidth', 193)
+      void store.setIfUnset('backArmholeLength', 232)
       void store.setIfUnset('backArmholeToArmholePitch', store.get('backArmholeLength') * 0.5)
-      void store.setIfUnset('frontArmholeLength', 225)
+      void store.setIfUnset('frontArmholeLength', 240)
       void store.setIfUnset('frontArmholeToArmholePitch', store.get('frontArmholeLength') * 0.5)
     }
     //measures
