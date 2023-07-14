@@ -51,30 +51,37 @@ export const yokeBack = {
       .split(points.yokeBack)[1]
       .hide()
 
-    paths.saTop = new Path()
-      .move(points.shoulder)
-      .line(points.hps)
-      ._curve(points.cbNeckCp1, points.cbNeck)
-      .hide()
+    paths.shoulder = new Path().move(points.shoulder).line(points.hps).hide()
+
+    paths.cbNeck = new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck).hide()
 
     paths.cb = new Path().move(points.cbNeck).line(points.cbYoke).hide()
 
     if (options.yokeBackOnBias && options.yokeBackOnFold) {
       macro('mirror', {
         mirror: [points.cbNeck, points.cbYoke],
-        paths: ['saBottom', 'armhole', 'saTop'],
+        paths: ['saBottom', 'armhole', 'shoulder', 'cbNeck'],
         prefix: 'm',
       })
     }
     const drawSeamLeft = () => {
       if (options.yokeBackOnBias && options.yokeBackOnFold) {
-        return paths.mSaTop.reverse().join(paths.mArmhole.reverse()).join(paths.mSaBottom.reverse())
+        return paths.mCbNeck
+          .reverse()
+          .join(paths.mShoulder.reverse())
+          .join(paths.mArmhole.reverse())
+          .join(paths.mSaBottom.reverse())
       } else {
         return paths.cb
       }
     }
 
-    paths.seam = paths.saBottom.join(paths.armhole).join(paths.saTop).join(drawSeamLeft()).close()
+    paths.seam = paths.saBottom
+      .join(paths.armhole)
+      .join(paths.shoulder)
+      .join(paths.cbNeck)
+      .join(drawSeamLeft())
+      .close()
 
     if (complete) {
       //grainline
@@ -132,11 +139,15 @@ export const yokeBack = {
       })
       if (sa) {
         const armholeSa = sa * options.armholeSaWidth * 100
+        const shoulderSa = sa * options.shoulderSaWidth * 100
         const drawSALeft = () => {
           if (options.yokeBackOnBias && options.yokeBackOnFold) {
-            return paths.mSaTop
+            return paths.mCbNeck
               .reverse()
               .offset(sa)
+              .line(points.saPoint3.flipX(points.cbNeck))
+              .join(paths.mShoulder.reverse().offset(shoulderSa))
+              .line(points.saPoint2.flipX(points.cbNeck))
               .join(paths.mArmhole.reverse().offset(armholeSa))
               .join(paths.mSaBottom.reverse().offset(sa))
           } else {
@@ -146,7 +157,10 @@ export const yokeBack = {
         paths.sa = paths.saBottom
           .offset(sa)
           .join(paths.armhole.offset(sa * options.armholeSaWidth * 100))
-          .join(paths.saTop.offset(sa))
+          .line(points.saPoint2)
+          .join(paths.shoulder.offset(shoulderSa))
+          .line(points.saPoint3)
+          .join(paths.cbNeck.offset(sa))
           .join(drawSALeft())
           .close()
           .attr('class', 'fabric sa')

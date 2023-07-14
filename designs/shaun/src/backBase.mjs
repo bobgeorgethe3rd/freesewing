@@ -92,7 +92,7 @@ export const backBase = {
       } else {
         points.cbYoke = points.cArmholePitch.shiftFractionTowards(
           points.cArmhole,
-          1 - options.yokeBackDepth
+          options.yokeBackDepth - 1
         )
       }
 

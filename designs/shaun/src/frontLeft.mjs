@@ -305,9 +305,13 @@ export const frontLeft = {
 
         paths.sa = paths.hemBase
           .offset(sa * options.hemWidth * 100)
+          .line(points.saPoint0)
           .join(paths.sideSeam.offset(sa * options.sideSeamSaWidth * 100))
+          .line(points.saPoint1)
           .join(paths.saArmhole)
-          .join(paths.shoulder.offset(sa))
+          .line(points.saPoint2)
+          .join(paths.shoulder.offset(sa * options.shoulderSaWidth * 100))
+          .line(points.saPoint3)
           .join(drawNeck().offset(sa))
           .join(drawSeamLeft().offset(sa))
           .close()

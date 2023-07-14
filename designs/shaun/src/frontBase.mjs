@@ -202,6 +202,15 @@ export const frontBase = {
       'neckFront',
       new Path().move(points.hps).curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck).length()
     )
+
+    if (complete && sa) {
+      const hemSa = sa * options.hemWidth * 100
+      const sideSeamSa = sa * options.sideSeamSaWidth * 100
+      points.saPoint0 = points.sideHem
+        .shift(points.sideHemCp1.angle(points.sideHem), sideSeamSa)
+        .shift(points.sideHemCp1.angle(points.sideHem) - 90, hemSa)
+    }
+
     //guides
     paths.buttonholeEx = new Path()
       .move(points.cfNeck)

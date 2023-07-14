@@ -18,7 +18,7 @@ export const sharedBase = {
     // bodyLength: { pct: 75, min: 0, max: 100, menu: 'style' },
     lengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
     //Armhole
-    armholeDrop: { pct: 14, min: 10, max: 30, menu: 'armhole' },
+    armholeDrop: { pct: 18.2, min: 15, max: 30, menu: 'armhole' },
     armholePitchDepth: { pct: 50, min: 45, max: 60, menu: 'armhole' },
     //Advanced
     useChestFront: { bool: false, menu: 'advanced' },

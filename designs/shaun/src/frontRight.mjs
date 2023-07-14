@@ -152,17 +152,17 @@ export const frontRight = {
       .close()
 
     //guides
-    paths.byronGuide = new Path()
-      .move(points.cWaist)
-      .line(points.sideWaist)
-      .curve_(points.sideWaistCp2, points.armhole)
-      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-      .curve_(points.armholePitchCp2, points.shoulder)
-      .line(points.hps)
-      .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
-      .line(points.cWaist)
-      .close()
-      .attr('class', 'various dashed')
+    // paths.byronGuide = new Path()
+    // .move(points.cWaist)
+    // .line(points.sideWaist)
+    // .curve_(points.sideWaistCp2, points.armhole)
+    // .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+    // .curve_(points.armholePitchCp2, points.shoulder)
+    // .line(points.hps)
+    // .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+    // .line(points.cWaist)
+    // .close()
+    // .attr('class', 'various dashed')
 
     if (complete && sa) {
       paths.saArmhole = new Path()
@@ -173,9 +173,13 @@ export const frontRight = {
 
       paths.sa = paths.hemBase
         .offset(sa * options.hemWidth * 100)
+        .line(points.saPoint0)
         .join(paths.sideSeam.offset(sa * options.sideSeamSaWidth * 100))
+        .line(points.saPoint1)
         .join(paths.saArmhole)
+        .line(points.saPoint2)
         .join(paths.shoulder.offset(sa))
+        .line(points.saPoint3)
         .join(drawNeck().offset(sa))
         .join(drawSeamLeft().offset(sa))
         .close()

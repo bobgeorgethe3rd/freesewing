@@ -164,9 +164,10 @@ export const front = {
       .curve_(points.armholePitchCp2, points.shoulder)
       .hide()
 
-    paths.saBase = new Path()
-      .move(points.shoulder)
-      .line(points.hps)
+    paths.shoulder = new Path().move(points.shoulder).line(points.hps).hide()
+
+    paths.cfNeck = new Path()
+      .move(points.hps)
       .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .hide()
 
@@ -174,7 +175,8 @@ export const front = {
       .clone()
       .join(paths.saWaist)
       .join(paths.armhole)
-      .join(paths.saBase)
+      .join(paths.shoulder)
+      .join(paths.cfNeck)
       .line(points.cWaist)
       .close()
 
@@ -224,6 +226,9 @@ export const front = {
       })
       if (sa) {
         const armholeSa = sa * options.armholeSaWidth * 100
+        const hemSa = sa * options.hemWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const shoulderSa = sa * options.shoulderSaWidth * 100
         points.saArmhole = points.armhole.shift(45, armholeSa)
         points.saArmholeCp2 = points.armholeCp2.shift(45, armholeSa)
         points.saArmholePitch = points.armholePitch.shift(0, armholeSa)
@@ -246,11 +251,36 @@ export const front = {
           .curve_(points.saArmholePitchCp2, points.saShoulder)
           .hide()
 
+        points.saPoint0 = new Point(points.sideWaist.x + armholeSa, points.sideWaist.y + hemSa)
+        points.saPoint1 = utils.beamsIntersect(
+          points.saArmholeCp2,
+          points.saArmhole,
+          paths.saWaist.offset(sideSeamSa).end(),
+          points.armhole.rotate(-90, paths.saWaist.offset(sideSeamSa).end())
+        )
+        points.saPoint2 = points.shoulder
+          .shift(points.hps.angle(points.shoulder), armholeSa)
+          .shift(points.hps.angle(points.shoulder) + 90, shoulderSa)
+        points.saPoint3 = utils.beamsIntersect(
+          paths.cfNeck.offset(sa).start(),
+          paths.cfNeck
+            .offset(sa)
+            .start()
+            .shift(points.hps.angle(points.shoulder) + 90, 1),
+          paths.shoulder.offset(shoulderSa).start(),
+          paths.shoulder.offset(shoulderSa).end()
+        )
+
         paths.sa = paths.hemBase
-          .offset(sa * options.hemWidth * 100)
-          .join(paths.saWaist.offset(sa))
+          .offset(hemSa)
+          .line(points.saPoint0)
+          .join(paths.saWaist.offset(sideSeamSa))
+          .line(points.saPoint1)
           .join(paths.saArmhole)
-          .join(paths.saBase.offset(sa))
+          .line(points.saPoint2)
+          .join(paths.shoulder.offset(shoulderSa))
+          .line(points.saPoint3)
+          .join(paths.cfNeck.offset(sa))
           .line(points.cfNeck)
           .line(points.cWaist)
           .close()

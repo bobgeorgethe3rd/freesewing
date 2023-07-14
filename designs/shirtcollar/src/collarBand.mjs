@@ -59,17 +59,23 @@ export const collarBand = {
     points.bottomRightCp2 = points.topCp1.shiftOutwards(points.top, leftEx)
 
     //paths
-    paths.seam = new Path()
+    paths.saBottom = new Path()
       .move(points.bottomLeft)
       .line(points.fBottom)
       .curve(points.fBottomCp2, points.fBottomCp1, points.bottomMid)
       .curve(points.bottomCp1, points.bottomCp2, points.bottom)
       .line(points.bottomRight)
+      .hide()
+
+    paths.saTop = new Path()
+      .move(points.bottomRight)
       ._curve(points.bottomRightCp2, points.top)
       .curve(points.topCp1, points.topCp2, points.topMid)
       .curve(points.fTopCp2, points.fTopCp1, points.fTop)
       .curve_(points.bottomLeftCp1, points.bottomLeft)
-      .close()
+      .hide()
+
+    paths.seam = paths.saBottom.clone().join(paths.saTop).close()
 
     if (complete) {
       //grainline
@@ -130,7 +136,19 @@ export const collarBand = {
 
       paths.cfRight = new Path().move(points.top).line(points.bottom).attr('class', 'mark help')
       if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
+        points.saPoint0 = points.bottomLeft
+          .shift(points.fBottom.angle(points.bottomLeft), sa)
+          .shift(points.fBottom.angle(points.bottomLeft) + 90, sa)
+        points.saPoint1 = points.bottomRight
+          .shift(points.bottom.angle(points.bottomRight), sa)
+          .shift(points.bottom.angle(points.bottomRight) - 90, sa)
+        paths.sa = new Path()
+          .move(points.saPoint0)
+          .join(paths.saBottom.offset(sa))
+          .line(points.saPoint1)
+          .join(paths.saTop.offset(sa))
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
     return part

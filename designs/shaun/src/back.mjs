@@ -273,6 +273,9 @@ export const back = {
       }
 
       if (sa) {
+        const hemSa = sa * options.hemWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+
         paths.saArmhole = new Path()
           .move(points.saArmhole)
           .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
@@ -309,9 +312,15 @@ export const back = {
           }
         }
 
+        points.saPoint0 = points.sideHem
+          .shift(points.sideHemCp1.angle(points.sideHem), sideSeamSa)
+          .shift(points.sideHemCp1.angle(points.sideHem) - 90, hemSa)
+
         paths.sa = paths.hemBase
           .offset(sa * options.hemWidth * 100)
-          .join(paths.sideSeam.offset(sa * options.sideSeamSaWidth * 100))
+          .line(points.saPoint0)
+          .join(paths.sideSeam.offset(sideSeamSa))
+          .line(points.saPoint1)
           .join(drawSaArmhole())
           .join(drawSaTop().offset(sa))
           .join(drawSeamLeft().offset(cbSa))
