@@ -17,7 +17,7 @@ export const sleeve = {
     //Sleeves
     sleeveType: { dflt: 'full', list: ['full', 'short'], menu: 'sleeves' },
     sleeveHemStyle: { dflt: 'cuffed', list: ['cuffed', 'turnover'], menu: 'sleeves' }, //Altered for Shaun
-    sleeveLength: { pct: 37.5, min: 15, max: 50, menu: 'sleeves' }, //Altered for Shaun
+    sleeveLength: { pct: 25, min: 15, max: 50, menu: 'sleeves' }, //Altered for Shaun
   },
   draft: (sh) => {
     //draft
