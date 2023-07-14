@@ -229,8 +229,14 @@ export const front = {
         const hemSa = sa * options.hemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const shoulderSa = sa * options.shoulderSaWidth * 100
-        points.saArmhole = points.armhole.shift(45, armholeSa)
-        points.saArmholeCp2 = points.armholeCp2.shift(45, armholeSa)
+        points.saArmhole = new Point(
+          points.armhole.shift(45, armholeSa).x,
+          points.armhole.y - armholeSa
+        )
+        points.saArmholeCp2 = new Point(
+          points.armholeCp2.shift(45, armholeSa).x,
+          points.armholeCp2.y - armholeSa
+        )
         points.saArmholePitch = points.armholePitch.shift(0, armholeSa)
         points.saArmholePitchCp1 = utils.beamsIntersect(
           points.saArmholePitch,
@@ -256,7 +262,7 @@ export const front = {
           points.saArmholeCp2,
           points.saArmhole,
           paths.saWaist.offset(sideSeamSa).end(),
-          points.armhole.rotate(-90, paths.saWaist.offset(sideSeamSa).end())
+          paths.saWaist.offset(sideSeamSa).shiftFractionAlong(0.999)
         )
         points.saPoint2 = points.shoulder
           .shift(points.hps.angle(points.shoulder), armholeSa)

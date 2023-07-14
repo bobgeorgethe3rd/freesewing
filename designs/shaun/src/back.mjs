@@ -21,6 +21,7 @@ export const back = {
     //Construction
     armholeSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Shaun
     sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
+    shoulderSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     hemWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Shaun
     backOnFold: { bool: true, menu: 'construction' },
     //Advanced

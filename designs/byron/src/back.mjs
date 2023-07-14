@@ -9,14 +9,14 @@ export const back = {
   options: {
     //Constants
     armholeSaWidth: 0.01,
+    shoulderSaWidth: 0.01,
+    sideSeamSaWidth: 0.01,
     //Armhole
     // backArmholePitchWidth: { pct: 98.4, min: 97, max: 98.5, menu: 'armhole' },
     backArmholePitchWidth: { pct: 97, min: 95, max: 98.5, menu: 'armhole' },
     backArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },
     //Construction
     hemWidth: { pct: 3, min: 1, max: 5, menu: 'construction' },
-    sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
-    shoulderSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     //Advanced
     fitSide: { bool: true, menu: 'advanced' },
     // forceSide: { bool: false, menu: 'advanced' },
@@ -239,8 +239,14 @@ export const back = {
         const hemSa = sa * options.hemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const shoulderSa = sa * options.shoulderSaWidth * 100
-        points.saArmhole = points.armhole.shift(45, armholeSa)
-        points.saArmholeCp2 = points.armholeCp2.shift(45, armholeSa)
+        points.saArmhole = new Point(
+          points.armhole.shift(45, armholeSa).x,
+          points.armhole.y - armholeSa
+        )
+        points.saArmholeCp2 = new Point(
+          points.armholeCp2.shift(45, armholeSa).x,
+          points.armholeCp2.y - armholeSa
+        )
         points.saArmholePitch = points.armholePitch.shift(0, armholeSa)
         points.saArmholePitchCp1 = utils.beamsIntersect(
           points.saArmholePitch,
@@ -266,7 +272,7 @@ export const back = {
           points.saArmholeCp2,
           points.saArmhole,
           paths.saWaist.offset(sideSeamSa).end(),
-          points.armhole.rotate(-90, paths.saWaist.offset(sideSeamSa).end())
+          paths.saWaist.offset(sideSeamSa).shiftFractionAlong(0.999)
         )
         points.saPoint2 = points.shoulder
           .shift(points.hps.angle(points.shoulder), armholeSa)
