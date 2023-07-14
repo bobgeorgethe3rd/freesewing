@@ -46,7 +46,7 @@ export const yokeBack = {
 
     paths.armhole = new Path()
       .move(points.armhole)
-      .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
       .split(points.yokeBack)[1]
       .hide()

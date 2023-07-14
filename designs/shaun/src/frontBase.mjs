@@ -24,7 +24,7 @@ export const frontBase = {
     buttonEnd: { pct: 12.7, min: 5, max: 15, menu: 'plackets' },
     buttonNumber: { count: 6, min: 5, max: 10, menu: 'plackets' },
     //Pockets
-    patchPocketWidth: { pct: 27, min: 20, max: 30, menu: 'pockets' },
+    patchPocketWidth: { pct: 56, min: 30, max: 80, menu: 'pockets' },
     patchPocketDepth: { pct: 23.9, min: 20, max: 30, menu: 'pockets' },
     //Advanced
     skirtFrontWidth: { pct: 36.4, min: 0, max: 50, menu: 'advanced.style' },
@@ -81,7 +81,8 @@ export const frontBase = {
     }
     const buttonholePlacketWidth = absoluteOptions.buttonholePlacketWidth
     const buttonPlacketWidth = absoluteOptions.buttonPlacketWidth
-    const patchPocketWidth = measurements.shoulderToShoulder * options.patchPocketWidth
+    // const patchPocketWidth = measurements.shoulderToShoulder * options.patchPocketWidth
+    const patchPocketWidth = points.shoulder.x * options.patchPocketWidth
     //let's begin
     //hem
     points.cHemAnchor = points.cWaist.shift(-90, shirtLength)
@@ -186,7 +187,7 @@ export const frontBase = {
       'frontArmholeLength',
       new Path()
         .move(points.armhole)
-        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
         .curve_(points.armholePitchCp2, points.shoulder)
         .length()
     )
@@ -194,8 +195,12 @@ export const frontBase = {
       'frontArmholeToArmholePitch',
       new Path()
         .move(points.armhole)
-        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
         .length()
+    )
+    store.set(
+      'neckFront',
+      new Path().move(points.hps).curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck).length()
     )
     //guides
     paths.buttonholeEx = new Path()
@@ -232,19 +237,13 @@ export const frontBase = {
       .move(points.cWaist)
       .line(points.sideWaist)
       .curve_(points.sideWaistCp2, points.armhole)
-      .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
       .line(points.hps)
       .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .line(points.cWaist)
       .close()
       .attr('class', 'various dashed')
-
-    //stores
-    store.set(
-      'neckFront',
-      new Path().move(points.hps).curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck).length()
-    )
 
     return part
   },

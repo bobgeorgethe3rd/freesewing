@@ -20,7 +20,8 @@ export const backBase = {
     shirtLength: { pct: 100, min: 0, max: 100, menu: 'style' },
     shirtLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
     yokeBack: { bool: true, menu: 'style' },
-    yokeBackDepth: { pct: 20, min: 10, max: 50, menu: 'style' },
+    // yokeBackDepth: { pct: 20, min: 10, max: 50, menu: 'style' },
+    yokeBackDepth: { pct: 80, min: 10, max: 150, menu: 'style' },
     yokeBackDip: { pct: 1.6, min: 0, max: 2, menu: 'style' },
   },
   measurements: ['hips', 'seat', 'waistToHips', 'waistToSeat'],
@@ -81,7 +82,20 @@ export const backBase = {
     }
 
     if (options.yokeBack) {
-      points.cbYoke = points.cbYokeMin.shiftFractionTowards(points.cArmhole, options.yokeBackDepth)
+      // points.cbYoke = points.cbYokeMin.shiftFractionTowards(points.cArmhole, options.yokeBackDepth)
+
+      if (options.yokeBackDepth < 1) {
+        points.cbYoke = points.cbYokeMin.shiftFractionTowards(
+          points.cArmholePitch,
+          options.yokeBackDepth
+        )
+      } else {
+        points.cbYoke = points.cArmholePitch.shiftFractionTowards(
+          points.cArmhole,
+          1 - options.yokeBackDepth
+        )
+      }
+
       points.yokeBackAnchor = new Point(points.armhole.x * 10, points.cbYoke.y)
       let yokeBackIntersect = utils.lineIntersectsCurve(
         points.cbYoke,
@@ -99,7 +113,7 @@ export const backBase = {
           points.cbYoke,
           points.yokeBackAnchor,
           points.armhole,
-          points.armholeCp1,
+          points.armholeCp2,
           points.armholePitchCp1,
           points.armholePitch
         )
@@ -111,7 +125,7 @@ export const backBase = {
 
       points.backTopRight = new Path()
         .move(points.armhole)
-        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
         .curve_(points.armholePitchCp2, points.shoulder)
         .split(points.yokeBack)[0]
         .reverse()
@@ -142,13 +156,13 @@ export const backBase = {
         'backArmholeLength',
         new Path()
           .move(points.armhole)
-          .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+          .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
           .curve_(points.armholePitchCp2, points.shoulder)
           .length() - yokeBackDip
       )
       paths.armholePitch = new Path()
         .move(points.armhole)
-        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
         .hide()
       if (points.backTopRight.y > points.armholePitch.y) {
         let backArmholeToArmholePitch
@@ -164,7 +178,7 @@ export const backBase = {
         'backArmholeLength',
         new Path()
           .move(points.armhole)
-          .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+          .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
           .curve_(points.armholePitchCp2, points.shoulder)
           .length()
       )
@@ -172,7 +186,7 @@ export const backBase = {
         'backArmholeToArmholePitch',
         new Path()
           .move(points.armhole)
-          .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+          .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
           .length()
       )
     }
@@ -182,7 +196,7 @@ export const backBase = {
     // .move(points.cWaist)
     // .line(points.sideWaist)
     // .curve_(points.sideWaistCp2, points.armhole)
-    // .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+    // .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
     // .curve_(points.armholePitchCp2, points.shoulder)
     // .line(points.hps)
     // ._curve(points.cbNeckCp1, points.cbNeck)

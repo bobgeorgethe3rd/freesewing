@@ -162,7 +162,7 @@ export const back = {
 
     paths.armhole = new Path()
       .move(points.armhole)
-      .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
       .hide()
 
@@ -200,7 +200,7 @@ export const back = {
     // .move(points.cWaist)
     // .line(points.sideWaist)
     // .curve_(points.sideWaistCp2, points.armhole)
-    // .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+    // .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
     // .curve_(points.armholePitchCp2, points.shoulder)
     // .line(points.hps)
     // ._curve(points.cbNeckCp1, points.cbNeck)
