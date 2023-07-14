@@ -10,7 +10,8 @@ export const back = {
     //Constants
     armholeSaWidth: 0.01,
     //Armhole
-    backArmholePitchWidth: { pct: 98.4, min: 97, max: 98.5, menu: 'armhole' },
+    // backArmholePitchWidth: { pct: 98.4, min: 97, max: 98.5, menu: 'armhole' },
+    backArmholePitchWidth: { pct: 97, min: 95, max: 98.5, menu: 'armhole' },
     backArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },
     //Construction
     hemWidth: { pct: 3, min: 1, max: 5, menu: 'construction' },
@@ -96,9 +97,13 @@ export const back = {
 
     //armhole
     points.armhole = points.cArmhole.shift(0, chestBack)
+    // points.armholePitch = points.cArmholePitch.shift(
+    // 0,
+    // (shoulderToShoulder * options.backArmholePitchWidth) / 2
+    // )
     points.armholePitch = points.cArmholePitch.shift(
       0,
-      (shoulderToShoulder * options.backArmholePitchWidth) / 2
+      points.shoulder.x * options.backArmholePitchWidth
     )
     points.armholePitchCp2 = utils.beamsIntersect(
       points.armholePitch,
@@ -106,8 +111,12 @@ export const back = {
       points.shoulder,
       points.hps.rotate(90, points.shoulder)
     )
-    points.armholePitchCp1 = points.armholePitchCp2.rotate(180, points.armholePitch)
-    points.armholeCp1 = points.armhole.shiftFractionTowards(
+    // points.armholePitchCp1 = points.armholePitchCp2.rotate(180, points.armholePitch)
+    points.armholePitchCp1 = points.armholePitch.shiftFractionTowards(
+      new Point(points.armholePitch.x, points.armhole.y),
+      options.backArmholeDepth
+    )
+    points.armholeCp2 = points.armhole.shiftFractionTowards(
       new Point(points.armholePitch.x, points.armhole.y),
       options.backArmholeDepth
     )
@@ -133,7 +142,7 @@ export const back = {
 
     // paths.armhole = new Path()
     // .move(points.armhole)
-    // .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+    // .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
     // .curve_(points.armholePitchCp2, points.shoulder)
 
     // paths.side = new Path()
@@ -156,7 +165,7 @@ export const back = {
 
     paths.armhole = new Path()
       .move(points.armhole)
-      .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
       .hide()
 
@@ -189,7 +198,7 @@ export const back = {
       'backArmholeLength',
       new Path()
         .move(points.armhole)
-        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
         .curve_(points.armholePitchCp2, points.shoulder)
         .length()
     )
@@ -197,7 +206,7 @@ export const back = {
       'backArmholeToArmholePitch',
       new Path()
         .move(points.armhole)
-        .curve(points.armholeCp1, points.armholePitchCp1, points.armholePitch)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
         .length()
     )
     if (complete) {
@@ -227,7 +236,7 @@ export const back = {
       if (sa) {
         const armholeSa = sa * options.armholeSaWidth * 100
         points.saArmhole = points.armhole.shift(45, armholeSa)
-        points.saArmholeCp1 = points.armholeCp1.shift(45, armholeSa)
+        points.saArmholeCp1 = points.armholeCp2.shift(45, armholeSa)
         points.saArmholePitch = points.armholePitch.shift(0, armholeSa)
         points.saArmholePitchCp1 = utils.beamsIntersect(
           points.saArmholePitch,

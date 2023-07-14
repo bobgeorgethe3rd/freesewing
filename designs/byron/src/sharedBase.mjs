@@ -40,7 +40,8 @@ export const sharedBase = {
     // 'hpsToChestBack',
     'hpsToWaistBack',
     'shoulderSlope',
-    'shoulderToShoulder',
+    // 'shoulderToShoulder',
+    'hpsToShoulder',
     'waist',
     'waistToArmpit',
     // 'waistToHips',
@@ -113,8 +114,8 @@ export const sharedBase = {
     }
 
     const neck = measurements.neck * (1 + options.neckEase)
-    const shoulderToShoulder =
-      measurements.shoulderToShoulder * (1 + options.shoulderToShoulderEase)
+    // const shoulderToShoulder =
+    // measurements.shoulderToShoulder * (1 + options.shoulderToShoulderEase)
 
     const waist = measurements.waist * (1 + options.waistEase)
 
@@ -181,11 +182,16 @@ export const sharedBase = {
 
     points.hps = points.origin.shift(0, neck / 5)
 
-    points.shoulder = utils.beamsIntersect(
-      points.hps,
-      points.hps.shift(measurements.shoulderSlope * -1, 1),
-      new Point(shoulderToShoulder / 2, 0),
-      new Point(shoulderToShoulder / 2, 1)
+    // points.shoulder = utils.beamsIntersect(
+    // points.hps,
+    // points.hps.shift(measurements.shoulderSlope * -1, 1),
+    // new Point(shoulderToShoulder / 2, 0),
+    // new Point(shoulderToShoulder / 2, 1)
+    // )
+
+    points.shoulder = points.hps.shift(
+      measurements.shoulderSlope * -1,
+      measurements.hpsToShoulder * (1 + options.shoulderToShoulderEase)
     )
 
     //guides Uncomment to see/for helping when making changes
@@ -204,7 +210,7 @@ export const sharedBase = {
     store.set('neck', neck)
     // store.set('seatBack', seatBack)
     // store.set('seatFront', seatFront)
-    store.set('shoulderToShoulder', shoulderToShoulder)
+    // store.set('shoulderToShoulder', shoulderToShoulder)
     store.set('waistDiff', waistDiff)
 
     return part
