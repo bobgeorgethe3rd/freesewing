@@ -62,7 +62,7 @@ export const sleeve = {
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
-    for (let i in snippets) delete snippets[i]
+    // for (let i in snippets) delete snippets[i]
     //removing macros not required from sleevecap
     macro('title', false)
     //measures
@@ -225,13 +225,9 @@ export const sleeve = {
       //notches
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['frontNotch', 'sleeveTip', 'slitTop', 'slitMid'],
+        on: ['sleeveTip', 'slitMid'],
       })
-      snippets.backNotch = new Snippet('bnotch', points.backNotch)
-      macro('sprinkle', {
-        snippet: 'bnotch',
-        on: ['backNotch', 'slitTop'],
-      })
+      snippets.slitTop = new Snippet('bnotch', points.slitTop)
       //title
       points.title = new Point(points.capQ4.x, points.slitMid.y / 2)
       macro('title', {
