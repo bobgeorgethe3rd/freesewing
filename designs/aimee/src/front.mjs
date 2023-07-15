@@ -19,10 +19,10 @@ export const front = {
     //Style
     fitSleeves: { bool: true, menu: 'style' },
     sleeveLengthBonus: { pct: 0, min: -10, max: 20, menu: 'style' },
-    armholeDrop: { pct: 12.4, min: 10, max: 15, menu: 'style' },
+    armholeDrop: { pct: 12.4, min: 0, max: 15, menu: 'style' },
     underArmSleeveLength: { pct: 6.4, min: 6, max: 8, menu: 'style' },
     fullSleeves: { bool: true, menu: 'style' },
-    underArmCurve: { pct: 100, min: 50, max: 100, menu: 'style' },
+    underArmCurve: { pct: 100, min: 50, max: 150, menu: 'style' },
     //Darts
     bustDartPlacement: {
       dflt: 'armhole',
@@ -70,8 +70,12 @@ export const front = {
     points.wristBottomInitial = points.wristTop
       .shiftTowards(points.hps, wrist / 2)
       .rotate(90, points.wristTop)
-    points.bodiceSleeveBottom = points.armholeDrop.shiftTowards(
-      points.wristBottomInitial,
+    // points.bodiceSleeveBottom = points.armholeDrop.shiftTowards(
+    // points.wristBottomInitial,
+    // underArmSleeveLength
+    // )
+    points.bodiceSleeveBottom = points.armholeDrop.shift(
+      points.hps.angle(points.shoulderRise),
       underArmSleeveLength
     )
     if (options.fitSleeves) {
@@ -91,10 +95,6 @@ export const front = {
       points.bodiceSleeveBottom,
       points.bodiceSleeveBottom.shift(points.wristBottom.angle(points.wristTop), 1)
     )
-    points.underArmCurveStart = points.armholeDrop.shiftTowards(
-      points.sideWaist,
-      underArmSleeveLength * options.underArmCurve
-    )
     if (options.fullSleeves) {
       points.underArmCp = utils.beamsIntersect(
         points.armhole,
@@ -110,6 +110,10 @@ export const front = {
         points.bodiceSleeveTop.rotate(90, points.bodiceSleeveBottom)
       )
     }
+    points.underArmCurveStart = points.underArmCp.shiftTowards(
+      points.sideWaist,
+      underArmSleeveLength * options.underArmCurve
+    )
 
     //guides
 

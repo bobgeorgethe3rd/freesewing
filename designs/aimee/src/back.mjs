@@ -55,7 +55,7 @@ export const back = {
     points.bodiceSleeveTop = points.hps.shiftTowards(points.wristTop, shoulderWidth)
     points.bodiceSleeveBottom = utils.beamsIntersect(
       points.armholeDrop,
-      points.wristBottomInitial,
+      points.armholeDrop.shift(points.hps.angle(points.shoulderRise), 1),
       points.bodiceSleeveTop,
       points.hps.rotate(90, points.bodiceSleeveTop)
     )
@@ -72,10 +72,6 @@ export const back = {
     }
 
     //underarm curve and side
-    points.underArmCurveStartInitial = points.armholeDrop.shiftTowards(
-      points.waistSide,
-      underArmSleeveLength * options.underArmCurve
-    )
     if (options.fullSleeves) {
       points.underArmCpInitial = utils.beamsIntersect(
         points.armhole,
@@ -96,6 +92,11 @@ export const back = {
       )
       points.underArmCurveEnd = points.bodiceSleeveBottom
     }
+
+    points.underArmCurveStartInitial = points.underArmCpInitial.shiftTowards(
+      points.waistSide,
+      underArmSleeveLength * options.underArmCurve
+    )
 
     let tweak = 1
     let target = underArmCurveLength
