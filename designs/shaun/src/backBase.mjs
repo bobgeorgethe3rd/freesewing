@@ -21,7 +21,7 @@ export const backBase = {
     shirtLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
     yokeBack: { bool: true, menu: 'style' },
     // yokeBackDepth: { pct: 20, min: 10, max: 50, menu: 'style' },
-    yokeBackDepth: { pct: 80, min: 10, max: 150, menu: 'style' },
+    yokeBackDepth: { pct: 80, min: 50, max: 150, menu: 'style' },
     yokeBackDip: { pct: 1.6, min: 0, max: 2, menu: 'style' },
   },
   measurements: ['hips', 'seat', 'waistToHips', 'waistToSeat'],

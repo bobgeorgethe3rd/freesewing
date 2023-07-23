@@ -79,11 +79,28 @@ export const buttonholePlacket = {
 
     //complete
     if (complete && sa) {
+      const hemSa = sa * options.hemWidth * 100
+
+      points.saPoint0 = new Point(
+        paths.saLeft.offset(sa).start().x,
+        paths.hemBase.offset(hemSa).end().y
+      )
+      points.saPoint1 = new Point(paths.saLeft.offset(sa).end().x, drawNeck().offset(sa).start().y)
+      points.saPoint2 = new Point(drawSaRight().offset(sa).start().x, drawNeck().offset(sa).end().y)
+      points.saPoint3 = new Point(
+        drawSaRight().offset(sa).end().x,
+        paths.hemBase.offset(hemSa).start().y
+      )
+
       paths.sa = paths.hemBase
-        .offset(sa * options.hemWidth * 100)
+        .offset(hemSa)
+        .line(points.saPoint0)
         .join(paths.saLeft.offset(sa))
+        .line(points.saPoint1)
         .join(drawNeck().offset(sa))
+        .line(points.saPoint2)
         .join(drawSaRight().offset(sa))
+        .line(points.saPoint3)
         .close()
         .attr('class', 'fabric sa')
     }

@@ -165,6 +165,17 @@ export const frontRight = {
     // .attr('class', 'various dashed')
 
     if (complete && sa) {
+      const hemSa = sa * options.hemWidth * 100
+
+      points.saPoint4 = new Point(
+        drawSeamLeft().offset(sa).start().x,
+        drawNeck().offset(sa).end().y
+      )
+      points.saPoint5 = new Point(
+        drawSeamLeft().offset(sa).end().x,
+        paths.hemBase.offset(hemSa).start().y
+      )
+
       paths.saArmhole = new Path()
         .move(points.saArmhole)
         .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
@@ -172,7 +183,7 @@ export const frontRight = {
         .hide()
 
       paths.sa = paths.hemBase
-        .offset(sa * options.hemWidth * 100)
+        .offset(hemSa)
         .line(points.saPoint0)
         .join(paths.sideSeam.offset(sa * options.sideSeamSaWidth * 100))
         .line(points.saPoint1)
@@ -181,7 +192,9 @@ export const frontRight = {
         .join(paths.shoulder.offset(sa))
         .line(points.saPoint3)
         .join(drawNeck().offset(sa))
+        .line(points.saPoint4)
         .join(drawSeamLeft().offset(sa))
+        .line(points.saPoint5)
         .close()
         .attr('class', 'fabric sa')
     }
