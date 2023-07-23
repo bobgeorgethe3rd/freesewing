@@ -8,8 +8,8 @@ export const sleeve = {
     //Imported
     ...sleevecap.options,
     //Fit
-    bicepsEase: { pct: 12, min: 0, max: 20, menu: 'fit' },
-    elbowEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
+    bicepsEase: { pct: 20.6, min: 0, max: 25, menu: 'fit' },
+    elbowEase: { pct: 19.7, min: 0, max: 25, menu: 'fit' },
     wristEase: { pct: 18, min: 0, max: 50, menu: 'fit' },
     //Sleeves
     fitSleeveWidth: { bool: true, menu: 'sleeves' },

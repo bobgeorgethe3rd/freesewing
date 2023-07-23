@@ -77,13 +77,22 @@ export const collar = {
     for (const p of flip) points['f' + utils.capitalize(p)] = points[p].flipX(points.bottomMid)
 
     //paths
-    paths.seam = new Path()
+    paths.saTop = new Path()
       .move(points.topCollar)
       .curve(points.topCp1, points.topCp2, points.topMid)
       .curve(points.fTopCp2, points.fTopCp1, points.fTopCollar)
-      .line(points.fBottomCollar)
+      .hide()
+
+    paths.saBottom = new Path()
+      .move(points.fBottomCollar)
       ._curve(points.fBottomCollarCp1, points.collarMid)
       .curve_(points.bottomCollarCp1, points.bottomCollar)
+      .hide()
+
+    paths.seam = paths.saTop
+      .clone()
+      .line(points.fBottomCollar)
+      .join(paths.saBottom)
       .line(points.topCollar)
       .close()
 
@@ -119,7 +128,26 @@ export const collar = {
         .attr('data-text-class', 'center')
 
       if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
+        points.saPoint0 = points.fTopCollar
+          .shift(points.fTopCp1.angle(points.fTopCollar), sa)
+          .shift(points.fBottomCollar.angle(points.fTopCollar), sa)
+        points.saPoint1 = utils.beamsIntersect(
+          points.fTopCollar.shiftTowards(points.fBottomCollar, sa).rotate(-90, points.fTopCollar),
+          points.fBottomCollar.shiftTowards(points.fTopCollar, sa).rotate(90, points.fBottomCollar),
+          paths.saBottom.offset(sa).start(),
+          paths.saBottom.offset(sa).shiftFractionAlong(0.001)
+        )
+        points.saPoint2 = points.saPoint1.flipX(points.topMid)
+        points.saPoint3 = points.saPoint0.flipX(points.topMid)
+        paths.sa = paths.saTop
+          .offset(sa)
+          .line(points.saPoint0)
+          .line(points.saPoint1)
+          .join(paths.saBottom.offset(sa))
+          .line(points.saPoint2)
+          .line(points.saPoint3)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
     return part

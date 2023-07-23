@@ -87,6 +87,10 @@ export const collarBand = {
       })
       //notches
       macro('sprinkle', {
+        snippet: 'notch',
+        on: ['bottomNotch', 'fBottomNotch'],
+      })
+      macro('sprinkle', {
         snippet: 'bnotch',
         on: ['topNotch', 'fTopNotch'],
       })

@@ -199,11 +199,30 @@ export const sleeve = {
 
       if (sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
+        points.saPoint0 = new Point(
+          drawSaRight().offset(sideSeamSa).start().x,
+          drawHemBase().offset(sa).end().y
+        )
+        points.saPoint1 = new Point(
+          drawSaRight().offset(sideSeamSa).end().x,
+          paths.sleevecap.offset(armholeSa).start().y
+        )
+        points.saPoint2 = new Point(
+          drawSaLeft().offset(sideSeamSa).start().x,
+          paths.sleevecap.offset(armholeSa).end().y
+        )
+        points.saPoint3 = points.saPoint0.flipX(points.bottomAnchor)
+
         paths.sa = drawHemBase()
           .offset(sa)
+          .line(points.saPoint0)
           .join(drawSaRight().offset(sideSeamSa))
-          .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
+          .line(points.saPoint1)
+          .join(paths.sleevecap.offset(armholeSa))
+          .line(points.saPoint2)
           .join(drawSaLeft().offset(sideSeamSa))
+          .line(points.saPoint3)
           .close()
           .attr('class', 'fabric sa')
       }

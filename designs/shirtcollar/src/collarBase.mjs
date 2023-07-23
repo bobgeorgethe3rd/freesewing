@@ -101,6 +101,12 @@ export const collarBase = {
     // .line(points.fBottom)
     // .curve(points.fBottomCp2, points.fBottomCp1, points.bottomMid)
 
+    if (complete) {
+      //notches
+      points.bottomNotch = paths.neckBottom.shiftAlong(neckBackLength)
+      points.fBottomNotch = points.bottomNotch.flipX(points.bottomMid)
+    }
+
     return part
   },
 }
