@@ -140,6 +140,10 @@ export const yokeBack = {
       if (sa) {
         const armholeSa = sa * options.armholeSaWidth * 100
         const shoulderSa = sa * options.shoulderSaWidth * 100
+
+        points.saPoint0 = paths.saBottom.offset(sa).end().shift(0, armholeSa)
+        points.saPoint4 = paths.saBottom.start().translate(-armholeSa - paths.saBottom.length(), sa)
+
         const drawSALeft = () => {
           if (options.yokeBackOnBias && options.yokeBackOnFold) {
             return paths.mCbNeck
@@ -149,6 +153,7 @@ export const yokeBack = {
               .join(paths.mShoulder.reverse().offset(shoulderSa))
               .line(points.saPoint2.flipX(points.cbNeck))
               .join(paths.mArmhole.reverse().offset(armholeSa))
+              .line(points.saPoint4)
               .join(paths.mSaBottom.reverse().offset(sa))
           } else {
             return paths.cb.offset(cbSa)
@@ -156,7 +161,8 @@ export const yokeBack = {
         }
         paths.sa = paths.saBottom
           .offset(sa)
-          .join(paths.armhole.offset(sa * options.armholeSaWidth * 100))
+          .line(points.saPoint0)
+          .join(paths.armhole.offset(armholeSa))
           .line(points.saPoint2)
           .join(paths.shoulder.offset(shoulderSa))
           .line(points.saPoint3)

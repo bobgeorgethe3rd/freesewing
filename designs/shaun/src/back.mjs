@@ -175,7 +175,7 @@ export const back = {
       }
     }
 
-    const drawSaTop = () => {
+    const drawSeamTop = () => {
       if (options.yokeBack) {
         return new Path()
           .move(points.backTopRight)
@@ -192,7 +192,7 @@ export const back = {
     paths.seam = paths.hemBase
       .join(paths.sideSeam)
       .join(drawArmhole())
-      .join(drawSaTop())
+      .join(drawSeamTop())
       .join(drawSeamLeft())
       .close()
 
@@ -211,7 +211,7 @@ export const back = {
 
     // paths.seamLeftGuide = drawSeamLeft()
     // paths.armholeGuide = drawArmhole().unhide()
-    // paths.seamTopGuide = drawSaTop()
+    // paths.seamTopGuide = drawSeamTop()
 
     if (complete) {
       //grainline
@@ -277,6 +277,10 @@ export const back = {
         const hemSa = sa * options.hemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
 
+        points.saPoint0 = points.sideHem
+          .shift(points.sideHemCp1.angle(points.sideHem), sideSeamSa)
+          .shift(points.sideHemCp1.angle(points.sideHem) - 90, hemSa)
+
         paths.saArmhole = new Path()
           .move(points.saArmhole)
           .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
@@ -313,17 +317,39 @@ export const back = {
           }
         }
 
-        points.saPoint0 = points.sideHem
-          .shift(points.sideHemCp1.angle(points.sideHem), sideSeamSa)
-          .shift(points.sideHemCp1.angle(points.sideHem) - 90, hemSa)
+        const drawSaTop = () => {
+          if (options.yokeBack) {
+            points.saPoint4 = drawSeamTop()
+              .offset(sa)
+              .start()
+              .shift(
+                points.backTopCurveCp1.angle(points.backTopRight),
+                sa * options.armholeSaWidth * 100
+              )
+            return new Path()
+              .move(points.saPoint4)
+              .join(
+                new Path()
+                  .move(points.backTopRight)
+                  .curve_(points.backTopCurveCp1, points.backTopCurveEnd)
+                  .line(drawSeamLeft().start())
+                  .offset(sa)
+              )
+          } else {
+            return new Path()
+              .move(points.saPoint2)
+              .line(points.saPoint3)
+              .join(new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck).offset(sa))
+          }
+        }
 
         paths.sa = paths.hemBase
-          .offset(sa * options.hemWidth * 100)
+          .offset(hemSa)
           .line(points.saPoint0)
           .join(paths.sideSeam.offset(sideSeamSa))
           .line(points.saPoint1)
           .join(drawSaArmhole())
-          .join(drawSaTop().offset(sa))
+          .join(drawSaTop())
           .join(drawSeamLeft().offset(cbSa))
           .attr('class', 'fabric sa')
           .close()
