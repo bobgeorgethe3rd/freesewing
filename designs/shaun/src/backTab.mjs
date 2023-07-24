@@ -70,7 +70,30 @@ export const backTab = {
       points.buttonhole = new Point(points.topMid.x, points.bottomLeft.y)
       snippets.buttonhole = new Snippet('buttonhole', points.buttonhole).attr('data-scale', 0.75)
       if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
+        points.saTopLeft = points.topLeft.translate(-sa, -sa)
+        points.saBottomLeft = utils.beamsIntersect(
+          points.saTopLeft,
+          points.bottomLeft.shift(180, sa),
+          points.bottomLeft.shiftTowards(points.bottomPeak, sa).rotate(-90, points.bottomLeft),
+          points.bottomPeak.shiftTowards(points.bottomLeft, sa).rotate(90, points.bottomPeak)
+        )
+        points.saBottomPeak = utils.beamsIntersect(
+          points.bottomLeft.shiftTowards(points.bottomPeak, sa).rotate(-90, points.bottomLeft),
+          points.bottomPeak.shiftTowards(points.bottomLeft, sa).rotate(90, points.bottomPeak),
+          points.bottomPeak.shiftTowards(points.bottomRight, sa).rotate(-90, points.bottomPeak),
+          points.bottomRight.shiftTowards(points.bottomPeak, sa).rotate(90, points.bottomRight)
+        )
+        points.saBottomRight = points.saBottomLeft.flipX(points.bottomPeak)
+        points.saTopRight = points.topRight.translate(sa, -sa)
+        paths.sa = new Path()
+          .move(points.saTopLeft)
+          .line(points.saBottomLeft)
+          .line(points.saBottomPeak)
+          .line(points.saBottomRight)
+          .line(points.saTopRight)
+          .line(points.saTopLeft)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
     return part

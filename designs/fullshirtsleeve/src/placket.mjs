@@ -112,8 +112,31 @@ export const placket = {
         points.saTopRight = points.topRight.shift(90, sa)
         points.saTopCorner = points.topCorner.translate(sa, -sa)
         points.saPeakRight = points.peakRight.shift(0, sa)
-        paths.sa = paths.saBase
-          .offset(sa)
+
+        points.saPoint0 = utils.beamsIntersect(
+          points.saTopCorner,
+          points.saPeakRight,
+          points.peakRight.shiftTowards(points.peakMid, sa).rotate(-90, points.peakRight),
+          points.peakMid.shiftTowards(points.peakRight, sa).rotate(90, points.peakMid)
+        )
+        points.saPoint1 = utils.beamsIntersect(
+          points.peakRight.shiftTowards(points.peakMid, sa).rotate(-90, points.peakRight),
+          points.peakMid.shiftTowards(points.peakRight, sa).rotate(90, points.peakMid),
+          points.topLeft.shiftTowards(points.peakMid, sa).rotate(90, points.topLeft),
+          points.peakMid.shiftTowards(points.topLeft, sa).rotate(-90, points.peakMid)
+        )
+        points.saPoint2 = points.saPoint0.flipX(points.peakMid)
+        points.saPoint3 = points.bottomLeft.translate(-sa, sa)
+        points.saPoint4 = points.bottomRight.translate(sa, sa)
+        points.saPoint5 = points.topRight.translate(sa, -sa)
+
+        paths.sa = new Path()
+          .move(points.saPoint0)
+          .line(points.saPoint1)
+          .line(points.saPoint2)
+          .line(points.saPoint3)
+          .line(points.saPoint4)
+          .line(points.saPoint5)
           .line(points.saTopRight)
           .line(points.saTopCorner)
           .line(points.saPeakRight)

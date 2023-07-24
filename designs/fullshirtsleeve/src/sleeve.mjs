@@ -26,7 +26,7 @@ export const sleeve = {
     }, //Altered for Fullshirtsleeve
     sleeveSideCurve: { pct: 50, min: 0, max: 100, menu: 'sleeves' },
     sleevePlacketLength: { pct: 26.1, min: 15, max: 35, menu: 'sleeves.plackets' },
-    sleeveSlitFactor: { pct: 70, min: 75, max: 80, menu: 'sleeves.plackets' },
+    sleeveSlitFactor: { pct: 70, min: 65, max: 80, menu: 'sleeves.plackets' },
     sleevePleatWidth: { pct: 9.7, min: 5, max: 15, menu: 'sleeves' },
     sleeveBottomCurve: { pct: 1.7, min: 0, max: 2, menu: 'sleeves' },
     //Advanced
