@@ -5,9 +5,9 @@ export const sharedBase = {
     cbNeck: 0.044,
     neckEase: 0, //.064,
     //Fit
-    chestEase: { pct: 4.6, min: 0, max: 20, menu: 'fit' },
+    chestEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
     shoulderToShoulderEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
-    waistEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
+    waistEase: { pct: 5, min: 0, max: 20, menu: 'fit' },
     //Armhole
     armholeDrop: { pct: 18.2, min: 15, max: 30, menu: 'armhole' },
   },
@@ -31,7 +31,7 @@ export const sharedBase = {
     //measures
     const cbNeck = measurements.hpsToWaistBack * options.cbNeck
     const neck = measurements.neck * (1 + options.neckEase)
-    const waistToArmhole = measurements.waistToArmpit * (1 - options.armholeDrop)
+    // const waistToArmhole = measurements.waistToArmpit * (1 - options.armholeDrop)
     //let's begin
     points.origin = new Point(0, 0)
 
@@ -44,14 +44,14 @@ export const sharedBase = {
       measurements.hpsToShoulder * (1 + options.shoulderToShoulderEase)
     )
 
-    points.cArmhole = points.origin.shift(-90, measurements.hpsToWaistBack - waistToArmhole)
+    // points.cArmhole = points.origin.shift(-90, measurements.hpsToWaistBack - waistToArmhole)
 
     //guides
     paths.guide = new Path().move(points.shoulder).line(points.hps).line(points.cbNeck)
 
     //stores
     store.set('neck', neck)
-    store.set('waistToArmhole', waistToArmhole)
+    // store.set('waistToArmhole', waistToArmhole)
 
     return part
   },

@@ -15,7 +15,7 @@ export const backBase = {
     backArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },
     backArmholePitchDepth: { pct: 50, min: 45, max: 65, menu: 'armhole' },
   },
-  measurements: ['highBust'],
+  measurements: ['bustFront', 'chest'],
   draft: ({
     store,
     sa,
@@ -33,14 +33,14 @@ export const backBase = {
     snippets,
   }) => {
     //remove paths & snippets
-    // for (let i in paths) delete paths[i]
+    for (let i in paths) delete paths[i]
     //measures
-    const highBustBack =
-      (measurements.highBust - measurements.highBustFront) * (1 + options.chestEase)
+    const chestBack = (measurements.chest - measurements.bustFront) * (1 + options.chestEase)
     const waistToArmhole = store.get('waistToArmhole')
     const waistBack = measurements.waistBack * (1 + options.waistEase)
     //let's begin
-    points.armhole = points.cArmhole.shift(0, highBustBack / 2)
+    points.cbArmhole = points.origin.shift(-90, measurements.hpsToWaistBack - waistToArmhole)
+    points.armhole = points.cbArmhole.shift(0, chestBack / 2)
     points.cbWaist = points.origin.shift(-90, measurements.hpsToWaistBack)
     points.sideWaistAnchor = new Point(points.armhole.x, points.cbWaist.y)
     //dart
@@ -48,13 +48,13 @@ export const backBase = {
 
     if (waistDiff < 0) {
       points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff * 2)
-      points.dartTip = points.cArmhole.shiftFractionTowards(points.armhole, 0.5)
+      points.dartTip = points.cbArmhole.shiftFractionTowards(points.armhole, 0.5)
       points.dartBottomMid = new Point(points.dartTip.x, points.cbWaist.y)
       points.dartBottomLeft = points.dartBottomMid.shift(180, waistDiff / -2)
       points.dartBottomRight = points.dartBottomLeft.flipX(points.dartBottomMid)
     } else {
       points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff / 3)
-      points.dartTip = points.cArmhole.shift(0, points.sideWaist.x / 2)
+      points.dartTip = points.cbArmhole.shift(0, points.sideWaist.x / 2)
       points.dartBottomMid = new Point(points.dartTip.x, points.cbWaist.y)
       points.dartBottomLeft = points.dartBottomMid.shift(180, waistDiff / 3)
       points.dartBottomRight = points.dartBottomLeft.flipX(points.dartBottomMid)
@@ -69,7 +69,7 @@ export const backBase = {
 
     //armhole
     points.cbArmholePitch = points.cbNeck.shiftFractionTowards(
-      points.cArmhole,
+      points.cbArmhole,
       options.backArmholePitchDepth
     )
     points.armholePitch = points.cbArmholePitch.shift(

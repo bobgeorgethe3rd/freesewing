@@ -16,9 +16,18 @@ export const frontBase = {
     frontArmholePitchWidth: { pct: 91.1, min: 90, max: 95, menu: 'armhole' },
     frontArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },
     //Advanced
-    dartRatio: { pct: 50, min: 40, max: 60, menu: 'advanced.darts' },
+    // dartRatio: { pct: 50, min: 40, max: 60, menu: 'advanced.darts' },
   },
-  measurements: ['hpsToWaistBack', 'hpsToBust', 'highBustFront', 'bustFront', 'waist', 'waistBack'],
+  measurements: [
+    'hpsToWaistBack',
+    'hpsToWaistFront',
+    'hpsToBust',
+    'highBustFront',
+    'bustFront',
+    'bustSpan',
+    'waist',
+    'waistBack',
+  ],
   draft: ({
     store,
     sa,
@@ -40,12 +49,13 @@ export const frontBase = {
     //measures
     const highBustFront = measurements.highBustFront * (1 + options.chestEase)
     const bustFront = measurements.bustFront * (1 + options.chestEase)
-    const waistToArmhole = store.get('waistToArmhole')
+    const waistToArmhole = measurements.waistToArmpit * (1 - options.armholeDrop)
     const bustSpan = measurements.bustSpan * (1 + options.bustSpanEase)
     const neck = store.get('neck')
     const waistFront = (measurements.waist - measurements.waistBack) * (1 + options.waistEase)
     //let's begin
-    points.armhole = points.cArmhole.shift(0, highBustFront / 2)
+    points.cfArmhole = points.origin.shift(-90, measurements.hpsToWaistFront - waistToArmhole)
+    points.armhole = points.cfArmhole.shift(0, highBustFront / 2)
 
     points.cfChest = points.origin.shift(-90, measurements.hpsToBust)
     points.sideChest = points.cfChest.shift(0, bustFront / 2)
@@ -72,25 +82,35 @@ export const frontBase = {
 
     const fullDartAngle =
       points.bust.angle(points.waistDartRight) - points.bust.angle(points.waistDartLeft)
-    const bustDartAngle = fullDartAngle * options.dartRatio
-    const waistDartAngle = fullDartAngle * (1 - options.dartRatio)
 
-    points.bustDartTop = points.sideChest
-    points.bustDartBottom = points.bustDartTop.rotate(-bustDartAngle, points.bust)
-    points.bustDartMiddle = points.bustDartTop.shiftFractionTowards(points.bustDartBottom, 0.5)
-    points.sideWaist = points.sideWaistInitial.rotate(-bustDartAngle, points.bust)
+    let tweak = 0.5
+    let delta
+    do {
+      const bustDartAngle = fullDartAngle * tweak
+      const waistDartAngle = fullDartAngle * (1 - tweak)
 
-    points.waistDartLeft = utils.beamsIntersect(
-      points.bust,
-      points.bust.shift(270 - waistDartAngle / 2, 1),
-      points.cfWaist,
-      points.cfWaist.shift(0, 1)
-    )
-    points.waistDartRight = points.waistDartLeft.rotate(waistDartAngle, points.bust)
+      points.bustDartTop = points.sideChest
+      points.bustDartBottom = points.bustDartTop.rotate(-bustDartAngle, points.bust)
+      points.bustDartMiddle = points.bustDartTop.shiftFractionTowards(points.bustDartBottom, 0.5)
+      points.sideWaist = points.sideWaistInitial.rotate(-bustDartAngle, points.bust)
+
+      points.waistDartLeft = utils.beamsIntersect(
+        points.bust,
+        points.bust.shift(270 - waistDartAngle / 2, 1),
+        points.cfWaist,
+        points.cfWaist.shift(0, 1)
+      )
+      points.waistDartRight = points.waistDartLeft.rotate(waistDartAngle, points.bust)
+      delta =
+        points.bustDartTop.dist(points.bustDartBottom) -
+        points.waistDartLeft.dist(points.waistDartRight)
+      if (delta > 0) tweak = tweak * 0.99
+      else tweak = tweak * 1.01
+    } while (Math.abs(delta) > 1)
 
     //armhole
     points.cfArmholePitch = points.cbNeck.shiftFractionTowards(
-      points.cArmhole,
+      points.cfArmhole,
       options.frontArmholePitchDepth
     )
     points.armholePitch = points.cfArmholePitch.shift(
@@ -141,6 +161,11 @@ export const frontBase = {
       .line(points.hps)
       .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .line(points.cfWaist)
+
+    //stores
+    // store.set('bustDartAngle', bustDartAngle)
+    // store.set('waistDartAngle', waistDartAngle)
+    store.set('waistToArmhole', waistToArmhole)
 
     return part
   },
