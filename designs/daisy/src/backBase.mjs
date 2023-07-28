@@ -39,33 +39,63 @@ export const backBase = {
     const chestBack = (measurements.chest - measurements.bustFront) * (1 + options.chestEase)
     const waistToArmhole = store.get('waistToArmhole')
     const waistBack = measurements.waistBack * (1 + options.waistEase)
+    const sideAngle = store.get('sideAngle')
     //let's begin
     points.cbArmhole = points.origin.shift(-90, measurements.hpsToWaistBack - waistToArmhole)
     points.armhole = points.cbArmhole.shift(0, chestBack / 2)
     points.cbWaist = points.origin.shift(-90, measurements.hpsToWaistBack)
     points.sideWaistAnchor = new Point(points.armhole.x, points.cbWaist.y)
     //dart
-    const waistDiff = points.armhole.x - waistBack / 2
+    points.sideWaist = utils.beamsIntersect(
+      points.armhole,
+      points.armhole.shift(180 + sideAngle, 1),
+      points.cbWaist,
+      points.cbWaist.shift(0, 1)
+    )
+    const waistDiff = points.sideWaist.x - waistBack / 2
 
     if (waistDiff < 0) {
       points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff * 2)
       points.dartTip = points.cbArmhole.shiftFractionTowards(points.armhole, 0.5)
-      points.dartBottomMid = new Point(points.dartTip.x, points.cbWaist.y)
-      points.dartBottomLeft = points.dartBottomMid.shift(180, waistDiff / -2)
-      points.dartBottomRight = points.dartBottomLeft.flipX(points.dartBottomMid)
+      points.dartBottomMidI = new Point(points.dartTip.x, points.cbWaist.y)
+      points.dartBottomLeftI = points.dartBottomMidI.shift(180, waistDiff / -2)
+      points.dartBottomRightI = points.dartBottomLeftI.flipX(points.dartBottomMidI)
     } else {
-      points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff / 3)
       points.dartTip = points.cbArmhole.shift(0, points.sideWaist.x / 2)
-      points.dartBottomMid = new Point(points.dartTip.x, points.cbWaist.y)
-      points.dartBottomLeft = points.dartBottomMid.shift(180, waistDiff / 3)
-      points.dartBottomRight = points.dartBottomLeft.flipX(points.dartBottomMid)
+      points.dartBottomMidI = new Point(points.dartTip.x, points.cbWaist.y)
+      points.dartBottomLeftI = points.dartBottomMidI.shift(180, waistDiff / 2)
+      points.dartBottomRightI = points.dartBottomLeftI.flipX(points.dartBottomMidI)
     }
+    points.dartBottomEdgeI = utils.beamsIntersect(
+      points.dartBottomLeftI,
+      points.dartTip.rotate(-90, points.dartBottomLeftI),
+      points.dartTip,
+      points.dartBottomMidI
+    )
+
+    points.dartBottomLeft = utils.lineIntersectsCurve(
+      points.dartTip,
+      points.dartTip.shiftFractionTowards(points.dartBottomLeftI, 2),
+      points.cbWaist,
+      points.dartBottomEdgeI,
+      points.dartBottomEdgeI,
+      points.sideWaist
+    )
+    points.dartBottomLeftCp1 = utils.beamsIntersect(
+      points.dartBottomLeft,
+      points.dartTip.rotate(90, points.dartBottomLeft),
+      points.cbWaist,
+      points.cbWaist.shift(0, 1)
+    )
+    points.dartBottomRight = points.dartBottomLeft.flipX(points.dartTip)
+    points.dartBottomRightCp2 = points.dartBottomLeftCp1.flipX(points.dartTip)
     points.dartBottomEdge = utils.beamsIntersect(
       points.dartBottomLeft,
       points.dartTip.rotate(-90, points.dartBottomLeft),
       points.dartTip,
-      points.dartBottomMid
+      points.dartBottomMidI
     )
+    points.dartBottomMid = new Point(points.dartTip.x, points.dartBottomLeft.y)
     //cbNeck
     points.cbNeckCp1 = utils.beamsIntersect(
       points.hps,
@@ -106,19 +136,18 @@ export const backBase = {
 
     //temp snippets for testing
     snippets.armholePitch = new Snippet('bnotch', points.armholePitch)
-
     //guides
     paths.dart = new Path()
       .move(points.dartBottomLeft)
-      .line(points.dartBottomEdge)
+      .line(points.dartBottomEdgeI)
       .line(points.dartBottomRight)
       .attr('class', 'fabric help')
     paths.guide = new Path()
       .move(points.cbWaist)
-      .line(points.dartBottomLeft)
+      .curve_(points.dartBottomLeftCp1, points.dartBottomLeft)
       .line(points.dartTip)
       .line(points.dartBottomRight)
-      .line(points.sideWaist)
+      ._curve(points.dartBottomRightCp2, points.sideWaist)
       .line(points.armhole)
       .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
