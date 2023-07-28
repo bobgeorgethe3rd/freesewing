@@ -14,7 +14,7 @@ export const frontBase = {
     //Fit
     bustSpanEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
     //Armhole
-    frontArmholePitchDepth: { pct: 60, min: 45, max: 65, menu: 'armhole' },
+    frontArmholePitchDepth: { pct: 50, min: 45, max: 65, menu: 'armhole' },
     frontArmholePitchWidth: { pct: 91.1, min: 90, max: 95, menu: 'armhole' },
     frontArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },
     //Advanced
