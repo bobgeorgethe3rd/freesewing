@@ -31,6 +31,7 @@ export const backBase = {
     measurements,
     part,
     snippets,
+    Snippet,
   }) => {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
@@ -59,6 +60,12 @@ export const backBase = {
       points.dartBottomLeft = points.dartBottomMid.shift(180, waistDiff / 3)
       points.dartBottomRight = points.dartBottomLeft.flipX(points.dartBottomMid)
     }
+    points.dartBottomEdge = utils.beamsIntersect(
+      points.dartBottomLeft,
+      points.dartTip.rotate(-90, points.dartBottomLeft),
+      points.dartTip,
+      points.dartBottomMid
+    )
     //cbNeck
     points.cbNeckCp1 = utils.beamsIntersect(
       points.hps,
@@ -97,7 +104,15 @@ export const backBase = {
       options.backArmholeDepth
     )
 
+    //temp snippets for testing
+    snippets.armholePitch = new Snippet('bnotch', points.armholePitch)
+
     //guides
+    paths.dart = new Path()
+      .move(points.dartBottomLeft)
+      .line(points.dartBottomEdge)
+      .line(points.dartBottomRight)
+      .attr('class', 'fabric help')
     paths.guide = new Path()
       .move(points.cbWaist)
       .line(points.dartBottomLeft)

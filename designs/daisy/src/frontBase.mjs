@@ -1,3 +1,4 @@
+import { pluginBundle } from '@freesewing/plugin-bundle'
 import { sharedBase } from './sharedBase.mjs'
 
 export const frontBase = {
@@ -6,6 +7,7 @@ export const frontBase = {
   hide: {
     from: true,
   },
+  plugins: [pluginBundle],
   options: {
     //Constants
     cfNeck: 0.55191502449,
@@ -43,6 +45,7 @@ export const frontBase = {
     measurements,
     part,
     snippets,
+    Snippet,
   }) => {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
@@ -108,6 +111,19 @@ export const frontBase = {
       else tweak = tweak * 1.01
     } while (Math.abs(delta) > 1)
 
+    points.waistDartEdge = utils.beamsIntersect(
+      points.waistDartLeft,
+      points.bust.rotate(-90, points.waistDartLeft),
+      points.bust,
+      points.waistDartMid
+    )
+    points.bustDartEdge = utils.beamsIntersect(
+      points.bustDartBottom,
+      points.bust.rotate(-90, points.bustDartBottom),
+      points.bust,
+      points.bustDartMiddle
+    )
+
     //armhole
     points.cfArmholePitch = points.cbNeck.shiftFractionTowards(
       points.cfArmhole,
@@ -145,7 +161,18 @@ export const frontBase = {
     points.hpsCp2 = points.hps.shiftFractionTowards(points.cfNeckCorner, options.cfNeck)
     points.cfNeckCp1 = points.cfNeck.shiftFractionTowards(points.cfNeckCorner, options.cfNeck)
 
+    //temp snippets for testing
+    snippets.armholePitch = new Snippet('notch', points.armholePitch)
     //guides
+    paths.dart = new Path()
+      .move(points.waistDartLeft)
+      .line(points.waistDartEdge)
+      .line(points.waistDartRight)
+      .move(points.bustDartBottom)
+      .line(points.bustDartEdge)
+      .line(points.bustDartTop)
+      .attr('class', 'fabric help')
+
     paths.guide = new Path()
       .move(points.cfWaist)
       .line(points.waistDartLeft)
@@ -161,7 +188,6 @@ export const frontBase = {
       .line(points.hps)
       .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .line(points.cfWaist)
-
     //stores
     // store.set('bustDartAngle', bustDartAngle)
     // store.set('waistDartAngle', waistDartAngle)
