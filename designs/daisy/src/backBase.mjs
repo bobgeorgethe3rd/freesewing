@@ -41,8 +41,8 @@ export const backBase = {
     const waistBack = measurements.waistBack * (1 + options.waistEase)
     const sideAngle = store.get('sideAngle')
     //let's begin
-    points.cbArmhole = points.origin.shift(-90, measurements.hpsToWaistBack - waistToArmhole)
-    points.armhole = points.cbArmhole.shift(0, chestBack / 2)
+    // points.cbArmhole = points.origin.shift(-90, measurements.hpsToWaistBack - waistToArmhole)
+    points.armhole = points.cArmhole.shift(0, chestBack / 2)
     points.cbWaist = points.origin.shift(-90, measurements.hpsToWaistBack)
     points.sideWaistAnchor = new Point(points.armhole.x, points.cbWaist.y)
     //dart
@@ -56,12 +56,12 @@ export const backBase = {
 
     if (waistDiff < 0) {
       points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff * 2)
-      points.dartTip = points.cbArmhole.shiftFractionTowards(points.armhole, 0.5)
+      points.dartTip = points.cArmhole.shiftFractionTowards(points.armhole, 0.5)
       points.dartBottomMidI = new Point(points.dartTip.x, points.cbWaist.y)
       points.dartBottomLeftI = points.dartBottomMidI.shift(180, waistDiff / -2)
       points.dartBottomRightI = points.dartBottomLeftI.flipX(points.dartBottomMidI)
     } else {
-      points.dartTip = points.cbArmhole.shift(0, points.sideWaist.x / 2)
+      points.dartTip = points.cArmhole.shift(0, points.sideWaist.x / 2)
       points.dartBottomMidI = new Point(points.dartTip.x, points.cbWaist.y)
       points.dartBottomLeftI = points.dartBottomMidI.shift(180, waistDiff / 2)
       points.dartBottomRightI = points.dartBottomLeftI.flipX(points.dartBottomMidI)
@@ -105,11 +105,11 @@ export const backBase = {
     )
 
     //armhole
-    points.cbArmholePitch = points.cbNeck.shiftFractionTowards(
-      points.cbArmhole,
+    points.cArmholePitch = points.cbNeck.shiftFractionTowards(
+      points.cArmhole,
       options.backArmholePitchDepth
     )
-    points.armholePitch = points.cbArmholePitch.shift(
+    points.armholePitch = points.cArmholePitch.shift(
       0,
       points.shoulder.x * options.backArmholePitchWidth
     )

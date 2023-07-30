@@ -52,13 +52,13 @@ export const frontBase = {
     //measures
     const highBustFront = measurements.highBustFront * (1 + options.chestEase)
     const bustFront = measurements.bustFront * (1 + options.chestEase)
-    const waistToArmhole = measurements.waistToArmpit * (1 - options.armholeDrop)
+    const waistToArmhole = store.get('waistToArmhole') //measurements.waistToArmpit * (1 - options.armholeDrop)
     const bustSpan = measurements.bustSpan * (1 + options.bustSpanEase)
     const neck = store.get('neck')
     const waistFront = (measurements.waist - measurements.waistBack) * (1 + options.waistEase)
     //let's begin
-    points.cfArmhole = points.origin.shift(-90, measurements.hpsToWaistBack - waistToArmhole)
-    points.armhole = points.cfArmhole.shift(0, highBustFront / 2)
+    // points.cfArmhole = points.origin.shift(-90, measurements.hpsToWaistBack - waistToArmhole)
+    points.armhole = points.cArmhole.shift(0, highBustFront / 2)
 
     points.cfChest = points.origin.shift(-90, measurements.hpsToBust)
     points.sideChest = points.cfChest.shift(0, bustFront / 2)
@@ -155,11 +155,11 @@ export const frontBase = {
 
     points.waistDartMid = new Point(points.bust.x, points.waistDartLeft.y)
     //armhole
-    points.cfArmholePitch = points.cbNeck.shiftFractionTowards(
-      points.cfArmhole,
+    points.cArmholePitch = points.cbNeck.shiftFractionTowards(
+      points.cArmhole,
       options.frontArmholePitchDepth
     )
-    points.armholePitch = points.cfArmholePitch.shift(
+    points.armholePitch = points.cArmholePitch.shift(
       0,
       points.shoulder.x * options.frontArmholePitchWidth
     )
