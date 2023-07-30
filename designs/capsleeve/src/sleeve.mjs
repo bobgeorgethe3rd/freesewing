@@ -15,7 +15,7 @@ export const sleeve = {
     elbowEase: 0, //Locked for Capsleeve
     wristEase: 0, //Locked for Capsleeve
     fitSleeveWidth: false, //Locked for Capsleeve
-    flounces: 'none', //Locked for Capsleeve
+    sleeveFlounces: 'none', //Locked for Capsleeve
     sleeveBandWidth: 0, //Locked for Capsleeve
     sleeveBands: false, //Locked for Capsleeve
     sleeveLength: 0, //Locked for Capsleeve

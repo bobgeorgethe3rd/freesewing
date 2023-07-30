@@ -10,7 +10,7 @@ export const sleeve = {
     cpFraction: 0.55191502449,
     sleeveBands: false, //locked
     sleeveBandWidth: 0, //locked
-    flounces: 'none', //locked
+    sleeveFlounces: 'none', //locked
     //Sleeves
     sleeveLength: { pct: 30, min: 15, max: 100, menu: 'sleeves' },
     sleeveSlitWidth: {
