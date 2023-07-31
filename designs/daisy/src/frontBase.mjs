@@ -78,9 +78,9 @@ export const frontBase = {
     }
 
     const waistDiff = points.cfWaist.dist(points.sideWaistInitial) - waistFront / 2
-
+    points.sideWaistInitial = points.sideWaistInitial.shiftTowards(points.cfWaist, waistDiff / 3)
     points.waistDartMidI = new Point(points.bust.x, points.cfWaist.y)
-    points.waistDartLeftI = points.waistDartMidI.shift(180, waistDiff / 2)
+    points.waistDartLeftI = points.waistDartMidI.shift(180, waistDiff / 3)
     points.waistDartRightI = points.waistDartLeftI.flipX(points.waistDartMidI)
 
     const fullDartAngle =
@@ -92,7 +92,12 @@ export const frontBase = {
       const bustDartAngle = fullDartAngle * tweak
       const waistDartAngle = fullDartAngle * (1 - tweak)
 
-      points.bustDartTop = points.sideChest
+      points.bustDartTop = utils.beamsIntersect(
+        points.cfChest,
+        points.sideChest,
+        points.armhole,
+        points.sideWaistInitial
+      )
       points.bustDartBottom = points.bustDartTop.rotate(-bustDartAngle, points.bust)
       points.bustDartMiddle = points.bustDartTop.shiftFractionTowards(points.bustDartBottom, 0.5)
       points.sideWaist = points.sideWaistInitial.rotate(-bustDartAngle, points.bust)
@@ -218,13 +223,14 @@ export const frontBase = {
       .line(points.hps)
       .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .line(points.cfWaist)
+
     //stores
     // store.set('bustDartAngle', bustDartAngle)
     // store.set('waistDartAngle', waistDartAngle)
     store.set('waistToArmhole', waistToArmhole)
     store.set(
       'sideAngle',
-      points.sideWaist.angle(points.waistDartRightI) - points.sideWaist.angle(points.bustDartBottom)
+      points.sideWaist.angle(points.waistDartLeftI) - points.sideWaist.angle(points.bustDartBottom)
     )
     return part
   },

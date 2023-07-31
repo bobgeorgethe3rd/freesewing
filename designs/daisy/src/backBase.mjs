@@ -48,11 +48,12 @@ export const backBase = {
     //dart
     points.sideWaist = utils.beamsIntersect(
       points.armhole,
-      points.armhole.shift(180 + sideAngle, 1),
+      points.armhole.shift(sideAngle, 1),
       points.cbWaist,
       points.cbWaist.shift(0, 1)
     )
     const waistDiff = points.sideWaist.x - waistBack / 2
+    // const waistDiff = points.armhole.x - waistBack / 2
 
     if (waistDiff < 0) {
       points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff * 2)
@@ -61,6 +62,7 @@ export const backBase = {
       points.dartBottomLeftI = points.dartBottomMidI.shift(180, waistDiff / -2)
       points.dartBottomRightI = points.dartBottomLeftI.flipX(points.dartBottomMidI)
     } else {
+      // points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff / 3)
       points.dartTip = points.cArmhole.shift(0, points.sideWaist.x / 2)
       points.dartBottomMidI = new Point(points.dartTip.x, points.cbWaist.y)
       points.dartBottomLeftI = points.dartBottomMidI.shift(180, waistDiff / 2)
