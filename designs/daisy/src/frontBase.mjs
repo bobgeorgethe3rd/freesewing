@@ -78,7 +78,10 @@ export const frontBase = {
     }
 
     const waistDiff = points.cfWaist.dist(points.sideWaistInitial) - waistFront / 2
-    points.sideWaistInitial = points.sideWaistInitial.shiftTowards(points.cfWaist, waistDiff / 3)
+    points.sideWaistInitial = points.armhole.shiftTowards(
+      points.sideWaistInitial.shiftTowards(points.cfWaist, waistDiff / 3),
+      waistToArmhole
+    )
     points.waistDartMidI = new Point(points.bust.x, points.cfWaist.y)
     points.waistDartLeftI = points.waistDartMidI.shift(180, waistDiff / 3)
     points.waistDartRightI = points.waistDartLeftI.flipX(points.waistDartMidI)
