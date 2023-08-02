@@ -127,8 +127,10 @@ export const frontBase = {
       points.waistDartMidI
     )
     points.bustDartEdge = utils.beamsIntersect(
-      points.bustDartBottom,
-      points.bust.rotate(-90, points.bustDartBottom),
+      points.armhole,
+      points.bustDartTop,
+      // points.bustDartBottom,
+      // points.bust.rotate(-90, points.bustDartBottom),
       points.bust,
       points.bustDartMiddle
     )
