@@ -78,12 +78,12 @@ export const frontBase = {
     }
 
     const waistDiff = points.cfWaist.dist(points.sideWaistInitial) - waistFront / 2
-    points.sideWaistInitial = points.armhole.shiftTowards(
-      points.sideWaistInitial.shiftTowards(points.cfWaist, waistDiff / 3),
-      waistToArmhole
-    )
+    // points.sideWaistInitial = points.armhole.shiftTowards(
+    // points.sideWaistInitial.shiftTowards(points.cfWaist, waistDiff / 3),
+    // waistToArmhole
+    // )
     points.waistDartMidI = new Point(points.bust.x, points.cfWaist.y)
-    points.waistDartLeftI = points.waistDartMidI.shift(180, waistDiff / 3)
+    points.waistDartLeftI = points.waistDartMidI.shift(180, waistDiff / 2)
     points.waistDartRightI = points.waistDartLeftI.flipX(points.waistDartMidI)
 
     const fullDartAngle =
@@ -95,12 +95,13 @@ export const frontBase = {
       const bustDartAngle = fullDartAngle * tweak
       const waistDartAngle = fullDartAngle * (1 - tweak)
 
-      points.bustDartTop = utils.beamsIntersect(
-        points.cfChest,
-        points.sideChest,
-        points.armhole,
-        points.sideWaistInitial
-      )
+      // points.bustDartTop = utils.beamsIntersect(
+      // points.cfChest,
+      // points.sideChest,
+      // points.armhole,
+      // points.sideWaistInitial
+      // )
+      points.bustDartTop = points.sideChest
       points.bustDartBottom = points.bustDartTop.rotate(-bustDartAngle, points.bust)
       points.bustDartMiddle = points.bustDartTop.shiftFractionTowards(points.bustDartBottom, 0.5)
       points.sideWaist = points.sideWaistInitial.rotate(-bustDartAngle, points.bust)
@@ -177,19 +178,19 @@ export const frontBase = {
       points.shoulder,
       points.hps.rotate(90, points.shoulder)
     )
-    // points.armholeCpMax = utils.beamsIntersect(
-    // points.armholePitchCp2,
-    // points.armholePitch,
-    // points.armhole,
-    // points.sideChest.rotate(-90, points.armhole)
-    // )
+    points.armholeCpMax = utils.beamsIntersect(
+      points.armholePitchCp2,
+      points.armholePitch,
+      points.armhole,
+      points.sideChest.rotate(-90, points.armhole)
+    )
     points.armholePitchCp1 = points.armholePitch.shiftFractionTowards(
-      new Point(points.armholePitch.x, points.armhole.y),
+      points.armholeCpMax, //new Point(points.armholePitch.x, points.armhole.y),
       options.frontArmholeDepth
     )
 
     points.armholeCp2 = points.armhole.shiftFractionTowards(
-      new Point(points.armholePitch.x, points.armhole.y),
+      points.armholeCpMax, //new Point(points.armholePitch.x, points.armhole.y),
       options.frontArmholeDepth
     )
 
