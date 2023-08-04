@@ -39,20 +39,12 @@ export const backBase = {
     const chestBack = (measurements.chest - measurements.bustFront) * (1 + options.chestEase)
     const waistToArmhole = store.get('waistToArmhole')
     const waistBack = measurements.waistBack * (1 + options.waistEase)
-    // const sideAngle = store.get('sideAngle')
     //let's begin
     // points.cbArmhole = points.origin.shift(-90, measurements.hpsToWaistBack - waistToArmhole)
     points.armhole = points.cArmhole.shift(0, chestBack / 2)
     points.cbWaist = points.origin.shift(-90, measurements.hpsToWaistBack)
     points.sideWaistAnchor = new Point(points.armhole.x, points.cbWaist.y)
     //dart
-    // points.sideWaist = utils.beamsIntersect(
-    // points.armhole,
-    // points.armhole.shift(sideAngle, 1),
-    // points.cbWaist,
-    // points.cbWaist.shift(0, 1)
-    // )
-    // const waistDiff = points.sideWaist.x - waistBack / 2
     const waistDiff = points.armhole.x - waistBack / 2
 
     if (waistDiff < 0) {
@@ -99,7 +91,6 @@ export const backBase = {
       points.sideWaist,
       points.sideWaist.shift(180, 1)
     )
-    //points.dartBottomLeftCp1.flipX(points.dartTip)
     points.dartBottomEdge = utils.beamsIntersect(
       points.dartBottomLeft,
       points.dartTip.rotate(-90, points.dartBottomLeft),
@@ -145,14 +136,13 @@ export const backBase = {
       options.backArmholeDepth
     )
 
-    //temp snippets for testing
-    snippets.armholePitch = new Snippet('bnotch', points.armholePitch)
     //guides
-    paths.dart = new Path()
-      .move(points.dartBottomLeft)
-      .line(points.dartBottomEdgeI)
-      .line(points.dartBottomRight)
-      .attr('class', 'fabric help')
+    // paths.dart = new Path()
+    // .move(points.dartBottomLeft)
+    // .line(points.dartBottomEdgeI)
+    // .line(points.dartBottomRight)
+    // .attr('class', 'fabric help')
+
     paths.guide = new Path()
       .move(points.cbWaist)
       .curve_(points.dartBottomLeftCp1, points.dartBottomLeft)
@@ -165,6 +155,33 @@ export const backBase = {
       .line(points.hps)
       ._curve(points.cbNeckCp1, points.cbNeck)
       .line(points.cbWaist)
+
+    //stores
+    store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
+    store.set(
+      'scyeBackDepth',
+      points.armhole.dist(points.shoulder) *
+        Math.sin(
+          utils.deg2rad(
+            points.armhole.angle(points.shoulder) - (points.shoulder.angle(points.hps) - 90)
+          )
+        )
+    )
+    store.set(
+      'backArmholeLength',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .length()
+    )
+    store.set(
+      'backArmholeToArmholePitch',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .length()
+    )
 
     return part
   },
