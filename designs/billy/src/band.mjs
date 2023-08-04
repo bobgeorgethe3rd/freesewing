@@ -114,7 +114,7 @@ export const band = {
       macro('title', {
         at: points.title,
         nr: 4,
-        title: 'Crown (Side)',
+        title: 'Band',
         scale: 0.25,
         rotation: 360 - angle / 4,
       })
