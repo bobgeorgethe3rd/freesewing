@@ -16,7 +16,7 @@ export const frontBase = {
     //Armhole
     frontArmholePitchDepth: { pct: 50, min: 45, max: 65, menu: 'armhole' },
     frontArmholePitchWidth: { pct: 91.1, min: 90, max: 95, menu: 'armhole' },
-    frontArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },
+    frontArmholeDepth: { pct: /* 44.8 */ 55.2, min: 40, max: 65, menu: 'armhole' },
     //Advanced
     // dartRatio: { pct: 50, min: 40, max: 60, menu: 'advanced.darts' },
   },
@@ -180,19 +180,19 @@ export const frontBase = {
       points.shoulder,
       points.hps.rotate(90, points.shoulder)
     )
-    points.armholeCpMax = utils.beamsIntersect(
-      points.armholePitchCp2,
-      points.armholePitch,
-      points.armhole,
-      points.sideChest.rotate(-90, points.armhole)
-    )
+    // points.armholeCpMax = utils.beamsIntersect(
+    // points.armholePitchCp2,
+    // points.armholePitch,
+    // points.armhole,
+    // points.sideChest.rotate(-90, points.armhole)
+    // )
     points.armholePitchCp1 = points.armholePitch.shiftFractionTowards(
-      points.armholeCpMax, //new Point(points.armholePitch.x, points.armhole.y),
+      /* points.armholeCpMax, // */ new Point(points.armholePitch.x, points.armhole.y),
       options.frontArmholeDepth
     )
 
     points.armholeCp2 = points.armhole.shiftFractionTowards(
-      points.armholeCpMax, //new Point(points.armholePitch.x, points.armhole.y),
+      /* points.armholeCpMax, // */ new Point(points.armholePitch.x, points.armhole.y),
       options.frontArmholeDepth
     )
 

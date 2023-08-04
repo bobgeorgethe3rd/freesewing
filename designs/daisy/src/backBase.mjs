@@ -62,7 +62,10 @@ export const backBase = {
       points.dartBottomLeftI = points.dartBottomMidI.shift(180, waistDiff / -2)
       points.dartBottomRightI = points.dartBottomLeftI.flipX(points.dartBottomMidI)
     } else {
-      points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff / 3)
+      points.sideWaist = points.armhole.shiftTowards(
+        points.sideWaistAnchor.shift(180, waistDiff / 3),
+        waistToArmhole
+      )
       points.dartTip = points.cArmhole.shift(0, points.sideWaist.x / 2)
       points.dartBottomMidI = new Point(points.dartTip.x, points.cbWaist.y)
       points.dartBottomLeftI = points.dartBottomMidI.shift(180, waistDiff / 3)
@@ -90,7 +93,13 @@ export const backBase = {
       points.cbWaist.shift(0, 1)
     )
     points.dartBottomRight = points.dartBottomLeft.flipX(points.dartTip)
-    points.dartBottomRightCp2 = points.dartBottomLeftCp1.flipX(points.dartTip)
+    points.dartBottomRightCp2 = utils.beamsIntersect(
+      points.dartBottomRight,
+      points.dartTip.rotate(-90, points.dartBottomRight),
+      points.sideWaist,
+      points.sideWaist.shift(180, 1)
+    )
+    //points.dartBottomLeftCp1.flipX(points.dartTip)
     points.dartBottomEdge = utils.beamsIntersect(
       points.dartBottomLeft,
       points.dartTip.rotate(-90, points.dartBottomLeft),
@@ -121,18 +130,18 @@ export const backBase = {
       points.shoulder,
       points.hps.rotate(90, points.shoulder)
     )
-    points.armholeCpMax = utils.beamsIntersect(
-      points.armholePitchCp2,
-      points.armholePitch,
-      points.armhole,
-      points.sideWaist.rotate(-90, points.armhole)
-    )
+    // points.armholeCpMax = utils.beamsIntersect(
+    // points.armholePitchCp2,
+    // points.armholePitch,
+    // points.armhole,
+    // points.sideWaist.rotate(-90, points.armhole)
+    // )
     points.armholePitchCp1 = points.armholePitch.shiftFractionTowards(
-      points.armholeCpMax, //new Point(points.armholePitch.x, points.armhole.y),
+      /* points.armholeCpMax, // */ new Point(points.armholePitch.x, points.armhole.y),
       options.backArmholeDepth
     )
     points.armholeCp2 = points.armhole.shiftFractionTowards(
-      points.armholeCpMax, //new Point(points.armholePitch.x, points.armhole.y),
+      /* points.armholeCpMax, // */ new Point(points.armholePitch.x, points.armhole.y),
       options.backArmholeDepth
     )
 
