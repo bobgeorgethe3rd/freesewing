@@ -153,7 +153,7 @@ export const front = {
 
     //seam paths
     paths.hemBase = new Path().move(points.cWaist).line(points.sideWaist).hide()
-    paths.saWaist = new Path()
+    paths.sideSeam = new Path()
       .move(points.sideWaist)
       .curve_(points.sideWaistCp2, points.armhole)
       .hide()
@@ -173,7 +173,7 @@ export const front = {
 
     paths.seam = paths.hemBase
       .clone()
-      .join(paths.saWaist)
+      .join(paths.sideSeam)
       .join(paths.armhole)
       .join(paths.shoulder)
       .join(paths.cfNeck)
@@ -261,8 +261,8 @@ export const front = {
         points.saPoint1 = utils.beamsIntersect(
           points.saArmholeCp2,
           points.saArmhole,
-          paths.saWaist.offset(sideSeamSa).end(),
-          paths.saWaist.offset(sideSeamSa).shiftFractionAlong(0.999)
+          paths.sideSeam.offset(sideSeamSa).end(),
+          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.999)
         )
         points.saPoint2 = points.shoulder
           .shift(points.hps.angle(points.shoulder), armholeSa)
@@ -280,7 +280,7 @@ export const front = {
         paths.sa = paths.hemBase
           .offset(hemSa)
           .line(points.saPoint0)
-          .join(paths.saWaist.offset(sideSeamSa))
+          .join(paths.sideSeam.offset(sideSeamSa))
           .line(points.saPoint1)
           .join(paths.saArmhole)
           .line(points.saPoint2)
