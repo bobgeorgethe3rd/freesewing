@@ -15,9 +15,9 @@
       "tags": ["tops", "blocks"]
     },
     "daisy": {
-      "description": "Dart migration version of Bella",
+      "description": "A dart body block",
       "code": "bobgeorgethe3rd",
-      "design": ["Bella Incognito", "Joost De Cock", "bobgeorgethe3rd"],
+      "design": "bobgeorgethe3rd",
       "difficulty": 3,
       "tags": ["tops", "blocks"]
     },
