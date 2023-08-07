@@ -18,7 +18,7 @@ export const sharedBase = {
     // bodyLength: { pct: 75, min: 0, max: 100, menu: 'style' },
     lengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
     //Armhole
-    armholeDrop: { pct: 18.2, min: 15, max: 30, menu: 'armhole' },
+    scyeDepth: { pct: 18.2, min: 15, max: 30, menu: 'armhole' },
     armholePitchDepth: { pct: 50, min: 45, max: 60, menu: 'armhole' },
     //Advanced
     useChestFront: { bool: false, menu: 'advanced' },
@@ -159,7 +159,7 @@ export const sharedBase = {
     //Scaffold
     // points.cArmhole = points.origin.shift(
     // -90,
-    // measurements.hpsToChestBack * (1 + options.armholeDrop)
+    // measurements.hpsToChestBack * (1 + options.scyeDepth)
     // )
     // points.cChest = points.origin.shift(-90, measurements.hpsToChestBack)
     points.cWaist = points.origin.shift(
@@ -168,7 +168,7 @@ export const sharedBase = {
     )
     points.cArmhole = points.origin.shift(
       -90,
-      measurements.hpsToWaistBack - measurements.waistToArmpit * (1 - options.armholeDrop)
+      measurements.hpsToWaistBack - measurements.waistToArmpit * (1 - options.scyeDepth)
     )
     // points.cHips = points.cWaist.shift(-90, measurements.waistToHips)
     // points.cSeat = points.cWaist.shift(-90, measurements.waistToSeat)
