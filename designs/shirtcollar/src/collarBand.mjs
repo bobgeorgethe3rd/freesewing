@@ -55,8 +55,8 @@ export const collarBand = {
     //let's begin
     points.bottomLeft = points.fBottomCp2.shiftOutwards(points.fBottom, leftEx)
     points.bottomLeftCp1 = points.fTopCp1.shiftOutwards(points.fTop, leftEx)
-    points.bottomRight = points.bottomCp2.shiftOutwards(points.bottom, leftEx)
-    points.bottomRightCp2 = points.topCp1.shiftOutwards(points.top, leftEx)
+    points.bottomRight = points.bottomCp2.shiftOutwards(points.bottom, rightEx)
+    points.bottomRightCp2 = points.topCp1.shiftOutwards(points.top, rightEx)
 
     //paths
     paths.saBottom = new Path()
