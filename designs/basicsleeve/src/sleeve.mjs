@@ -18,7 +18,7 @@ export const sleeve = {
     sleeveBands: { bool: false, menu: 'sleeves' },
     sleeveBandWidth: {
       pct: 9.5,
-      min: 7,
+      min: 1,
       max: 17,
       snap: 5,
       ...pctBasedOn('shoulderToWrist'),

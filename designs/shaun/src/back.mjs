@@ -9,7 +9,7 @@ export const back = {
   options: {
     //Style
     backBoxPleat: { bool: false, menu: 'style' },
-    backBoxPleatWidth: { pct: 4.3, min: 4, max: 6, menu: 'style' },
+    backBoxPleatWidth: { pct: 4.3, min: 4, max: 8, menu: 'style' },
     skirtWidth: { pct: 36.4, min: 0, max: 50, menu: 'style' }, //15.4
     skirtCurve: { pct: 50, min: 10, max: 50, menu: 'style' }, //15.4
     // hemStyle: { dflt: 'curved', list: ['curved', 'straight'], menu: 'style' },
