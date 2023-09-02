@@ -90,7 +90,11 @@ export const backFacing = {
         })
       }
       //notches
-      snippets.strapMid = new Snippet('notch', points.strapMid)
+      points.cbNotch = points.cbFacing.shiftFractionTowards(points.cbTop, 0.5)
+      macro('sprinkle', {
+        snippet: 'bnotch',
+        on: ['cbNotch', 'strapMid'],
+      })
       //title
       points.title = new Point(
         points.strapLeft.x,
