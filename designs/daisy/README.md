@@ -48,7 +48,7 @@
 
 # @freesewing/daisy
 
-A dart body block
+A dart bodice block
 
 
 
