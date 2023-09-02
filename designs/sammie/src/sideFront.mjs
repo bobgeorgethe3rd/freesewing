@@ -1,5 +1,5 @@
 import { frontBase as frontBaseDaisy } from '@freesewing/daisy'
-import { front } from './frontBustShoulder.mjs'
+import { front } from './front.mjs'
 import { sideFrontShoulder } from './sideFrontShoulder.mjs'
 import { sideFrontBustShoulder } from './sideFrontBustShoulder.mjs'
 
