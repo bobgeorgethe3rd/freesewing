@@ -1,82 +1,55 @@
-import { backBase } from './backBase.mjs'
+import { back as backDaisy } from '@freesewing/daisy'
+import { front } from './front.mjs'
+import { backArmholePitch } from './backArmholePitch.mjs'
+import { backArmhole } from './backArmhole.mjs'
+import { backShoulder } from './backShoulder.mjs'
+import { backBustShoulder } from './backBustShoulder.mjs'
 
 export const back = {
   name: 'peach.back',
-  from: backBase,
+  from: backDaisy,
+  after: front,
   hide: {
     from: true,
-    inherited: true,
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    Snippet,
-  }) => {
-    //removing paths and snippets not required from Bella
-    for (let i in paths) delete paths[i]
-    for (let i in snippets) delete snippets[i]
-    //removing macros not required from Bella
-    macro('title', false)
-    macro('scalebox', false)
+  draft: (sh) => {
+    const { points, Path, store, utils, options, part } = sh
 
-    //seam paths
+    store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
+    store.set(
+      'scyeBackDepth',
+      points.armhole.dist(points.shoulder) *
+        Math.sin(
+          utils.deg2rad(
+            points.armhole.angle(points.shoulder) - (points.shoulder.angle(points.hps) - 90)
+          )
+        )
+    )
+    store.set(
+      'backArmholeLength',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .length()
+    )
+    store.set(
+      'backArmholeToArmholePitch',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .length()
+    )
 
-    const drawSeamBase = () => {
-      if (options.bustDartPlacement == 'armhole')
-        return new Path()
-          .move(points.dartTip)
-          .curve_(points.backCp1, points.armholePitch)
-          .curve_(points.armholePitchCp2, points.shoulder)
-      else return new Path().move(points.dartTip).curve_(points.backCp1, points.shoulderSplit)
-    }
-
-    paths.seam = new Path()
-      .move(points.waistCenter)
-      .line(points.dartBottomLeft)
-      .curve(points.dartLeftCp, points.dartMiddleCp, points.dartTip)
-      .join(drawSeamBase())
-      .line(points.hps)
-      ._curve(points.cbNeckCp1, points.cbNeck)
-      .curve_(points.cbNeckCp2, points.waistCenter)
-      .close()
-
-    if (complete) {
-      //grainline
-      points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 0.25)
-      points.grainlineTo = new Point(points.grainlineFrom.x, points.cbWaist.y)
-      macro('grainline', {
-        from: points.grainlineFrom,
-        to: points.grainlineTo,
-      })
-      //notches
-      snippets.dartTip = new Snippet('notch', points.dartTip)
-      //title
-      points.title = new Point(points.cbNeckCp1.x * (3 / 4), points.cbWaist.y / 2)
-      macro('title', {
-        at: points.title,
-        nr: '3',
-        title: 'Back',
-      })
-      //scalebox
-      points.scalebox = new Point(points.cbNeckCp1.x, points.cbArmhole.y / 2)
-      macro('scalebox', {
-        at: points.scalebox,
-      })
-      if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
-      }
+    switch (options.bustDartPlacement) {
+      case 'armhole':
+        return backArmhole.draft(sh)
+      case 'shoulder':
+        return backShoulder.draft(sh)
+      case 'bustshoulder':
+        return backBustShoulder.draft(sh)
+      default:
+        return backArmholePitch.draft(sh)
     }
 
     return part

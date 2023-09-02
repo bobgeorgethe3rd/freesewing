@@ -33,185 +33,173 @@ export const back = {
     macro('title', false)
     //measures
     const shoulderRise = store.get('shoulderRise')
-    const shoulderTop = store.get('shoulderTop')
+    const sleeveMaxLength = store.get('sleeveMaxLength')
+    const sleeveLength = store.get('sleeveLength')
     const wrist = store.get('wrist')
-    const armholeDrop = store.get('armholeDrop')
     const shoulderWidth = store.get('shoulderWidth')
-    const underArmSleeveLength = store.get('underArmSleeveLength')
-    const underArmLength = store.get('underArmLength')
-    const underArmCurveLength = store.get('underArmCurveLength')
 
     //let's begin
-    //shoudler top
+    points.underArmCurveStart = points.sideWaist.shiftTowards(
+      points.armhole,
+      store.get('underArmCurveStart')
+    )
+    points.underArmCurveAnchor = points.sideWaist.shiftTowards(
+      points.armhole,
+      store.get('underArmCurveAnchor')
+    )
+    points.underArmCurveCp2 = points.sideWaist.shiftTowards(
+      points.armhole,
+      store.get('underArmCurveCp2')
+    )
+    points.bodiceSleeveBottomMin = points.underArmCurveAnchor
+      .shiftTowards(points.sideWaist, store.get('bodiceSleeveBottomMin'))
+      .rotate(store.get('bodiceSleeveBottomAngle'), points.underArmCurveAnchor)
+    // points.bodiceSleeveBottomCp1 = points.underArmCurveAnchor.shiftTowards(points.bodiceSleeveBottomMin, store.get('bodiceSleeveBottomCp1'))
+
     points.shoulderRise = points.armholePitchCp2.shiftOutwards(points.shoulder, shoulderRise)
-    points.wristTop = points.hps.shiftTowards(points.shoulderRise, shoulderTop)
+    points.bodiceSleeveTopMin = points.hps.shiftTowards(points.shoulderRise, shoulderWidth)
+    points.bodiceSleeveTopMax = points.hps.shiftOutwards(points.bodiceSleeveTopMin, sleeveMaxLength)
+    points.bodiceSleeveTop = points.hps.shiftTowards(points.shoulderRise, sleeveLength)
 
-    points.armholeDrop = points.armhole.shiftTowards(points.waistSide, armholeDrop)
-    points.wristBottomInitial = points.wristTop
-      .shiftTowards(points.hps, wrist / 2)
-      .rotate(90, points.wristTop)
+    if (options.fitSleeves && options.fullSleeves && options.sleeveLength > 0) {
+      points.bodiceSleeveBottomMax = points.bodiceSleeveTopMax
+        .shiftTowards(points.hps, wrist / 2)
+        .rotate(90, points.bodiceSleeveTopMax)
 
-    //let's try and make a curve
-    points.bodiceSleeveTop = points.hps.shiftTowards(points.wristTop, shoulderWidth)
-    points.bodiceSleeveBottom = utils.beamsIntersect(
-      points.armholeDrop,
-      points.armholeDrop.shift(points.hps.angle(points.shoulderRise), 1),
-      points.bodiceSleeveTop,
-      points.hps.rotate(90, points.bodiceSleeveTop)
-    )
-
-    if (options.fitSleeves) {
-      points.wristBottom = points.wristBottomInitial
+      let tweak = 1
+      let delta
+      do {
+        points.bodiceSleeveBottomMinAnchor = utils.beamsIntersect(
+          points.bodiceSleeveBottomMin,
+          points.bodiceSleeveBottomMin.shift(0, 1),
+          points.bodiceSleeveBottomMax,
+          points.bodiceSleeveTopMax.rotate(90 * tweak, points.bodiceSleeveBottomMax)
+        )
+        delta =
+          points.bodiceSleeveBottomMax.dist(points.bodiceSleeveBottomMinAnchor) -
+          store.get('underArmMaxLength')
+        if (delta > 0) tweak = tweak * 0.99
+        else tweak = tweak * 1.01
+      } while (Math.abs(delta) > 1)
     } else {
-      points.wristBottom = utils.beamsIntersect(
-        points.bodiceSleeveBottom,
-        points.bodiceSleeveBottom.shift(points.hps.angle(points.wristTop), 1),
-        points.wristTop,
-        points.hps.rotate(90, points.wristTop)
+      points.bodiceSleeveBottomMinAnchor = utils.beamsIntersect(
+        points.bodiceSleeveBottomMin,
+        points.bodiceSleeveBottomMin.shift(0, 1),
+        points.bodiceSleeveTopMin,
+        points.hps.rotate(90, points.bodiceSleeveTopMin)
+      )
+      points.bodiceSleeveBottomMax = utils.beamsIntersect(
+        points.bodiceSleeveBottomMinAnchor,
+        points.bodiceSleeveTopMin.rotate(-90, points.bodiceSleeveBottomMinAnchor),
+        points.bodiceSleeveTopMax,
+        points.hps.rotate(90, points.bodiceSleeveTopMax)
       )
     }
 
-    //underarm curve and side
-    if (options.fullSleeves) {
-      points.underArmCpInitial = utils.beamsIntersect(
-        points.armhole,
-        points.waistSide,
-        points.wristBottom,
-        points.bodiceSleeveBottom
-      )
-      points.underArmCurveEnd = points.wristBottom.shiftTowards(
-        points.bodiceSleeveBottom,
-        underArmLength
+    const shiftDist = points.bodiceSleeveBottomMin.dist(points.bodiceSleeveBottomMinAnchor)
+    const shift = [
+      'bodiceSleeveBottomMin',
+      'underArmCurveCp2',
+      'underArmCurveStart',
+      'sideWaist',
+      'dartBottomRight',
+    ]
+    for (const p of shift) points[p] = points[p].shift(0, shiftDist)
+
+    points.bodiceSleeveBottomCp1 = points.bodiceSleeveBottomMin.shift(
+      points.bodiceSleeveBottomMax.angle(points.bodiceSleeveBottomMin),
+      store.get('bodiceSleeveBottomCp1')
+    )
+
+    points.dartBottomMid = points.dartBottomLeft.shiftFractionTowards(points.dartBottomRight, 0.5)
+    points.dartTip = new Point(points.dartBottomMid.x, points.dartTip.y)
+    points.dartBottomEdge = utils.beamsIntersect(
+      points.dartBottomLeft,
+      points.dartTip.rotate(-90, points.dartBottomLeft),
+      points.dartTip,
+      points.dartBottomMid
+    )
+    points.dartBottomEdge = utils.beamsIntersect(
+      points.dartBottomLeft,
+      points.dartTip.rotate(-90, points.dartBottomLeft),
+      points.dartTip,
+      points.dartBottomMid
+    )
+    if (options.fullSleeves && options.sleeveLength > 0) {
+      points.bodiceSleeveBottom = points.bodiceSleeveBottomMin.shiftFractionTowards(
+        points.bodiceSleeveBottomMax,
+        options.sleeveLength
       )
     } else {
-      points.underArmCpInitial = utils.beamsIntersect(
-        points.armhole,
-        points.waistSide,
-        points.bodiceSleeveBottom,
-        points.bodiceSleeveTop.rotate(90, points.bodiceSleeveBottom)
-      )
-      points.underArmCurveEnd = points.bodiceSleeveBottom
+      points.bodiceSleeveBottom = points.bodiceSleeveBottomMin
     }
-
-    points.underArmCurveStartInitial = points.underArmCpInitial.shiftTowards(
-      points.waistSide,
-      underArmSleeveLength * options.underArmCurve
-    )
-
-    let tweak = 1
-    let target = underArmCurveLength
-    let delta
-    do {
-      points.underArmCp = points.underArmCurveEnd.shiftTowards(
-        points.underArmCpInitial,
-        points.underArmCurveEnd.dist(points.underArmCurveStartInitial) * tweak
-      )
-      points.underArmCurveStart = utils.beamsIntersect(
-        points.underArmCp,
-        points.underArmCp.shift(points.armhole.angle(points.waistSide), 1),
-        points.underArmCurveStartInitial,
-        points.underArmCurveStartInitial.shift(0, 1)
-      )
-
-      paths.underArmCurve = new Path()
-        .move(points.underArmCurveStart)
-        .curve_(points.underArmCp, points.underArmCurveEnd)
-        .hide()
-
-      delta = paths.underArmCurve.length() - target
-      if (delta > 0) tweak = tweak * 0.99
-      else tweak = tweak * 1.01
-    } while (Math.abs(delta) > 1)
-
-    points.sideWaist = utils.beamsIntersect(
-      points.underArmCurveStart,
-      points.underArmCurveStart.shift(points.armhole.angle(points.waistSide), 1),
-      points.waistSide,
-      points.waistSide.shift(0, 1)
-    )
-    points.dartBottomRight = points.dartBottomRight.shift(
-      0,
-      points.waistSide.dist(points.sideWaist)
-    )
-    points.dartRightCp = new Point(points.dartBottomRight.x, points.dartLeftCp.y)
-    points.dartBottomCenter = points.dartBottomLeft.shiftFractionTowards(
-      points.dartBottomRight,
-      0.5
-    )
-    points.dartTip = new Point(points.dartBottomCenter.x, points.dartTip.y)
-
-    //resetting bust points of dart not sure if 100 needed but maybe in a future pattern
-    if (!points.bustSide) log.error('Could not find bust height in side seam of back part')
-    if (points.bustCenter.y < points.dartTip.y) {
-      points.bustDartLeft = points.bustCenter.clone()
-      points.bustDartLeft.x = points.dartTip.x
-    } else {
-      points.bustDartLeft = utils.curveIntersectsY(
-        points.dartBottomLeft,
-        points.dartLeftCp,
-        points.dartTip,
-        points.dartTip,
-        measurements.hpsToBust
-      )
-    }
-    if (!points.bustDartLeft) log.error('Could not find bust height in back dart')
-    points.bustDartRight = points.bustDartLeft.flipX(points.dartTip)
     //guides
-    // paths.bellaGuide = new Path()
-    // .move(points.cbNeck)
-    // .curve_(points.cbNeckCp2, points.waistCenter)
+    // paths.daisyGuide = new Path()
+    // .move(points.cbWaist)
     // .line(points.dartBottomLeft)
-    // .curve_(points.dartLeftCp, points.dartTip)
-    // ._curve(points.dartRightCp, points.dartBottomRight)
-    // .line(points.waistSide)
-    // .curve_(points.waistSideCp2, points.armhole)
+    // .line(points.dartTip)
+    // .line(points.dartBottomRight)
+    // .line(points.sideWaist)
+    // .line(points.armhole)
     // .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
     // .curve_(points.armholePitchCp2, points.shoulder)
     // .line(points.hps)
     // ._curve(points.cbNeckCp1, points.cbNeck)
+    // .line(points.cbWaist)
     // .close()
     // .attr('class', 'various lashed')
 
+    // paths.underArmCurve = new Path()
+    // .move(points.sideWaist)
+    // .line(points.underArmCurveStart)
+    // .curve(points.underArmCurveCp2, points.bodiceSleeveBottomCp1, points.bodiceSleeveBottomMin)
+
     // paths.armscaffold = new Path()
-    // .move(points.armholeDrop)
-    // .line(points.wristBottom)
-    // .line(points.wristTop)
+    // .move(points.bodiceSleeveTopMin)
+    // .line(points.bodiceSleeveBottomMin)
+    // .line(points.bodiceSleeveBottom)
+    // .line(points.bodiceSleeveTop)
     // .line(points.hps)
 
-    // paths.side = new Path()
-    // .move(points.dartBottomRight)
-    // .line(points.sideWaist)
-    // .line(points.underArmCurveStart)
-    // .curve_(points.underArmCp, points.underArmCurveEnd)
-    // .line(points.wristBottom)
+    //paths
+    paths.hemLeft = new Path().move(points.cbWaist).line(points.dartBottomLeft).hide()
 
-    //seam paths
+    paths.dart = new Path()
+      .move(points.dartBottomLeft)
+      .line(points.dartTip)
+      .line(points.dartBottomRight)
+      .hide()
 
-    const drawArm = () => {
-      if (options.fullSleeves)
-        return new Path()
-          .move(points.underArmCurveEnd)
-          .line(points.wristBottom)
-          .line(points.wristTop)
-          .line(points.bodiceSleeveTop)
-      else return new Path().move(points.underArmCurveEnd).line(points.bodiceSleeveTop)
+    paths.hemRight = new Path().move(points.dartBottomRight).line(points.sideWaist).hide()
+
+    paths.underArm = new Path()
+      .move(points.sideWaist)
+      .line(points.underArmCurveStart)
+      .curve(points.underArmCurveCp2, points.bodiceSleeveBottomCp1, points.bodiceSleeveBottomMin)
+      .hide()
+
+    if (options.fullSleeves && options.sleeveLength > 0) {
+      paths.underArm.line(points.bodiceSleeveBottom).hide()
     }
 
-    paths.seam = new Path()
-      .move(points.cbNeck)
-      .curve_(points.cbNeckCp2, points.waistCenter)
-      .line(points.dartBottomLeft)
-      .curve_(points.dartLeftCp, points.dartTip)
-      ._curve(points.dartRightCp, points.dartBottomRight)
-      .line(points.sideWaist)
-      .line(points.underArmCurveStart)
-      .curve_(points.underArmCp, points.underArmCurveEnd)
-      .join(drawArm())
-      .line(points.hps)
-      ._curve(points.cbNeckCp1, points.cbNeck)
-      .close()
+    paths.sleeveHem = new Path().move(points.bodiceSleeveBottom).line(points.bodiceSleeveTop).hide()
 
-    // Complete?
+    paths.shoulder = new Path().move(points.bodiceSleeveTop).line(points.hps).hide()
+
+    paths.cbNeck = new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck).hide()
+
+    paths.cb = new Path().move(points.cbNeck).line(points.cbWaist).hide()
+
+    paths.seam = paths.hemLeft
+      .clone()
+      .join(paths.dart)
+      .join(paths.hemRight)
+      .join(paths.underArm)
+      .join(paths.sleeveHem)
+      .join(paths.shoulder)
+      .join(paths.cbNeck)
+      .join(paths.cb)
+
     if (complete) {
       //grainline
       points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 0.5)
@@ -221,31 +209,82 @@ export const back = {
         to: points.grainlineTo,
       })
       //notches
-      macro('sprinkle', {
-        snippet: 'notch',
-        on: ['underArmCurveStart', 'underArmCurveEnd'],
-      })
-
+      snippets.underArmCurveStart = new Snippet('notch', points.underArmCurveStart)
+      if (options.fullSleeves && options.sleeveLength > 0) {
+        snippets.bodiceSleeveBottomMin = new Snippet('notch', points.bodiceSleeveBottomMin)
+      }
       //title
-      points.title = new Point(points.cbNeckCp1.x, points.dartTip.y * (3 / 4))
       macro('title', {
         at: points.title,
-        nr: '1',
+        nr: '2',
         title: 'back',
+        scale: 2 / 3,
       })
+      //dart
+      paths.dartEdge = new Path()
+        .move(points.dartBottomLeft)
+        .line(points.dartBottomEdge)
+        .line(points.dartBottomRight)
+        .attr('class', 'fabric help')
+
       if (sa) {
-        paths.sa = new Path()
-          .move(points.cbNeck)
-          .curve_(points.cbNeckCp2, points.waistCenter)
-          .line(points.dartBottomLeft)
-          .line(points.dartBottomRight)
-          .line(points.sideWaist)
-          .line(points.underArmCurveStart)
-          .curve_(points.underArmCp, points.underArmCurveEnd)
-          .join(drawArm())
-          .line(points.hps)
-          ._curve(points.cbNeckCp1, points.cbNeck)
+        const neckSa = sa * options.neckSaWidth * 100
+        const sleeveHem = sa * options.sleeveHemWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const shoulderSa = sa * options.shoulderSaWidth * 100
+
+        points.saPoint0 = utils.beamsIntersect(
+          points.dartTip,
+          points.dartBottomMid,
+          points.dartBottomLeft
+            .shiftTowards(points.dartBottomEdge, sideSeamSa)
+            .rotate(-90, points.dartBottomLeft),
+          points.dartBottomEdge
+            .shiftTowards(points.dartBottomLeft, sideSeamSa)
+            .rotate(90, points.dartBottomEdge)
+        )
+
+        points.saPoint1 = utils.beamsIntersect(
+          points.sideWaist
+            .shiftTowards(points.underArmCurveCp2, sideSeamSa)
+            .rotate(-90, points.sideWaist),
+          points.underArmCurveCp2
+            .shiftTowards(points.sideWaist, sideSeamSa)
+            .rotate(90, points.underArmCurveCp2),
+          points.sideWaist.shiftTowards(points.dartBottomRight, sa).rotate(90, points.sideWaist),
+          points.dartBottomRight
+            .shiftTowards(points.sideWaist, sa)
+            .rotate(-90, points.dartBottomRight)
+        )
+
+        points.saPoint3 = points.bodiceSleeveTop
+          .shift(points.hps.angle(points.bodiceSleeveTop), sleeveHem)
+          .shift(points.hps.angle(points.bodiceSleeveTop) + 90, shoulderSa)
+
+        points.saPoint2 = utils.beamsIntersect(
+          points.bodiceSleeveBottom
+            .shiftTowards(points.bodiceSleeveBottomCp1, sideSeamSa)
+            .rotate(90, points.bodiceSleeveBottom),
+          points.bodiceSleeveBottomCp1
+            .shiftTowards(points.bodiceSleeveBottom, sideSeamSa)
+            .rotate(-90, points.bodiceSleeveBottomCp1),
+          points.saPoint3,
+          points.saPoint3.shift(points.bodiceSleeveTop.angle(points.bodiceSleeveBottom), 1)
+        )
+
+        paths.sa = paths.hemLeft
           .offset(sa)
+          .line(points.saPoint0)
+          .line(paths.hemRight.offset(sa).start())
+          .join(paths.hemRight.offset(sa))
+          .line(points.saPoint1)
+          .join(paths.underArm.offset(sideSeamSa))
+          .line(points.saPoint2)
+          .line(points.saPoint3)
+          .line(points.saPoint4)
+          .join(paths.cbNeck.offset(neckSa))
+          .line(points.saPoint5)
+          .line(points.saPoint6)
           .close()
           .attr('class', 'fabric sa')
       }

@@ -10,9 +10,10 @@ export const frontBase = {
   plugins: [pluginBundle],
   options: {
     //Constants
+    armholeSaWidth: 0.01,
     cfNeck: 0.55191502449,
     //Fit
-    bustSpanEase: { pct: 0, min: 0, max: 20, menu: 'fit' },
+    bustSpanEase: { pct: 0, min: -10, max: 20, menu: 'fit' },
     //Armhole
     frontArmholePitchDepth: { pct: 50, min: 45, max: 65, menu: 'armhole' },
     frontArmholePitchWidth: { pct: 91.1, min: 90, max: 95, menu: 'armhole' },
@@ -52,16 +53,28 @@ export const frontBase = {
     //measures
     const highBustFront = measurements.highBustFront * (1 + options.chestEase)
     const bustFront = measurements.bustFront * (1 + options.chestEase)
-    const waistToArmhole = store.get('waistToArmhole') //measurements.waistToArmpit * (1 - options.armholeDrop)
+    const waistToArmhole = store.get('waistToArmhole') //measurements.waistToArmpit * (1 - options.scyeDepth)
     const bustSpan = measurements.bustSpan * (1 + options.bustSpanEase)
     const neck = store.get('neck')
     const waistFront = (measurements.waist - measurements.waistBack) * (1 + options.waistEase)
     //let's begin
     // points.cfArmhole = points.origin.shift(-90, measurements.hpsToWaistFront - waistToArmhole)
-    points.armhole = points.cArmhole.shift(0, highBustFront / 2)
+
+    points.highBustAnchor = new Point(
+      highBustFront / 2,
+      measurements.hpsToWaistBack - measurements.waistToArmpit
+    )
+    // points.armhole = points.cArmhole.shift(0, highBustFront / 2)
 
     points.cfChest = points.origin.shift(-90, measurements.hpsToBust)
     points.sideChest = points.cfChest.shift(0, bustFront / 2)
+
+    points.armhole = utils.beamsIntersect(
+      points.highBustAnchor,
+      points.sideChest,
+      points.cArmhole,
+      points.cArmhole.shift(0, 1)
+    )
 
     points.bust = points.cfChest.shiftTowards(points.sideChest, bustSpan / 2)
 
@@ -69,7 +82,7 @@ export const frontBase = {
     points.cfWaist = points.origin.shift(-90, measurements.hpsToWaistFront)
 
     if (points.armhole.angle(points.sideChest) < points.sideChest.angle(points.armhole)) {
-      points.sideWaist = points.armhole.shift(
+      points.sideWaistInitial = points.armhole.shift(
         points.sideChest.angle(points.armhole),
         waistToArmhole
       )
@@ -78,12 +91,12 @@ export const frontBase = {
     }
 
     const waistDiff = points.cfWaist.dist(points.sideWaistInitial) - waistFront / 2
-    points.waistDartMidI = new Point(points.bust.x, points.cfWaist.y)
-    points.waistDartLeftI = points.waistDartMidI.shift(180, waistDiff / 2)
-    points.waistDartRightI = points.waistDartLeftI.flipX(points.waistDartMidI)
+    points.waistDartMid = new Point(points.bust.x, points.cfWaist.y)
+    points.waistDartLeft = points.waistDartMid.shift(180, waistDiff / 2)
+    points.waistDartRight = points.waistDartLeft.flipX(points.waistDartMid)
 
     const fullDartAngle =
-      points.bust.angle(points.waistDartRightI) - points.bust.angle(points.waistDartLeftI)
+      points.bust.angle(points.waistDartRight) - points.bust.angle(points.waistDartLeft)
 
     let tweak = 0.5
     let delta
@@ -91,65 +104,45 @@ export const frontBase = {
       const bustDartAngle = fullDartAngle * tweak
       const waistDartAngle = fullDartAngle * (1 - tweak)
 
-      points.bustDartTop = points.sideChest
+      if (points.sideChest.y < points.armhole.y) {
+        points.bustDartTop = points.armhole.shiftFractionTowards(points.sideWaistInitial, 0.5)
+      } else {
+        points.bustDartTop = points.sideChest
+      }
+
       points.bustDartBottom = points.bustDartTop.rotate(-bustDartAngle, points.bust)
-      points.bustDartMiddle = points.bustDartTop.shiftFractionTowards(points.bustDartBottom, 0.5)
+      points.bustDartMid = points.bustDartTop.shiftFractionTowards(points.bustDartBottom, 0.5)
       points.sideWaist = points.sideWaistInitial.rotate(-bustDartAngle, points.bust)
 
-      points.waistDartLeftI = utils.beamsIntersect(
+      points.waistDartLeft = utils.beamsIntersect(
         points.bust,
         points.bust.shift(270 - waistDartAngle / 2, 1),
         points.cfWaist,
         points.cfWaist.shift(0, 1)
       )
-      points.waistDartRightI = points.waistDartLeftI.rotate(waistDartAngle, points.bust)
+      points.waistDartRight = points.waistDartLeft.rotate(waistDartAngle, points.bust)
+
+      store.set('bustDartAngle', bustDartAngle)
+      store.set('waistDartAngle', waistDartAngle)
+
       delta =
         points.bustDartTop.dist(points.bustDartBottom) -
-        points.waistDartLeftI.dist(points.waistDartRightI)
+        points.waistDartLeft.dist(points.waistDartRight)
       if (delta > 0) tweak = tweak * 0.99
       else tweak = tweak * 1.01
     } while (Math.abs(delta) > 1)
-
-    points.waistDartEdgeI = utils.beamsIntersect(
-      points.waistDartLeftI,
-      points.bust.rotate(-90, points.waistDartLeftI),
-      points.bust,
-      points.waistDartMidI
-    )
-    points.bustDartEdge = utils.beamsIntersect(
-      points.armhole,
-      points.bustDartTop,
-      points.bust,
-      points.bustDartMiddle
-    )
-
-    points.waistDartLeft = utils.lineIntersectsCurve(
-      points.bust,
-      points.bust.shiftFractionTowards(points.waistDartLeftI, 2),
-      points.cfWaist,
-      points.waistDartEdgeI,
-      points.waistDartEdgeI,
-      points.sideWaist
-    )
-    points.waistDartRight = points.waistDartLeft.flipX(points.bust)
-    points.waistDartLeftCp1 = utils.beamsIntersect(
-      points.waistDartLeft,
-      points.bust.rotate(90, points.waistDartLeft),
-      points.cfWaist,
-      points.waistDartLeftI
-    )
-    points.waistDartRightCp2 = utils.beamsIntersect(
-      points.waistDartRight,
-      points.bust.rotate(-90, points.waistDartRight),
-      points.waistDartRightI,
-      points.sideWaist
-    )
 
     points.waistDartEdge = utils.beamsIntersect(
       points.waistDartLeft,
       points.bust.rotate(-90, points.waistDartLeft),
       points.bust,
-      points.waistDartEdgeI
+      points.waistDartMid
+    )
+    points.bustDartEdge = utils.beamsIntersect(
+      points.armhole,
+      points.bustDartTop,
+      points.bust,
+      points.bustDartMid
     )
 
     points.waistDartMid = new Point(points.bust.x, points.waistDartLeft.y)
@@ -191,21 +184,13 @@ export const frontBase = {
     points.cfNeckCp1 = points.cfNeck.shiftFractionTowards(points.cfNeckCorner, options.cfNeck)
 
     //guides
-    // paths.dart = new Path()
-    // .move(points.waistDartLeft)
-    // .line(points.waistDartEdge)
-    // .line(points.waistDartRight)
-    // .move(points.bustDartBottom)
-    // .line(points.bustDartEdge)
-    // .line(points.bustDartTop)
-    // .attr('class', 'fabric help')
 
     paths.guide = new Path()
       .move(points.cfWaist)
-      .curve_(points.waistDartLeftCp1, points.waistDartLeft)
+      .line(points.waistDartLeft)
       .line(points.bust)
       .line(points.waistDartRight)
-      ._curve(points.waistDartRightCp2, points.sideWaist)
+      .line(points.sideWaist)
       .line(points.bustDartBottom)
       .line(points.bust)
       .line(points.bustDartTop)
@@ -243,6 +228,32 @@ export const frontBase = {
         .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
         .length()
     )
+
+    if (complete && sa) {
+      const armholeSa = sa * options.armholeSaWidth * 100
+      points.saArmhole = new Point(
+        points.armhole.shift(45, armholeSa).x,
+        points.armhole.y - armholeSa
+      )
+      points.saArmholeCp2 = new Point(
+        points.armholeCp2.shift(45, armholeSa).x,
+        points.armholeCp2.y - armholeSa
+      )
+      points.saArmholePitch = points.armholePitch.shift(0, armholeSa)
+      points.saArmholePitchCp1 = utils.beamsIntersect(
+        points.saArmholePitch,
+        points.armholePitch.rotate(-90, points.saArmholePitch),
+        points.armholePitchCp1,
+        points.armholePitchCp1.shift(45, 1)
+      )
+      points.saArmholePitchCp2 = utils.beamsIntersect(
+        points.armholePitchCp2,
+        points.shoulder.rotate(-90, points.armholePitchCp2),
+        points.saArmholePitchCp1,
+        points.saArmholePitch
+      )
+      points.saShoulder = points.hps.shiftOutwards(points.shoulder, armholeSa)
+    }
 
     return part
   },

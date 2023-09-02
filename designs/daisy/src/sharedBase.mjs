@@ -9,7 +9,7 @@ export const sharedBase = {
     shoulderToShoulderEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
     waistEase: { pct: 5, min: 0, max: 20, menu: 'fit' },
     //Armhole
-    armholeDrop: { pct: 18.2, min: 15, max: 30, menu: 'armhole' },
+    scyeDepth: { pct: 18.2, min: 15, max: 30, menu: 'armhole' },
   },
   measurements: ['neck', 'hpsToShoulder', 'shoulderSlope', 'waistToArmpit'],
   draft: ({
@@ -31,7 +31,7 @@ export const sharedBase = {
     //measures
     const cbNeck = measurements.hpsToWaistBack * options.cbNeck
     const neck = measurements.neck * (1 + options.neckEase)
-    const waistToArmhole = measurements.waistToArmpit * (1 - options.armholeDrop)
+    const waistToArmhole = measurements.waistToArmpit * (1 - options.scyeDepth)
     //let's begin
     points.origin = new Point(0, 0)
 

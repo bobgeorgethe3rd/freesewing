@@ -1,91 +1,72 @@
-import { frontBase } from './frontBase.mjs'
+import { frontBase } from '@freesewing/daisy'
+import { frontArmholePitch } from './frontArmholePitch.mjs'
+import { frontArmhole } from './frontArmhole.mjs'
+import { frontShoulder } from './frontShoulder.mjs'
+import { frontBustShoulder } from './frontBustShoulder.mjs'
 
 export const front = {
   name: 'peach.front',
   from: frontBase,
   hide: {
     from: true,
-    inherited: true,
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    Snippet,
-  }) => {
-    //removing paths and snippets not required from Bella
-    for (let i in paths) delete paths[i]
-    for (let i in snippets) delete snippets[i]
-    //removing macros not required from Bella
-    macro('title', false)
-    macro('scalebox', false)
+  options: {
+    //Constant
+    neckSaWidth: 0.01,
+    armholeSaWidth: 0.01,
+    shoulderSaWidth: 0.01,
+    sideSeamSaWidth: 0.01,
+    neckSaWidth: 0.01,
+    bustDartLength: 1,
+    waistDartLength: 1,
+    //Darts
+    bustDartFraction: { pct: 50, min: 0, max: 100, menu: 'darts' },
+    bustDartPlacement: {
+      dflt: 'armholePitch',
+      list: ['armhole', 'armholePitch', 'shoulder', 'bustshoulder'],
+      menu: 'darts',
+    },
+    //Construction
+    princessSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+  },
+  draft: (sh) => {
+    const { points, Path, store, utils, options, part } = sh
 
-    //seam paths
+    store.set('scyeFrontWidth', points.armhole.dist(points.shoulder))
+    store.set(
+      'scyeFrontDepth',
+      points.armhole.dist(points.shoulder) *
+        Math.sin(
+          utils.deg2rad(
+            points.armhole.angle(points.shoulder) - (points.shoulder.angle(points.hps) - 90)
+          )
+        )
+    )
+    store.set(
+      'frontArmholeLength',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .length()
+    )
+    store.set(
+      'frontArmholeToArmholePitch',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .length()
+    )
 
-    const drawSaBase = () => {
-      if (options.bustDartPlacement == 'armhole')
-        return new Path()
-          .move(points.cfWaist)
-          .line(points.waistDartLeft)
-          .curve_(points.waistDartLeftCp, points.bust)
-          .curve_(points.bustDartCpTop, points.bustDartTop)
-          .curve_(points.armholePitchCp2, points.shoulder)
-          .line(points.hps)
-          .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
-      else
-        return new Path()
-          .move(points.cfWaist)
-          .line(points.waistDartLeft)
-          .curve(points.waistDartLeftCp, points.waistDartMiddleCp, points.bust)
-          .curve(points.bustDartCpMiddle, points.bustDartCpTop, points.bustDartTop)
-          .line(points.hps)
-          .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
-    }
-
-    paths.seam = drawSaBase().line(points.cfWaist).close()
-
-    if (complete) {
-      //grainline
-      points.cutOnFoldFrom = points.cfNeck
-      points.cutOnFoldTo = points.cfWaist
-      macro('cutonfold', {
-        from: points.cutOnFoldFrom,
-        to: points.cutOnFoldTo,
-        grainline: true,
-      })
-      //notch
-      macro('sprinkle', {
-        snippet: 'notch',
-        on: ['cfBust', 'bust'],
-      })
-      snippets.bustNotch = new Snippet('notch', points.bustNotch)
-      //title
-      points.title = new Point(points.cfNeckCp1.x / 2, points.bust.y / 2)
-      macro('title', {
-        at: points.title,
-        nr: '1',
-        title: 'Centre Front',
-      })
-
-      if (sa) {
-        paths.sa = drawSaBase()
-          .offset(sa)
-          .line(points.cfNeck)
-          .line(points.cfWaist)
-          .close()
-          .attr('class', 'fabric sa')
-      }
+    switch (options.bustDartPlacement) {
+      case 'armhole':
+        return frontArmhole.draft(sh)
+      case 'shoulder':
+        return frontShoulder.draft(sh)
+      case 'bustshoulder':
+        return frontBustShoulder.draft(sh)
+      default:
+        return frontArmholePitch.draft(sh)
     }
 
     return part

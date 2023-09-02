@@ -6,10 +6,16 @@ export const strap = {
   options: {
     //Constants
     cpFraction: 0.55191502449,
+    //Style
+    strapsBool: { bool: true, menu: 'style.straps' },
     //Construction
-    strapFolds: { count: 0, min: 0, max: 3, menu: 'style' },
-    strapLengthBonus: { pct: 0, min: 0, max: 200, menu: 'style' },
-    tieType: { dflt: 'strap', list: ['strap', 'slanted', 'pointed', 'round'], menu: 'style' },
+    strapFolds: { count: 0, min: 0, max: 3, menu: 'style.straps' },
+    strapLengthBonus: { pct: 0, min: 0, max: 200, menu: 'style.straps' },
+    tieType: {
+      dflt: 'strap',
+      list: ['strap', 'straight', 'slanted', 'pointed', 'rounded'],
+      menu: 'style.straps',
+    },
   },
   draft: ({
     store,
@@ -32,13 +38,19 @@ export const strap = {
   }) => {
     //Set Render
     const strapLength = store.get('strapLength') * (1 + options.strapLengthBonus)
-    if (!options.includeStraps || strapLength == 0) {
+    if (!options.strapsBool || strapLength == 0) {
       part.hide()
       return part
     }
     //measures
     const strapWidth = store.get('strapWidth')
-    let width = strapWidth * (1 + options.strapFolds)
+    let strapFolds
+    if (options.bodiceFacings) {
+      strapFolds = 0
+    } else {
+      strapFolds = options.strapFolds
+    }
+    const width = strapWidth * (1 + strapFolds)
 
     //let's begin
     points.topLeft = new Point(0, 0)
@@ -46,14 +58,14 @@ export const strap = {
     points.bottomRight = points.topRight.shift(-90, strapLength)
     points.bottomLeft = new Point(points.topLeft.x, points.bottomRight.y)
 
-    for (let i = 0; i <= options.strapFolds + 1; i++) {
+    for (let i = 0; i <= strapFolds + 1; i++) {
       points['topAnchor' + i] = points.topLeft.shiftFractionTowards(
         points.topRight,
-        i / (options.strapFolds + 1)
+        i / (strapFolds + 1)
       )
     }
 
-    if (options.tieType == 'strap') {
+    if (options.tieType == 'strap' || options.tieType == 'straight') {
       paths.top = new Path().move(points.topRight).line(points.topLeft).hide()
     } else {
       paths.top = new Path().move(points.topRight).line(points.topLeft).hide()
@@ -62,7 +74,7 @@ export const strap = {
       let k
       let l
       let m
-      for (let i = 0; i <= options.strapFolds; i++) {
+      for (let i = 0; i <= strapFolds; i++) {
         j = i + 1
         k = i - 1
         l = i + 2
@@ -99,7 +111,7 @@ export const strap = {
               .hide()
           }
 
-          if (options.tieType == 'round') {
+          if (options.tieType == 'rounded') {
             points['topMid' + i] = points['topAnchor' + i].shift(0, strapWidth / 2)
             points['topCp1' + i] = points['topAnchor' + j]
               .shiftFractionTowards(points['topMid' + i], options.cpFraction)
@@ -122,12 +134,12 @@ export const strap = {
         }
       }
       if (options.tieType != 'slanted') {
-        paths.top = paths['top' + options.strapFolds].hide()
+        paths.top = paths['top' + strapFolds].hide()
       } else {
-        if (options.strapFolds % 2 == 1) {
-          paths.top = paths['top' + (options.strapFolds - 1)].hide()
+        if (strapFolds % 2 == 1) {
+          paths.top = paths['top' + (strapFolds - 1)].hide()
         } else {
-          paths.top = paths['top' + options.strapFolds].hide()
+          paths.top = paths['top' + strapFolds].hide()
         }
       }
     }
@@ -139,17 +151,23 @@ export const strap = {
       .line(points.topRight)
       .hide()
 
-    paths.seam = paths.saBase.join(paths.top).close()
+    paths.saLeft = new Path().move(points.topLeft).line(points.bottomLeft).hide()
+
+    paths.saBottom = new Path().move(points.bottomLeft).line(points.bottomRight).hide()
+
+    paths.saRight = new Path().move(points.bottomRight).line(points.topRight).hide()
+
+    paths.seam = paths.saLeft.join(paths.saBottom).join(paths.saRight).join(paths.top).close()
 
     if (complete) {
       //foldlines
-      if (options.strapFolds > 0) {
-        for (let i = 0; i <= options.strapFolds + 1; i++) {
+      if (strapFolds > 0) {
+        for (let i = 0; i <= strapFolds + 1; i++) {
           points['foldlineTo' + i] = points.bottomLeft.shiftFractionTowards(
             points.bottomRight,
-            i / (options.strapFolds + 1)
+            i / (strapFolds + 1)
           )
-          if (i > 0 && i <= options.strapFolds) {
+          if (i > 0 && i <= strapFolds) {
             paths['foldLine' + i] = new Path()
               .move(points['topAnchor' + i])
               .line(points['foldlineTo' + i])
@@ -179,40 +197,186 @@ export const strap = {
       points.title = points.topLeft.translate(strapWidth / 3, strapLength / 2)
       macro('title', {
         at: points.title,
-        nr: 3,
+        nr: 5,
         title: 'Strap / Tie',
         scale: 1 / 3,
       })
 
       if (sa) {
-        if (options.strapFolds > 0 && options.tieType != 'strap') {
-          if (options.tieType != 'slanted') {
+        let necklineSa
+        if (options.bodiceFacings) {
+          necklineSa = sa
+        } else {
+          necklineSa = sa * options.necklineSaWidth * 100
+        }
+
+        let topSa
+        let shiftSa
+        if (options.tieType == 'strap') {
+          topSa = sa
+          shiftSa = sa
+        } else {
+          topSa = necklineSa
+          if (options.tieType == 'straight') {
+            shiftSa = necklineSa
+          } else {
+            shiftSa = 0
+          }
+        }
+
+        if (options.tieType != 'strap' && options.tieType != 'straight') {
+          if (options.tieType == 'rounded') {
             paths.saTop = paths.top
-              .split(points['topTip' + options.strapFolds])[0]
+              .split(points['topTip' + strapFolds])[0]
               .line(points.topTip0)
               .join(paths.top.split(points.topTip0)[1])
+              .offset(necklineSa)
               .hide()
-          } else {
-            if (options.strapFolds % 2 == 1) {
-              paths.saTop = paths.top
-                .split(points['topSlant' + (options.strapFolds - 1)])[0]
-                .line(points.topSlant0)
-                .join(paths.top.split(points.topSlant0)[1])
+          }
+          if (options.tieType == 'pointed') {
+            points.topTipX = points['topTip' + strapFolds]
+
+            points.saTopStart = utils.beamsIntersect(
+              points.bottomRight.shift(0, necklineSa),
+              points.topRight.shift(0, necklineSa),
+              points.topRight.shiftTowards(points.topTipX, necklineSa).rotate(-90, points.topRight),
+              points.topTipX.shiftTowards(points.topRight, necklineSa).rotate(90, points.topTipX)
+            )
+
+            points['saTopTip' + strapFolds] = utils.beamsIntersect(
+              points.topRight.shiftTowards(points.topTipX, necklineSa).rotate(-90, points.topRight),
+              points.topTipX.shiftTowards(points.topRight, necklineSa).rotate(90, points.topTipX),
+              points.topTipX,
+              points.topTipX.shift(90, 1)
+            )
+            points.saTopTip0 = new Point(points.topTip0.x, points['saTopTip' + strapFolds].y)
+
+            points.saTopEnd = utils.beamsIntersect(
+              points.topTip0.shiftTowards(points.topLeft, necklineSa).rotate(-90, points.topTip0),
+              points.topLeft.shiftTowards(points.topTip0, necklineSa).rotate(90, points.topLeft),
+              points.topLeft
+                .shiftTowards(points.bottomLeft, necklineSa)
+                .rotate(-90, points.topLeft),
+              points.bottomLeft
+                .shiftTowards(points.topLeft, necklineSa)
+                .rotate(90, points.bottomLeft)
+            )
+
+            paths.saTop = new Path()
+              .move(points.saTopStart)
+              .line(points['saTopTip' + strapFolds])
+              .line(points.saTopTip0)
+              .line(points.saTopEnd)
+              .hide()
+          }
+          if (options.tieType == 'slanted') {
+            points.saTopEnd = utils.beamsIntersect(
+              points.topSlant0
+                .shiftTowards(points.topLeft, necklineSa)
+                .rotate(-90, points.topSlant0),
+              points.topLeft.shiftTowards(points.topSlant0, necklineSa).rotate(90, points.topLeft),
+              points.topLeft
+                .shiftTowards(points.bottomLeft, necklineSa)
+                .rotate(-90, points.topLeft),
+              points.bottomLeft
+                .shiftTowards(points.topLeft, necklineSa)
+                .rotate(90, points.bottomLeft)
+            )
+
+            if (strapFolds % 2 == 1) {
+              points.saTopSlantX = points['topSlant' + (strapFolds - 1)]
+
+              points.saTopStart = utils.beamsIntersect(
+                points.bottomRight.shift(0, necklineSa),
+                points.topRight.shift(0, necklineSa),
+                points.topRight
+                  .shiftTowards(points.saTopSlantX, necklineSa)
+                  .rotate(-90, points.topRight),
+                points.saTopSlantX
+                  .shiftTowards(points.topRight, necklineSa)
+                  .rotate(90, points.saTopSlantX)
+              )
+
+              points['saTopSlant' + (strapFolds - 1)] = utils.beamsIntersect(
+                points.topRight
+                  .shiftTowards(points.saTopSlantX, necklineSa)
+                  .rotate(-90, points.topRight),
+                points.saTopSlantX
+                  .shiftTowards(points.topRight, necklineSa)
+                  .rotate(90, points.saTopSlantX),
+                points.saTopSlantX,
+                points.saTopSlantX.shift(90, 1)
+              )
+
+              points.saTopSlant0 = utils.beamsIntersect(
+                points.topSlant0
+                  .shiftTowards(points.topLeft, necklineSa)
+                  .rotate(-90, points.topSlant0),
+                points.topLeft
+                  .shiftTowards(points.topSlant0, necklineSa)
+                  .rotate(90, points.topLeft),
+                points.topSlant0,
+                points.topSlant0.shift(90, 1)
+              )
+
+              paths.saTop = new Path()
+                .move(points.saTopStart)
+                .line(points['saTopSlant' + (strapFolds - 1)])
+                .line(points.saTopSlant0)
+                .line(points.saTopEnd)
                 .hide()
             } else {
-              paths.saTop = paths.top
-                .split(points['topSlant' + options.strapFolds])[0]
-                .line(points.topSlant0)
-                .join(paths.top.split(points.topSlant0)[1])
+              points.saTopStart = points.topRight.shift(0, necklineSa)
+              points.saTopSlantX = points['topSlant' + strapFolds]
+              points.saTopAnchorX = points['topAnchor' + strapFolds]
+
+              points['saTopSlant' + strapFolds] = utils.beamsIntersect(
+                points.saTopSlantX,
+                points.saTopSlantX.shift(90, 1),
+                points.saTopSlantX
+                  .shiftTowards(points.saTopAnchorX, necklineSa)
+                  .rotate(-90, points.saTopSlantX),
+                points.saTopAnchorX
+                  .shiftTowards(points.saTopSlantX, necklineSa)
+                  .rotate(90, points.saTopAnchorX)
+              )
+              points['saTopCorner' + strapFolds] = points['saTopSlant' + strapFolds].shift(
+                0,
+                necklineSa
+              )
+
+              points.saTopSlant0 = new Point(
+                points.topSlant0.x,
+                points['saTopSlant' + strapFolds].y
+              )
+
+              paths.saTop = new Path()
+                .move(points.saTopStart)
+                .line(points['saTopCorner' + strapFolds])
+                .line(points['saTopSlant' + strapFolds])
+                .line(points.saTopSlant0)
+                .line(points.saTopEnd)
                 .hide()
             }
           }
         } else {
-          paths.saTop = paths.top
+          paths.saTop = paths.top.offset(topSa).hide()
         }
-        paths.sa = paths.saBase
-          .offset(sa)
-          .join(paths.saTop.offset(sa))
+
+        points.saPoint0 = points.topLeft.translate(-necklineSa, -shiftSa)
+        points.saPoint1 = points.bottomLeft.translate(-necklineSa, sa)
+        points.saPoint2 = points.bottomRight.translate(necklineSa, sa)
+        points.saPoint3 = points.topRight.translate(necklineSa, -shiftSa)
+
+        paths.sa = new Path()
+          .move(points.saPoint0)
+          .line(points.saPoint1)
+          .line(paths.saBottom.offset(sa).start())
+          .join(paths.saBottom.offset(sa))
+          .line(points.saPoint2)
+          .line(points.saPoint3)
+          .line(paths.saTop.start())
+          .join(paths.saTop)
           .close()
           .attr('class', 'fabric sa')
       }

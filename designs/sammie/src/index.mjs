@@ -4,38 +4,43 @@ import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
 import { backBase } from './backBase.mjs'
-import { frontBase } from './frontBase.mjs'
-import { centreBack } from './centreBack.mjs'
+import { back } from './back.mjs'
 import { sideBack } from './sideBack.mjs'
+import { front } from './front.mjs'
 import { sideFront } from './sideFront.mjs'
-import { centreFront } from './centreFront.mjs'
-import { backFacing } from './backFacing.mjs'
 import { frontFacing } from './frontFacing.mjs'
+import { backFacing } from './backFacing.mjs'
+//Export Only
+import { frontBaseShoulder } from './frontBaseShoulder.mjs'
+import { frontBaseBustShoulder } from './frontBaseBustShoulder.mjs'
+import { frontShoulder } from './frontShoulder.mjs'
+import { frontBustShoulder } from './frontBustShoulder.mjs'
+import { sideFrontShoulder } from './sideFrontShoulder.mjs'
+import { sideFrontBustShoulder } from './sideFrontBustShoulder.mjs'
+import { frontFacingShoulder } from './frontFacingShoulder.mjs'
 
 // Create new design
 const Sammie = new Design({
   data,
-  parts: [
-    backBase,
-    frontBase,
-    centreBack,
-    sideBack,
-    sideFront,
-    backFacing,
-    frontFacing,
-    centreFront,
-  ],
+  parts: [backBase, back, sideBack, front, sideFront, frontFacing, backFacing],
 })
 
 // Named exports
 export {
   backBase,
-  frontBase,
-  centreBack,
+  back,
   sideBack,
+  front,
   sideFront,
-  centreFront,
-  backFacing,
   frontFacing,
+  backFacing,
+  //Export Only
+  // frontBaseShoulder,
+  // frontBaseBustShoulder,
+  // frontShoulder,
+  // frontBustShoulder,
+  // sideFrontShoulder,
+  // sideFrontBustShoulder,
+  // frontFacingShoulder,
   Sammie,
 }
