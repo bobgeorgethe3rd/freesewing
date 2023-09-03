@@ -42,7 +42,7 @@ export const front = {
     bustDartFraction: { pct: 50, min: 0, max: 100, menu: 'darts' },
     //Construction
     cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
-    necklineSaWidth: { pct: 1, min: 0, max: 2.5, menu: 'construction' },
+    necklineSaWidth: { pct: 1.5, min: 0, max: 2.5, menu: 'construction' },
     sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     hemWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
   },
