@@ -100,11 +100,11 @@ export const visor = {
         title: 'visor',
         scale: 0.25,
       })
-      //center line
+      //centre line
       paths.centreLine = new Path()
         .move(points.topMid)
         .line(points.bottomMid)
-        .attr('class', 'various')
+        .attr('class', 'mark')
         .attr('data-text', 'Centre Line')
         .attr('data-text-class', 'center')
 

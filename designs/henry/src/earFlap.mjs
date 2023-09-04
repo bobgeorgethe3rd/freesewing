@@ -135,14 +135,12 @@ export const earFlap = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.topMid
-      points.grainlineTo = points.bottomMid
+      points.grainlineFrom = points.topMid.shiftFractionTowards(points.topLeftAnchor, 0.25)
+      points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomMid.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
-      //notches
-      snippets.bottomMid = new Snippet('notch', points.bottomMid)
       //title
       points.title = new Point(
         points.bottomLeft.x * 0.75,
@@ -156,7 +154,7 @@ export const earFlap = {
       })
       //scalebox
       points.scalebox = new Point(
-        points.bottomRight.x * 0.5,
+        points.bottomRight.x * 0.6,
         points.bottomRight.shiftFractionTowards(points.bottomRightCp2, 1 / 3).y
       )
       macro('miniscale', {
@@ -164,13 +162,20 @@ export const earFlap = {
       })
       //logo
       points.logo = new Point(
-        points.bottomLeft.x * 0.5,
+        points.bottomLeft.x * 0.6,
         points.bottomLeft.shiftFractionTowards(points.bottomLeftCp1, 1 / 3).y
       )
       macro('logorg', {
         at: points.logo,
         scale: 0.25,
       })
+      //centre line
+      paths.centreLine = new Path()
+        .move(points.topMid)
+        .line(points.bottomMid)
+        .attr('class', 'mark')
+        .attr('data-text', 'Centre Line')
+        .attr('data-text-class', 'center')
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
 

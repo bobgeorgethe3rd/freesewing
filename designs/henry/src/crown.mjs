@@ -99,11 +99,11 @@ export const crown = {
         title: 'crown',
         scale: 0.25,
       })
-      //center line
+      //centre line
       paths.centreLine = new Path()
         .move(points.crown_p1)
         .line(points.origin)
-        .attr('class', 'various')
+        .attr('class', 'mark')
         .attr('data-text', 'Centre Line')
         .attr('data-text-class', 'center')
     }
