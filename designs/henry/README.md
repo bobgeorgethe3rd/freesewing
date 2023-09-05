@@ -48,7 +48,7 @@
 
 # @freesewing/henry
 
-A Holmes deerstalker Hat pattern
+A Holmes Deerstalker Hat design
 
 
 

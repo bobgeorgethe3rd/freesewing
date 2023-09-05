@@ -3,6 +3,7 @@ import { crown } from './crown.mjs'
 
 export const visor = {
   name: 'henry.visor',
+  after: crown,
   options: {
     visorAngle: { deg: 60, min: 10, max: 90, menu: 'style' },
     visorWidth: { pct: 9.1, min: 1, max: 17, snap: 5, ...pctBasedOn('head'), menu: 'style' },
