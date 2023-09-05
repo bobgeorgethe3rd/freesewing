@@ -81,10 +81,17 @@
       "tags": ["hats"]
     },
     "henry": {
-      "description": "A Holmes deerstalker Hat pattern",
+      "description": "A Holmes Deerstalker Hat design",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
+      "tags": ["hats"]
+    },
+    "perry": {
+      "description": "A Plate Cap Hat design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 2,
       "tags": ["hats"]
     }
   },
