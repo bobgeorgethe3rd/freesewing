@@ -192,6 +192,7 @@ export const frontBustSideDart = ({
         .line(points.saPoint6)
         .join(paths.cfNeck.offset(neckSa))
         .line(points.cfWaist)
+        .close()
         .attr('class', 'fabric sa')
     }
   }
