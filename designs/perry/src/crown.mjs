@@ -93,7 +93,7 @@ export const crown = {
     points.bottomInnerCp2 = points.topInnerCp1.flipY()
 
     //paths
-    paths.outerSeam = new Path()
+    paths.seamOuter = new Path()
       .move(points.bottomOuter)
       .curve(points.bottomOuterCp2, points.rightOuterCp1, points.rightOuter)
       .curve(points.rightOuterCp2, points.topOuterCp1, points.topOuter)
@@ -101,7 +101,7 @@ export const crown = {
       .curve(points.leftOuterCp2, points.bottomOuterCp1, points.bottomOuter)
       .close()
 
-    paths.innerSeam = new Path()
+    paths.seamInner = new Path()
       .move(points.bottomInner)
       .curve(points.bottomInnerCp2, points.leftInnerCp1, points.leftInner)
       .curve(points.leftInnerCp2, points.topInnerCp1, points.topInner)
@@ -163,8 +163,8 @@ export const crown = {
         scale: 0.25,
       })
       if (sa) {
-        paths.saOuter = paths.outerSeam.offset(sa).close().attr('class', 'fabric sa')
-        paths.saInner = paths.innerSeam.offset(sa).close().attr('class', 'fabric sa')
+        paths.saOuter = paths.seamOuter.offset(sa).close().attr('class', 'fabric sa')
+        paths.saInner = paths.seamInner.offset(sa).close().attr('class', 'fabric sa')
       }
     }
     return part
