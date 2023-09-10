@@ -77,7 +77,6 @@ export const brimOval = ({
     macro('miniscale', {
       at: points.scalebox,
     })
-
     //logo
     points.logo = points.leftInner.shiftFractionTowards(points.leftOuter, 0.5)
     macro('logorg', {

@@ -76,7 +76,6 @@ export const brimGeometric = ({
     macro('miniscale', {
       at: points.scalebox,
     })
-
     //logo
     points.logo = points.leftInner.shift(180, brimWidth / 2)
     macro('logorg', {
