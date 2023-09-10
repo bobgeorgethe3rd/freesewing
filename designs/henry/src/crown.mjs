@@ -76,7 +76,7 @@ export const crown = {
     paths.seam = paths.hemBase.clone().join(paths.saRight).join(paths.saLeft).close()
 
     //stores
-    store.set('headCircumference', headCircumference)
+    store.set('headCircumference', points.crown_p3.dist(points.crown_p3F) * options.crownNumber) //DO NOT CHANGE!!! when below 0.5 it is shorter than headCircumference
     store.set('headRadius', headRadius)
     store.set('crownLength', points.crown_p1.dist(points.origin))
 
