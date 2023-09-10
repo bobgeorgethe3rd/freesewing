@@ -148,6 +148,9 @@ jaeger:
     '@freesewing/bent': *freesewing
     '@freesewing/plugin-bust': *freesewing
     '@freesewing/plugin-mirror': *freesewing
+merlin:
+  peer:
+    '@freesewing/mildred': *freesewing
 minerva:
   peer:
     '@freesewing/mildred': *freesewing

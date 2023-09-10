@@ -87,6 +87,13 @@
       "difficulty": 3,
       "tags": ["hats"]
     },
+    "merlin": {
+      "description": "A Mage Hat Design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["hats"]
+    },
     "mildred": {
       "description": "A Magical Hat Design",
       "code": "bobgeorgethe3rd",
