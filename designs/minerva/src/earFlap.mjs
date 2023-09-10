@@ -11,6 +11,7 @@ export const earFlap = {
     //Constants
     buttonholeEarFlap: false, //locked for Minerva
     //Style
+    earFlaps: { bool: true, menu: 'style' },
     earFlapStyle: {
       dflt: 'curved',
       list: ['curved', 'rounded', 'pointed', 'triangle'],
@@ -39,6 +40,11 @@ export const earFlap = {
       absoluteOptions,
       log,
     } = sh
+    //set Render
+    if (!options.earFlaps) {
+      part.hide()
+      return part
+    }
     //draft brimBase
     henryEarFlap.draft(sh)
     //remove macros
