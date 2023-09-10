@@ -88,10 +88,17 @@
       "tags": ["hats"]
     },
     "mildred": {
-      "description": "A Magical Har Design",
+      "description": "A Magical Hat Design",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
-      "difficulty": 1,
+      "difficulty": 3,
+      "tags": ["hats"]
+    },
+    "minerva": {
+      "description": "A Mystical Hat Design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
       "tags": ["hats"]
     },
     "perry": {
