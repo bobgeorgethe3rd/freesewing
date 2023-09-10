@@ -169,6 +169,11 @@ export const earFlap = {
         at: points.logo,
         scale: 0.25,
       })
+      //buttonhole
+      if (options.buttonholeEarFlap) {
+        points.buttonhole = points.bottomMid.shift(90, crownLength)
+        snippets.buttonhole = new Snippet('buttonhole', points.buttonhole).attr('data-scale', 2)
+      }
       //centre line
       paths.centreLine = new Path()
         .move(points.topMid)
