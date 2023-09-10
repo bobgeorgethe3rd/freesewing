@@ -87,6 +87,13 @@
       "difficulty": 3,
       "tags": ["hats"]
     },
+    "mildred": {
+      "description": "A Magical Har Design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["hats"]
+    },
     "perry": {
       "description": "A Plate Cap Hat design",
       "code": "bobgeorgethe3rd",
