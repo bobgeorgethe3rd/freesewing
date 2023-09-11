@@ -64,7 +64,7 @@ export const spreadSleeveBoth = ({
   // .line(points.capQ3M)
   // .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
   // .line(points.capQ4M)
-  // ._curve(points.capQ4Cp2, points.sleeveCapLeft)
+  // .curve_(points.capQ4Cp2, points.sleeveCapLeft)
   // .line(points.bottomLeft)
   // .line(points.bottomAnchor)
 
@@ -155,7 +155,7 @@ export const spreadSleeveBoth = ({
   )
   points.bottomCp2 = points.bottomCp1.flipX(points.bottomMid)
 
-  //sleevecapN
+  //sleevecap
   points.capQ1 = points.capQ1M
   points.capQ2 = points.capQ2M.shift(90, spread / 10)
   points.capQ3 = points.capQ3M.shift(90, spread / 10)

@@ -58,7 +58,7 @@ export const spreadSleeveCap = ({
   // .move(points.sleeveTip)
   // .curve_(points.capQ3Cp1, points.capQ3)
   // .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
-  // ._curve(points.capQ4Cp2, points.sleeveCapLeft)
+  // .curve_(points.capQ4Cp2, points.sleeveCapLeft)
   // .line(points.bottomLeft)
   // .line(points.capQ4BottomR)
   // .line(points.capQ4Bottom)
@@ -108,7 +108,7 @@ export const spreadSleeveCap = ({
   // .line(points.capQ1BottomR)
   // .line(points.bottomRight)
   // .line(points.sleeveCapRight)
-  // .curve_(points.capQ1Cp1, points.capQ1)
+  // ._curve(points.capQ1Cp1, points.capQ1)
   // .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2)
   // ._curve(points.capQ2Cp2, points.sleeveTip)
   //sleevecap revision
@@ -121,12 +121,12 @@ export const spreadSleeveCap = ({
 
   paths.sleevecap = new Path()
     .move(points.sleeveCapRight)
-    .curve_(points.capQ1Cp1, points.capQ1)
+    ._curve(points.capQ1Cp1, points.capQ1)
     .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2)
     ._curve(points.capQ2Cp2, points.sleeveTip)
     .curve_(points.capQ3Cp1, points.capQ3)
     .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
-    ._curve(points.capQ4Cp2, points.sleeveCapLeft)
+    .curve_(points.capQ4Cp2, points.sleeveCapLeft)
     .hide()
 
   //guide
@@ -150,12 +150,12 @@ export const spreadSleeveCap = ({
   // .line(points.capQ1BottomR)
   // .line(points.bottomRight)
   // .line(points.sleeveCapRight)
-  // .curve_(points.capQ1Cp1, points.capQ1)
+  // ._curve(points.capQ1Cp1, points.capQ1)
   // .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2)
   // ._curve(points.capQ2Cp2, points.sleeveTip)
   // .curve_(points.capQ3Cp1, points.capQ3)
   // .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
-  // ._curve(points.capQ4Cp2, points.sleeveCapLeft)
+  // .curve_(points.capQ4Cp2, points.sleeveCapLeft)
   // .line(points.bottomLeft)
   // .attr('class', 'various lashed')
 

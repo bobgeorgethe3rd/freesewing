@@ -76,7 +76,7 @@ export const spreadSleeveHem = ({
   // .line(points.capQ3R)
   // .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
   // .line(points.capQ4R)
-  // ._curve(points.capQ4Cp2, points.sleeveCapLeft)
+  // .curve_(points.capQ4Cp2, points.sleeveCapLeft)
   // .line(points.bottomLeft)
   // .line(points.capQ4Bottom)
   // .line(points.capQ3Bottom)

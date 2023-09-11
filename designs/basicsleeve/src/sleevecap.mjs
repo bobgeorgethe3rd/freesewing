@@ -108,7 +108,7 @@ export const sleevecap = {
 
       paths.sleeveCapFront = new Path()
         .move(points.sleeveCapRight)
-        .curve_(points.capQ1Cp1, points.capQ1)
+        ._curve(points.capQ1Cp1, points.capQ1)
         .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2)
         .curve_(points.capQ2Cp2, points.sleeveTip)
         .hide()
