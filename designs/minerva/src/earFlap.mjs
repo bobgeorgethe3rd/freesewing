@@ -56,6 +56,8 @@ export const earFlap = {
     delete points.scalebox
 
     if (complete) {
+      //notches
+      snippets.bottomMid = new Snippet('notch', points.bottomMid)
       //title
       macro('title', {
         at: points.title,
