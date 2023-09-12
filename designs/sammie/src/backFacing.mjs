@@ -23,6 +23,11 @@ export const backFacing = {
     snippets,
     Snippet,
   }) => {
+    //set render
+    if (!options.bodiceFacings) {
+      part.hide()
+      return part
+    }
     //removing paths and snippets not required from Daisy
     for (let i in paths) delete paths[i]
     //measurements
