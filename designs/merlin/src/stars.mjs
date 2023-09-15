@@ -4,16 +4,16 @@ import { apBase } from './apBase.mjs'
 export const stars = {
   name: 'merlin.stars',
   options: {
-    //Style
-    appliques: { bool: true, menu: 'style.appliques' },
-    appliqueNumber: { count: 5, min: 3, max: 20, menu: 'style.appliques' },
+    //Appliques
+    appliques: { bool: true, menu: 'appliques' },
+    appliqueNumber: { count: 5, min: 3, max: 20, menu: 'appliques' },
     appliqueLength: {
       pct: 4.9,
       min: 4.9,
       max: 8.2,
       snap: 5,
       ...pctBasedOn('head'),
-      menu: 'style.appliques',
+      menu: 'appliques',
     },
     appliqueIncrement: {
       pct: 3.3,
@@ -21,7 +21,7 @@ export const stars = {
       max: 8.2,
       snap: 5,
       ...pctBasedOn('head'),
-      menu: 'style.appliques',
+      menu: 'appliques',
     },
   },
   draft: ({

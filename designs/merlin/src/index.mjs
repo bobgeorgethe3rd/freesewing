@@ -7,6 +7,7 @@ import { crown } from './crown.mjs'
 import { brim } from './brim.mjs'
 import { lining } from './lining.mjs'
 import { stars } from './stars.mjs'
+import { moons } from './moons.mjs'
 
 //Export Only
 // import { apBase } from './apBase.mjs'
@@ -14,7 +15,7 @@ import { stars } from './stars.mjs'
 // Create new design
 const Merlin = new Design({
   data,
-  parts: [crown, brim, lining, stars],
+  parts: [crown, brim, lining, stars, moons],
 })
 
 // Named exports
@@ -23,6 +24,7 @@ export {
   brim,
   lining,
   stars,
+  moons,
   //Export Only
   // apBase,
   Merlin,
