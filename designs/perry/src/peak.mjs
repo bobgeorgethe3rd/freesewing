@@ -79,15 +79,20 @@ export const peak = {
       options.cpFraction
     )
 
-    points.rightInner = utils.curvesIntersect(
-      points.rightOuter,
-      points.rightOuterCp2,
-      points.topOuterCp1,
-      points.topOuter,
-      points.rightInnerI,
-      points.rightInnerICp2,
-      points.bottomInnerCp1I,
-      points.bottomInner
+    // points.rightInner = utils.curvesIntersect(
+    // points.rightOuter,
+    // points.rightOuterCp2,
+    // points.topOuterCp1,
+    // points.topOuter,
+    // points.rightInnerI,
+    // points.rightInnerICp2,
+    // points.bottomInnerCp1I,
+    // points.bottomInner
+    // )
+
+    points.rightInner = points.origin.translate(
+      Math.sqrt(Math.pow(headRadius, 2) - Math.pow(peakWidth / 2, 2)),
+      peakWidth * -0.5
     )
 
     const outerAngle = points.origin.angle(points.rightInner) + 90
