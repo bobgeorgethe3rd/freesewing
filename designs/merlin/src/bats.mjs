@@ -44,8 +44,6 @@ export const bats = {
       const batWidth = appliqueLength + appliqueIncrement * i
 
       //points
-      points['tl' + i] = points['origin' + i].shift(90, batWidth * 0.5).shift(180, batWidth * 0.5)
-
       points['bat0' + i] = points['origin' + i].shift(90, batWidth * 0.227)
       points['bat1' + i] = points['origin' + i].translate(batWidth * -0.02, batWidth * -0.22)
       points['bat2' + i] = points['origin' + i].translate(batWidth * -0.073, batWidth * -0.25)
@@ -113,7 +111,6 @@ export const bats = {
       }
 
       //paths
-
       paths['bat' + i] = new Path()
         .move(points['bat0' + i])
         .curve_(points['bat0' + i + 'Cp2'], points['bat1' + i])
