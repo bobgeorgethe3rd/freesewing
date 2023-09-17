@@ -23,6 +23,8 @@ export const stars = {
       ...pctBasedOn('head'),
       menu: 'appliques',
     },
+    //Construction
+    appliqueSaWidth: { pct: 1, min: 0, max: 1.5, menu: 'construction' },
   },
   draft: ({
     store,
@@ -52,9 +54,9 @@ export const stars = {
     const appliqueNumber = options.appliqueNumber
     const appliqueLength = absoluteOptions.appliqueLength
     const appliqueIncrement = absoluteOptions.appliqueIncrement
-
+    const appliqueSa = sa * options.appliqueSaWidth * 100
     //draft base
-    apBase(part, appliqueNumber, appliqueLength, appliqueIncrement, true)
+    apBase(part, appliqueNumber, appliqueLength, appliqueIncrement, appliqueSa, true)
 
     //star points
     for (let i = 0; i < appliqueNumber; i++) {
@@ -111,22 +113,22 @@ export const stars = {
           scale: (i + 1) * 0.075,
         })
 
-        if (sa) {
+        if (sa && options.appliqueSaWidth > 0) {
           const saStarAngle = points['starCorner1' + i].angle(points['starTip1' + i])
 
           // points['saStarCorner1' + i] = points['starCorner1' + i].shift(180, sa).shift(saStarAngle, sa / Math.cos(utils.deg2rad(90 - saStarAngle)))
           points['saStarCorner1' + i] = utils.beamsIntersect(
             points['origin' + i],
             points['starCorner1' + i],
-            points['starCorner1' + i].shift(90, sa),
-            points['starCorner1' + i].translate(-1, -sa)
+            points['starCorner1' + i].shift(90, appliqueSa),
+            points['starCorner1' + i].translate(-1, -appliqueSa)
           )
 
           points['saStarTipLeft1' + i] = points['starTip1' + i]
-            .shiftTowards(points['starCorner1' + i], sa)
+            .shiftTowards(points['starCorner1' + i], appliqueSa)
             .rotate(-90, points['starTip1' + i])
           points['saStarTipRight1' + i] = points['saStarTipLeft1' + i].flipX(points['origin' + i])
-          points['saStarTip1' + i] = points['starTip1' + i].shift(90, sa)
+          points['saStarTip1' + i] = points['starTip1' + i].shift(90, appliqueSa)
 
           for (let j = 1; j <= 4; j++) {
             points['saStarCorner' + (j + 1) + i] = points['saStarCorner1' + i].rotate(
@@ -177,13 +179,13 @@ export const stars = {
         macro('hd', {
           from: points['starTip2' + i],
           to: points['starTip5' + i],
-          y: points['starTip1' + i].y - sa - 15,
+          y: points['starTip1' + i].y - appliqueSa,
         })
 
         macro('vd', {
           from: points['starTip1' + i],
           to: points['starTip3' + i],
-          x: points['starTip2' + i].x - sa - 15,
+          x: points['starTip2' + i].x - appliqueSa,
         })
       }
     }

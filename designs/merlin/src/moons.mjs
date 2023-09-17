@@ -39,14 +39,13 @@ export const moons = {
     const appliqueNumber = options.appliqueNumber
     const appliqueLength = absoluteOptions.appliqueLength
     const appliqueIncrement = absoluteOptions.appliqueIncrement
-
+    const appliqueSa = sa * options.appliqueSaWidth * 100
     //draft base
-    apBase(part, appliqueNumber, appliqueLength, appliqueIncrement, true)
+    apBase(part, appliqueNumber, appliqueLength, appliqueIncrement, appliqueSa, true)
 
     //star points
     for (let i = 0; i < appliqueNumber; i++) {
       const moonWidth = appliqueLength + appliqueIncrement * i
-      // const moonWidthCpDist = moonWidth * 0.5 * options.cpFraction
 
       points['innerOrigin' + i] = points['origin' + i].shift(
         0,
@@ -59,15 +58,6 @@ export const moons = {
           points['innerMoon' + j + i] = points['innerOrigin' + i].shift(90 + 90 * j, moonWidth / 2)
         }
       }
-
-      // points['innerMoonTop' + i] = utils.lineIntersectsCurve(
-      // new Point((points['innerOrigin' + i].x + points['origin' + i].x) / 2, points['outerMoon1' + i].y),
-      // new Point((points['innerOrigin' + i].x + points['origin' + i].x) / 2, points['innerOrigin' + i].y),
-      // points['outerMoon0' + i],
-      // points['outerMoon0' + i].shift(90, moonWidthCpDist),
-      // points['outerMoon1' + i].shift(0, moonWidthCpDist),
-      // points['outerMoon1' + i]
-      // )
 
       points['innerMoonTop' + i] = points['origin' + i].translate(
         (points['innerOrigin' + i].x - points['origin' + i].x) / 2,
@@ -137,7 +127,10 @@ export const moons = {
         )
         .hide()
 
-      paths['seam' + i] = paths['innerSeam' + i].clone().join(paths['outerSeam' + i])
+      paths['seam' + i] = paths['innerSeam' + i]
+        .clone()
+        .join(paths['outerSeam' + i])
+        .close()
 
       if (complete) {
         //title
@@ -153,17 +146,25 @@ export const moons = {
           scale: (i + 1) * 0.05,
         })
 
-        if (sa) {
-          points['saInnerMoonTop' + i] = points['innerMoonTop' + i].shift(0, sa)
-          points['saInnerMoonBottom' + i] = points['innerMoonBottom' + i].shift(0, sa)
+        if (sa && options.appliqueSaWidth > 0) {
+          //Seam allowance be buggy so here we are
+          let innerSa
+          if (sa > (appliqueSa && appliqueLength * 0.4)) {
+            innerSa = sa * 0.4
+          } else {
+            innerSa = appliqueSa
+          }
+
+          points['saInnerMoonTop' + i] = points['innerMoonTop' + i].shift(0, appliqueSa)
+          points['saInnerMoonBottom' + i] = points['innerMoonBottom' + i].shift(0, appliqueSa)
 
           paths['sa' + i] = paths['innerSeam' + i]
-            .offset(sa)
+            .offset(innerSa)
             .line(points['saInnerMoonTop' + i])
-            .line(paths['outerSeam' + i].offset(sa).start())
-            .join(paths['outerSeam' + i].offset(sa))
+            .line(paths['outerSeam' + i].offset(appliqueSa).start())
+            .join(paths['outerSeam' + i].offset(appliqueSa))
             .line(points['saInnerMoonBottom' + i])
-            .line(paths['innerSeam' + i].offset(sa).start())
+            .line(paths['innerSeam' + i].offset(innerSa).start())
             .close()
             .attr('class', 'fabric sa')
         }
@@ -172,13 +173,13 @@ export const moons = {
         macro('hd', {
           from: points['outerMoon2' + i],
           to: points['innerMoonTop' + i],
-          y: points['outerMoon1' + i].y - sa - 15,
+          y: points['outerMoon1' + i].y - appliqueSa,
         })
 
         macro('vd', {
           from: points['outerMoon1' + i],
           to: points['outerMoon1' + i].flipY(),
-          x: points['outerMoon2' + i].x - sa - 15,
+          x: points['outerMoon2' + i].x - appliqueSa,
         })
       }
     }
