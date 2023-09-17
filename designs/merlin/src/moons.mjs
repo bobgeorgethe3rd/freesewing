@@ -43,7 +43,7 @@ export const moons = {
     //draft base
     apBase(part, appliqueNumber, appliqueLength, appliqueIncrement, appliqueSa, true)
 
-    //star points
+    //moon points
     for (let i = 0; i < appliqueNumber; i++) {
       const moonWidth = appliqueLength + appliqueIncrement * i
 

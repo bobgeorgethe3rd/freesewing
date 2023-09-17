@@ -41,7 +41,7 @@ export const cats = {
     //draft base
     apBase(part, appliqueNumber, appliqueLength, appliqueIncrement, appliqueSa, true)
 
-    //star points
+    //cat points
     for (let i = 0; i < appliqueNumber; i++) {
       const catWidth = appliqueLength + appliqueIncrement * i
       //points
@@ -272,6 +272,20 @@ export const cats = {
             .close()
             .attr('class', 'fabric sa')
         }
+      }
+
+      if (paperless) {
+        macro('hd', {
+          from: points['cat6' + i],
+          to: points['cat21' + i],
+          y: points['cat0' + i].y - appliqueSa,
+        })
+
+        macro('vd', {
+          from: points['cat0' + i],
+          to: points['cat18' + i],
+          x: points['cat6' + i].x - appliqueSa,
+        })
       }
     }
 
