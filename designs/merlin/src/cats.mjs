@@ -260,13 +260,11 @@ export const cats = {
             .line(points['cat6' + i])
             .curve_(points['cat7' + i + 'Cp1'], points['cat7' + i])
             .curve_(points['cat8' + i + 'Cp1'], points['cat8' + i])
-
             .curve(points['cat8' + i + 'Cp2'], points['cat9' + i + 'Cp1'], points['cat9' + i])
             ._curve(points['cat10' + i], points['cat12' + i])
             .curve(points['cat12' + i + 'Cp2'], points['cat14' + i + 'Cp1'], points['cat14' + i])
             ._curve(points['cat18' + i + 'Cp1'], points['cat18' + i])
             .curve(points['cat19' + i + 'Cp1'], points['cat20' + i + 'Cp1'], points['cat20' + i])
-
             .curve_(points['cat21' + i + 'Cp1'], points['cat21' + i])
             .curve_(points['cat22' + i + 'Cp1'], points['cat22' + i])
             ._curve(points['cat0' + i + 'Cp1'], points['cat0' + i])

@@ -147,24 +147,15 @@ export const moons = {
         })
 
         if (sa && options.appliqueSaWidth > 0) {
-          //Seam allowance be buggy so here we are
-          let innerSa
-          if (sa > (appliqueSa && appliqueLength * 0.4)) {
-            innerSa = sa * 0.4
-          } else {
-            innerSa = appliqueSa
-          }
-
           points['saInnerMoonTop' + i] = points['innerMoonTop' + i].shift(0, appliqueSa)
           points['saInnerMoonBottom' + i] = points['innerMoonBottom' + i].shift(0, appliqueSa)
-
-          paths['sa' + i] = paths['innerSeam' + i]
-            .offset(innerSa)
+          //To not break paths['innerSeam' + i] is not included
+          paths['sa' + i] = new Path()
+            .move(points['saInnerMoonBottom' + i])
             .line(points['saInnerMoonTop' + i])
             .line(paths['outerSeam' + i].offset(appliqueSa).start())
             .join(paths['outerSeam' + i].offset(appliqueSa))
             .line(points['saInnerMoonBottom' + i])
-            .line(paths['innerSeam' + i].offset(innerSa).start())
             .close()
             .attr('class', 'fabric sa')
         }
