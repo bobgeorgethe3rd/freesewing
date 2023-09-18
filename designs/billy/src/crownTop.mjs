@@ -42,35 +42,39 @@ export const crownTop = {
 
     //let's begin
     points.origin = new Point(0, 0)
-    points.start = points.origin.shift(180, radius)
-    points.q1 = points.start.rotate(angle / 4, points.origin)
-    points.mid = points.start.rotate(angle / 2, points.origin)
-    points.q2 = points.start.rotate(angle * (3 / 4), points.origin)
-    points.end = points.start.rotate(angle, points.origin)
-    points.cp1 = points.start.shiftTowards(points.origin, cpDistance).rotate(-90, points.start)
-    points.cp2 = points.q1.shiftTowards(points.origin, cpDistance).rotate(90, points.q1)
-    points.cp3 = points.cp2.rotate(180, points.q1)
-    points.cp4 = points.mid.shiftTowards(points.origin, cpDistance).rotate(90, points.mid)
-    points.cp5 = points.cp4.rotate(180, points.mid)
-    points.cp6 = points.q2.shiftTowards(points.origin, cpDistance).rotate(90, points.q2)
-    points.cp7 = points.cp6.rotate(180, points.q2)
-    points.cp8 = points.end.shiftTowards(points.origin, cpDistance).rotate(90, points.end)
+    points.left = points.origin.shift(180, radius)
+    points.bottom = points.left.rotate(angle / 4, points.origin)
+    points.right = points.left.rotate(angle / 2, points.origin)
+    points.top = points.left.rotate(angle * (3 / 4), points.origin)
+    points.end = points.left.rotate(angle, points.origin)
+    points.leftCp2 = points.left.shiftTowards(points.origin, cpDistance).rotate(-90, points.left)
+    points.bottomCp1 = points.bottom
+      .shiftTowards(points.origin, cpDistance)
+      .rotate(90, points.bottom)
+    points.bottomCp2 = points.bottomCp1.rotate(180, points.bottom)
+    points.rightCp1 = points.right.shiftTowards(points.origin, cpDistance).rotate(90, points.right)
+    points.rightCp2 = points.rightCp1.rotate(180, points.right)
+    points.topCp1 = points.top.shiftTowards(points.origin, cpDistance).rotate(90, points.top)
+    points.topCp2 = points.topCp1.rotate(180, points.top)
+    points.endCp1 = points.end.shiftTowards(points.origin, cpDistance).rotate(90, points.end)
     //paths
     const drawEnd = () => {
       if (crownTopNumber > 1) {
-        return new Path().move(points.end).line(points.origin).line(points.start)
+        return new Path().move(points.end).line(points.origin).line(points.left)
       } else {
-        return new Path().move(points.end).line(points.start)
+        return new Path().move(points.end).line(points.left)
       }
     }
 
-    paths.seam = new Path()
-      .move(points.start)
-      .curve(points.cp1, points.cp2, points.q1)
-      .curve(points.cp3, points.cp4, points.mid)
-      .curve(points.cp5, points.cp6, points.q2)
-      .curve(points.cp7, points.cp8, points.end)
-      .join(drawEnd())
+    paths.saBase = new Path()
+      .move(points.left)
+      .curve(points.leftCp2, points.bottomCp1, points.bottom)
+      .curve(points.bottomCp2, points.rightCp1, points.right)
+      .curve(points.rightCp2, points.topCp1, points.top)
+      .curve(points.topCp2, points.endCp1, points.end)
+      .hide()
+
+    paths.seam = paths.saBase.clone().join(drawEnd())
 
     if (complete) {
       //strips
@@ -131,7 +135,7 @@ export const crownTop = {
       }
       //grainline
       points.grainlineFrom = points.origin
-      points.grainlineTo = points.mid
+      points.grainlineTo = points.right
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
@@ -141,32 +145,32 @@ export const crownTop = {
         case 1:
           macro('sprinkle', {
             snippet: 'notch',
-            on: ['start', 'q1', 'mid', 'q2'],
+            on: ['left', 'bottom', 'right', 'top'],
           })
           break
         case 2:
-          snippets.notch = new Snippet('notch', points.mid)
+          snippets.notch = new Snippet('notch', points.right)
           break
         case 3:
-          snippets.notch = new Snippet('notch', points.q1)
+          snippets.notch = new Snippet('notch', points.bottom)
       }
       //title
       points.title = points.origin
-        .shiftFractionTowards(points.q2, 0.5)
+        .shiftFractionTowards(points.top, 0.5)
         .shift(angle / 2, radius * 0.1)
       macro('title', {
         at: points.title,
         nr: 1,
         title: 'Crown (Top)',
         scale: 0.5 / crownTopNumber,
-        rotation: 360 - points.origin.angle(points.mid),
+        rotation: 360 - points.origin.angle(points.right),
       })
       //logo
-      points.logo = points.origin.shiftFractionTowards(points.q1, 0.5)
+      points.logo = points.origin.shiftFractionTowards(points.bottom, 0.5)
       macro('logorg', {
         at: points.logo,
         scale: radius / 175 / crownTopNumber,
-        rotation: 360 - points.origin.angle(points.mid),
+        rotation: 360 - points.origin.angle(points.right),
       })
       //scalebox
       points.scalebox = points.origin.translate(-radius, radius)
@@ -174,7 +178,30 @@ export const crownTop = {
         at: points.scalebox,
       })
       if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
+        if (options.crownTopStyle == 'pizza' && options.crownTopNumber > 1) {
+          points.saLeft = points.left.translate(-sa, -sa)
+          points.saEnd = points.end
+            .shift(points.origin.angle(points.end), sa)
+            .shift(points.endCp1.angle(points.end), sa)
+          points.saOrigin =
+            utils.beamsIntersect(
+              points.saLeft,
+              points.saLeft.shift(0, 1),
+              points.saEnd,
+              points.saEnd.shift(points.end.angle(points.origin), 1)
+            ) || points.origin.shift(90, sa)
+
+          paths.sa = paths.saBase
+            .offset(sa)
+            .line(points.saEnd)
+            .line(points.saOrigin)
+            .line(points.saLeft)
+            .line(paths.saBase.offset(sa).start())
+            .close()
+            .attr('class', 'fabric sa')
+        } else {
+          paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
+        }
       }
     }
 

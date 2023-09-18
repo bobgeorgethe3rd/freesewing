@@ -46,53 +46,56 @@ export const band = {
     points.origin = new Point(0, 0)
 
     if (options.headReduction > 0) {
-      points.ocLeft = points.origin.shift(0, radius)
-      points.ocRight = points.ocLeft.rotate(angle, points.origin)
-      points.ocCp1 = points.ocLeft
+      points.outerLeft = points.origin.shift(0, radius)
+      points.outerRight = points.outerLeft.rotate(angle, points.origin)
+      points.outerLeftCp2 = points.outerLeft
         .shiftTowards(points.origin, cpDistance)
-        .rotate(-90, points.ocLeft)
-      points.ocCp2 = points.ocRight
+        .rotate(-90, points.outerLeft)
+      points.outerRightCp1 = points.outerRight
         .shiftTowards(points.origin, cpDistance)
-        .rotate(90, points.ocRight)
-      points.icLeft = points.ocLeft.shiftTowards(points.origin, width)
-      points.icRight = points.ocRight.shiftTowards(points.origin, width)
-      points.icCp1 = utils.beamsIntersect(
-        points.icRight,
-        points.origin.rotate(90, points.icRight),
-        points.ocCp2,
+        .rotate(90, points.outerRight)
+      points.innerLeft = points.outerLeft.shiftTowards(points.origin, width)
+      points.innerRight = points.outerRight.shiftTowards(points.origin, width)
+      points.innerLeftCp2 = utils.beamsIntersect(
+        points.innerRight,
+        points.origin.rotate(90, points.innerRight),
+        points.outerRightCp1,
         points.origin
       )
-      points.icCp2 = utils.beamsIntersect(
-        points.icLeft,
-        points.origin.rotate(-90, points.icLeft),
-        points.ocCp1,
+      points.innerRightCp1 = utils.beamsIntersect(
+        points.innerLeft,
+        points.origin.rotate(-90, points.innerLeft),
+        points.outerLeftCp2,
         points.origin
       )
     } else {
-      points.ocLeft = points.origin.shift(0, width)
-      points.ocRight = points.ocLeft.shift(90, headCircumference)
-      points.ocCp1 = points.ocLeft.shiftFractionTowards(points.ocRight, 0.25)
-      points.ocCp2 = points.ocRight.shiftFractionTowards(points.ocLeft, 0.25)
-      points.icLeft = points.origin
-      points.icRight = new Point(points.icLeft.x, points.ocRight.y)
-      points.icCp1 = new Point(points.icRight.x, points.ocCp2.y)
-      points.icCp2 = new Point(points.icRight.x, points.ocCp1.y)
+      points.outerLeft = points.origin.shift(0, width)
+      points.outerRight = points.outerLeft.shift(90, headCircumference)
+      points.outerLeftCp2 = points.outerLeft.shiftFractionTowards(points.outerRight, 0.25)
+      points.outerRightCp1 = points.outerRight.shiftFractionTowards(points.outerLeft, 0.25)
+      points.innerLeft = points.origin
+      points.innerRight = new Point(points.innerLeft.x, points.outerRight.y)
+      points.innerLeftCp2 = new Point(points.innerRight.x, points.outerRightCp1.y)
+      points.innerRightCp1 = new Point(points.innerRight.x, points.outerLeftCp2.y)
     }
 
     //paths
     paths.hemBase = new Path()
-      .move(points.ocLeft)
-      .curve(points.ocCp1, points.ocCp2, points.ocRight)
+      .move(points.outerLeft)
+      .curve(points.outerLeftCp2, points.outerRightCp1, points.outerRight)
       .hide()
 
     paths.saBase = new Path()
-      .move(points.ocRight)
-      .line(points.icRight)
-      .curve(points.icCp1, points.icCp2, points.icLeft)
-      .line(points.ocLeft)
+      .move(points.innerRight)
+      .curve(points.innerLeftCp2, points.innerRightCp1, points.innerLeft)
       .hide()
 
-    paths.seam = paths.hemBase.join(paths.saBase).close()
+    paths.seam = paths.hemBase
+      .clone()
+      .line(points.innerRight)
+      .join(paths.saBase)
+      .line(points.outerLeft)
+      .close()
 
     if (complete) {
       //grainline
@@ -119,11 +122,29 @@ export const band = {
         rotation: 360 - angle / 4,
       })
       if (sa) {
+        const hemSa = sa * options.hemSaWidth * 100
+
+        points.saOuterRight = points.outerRight
+          .shift(points.outerRightCp1.angle(points.outerRight), sa)
+          .shift(points.innerRight.angle(points.outerRight), hemSa)
+        points.saInnerRight = points.innerRight
+          .shift(points.innerLeftCp2.angle(points.innerRight), sa)
+          .shift(points.outerRight.angle(points.innerRight), sa)
+
+        points.saInnerLeft = points.innerLeft.translate(-sa, sa)
+        points.saOuterLeft = points.outerLeft.translate(hemSa, sa)
+
         paths.sa = paths.hemBase
-          .offset(sa * options.brimSaWidth * 100)
+          .offset(hemSa)
+          .line(points.saOuterRight)
+          .line(points.saInnerRight)
+          .line(paths.saBase.offset(sa).start())
           .join(paths.saBase.offset(sa))
+          .line(points.saInnerLeft)
+          .line(points.saOuterLeft)
+          .line(paths.hemBase.offset(hemSa).start())
           .close()
-          .attr('class', 'fabric sa')
+          .attr('class', 'fabrinner sa')
       }
     }
 

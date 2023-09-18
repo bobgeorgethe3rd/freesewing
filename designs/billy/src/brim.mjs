@@ -41,76 +41,65 @@ export const brim = {
     const headCircumference = store.get('headCircumference')
     const angle = options.brimAngle / options.brimNumber
     const radius = headCircumference / utils.deg2rad(options.brimAngle)
-    const cpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 16)
     const brimWidth = store.get('headRadius') * options.brimWidth
+    const innerCpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 16)
+    const outerCpDistance = (4 / 3) * (radius + brimWidth) * Math.tan(utils.deg2rad(angle) / 16)
     //let's begin
     points.origin = new Point(0, 0)
-    points.icEnd = points.origin.shift(0, radius)
-    points.icQ2 = points.icEnd.rotate(angle / 4, points.origin)
-    points.icMid = points.icEnd.rotate(angle / 2, points.origin)
-    points.icQ1 = points.icEnd.rotate(angle * (3 / 4), points.origin)
-    points.icStart = points.icEnd.rotate(angle, points.origin)
-    points.icCp1 = points.icStart.shiftTowards(points.origin, cpDistance).rotate(90, points.icStart)
-    points.icCp2 = points.icQ1.shiftTowards(points.origin, cpDistance).rotate(-90, points.icQ1)
-    points.icCp3 = points.icCp2.rotate(180, points.icQ1)
-    points.icCp4 = points.icMid.shiftTowards(points.origin, cpDistance).rotate(-90, points.icMid)
-    points.icCp5 = points.icCp4.rotate(180, points.icMid)
-    points.icCp6 = points.icQ2.shiftTowards(points.origin, cpDistance).rotate(-90, points.icQ2)
-    points.icCp7 = points.icCp6.rotate(180, points.icQ2)
-    points.icCp8 = points.icEnd.shiftTowards(points.origin, cpDistance).rotate(-90, points.icEnd)
+    points.innerEnd = points.origin.shift(0, radius)
+    points.innerQ2 = points.innerEnd.rotate(angle / 4, points.origin)
+    points.innerMid = points.innerEnd.rotate(angle / 2, points.origin)
+    points.innerQ1 = points.innerEnd.rotate(angle * (3 / 4), points.origin)
+    points.innerStart = points.innerEnd.rotate(angle, points.origin)
+    points.innerStartCp2 = points.innerStart
+      .shiftTowards(points.origin, innerCpDistance)
+      .rotate(90, points.innerStart)
+    points.innerQ1Cp1 = points.innerQ1
+      .shiftTowards(points.origin, innerCpDistance)
+      .rotate(-90, points.innerQ1)
+    points.innerQ1Cp2 = points.innerQ1Cp1.rotate(180, points.innerQ1)
+    points.innerMidCp1 = points.innerMid
+      .shiftTowards(points.origin, innerCpDistance)
+      .rotate(-90, points.innerMid)
+    points.innerMidCp2 = points.innerMidCp1.rotate(180, points.innerMid)
+    points.innerQ2Cp1 = points.innerQ2
+      .shiftTowards(points.origin, innerCpDistance)
+      .rotate(-90, points.innerQ2)
+    points.innerQ2Cp2 = points.innerQ2Cp1.rotate(180, points.innerQ2)
+    points.innerEndCp1 = points.innerEnd
+      .shiftTowards(points.origin, innerCpDistance)
+      .rotate(-90, points.innerEnd)
 
-    points.ocStart = points.origin.shiftOutwards(points.icEnd, brimWidth)
-    points.ocQ1 = points.origin.shiftOutwards(points.icQ2, brimWidth)
-    points.ocMid = points.origin.shiftOutwards(points.icMid, brimWidth)
-    points.ocQ2 = points.origin.shiftOutwards(points.icQ1, brimWidth)
-    points.ocEnd = points.origin.shiftOutwards(points.icStart, brimWidth)
-    points.ocCp1 = utils.beamsIntersect(
-      points.ocStart,
-      points.origin.rotate(90, points.ocStart),
-      points.origin,
-      points.icCp8
-    )
-
-    points.ocCp2 = utils.beamsIntersect(
-      points.ocQ1,
-      points.origin.rotate(90, points.ocQ1),
-      points.origin,
-      points.icCp7
-    )
-
-    points.ocCp3 = points.ocCp2.rotate(180, points.ocQ1)
-
-    points.ocCp4 = utils.beamsIntersect(
-      points.ocMid,
-      points.origin.rotate(90, points.ocMid),
-      points.origin,
-      points.icCp5
-    )
-
-    points.ocCp5 = points.ocCp4.rotate(180, points.ocMid)
-
-    points.ocCp6 = utils.beamsIntersect(
-      points.ocQ2,
-      points.origin.rotate(90, points.ocQ2),
-      points.origin,
-      points.icCp3
-    )
-
-    points.ocCp7 = points.ocCp6.rotate(180, points.ocQ2)
-
-    points.ocCp8 = utils.beamsIntersect(
-      points.ocEnd,
-      points.origin.rotate(90, points.ocEnd),
-      points.origin,
-      points.icCp1
-    )
+    points.outerStart = points.origin.shiftOutwards(points.innerEnd, brimWidth)
+    points.outerQ1 = points.origin.shiftOutwards(points.innerQ2, brimWidth)
+    points.outerMid = points.origin.shiftOutwards(points.innerMid, brimWidth)
+    points.outerQ2 = points.origin.shiftOutwards(points.innerQ1, brimWidth)
+    points.outerEnd = points.origin.shiftOutwards(points.innerStart, brimWidth)
+    points.outerStartCp2 = points.outerStart
+      .shiftTowards(points.origin, outerCpDistance)
+      .rotate(-90, points.outerStart)
+    points.outerQ1Cp1 = points.outerQ1
+      .shiftTowards(points.origin, outerCpDistance)
+      .rotate(90, points.outerQ1)
+    points.outerQ1Cp2 = points.outerQ1Cp1.rotate(180, points.outerQ1)
+    points.outerMidCp1 = points.outerMid
+      .shiftTowards(points.origin, outerCpDistance)
+      .rotate(90, points.outerMid)
+    points.outerMidCp2 = points.outerMidCp1.rotate(180, points.outerMid)
+    points.outerQ2Cp1 = points.outerQ2
+      .shiftTowards(points.origin, outerCpDistance)
+      .rotate(90, points.outerQ2)
+    points.outerQ2Cp2 = points.outerQ2Cp1.rotate(180, points.outerQ2)
+    points.outerEndCp1 = points.outerEnd
+      .shiftTowards(points.origin, outerCpDistance)
+      .rotate(90, points.outerEnd)
     //paths
     paths.hemBase = new Path()
-      .move(points.icStart)
-      .curve(points.icCp1, points.icCp2, points.icQ1)
-      .curve(points.icCp3, points.icCp4, points.icMid)
-      .curve(points.icCp5, points.icCp6, points.icQ2)
-      .curve(points.icCp7, points.icCp8, points.icEnd)
+      .move(points.innerStart)
+      .curve(points.innerStartCp2, points.innerQ1Cp1, points.innerQ1)
+      .curve(points.innerQ1Cp2, points.innerMidCp1, points.innerMid)
+      .curve(points.innerMidCp2, points.innerQ2Cp1, points.innerQ2)
+      .curve(points.innerQ2Cp2, points.innerEndCp1, points.innerEnd)
       .hide()
 
     if (options.brimAngle == 360 && options.brimNumber == 1) {
@@ -119,25 +108,25 @@ export const brim = {
 
     const drawHem = () => {
       if (options.brimAngle == 360 && options.brimNumber == 1) {
-        return new Path().move(points.ocEnd).line(points.ocStart)
+        return new Path().move(points.outerEnd).line(points.outerStart)
       } else {
         return new Path()
-          .move(points.ocEnd)
-          .line(points.icStart)
+          .move(points.outerEnd)
+          .line(points.innerStart)
           .join(paths.hemBase)
-          .line(points.ocStart)
+          .line(points.outerStart)
       }
     }
 
-    paths.oc = new Path()
-      .move(points.ocStart)
-      .curve(points.ocCp1, points.ocCp2, points.ocQ1)
-      .curve(points.ocCp3, points.ocCp4, points.ocMid)
-      .curve(points.ocCp5, points.ocCp6, points.ocQ2)
-      .curve(points.ocCp7, points.ocCp8, points.ocEnd)
+    paths.saOuter = new Path()
+      .move(points.outerStart)
+      .curve(points.outerStartCp2, points.outerQ1Cp1, points.outerQ1)
+      .curve(points.outerQ1Cp2, points.outerMidCp1, points.outerMid)
+      .curve(points.outerMidCp2, points.outerQ2Cp1, points.outerQ2)
+      .curve(points.outerQ2Cp2, points.outerEndCp1, points.outerEnd)
       .hide()
 
-    paths.seam = paths.oc.join(drawHem())
+    paths.seam = paths.saOuter.join(drawHem())
 
     if (complete) {
       //stitchlines
@@ -155,8 +144,8 @@ export const brim = {
         }
       }
       //grainline
-      points.grainlineFrom = points.icMid
-      points.grainlineTo = points.ocMid
+      points.grainlineFrom = points.innerMid
+      points.grainlineTo = points.outerMid
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
@@ -166,59 +155,79 @@ export const brim = {
         case 1:
           macro('sprinkle', {
             snippet: 'bnotch',
-            on: ['icQ1', 'icMid', 'icQ2'],
+            on: ['innerQ1', 'innerMid', 'innerQ2'],
           })
           if (options.brimAngle == 360) {
-            snippets.icStart = new Snippet('bnotch', points.icStart)
+            snippets.innerStart = new Snippet('bnotch', points.innerStart)
           }
           //snaps 1
           if (options.snaps) {
-            points.snap0 = points.ocQ2.shiftFractionTowards(points.icQ1, options.snapSockets)
-            points.snap1 = points.ocQ1.shiftFractionTowards(points.icQ2, options.snapSockets)
+            points.snap0 = points.outerQ2.shiftFractionTowards(
+              points.innerQ1,
+              options.snapSouterkets
+            )
+            points.snap1 = points.outerQ1.shiftFractionTowards(
+              points.innerQ2,
+              options.snapSouterkets
+            )
             macro('sprinkle', {
-              snippet: 'snap-socket',
+              snippet: 'snap-souterket',
               on: ['snap0', 'snap1'],
             })
           }
           break
         case 2:
-          snippets.bnotch = new Snippet('bnotch', points.icMid)
+          snippets.bnotch = new Snippet('bnotch', points.innerMid)
           //snaps 2
           if (options.snaps) {
-            points.snap0 = points.ocEnd.shiftFractionTowards(points.icStart, options.snapSockets)
-            points.snap1 = points.ocStart.shiftFractionTowards(points.icEnd, options.snapSockets)
+            points.snap0 = points.outerEnd.shiftFractionTowards(
+              points.innerStart,
+              options.snapSouterkets
+            )
+            points.snap1 = points.outerStart.shiftFractionTowards(
+              points.innerEnd,
+              options.snapSouterkets
+            )
             macro('sprinkle', {
-              snippet: 'snap-socket',
+              snippet: 'snap-souterket',
               on: ['snap0', 'snap1'],
             })
           }
           break
         case 3:
-          snippets.bnotch = new Snippet('bnotch', points.icQ2)
+          snippets.bnotch = new Snippet('bnotch', points.innerQ2)
           if (options.snaps) {
-            points.snap = points.ocQ1.shiftFractionTowards(points.icQ2, options.snapSockets)
-            snippets.snap = new Snippet('snap-socket', points.snap)
+            points.snap = points.outerQ1.shiftFractionTowards(
+              points.innerQ2,
+              options.snapSouterkets
+            )
+            snippets.snap = new Snippet('snap-souterket', points.snap)
           }
           break
         case 4:
           if (options.snaps) {
-            points.snap = points.ocStart.shiftFractionTowards(points.icEnd, options.snapSockets)
-            snippets.snap = new Snippet('snap-socket', points.snap)
+            points.snap = points.outerStart.shiftFractionTowards(
+              points.innerEnd,
+              options.snapSouterkets
+            )
+            snippets.snap = new Snippet('snap-souterket', points.snap)
           }
       }
       //title
-      points.title = paths.oc.shiftFractionAlong(0.25).shiftTowards(points.origin, brimWidth * 0.75)
+      points.title = paths.saOuter
+        .shiftFractionAlong(0.25)
+        .shiftTowards(points.origin, brimWidth * 0.75)
       macro('title', {
         at: points.title,
         nr: 3,
         title: 'Brim',
         scale: 0.5 / options.brimNumber,
-        rotation: 360 - points.origin.angle(points.icQ2),
+        rotation: 360 - points.origin.angle(points.innerQ2),
       })
 
       if (options.brimAngle == 360 && options.brimNumber == 1) {
         points.cutoutFrom = points.origin
-        points.cutoutTo = points.icMid.shiftFractionTowards(points.origin, 1 / 3)
+        points.cutoutTo = points.innerMid.shiftFractionTowards(points.origin, 1 / 3)
         paths.cutoutGrainline = new Path()
           .move(points.cutoutFrom)
           .line(points.cutoutTo)
@@ -228,33 +237,47 @@ export const brim = {
           .attr('marker-start', 'url(#grainlineFrom)')
           .attr('marker-end', 'url(#grainlineTo)')
 
-        points.cutoutTitle = points.origin.shiftFractionTowards(points.icQ2, 0.1)
+        points.cutoutTitle = points.origin.shiftFractionTowards(points.innerQ2, 0.1)
         macro('title', {
           at: points.cutoutTitle,
           nr: 'Cut-out',
           title: 'Brim (Cut-out) PLEASE KEEP!!!',
           scale: 0.25,
-          rotation: 360 - points.origin.angle(points.icQ2),
+          rotation: 360 - points.origin.angle(points.innerQ2),
           prefix: 'cutout',
         })
       }
 
       if (sa) {
-        paths.hemSa = paths.hemBase
-          .offset(sa * options.brimSaWidth * 100)
-          .attr('class', 'fabric sa')
-          .hide()
+        const hemSa = sa * options.hemSaWidth * 100
+
+        paths.hemSa = paths.hemBase.offset(hemSa).attr('class', 'fabrinner sa').hide()
+
         if (options.brimAngle == 360 && options.brimNumber == 1) {
           paths.hemSa.unhide().close()
-          paths.sa = paths.oc.offset(sa).attr('class', 'fabric sa').close()
+          paths.sa = paths.saOuter.offset(sa).attr('class', 'fabrinner sa').close()
         } else {
-          paths.sa = paths.oc
-            .line(points.icStart)
+          points.saInnerEnd = points.innerEnd.translate(-hemSa, sa)
+          points.saOuterStart = points.outerStart.translate(sa, sa)
+          points.saOuterEnd = points.outerEnd
+            .shift(points.outerEndCp1.angle(points.outerEnd), sa)
+            .shift(points.innerStart.angle(points.outerEnd), sa)
+
+          points.saInnerStart = points.innerStart
+            .shift(points.innerStartCp2.angle(points.innerStart), sa)
+            .shift(points.outerEnd.angle(points.innerStart), hemSa)
+
+          paths.sa = paths.saOuter
             .offset(sa)
+            .line(points.saOuterEnd)
+            .line(points.saInnerStart)
+            .line(paths.hemSa.start())
             .join(paths.hemSa)
-            .join(new Path().move(points.icEnd).line(points.ocStart).offset(sa))
+            .line(points.saInnerEnd)
+            .line(points.saOuterStart)
+            .line(paths.saOuter.offset(sa).start())
             .close()
-            .attr('class', 'fabric sa')
+            .attr('class', 'fabrinner sa')
         }
       }
     }
