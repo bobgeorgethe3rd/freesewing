@@ -53,6 +53,13 @@
       "difficulty": 3,
       "tags": ["bottoms", "trousers", "jeans"]
     },
+    "laura": {
+      "description": "A pattern that needs a description",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tagname"]
+    },
     "theobald": {
       "description": "A timeless trouser pattern",
       "code": "bobgeorgethe3rd",

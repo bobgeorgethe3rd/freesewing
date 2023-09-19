@@ -148,6 +148,10 @@ jaeger:
     '@freesewing/bent': *freesewing
     '@freesewing/plugin-bust': *freesewing
     '@freesewing/plugin-mirror': *freesewing
+laura:
+  peer:
+    '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
 merlin:
   peer:
     '@freesewing/mildred': *freesewing
