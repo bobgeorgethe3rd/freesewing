@@ -162,7 +162,6 @@ export const leg8 = {
     )
 
     //drawing the crotch and cross seams
-
     let crotchTweak = 1
     let crotchDelta
     do {
@@ -268,6 +267,41 @@ export const leg8 = {
       .join(paths.crossSeam)
       .join(paths.saLeft)
       .close()
+
+    //stores
+    store.set('waistbandLength', points.waistBack.dist(points.waistFront) * 2)
+    store.set('waistbandWidth', absoluteOptions.waistbandWidth)
+
+    if (options.waistbandStyle == 'curved') {
+      points.waistbandTop = points.waistMid.shift(90, waistbandWidth)
+      points.waistbandTopRight =
+        utils.lineIntersectsCurve(
+          points.waistbandTop,
+          points.waistbandTop.shift(
+            points.waistFront.angle(points.waistBack),
+            points.waistFront.dist(points.waistBack)
+          ),
+          points.waistBackMax,
+          points.waistBackCp2,
+          points.upperLegLeftCp1,
+          points.upperLegLeft
+        ) || points.waistBackMax
+
+      points.waistbandTopLeft =
+        utils.lineIntersectsCurve(
+          points.waistbandTop,
+          points.waistbandTop.shift(
+            points.waistBack.angle(points.waistFront),
+            points.waistBack.dist(points.waistFront)
+          ),
+          points.upperLegRight,
+          points.upperLegRightCp2,
+          points.waistFrontCp1,
+          points.waistFrontMax
+        ) || points.waistFrontMax
+
+      store.set('waistbandLengthTop', points.waistbandTopRight.dist(points.waistbandTopLeft) * 2)
+    }
 
     if (complete) {
       //grainline

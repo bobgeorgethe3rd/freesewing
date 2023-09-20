@@ -119,8 +119,6 @@ henry:
 holmes:
   _:
     '@freesewing/plugin-gore': *freesewing
-  peer:
-    '@freesewing/plugin-bust': *freesewing
 huey:
   peer:
     '@freesewing/brian': *freesewing
@@ -150,6 +148,7 @@ jaeger:
     '@freesewing/plugin-mirror': *freesewing
 laura:
   peer:
+    '@freesewing/plugin-mirror': *freesewing
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing
 merlin:

@@ -1,0 +1,41 @@
+import { waistband as waistbandStraight } from '@freesewing/waistbandstraight'
+import { waistband as waistbandCurved } from '@freesewing/waistbandcurved'
+import { leg8 } from './leg8.mjs'
+
+export const waistband = {
+  name: 'laura.waistband',
+  options: {
+    //Imported
+    ...waistbandStraight.options,
+    ...waistbandCurved.options,
+    //Constants
+    useVoidStores: false, //Altered for Laura
+    waistbandOverlapSide: 'left', //Locked for Laura
+    waistbandOverlap: 0, //Locked for Laura
+    closurePosition: 'back', //Locked for Laura
+    //Style
+    waistbandFolded: { bool: true, menu: 'style' }, //Altered for Laura
+  },
+  after: [leg8],
+  draft: (sh) => {
+    const { macro, points, utils, options, measurements, complete, part } = sh
+
+    if (options.waistbandStyle == 'none') {
+      part.hide()
+      return part
+    } else {
+      if (options.waistbandStyle == 'straight') waistbandStraight.draft(sh)
+      else waistbandCurved.draft(sh)
+    }
+
+    if (complete) {
+      macro('title', {
+        nr: 2,
+        title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
+        at: points.title,
+        scale: 1 / 3,
+      })
+    }
+    return part
+  },
+}
