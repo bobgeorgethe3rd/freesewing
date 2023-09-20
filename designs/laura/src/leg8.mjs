@@ -26,6 +26,7 @@ export const leg8 = {
       menu: 'style',
     }, //12.7 og breaks to much darn it need to look into this
     waistbandStyle: { dflt: 'straight', list: ['straight', 'curved', 'none'], menu: 'style' },
+    gusset: { bool: true, menu: 'style' },
     //Construction
     crotchSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     crossSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
@@ -271,6 +272,33 @@ export const leg8 = {
     //stores
     store.set('waistbandLength', points.waistBack.dist(points.waistFront) * 2)
     store.set('waistbandWidth', absoluteOptions.waistbandWidth)
+
+    if (options.gusset) {
+      points.backGusset = utils.lineIntersectsCurve(
+        points.waistBackCp2,
+        points.waistBackCp2
+          .shiftTowards(points.upperLegLeft, waist)
+          .rotate(-90, points.waistBackCp2),
+        points.waistBackMax,
+        points.waistBackCp2,
+        points.upperLegLeftCp1,
+        points.upperLegLeft
+      )
+      points.frontGusset = utils.lineIntersectsCurve(
+        points.waistFrontCp1,
+        points.waistFrontCp1
+          .shiftTowards(points.upperLegRight, waist)
+          .rotate(90, points.waistFrontCp1),
+        points.upperLegRight,
+        points.upperLegRightCp2,
+        points.waistFrontCp1,
+        points.waistFrontMax
+      )
+      store.set('gussetBackWidth', points.waistBackCp2.dist(points.backGusset))
+      store.set('gussetBackLength', points.upperLegLeft.dist(points.backGusset))
+      store.set('gussetFrontWidth', points.waistFrontCp1.dist(points.frontGusset))
+      store.set('gussetFrontLength', points.upperLegRight.dist(points.frontGusset))
+    }
 
     if (options.waistbandStyle == 'curved') {
       points.waistbandTop = points.waistMid.shift(90, waistbandWidth)
