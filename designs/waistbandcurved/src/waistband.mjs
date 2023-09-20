@@ -99,18 +99,18 @@ export const waistband = {
     points.topMid = points.bottomMid.shiftTowards(points.origin, width)
 
     //control points
-    points.bottomCp1 = points.bottomLeft
+    points.bottomLeftCp2 = points.bottomLeft
       .shiftTowards(points.topLeft, cpDistance)
       .rotate(-90, points.bottomLeft)
-    points.bottomCp2 = points.bottomMid
+    points.bottomMidCp1 = points.bottomMid
       .shiftTowards(points.topMid, cpDistance)
       .rotate(90, points.bottomMid)
-    points.bottomCp3 = points.bottomCp2.flipX(points.bottomMid)
-    points.bottomCp4 = points.bottomCp1.flipX(points.bottomMid)
-    points.topCp1 = points.bottomCp4.shiftTowards(points.origin, width)
-    points.topCp2 = points.bottomCp3.shiftTowards(points.origin, width)
-    points.topCp3 = points.topCp2.flipX(points.bottomMid)
-    points.topCp4 = points.topCp1.flipX(points.bottomMid)
+    points.bottomMidCp2 = points.bottomMidCp1.flipX(points.bottomMid)
+    points.bottomRightCp1 = points.bottomLeftCp2.flipX(points.bottomMid)
+    points.topRightCp2 = points.bottomRightCp1.shiftTowards(points.origin, width)
+    points.topMidCp1 = points.bottomMidCp2.shiftTowards(points.origin, width)
+    points.topMidCp2 = points.topMidCp1.flipX(points.bottomMid)
+    points.topLeftCp1 = points.topRightCp2.flipX(points.bottomMid)
 
     //extensions
     points.bottomLeftEx = points.bottomLeft
@@ -130,8 +130,14 @@ export const waistband = {
     //paths
     paths.bottomCurve = new Path()
       .move(points.bottomLeft)
-      .curve(points.bottomCp1, points.bottomCp2, points.bottomMid)
-      .curve(points.bottomCp3, points.bottomCp4, points.bottomRight)
+      .curve(points.bottomLeftCp2, points.bottomMidCp1, points.bottomMid)
+      .curve(points.bottomMidCp2, points.bottomRightCp1, points.bottomRight)
+      .hide()
+
+    paths.topCurve = new Path()
+      .move(points.topRight)
+      .curve(points.topRightCp2, points.topMidCp1, points.topMid)
+      .curve(points.topMidCp2, points.topLeftCp1, points.topLeft)
       .hide()
 
     paths.seam = paths.bottomCurve
@@ -139,8 +145,7 @@ export const waistband = {
       .line(points.bottomRightEx)
       .line(points.topRightEx)
       .line(points.topRight)
-      .curve(points.topCp1, points.topCp2, points.topMid)
-      .curve(points.topCp3, points.topCp4, points.topLeft)
+      .join(paths.topCurve)
       .line(points.topLeftEx)
       .line(points.bottomLeftEx)
       .line(points.bottomLeft)
@@ -190,7 +195,7 @@ export const waistband = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.topCp3.x / 4, points.topMid.y)
+      points.grainlineFrom = new Point(points.topMidCp2.x / 4, points.topMid.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomMid.x)
       macro('grainline', {
         from: points.grainlineFrom,
@@ -333,7 +338,34 @@ export const waistband = {
         )
       }
       if (sa) {
-        paths.sa = paths.seam.clone().offset(sa).close().attr('class', 'fabric sa')
+        points.saBottomLeft = points.bottomLeftEx
+          .shift(points.bottomLeftCp2.angle(points.bottomLeft), sa)
+          .shift(points.topLeft.angle(points.bottomLeft), sa)
+
+        points.saBottomRight = points.bottomRightEx
+          .shift(points.bottomRightCp1.angle(points.bottomRight), sa)
+          .shift(points.topRight.angle(points.bottomRight), sa)
+
+        points.saTopRight = points.topRightEx
+          .shift(points.topRightCp2.angle(points.topRight), sa)
+          .shift(points.bottomRight.angle(points.topRight), sa)
+
+        points.saTopLeft = points.topLeftEx
+          .shift(points.topLeftCp1.angle(points.topLeft), sa)
+          .shift(points.bottomLeft.angle(points.topLeft), sa)
+
+        paths.sa = new Path()
+          .move(points.saBottomLeft)
+          .line(paths.bottomCurve.offset(sa).start())
+          .join(paths.bottomCurve.offset(sa))
+          .line(points.saBottomRight)
+          .line(points.saTopRight)
+          .line(paths.topCurve.offset(sa).start())
+          .join(paths.topCurve.offset(sa))
+          .line(points.saTopLeft)
+          .line(points.saBottomLeft)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 

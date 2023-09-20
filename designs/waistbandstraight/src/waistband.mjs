@@ -329,7 +329,18 @@ export const waistband = {
       }
 
       if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
+        points.saTopLeft = points.topLeftEx.translate(-sa, -sa)
+        points.saTopRight = points.topRightEx.translate(sa, -sa)
+        points.saBottomLeft = points.bottomLeftEx.translate(-sa, sa)
+        points.saBottomRight = points.bottomRightEx.translate(sa, sa)
+        paths.sa = new Path()
+          .move(points.saBottomLeft)
+          .line(points.saBottomRight)
+          .line(points.saTopRight)
+          .line(points.saTopLeft)
+          .line(points.saBottomLeft)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 

@@ -138,11 +138,11 @@ export const waistbandRight = {
         else
           return new Path()
             .move(points.bottomMid)
-            .curve(points.bottomCp3, points.bottomCp4, points.bottomRight)
+            .curve(points.bottomMidCp2, points.bottomRightCp1, points.bottomRight)
             .line(points.bottomRightEx)
             .line(points.topRightEx)
             .line(points.topRight)
-            .curve(points.topCp1, points.topCp2, points.topMid)
+            .curve(points.topRightCp2, points.topMidCp1, points.topMid)
             .line(points.bottomMid)
             .close()
       }
@@ -161,10 +161,10 @@ export const waistbandRight = {
           .shiftFractionTowards(points.topRight, 0.25)
           .shift(-90, waistbandWidth / 2)
       } else {
-        titleRot = 90 - points.bottomCp4.angle(points.topCp1)
-        points.grainlineFrom = points.topRight.shiftFractionTowards(points.topCp1, 0.5)
+        titleRot = 90 - points.bottomRightCp1.angle(points.topRightCp2)
+        points.grainlineFrom = points.topRight.shiftFractionTowards(points.topRightCp2, 0.5)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomLeft.y * 0.75)
-        points.title = points.topCp1.shiftFractionTowards(points.bottomCp4, 0.4)
+        points.title = points.topRightCp2.shiftFractionTowards(points.bottomRightCp1, 0.4)
       }
 
       //grainline
