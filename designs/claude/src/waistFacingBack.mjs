@@ -48,7 +48,7 @@ export const waistFacingBack = {
       paths.sideSeam = new Path()
         .move(points.backHemExtension)
         .line(points.sideBackExtension)
-        .curve_(points.sideSeamBackCp, points.sideWaistBack)
+        .curve_(points.sideBackExtensionCp2, points.sideWaistBack)
         .hide()
 
       if (points.backFacingExSplit) {
@@ -60,8 +60,8 @@ export const waistFacingBack = {
 
     paths.waist = new Path()
       .move(points.sideWaistBack)
-      .curve(points.waistBackCp1, points.waistBackCp2, points.waistBackMid)
-      .curve(points.waistBackCp3, points.waistBackCp4, points.cbWaist)
+      .curve(points.sideWaistBackCp2, points.waistBackMidCp1, points.waistBackMid)
+      .curve(points.waistBackMidCp2, points.cbWaistCp1, points.cbWaist)
       .hide()
 
     paths.cb = new Path().move(points.cbWaist).line(points.cbWaistFacing).hide()
@@ -102,7 +102,7 @@ export const waistFacingBack = {
       }
       //title
       points.title = points.cbWaist
-        .shiftFractionTowards(points.waistBackCp4, 0.6)
+        .shiftFractionTowards(points.cbWaistCp1, 0.6)
         .shift(-90, points.cbWaist.dist(points.cbWaistFacing) / 2)
       macro('title', {
         at: points.title,

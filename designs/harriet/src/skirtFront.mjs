@@ -58,7 +58,7 @@ export const skirtFront = {
       paths.sideSeam = new Path()
         .move(points.frontHemExtension)
         .line(points.sideFrontExtension)
-        .curve_(points.sideSeamFrontCp, points.sideWaistFront)
+        .curve_(points.sideFrontExtensionCp2, points.sideWaistFront)
         .hide()
 
       if (points.frontHemExSplit) {
@@ -70,16 +70,16 @@ export const skirtFront = {
 
     paths.waist = new Path()
       .move(points.sideWaistFront)
-      .curve(points.waistFrontCp1, points.waistFrontCp2, points.waistFrontMid)
-      .curve(points.waistFrontCp3, points.waistFrontCp4, points.cfWaist)
+      .curve(points.sideWaistFrontCp2, points.waistFrontMidCp1, points.waistFrontMid)
+      .curve(points.waistFrontMidCp2, points.cfWaistCp1, points.cfWaist)
       .hide()
 
     paths.cf = new Path().move(points.cfWaist).line(points.cfHem).hide()
 
     paths.hemBase = new Path()
       .move(points.cfHem)
-      .curve(points.frontHemCp1, points.frontHemCp2, points.frontHemMid)
-      .curve(points.frontHemCp3, points.frontHemCp4, points.sideFrontHem)
+      .curve(points.cfHemCp2, points.frontHemMidCp1, points.frontHemMid)
+      .curve(points.frontHemMidCp2, points.sideFrontHemCp1, points.sideFrontHem)
       .line(paths.sideSeam.start())
       .hide()
 
@@ -94,8 +94,8 @@ export const skirtFront = {
 
       paths.hemBaseBack = new Path()
         .move(points.cbHem)
-        .curve(points.backHemCp1, points.backHemCp2, points.backHemMid)
-        .curve(points.backHemCp3, points.backHemCp4, points.sideBackHem)
+        .curve(points.cbHemCp2, points.backHemMidCp1, points.backHemMid)
+        .curve(points.backHemMidCp2, points.sideBackHemCp1, points.sideBackHem)
         .line(paths.sideSeam.start())
         .hide()
 
@@ -119,8 +119,12 @@ export const skirtFront = {
         if (includeBack) {
           paths.backFacing = new Path()
             .move(points.cbHemFacing)
-            .curve(points.backHemFacingCp4, points.backHemFacingCp3, points.backHemFacingMid)
-            .curve(points.backHemFacingCp2, points.backHemFacingCp1, points.sideBackHemFacing)
+            .curve(points.cbFacingCp1, points.backHemFacingMidCp2, points.backHemFacingMid)
+            .curve(
+              points.backHemFacingMidCp1,
+              points.sideBackHemFacingCp2,
+              points.sideBackHemFacing
+            )
             .attr('class', 'interfacing')
             .attr('data-text', 'Facing Line')
             .attr('data-text-class', 'center')
@@ -136,8 +140,12 @@ export const skirtFront = {
 
         paths.facing = new Path()
           .move(points.cfHemFacing)
-          .curve(points.frontHemFacingCp4, points.frontHemFacingCp3, points.frontHemFacingMid)
-          .curve(points.frontHemFacingCp2, points.frontHemFacingCp1, points.sideFrontHemFacing)
+          .curve(points.cfFacingCp1, points.frontHemFacingMidCp2, points.frontHemFacingMid)
+          .curve(
+            points.frontHemFacingMidCp1,
+            points.sideFrontHemFacingCp2,
+            points.sideFrontHemFacing
+          )
           .attr('class', 'interfacing')
           .attr('data-text', 'Facing Line')
           .attr('data-text-class', 'center')
@@ -187,8 +195,8 @@ export const skirtFront = {
             frontOrigin,
             points['frontPanelTarget' + i],
             points.cfHem,
-            points.frontHemCp1,
-            points.frontHemCp2,
+            points.cfHemCp2,
+            points.frontHemMidCp1,
             points.frontHemMid
           )
 
@@ -196,8 +204,8 @@ export const skirtFront = {
             frontOrigin,
             points['frontPanelTarget' + i],
             points.frontHemMid,
-            points.frontHemCp3,
-            points.frontHemCp4,
+            points.frontHemMidCp2,
+            points.sideFrontHemCp1,
             points.sideFrontHem
           )
 
@@ -216,8 +224,8 @@ export const skirtFront = {
               frontOrigin,
               points['frontPanelTarget' + i],
               points.frontHemFacingMid,
-              points.frontHemFacingCp3,
-              points.frontHemFacingCp4,
+              points.frontHemFacingMidCp2,
+              points.cfFacingCp1,
               points.cfHemFacing
             )
 
@@ -225,8 +233,8 @@ export const skirtFront = {
               frontOrigin,
               points['frontPanelTarget' + i],
               points.sideFrontHemFacing,
-              points.frontHemFacingCp1,
-              points.frontHemFacingCp2,
+              points.sideFrontHemFacingCp2,
+              points.frontHemFacingMidCp1,
               points.frontHemFacingMid
             )
 
@@ -272,8 +280,8 @@ export const skirtFront = {
               frontOrigin,
               points['frontPanelTarget' + i],
               points.cbHem,
-              points.backHemCp1,
-              points.backHemCp2,
+              points.cbHemCp2,
+              points.backHemMidCp1,
               points.backHemMid
             )
 
@@ -281,8 +289,8 @@ export const skirtFront = {
               frontOrigin,
               points['frontPanelTarget' + i],
               points.backHemMid,
-              points.backHemCp3,
-              points.backHemCp4,
+              points.backHemMidCp2,
+              points.sideBackHemCp1,
               points.sideBackHem
             )
 
@@ -301,8 +309,8 @@ export const skirtFront = {
                 frontOrigin,
                 points['frontPanelTarget' + i],
                 points.backHemFacingMid,
-                points.backHemFacingCp3,
-                points.backHemFacingCp4,
+                points.backHemFacingMidCp2,
+                points.cbFacingCp1,
                 points.cbHemFacing
               )
 
@@ -310,8 +318,8 @@ export const skirtFront = {
                 frontOrigin,
                 points['frontPanelTarget' + i],
                 points.sideBackHemFacing,
-                points.backHemFacingCp1,
-                points.backHemFacingCp2,
+                points.sideBackHemFacingCp2,
+                points.backHemFacingMidCp1,
                 points.backHemFacingMid
               )
 

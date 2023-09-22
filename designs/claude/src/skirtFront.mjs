@@ -53,7 +53,7 @@ export const skirtFront = {
       paths.sideSeam = new Path()
         .move(points.frontHemExtension)
         .line(points.sideFrontExtension)
-        .curve_(points.sideSeamFrontCp, points.sideWaistFront)
+        .curve_(points.sideFrontExtensionCp2, points.sideWaistFront)
         .hide()
 
       if (points.frontHemExSplit) {
@@ -65,16 +65,16 @@ export const skirtFront = {
 
     paths.waist = new Path()
       .move(points.sideWaistFront)
-      .curve(points.waistFrontCp1, points.waistFrontCp2, points.waistFrontMid)
-      .curve(points.waistFrontCp3, points.waistFrontCp4, points.cfWaist)
+      .curve(points.sideWaistFrontCp2, points.waistFrontMidCp1, points.waistFrontMid)
+      .curve(points.waistFrontMidCp2, points.cfWaistCp1, points.cfWaist)
       .hide()
 
     paths.cf = new Path().move(points.cfWaist).line(points.cfHem).hide()
 
     paths.hemBase = new Path()
       .move(points.cfHem)
-      .curve(points.frontHemCp1, points.frontHemCp2, points.frontHemMid)
-      .curve(points.frontHemCp3, points.frontHemCp4, points.sideFrontHem)
+      .curve(points.cfHemCp2, points.frontHemMidCp1, points.frontHemMid)
+      .curve(points.frontHemMidCp2, points.sideFrontHemCp1, points.sideFrontHem)
       .line(paths.sideSeam.start())
       .hide()
 
@@ -96,30 +96,37 @@ export const skirtFront = {
           points.sideWaistFront,
           skirtFacingWidth
         )
-        points.frontHemFacingCp4 = utils.beamsIntersect(
-          points.frontHemCp1,
-          points.waistFrontCp4,
+        points.cfFacingCp1 = utils.beamsIntersect(
+          points.cfHemCp2,
+          points.cfWaistCp1,
           points.cfFacing,
           points.cfWaist.rotate(-90, points.cfFacing)
         )
-        points.frontHemFacingCp3 = utils.beamsIntersect(
-          points.frontHemCp2,
-          points.waistFrontCp3,
+        points.frontHemFacingMidCp2 = utils.beamsIntersect(
+          points.frontHemMidCp1,
+          points.waistFrontMidCp2,
           points.frontHemFacingMid,
           points.waistFrontMid.rotate(90, points.frontHemFacingMid)
         )
-        points.frontHemFacingCp2 = points.frontHemFacingCp3.rotate(180, points.frontHemFacingMid)
-        points.frontHemFacingCp1 = utils.beamsIntersect(
-          points.frontHemCp4,
-          points.waistFrontCp1,
+        points.frontHemFacingMidCp1 = points.frontHemFacingMidCp2.rotate(
+          180,
+          points.frontHemFacingMid
+        )
+        points.sideFrontHemFacingCp2 = utils.beamsIntersect(
+          points.sideFrontHemCp1,
+          points.sideWaistFrontCp2,
           points.sideFrontHemFacing,
           points.sideWaistFront.rotate(90, points.sideFrontHemFacing)
         )
 
         paths.facing = new Path()
           .move(points.cfFacing)
-          .curve(points.frontHemFacingCp4, points.frontHemFacingCp3, points.frontHemFacingMid)
-          .curve(points.frontHemFacingCp2, points.frontHemFacingCp1, points.sideFrontHemFacing)
+          .curve(points.cfFacingCp1, points.frontHemFacingMidCp2, points.frontHemFacingMid)
+          .curve(
+            points.frontHemFacingMidCp1,
+            points.sideFrontHemFacingCp2,
+            points.sideFrontHemFacing
+          )
           .attr('class', 'interfacing')
           .attr('data-text', 'Facing Line')
           .attr('data-text-class', 'center')
@@ -129,12 +136,12 @@ export const skirtFront = {
         if (points.sideFrontExtension) {
           let facingFrontExtension = utils.lineIntersectsCurve(
             points.sideFrontHemFacing,
-            points.frontHemFacingCp1.shiftOutwards(
+            points.sideFrontHemFacingCp2.shiftOutwards(
               points.sideFrontHemFacing,
               points.sideFrontHem.dist(points.frontHemExtension) * 29
             ),
             points.sideFrontExtension,
-            points.sideSeamFrontCp,
+            points.sideFrontExtensionCp2,
             points.sideWaistFront,
             points.sideWaistFront
           )
@@ -143,7 +150,7 @@ export const skirtFront = {
             points.facingFrontExtension = facingFrontExtension
           } else {
             points.facingFrontExtension = utils.beamsIntersect(
-              points.frontHemFacingCp1,
+              points.sideFrontHemFacingCp2,
               points.sideFrontHemFacing,
               points.frontHemExtension,
               points.sideFrontExtension
@@ -188,8 +195,8 @@ export const skirtFront = {
             .shiftFractionAlong((i + 1) / options.skirtPanels)
           points['frontHemPanel' + i] = new Path()
             .move(points.cfHem)
-            .curve(points.frontHemCp1, points.frontHemCp2, points.frontHemMid)
-            .curve(points.frontHemCp3, points.frontHemCp4, points.sideFrontHem)
+            .curve(points.cfHemCp2, points.frontHemMidCp1, points.frontHemMid)
+            .curve(points.frontHemMidCp2, points.sideFrontHemCp1, points.sideFrontHem)
             .shiftFractionAlong((i + 1) / options.skirtPanels)
 
           points['grainlineFrom' + i] = points['waistFrontPanel' + i].shiftFractionTowards(

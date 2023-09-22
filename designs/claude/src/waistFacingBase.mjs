@@ -56,14 +56,14 @@ export const waistFacingBase = {
     points.cfWaist = points.origin.shift(-90, frontRadius)
     points.waistFrontMid = points.cfWaist.rotate(frontAngle / 2, points.origin)
     points.sideWaistFront = points.cfWaist.rotate(frontAngle, points.origin)
-    points.waistFrontCp1 = points.sideWaistFront
+    points.sideWaistFrontCp2 = points.sideWaistFront
       .shiftTowards(points.origin, waistFrontCpDistance)
       .rotate(90, points.sideWaistFront)
-    points.waistFrontCp2 = points.waistFrontMid
+    points.waistFrontMidCp1 = points.waistFrontMid
       .shiftTowards(points.origin, waistFrontCpDistance)
       .rotate(-90, points.waistFrontMid)
-    points.waistFrontCp3 = points.waistFrontCp2.rotate(180, points.waistFrontMid)
-    points.waistFrontCp4 = points.cfWaist
+    points.waistFrontMidCp2 = points.waistFrontMidCp1.rotate(180, points.waistFrontMid)
+    points.cfWaistCp1 = points.cfWaist
       .shiftTowards(points.origin, waistFrontCpDistance)
       .rotate(-90, points.cfWaist)
 
@@ -71,14 +71,14 @@ export const waistFacingBase = {
     points.cbWaist = points.origin.shift(-90, backRadius)
     points.waistBackMid = points.cbWaist.rotate(backAngle / 2, points.origin)
     points.sideWaistBack = points.cbWaist.rotate(backAngle, points.origin)
-    points.waistBackCp1 = points.sideWaistBack
+    points.sideWaistBackCp2 = points.sideWaistBack
       .shiftTowards(points.origin, waistBackCpDistance)
       .rotate(90, points.sideWaistBack)
-    points.waistBackCp2 = points.waistBackMid
+    points.waistBackMidCp1 = points.waistBackMid
       .shiftTowards(points.origin, waistBackCpDistance)
       .rotate(-90, points.waistBackMid)
-    points.waistBackCp3 = points.waistBackCp2.rotate(180, points.waistBackMid)
-    points.waistBackCp4 = points.cbWaist
+    points.waistBackMidCp2 = points.waistBackMidCp1.rotate(180, points.waistBackMid)
+    points.cbWaistCp1 = points.cbWaist
       .shiftTowards(points.origin, waistBackCpDistance)
       .rotate(-90, points.cbWaist)
 
@@ -94,20 +94,20 @@ export const waistFacingBase = {
       points.cfWaistFacing,
       points.cfWaist.rotate(-90, points.cfWaistFacing),
       points.origin,
-      points.waistFrontCp4
+      points.cfWaistCp1
     )
     points.waistFrontFacingCp2 = utils.beamsIntersect(
       points.waistFrontFacingMid,
       points.waistFrontMid.rotate(90, points.waistFrontFacingMid),
       points.origin,
-      points.waistFrontCp3
+      points.waistFrontMidCp2
     )
     points.waistFrontFacingCp3 = points.waistFrontFacingCp2.rotate(180, points.waistFrontFacingMid)
     points.waistFrontFacingCp4 = utils.beamsIntersect(
       points.sideWaistFrontFacing,
       points.sideWaistFront.rotate(90, points.sideWaistFrontFacing),
       points.origin,
-      points.waistFrontCp1
+      points.sideWaistFrontCp2
     )
 
     //facing back
@@ -119,20 +119,20 @@ export const waistFacingBase = {
       points.cbWaistFacing,
       points.cbWaist.rotate(-90, points.cbWaistFacing),
       points.origin,
-      points.waistBackCp4
+      points.cbWaistCp1
     )
     points.waistBackFacingCp2 = utils.beamsIntersect(
       points.waistBackFacingMid,
       points.waistBackMid.rotate(90, points.waistBackFacingMid),
       points.origin,
-      points.waistBackCp3
+      points.waistBackMidCp2
     )
     points.waistBackFacingCp3 = points.waistBackFacingCp2.rotate(180, points.waistBackFacingMid)
     points.waistBackFacingCp4 = utils.beamsIntersect(
       points.sideWaistBackFacing,
       points.sideWaistBack.rotate(90, points.sideWaistBackFacing),
       points.origin,
-      points.waistBackCp1
+      points.sideWaistBackCp2
     )
 
     //side seams
@@ -155,20 +155,20 @@ export const waistFacingBase = {
 
         points.seatFrontCp1 = utils.beamsIntersect(
           points.origin,
-          points.waistFrontCp4,
+          points.cfWaistCp1,
           points.cfSeat,
           points.cfWaist.rotate(-90, points.cfSeat)
         )
         points.seatFrontCp2 = utils.beamsIntersect(
           points.origin,
-          points.waistFrontCp3,
+          points.waistFrontMidCp2,
           points.seatFrontMid,
           points.waistFrontMid.rotate(90, points.seatFrontMid)
         )
         points.seatFrontCp3 = points.seatFrontCp2.rotate(180, points.seatFrontMid)
         points.seatFrontCp4 = utils.beamsIntersect(
           points.origin,
-          points.waistFrontCp1,
+          points.sideWaistFrontCp2,
           points.sideSeatFront,
           points.sideWaistFront.rotate(90, points.sideSeatFront)
         )
@@ -179,20 +179,20 @@ export const waistFacingBase = {
 
         points.seatBackCp1 = utils.beamsIntersect(
           points.origin,
-          points.waistBackCp4,
+          points.cbWaistCp1,
           points.cbSeat,
           points.cbWaist.rotate(-90, points.cbSeat)
         )
         points.seatBackCp2 = utils.beamsIntersect(
           points.origin,
-          points.waistBackCp3,
+          points.waistBackMidCp2,
           points.seatBackMid,
           points.waistBackMid.rotate(90, points.seatBackMid)
         )
         points.seatBackCp3 = points.seatBackCp2.rotate(180, points.seatBackMid)
         points.seatBackCp4 = utils.beamsIntersect(
           points.origin,
-          points.waistBackCp1,
+          points.sideWaistBackCp2,
           points.sideSeatBack,
           points.sideWaistBack.rotate(90, points.sideSeatBack)
         )
@@ -222,12 +222,12 @@ export const waistFacingBase = {
             points.sideWaistFrontFacing,
             seatDiff
           )
-          points.sideSeamFrontCpTarget = points.waistFrontCp1.shiftOutwards(
+          points.sideFrontExtensionCp2Target = points.sideWaistFrontCp2.shiftOutwards(
             points.sideWaistFront,
             seatDiff
           )
-          points.sideSeamFrontCp = points.sideFrontExtension.shiftFractionTowards(
-            points.sideSeamFrontCpTarget,
+          points.sideFrontExtensionCp2 = points.sideFrontExtension.shiftFractionTowards(
+            points.sideFrontExtensionCp2Target,
             2 / 3
           )
 
@@ -236,12 +236,12 @@ export const waistFacingBase = {
             points.sideWaistBackFacing,
             seatDiff
           )
-          points.sideSeamBackCpTarget = points.waistBackCp1.shiftOutwards(
+          points.sideBackExtensionCp2Target = points.sideWaistBackCp2.shiftOutwards(
             points.sideWaistBack,
             seatDiff
           )
-          points.sideSeamBackCp = points.sideBackExtension.shiftFractionTowards(
-            points.sideSeamBackCpTarget,
+          points.sideBackExtensionCp2 = points.sideBackExtension.shiftFractionTowards(
+            points.sideBackExtensionCp2Target,
             2 / 3
           )
           log.debug(
@@ -263,20 +263,20 @@ export const waistFacingBase = {
 
         points.hipsFrontCp1 = utils.beamsIntersect(
           points.origin,
-          points.waistFrontCp4,
+          points.cfWaistCp1,
           points.cfHips,
           points.cfWaist.rotate(-90, points.cfHips)
         )
         points.hipsFrontCp2 = utils.beamsIntersect(
           points.origin,
-          points.waistFrontCp3,
+          points.waistFrontMidCp2,
           points.hipsFrontMid,
           points.waistFrontMid.rotate(90, points.hipsFrontMid)
         )
         points.hipsFrontCp3 = points.hipsFrontCp2.rotate(180, points.hipsFrontMid)
         points.hipsFrontCp4 = utils.beamsIntersect(
           points.origin,
-          points.waistFrontCp1,
+          points.sideWaistFrontCp2,
           points.sideHipsFront,
           points.sideWaistFront.rotate(90, points.sideHipsFront)
         )
@@ -287,20 +287,20 @@ export const waistFacingBase = {
 
         points.hipsBackCp1 = utils.beamsIntersect(
           points.origin,
-          points.waistBackCp4,
+          points.cbWaistCp1,
           points.cbHips,
           points.cbWaist.rotate(-90, points.cbHips)
         )
         points.hipsBackCp2 = utils.beamsIntersect(
           points.origin,
-          points.waistBackCp3,
+          points.waistBackMidCp2,
           points.hipsBackMid,
           points.waistBackMid.rotate(90, points.hipsBackMid)
         )
         points.hipsBackCp3 = points.hipsBackCp2.rotate(180, points.hipsBackMid)
         points.hipsBackCp4 = utils.beamsIntersect(
           points.origin,
-          points.waistBackCp1,
+          points.sideWaistBackCp2,
           points.sideHipsBack,
           points.sideWaistBack.rotate(90, points.sideHipsBack)
         )
@@ -336,7 +336,7 @@ export const waistFacingBase = {
               points.sideHipsFront,
               points.sideFrontHipsEx,
               points.sideFrontExtension,
-              points.sideSeamFrontCp,
+              points.sideFrontExtensionCp2,
               points.sideWaistFront,
               points.sideWaistFront
             )
@@ -347,12 +347,12 @@ export const waistFacingBase = {
               points.sideWaistFrontFacing,
               ex
             )
-            points.sideSeamFrontCpTarget = points.waistFrontCp1.shiftOutwards(
+            points.sideFrontExtensionCp2Target = points.sideWaistFrontCp2.shiftOutwards(
               points.sideWaistFront,
               ex
             )
-            points.sideSeamFrontCp = points.sideFrontExtension.shiftFractionTowards(
-              points.sideSeamFrontCpTarget,
+            points.sideFrontExtensionCp2 = points.sideFrontExtension.shiftFractionTowards(
+              points.sideFrontExtensionCp2Target,
               2 / 3
             )
             log.debug(
@@ -366,7 +366,7 @@ export const waistFacingBase = {
               points.sideHipsBack,
               points.sideBackHipsEx,
               points.sideBackExtension,
-              points.sideSeamBackCp,
+              points.sideBackExtensionCp2,
               points.sideWaistBack,
               points.sideWaistBack
             )
@@ -378,12 +378,12 @@ export const waistFacingBase = {
               points.sideWaistBackFacing,
               ex
             )
-            points.sideSeamBackCpTarget = points.waistBackCp1.shiftOutwards(
+            points.sideBackExtensionCp2Target = points.sideWaistBackCp2.shiftOutwards(
               points.sideWaistBack,
               ex
             )
-            points.sideSeamBackCp = points.sideBackExtension.shiftFractionTowards(
-              points.sideSeamBackCpTarget,
+            points.sideBackExtensionCp2 = points.sideBackExtension.shiftFractionTowards(
+              points.sideBackExtensionCp2Target,
               2 / 3
             )
           }
@@ -394,13 +394,13 @@ export const waistFacingBase = {
       // paths.sideseamFront = new Path()
       // .move(points.frontHemExtension)
       // .line(points.sideFrontExtension)
-      // .curve_(points.sideSeamFrontCp, points.sideWaistFront)
+      // .curve_(points.sideFrontExtensionCp2, points.sideWaistFront)
       // }
       // if (points.backHemExtension) {
       // paths.sideseamBack = new Path()
       // .move(points.backHemExtension)
       // .line(points.sideBackExtension)
-      // .curve_(points.sideSeamBackCp, points.sideWaistBack)
+      // .curve_(points.sideBackExtensionCp2, points.sideWaistBack)
       // .attr('class', 'various')
       // }
     }
@@ -409,7 +409,7 @@ export const waistFacingBase = {
         points.sideWaistFrontFacing,
         points.frontHemExtension,
         points.sideFrontExtension,
-        points.sideSeamFrontCp,
+        points.sideFrontExtensionCp2,
         points.sideWaistFront,
         points.sideWaistFront
       )
@@ -419,7 +419,7 @@ export const waistFacingBase = {
         points.sideWaistBackFacing,
         points.backHemExtension,
         points.sideBackExtension,
-        points.sideSeamBackCp,
+        points.sideBackExtensionCp2,
         points.sideWaistBack,
         points.sideWaistBack
       )
