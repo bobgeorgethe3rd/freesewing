@@ -98,7 +98,18 @@ export const sideFrontBustShoulder = {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
         }
 
-        points.saPoint0 = points.saPoint1
+        points.saPoint0 = utils.beamsIntersect(
+          points.waistDartRight
+            .shiftTowards(points.sideWaist, sa)
+            .rotate(-90, points.waistDartRight),
+          points.sideWaist.shiftTowards(points.waistDartRight, sa).rotate(90, points.sideWaist),
+          points.sideWaist
+            .shiftTowards(points.armholeDrop, sideSeamSa)
+            .rotate(-90, points.sideWaist),
+          points.armholeDrop
+            .shiftTowards(points.sideWaist, sideSeamSa)
+            .rotate(90, points.armholeDrop)
+        )
         points.saPoint1 = utils.beamsIntersect(
           points.sideWaist
             .shiftTowards(points.armholeDrop, sideSeamSa)
@@ -111,20 +122,22 @@ export const sideFrontBustShoulder = {
         )
         points.saPoint2 = utils.beamsIntersect(
           points.neckSideFrontCp
-            .shiftTowards(points.neckSideFront, sideSeamSa)
+            .shiftTowards(points.neckSideFront, sa)
             .rotate(-90, points.neckSideFrontCp),
           points.neckSideFront
-            .shiftTowards(points.neckSideFrontCp, sideSeamSa)
+            .shiftTowards(points.neckSideFrontCp, sa)
             .rotate(90, points.neckSideFront),
-          points.neckSideFront.shiftTowards(points.bustCp2, sa).rotate(-90, points.neckSideFront),
-          points.bustCp2.shiftTowards(points.neckSideFront, sa).rotate(90, points.bustCp2)
+          points.neckSideFront
+            .shiftTowards(points.bustCp2, styleLineSa)
+            .rotate(-90, points.neckSideFront),
+          points.bustCp2.shiftTowards(points.neckSideFront, styleLineSa).rotate(90, points.bustCp2)
         )
         points.saPoint3 = utils.beamsIntersect(
           points.waistDartRightCp
-            .shiftTowards(points.waistDartRight, sideSeamSa)
+            .shiftTowards(points.waistDartRight, styleLineSa)
             .rotate(-90, points.waistDartRightCp),
           points.waistDartRight
-            .shiftTowards(points.waistDartRightCp, sideSeamSa)
+            .shiftTowards(points.waistDartRightCp, styleLineSa)
             .rotate(90, points.waistDartRight),
           points.waistDartRight
             .shiftTowards(points.sideWaist, sa)

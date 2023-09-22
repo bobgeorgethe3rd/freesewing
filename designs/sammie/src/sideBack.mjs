@@ -92,7 +92,18 @@ export const sideBack = {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
         }
 
-        points.saPoint0 = points.saPoint1
+        points.saPoint0 = utils.beamsIntersect(
+          points.dartBottomRight
+            .shiftTowards(points.sideWaist, sa)
+            .rotate(-90, points.dartBottomRight),
+          points.sideWaist.shiftTowards(points.dartBottomRight, sa).rotate(90, points.sideWaist),
+          points.sideWaist
+            .shiftTowards(points.armholeDrop, sideSeamSa)
+            .rotate(-90, points.sideWaist),
+          points.armholeDrop
+            .shiftTowards(points.sideWaist, sideSeamSa)
+            .rotate(90, points.armholeDrop)
+        )
 
         points.saPoint1 = utils.beamsIntersect(
           points.sideWaist
