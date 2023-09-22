@@ -121,22 +121,22 @@ export const skirtBase = {
         void store.setIfUnset('hipsBack', store.get('storedHips'))
         void store.setIfUnset('hipsFront', store.get('storedHips'))
       }
-
-      void store.setIfUnset('storedSeat', measurements.seat * (1 + options.seatEase))
-
-      if (measurements.seatBack) {
-        void store.setIfUnset('seatBack', measurements.seatBack * (1 + options.seatEase) * 2)
-        void store.setIfUnset(
-          'seatFront',
-          (measurements.seat - measurements.seatBack) * (1 + options.seatEase) * 2
-        )
-      } else {
-        void store.setIfUnset('seatBack', store.get('storedSeat'))
-        void store.setIfUnset('seatFront', store.get('storedSeat'))
-      }
-
-      void store.setIfUnset('waistHeigthDist', measurements.waistToHips)
     }
+
+    void store.setIfUnset('storedSeat', measurements.seat * (1 + options.seatEase))
+
+    if (measurements.seatBack) {
+      void store.setIfUnset('seatBack', measurements.seatBack * (1 + options.seatEase) * 2)
+      void store.setIfUnset(
+        'seatFront',
+        (measurements.seat - measurements.seatBack) * (1 + options.seatEase) * 2
+      )
+    } else {
+      void store.setIfUnset('seatBack', store.get('storedSeat'))
+      void store.setIfUnset('seatFront', store.get('storedSeat'))
+    }
+
+    void store.setIfUnset('waistHeigthDist', measurements.waistToHips)
 
     const waistHeightDist = store.get('waistHeigthDist')
 
