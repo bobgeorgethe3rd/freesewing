@@ -108,19 +108,19 @@ export const skirtBase = {
         void store.setIfUnset('waistBack', store.get('storedWaist'))
         void store.setIfUnset('waistFront', store.get('storedWaist'))
       }
+    }
 
-      void store.setIfUnset('storedHips', measurements.hips * (1 + options.hipsEase))
+    void store.setIfUnset('storedHips', measurements.hips * (1 + options.hipsEase))
 
-      if (measurements.hipsBack) {
-        void store.setIfUnset('hipsBack', measurements.hipsBack * (1 + options.hipsEase) * 2)
-        void store.setIfUnset(
-          'hipsFront',
-          (measurements.hips - measurements.hipsBack) * (1 + options.hipsEase) * 2
-        )
-      } else {
-        void store.setIfUnset('hipsBack', store.get('storedHips'))
-        void store.setIfUnset('hipsFront', store.get('storedHips'))
-      }
+    if (measurements.hipsBack) {
+      void store.setIfUnset('hipsBack', measurements.hipsBack * (1 + options.hipsEase) * 2)
+      void store.setIfUnset(
+        'hipsFront',
+        (measurements.hips - measurements.hipsBack) * (1 + options.hipsEase) * 2
+      )
+    } else {
+      void store.setIfUnset('hipsBack', store.get('storedHips'))
+      void store.setIfUnset('hipsFront', store.get('storedHips'))
     }
 
     void store.setIfUnset('storedSeat', measurements.seat * (1 + options.seatEase))
