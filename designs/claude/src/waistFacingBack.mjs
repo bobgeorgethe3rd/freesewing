@@ -40,8 +40,12 @@ export const waistFacingBack = {
     //paths
     paths.cbWaistFacing = new Path()
       .move(points.cbWaistFacing)
-      .curve(points.waistBackFacingCp1, points.waistBackFacingCp2, points.waistBackFacingMid)
-      .curve(points.waistBackFacingCp3, points.waistBackFacingCp4, points.sideWaistBackFacing)
+      .curve(points.cbWaistFacingCp2, points.waistBackFacingMidCp1, points.waistBackFacingMid)
+      .curve(
+        points.waistBackFacingMidCp2,
+        points.sideWaistBackFacingCp1,
+        points.sideWaistBackFacing
+      )
       .hide()
 
     if (points.sideBackExtension) {

@@ -35,8 +35,12 @@ export const waistFacingFront = {
     //paths
     paths.cfWaistFacing = new Path()
       .move(points.cfWaistFacing)
-      .curve(points.waistFrontFacingCp1, points.waistFrontFacingCp2, points.waistFrontFacingMid)
-      .curve(points.waistFrontFacingCp3, points.waistFrontFacingCp4, points.sideWaistFrontFacing)
+      .curve(points.cfWaistFacingCp2, points.waistFrontFacingMidCp1, points.waistFrontFacingMid)
+      .curve(
+        points.waistFrontFacingMidCp2,
+        points.sideWaistFrontFacingCp1,
+        points.sideWaistFrontFacing
+      )
       .hide()
 
     if (points.sideFrontExtension) {
