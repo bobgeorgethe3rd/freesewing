@@ -64,14 +64,19 @@ export const placket = {
       options.cpFraction
     )
     //guide
-    paths.seam = new Path()
+    paths.saBottom = new Path()
       .move(points.bottomCurveStart)
       .curve(points.bottomCp1, points.bottomCp2, points.bottomCurveEnd)
       .line(points.bottomRight)
+      .hide()
+
+    paths.seam = paths.saBottom
+      .clone()
       .line(points.topRight)
       .line(points.topLeft)
       .line(points.bottomCurveStart)
       .close()
+      .unhide()
 
     //stores
     store.set('placketWidth', width)
@@ -103,7 +108,19 @@ export const placket = {
       })
 
       if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
+        points.saBottomRight = points.bottomRight.translate(sa, sa)
+        points.saTopRight = points.topRight.translate(sa, -sa)
+        points.saTopLeft = points.topLeft.translate(-sa, -sa)
+        points.saBottomCurveStart = points.bottomCurveStart.shift(180, sa)
+
+        paths.sa = paths.saBottom
+          .offset(sa)
+          .line(points.saBottomRight)
+          .line(points.saTopRight)
+          .line(points.saTopLeft)
+          .line(points.saBottomCurveStart)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 
