@@ -183,12 +183,8 @@ export const frontFacingShoulder = {
           points.armholeDrop
             .shiftTowards(points.sideFacing, sideSeamSa)
             .rotate(90, points.armholeDrop),
-          points.armholeDrop
-            .shiftTowards(points.armholeDropCp, sideSeamSa)
-            .rotate(-90, points.armholeDrop),
-          points.armholeDropCp
-            .shiftTowards(points.armholeDrop, sideSeamSa)
-            .rotate(90, points.armholeDropCp)
+          points.armholeDrop.shiftTowards(points.armholeDropCp, sa).rotate(-90, points.armholeDrop),
+          points.armholeDropCp.shiftTowards(points.armholeDrop, sa).rotate(90, points.armholeDropCp)
         )
 
         points.hemStart = paths.hemBase.offset(bodiceFacingHem).start()
