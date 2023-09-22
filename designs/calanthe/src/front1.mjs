@@ -46,14 +46,14 @@ export const front1 = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.top1.x * 1.1, points.cfChest.y)
+      points.grainlineFrom = new Point(points.waist10.x * 1.05, points.cfChest.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHips.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //title
-      points.title = new Point(points.top1.x * 1.2, points.apexCp2.y)
+      points.title = new Point(points.top1.x * 1.25, points.apexCp2.y)
       macro('title', {
         nr: 'F2',
         title: 'Front Panel 1',

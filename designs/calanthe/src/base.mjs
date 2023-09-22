@@ -5,10 +5,10 @@ export const base = {
   options: {
     //Constants
     cfPanel: 0.161,
-    f1Panel: 0.134,
-    f2Panel: 0.173,
-    b2Panel: 0.169,
-    b1Panel: 0.173,
+    f1Panel: 0.136, //0.134,
+    f2Panel: 0.175, //0.173,
+    b2Panel: 0.171, //0.169,
+    b1Panel: 0.175, //0.173,
     cbPanel: 0.182,
     // sideGap: 0.046,//0.061,
     //Fit
@@ -29,7 +29,8 @@ export const base = {
     sideGap: { pct: 4.6, min: 3.4, max: 6.1, menu: 'advanced.fit' },
     sideGapBalance: { pct: 50, min: 0, max: 100, menu: 'advanced.fit' },
     chestFrontBalance: { pct: 50, min: 40, max: 60, menu: 'advanced.fit' },
-    waistF1Balance: { pct: 50, min: 40, max: 60, menu: 'advanced.fit' },
+    // waistF1Balance: { pct: 50, min: 40, max: 60, menu: 'advanced.fit' },
+    waistF1Balance: { pct: 100, min: 50, max: 150, menu: 'advanced.fit' },
     waistB1Balance: { pct: 50, min: 40, max: 60, menu: 'advanced.fit' },
     cfHipsBonus: { pct: 0, min: -20, max: 20, menu: 'advanced.fit' },
   },
@@ -123,7 +124,10 @@ export const base = {
     points.waist20 = points.waist21.shift(180, waistF2 / 2)
     points.waist31 = points.waist30.shift(0, waistB2 / 2)
 
-    points.waist1 = points.waist01.shiftFractionTowards(points.waist20, options.waistF1Balance)
+    points.waist1 = points.waist01.shiftFractionTowards(
+      new Point((points.apex.x + points.chest2.x) / 2, points.cfWaist.y),
+      options.waistF1Balance
+    )
     points.waist4 = points.waist31.shiftFractionTowards(points.waist50, options.waistB1Balance)
 
     points.waist10 = points.waist1.shift(180, waistF1 / 4)
