@@ -297,8 +297,8 @@ export const skirtBack = {
           options.independentSkirtGathering)
       ) {
         cbSa = sa
-        points.grainlineFrom = points.cbWaist.shiftFractionTowards(points.cbHem, 0.01)
-        points.grainlineTo = points.cbHem.shiftFractionTowards(points.cbWaist, 0.01)
+        points.grainlineFrom = points.cbWaist.shiftFractionTowards(points.cbHem, 0.025)
+        points.grainlineTo = points.cbHem.shiftFractionTowards(points.cbWaist, 0.025)
         macro('grainline', {
           from: points.cbWaist.rotate(-90, points.grainlineFrom),
           to: points.cbHem.rotate(90, points.grainlineTo),
@@ -332,20 +332,71 @@ export const skirtBack = {
           hemSa = sa * options.skirtHemWidth * 100
         }
 
+        points.saSideBackHem = utils.beamsIntersect(
+          points.sideBackHemCp1
+            .shiftTowards(points.sideBackHem, hemSa)
+            .rotate(-90, points.sideBackHemCp1),
+          points.sideBackHem
+            .shiftTowards(points.sideBackHemCp1, hemSa)
+            .rotate(90, points.sideBackHem),
+          paths.sideSeam.offset(sa).start(),
+          paths.sideSeam.offset(sa).shiftFractionAlong(0.001)
+        )
+
+        points.saSideWaistBack = utils.beamsIntersect(
+          paths.sideSeam.offset(sa).end(),
+          paths.sideSeam.offset(sa).shiftFractionAlong(0.999),
+          points.sideWaistBack
+            .shiftTowards(points.sideWaistBackCp2, sa)
+            .rotate(-90, points.sideWaistBack),
+          points.sideWaistBackCp2
+            .shiftTowards(points.sideWaistBack, sa)
+            .rotate(90, points.sideWaistBackCp2)
+        )
+
+        points.saCbWaist = points.cbWaist.translate(-cbSa, -sa)
+        points.saCbHem = points.cbHem.translate(-cbSa, hemSa)
+
         if (options.skirtFacings) {
+          points.saSideBackHemFacing = utils.beamsIntersect(
+            paths.sideSeam.split(paths.facing.end())[0].offset(sa).end(),
+            paths.sideSeam.split(paths.facing.end())[0].offset(sa).shiftFractionAlong(0.999),
+            points.sideBackHemFacing
+              .shiftTowards(points.sideBackHemFacingCp2, sa)
+              .rotate(-90, points.sideBackHemFacing),
+            points.sideBackHemFacingCp2
+              .shiftTowards(points.sideBackHemFacing, sa)
+              .rotate(90, points.sideBackHemFacingCp2)
+          )
+
+          points.saCbFacing = points.cbFacing.translate(-cbSa, -sa)
+
           paths.facingSa = paths.hemBase
             .offset(hemSa)
+            .line(points.saSideBackHem)
+            .line(paths.sideSeam.offset(sa).start())
             .join(paths.sideSeam.split(paths.facing.end())[0].offset(sa))
+            .line(points.saSideBackHemFacing)
+            .line(paths.facing.reverse().offset(sa).start())
             .join(paths.facing.reverse().offset(sa))
-            .join(paths.cbFacing.offset(cbSa))
+            .line(points.saCbFacing)
+            .line(points.saCbHem)
+            .line(paths.hemBase.offset(hemSa).start())
             .close()
             .attr('class', 'interfacing sa')
         }
 
         paths.sa = paths.hemBase
           .offset(hemSa)
-          .join(paths.sideSeam.join(paths.waist).offset(sa))
-          .join(paths.cb.offset(cbSa))
+          .line(points.saSideBackHem)
+          .line(paths.sideSeam.offset(sa).start())
+          .join(paths.sideSeam.offset(sa))
+          .line(points.saSideWaistBack)
+          .line(paths.waist.offset(sa).start())
+          .join(paths.waist.offset(sa))
+          .line(points.saCbWaist)
+          .line(points.saCbHem)
+          .line(paths.hemBase.offset(hemSa).start())
           .close()
           .attr('class', 'fabric sa')
 
