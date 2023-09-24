@@ -56,7 +56,7 @@ export const sleevecap = {
     if (scyeFrontDepth > scyeBackDepth) {
       sleeveCapDepth = scyeFrontDepth
     } else {
-      sleeveCapDepth = scyeFrontDepth
+      sleeveCapDepth = scyeBackDepth
     }
 
     const scyeFrontWidth = store.get('scyeFrontWidth')
