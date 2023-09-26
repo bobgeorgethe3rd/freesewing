@@ -7,7 +7,8 @@ export const front = {
     from: true,
     inherited: true,
   },
-  measurements: ['shoulderToElbow', 'shoulderToWrist', 'wrist'],
+  measurements: ['shoulderToWrist', 'wrist'],
+  optionalMeasurements: ['shoulderToElbow'],
   options: {
     //Constant
     bustDartPlacement: 'armholePitch',
@@ -16,7 +17,7 @@ export const front = {
     bustDartFraction: 0.5,
     sleeveHemWidth: 0.01,
     //Fit
-    elbowEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
+    // elbowEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
     wristEase: { pct: 28.9, min: 0, max: 35, menu: 'fit' },
     //Style
     fitSleeves: { bool: true, menu: 'style' },
@@ -139,6 +140,42 @@ export const front = {
       underArmCurveCpDist
     )
 
+    //sleeve length
+    if (measurements.shoulderToElbow) {
+      points.elbowTop = points.shoulderRise.shiftTowards(
+        points.bodiceSleeveTopMax,
+        measurements.shoulderToElbow * (1 + options.sleeveLengthBonus)
+      )
+    } else {
+      points.elbowTop = points.shoulderRise.shiftFractionTowards(points.bodiceSleeveBottomMax, 0.5)
+    }
+
+    points.elbowBottom = points.bodiceSleeveBottomMin.shiftFractionTowards(
+      points.bodiceSleeveBottomMax,
+      points.bodiceSleeveTopMin.dist(points.elbowTop) /
+        points.bodiceSleeveTopMin.dist(points.bodiceSleeveTopMax)
+    )
+
+    if (options.sleeveLength < 0.5) {
+      points.bodiceSleeveTop = points.bodiceSleeveTopMin.shiftFractionTowards(
+        points.elbowTop,
+        2 * options.sleeveLength
+      )
+      points.bodiceSleeveBottom = points.bodiceSleeveBottomMin.shiftFractionTowards(
+        points.elbowBottom,
+        2 * options.sleeveLength
+      )
+    } else {
+      points.bodiceSleeveTop = points.elbowTop.shiftFractionTowards(
+        points.bodiceSleeveTopMax,
+        2 * options.sleeveLength - 1
+      )
+      points.bodiceSleeveBottom = points.elbowBottom.shiftFractionTowards(
+        points.bodiceSleeveBottomMax,
+        2 * options.sleeveLength - 1
+      )
+    }
+
     //guides
     paths.daisyGuide = new Path()
       .move(points.cfWaist)
@@ -164,17 +201,22 @@ export const front = {
         points.bodiceSleeveBottomMinCp1,
         points.bodiceSleeveBottomMin
       )
-      .line(points.bodiceSleeveBottomMax)
-      .line(points.bodiceSleeveTopMax)
+      .line(points.bodiceSleeveBottom)
+      .line(points.bodiceSleeveTop)
       .line(points.hps)
+      .move(points.bodiceSleeveBottomMin)
       .line(points.bodiceSleeveTopMin)
-      .line(points.bodiceSleeveBottomMin)
+      .move(points.elbowBottom)
+      .line(points.elbowTop)
+      .move(points.bodiceSleeveBottomMax)
+      .line(points.bodiceSleeveTopMax)
 
     //stores
     store.set('armholeDrop', armholeDrop)
     store.set('shoulderRise', shoulderRise)
     store.set('underArmSleeveLength', underArmSleeveLength)
     store.set('sleeveLengthMin', points.hps.dist(points.bodiceSleeveTopMin))
+    store.set('sleeveLengthElbow', points.hps.dist(points.elbowTop))
     store.set('shoulderToWrist', shoulderToWrist)
     store.set('wrist', wrist)
     store.set(

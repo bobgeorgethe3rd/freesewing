@@ -110,6 +110,38 @@ export const back = {
       else underArmCurveTweak = underArmCurveTweak * 1.01
     } while (Math.abs(underArmCurveDelta) > 0.01)
 
+    //sleeve length
+    points.elbowTop = points.hps.shiftTowards(
+      points.bodiceSleeveTopMax,
+      store.get('sleeveLengthElbow')
+    )
+
+    points.elbowBottom = points.bodiceSleeveBottomMin.shiftFractionTowards(
+      points.bodiceSleeveBottomMax,
+      points.bodiceSleeveTopMin.dist(points.elbowTop) /
+        points.bodiceSleeveTopMin.dist(points.bodiceSleeveTopMax)
+    )
+
+    if (options.sleeveLength < 0.5) {
+      points.bodiceSleeveTop = points.bodiceSleeveTopMin.shiftFractionTowards(
+        points.elbowTop,
+        2 * options.sleeveLength
+      )
+      points.bodiceSleeveBottom = points.bodiceSleeveBottomMin.shiftFractionTowards(
+        points.elbowBottom,
+        2 * options.sleeveLength
+      )
+    } else {
+      points.bodiceSleeveTop = points.elbowTop.shiftFractionTowards(
+        points.bodiceSleeveTopMax,
+        2 * options.sleeveLength - 1
+      )
+      points.bodiceSleeveBottom = points.elbowBottom.shiftFractionTowards(
+        points.bodiceSleeveBottomMax,
+        2 * options.sleeveLength - 1
+      )
+    }
+
     //guides
     paths.daisyGuide = new Path()
       .move(points.cbWaist)
@@ -134,11 +166,15 @@ export const back = {
         points.bodiceSleeveBottomMinCp1,
         points.bodiceSleeveBottomMin
       )
-      .line(points.bodiceSleeveBottomMax)
-      .line(points.bodiceSleeveTopMax)
+      .line(points.bodiceSleeveBottom)
+      .line(points.bodiceSleeveTop)
       .line(points.hps)
+      .move(points.bodiceSleeveBottomMin)
       .line(points.bodiceSleeveTopMin)
-      .line(points.bodiceSleeveBottomMin)
+      .move(points.elbowBottom)
+      .line(points.elbowTop)
+      .move(points.bodiceSleeveBottomMax)
+      .line(points.bodiceSleeveTopMax)
 
     return part
   },
