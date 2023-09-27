@@ -10,8 +10,9 @@ export const back = {
     inherited: true,
   },
   options: {
+    //Constant
+    cbNeckSaWidth: 0.01,
     //Construction
-    cbNeckSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
   },
   draft: ({
