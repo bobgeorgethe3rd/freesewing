@@ -13,6 +13,9 @@ export const front = {
     //Constant
     bustDartPlacement: 'armholePitch',
     bustDartLength: 1,
+    cfNeckSaWidth: 0.01,
+    sideSeamSaWidth: 0.01,
+    shoulderSaWidth: 0.01,
     // bustDartCurve: 1,
     bustDartFraction: 0.5,
     sleeveHemWidth: 0.01,
@@ -25,10 +28,15 @@ export const front = {
     sleeveLengthBonus: { pct: 0, min: -10, max: 20, menu: 'style' },
     armholeDrop: { pct: 29, min: 0, max: 35, menu: 'style' },
     underArmSleeveLength: { pct: 6.6, min: 6, max: 8, menu: 'style' },
+    //Construction
+    cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
+    closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
+    sleeveHemWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
+    closurePosition: { dflt: 'back', list: ['front', 'back'], menu: 'construction' },
     //Advanced
     shoulderRise: { pct: 1.6, min: 0, max: 2, menu: 'advanced' },
     underArmCurve: { pct: 100, min: 50, max: 150, menu: 'advanced' },
-    fullSleeves: { bool: true, menu: 'advanced' }, //So you can control separate sleeves later without affected the bodice
+    fullSleeves: { bool: true, menu: 'advanced' }, //So you can control separate sleeves later without affecting the bodice
   },
   draft: ({
     store,
@@ -156,44 +164,81 @@ export const front = {
         points.bodiceSleeveTopMin.dist(points.bodiceSleeveTopMax)
     )
 
-    if (options.sleeveLength < 0.5) {
-      points.bodiceSleeveTop = points.bodiceSleeveTopMin.shiftFractionTowards(
-        points.elbowTop,
-        2 * options.sleeveLength
-      )
-      points.bodiceSleeveBottom = points.bodiceSleeveBottomMin.shiftFractionTowards(
-        points.elbowBottom,
-        2 * options.sleeveLength
-      )
+    if (options.fullSleeves) {
+      if (options.sleeveLength < 0.5) {
+        points.bodiceSleeveTop = points.bodiceSleeveTopMin.shiftFractionTowards(
+          points.elbowTop,
+          2 * options.sleeveLength
+        )
+        points.bodiceSleeveBottom = points.bodiceSleeveBottomMin.shiftFractionTowards(
+          points.elbowBottom,
+          2 * options.sleeveLength
+        )
+      } else {
+        points.bodiceSleeveTop = points.elbowTop.shiftFractionTowards(
+          points.bodiceSleeveTopMax,
+          2 * options.sleeveLength - 1
+        )
+        points.bodiceSleeveBottom = points.elbowBottom.shiftFractionTowards(
+          points.bodiceSleeveBottomMax,
+          2 * options.sleeveLength - 1
+        )
+      }
     } else {
-      points.bodiceSleeveTop = points.elbowTop.shiftFractionTowards(
-        points.bodiceSleeveTopMax,
-        2 * options.sleeveLength - 1
-      )
-      points.bodiceSleeveBottom = points.elbowBottom.shiftFractionTowards(
-        points.bodiceSleeveBottomMax,
-        2 * options.sleeveLength - 1
-      )
+      points.bodiceSleeveTop = points.bodiceSleeveTopMin
+      points.bodiceSleeveBottom = points.bodiceSleeveBottomMin
     }
 
     //guides
-    paths.daisyGuide = new Path()
-      .move(points.cfWaist)
-      .line(points.waistDartLeft)
+    //DO NOT REMOVE!!! Useful for when making changes
+    // paths.daisyGuide = new Path()
+    // .move(points.cfWaist)
+    // .line(points.waistDartLeft)
+    // .line(points.waistDartTip)
+    // .line(points.waistDartRight)
+    // .line(points.sideWaist)
+    // .line(points.armhole)
+    // .curve(points.armholeCp2, points.armholePitchCp1, points.bustDartBottom)
+    // .line(points.bust)
+    // .line(points.bustDartTop)
+    // .curve_(points.armholePitchCp2, points.shoulder)
+    // .line(points.hps)
+    // .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+    // .line(points.cfWaist)
+    // .attr('class', 'various lashed')
+
+    // paths.armLine = new Path()
+    // .move(points.sideWaist)
+    // .line(points.underArmCurveStart)
+    // .curve(
+    // points.underArmCurveStartCp2,
+    // points.bodiceSleeveBottomMinCp1,
+    // points.bodiceSleeveBottomMin
+    // )
+    // .line(points.bodiceSleeveBottom)
+    // .line(points.bodiceSleeveTop)
+    // .line(points.hps)
+
+    // paths.anchorLines = new Path()
+    // .move(points.bodiceSleeveBottomMin)
+    // .line(points.bodiceSleeveTopMin)
+    // .move(points.elbowBottom)
+    // .line(points.elbowTop)
+    // .move(points.bodiceSleeveBottomMax)
+    // .line(points.bodiceSleeveTopMax)
+
+    //paths
+    paths.waistLeft = new Path().move(points.cfWaist).line(points.waistDartLeft).hide()
+
+    paths.dart = new Path()
+      .move(points.waistDartLeft)
       .line(points.waistDartTip)
       .line(points.waistDartRight)
-      .line(points.sideWaist)
-      .line(points.armhole)
-      .curve(points.armholeCp2, points.armholePitchCp1, points.bustDartBottom)
-      .line(points.bust)
-      .line(points.bustDartTop)
-      .curve_(points.armholePitchCp2, points.shoulder)
-      .line(points.hps)
-      .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
-      .line(points.cfWaist)
-      .attr('class', 'various lashed')
+      .hide()
 
-    paths.anchorLine = new Path()
+    paths.waistRight = new Path().move(points.waistDartRight).line(points.sideWaist).hide()
+
+    paths.sideSeam = new Path()
       .move(points.sideWaist)
       .line(points.underArmCurveStart)
       .curve(
@@ -202,14 +247,29 @@ export const front = {
         points.bodiceSleeveBottomMin
       )
       .line(points.bodiceSleeveBottom)
-      .line(points.bodiceSleeveTop)
-      .line(points.hps)
-      .move(points.bodiceSleeveBottomMin)
-      .line(points.bodiceSleeveTopMin)
-      .move(points.elbowBottom)
-      .line(points.elbowTop)
-      .move(points.bodiceSleeveBottomMax)
-      .line(points.bodiceSleeveTopMax)
+      .hide()
+
+    paths.sleeveHem = new Path().move(points.bodiceSleeveBottom).line(points.bodiceSleeveTop).hide()
+
+    paths.shoulder = new Path().move(points.bodiceSleeveTop).line(points.hps).hide()
+
+    paths.cfNeck = new Path()
+      .move(points.hps)
+      .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+      .hide()
+
+    paths.cf = new Path().move(points.cfNeck).line(points.cfWaist).hide()
+
+    paths.seam = paths.waistLeft
+      .clone()
+      .join(paths.dart)
+      .join(paths.waistRight)
+      .join(paths.sideSeam)
+      .join(paths.sleeveHem)
+      .join(paths.shoulder)
+      .join(paths.cfNeck)
+      .join(paths.cf)
+      .close()
 
     //stores
     store.set('armholeDrop', armholeDrop)
@@ -236,6 +296,113 @@ export const front = {
         )
         .length()
     )
+
+    if (complete) {
+      //grainline
+      if (
+        (options.closurePosition == 'front' && options.closureSaWidth == 0) ||
+        (options.closurePosition == 'back' && options.cfSaWidth == 0)
+      ) {
+        points.cutOnFoldFrom = points.cfNeck
+        points.cutOnFoldTo = points.cfWaist
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineTo = points.cfWaist.shiftFractionTowards(points.waistDartLeft, 0.15)
+        points.grainlineFrom = new Point(points.grainlineTo.x, points.cfNeck.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+      }
+      //notches
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['cfChest', 'bust', 'underArmCurveStart'],
+      })
+      if (options.sleeveLength > 0 && options.fullSleeves) {
+        snippets.bodiceSleeveBottomMin = new Snippet('notch', points.bodiceSleeveBottomMin)
+      }
+      //title
+      macro('title', {
+        at: points.title,
+        nr: '1',
+        title: 'Front',
+        scale: 2 / 3,
+      })
+      //scalebox
+      points.scalebox = new Point(points.title.x * 1.25, (points.bust.y * 3) / 4)
+      macro('scalebox', {
+        at: points.scalebox,
+      })
+      //dart edge
+      paths.dartEdge = new Path()
+        .move(points.waistDartLeft)
+        .line(points.waistDartEdge)
+        .line(points.waistDartRight)
+        .attr('class', 'fabric help')
+
+      if (sa) {
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const sleeveHemSa = sa * options.sleeveHemWidth * 100
+        const cfNeckSa = sa * options.cfNeckSaWidth * 100
+
+        let cfSa
+        if (options.closurePosition == 'front') {
+          cfSa = sa * options.closureSaWidth * 100
+        } else {
+          cfSa = sa * options.cfSaWidth * 100
+        }
+
+        points.saPoint2 = utils.beamsIntersect(
+          points.bodiceSleeveBottomMinCp1
+            .shiftTowards(points.bodiceSleeveBottom, sideSeamSa)
+            .rotate(-90, points.bodiceSleeveBottomMinCp1),
+          points.bodiceSleeveBottom
+            .shiftTowards(points.bodiceSleeveBottomMinCp1, sideSeamSa)
+            .rotate(90, points.bodiceSleeveBottom),
+          points.bodiceSleeveBottom
+            .shiftTowards(points.bodiceSleeveTop, sleeveHemSa)
+            .rotate(-90, points.bodiceSleeveBottom),
+          points.bodiceSleeveTop
+            .shiftTowards(points.bodiceSleeveBottom, sleeveHemSa)
+            .rotate(90, points.bodiceSleeveTop)
+        )
+        points.saPoint3 = utils.beamsIntersect(
+          points.bodiceSleeveTop
+            .shiftTowards(points.hps, sideSeamSa)
+            .rotate(-90, points.bodiceSleeveTop),
+          points.hps.shiftTowards(points.bodiceSleeveTop, sideSeamSa).rotate(90, points.hps),
+          points.saPoint2,
+          points.saPoint2.shift(points.bodiceSleeveBottom.angle(points.bodiceSleeveTop), 1)
+        )
+
+        points.saPoint4 = points.saPoint5
+        points.saPoint5 = points.cfNeck.translate(-cfSa, -cfNeckSa)
+        points.saPoint6 = points.cfWaist.translate(-cfSa, sa)
+
+        paths.sa = paths.waistLeft
+          .offset(sa)
+          .line(points.saPoint0)
+          .join(paths.waistRight.offset(sa))
+          .line(points.saPoint1)
+          .line(paths.sideSeam.offset(sideSeamSa).start())
+          .join(paths.sideSeam.offset(sideSeamSa))
+          .line(points.saPoint2)
+          .line(points.saPoint3)
+          .line(points.saPoint4)
+          .line(paths.cfNeck.offset(cfNeckSa).start())
+          .join(paths.cfNeck.offset(cfNeckSa))
+          .line(points.saPoint5)
+          .line(points.saPoint6)
+          .line(paths.waistLeft.offset(sa).start())
+          .close()
+          .attr('class', 'fabric sa')
+      }
+    }
 
     return part
   },
