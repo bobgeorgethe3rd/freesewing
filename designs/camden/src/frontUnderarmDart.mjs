@@ -187,10 +187,10 @@ export const frontUnderarmDart = ({
 
       points.saPoint2 = utils.beamsIntersect(
         points.armholeDrop
-          .shiftTowards(points.armholeDropCp2, sideSeamSa)
+          .shiftTowards(points.armholeDropCp2, necklineSa)
           .rotate(-90, points.armholeDrop),
         points.armholeDropCp2
-          .shiftTowards(points.armholeDrop, sideSeamSa)
+          .shiftTowards(points.armholeDrop, necklineSa)
           .rotate(90, points.armholeDropCp2),
         points.bustDartEdge
           .shiftTowards(points.armholeDrop, sideSeamSa)
@@ -219,6 +219,9 @@ export const frontUnderarmDart = ({
           points.necklineRightStart,
           points.cfTopCp1.shiftTowards(points.strapLeft, necklineSa).rotate(90, points.cfTopCp1)
         )
+        if (points.saPoint4.x > points.saPoint4Anchor.x) {
+          points.saPoint4 = points.saPoint4Anchor
+        }
       }
 
       points.saPoint5 = points.cfTop.shift(180, cfSa)

@@ -272,6 +272,9 @@ export const back = {
             points.necklineRightStart,
             points.cbTopCp1.shiftTowards(points.strapLeft, necklineSa).rotate(90, points.cbTopCp1)
           )
+          if (points.saPoint3.x > points.saPoint3Anchor.x) {
+            points.saPoint3 = points.saPoint3Anchor
+          }
         }
 
         points.saPoint4 = points.cbTop.shift(180, cbSa)

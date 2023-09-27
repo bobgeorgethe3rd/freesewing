@@ -306,6 +306,9 @@ export const frontFrenchDart = ({
           points.necklineRightStart,
           points.cfTopCp1.shiftTowards(points.strapLeft, necklineSa).rotate(90, points.cfTopCp1)
         )
+        if (points.saPoint4.x > points.saPoint4Anchor.x) {
+          points.saPoint4 = points.saPoint4Anchor
+        }
       }
 
       points.saPoint5 = points.cfTop.shift(180, cfSa)

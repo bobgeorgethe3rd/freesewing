@@ -254,6 +254,9 @@ export const frontStrapDart = ({
           points.necklineRightStart,
           points.cfTopCp1.shiftTowards(points.strapLeft, necklineSa).rotate(90, points.cfTopCp1)
         )
+        if (points.saPoint5.x > points.saPoint5Anchor.x) {
+          points.saPoint5 = points.saPoint5Anchor
+        }
       }
 
       points.saPoint6 = points.cfTop.shift(180, cfSa)
