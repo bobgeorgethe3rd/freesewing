@@ -193,6 +193,17 @@ export const strap = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      //notches
+      points.bottomNotch = points.bottomLeft.shiftFractionTowards(points.bottomRight, 0.5)
+      snippets.bottomNotch = new Snippet('notch', points.bottomNotch)
+
+      if (options.tieType == 'strap') {
+        points.topNotch = points.topLeft.shiftFractionTowards(points.topRight, 0.5)
+        snippets.topNotch = new Snippet('bnotch', points.topNotch)
+      } else {
+        snippets.bBottomNotch = new Snippet('bnotch', points.bottomNotch)
+      }
+
       //title
       points.title = points.topLeft.translate(strapWidth / 3, strapLength / 2)
       macro('title', {
