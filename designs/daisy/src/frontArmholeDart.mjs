@@ -69,7 +69,7 @@ export const frontArmholeDart = ({
 
   paths.sideSeam = new Path().move(points.sideWaist).line(points.armholeR).hide()
 
-  if (options.bustDartFraction > 0.01 && options.bustDartFraction < 1) {
+  if (options.bustDartFraction > 0.01 && options.bustDartFraction < 0.998) {
     paths.armholeTop = paths.armhole.split(points.bustDartTop)[1].hide()
     paths.armholeBottom = paths.armholeR.split(points.bustDartBottom)[0].hide()
   } else {
@@ -77,7 +77,7 @@ export const frontArmholeDart = ({
       paths.armholeTop = new Path().move(points.bustDartTop).line(points.shoulder).hide()
       paths.armholeBottom = paths.armholeR
     }
-    if (options.bustDartFraction >= 1) {
+    if (options.bustDartFraction >= 0.998) {
       paths.armholeTop = paths.armhole
       paths.armholeBottom = new Path().move(points.armholeR).line(points.bustDartBottom).hide()
     }
