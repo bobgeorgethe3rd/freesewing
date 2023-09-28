@@ -94,7 +94,7 @@ export const sideBackBustShoulder = {
       points.princessNotch1 = paths.princessSeam.shiftFractionAlong(0.75)
       macro('sprinkle', {
         snippet: 'bnotch',
-        on: ['princessNotch0', 'princessNotch1', 'cArmhole'],
+        on: ['princessNotch0', 'princessNotch1'],
       })
       //title
       points.title = points.dartTip
