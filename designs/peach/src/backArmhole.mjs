@@ -115,16 +115,16 @@ export const backArmhole = {
             .rotate(-90, points.dartBottomLeft),
           points.dartTip.shiftTowards(points.dartBottomLeft, princessSa).rotate(90, points.dartTip)
         )
-        points.saPoint2 = points.saPoint3
-        points.saPoint3 = points.saPoint4
-        points.saPoint4 = points.saPoint5
-        points.saPoint5 = points.saPoint6
+        points.saPoint1 = points.saPoint3
+        points.saPoint2 = points.saPoint4
+        points.saPoint3 = points.saPoint5
+        points.saPoint4 = points.saPoint6
 
         paths.saArmhole = new Path()
           .move(points.saArmhole)
           .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
           .curve_(points.saArmholePitchCp2, points.saShoulder)
-          .line(points.saPoint2)
+          .line(points.saPoint1)
           .hide()
 
         points.saArmholeSplit = paths.saArmhole.shiftFractionAlong(1 - options.bustDartFraction)
@@ -133,19 +133,8 @@ export const backArmhole = {
           paths.saArmhole = paths.saArmhole.split(points.saArmholeSplit)[1].hide()
         } else {
           if (options.bustDartFraction <= 0.01) {
-            paths.saArmhole = new Path().move(points.saPoint2).line(points.saPoint2).hide()
+            paths.saArmhole = new Path().move(points.saPoint1).line(points.saPoint1).hide()
           }
-        }
-
-        points.saPoint1 = utils.beamsIntersect(
-          points.saArmholeSplit,
-          points.saArmholeSplit.shift(-90, 1),
-          paths.princessSeam.offset(princessSa).end(),
-          paths.princessSeam.offset(princessSa).shiftFractionAlong(0.99)
-        )
-
-        if (points.saPoint1.y > points.princessEnd || points.saPoint1.y < points.saArmholeSplit.y) {
-          points.saPoint1 = points.saArmholeSplit
         }
 
         paths.sa = paths.hemBase
@@ -154,14 +143,13 @@ export const backArmhole = {
           .line(points.saPoint0)
           .line(paths.princessSeam.offset(princessSa).start())
           .join(paths.princessSeam.offset(princessSa))
-          .line(points.saPoint1)
           .join(paths.saArmhole)
+          .line(points.saPoint1)
           .line(points.saPoint2)
-          .line(points.saPoint3)
           .line(paths.cbNeck.offset(neckSa).start())
           .join(paths.cbNeck.offset(neckSa))
+          .line(points.saPoint3)
           .line(points.saPoint4)
-          .line(points.saPoint5)
           .close()
           .attr('class', 'fabric sa')
       }

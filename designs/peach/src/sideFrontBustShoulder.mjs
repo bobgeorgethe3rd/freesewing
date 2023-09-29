@@ -118,7 +118,7 @@ export const sideFrontBustShoulder = {
         points.saPoint2 = points.saPoint3
         points.saPoint3 = utils.beamsIntersect(
           points.saPoint3,
-          points.armholePitchCp2.shiftOutwards(points.shoulder, princessSa),
+          points.armholePitchCp2.shiftOutwards(points.shoulder, sa),
           paths.princessSeam.offset(princessSa).start(),
           paths.princessSeam
             .offset(princessSa)

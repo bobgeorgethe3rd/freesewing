@@ -127,6 +127,7 @@ export const sideBackArmhole = {
           paths.saArmhole = paths.saArmhole.split(points.saArmholeSplit)[0].hide()
         } else {
           if (options.bustDartFraction >= 0.996) {
+            points.saArmholeSplit = points.saPoint1
             paths.saArmhole = new Path().move(points.saArmhole).line(points.saArmholeSplit).hide()
           }
         }

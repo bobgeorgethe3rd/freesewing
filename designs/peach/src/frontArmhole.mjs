@@ -156,38 +156,24 @@ export const frontArmhole = {
 
         points.princessEnd = paths.princessSeam.offset(princessSa).end()
 
-        points.saPoint1 = utils.beamsIntersect(
-          points.saArmholeTopSplit,
-          points.saArmholeTopSplit.shift(-90, 1),
-          points.princessEnd,
-          paths.princessSeam.offset(princessSa).shiftFractionAlong(0.99)
-        )
-
-        if (
-          points.saPoint1.y > points.princessEnd ||
-          points.saPoint1.y < points.saArmholeTopSplit.y
-        ) {
-          points.saPoint1 = points.saArmholeTopSplit
-        }
-
-        points.saPoint2 = points.shoulder
+        points.saPoint1 = points.shoulder
           .shift(points.hps.angle(points.shoulder), armholeSa)
           .shift(points.hps.angle(points.shoulder) + 90, shoulderSa)
 
-        points.saPoint3 = points.saPoint5
+        points.saPoint2 = points.saPoint5
 
         paths.saArmhole = new Path()
           .move(points.saArmhole)
           .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
           .curve_(points.saArmholePitchCp2, points.saShoulder)
-          .line(points.saPoint2)
+          .line(points.saPoint1)
           .hide()
 
         if (options.bustDartFraction > 0.01 && options.bustDartFraction < 0.997) {
           paths.saArmhole = paths.saArmhole.split(points.saArmholeTopSplit)[1].hide()
         } else {
           if (options.bustDartFraction <= 0.01) {
-            paths.saArmhole = new Path().move(points.saPoint2).line(points.saPoint2).hide()
+            paths.saArmhole = new Path().move(points.saPoint1).line(points.saPoint1).hide()
           }
         }
 
@@ -196,11 +182,10 @@ export const frontArmhole = {
           .line(points.saPoint0)
           .line(paths.princessSeam.offset(princessSa).start())
           .join(paths.princessSeam.offset(princessSa))
-          .line(points.saPoint1)
           .line(points.saArmholeTopSplit)
           .join(paths.saArmhole)
+          .line(points.saPoint1)
           .line(points.saPoint2)
-          .line(points.saPoint3)
           .line(paths.cfNeck.offset(neckSa).start())
           .join(paths.cfNeck.offset(neckSa))
           .line(points.cfWaist)

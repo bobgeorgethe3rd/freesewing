@@ -103,18 +103,10 @@ export const backArmholePitch = {
             .rotate(-90, points.dartBottomLeft),
           points.dartTip.shiftTowards(points.dartBottomLeft, princessSa).rotate(90, points.dartTip)
         )
-        points.saPoint1 = utils.beamsIntersect(
-          points.dartTip.shiftTowards(points.armholePitch, princessSa).rotate(-90, points.dartTip),
-          points.armholePitch
-            .shiftTowards(points.dartTip, princessSa)
-            .rotate(90, points.armholePitch),
-          points.saArmholePitchCp2,
-          points.saArmholePitch
-        )
-        points.saPoint2 = points.saPoint3
-        points.saPoint3 = points.saPoint4
-        points.saPoint4 = points.saPoint5
-        points.saPoint5 = points.saPoint6
+        points.saPoint1 = points.saPoint3
+        points.saPoint2 = points.saPoint4
+        points.saPoint3 = points.saPoint5
+        points.saPoint4 = points.saPoint6
 
         paths.sa = paths.hemBase
           .clone()
@@ -122,15 +114,14 @@ export const backArmholePitch = {
           .line(points.saPoint0)
           .line(paths.princessSeam.offset(princessSa).start())
           .join(paths.princessSeam.offset(princessSa))
-          .line(points.saPoint1)
           .line(points.saArmholePitch)
           .curve_(points.saArmholePitchCp2, points.saShoulder)
+          .line(points.saPoint1)
           .line(points.saPoint2)
-          .line(points.saPoint3)
           .line(paths.cbNeck.offset(neckSa).start())
           .join(paths.cbNeck.offset(neckSa))
+          .line(points.saPoint3)
           .line(points.saPoint4)
-          .line(points.saPoint5)
           .close()
           .attr('class', 'fabric sa')
       }
