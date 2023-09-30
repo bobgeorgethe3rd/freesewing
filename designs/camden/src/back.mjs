@@ -90,7 +90,7 @@ export const back = {
     )
     points.cbTopCp1 = points.cbTop.shiftFractionTowards(
       points.cbTopCp1Target,
-      options.frontNeckCurveDepth
+      options.backNeckCurveDepth
     )
     //armhole
     points.armholeDrop = points.armhole.shiftTowards(points.sideWaist, store.get('armholeDrop'))
