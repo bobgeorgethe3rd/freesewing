@@ -46,17 +46,19 @@ export const backFacing = {
     const rot = ['armholeDrop', 'dartTopRightCp', 'sideFacing']
     for (const p of rot) points[p] = points[p].rotate(-backDartAngle, points.dartTip)
 
-    points.cbFacingCp2 = utils.beamIntersectsX(
-      points.cbFacing,
-      points.cbFacing.shift(0, 1),
-      points.dartTopLeftCp.x
+    points.cbFacingCp2 = points.cbFacing.shiftFractionTowards(
+      utils.beamIntersectsX(points.cbFacing, points.cbFacing.shift(0, 1), points.dartTopLeftCp.x),
+      1.125
     )
 
-    points.sideFacingCp1 = utils.beamsIntersect(
-      points.dartTopRightCp,
-      points.dartTopRightCp.shift(points.armholeDrop.angle(points.sideFacing), 1),
-      points.sideFacing,
-      points.sideFacing.shift(points.armholeDrop.angle(points.dartTopRightCp), 1)
+    points.sideFacingCp1 = points.sideFacing.shiftFractionTowards(
+      utils.beamsIntersect(
+        points.dartTopRightCp,
+        points.dartTopRightCp.shift(points.armholeDrop.angle(points.sideFacing), 1),
+        points.sideFacing,
+        points.sideFacing.shift(points.armholeDrop.angle(points.dartTopRightCp), 1)
+      ),
+      0.375
     )
 
     //paths
