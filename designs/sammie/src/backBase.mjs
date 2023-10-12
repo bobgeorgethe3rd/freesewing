@@ -42,6 +42,9 @@ export const backBase = {
     for (let i in snippets) delete snippets[i]
     //removing macros not required from Daisy
     macro('title', false)
+    //measures
+    const backDartAngle =
+      points.dartTip.angle(points.dartBottomRight) - points.dartTip.angle(points.dartBottomLeft)
     //guides
     paths.daisyGuide = new Path()
       .move(points.cbWaist)
@@ -62,61 +65,56 @@ export const backBase = {
     points.cbTop = points.cbArmholeDrop.shiftFractionTowards(points.cbWaist, options.backDrop)
     points.cbTopAnchorCp = new Point(points.dartTip.x, points.cbTop.y)
 
-    const topLeftI = utils.lineIntersectsCurve(
-      points.dartBottomLeft,
-      points.dartTip,
+    points.dartTopLeftCp = utils.beamsIntersect(
+      (points.dartTopLeftCp = points.cbTop.shiftFractionTowards(points.dartBottomLeft, 0.5)),
+      (points.dartTopLeftCp = points.cbTop
+        .shiftFractionTowards(points.dartBottomLeft, 0.5)
+        .shift(-90, 1)),
       points.cbTop,
-      points.cbTopAnchorCp,
-      points.armholeDrop,
-      points.armholeDrop
+      points.cbTop.shift(0, 1)
     )
 
-    if (topLeftI) {
-      points.dartTopLeft = topLeftI
-    } else {
-      points.dartTopLeft = points.dartTip
-    }
+    points.dartTopRightCp = utils
+      .beamsIntersect(
+        points.dartTopLeftCp,
+        points.armholeDrop.rotate(-backDartAngle, points.dartTip),
+        points.dartTip.shiftFractionTowards(points.armhole, 0.5),
+        points.dartTip.shiftFractionTowards(points.armhole, 0.5).shift(-90, 1)
+      )
+      .rotate(backDartAngle, points.dartTip)
+
+    points.dartTopLeft = utils.lineIntersectsCurve(
+      points.dartBottomLeft,
+      points.dartTip,
+      points.armholeDrop.rotate(-backDartAngle, points.dartTip),
+      points.dartTopRightCp.rotate(-backDartAngle, points.dartTip),
+      points.dartTopLeftCp,
+      points.cbTop
+    )
 
     points.dartTopRight = points.dartTopLeft.flipX(points.dartTip)
 
-    paths.initialCurve = new Path()
-      .move(points.cbTop)
-      .curve_(points.cbTopAnchorCp, points.armholeDrop)
-      .split(points.dartTopLeft)[0]
-      .hide()
-
-    if (options.backDrop == 0) {
-      points.dartTopLeftCp = points.cbTop.shiftFractionTowards(points.dartTopLeft, 0.4)
-    } else {
-      points.dartTopLeftCp = utils.beamsIntersect(
-        paths.initialCurve.end(),
-        paths.initialCurve.shiftFractionAlong(0.99),
-        points.cbTop,
-        points.cbTop.shift(0, 1)
-      )
-    }
-
-    points.dartTopRightCp = utils.beamsIntersect(
-      points.dartTopRight,
-      points.dartTopRight.shift(points.dartTopLeftCp.angle(points.dartTopLeft), 1),
-      points.dartTip.shiftFractionTowards(points.armhole, 0.5),
-      points.dartTip.shiftFractionTowards(points.armhole, 0.5).shift(-90, 1)
-    )
-
     //guides
     paths.centreBack = new Path()
-      .move(points.cbWaist)
+      .move(points.armholeDrop.rotate(-backDartAngle, points.dartTip))
+      .curve(
+        points.dartTopRightCp.rotate(-backDartAngle, points.dartTip),
+        points.dartTopLeftCp,
+        points.cbTop
+      )
+      .split(points.dartTopLeft)[1]
+      .line(points.cbWaist)
       .line(points.dartBottomLeft)
       .line(points.dartTopLeft)
-      ._curve(points.dartTopLeftCp, points.cbTop)
-      .line(points.cbWaist)
 
     paths.sideBack = new Path()
-      .move(points.dartBottomRight)
-      .line(points.sideWaist)
-      .line(points.armholeDrop)
-      .curve_(points.dartTopRightCp, points.dartTopRight)
-      .line(points.dartBottomRight)
+      .move(points.armholeDrop)
+      .curve(
+        points.dartTopRightCp,
+        points.dartTopLeftCp.rotate(backDartAngle, points.dartTip),
+        points.cbTop.rotate(backDartAngle, points.dartTip)
+      )
+      .split(points.dartTopRight)[0]
 
     //stores
     store.set(

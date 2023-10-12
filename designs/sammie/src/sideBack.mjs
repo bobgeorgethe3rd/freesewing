@@ -34,6 +34,9 @@ export const sideBack = {
     if (!options.daisyGuide) {
       delete paths.daisyGuide
     }
+    //measures
+    const backDartAngle =
+      points.dartTip.angle(points.dartBottomRight) - points.dartTip.angle(points.dartBottomLeft)
     //let's begin
     //paths
     paths.hemBase = new Path().move(points.dartBottomRight).line(points.sideWaist).hide()
@@ -42,7 +45,12 @@ export const sideBack = {
 
     paths.topCurve = new Path()
       .move(points.armholeDrop)
-      .curve_(points.dartTopRightCp, points.dartTopRight)
+      .curve(
+        points.dartTopRightCp,
+        points.dartTopLeftCp.rotate(backDartAngle, points.dartTip),
+        points.cbTop.rotate(backDartAngle, points.dartTip)
+      )
+      .split(points.dartTopRight)[0]
       .hide()
 
     paths.sideBackSeam = new Path().move(points.dartTopRight).line(points.dartBottomRight).hide()
@@ -75,7 +83,7 @@ export const sideBack = {
       )
       macro('title', {
         at: points.title,
-        nr: '4',
+        nr: '3',
         title: 'Side Back',
         scale: 0.5,
       })

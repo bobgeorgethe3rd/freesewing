@@ -1,19 +1,10 @@
 import { backBase } from './backBase.mjs'
-import { frontBase } from './frontBase.mjs'
 
 export const backFacing = {
   name: 'sammie.backFacing',
   from: backBase,
-  after: frontBase,
   hide: {
     from: true,
-    inherited: true,
-  },
-  options: {
-    //Construction
-    bodiceFacings: { bool: true, menu: 'construction' },
-    bodiceFacingWidth: { pct: 50, min: 10, max: 50, menu: 'construction' },
-    bodiceFacingHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
   draft: ({
     store,
@@ -37,136 +28,74 @@ export const backFacing = {
       part.hide()
       return part
     }
-    //remove paths & snippets
+    //removing paths and snippets not required from Daisy
     for (let i in paths) delete paths[i]
-    for (let i in snippets) delete snippets[i]
-    //measures
-    const bodiceFacingWidthTarget = store.get('sideLength') * options.bodiceFacingWidth
-    const bodiceFacingWidthMax = store.get('bodiceFacingWidthMax')
-    let bodiceFacingWidth
-    if (bodiceFacingWidthTarget > bodiceFacingWidthMax) {
-      bodiceFacingWidth = bodiceFacingWidthMax
-    } else {
-      bodiceFacingWidth = bodiceFacingWidthTarget
-    }
-    const dartOffset = points.dartLeftSplit.dist(points.dartRightSplit)
+    //measurements
+    const bodiceFacingWidth = store.get('bodiceFacingWidth')
+    const shiftDist = points.dartTopLeft.dist(points.dartTopRight)
     //let's begin
-    const shift = [
-      'armhole',
-      'waistSideCp2',
-      'waistSide',
-      'armholeDrop',
-      'armholeDropCp2',
-      'dartRightSplitCp1',
-      'dartRightSplit',
-    ]
-    for (const p of shift) points[p] = points[p].shift(180, dartOffset)
+    const shift = ['armholeDrop', 'dartTopRightCp', 'dartTopRight']
+    for (const p of shift) points[p] = points[p].shift(180, shiftDist)
+
     points.cbFacing = points.cbTop.shift(-90, bodiceFacingWidth)
-    points.cbFacingCp2 = points.cbTopCp1.shift(-90, bodiceFacingWidth)
-    points.armholeFacing = points.armholeDrop.shift(-90, bodiceFacingWidth)
-    points.facingBottomMid = points.dartRightSplit.shift(-90, bodiceFacingWidth)
-    points.facingBottomMidCp2 = points.dartRightSplitCp1.shift(-90, bodiceFacingWidth)
-
-    points.armholeFacingTarget = points.facingBottomMidCp2.shiftOutwards(
-      points.armholeFacing,
-      measurements.waist * 10
+    points.sideFacing = points.armholeDrop.shift(
+      points.armhole.angle(points.sideWaist),
+      bodiceFacingWidth
     )
-
+    points.facingMid = new Point(
+      points.dartTip.x,
+      points.dartTopLeft.shift(points.dartTip.angle(points.dartBottomLeft), bodiceFacingWidth).y
+    )
+    if (options.backDrop == 0) {
+      points.facingMidCp1 = points.cbFacing.shiftFractionTowards(points.facingMid, 0.25)
+    } else {
+      points.facingMidCp1 = utils.beamsIntersect(
+        points.cbFacing,
+        points.cbFacing.shift(0, 1),
+        points.facingMid,
+        points.facingMid.shift(points.dartTopLeft.angle(points.dartTopLeftCp), 1)
+      )
+    }
+    points.facingMidCp2 = utils.beamsIntersect(
+      points.facingMidCp1,
+      points.facingMid,
+      points.dartTopRightCp,
+      points.dartTopRightCp.shift(points.dartTopLeft.angle(points.facingMid), 1)
+    )
+    //paths
     paths.hemBase = new Path()
       .move(points.cbFacing)
-      .curve_(points.cbFacingCp2, points.facingBottomMid)
-      .curve_(points.facingBottomMidCp2, points.armholeFacing)
-      .line(points.armholeFacingTarget)
+      .curve_(points.facingMidCp1, points.facingMid)
+      ._curve(points.facingMidCp2, points.sideFacing)
       .hide()
 
-    points.bottomTarget = points.cbNeckCp2.shiftOutwards(
-      points.waistCenter,
-      measurements.hpsToWaistBack * 10
-    )
+    paths.sideSeam = new Path().move(points.sideFacing).line(points.armholeDrop).hide()
 
-    paths.cb = new Path()
-      .move(points.cbNeck)
-      .curve_(points.cbNeckCp2, points.waistCenter)
-      .line(points.bottomTarget)
-      .split(points.cbTop)[1]
+    paths.topCurve = new Path()
+      .move(points.armholeDrop)
+      .curve_(points.dartTopRightCp, points.dartTopRight)
+      ._curve(points.dartTopLeftCp, points.cbTop)
       .hide()
 
-    const cbIntersect = utils.curvesIntersect(
-      points.cbNeck,
-      points.cbNeckCp2,
-      points.waistCenter,
-      points.waistCenter,
-      points.cbFacing,
-      points.cbFacingCp2,
-      points.facingBottomMid,
-      points.facingBottomMid
-    )
+    paths.cb = new Path().move(points.cbTop).line(points.cbFacing).hide()
 
-    if (cbIntersect) {
-      points.cbSplit = cbIntersect
-    } else {
-      points.cbSplit = utils.lineIntersectsCurve(
-        points.waistCenter,
-        points.bottomTarget,
-        points.cbFacing,
-        points.cbFacingCp2,
-        points.facingBottomMid,
-        points.facingBottomMid
-      )
-    }
-
-    if (!options.centreBackFold) {
-      paths.hemBase = paths.hemBase.split(points.cbSplit)[1].hide()
-      paths.cb = paths.cb.split(points.cbSplit)[0].hide()
-    } else {
-      paths.cb = new Path().move(points.cbTop).line(points.cbFacing).hide()
-    }
-
-    const sideIntersect = utils.curvesIntersect(
-      points.waistSide,
-      points.waistSideCp2,
-      points.armhole,
-      points.armhole,
-      points.facingBottomMid,
-      points.facingBottomMidCp2,
-      points.armholeFacing,
-      points.armholeFacing
-    )
-    if (sideIntersect) {
-      points.armholeSplit = sideIntersect
-    } else {
-      points.armholeSplit = utils.lineIntersectsCurve(
-        points.facingBottomMidCp2,
-        points.armholeFacingTarget,
-        points.waistSide,
-        points.waistSideCp2,
-        points.armhole,
-        points.armhole
-      )
-    }
-
-    //paths
-    paths.hemBase = paths.hemBase.split(points.armholeSplit)[0].hide()
-
-    paths.saBase = new Path()
-      .move(points.waistSide)
-      .curve_(points.waistSideCp2, points.armhole)
-      .split(points.armholeSplit)[1]
-      .split(points.armholeDrop)[0]
-      ._curve(points.dartRightSplitCp1, points.dartRightSplit)
-      ._curve(points.cbTopCp1, points.cbTop)
-      .hide()
-
-    paths.seam = paths.hemBase.join(paths.saBase).join(paths.cb).close()
-
-    //stores
-    store.set('bodiceFacingWidth', bodiceFacingWidth)
+    paths.seam = paths.hemBase
+      .clone()
+      .join(paths.sideSeam)
+      .join(paths.topCurve)
+      .join(paths.cb)
+      .close()
 
     if (complete) {
       //grainline
-      let cbSa
-      if (options.centreBackFold && options.closurePosition != 'back') {
-        cbSa = 0
+      if (options.closurePosition == 'back' || options.cbSaWidth > 0) {
+        points.grainlineFrom = points.cbTop.shiftFractionTowards(points.dartTopLeftCp, 0.25)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cbFacing.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+      } else {
         points.cutOnFoldFrom = points.cbTop
         points.cutOnFoldTo = points.cbFacing
         macro('cutonfold', {
@@ -174,30 +103,78 @@ export const backFacing = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
-      } else {
-        cbSa = sa
-        points.grainlineFrom = points.dartRightSplit
-        points.grainlineTo = points.facingBottomMid
-
-        macro('grainline', {
-          from: points.grainlineFrom,
-          to: points.grainlineTo,
-        })
       }
       //title
-      points.title = points.facingBottomMidCp2.shiftFractionTowards(points.dartRightSplitCp1, 0.5)
+      points.title = points.dartTopLeft.shiftFractionTowards(points.facingMid, 0.55)
       macro('title', {
-        nr: 6,
-        title: 'Back Facing',
         at: points.title,
-        scale: 1 / 3,
+        nr: '6',
+        title: 'Back Facing',
+        scale: 0.5,
       })
-
       if (sa) {
+        const bodiceFacingHem = sa * options.bodiceFacingHemWidth * 100
+        let cbSa
+        if (options.closurePosition == 'back') {
+          cbSa = sa
+        } else {
+          cbSa = sa * options.cbSaWidth * 100
+        }
+
+        let sideSeamSa
+        if (
+          options.closurePosition == 'side' ||
+          options.closurePosition == 'sideLeft' ||
+          options.closurePosition == 'sideRight'
+        ) {
+          sideSeamSa = sa
+        } else {
+          sideSeamSa = sa * options.sideSeamSaWidth * 100
+        }
+
+        points.saPoint0 = utils.beamsIntersect(
+          points.facingMidCp2
+            .shiftTowards(points.sideFacing, bodiceFacingHem)
+            .rotate(-90, points.facingMidCp2),
+          points.sideFacing
+            .shiftTowards(points.facingMidCp2, bodiceFacingHem)
+            .rotate(90, points.sideFacing),
+          points.sideFacing
+            .shiftTowards(points.armholeDrop, sideSeamSa)
+            .rotate(-90, points.sideFacing),
+          points.armholeDrop
+            .shiftTowards(points.sideFacing, sideSeamSa)
+            .rotate(90, points.armholeDrop)
+        )
+
+        points.saPoint1 = utils.beamsIntersect(
+          points.sideFacing
+            .shiftTowards(points.armholeDrop, sideSeamSa)
+            .rotate(-90, points.sideFacing),
+          points.armholeDrop
+            .shiftTowards(points.sideFacing, sideSeamSa)
+            .rotate(90, points.armholeDrop),
+          points.armholeDrop
+            .shiftTowards(points.dartTopRightCp, sa)
+            .rotate(-90, points.armholeDrop),
+          points.dartTopRightCp
+            .shiftTowards(points.armholeDrop, sa)
+            .rotate(90, points.dartTopRightCp)
+        )
+
+        points.saPoint2 = points.cbTop.translate(-cbSa, -sa)
+        points.saPoint3 = points.cbFacing.translate(-cbSa, bodiceFacingHem)
+
         paths.sa = paths.hemBase
-          .offset(sa * options.bodiceFacingHemWidth * 100)
-          .join(paths.saBase.offset(sa))
-          .join(paths.cb.offset(cbSa))
+          .offset(bodiceFacingHem)
+          .line(points.saPoint0)
+          .line(paths.sideSeam.offset(sideSeamSa).start())
+          .join(paths.sideSeam.offset(sideSeamSa))
+          .line(points.saPoint1)
+          .line(paths.topCurve.offset(sa).start())
+          .join(paths.topCurve.offset(sa))
+          .line(points.saPoint2)
+          .line(points.saPoint3)
           .close()
           .attr('class', 'fabric sa')
       }

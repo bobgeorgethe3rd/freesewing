@@ -33,58 +33,48 @@ export const backFacing = {
     //measurements
     const bodiceFacingWidth = store.get('bodiceFacingWidth')
     const shiftDist = points.dartTopLeft.dist(points.dartTopRight)
+    const backDartAngle =
+      points.dartTip.angle(points.dartBottomRight) - points.dartTip.angle(points.dartBottomLeft)
     //let's begin
-    const shift = ['armholeDrop', 'dartTopRightCp', 'dartTopRight']
-    for (const p of shift) points[p] = points[p].shift(180, shiftDist)
 
     points.cbFacing = points.cbTop.shift(-90, bodiceFacingWidth)
     points.sideFacing = points.armholeDrop.shift(
       points.armhole.angle(points.sideWaist),
       bodiceFacingWidth
     )
-    points.facingMid = new Point(
-      points.dartTip.x,
-      points.dartTopLeft.shift(points.dartTip.angle(points.dartBottomLeft), bodiceFacingWidth).y
+
+    const rot = ['armholeDrop', 'dartTopRightCp', 'sideFacing']
+    for (const p of rot) points[p] = points[p].rotate(-backDartAngle, points.dartTip)
+
+    points.cbFacingCp2 = utils.beamIntersectsX(
+      points.cbFacing,
+      points.cbFacing.shift(0, 1),
+      points.dartTopLeftCp.x
     )
-    if (options.backDrop == 0) {
-      points.facingMidCp1 = points.cbFacing.shiftFractionTowards(points.facingMid, 0.25)
-    } else {
-      points.facingMidCp1 = utils.beamsIntersect(
-        points.cbFacing,
-        points.cbFacing.shift(0, 1),
-        points.facingMid,
-        points.facingMid.shift(points.dartTopLeft.angle(points.dartTopLeftCp), 1)
-      )
-    }
-    points.facingMidCp2 = utils.beamsIntersect(
-      points.facingMidCp1,
-      points.facingMid,
+
+    points.sideFacingCp1 = utils.beamsIntersect(
       points.dartTopRightCp,
-      points.dartTopRightCp.shift(points.dartTopLeft.angle(points.facingMid), 1)
+      points.dartTopRightCp.shift(points.armholeDrop.angle(points.sideFacing), 1),
+      points.sideFacing,
+      points.sideFacing.shift(points.armholeDrop.angle(points.dartTopRightCp), 1)
     )
+
     //paths
     paths.hemBase = new Path()
       .move(points.cbFacing)
-      .curve_(points.facingMidCp1, points.facingMid)
-      ._curve(points.facingMidCp2, points.sideFacing)
+      .curve(points.cbFacingCp2, points.sideFacingCp1, points.sideFacing)
       .hide()
 
     paths.sideSeam = new Path().move(points.sideFacing).line(points.armholeDrop).hide()
 
     paths.topCurve = new Path()
       .move(points.armholeDrop)
-      .curve_(points.dartTopRightCp, points.dartTopRight)
-      ._curve(points.dartTopLeftCp, points.cbTop)
+      .curve(points.dartTopRightCp, points.dartTopLeftCp, points.cbTop)
       .hide()
 
     paths.cb = new Path().move(points.cbTop).line(points.cbFacing).hide()
 
-    paths.seam = paths.hemBase
-      .clone()
-      .join(paths.sideSeam)
-      .join(paths.topCurve)
-      .join(paths.cb)
-      .close()
+    paths.seam = paths.hemBase.clone().join(paths.sideSeam).join(paths.topCurve).join(paths.cb)
 
     if (complete) {
       //grainline
@@ -105,7 +95,10 @@ export const backFacing = {
         })
       }
       //title
-      points.title = points.dartTopLeft.shiftFractionTowards(points.facingMid, 0.55)
+      points.title = points.dartTopLeft.shift(
+        points.dartTopLeft.angle(points.dartBottomLeft),
+        bodiceFacingWidth * 0.55
+      )
       macro('title', {
         at: points.title,
         nr: '6',
@@ -133,11 +126,11 @@ export const backFacing = {
         }
 
         points.saPoint0 = utils.beamsIntersect(
-          points.facingMidCp2
+          points.sideFacingCp1
             .shiftTowards(points.sideFacing, bodiceFacingHem)
-            .rotate(-90, points.facingMidCp2),
+            .rotate(-90, points.sideFacingCp1),
           points.sideFacing
-            .shiftTowards(points.facingMidCp2, bodiceFacingHem)
+            .shiftTowards(points.sideFacingCp1, bodiceFacingHem)
             .rotate(90, points.sideFacing),
           points.sideFacing
             .shiftTowards(points.armholeDrop, sideSeamSa)
@@ -146,6 +139,12 @@ export const backFacing = {
             .shiftTowards(points.sideFacing, sideSeamSa)
             .rotate(90, points.armholeDrop)
         )
+
+        points.hemEnd = paths.hemBase.offset(bodiceFacingHem).end()
+
+        if (points.saPoint0.x < points.hemEnd.x) {
+          points.saPoint0 = points.hemEnd
+        }
 
         points.saPoint1 = utils.beamsIntersect(
           points.sideFacing
