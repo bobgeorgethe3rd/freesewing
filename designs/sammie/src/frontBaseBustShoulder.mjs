@@ -30,7 +30,7 @@ export const frontBaseBustShoulder = {
     macro('title', false)
     macro('scalebox', false)
     //daisy guide
-    paths.daisyGuide = new Path()
+    paths.daisyGuides = new Path()
       .move(points.cfWaist)
       .line(points.waistDartLeft)
       .line(points.waistDartTip)

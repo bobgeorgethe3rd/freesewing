@@ -9,7 +9,7 @@ export const backBase = {
   },
   options: {
     //Fit
-    daisyGuide: { bool: false, menu: 'fit' },
+    daisyGuides: { bool: false, menu: 'fit' },
     //Style
     armholeDrop: { pct: 10, min: 0, max: 50, menu: 'style' },
     backDrop: { pct: 25, min: 0, max: 100, menu: 'style' },
@@ -46,7 +46,7 @@ export const backBase = {
     const backDartAngle =
       points.dartTip.angle(points.dartBottomRight) - points.dartTip.angle(points.dartBottomLeft)
     //guides
-    paths.daisyGuide = new Path()
+    paths.daisyGuides = new Path()
       .move(points.cbWaist)
       .line(points.dartBottomLeft)
       .line(points.dartTip)

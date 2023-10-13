@@ -31,22 +31,24 @@ export const sideFrontBustShoulder = {
     macro('title', false)
     macro('scalebox', false)
     //guides
-    // paths.daisyGuide = new Path()
-    // .move(points.cfWaist)
-    // .line(points.waistDartLeft)
-    // .line(points.waistDartTip)
-    // .line(points.waistDartRight)
-    // .line(points.sideWaist)
-    // .line(points.armhole)
-    // .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-    // .curve_(points.armholePitchCp2, points.shoulder)
-    // .line(points.bustDartBottom)
-    // .line(points.bust)
-    // .line(points.bustDartTop)
-    // .line(points.hps)
-    // .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
-    // .line(points.cfWaist)
-    // .attr('class', 'various lashed')
+    if (options.daisyGuides) {
+      paths.daisyGuide = new Path()
+        .move(points.cfWaist)
+        .line(points.waistDartLeft)
+        .line(points.waistDartTip)
+        .line(points.waistDartRight)
+        .line(points.sideWaist)
+        .line(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .line(points.bustDartBottom)
+        .line(points.bust)
+        .line(points.bustDartTop)
+        .line(points.hps)
+        .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+        .line(points.cfWaist)
+        .attr('class', 'various lashed')
+    }
     //let's begin
 
     let tweak = 1
@@ -65,7 +67,7 @@ export const sideFrontBustShoulder = {
     } while (Math.abs(delta) > 1)
 
     //paths
-    paths.hemBase = new Path().move(points.waistDartRight).line(points.sideWaist).hide()
+    paths.waist = new Path().move(points.waistDartRight).line(points.sideWaist).hide()
 
     paths.sideSeam = new Path().move(points.sideWaist).line(points.armhole).hide()
 
@@ -77,7 +79,7 @@ export const sideFrontBustShoulder = {
 
     paths.shoulder = new Path().move(points.shoulder).line(points.hps).hide()
 
-    paths.seam = paths.hemBase
+    paths.seam = paths.waist
       .clone()
       .join(paths.sideSeam)
       .join(paths.armhole)
@@ -113,19 +115,15 @@ export const sideFrontBustShoulder = {
       if (sa) {
         const princessSa = sa * options.princessSaWidth * 100
 
-        points.saPoint0 = points.saPoint1
-        points.saPoint1 = points.saPoint2
-        points.saPoint2 = points.saPoint3
-        points.saPoint3 = utils.beamsIntersect(
-          points.saPoint3,
-          points.armholePitchCp2.shiftOutwards(points.shoulder, sa),
-          paths.princessSeam.offset(princessSa).start(),
-          paths.princessSeam
-            .offset(princessSa)
-            .start()
-            .shift(points.shoulder.angle(points.saShoulder) + 90, 1)
+        points.saPrincessSeamStart = paths.princessSeam.offset(princessSa).start()
+
+        points.saBustDartBottom = utils.beamsIntersect(
+          points.saShoulderCorner,
+          points.saShoulderCorner.shift(points.saShoulder.angle(points.shoulder), 1),
+          points.saPrincessSeamStart,
+          points.bustDartBottom.rotate(90, points.saPrincessSeamStart)
         )
-        points.saPoint4 = utils.beamsIntersect(
+        points.saWaistDartRight = utils.beamsIntersect(
           points.waistDartRight
             .shiftTowards(points.bust, princessSa)
             .rotate(90, points.waistDartRight),
@@ -136,17 +134,17 @@ export const sideFrontBustShoulder = {
           points.sideWaist.shiftTowards(points.waistDartRight, sa).rotate(90, points.sideWaist)
         )
 
-        paths.sa = paths.hemBase
-          .offset(sa)
-          .line(points.saPoint0)
-          .line(points.saPoint1)
+        paths.sa = new Path()
+          .line(points.saWaistDartRight)
+          .line(points.saSideWaist)
+          .line(points.saArmholeCorner)
           .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
           .curve_(points.saArmholePitchCp2, points.saShoulder)
-          .line(points.saPoint2)
-          .line(points.saPoint3)
-          .line(paths.princessSeam.offset(princessSa).start())
+          .line(points.saShoulderCorner)
+          .line(points.saBustDartBottom)
+          .line(points.saPrincessSeamStart)
           .join(paths.princessSeam.offset(princessSa))
-          .line(points.saPoint4)
+          .line(points.saWaistDartRight)
           .close()
           .attr('class', 'fabric sa')
       }

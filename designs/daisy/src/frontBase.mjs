@@ -231,13 +231,15 @@ export const frontBase = {
 
     if (complete && sa) {
       const armholeSa = sa * options.armholeSaWidth * 100
-      points.saArmhole = new Point(
-        points.armhole.shift(45, armholeSa).x,
-        points.armhole.y - armholeSa
-      )
       points.saArmholeCp2 = new Point(
         points.armholeCp2.shift(45, armholeSa).x,
         points.armholeCp2.y - armholeSa
+      )
+      points.saArmhole = utils.beamsIntersect(
+        points.bustDartTop,
+        points.armhole,
+        points.saArmholeCp2,
+        points.saArmholeCp2.shift(0, 1)
       )
       points.saArmholePitch = points.armholePitch.shift(0, armholeSa)
       points.saArmholePitchCp1 = utils.beamsIntersect(

@@ -31,21 +31,45 @@ export const sideFrontArmhole = {
     macro('title', false)
     macro('scalebox', false)
     //guides
-    // paths.daisyGuide = new Path()
-    // .move(points.cfWaist)
-    // .line(points.waistDartLeft)
-    // .line(points.waistDartTip)
-    // .line(points.waistDartRight)
-    // .line(points.sideWaist)
-    // .line(points.armholeR)
-    // .join(paths.armholeR)
-    // .line(points.bust)
-    // .line(points.bustDartTop)
-    // .join(paths.armhole)
-    // .line(points.hps)
-    // .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
-    // .line(points.cfWaist)
-    // .attr('class', 'various lashed')
+    if (options.daisyGuides) {
+      paths.armhole = new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .hide()
+
+      paths.armholeR = new Path()
+        .move(points.armholeR)
+        .curve(points.armholeCp2R, points.armholePitchCp1R, points.armholePitchR)
+        .curve_(points.armholePitchCp2R, points.shoulderR)
+        .hide()
+
+      if (options.bustDartFraction > 0.01 && options.bustDartFraction < 0.997) {
+        paths.armhole = paths.armhole.split(points.bustDartTop)[1]
+        paths.armholeR = paths.armholeR.split(points.bustDartBottom)[0]
+      } else {
+        if (options.bustDartFraction <= 0.01) {
+          paths.armhole = new Path().move(points.bustDartTop).line(points.shoulder).hide()
+        } else {
+          paths.armholeR = new Path().move(points.armholeR).line(points.bustDartBottom).hide()
+        }
+      }
+      paths.daisyGuide = new Path()
+        .move(points.cfWaist)
+        .line(points.waistDartLeft)
+        .line(points.waistDartTip)
+        .line(points.waistDartRight)
+        .line(points.sideWaist)
+        .line(points.armholeR)
+        .join(paths.armholeR)
+        .line(points.bust)
+        .line(points.bustDartTop)
+        .join(paths.armhole)
+        .line(points.hps)
+        .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+        .line(points.cfWaist)
+        .attr('class', 'various lashed')
+    }
     //let's begin
 
     let tweak = 1
@@ -64,7 +88,7 @@ export const sideFrontArmhole = {
     } while (Math.abs(delta) > 0.01)
 
     //paths
-    paths.hemBase = new Path().move(points.waistDartRight).line(points.sideWaist).hide()
+    paths.waist = new Path().move(points.waistDartRight).line(points.sideWaist).hide()
 
     paths.sideSeam = new Path().move(points.sideWaist).line(points.armholeR).hide()
 
@@ -82,7 +106,7 @@ export const sideFrontArmhole = {
       }
     }
 
-    paths.seam = paths.hemBase
+    paths.seam = paths.waist
       .clone()
       .join(paths.sideSeam)
       .join(paths.armhole)
@@ -118,10 +142,7 @@ export const sideFrontArmhole = {
       if (sa) {
         const princessSa = sa * options.princessSaWidth * 100
 
-        points.saPoint0 = points.saPoint1
-        points.saPoint1 = points.saPoint2
-
-        points.saPoint3 = utils.beamsIntersect(
+        points.saWaistDartRight = utils.beamsIntersect(
           points.waistDartRight
             .shiftTowards(points.bust, princessSa)
             .rotate(90, points.waistDartRight),
@@ -136,7 +157,7 @@ export const sideFrontArmhole = {
           .move(points.saArmholeR)
           .curve(points.saArmholeCp2R, points.saArmholePitchCp1R, points.saArmholePitchR)
           .curve_(points.saArmholePitchCp2R, points.saShoulderR)
-          .line(points.saPoint4R)
+          .line(points.saShoulderCornerR)
           .hide()
 
         if (options.bustDartFraction > 0.01 && options.bustDartFraction < 0.997) {
@@ -150,34 +171,21 @@ export const sideFrontArmhole = {
           }
         }
 
-        points.princessSeamStart = paths.princessSeam.offset(princessSa).start()
+        points.saPrincessSeamStart = paths.princessSeam.offset(princessSa).start()
 
-        points.saPoint2 = utils.beamsIntersect(
-          points.princessSeamStart,
-          points.bustDartBottomCp
-            .shiftTowards(points.bustDartBottom, princessSa)
-            .rotate(90, points.bustDartBottomCp),
-          points.saArmholeBottomSplit,
-          paths.saArmhole.shiftFractionAlong(0.99).rotate(-90, points.saArmholeBottomSplit)
-        )
+        points.saBustDartBottom = points.saPrincessSeamStart
+          .shiftTowards(points.bustDartBottom, sa * (1 - options.bustDartFraction))
+          .rotate(90, points.saPrincessSeamStart)
 
-        if (
-          points.saPoint2.y > points.princessSeamStart.y ||
-          points.saPoint2.x > points.saArmholeBottomSplit.x ||
-          options.bustDartFraction > 0.5
-        ) {
-          points.saPoint2 = points.princessSeamStart
-        }
-
-        paths.sa = paths.hemBase
-          .offset(sa)
-          .line(points.saPoint0)
-          .line(points.saPoint1)
+        paths.sa = new Path()
+          .move(points.saWaistDartRight)
+          .line(points.saSideWaist)
+          .line(points.saArmholeCorner)
           .join(paths.saArmhole)
-          .line(points.saPoint2)
-          .line(paths.princessSeam.offset(princessSa).start())
+          .line(points.saBustDartBottom)
+          .line(points.saPrincessSeamStart)
           .join(paths.princessSeam.offset(princessSa))
-          .line(points.saPoint3)
+          .line(points.saWaistDartRight)
           .close()
           .attr('class', 'fabric sa')
       }

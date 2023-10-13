@@ -26,20 +26,20 @@ export const back = {
   }) => {
     //removing paths and snippets not required from Daisy
     //keep specific inherited paths
-    const keepThese = 'daisyGuide'
+    const keepThese = 'daisyGuides'
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
     //guides
-    if (!options.daisyGuide) {
-      delete paths.daisyGuide
+    if (!options.daisyGuides) {
+      delete paths.daisyGuides
     }
     //measures
     const backDartAngle =
       points.dartTip.angle(points.dartBottomRight) - points.dartTip.angle(points.dartBottomLeft)
     //let's begin
     //paths
-    paths.hemBase = new Path().move(points.cbWaist).line(points.dartBottomLeft).hide()
+    paths.waist = new Path().move(points.cbWaist).line(points.dartBottomLeft).hide()
 
     paths.sideBackSeam = new Path().move(points.dartBottomLeft).line(points.dartTopLeft).hide()
 
@@ -55,7 +55,7 @@ export const back = {
 
     paths.cb = new Path().move(points.cbTop).line(points.cbWaist).hide()
 
-    paths.seam = paths.hemBase
+    paths.seam = paths.waist
       .clone()
       .join(paths.sideBackSeam)
       .join(paths.topCurve)
@@ -118,7 +118,7 @@ export const back = {
           cbSa = sa * options.cbSaWidth * 100
         }
 
-        points.saPoint0 = utils.beamsIntersect(
+        points.saDartBottomLeft = utils.beamsIntersect(
           points.cbWaist.shiftTowards(points.dartBottomLeft, sa).rotate(-90, points.cbWaist),
           points.dartBottomLeft.shiftTowards(points.cbWaist, sa).rotate(90, points.dartBottomLeft),
           points.dartBottomLeft
@@ -128,7 +128,7 @@ export const back = {
             .shiftTowards(points.dartBottomLeft, styleLineSa)
             .rotate(90, points.dartTopLeft)
         )
-        points.saPoint1 = utils.beamsIntersect(
+        points.saDartTopLeft = utils.beamsIntersect(
           points.dartBottomLeft
             .shiftTowards(points.dartTopLeft, styleLineSa)
             .rotate(-90, points.dartBottomLeft),
@@ -138,28 +138,26 @@ export const back = {
           points.dartTopLeft.shiftTowards(points.dartTopLeftCp, sa).rotate(-90, points.dartTopLeft),
           points.dartTopLeftCp.shiftTowards(points.dartTopLeft, sa).rotate(90, points.dartTopLeftCp)
         )
-        points.saPoint2 = points.cbTop.translate(-cbSa, -sa)
-        points.saPoint3 = points.cbWaist.translate(-cbSa, sa)
+        points.saCbTop = points.cbTop.translate(-cbSa, -sa)
 
         if (options.backDrop == 1 && options.closurePosition != 'back' && options.cbSaWidth == 0) {
           macro('cutonfold', {
-            from: points.saPoint2,
-            to: points.saPoint3,
+            from: points.saCbTop,
+            to: points.saCbWaist,
             grainline: true,
           })
         }
 
-        paths.sa = paths.hemBase
-          .clone()
-          .offset(sa)
-          .line(points.saPoint0)
+        paths.sa = new Path()
+          .move(points.saCbWaist)
+          .line(points.saDartBottomLeft)
           .line(paths.sideBackSeam.offset(styleLineSa).start())
           .join(paths.sideBackSeam.offset(styleLineSa))
-          .line(points.saPoint1)
+          .line(points.saDartTopLeft)
           .line(paths.topCurve.offset(sa).start())
           .join(paths.topCurve.offset(sa))
-          .line(points.saPoint2)
-          .line(points.saPoint3)
+          .line(points.saCbTop)
+          .line(points.saCbWaist)
           .close()
           .attr('class', 'fabric sa')
       }

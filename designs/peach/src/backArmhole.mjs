@@ -22,19 +22,21 @@ export const backArmhole = {
     //removing macros not required from Daisy
     macro('title', false)
     //guides
-    // paths.daisyGuide = new Path()
-    // .move(points.cbWaist)
-    // .line(points.dartBottomLeft)
-    // .line(points.dartTip)
-    // .line(points.dartBottomRight)
-    // .line(points.sideWaist)
-    // .line(points.armhole)
-    // .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-    // .curve_(points.armholePitchCp2, points.shoulder)
-    // .line(points.hps)
-    // ._curve(points.cbNeckCp1, points.cbNeck)
-    // .line(points.cbWaist)
-    // .attr('class', 'various lashed')
+    if (options.daisyGuides) {
+      paths.daisyGuide = new Path()
+        .move(points.cbWaist)
+        .line(points.dartBottomLeft)
+        .line(points.dartTip)
+        .line(points.dartBottomRight)
+        .line(points.sideWaist)
+        .line(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .line(points.hps)
+        ._curve(points.cbNeckCp1, points.cbNeck)
+        .line(points.cbWaist)
+        .attr('class', 'various lashed')
+    }
     //let's begin
 
     paths.armhole = new Path()
@@ -57,7 +59,7 @@ export const backArmhole = {
     points.armholeSplitCp = points.armholeSplit.shiftFractionTowards(points.dartTip, 7 / 6)
 
     //paths
-    paths.hemBase = new Path().move(points.cbWaist).line(points.dartBottomLeft).hide()
+    paths.waist = new Path().move(points.cbWaist).line(points.dartBottomLeft).hide()
 
     paths.princessSeam = new Path()
       .move(points.dartBottomLeft)
@@ -70,7 +72,7 @@ export const backArmhole = {
 
     paths.cb = new Path().move(points.cbNeck).line(points.cbWaist).hide()
 
-    paths.seam = paths.hemBase
+    paths.seam = paths.waist
       .clone()
       .join(paths.princessSeam)
       .join(paths.armhole)
@@ -83,12 +85,22 @@ export const backArmhole = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 0.25)
-      points.grainlineTo = new Point(points.grainlineFrom.x, points.cbWaist.y)
-      macro('grainline', {
-        from: points.grainlineFrom,
-        to: points.grainlineTo,
-      })
+      if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
+        points.cutOnFoldFrom = points.cbNeck
+        points.cutOnFoldTo = points.cbWaist
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 0.25)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cbWaist.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+      }
       //notches
       points.princessNotch0 = paths.princessSeam.shiftFractionAlong(0.25)
       points.princessNotch1 = paths.princessSeam.shiftFractionAlong(0.75)
@@ -107,7 +119,7 @@ export const backArmhole = {
         const princessSa = sa * options.princessSaWidth * 100
         const neckSa = sa * options.neckSaWidth * 100
 
-        points.saPoint0 = utils.beamsIntersect(
+        points.saDartBottomLeft = utils.beamsIntersect(
           points.cbWaist.shiftTowards(points.dartBottomLeft, sa).rotate(-90, points.cbWaist),
           points.dartBottomLeft.shiftTowards(points.cbWaist, sa).rotate(90, points.dartBottomLeft),
           points.dartBottomLeft
@@ -115,16 +127,12 @@ export const backArmhole = {
             .rotate(-90, points.dartBottomLeft),
           points.dartTip.shiftTowards(points.dartBottomLeft, princessSa).rotate(90, points.dartTip)
         )
-        points.saPoint1 = points.saPoint3
-        points.saPoint2 = points.saPoint4
-        points.saPoint3 = points.saPoint5
-        points.saPoint4 = points.saPoint6
 
         paths.saArmhole = new Path()
           .move(points.saArmhole)
           .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
           .curve_(points.saArmholePitchCp2, points.saShoulder)
-          .line(points.saPoint1)
+          .line(points.saShoulderCorner)
           .hide()
 
         points.saArmholeSplit = paths.saArmhole.shiftFractionAlong(1 - options.bustDartFraction)
@@ -133,23 +141,45 @@ export const backArmhole = {
           paths.saArmhole = paths.saArmhole.split(points.saArmholeSplit)[1].hide()
         } else {
           if (options.bustDartFraction <= 0.01) {
-            paths.saArmhole = new Path().move(points.saPoint1).line(points.saPoint1).hide()
+            paths.saArmhole = new Path()
+              .move(points.saShoulderCorner)
+              .line(points.saShoulderCorner)
+              .hide()
           }
         }
 
-        paths.sa = paths.hemBase
-          .clone()
-          .offset(sa)
-          .line(points.saPoint0)
+        points.saArmholeTop = paths.saArmhole
+          .shiftFractionAlong(0.001)
+          .shiftOutwards(paths.saArmhole.start(), sa)
+        points.saPrincessSeamEnd = paths.princessSeam.offset(princessSa).end()
+
+        if (
+          points.saArmholeTop.y > points.saPrincessSeamEnd.y ||
+          options.bustDartFraction <= 0.01
+        ) {
+          points.saArmholeTop = points.saPrincessSeamEnd
+        }
+        points.saArmholeBottom = utils.beamsIntersect(
+          points.saArmholeTop,
+          points.saArmholeTop.shift(-90, 1),
+          paths.princessSeam.offset(princessSa).shiftFractionAlong(0.999),
+          points.saPrincessSeamEnd
+        )
+
+        paths.sa = new Path()
+          .move(points.saCbWaist)
+          .line(points.saDartBottomLeft)
           .line(paths.princessSeam.offset(princessSa).start())
           .join(paths.princessSeam.offset(princessSa))
+          .line(points.saArmholeBottom)
+          .line(points.saArmholeTop)
           .join(paths.saArmhole)
-          .line(points.saPoint1)
-          .line(points.saPoint2)
+          .line(points.saShoulderCorner)
+          .line(points.saHps)
           .line(paths.cbNeck.offset(neckSa).start())
           .join(paths.cbNeck.offset(neckSa))
-          .line(points.saPoint3)
-          .line(points.saPoint4)
+          .line(points.saCbNeck)
+          .line(points.saCbWaist)
           .close()
           .attr('class', 'fabric sa')
       }

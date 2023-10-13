@@ -30,17 +30,17 @@ export const frontBustShoulder = {
     frontBaseBustShoulder.draft(sh)
     //removing paths and snippets not required from Daisy
     //keep specific inherited paths
-    const keepThese = 'daisyGuide'
+    const keepThese = 'daisyGuides'
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
     //guides
-    if (!options.daisyGuide) {
-      delete paths.daisyGuide
+    if (!options.daisyGuides) {
+      delete paths.daisyGuides
     }
     //let's begin
     //paths
-    paths.hemBase = new Path().move(points.cfWaist).line(points.waistDartLeft).hide()
+    paths.waist = new Path().move(points.cfWaist).line(points.waistDartLeft).hide()
 
     paths.sideFrontSeam = new Path()
       .move(points.waistDartLeft)
@@ -55,7 +55,7 @@ export const frontBustShoulder = {
 
     paths.cf = new Path().move(points.cfTop).line(points.cfWaist).hide()
 
-    paths.seam = paths.hemBase
+    paths.seam = paths.waist
       .clone()
       .join(paths.sideFrontSeam)
       .join(paths.topCurve)
@@ -100,26 +100,25 @@ export const frontBustShoulder = {
           cfSa = sa * options.cfSaWidth * 100
         }
 
-        points.saPoint0 = points.waistDartLeft.translate(styleLineSa, sa)
-        points.saPoint1 = utils.beamsIntersect(
+        points.saWaistDartLeft = points.waistDartLeft.translate(styleLineSa, sa)
+        points.saNeckFront = utils.beamsIntersect(
           points.bustCp2.shiftTowards(points.neckFront, styleLineSa).rotate(-90, points.bustCp2),
           points.neckFront.shiftTowards(points.bustCp2, styleLineSa).rotate(90, points.neckFront),
           points.neckFront.shiftTowards(points.cfTopAnchor, sa).rotate(-90, points.neckFront),
           points.cfTopAnchor.shiftTowards(points.neckFront, sa).rotate(90, points.cfTopAnchor)
         )
-        points.saPoint2 = points.cfWaist.translate(-cfSa, sa)
 
-        paths.sa = paths.hemBase
+        paths.sa = paths.waist
           .clone()
           .offset(sa)
-          .line(points.saPoint0)
+          .line(points.saWaistDartLeft)
           .line(paths.sideFrontSeam.offset(styleLineSa).start())
           .join(paths.sideFrontSeam.offset(styleLineSa))
-          .line(points.saPoint1)
+          .line(points.saNeckFront)
           .line(paths.topCurve.offset(sa).start())
           .join(paths.topCurve.offset(sa))
           .join(paths.cf.offset(cfSa))
-          .line(points.saPoint2)
+          .line(points.saCfWaist)
           .close()
           .attr('class', 'fabric sa')
       }

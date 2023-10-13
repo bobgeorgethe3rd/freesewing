@@ -12,13 +12,10 @@ export const front = {
   },
   options: {
     //Constant
-    neckSaWidth: 0.01,
-    armholeSaWidth: 0.01,
-    shoulderSaWidth: 0.01,
-    sideSeamSaWidth: 0.01,
-    neckSaWidth: 0.01,
-    bustDartLength: 1,
-    waistDartLength: 1,
+    bustDartLength: 1, //Locked for Aimee
+    waistDartLength: 1, //Locked for Aimee
+    //Fit
+    daisyGuides: { bool: false, menu: 'fit' },
     //Darts
     bustDartFraction: { pct: 50, min: 0, max: 100, menu: 'darts' },
     bustDartPlacement: {
@@ -28,6 +25,8 @@ export const front = {
     },
     //Construction
     princessSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Aimee
+    closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Aimee
   },
   draft: (sh) => {
     const { points, Path, store, utils, options, part } = sh

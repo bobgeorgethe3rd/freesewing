@@ -25,19 +25,21 @@ export const sideBackArmholePitch = {
     //removing macros not required from Daisy
     macro('title', false)
     //guides
-    // paths.daisyGuide = new Path()
-    // .move(points.cbWaist)
-    // .line(points.dartBottomLeft)
-    // .line(points.dartTip)
-    // .line(points.dartBottomRight)
-    // .line(points.sideWaist)
-    // .line(points.armhole)
-    // .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-    // .curve_(points.armholePitchCp2, points.shoulder)
-    // .line(points.hps)
-    // ._curve(points.cbNeckCp1, points.cbNeck)
-    // .line(points.cbWaist)
-    // .attr('class', 'various lashed')
+    if (options.daisyGuides) {
+      paths.daisyGuide = new Path()
+        .move(points.cbWaist)
+        .line(points.dartBottomLeft)
+        .line(points.dartTip)
+        .line(points.dartBottomRight)
+        .line(points.sideWaist)
+        .line(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .line(points.hps)
+        ._curve(points.cbNeckCp1, points.cbNeck)
+        .line(points.cbWaist)
+        .attr('class', 'various lashed')
+    }
     //let's begin
     points.dartBottomRightCp = points.dartBottomRight.shiftFractionTowards(points.dartTip, 7 / 6)
 
@@ -57,7 +59,7 @@ export const sideBackArmholePitch = {
     } while (Math.abs(delta) > 0.01)
 
     //paths
-    paths.hemBase = new Path().move(points.dartBottomRight).line(points.sideWaist).hide()
+    paths.waist = new Path().move(points.dartBottomRight).line(points.sideWaist).hide()
 
     paths.sideSeam = new Path().move(points.sideWaist).line(points.armhole).hide()
 
@@ -66,7 +68,7 @@ export const sideBackArmholePitch = {
       .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
       .hide()
 
-    paths.seam = paths.hemBase
+    paths.seam = paths.waist
       .clone()
       .join(paths.sideSeam)
       .join(paths.armhole)
@@ -101,13 +103,7 @@ export const sideBackArmholePitch = {
       if (sa) {
         const princessSa = sa * options.princessSaWidth * 100
 
-        points.saPoint0 = points.saPoint1
-        points.saPoint1 = points.saPoint2
-        points.saPoint2 = new Point(
-          points.saArmholePitch.x,
-          paths.princessSeam.offset(princessSa).start().y
-        )
-        points.saPoint3 = utils.beamsIntersect(
+        points.saDartBottomRight = utils.beamsIntersect(
           points.dartBottomRight
             .shiftTowards(points.dartTip, princessSa)
             .rotate(90, points.dartBottomRight),
@@ -120,15 +116,26 @@ export const sideBackArmholePitch = {
           points.sideWaist.shiftTowards(points.dartBottomRight, sa).rotate(90, points.sideWaist)
         )
 
-        paths.sa = paths.hemBase
-          .offset(sa)
-          .line(points.saPoint0)
-          .line(points.saPoint1)
+        points.saArmholeBottomEnd = points.saArmholePitchCp1.shiftOutwards(
+          points.saArmholePitch,
+          sa
+        )
+        points.saPrincessSeamStart = paths.princessSeam.offset(princessSa).start()
+
+        points.saPrincessSeamStartCorner = points.saPrincessSeamStart
+          .shiftTowards(points.armholePitch, sa)
+          .rotate(90, points.saPrincessSeamStart)
+
+        paths.sa = new Path()
+          .move(points.saDartBottomRight)
+          .line(points.saSideWaist)
+          .line(points.saArmholeCorner)
           .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-          .line(points.saPoint2)
-          .line(paths.princessSeam.offset(princessSa).start())
+          .line(points.saArmholeBottomEnd)
+          .line(points.saPrincessSeamStartCorner)
+          .line(points.saPrincessSeamStart)
           .join(paths.princessSeam.offset(princessSa))
-          .line(points.saPoint3)
+          .line(points.saDartBottomRight)
           .close()
           .attr('class', 'fabric sa')
       }

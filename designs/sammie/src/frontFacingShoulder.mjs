@@ -29,7 +29,7 @@ export const frontFacingShoulder = {
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
     //guides
-    // paths.daisyGuide = new Path()
+    // paths.daisyGuides = new Path()
     // .move(points.cfWaist)
     // .line(points.waistDartLeft)
     // .line(points.waistDartTip)
@@ -85,7 +85,7 @@ export const frontFacingShoulder = {
     }
 
     //paths
-    paths.hemBase = new Path()
+    paths.waist = new Path()
       .move(points.cfFacing)
       ._curve(points.neckFrontFacingCp1, points.neckFrontFacing)
       .curve(points.neckFrontFacingCp2, points.sideFacingCp, points.sideFacing)
@@ -101,7 +101,7 @@ export const frontFacingShoulder = {
 
     paths.cf = new Path().move(points.cfTop).line(points.cfFacing).hide()
 
-    paths.seam = paths.hemBase
+    paths.seam = paths.waist
       .clone()
       .join(paths.sideSeam)
       .join(paths.topCurve)
@@ -161,7 +161,7 @@ export const frontFacingShoulder = {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
         }
 
-        points.saPoint0 = utils.beamsIntersect(
+        points.saSideFacing = utils.beamsIntersect(
           points.sideFacingCp
             .shiftTowards(points.sideFacing, bodiceFacingHem)
             .rotate(-90, points.sideFacingCp),
@@ -176,7 +176,7 @@ export const frontFacingShoulder = {
             .rotate(90, points.armholeDrop)
         )
 
-        points.saPoint1 = utils.beamsIntersect(
+        points.saArmholeDrop = utils.beamsIntersect(
           points.sideFacing
             .shiftTowards(points.armholeDrop, sideSeamSa)
             .rotate(-90, points.sideFacing),
@@ -187,26 +187,26 @@ export const frontFacingShoulder = {
           points.armholeDropCp.shiftTowards(points.armholeDrop, sa).rotate(90, points.armholeDropCp)
         )
 
-        points.hemStart = paths.hemBase.offset(bodiceFacingHem).start()
+        points.hemStart = paths.waist.offset(bodiceFacingHem).start()
 
-        points.saPoint2 = utils.beamsIntersect(
+        points.saCfFacing = utils.beamsIntersect(
           points.cfTop.shiftTowards(points.cfFacing, cfSa).rotate(-90, points.cfTop),
           points.cfFacing.shiftTowards(points.cfTop, cfSa).rotate(90, points.cfFacing),
           points.hemStart,
           points.cfFacing.rotate(90, points.hemStart)
         )
 
-        paths.sa = paths.hemBase
+        paths.sa = paths.waist
           .offset(bodiceFacingHem)
-          .line(points.saPoint0)
+          .line(points.saSideFacing)
           .line(paths.sideSeam.offset(sideSeamSa).start())
           .join(paths.sideSeam.offset(sideSeamSa))
-          .line(points.saPoint1)
+          .line(points.saArmholeDrop)
           .line(paths.topCurve.offset(sa).start())
           .join(paths.topCurve.offset(sa))
           .line(paths.cf.offset(cfSa).start())
           .join(paths.cf.offset(cfSa))
-          .line(points.saPoint2)
+          .line(points.saCfFacing)
           .close()
           .attr('class', 'fabric sa')
       }

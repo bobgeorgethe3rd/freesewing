@@ -63,6 +63,8 @@ export const front = {
     inherited: true,
   },
   options: {
+    //Constants
+    cfSaWidth: 0,
     //Darts
     bustDartPlacement: {
       dflt: 'bustside',

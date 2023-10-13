@@ -57,15 +57,13 @@ export const frontArmholeDart = ({
     .hide()
 
   //paths
-  paths.hemLeft = new Path().move(points.cfWaist).line(points.waistDartLeft).hide()
-
-  paths.waistDart = new Path()
-    .move(points.waistDartLeft)
+  paths.waist = new Path()
+    .move(points.cfWaist)
+    .line(points.waistDartLeft)
     .line(points.waistDartTip)
     .line(points.waistDartRight)
+    .line(points.sideWaist)
     .hide()
-
-  paths.hemRight = new Path().move(points.waistDartRight).line(points.sideWaist).hide()
 
   paths.sideSeam = new Path().move(points.sideWaist).line(points.armholeR).hide()
 
@@ -96,10 +94,8 @@ export const frontArmholeDart = ({
     .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
     .hide()
 
-  paths.seam = paths.hemLeft
+  paths.seam = paths.waist
     .clone()
-    .join(paths.waistDart)
-    .join(paths.hemRight)
     .join(paths.sideSeam)
     .join(paths.armholeBottom)
     .join(paths.bustDart)
@@ -110,13 +106,22 @@ export const frontArmholeDart = ({
 
   if (complete) {
     //grainline
-    points.cutOnFoldFrom = points.cfNeck
-    points.cutOnFoldTo = points.cfWaist
-    macro('cutonfold', {
-      from: points.cutOnFoldFrom,
-      to: points.cutOnFoldTo,
-      grainline: true,
-    })
+    if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
+      points.cutOnFoldFrom = points.cfNeck
+      points.cutOnFoldTo = points.cfWaist
+      macro('cutonfold', {
+        from: points.cutOnFoldFrom,
+        to: points.cutOnFoldTo,
+        grainline: true,
+      })
+    } else {
+      points.grainlineTo = points.cfWaist.shiftFractionTowards(points.waistDartLeft, 0.15)
+      points.grainlineFrom = new Point(points.grainlineTo.x, points.cfNeck.y)
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
+    }
     //notches
     macro('sprinkle', {
       snippet: 'notch',
@@ -144,7 +149,7 @@ export const frontArmholeDart = ({
       at: points.scalebox,
     })
     //darts
-    paths.darts = new Path()
+    paths.dartEdges = new Path()
       .move(points.waistDartLeft)
       .line(points.waistDartEdge)
       .line(points.waistDartRight)
@@ -156,8 +161,25 @@ export const frontArmholeDart = ({
     if (sa) {
       const armholeSa = sa * options.armholeSaWidth * 100
       const neckSa = sa * options.neckSaWidth * 100
-      const sideSeamSa = sa * options.sideSeamSaWidth * 100
       const shoulderSa = sa * options.shoulderSaWidth * 100
+      const closureSa = sa * options.closureSaWidth * 100
+
+      let cfSa
+      if (options.closurePosition == 'front') {
+        cfSa = closureSa
+      } else {
+        cfSa = sa * options.cfSaWidth * 100
+      }
+      let sideSeamSa
+      if (
+        options.closurePosition == 'side' ||
+        options.closurePosition == 'sideLeft' ||
+        options.closurePosition == 'sideRight'
+      ) {
+        sideSeamSa = closureSa
+      } else {
+        sideSeamSa = sa * options.sideSeamSaWidth * 100
+      }
 
       let dartSa
       if (options.bustDartFraction <= 0.01) {
@@ -176,24 +198,102 @@ export const frontArmholeDart = ({
       ]
       for (const p of rotSa) points[p + 'R'] = points[p].rotate(-bustDartAngle, points.bust)
 
-      points.saPoint4 = points.shoulder
+      points.saWaistDartLeft = utils.beamsIntersect(
+        points.cfWaist.shiftTowards(points.waistDartLeft, sa).rotate(-90, points.cfWaist),
+        points.waistDartLeft.shiftTowards(points.cfWaist, sa).rotate(90, points.waistDartLeft),
+        points.waistDartTip,
+        points.waistDartLeft
+      )
+
+      points.saWaistDartEdge = utils.beamsIntersect(
+        points.bust,
+        points.waistDartMid,
+        points.waistDartLeft
+          .shiftTowards(points.waistDartEdge, sa)
+          .rotate(-90, points.waistDartLeft),
+        points.waistDartEdge.shiftTowards(points.waistDartLeft, sa).rotate(90, points.waistDartEdge)
+      )
+
+      points.saWaistDartRight = utils.beamsIntersect(
+        points.waistDartTip,
+        points.waistDartRight,
+        points.waistDartRight.shiftTowards(points.sideWaist, sa).rotate(-90, points.waistDartRight),
+        points.sideWaist.shiftTowards(points.waistDartRight, sa).rotate(90, points.sideWaist)
+      )
+
+      points.saSideWaist = utils.beamsIntersect(
+        points.waistDartRight.shiftTowards(points.sideWaist, sa).rotate(-90, points.waistDartRight),
+        points.sideWaist.shiftTowards(points.waistDartRight, sa).rotate(90, points.sideWaist),
+        points.sideWaist.shiftTowards(points.armholeR, sideSeamSa).rotate(-90, points.sideWaist),
+        points.armholeR.shiftTowards(points.sideWaist, sideSeamSa).rotate(90, points.armholeR)
+      )
+
+      points.saArmholeCorner = utils.beamsIntersect(
+        points.sideWaist.shiftTowards(points.armholeR, sideSeamSa).rotate(-90, points.sideWaist),
+        points.armholeR.shiftTowards(points.sideWaist, sideSeamSa).rotate(90, points.armholeR),
+        points.saArmholeR,
+        points.saArmholeR.shift(0, 1)
+      )
+
+      points.saBustDartBottom = utils.beamsIntersect(
+        points.bustDartTip,
+        points.bustDartBottom,
+        points.bustDartBottom
+          .shiftTowards(points.bustDartEdge, dartSa)
+          .rotate(-90, points.bustDartBottom),
+        points.bustDartEdge
+          .shiftTowards(points.bustDartBottom, dartSa)
+          .rotate(90, points.bustDartEdge)
+      )
+
+      points.saBustDartEdge = utils.beamsIntersect(
+        points.bustDartTip,
+        points.bustDartMid,
+        points.bustDartBottom
+          .shiftTowards(points.bustDartEdge, dartSa)
+          .rotate(-90, points.bustDartBottom),
+        points.bustDartEdge
+          .shiftTowards(points.bustDartBottom, dartSa)
+          .rotate(90, points.bustDartEdge)
+      )
+
+      points.saBustDartTop = utils.beamsIntersect(
+        points.bustDartTip,
+        points.bustDartTop,
+        points.bustDartEdge
+          .shiftTowards(points.bustDartTop, dartSa)
+          .rotate(-90, points.bustDartEdge),
+        points.bustDartTop.shiftTowards(points.bustDartEdge, dartSa).rotate(90, points.bustDartTop)
+      )
+
+      points.saShoulderCorner = points.shoulder
         .shift(points.hps.angle(points.shoulder), armholeSa)
         .shift(points.hps.angle(points.shoulder) + 90, shoulderSa)
 
-      points.saPoint4R = points.saPoint4.rotate(-bustDartAngle, points.bust)
+      points.saHps = utils.beamsIntersect(
+        paths.cfNeck.offset(neckSa).start(),
+        paths.cfNeck
+          .offset(neckSa)
+          .start()
+          .shift(points.hps.angle(points.shoulder) + 90, 1),
+        points.shoulder.shiftTowards(points.hps, shoulderSa).rotate(-90, points.shoulder),
+        points.hps.shiftTowards(points.shoulder, shoulderSa).rotate(90, points.hps)
+      )
+
+      points.saShoulderCornerR = points.saShoulderCorner.rotate(-bustDartAngle, points.bust)
 
       paths.saArmhole = new Path()
         .move(points.saArmhole)
         .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
         .curve_(points.saArmholePitchCp2, points.saShoulder)
-        .line(points.saPoint4)
+        .line(points.saShoulderCorner)
         .hide()
 
       paths.saArmholeR = new Path()
         .move(points.saArmholeR)
         .curve(points.saArmholeCp2R, points.saArmholePitchCp1R, points.saArmholePitchR)
         .curve_(points.saArmholePitchCp2R, points.saShoulderR)
-        .line(points.saPoint4R)
+        .line(points.saShoulderCornerR)
         .hide()
 
       points.saArmholeTopSplit = paths.saArmhole.shiftFractionAlong(1 - options.bustDartFraction)
@@ -206,10 +306,13 @@ export const frontArmholeDart = ({
         paths.saArmholeBottom = paths.saArmholeR.split(points.saArmholeBottomSplit)[0].hide()
       } else {
         if (options.bustDartFraction <= 0.01) {
-          points.saPoint4 = points.shoulder
+          points.saShoulderCorner = points.shoulder
             .shiftTowards(points.hps, shoulderSa)
             .rotate(-90, points.shoulder)
-          paths.saArmholeTop = new Path().move(points.saPoint4).line(points.saPoint4).hide()
+          paths.saArmholeTop = new Path()
+            .move(points.saShoulderCorner)
+            .line(points.saShoulderCorner)
+            .hide()
           paths.saArmholeBottom = paths.saArmholeR
         }
         if (options.bustDartFraction >= 0.997) {
@@ -221,77 +324,29 @@ export const frontArmholeDart = ({
         }
       }
 
-      points.saPoint0 = utils.beamsIntersect(
-        points.bust,
-        points.waistDartMid,
-        points.waistDartLeft
-          .shiftTowards(points.waistDartEdge, sideSeamSa)
-          .rotate(-90, points.waistDartLeft),
-        points.waistDartEdge
-          .shiftTowards(points.waistDartLeft, sideSeamSa)
-          .rotate(90, points.waistDartEdge)
-      )
+      points.saCfNeck = points.cfNeck.translate(-cfSa, -neckSa)
+      points.saCfWaist = points.cfWaist.translate(-cfSa, sa)
 
-      points.saPoint1 = utils.beamsIntersect(
-        points.sideWaist
-          .shift(points.sideWaistInitial.angle(points.armhole) - bustDartAngle, sideSeamSa)
-          .rotate(-90, points.sideWaist),
-        points.sideWaist.rotate(
-          -90,
-          points.sideWaist
-            .shift(points.sideWaistInitial.angle(points.armhole) - bustDartAngle, sideSeamSa)
-            .rotate(-90, points.sideWaist)
-        ),
-        points.sideWaist
-          .shiftTowards(points.waistDartRight, sideSeamSa)
-          .rotate(90, points.sideWaist),
-        points.waistDartRight
-          .shiftTowards(points.sideWaist, sideSeamSa)
-          .rotate(-90, points.waistDartRight)
-      )
-
-      points.saPoint2 = utils.beamsIntersect(
-        points.sideWaist.shiftTowards(points.armholeR, sideSeamSa).rotate(-90, points.sideWaist),
-        points.armholeR.shiftTowards(points.sideWaist, sideSeamSa).rotate(90, points.armholeR),
-        points.saArmholeR,
-        points.saArmholeR.shift(0, 1)
-      )
-
-      points.saPoint3 = utils.beamsIntersect(
-        points.bustDartBottom
-          .shiftTowards(points.bustDartEdge, dartSa)
-          .rotate(-90, points.bustDartBottom),
-        points.bustDartEdge
-          .shiftTowards(points.bustDartBottom, dartSa)
-          .rotate(90, points.bustDartEdge),
-        points.bust,
-        points.bustDartEdge
-      )
-
-      points.saPoint5 = utils.beamsIntersect(
-        paths.cfNeck.offset(neckSa).start(),
-        paths.cfNeck
-          .offset(neckSa)
-          .start()
-          .shift(points.hps.angle(points.shoulder) + 90, 1),
-        paths.shoulder.offset(shoulderSa).start(),
-        paths.shoulder.offset(shoulderSa).end()
-      )
-
-      paths.sa = paths.hemLeft
-        .offset(sa)
-        .line(points.saPoint0)
-        .line(paths.hemRight.offset(sa).start())
-        .join(paths.hemRight.offset(sa))
-        .line(points.saPoint1)
-        .line(points.saPoint2)
+      paths.sa = new Path()
+        .move(points.saCfWaist)
+        .line(points.saWaistDartLeft)
+        .line(points.saWaistDartEdge)
+        .line(points.saWaistDartRight)
+        .line(points.saSideWaist)
+        .line(points.saArmholeCorner)
         .line(points.saArmholeR)
         .join(paths.saArmholeBottom)
-        .line(points.saPoint3)
+        .line(points.saBustDartBottom)
+        .line(points.saBustDartEdge)
+        .line(points.saBustDartTop)
         .join(paths.saArmholeTop)
-        .line(points.saPoint4)
-        .line(points.saPoint5)
+        .line(points.saShoulderCorner)
+        .line(points.saHps)
+        .line(paths.cfNeck.offset(neckSa).start())
         .join(paths.cfNeck.offset(neckSa))
+        .line(points.saCfNeck)
+        .line(points.saCfWaist)
+        .trim()
         .close()
         .attr('class', 'fabric sa')
     }

@@ -26,20 +26,20 @@ export const sideBack = {
   }) => {
     //removing paths and snippets not required from Daisy
     //keep specific inherited paths
-    const keepThese = 'daisyGuide'
+    const keepThese = 'daisyGuides'
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
     //guides
-    if (!options.daisyGuide) {
-      delete paths.daisyGuide
+    if (!options.daisyGuides) {
+      delete paths.daisyGuides
     }
     //measures
     const backDartAngle =
       points.dartTip.angle(points.dartBottomRight) - points.dartTip.angle(points.dartBottomLeft)
     //let's begin
     //paths
-    paths.hemBase = new Path().move(points.dartBottomRight).line(points.sideWaist).hide()
+    paths.waist = new Path().move(points.dartBottomRight).line(points.sideWaist).hide()
 
     paths.sideSeam = new Path().move(points.sideWaist).line(points.armholeDrop).hide()
 
@@ -55,7 +55,7 @@ export const sideBack = {
 
     paths.sideBackSeam = new Path().move(points.dartTopRight).line(points.dartBottomRight).hide()
 
-    paths.seam = paths.hemBase
+    paths.seam = paths.waist
       .clone()
       .join(paths.sideSeam)
       .join(paths.topCurve)
@@ -100,20 +100,20 @@ export const sideBack = {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
         }
 
-        points.saPoint0 = utils.beamsIntersect(
+        points.saDartBottomRight = utils.beamsIntersect(
+          points.dartTopRight
+            .shiftTowards(points.dartBottomRight, styleLineSa)
+            .rotate(-90, points.dartTopRight),
+          points.dartBottomRight
+            .shiftTowards(points.dartTopRight, styleLineSa)
+            .rotate(90, points.dartBottomRight),
           points.dartBottomRight
             .shiftTowards(points.sideWaist, sa)
             .rotate(-90, points.dartBottomRight),
-          points.sideWaist.shiftTowards(points.dartBottomRight, sa).rotate(90, points.sideWaist),
-          points.sideWaist
-            .shiftTowards(points.armholeDrop, sideSeamSa)
-            .rotate(-90, points.sideWaist),
-          points.armholeDrop
-            .shiftTowards(points.sideWaist, sideSeamSa)
-            .rotate(90, points.armholeDrop)
+          points.sideWaist.shiftTowards(points.dartBottomRight, sa).rotate(90, points.sideWaist)
         )
 
-        points.saPoint1 = utils.beamsIntersect(
+        points.saArmholeDrop = utils.beamsIntersect(
           points.sideWaist
             .shiftTowards(points.armholeDrop, sideSeamSa)
             .rotate(-90, points.sideWaist),
@@ -127,7 +127,7 @@ export const sideBack = {
             .shiftTowards(points.armholeDrop, sa)
             .rotate(90, points.dartTopRightCp)
         )
-        points.saPoint2 = utils.beamsIntersect(
+        points.saDartTopRight = utils.beamsIntersect(
           points.dartTopRightCp
             .shiftTowards(points.dartTopRight, sa)
             .rotate(-90, points.dartTopRightCp),
@@ -141,31 +141,19 @@ export const sideBack = {
             .shiftTowards(points.dartTopRight, styleLineSa)
             .rotate(90, points.dartBottomRight)
         )
-        points.saPoint3 = utils.beamsIntersect(
-          points.dartTopRight
-            .shiftTowards(points.dartBottomRight, styleLineSa)
-            .rotate(-90, points.dartTopRight),
-          points.dartBottomRight
-            .shiftTowards(points.dartTopRight, styleLineSa)
-            .rotate(90, points.dartBottomRight),
-          points.dartBottomRight
-            .shiftTowards(points.sideWaist, sa)
-            .rotate(-90, points.dartBottomRight),
-          points.sideWaist.shiftTowards(points.dartBottomRight, sa).rotate(90, points.sideWaist)
-        )
 
-        paths.sa = paths.hemBase
-          .offset(sa)
-          .line(points.saPoint0)
+        paths.sa = new Path()
+          .move(points.saDartBottomRight)
+          .line(points.saSideWaist)
           .line(paths.sideSeam.offset(sideSeamSa).start())
           .join(paths.sideSeam.offset(sideSeamSa))
-          .line(points.saPoint1)
+          .line(points.saArmholeDrop)
           .line(paths.topCurve.offset(sa).start())
           .join(paths.topCurve.offset(sa))
-          .line(points.saPoint2)
+          .line(points.saDartTopRight)
           .line(paths.sideBackSeam.offset(styleLineSa).start())
           .join(paths.sideBackSeam.offset(styleLineSa))
-          .line(points.saPoint3)
+          .line(points.saDartBottomRight)
           .close()
           .attr('class', 'fabric sa')
       }

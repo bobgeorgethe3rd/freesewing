@@ -1,8 +1,10 @@
 import { backBase } from './backBase.mjs'
+import { frontFacing } from './frontFacing.mjs'
 
 export const backFacing = {
   name: 'sammie.backFacing',
   from: backBase,
+  after: frontFacing,
   hide: {
     from: true,
   },
@@ -62,7 +64,7 @@ export const backFacing = {
     )
 
     //paths
-    paths.hemBase = new Path()
+    paths.waist = new Path()
       .move(points.cbFacing)
       .curve(points.cbFacingCp2, points.sideFacingCp1, points.sideFacing)
       .hide()
@@ -76,7 +78,7 @@ export const backFacing = {
 
     paths.cb = new Path().move(points.cbTop).line(points.cbFacing).hide()
 
-    paths.seam = paths.hemBase.clone().join(paths.sideSeam).join(paths.topCurve).join(paths.cb)
+    paths.seam = paths.waist.clone().join(paths.sideSeam).join(paths.topCurve).join(paths.cb)
 
     if (complete) {
       //grainline
@@ -127,7 +129,7 @@ export const backFacing = {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
         }
 
-        points.saPoint0 = utils.beamsIntersect(
+        points.saSideFacing = utils.beamsIntersect(
           points.sideFacingCp1
             .shiftTowards(points.sideFacing, bodiceFacingHem)
             .rotate(-90, points.sideFacingCp1),
@@ -142,13 +144,13 @@ export const backFacing = {
             .rotate(90, points.armholeDrop)
         )
 
-        points.hemEnd = paths.hemBase.offset(bodiceFacingHem).end()
+        points.hemEnd = paths.waist.offset(bodiceFacingHem).end()
 
-        if (points.saPoint0.x < points.hemEnd.x) {
-          points.saPoint0 = points.hemEnd
+        if (points.saSideFacing.x < points.hemEnd.x) {
+          points.saSideFacing = points.hemEnd
         }
 
-        points.saPoint1 = utils.beamsIntersect(
+        points.saArmholeDrop = utils.beamsIntersect(
           points.sideFacing
             .shiftTowards(points.armholeDrop, sideSeamSa)
             .rotate(-90, points.sideFacing),
@@ -163,19 +165,19 @@ export const backFacing = {
             .rotate(90, points.dartTopRightCp)
         )
 
-        points.saPoint2 = points.cbTop.translate(-cbSa, -sa)
-        points.saPoint3 = points.cbFacing.translate(-cbSa, bodiceFacingHem)
+        points.saCbTop = points.cbTop.translate(-cbSa, -sa)
+        points.saCbFacing = points.cbFacing.translate(-cbSa, bodiceFacingHem)
 
-        paths.sa = paths.hemBase
+        paths.sa = paths.waist
           .offset(bodiceFacingHem)
-          .line(points.saPoint0)
+          .line(points.saSideFacing)
           .line(paths.sideSeam.offset(sideSeamSa).start())
           .join(paths.sideSeam.offset(sideSeamSa))
-          .line(points.saPoint1)
+          .line(points.saArmholeDrop)
           .line(paths.topCurve.offset(sa).start())
           .join(paths.topCurve.offset(sa))
-          .line(points.saPoint2)
-          .line(points.saPoint3)
+          .line(points.saCbTop)
+          .line(points.saCbFacing)
           .close()
           .attr('class', 'fabric sa')
       }

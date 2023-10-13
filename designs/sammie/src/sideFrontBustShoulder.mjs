@@ -27,17 +27,17 @@ export const sideFrontBustShoulder = {
     frontBaseBustShoulder.draft(sh)
     //removing paths and snippets not required from Daisy
     //keep specific inherited paths
-    const keepThese = 'daisyGuide'
+    const keepThese = 'daisyGuides'
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
     //guides
-    if (!options.daisyGuide) {
-      delete paths.daisyGuide
+    if (!options.daisyGuides) {
+      delete paths.daisyGuides
     }
     //let's begin
     //paths
-    paths.hemBase = new Path().move(points.waistDartRight).line(points.sideWaist).hide()
+    paths.waist = new Path().move(points.waistDartRight).line(points.sideWaist).hide()
 
     paths.sideSeam = new Path().move(points.sideWaist).line(points.armholeDrop).hide()
 
@@ -52,7 +52,7 @@ export const sideFrontBustShoulder = {
       .curve(points.bustCp1, points.waistDartRightCp, points.waistDartRight)
       .hide()
 
-    paths.seam = paths.hemBase
+    paths.seam = paths.waist
       .clone()
       .join(paths.sideSeam)
       .join(paths.topCurve)
@@ -98,41 +98,7 @@ export const sideFrontBustShoulder = {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
         }
 
-        points.saPoint0 = utils.beamsIntersect(
-          points.waistDartRight
-            .shiftTowards(points.sideWaist, sa)
-            .rotate(-90, points.waistDartRight),
-          points.sideWaist.shiftTowards(points.waistDartRight, sa).rotate(90, points.sideWaist),
-          points.sideWaist
-            .shiftTowards(points.armholeDrop, sideSeamSa)
-            .rotate(-90, points.sideWaist),
-          points.armholeDrop
-            .shiftTowards(points.sideWaist, sideSeamSa)
-            .rotate(90, points.armholeDrop)
-        )
-        points.saPoint1 = utils.beamsIntersect(
-          points.sideWaist
-            .shiftTowards(points.armholeDrop, sideSeamSa)
-            .rotate(-90, points.sideWaist),
-          points.armholeDrop
-            .shiftTowards(points.sideWaist, sideSeamSa)
-            .rotate(90, points.armholeDrop),
-          points.armholeDrop.shiftTowards(points.armholeDropCp, sa).rotate(-90, points.armholeDrop),
-          points.armholeDropCp.shiftTowards(points.armholeDrop, sa).rotate(90, points.armholeDropCp)
-        )
-        points.saPoint2 = utils.beamsIntersect(
-          points.neckSideFrontCp
-            .shiftTowards(points.neckSideFront, sa)
-            .rotate(-90, points.neckSideFrontCp),
-          points.neckSideFront
-            .shiftTowards(points.neckSideFrontCp, sa)
-            .rotate(90, points.neckSideFront),
-          points.neckSideFront
-            .shiftTowards(points.bustCp2, styleLineSa)
-            .rotate(-90, points.neckSideFront),
-          points.bustCp2.shiftTowards(points.neckSideFront, styleLineSa).rotate(90, points.bustCp2)
-        )
-        points.saPoint3 = utils.beamsIntersect(
+        points.saWaistDartRight = utils.beamsIntersect(
           points.waistDartRightCp
             .shiftTowards(points.waistDartRight, styleLineSa)
             .rotate(-90, points.waistDartRightCp),
@@ -145,19 +111,41 @@ export const sideFrontBustShoulder = {
           points.sideWaist.shiftTowards(points.waistDartRight, sa).rotate(90, points.sideWaist)
         )
 
-        paths.sa = paths.hemBase
-          .clone()
-          .offset(sa)
-          .line(points.saPoint0)
+        points.saArmholeDrop = utils.beamsIntersect(
+          points.sideWaist
+            .shiftTowards(points.armholeDrop, sideSeamSa)
+            .rotate(-90, points.sideWaist),
+          points.armholeDrop
+            .shiftTowards(points.sideWaist, sideSeamSa)
+            .rotate(90, points.armholeDrop),
+          points.armholeDrop.shiftTowards(points.armholeDropCp, sa).rotate(-90, points.armholeDrop),
+          points.armholeDropCp.shiftTowards(points.armholeDrop, sa).rotate(90, points.armholeDropCp)
+        )
+        points.saNeckSideFront = utils.beamsIntersect(
+          points.neckSideFrontCp
+            .shiftTowards(points.neckSideFront, sa)
+            .rotate(-90, points.neckSideFrontCp),
+          points.neckSideFront
+            .shiftTowards(points.neckSideFrontCp, sa)
+            .rotate(90, points.neckSideFront),
+          points.neckSideFront
+            .shiftTowards(points.bustCp2, styleLineSa)
+            .rotate(-90, points.neckSideFront),
+          points.bustCp2.shiftTowards(points.neckSideFront, styleLineSa).rotate(90, points.bustCp2)
+        )
+
+        paths.sa = new Path()
+          .move(points.saWaistDartRight)
+          .line(points.saSideWaist)
           .line(paths.sideSeam.offset(sideSeamSa).start())
           .join(paths.sideSeam.offset(sideSeamSa))
-          .line(points.saPoint1)
+          .line(points.saArmholeDrop)
           .line(paths.topCurve.offset(sa).start())
           .join(paths.topCurve.offset(sa))
-          .line(points.saPoint2)
+          .line(points.saNeckSideFront)
           .line(paths.sideFrontSeam.offset(styleLineSa).start())
           .join(paths.sideFrontSeam.offset(styleLineSa))
-          .line(points.saPoint3)
+          .line(points.saWaistDartRight)
           .close()
           .attr('class', 'fabric sa')
       }
