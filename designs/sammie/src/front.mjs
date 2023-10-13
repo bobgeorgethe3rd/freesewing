@@ -12,7 +12,7 @@ export const front = {
     from: true,
   },
   options: {
-    //Constant
+    //Constants
     frontArmholeDepth: 0.552, //Locked for Sammie
     frontArmholePitchDepth: 0.5, //Locked for Sammie
     frontArmholePitchWidth: 0.911, //Locked for Sammie
