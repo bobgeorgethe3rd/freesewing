@@ -13,6 +13,9 @@ export const front = {
   },
   options: {
     //Constant
+    frontArmholeDepth: 0.552, //Locked for Sammie
+    frontArmholePitchDepth: 0.5, //Locked for Sammie
+    frontArmholePitchWidth: 0.911, //Locked for Sammie
     bustDartLength: 1,
     waistDartLength: 1,
     //Fit

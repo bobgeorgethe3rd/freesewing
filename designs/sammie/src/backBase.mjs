@@ -8,6 +8,10 @@ export const backBase = {
     inherited: true,
   },
   options: {
+    //Constant
+    backArmholeDepth: 0.552, //Locked for Sammie
+    backArmholePitchDepth: 0.5, //Locked for Sammie
+    backArmholePitchWidth: 0.97, //Locked for Sammie
     //Fit
     daisyGuides: { bool: false, menu: 'fit' },
     //Style
