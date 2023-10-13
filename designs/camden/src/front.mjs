@@ -30,6 +30,8 @@ export const front = {
     inherited: true,
   },
   options: {
+    //Constants
+    frontArmholePitchWidth: 0.911,
     //Fit
     daisyGuide: { bool: false, menu: 'fit' },
     //Darts

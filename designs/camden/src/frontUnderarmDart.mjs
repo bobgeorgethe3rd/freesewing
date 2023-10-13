@@ -155,7 +155,7 @@ export const frontUnderarmDart = ({
       }
 
       if (options.length == 0) {
-        points.saPoint0 = utils.beamsIntersect(
+        points.saSideHem = utils.beamsIntersect(
           points.sideHemCp1.shiftTowards(points.sideHem, hemSa).rotate(-90, points.sideHemCp1),
           points.sideHem.shiftTowards(points.sideHemCp1, hemSa).rotate(90, points.sideHem),
           points.sideHem
@@ -166,7 +166,7 @@ export const frontUnderarmDart = ({
             .rotate(90, points.bustDartBottom)
         )
       } else {
-        points.saPoint0 = utils.beamsIntersect(
+        points.saSideHem = utils.beamsIntersect(
           points.sideHemCp1.shiftTowards(points.sideHem, hemSa).rotate(-90, points.sideHemCp1),
           points.sideHem.shiftTowards(points.sideHemCp1, hemSa).rotate(90, points.sideHem),
           points.sideHem.shiftTowards(points.sideHemCp2, sideSeamSa).rotate(-90, points.sideHem),
@@ -185,7 +185,7 @@ export const frontUnderarmDart = ({
         points.bustDartMid
       )
 
-      points.saPoint2 = utils.beamsIntersect(
+      points.saArmholeDropCorner = utils.beamsIntersect(
         points.armholeDrop
           .shiftTowards(points.armholeDropCp2, necklineSa)
           .rotate(-90, points.armholeDrop),
@@ -200,8 +200,8 @@ export const frontUnderarmDart = ({
           .rotate(90, points.armholeDrop)
       )
 
-      points.saPoint3 = points.strapRight.translate(necklineSa, -sa)
-      points.saPoint4Anchor = points.strapLeft.shift(90, sa)
+      points.saStrapRight = points.strapRight.translate(necklineSa, -sa)
+      points.saStrapLeftAnchor = points.strapLeft.shift(90, sa)
 
       points.necklineRightStart = points.strapLeft
         .shiftTowards(points.cfTopCp1, necklineSa)
@@ -209,41 +209,41 @@ export const frontUnderarmDart = ({
 
       if (
         points.cfTop.y == points.strapLeft.y ||
-        points.necklineRightStart.y < points.saPoint4Anchor.y
+        points.necklineRightStart.y < points.saStrapLeftAnchor.y
       ) {
-        points.saPoint4 = points.saPoint4Anchor
+        points.saStrapLeft = points.saStrapLeftAnchor
       } else {
-        points.saPoint4 = utils.beamsIntersect(
-          points.saPoint3,
-          points.saPoint4Anchor,
+        points.saStrapLeft = utils.beamsIntersect(
+          points.saStrapRight,
+          points.saStrapLeftAnchor,
           points.necklineRightStart,
           points.cfTopCp1.shiftTowards(points.strapLeft, necklineSa).rotate(90, points.cfTopCp1)
         )
-        if (points.saPoint4.x > points.saPoint4Anchor.x) {
-          points.saPoint4 = points.saPoint4Anchor
+        if (points.saStrapLeft.x > points.saStrapLeftAnchor.x) {
+          points.saStrapLeft = points.saStrapLeftAnchor
         }
       }
 
-      points.saPoint5 = points.cfTop.shift(180, cfSa)
-      points.saPoint6 = points.cfHem.translate(-cfSa, hemSa)
+      points.saCfTop = points.cfTop.shift(180, cfSa)
+      points.saCfHem = points.cfHem.translate(-cfSa, hemSa)
 
       paths.sa = paths.hemBase
         .offset(hemSa)
-        .line(points.saPoint0)
+        .line(points.saSideHem)
         .line(paths.sideSeam.offset(sideSeamSa).start())
         .join(paths.sideSeam.offset(sideSeamSa))
         .line(points.saPoint1)
-        .line(points.saPoint2)
+        .line(points.saArmholeDropCorner)
         .line(paths.necklineRight.offset(necklineSa).start())
         .join(paths.necklineRight.offset(necklineSa))
-        .line(points.saPoint3)
+        .line(points.saStrapRight)
         .line(paths.strap.offset(sa).start())
         .join(paths.strap.offset(sa))
-        .line(points.saPoint4)
+        .line(points.saStrapLeft)
         .line(paths.necklineLeft.offset(necklineSa).start())
         .join(paths.necklineLeft.offset(necklineSa))
-        .line(points.saPoint5)
-        .line(points.saPoint6)
+        .line(points.saCfTop)
+        .line(points.saCfHem)
         .close()
         .attr('class', 'fabric sa')
     }

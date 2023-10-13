@@ -10,6 +10,8 @@ export const back = {
     inherited: true,
   },
   options: {
+    //Constants
+    backArmholePitchWidth: 0.97,
     //Style
     backNeckDepth: { pct: 65, min: 0, max: 100, menu: 'style' },
     backNeckCurve: { pct: 50, min: 0, max: 100, menu: 'style' },
@@ -221,7 +223,7 @@ export const back = {
         }
 
         if (options.length == 0) {
-          points.saPoint0 = utils.beamsIntersect(
+          points.saSideHem = utils.beamsIntersect(
             points.sideHemCp1.shiftTowards(points.sideHem, hemSa).rotate(-90, points.sideHemCp1),
             points.sideHem.shiftTowards(points.sideHemCp1, hemSa).rotate(90, points.sideHem),
             points.sideHem.shiftTowards(points.armholeDrop, sideSeamSa).rotate(-90, points.sideHem),
@@ -230,7 +232,7 @@ export const back = {
               .rotate(90, points.armholeDrop)
           )
         } else {
-          points.saPoint0 = utils.beamsIntersect(
+          points.saSideHem = utils.beamsIntersect(
             points.sideHemCp1.shiftTowards(points.sideHem, hemSa).rotate(-90, points.sideHemCp1),
             points.sideHem.shiftTowards(points.sideHemCp1, hemSa).rotate(90, points.sideHem),
             points.sideHem.shiftTowards(points.sideHemCp2, sideSeamSa).rotate(-90, points.sideHem),
@@ -238,7 +240,7 @@ export const back = {
           )
         }
 
-        points.saPoint1 = utils.beamsIntersect(
+        points.saArmholeDropCorner = utils.beamsIntersect(
           points.sideWaist
             .shiftTowards(points.armholeDrop, sideSeamSa)
             .rotate(-90, points.sideWaist),
@@ -253,8 +255,8 @@ export const back = {
             .rotate(90, points.armholeDropCp2)
         )
 
-        points.saPoint2 = points.strapRight.translate(necklineSa, -sa)
-        points.saPoint3Anchor = points.strapLeft.shift(90, sa)
+        points.saStrapRight = points.strapRight.translate(necklineSa, -sa)
+        points.saStrapLeftAnchor = points.strapLeft.shift(90, sa)
 
         points.necklineRightStart = points.strapLeft
           .shiftTowards(points.cbTopCp1, necklineSa)
@@ -262,40 +264,40 @@ export const back = {
 
         if (
           points.cbTop.y == points.strapLeft.y ||
-          points.necklineRightStart.y < points.saPoint3Anchor.y
+          points.necklineRightStart.y < points.saStrapLeftAnchor.y
         ) {
-          points.saPoint3 = points.saPoint3Anchor
+          points.saStrapLeft = points.saStrapLeftAnchor
         } else {
-          points.saPoint3 = utils.beamsIntersect(
-            points.saPoint2,
-            points.saPoint3Anchor,
+          points.saStrapLeft = utils.beamsIntersect(
+            points.saStrapRight,
+            points.saStrapLeftAnchor,
             points.necklineRightStart,
             points.cbTopCp1.shiftTowards(points.strapLeft, necklineSa).rotate(90, points.cbTopCp1)
           )
-          if (points.saPoint3.x > points.saPoint3Anchor.x) {
-            points.saPoint3 = points.saPoint3Anchor
+          if (points.saStrapLeft.x > points.saStrapLeftAnchor.x) {
+            points.saStrapLeft = points.saStrapLeftAnchor
           }
         }
 
-        points.saPoint4 = points.cbTop.shift(180, cbSa)
-        points.saPoint5 = points.cbHem.translate(-cbSa, hemSa)
+        points.saCbTop = points.cbTop.shift(180, cbSa)
+        points.saCbHem = points.cbHem.translate(-cbSa, hemSa)
 
         paths.sa = paths.hemBase
           .offset(hemSa)
-          .line(points.saPoint0)
+          .line(points.saSideHem)
           .line(paths.sideSeam.offset(sideSeamSa).start())
           .join(paths.sideSeam.offset(sideSeamSa))
-          .line(points.saPoint1)
+          .line(points.saArmholeDropCorner)
           .line(paths.necklineRight.offset(necklineSa).start())
           .join(paths.necklineRight.offset(necklineSa))
-          .line(points.saPoint2)
+          .line(points.saStrapRight)
           .line(paths.strap.offset(sa).start())
           .join(paths.strap.offset(sa))
-          .line(points.saPoint3)
+          .line(points.saStrapLeft)
           .line(paths.necklineLeft.offset(necklineSa).start())
           .join(paths.necklineLeft.offset(necklineSa))
-          .line(points.saPoint4)
-          .line(points.saPoint5)
+          .line(points.saCbTop)
+          .line(points.saCbHem)
           .close()
           .attr('class', 'fabric sa')
       }

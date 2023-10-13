@@ -184,7 +184,7 @@ export const frontFrenchDart = ({
           .shiftTowards(points.bustDartBottomI, sideSeamSa)
           .rotate(-90, points.sideHemCp2)
 
-        points.saPoint0 = utils.beamsIntersect(
+        points.saSideHem = utils.beamsIntersect(
           points.sideHemCp1.shiftTowards(points.sideHem, hemSa).rotate(-90, points.sideHemCp1),
           points.sideHem.shiftTowards(points.sideHemCp1, hemSa).rotate(90, points.sideHem),
           points.sideHem
@@ -202,7 +202,7 @@ export const frontFrenchDart = ({
           .shiftTowards(points.sideHem, sideSeamSa)
           .rotate(90, points.sideHemCp2)
 
-        points.saPoint0 = utils.beamsIntersect(
+        points.saSideHem = utils.beamsIntersect(
           points.sideHemCp1.shiftTowards(points.sideHem, hemSa).rotate(-90, points.sideHemCp1),
           points.sideHem.shiftTowards(points.sideHemCp1, hemSa).rotate(90, points.sideHem),
           points.sideHem.shiftTowards(points.sideHemCp2, sideSeamSa).rotate(-90, points.sideHem),
@@ -253,7 +253,7 @@ export const frontFrenchDart = ({
       points.saSideSeamTopSaStart = paths.saSideSeamTopSa.start()
 
       if (points.bustDartMid.y < points.bust.y) {
-        points.saPoint1 = utils.beamsIntersect(
+        points.saBustDartEdge = utils.beamsIntersect(
           points.bust,
           points.bustDartMid,
           points.bustDartBottomI
@@ -264,7 +264,7 @@ export const frontFrenchDart = ({
             .rotate(90, points.armholeDropR)
         )
       } else {
-        points.saPoint1 = utils.beamsIntersect(
+        points.saBustDartEdge = utils.beamsIntersect(
           points.bust,
           points.bustDartMid,
           points.saSideSeamTopSaStart,
@@ -272,7 +272,7 @@ export const frontFrenchDart = ({
         )
       }
 
-      points.saPoint2 = utils.beamsIntersect(
+      points.saArmholeDropCorner = utils.beamsIntersect(
         points.bustDartTopI
           .shiftTowards(points.armholeDrop, sideSeamSa)
           .rotate(-90, points.bustDartTopI),
@@ -287,8 +287,8 @@ export const frontFrenchDart = ({
           .rotate(90, points.armholeDropCp2)
       )
 
-      points.saPoint3 = points.strapRight.translate(necklineSa, -sa)
-      points.saPoint4Anchor = points.strapLeft.shift(90, sa)
+      points.saStrapRight = points.strapRight.translate(necklineSa, -sa)
+      points.saStrapLeftAnchor = points.strapLeft.shift(90, sa)
 
       points.necklineRightStart = points.strapLeft
         .shiftTowards(points.cfTopCp1, necklineSa)
@@ -296,23 +296,23 @@ export const frontFrenchDart = ({
 
       if (
         points.cfTop.y == points.strapLeft.y ||
-        points.necklineRightStart.y < points.saPoint4Anchor.y
+        points.necklineRightStart.y < points.saStrapLeftAnchor.y
       ) {
-        points.saPoint4 = points.saPoint4Anchor
+        points.saStrapLeft = points.saStrapLeftAnchor
       } else {
-        points.saPoint4 = utils.beamsIntersect(
-          points.saPoint3,
-          points.saPoint4Anchor,
+        points.saStrapLeft = utils.beamsIntersect(
+          points.saStrapRight,
+          points.saStrapLeftAnchor,
           points.necklineRightStart,
           points.cfTopCp1.shiftTowards(points.strapLeft, necklineSa).rotate(90, points.cfTopCp1)
         )
-        if (points.saPoint4.x > points.saPoint4Anchor.x) {
-          points.saPoint4 = points.saPoint4Anchor
+        if (points.saStrapLeft.x > points.saStrapLeftAnchor.x) {
+          points.saStrapLeft = points.saStrapLeftAnchor
         }
       }
 
-      points.saPoint5 = points.cfTop.shift(180, cfSa)
-      points.saPoint6 = points.cfHem.translate(-cfSa, hemSa)
+      points.saCfTop = points.cfTop.shift(180, cfSa)
+      points.saCfHem = points.cfHem.translate(-cfSa, hemSa)
 
       paths.saSideSeamBottom = new Path()
         .move(points.saSideHem)
@@ -327,7 +327,7 @@ export const frontFrenchDart = ({
           points.saSideSeamBottomSplit.sitsRoughlyOn(points.saSideHem)
         ) {
           paths.saSideSeamBottom = new Path()
-            .move(points.saPoint0)
+            .move(points.saSideHem)
             .line(points.saSideSeamBottomSplit)
             .hide()
         } else {
@@ -340,23 +340,23 @@ export const frontFrenchDart = ({
 
       paths.sa = paths.hemBase
         .offset(hemSa)
-        .line(points.saPoint0)
+        .line(points.saSideHem)
         .line(paths.saSideSeamBottom.start())
         .join(paths.saSideSeamBottom)
-        .line(points.saPoint1)
+        .line(points.saBustDartEdge)
         .line(points.saSideSeamTopSaStart)
         .join(paths.saSideSeamTopSa)
-        .line(points.saPoint2)
+        .line(points.saArmholeDropCorner)
         .line(paths.necklineRight.offset(necklineSa).start())
         .join(paths.necklineRight.offset(necklineSa))
-        .line(points.saPoint3)
+        .line(points.saStrapRight)
         .line(paths.strap.offset(sa).start())
         .join(paths.strap.offset(sa))
-        .line(points.saPoint4)
+        .line(points.saStrapLeft)
         .line(paths.necklineLeft.offset(necklineSa).start())
         .join(paths.necklineLeft.offset(necklineSa))
-        .line(points.saPoint5)
-        .line(points.saPoint6)
+        .line(points.saCfTop)
+        .line(points.saCfHem)
         .close()
         .attr('class', 'fabric sa')
     }

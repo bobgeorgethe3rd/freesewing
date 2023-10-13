@@ -111,7 +111,7 @@ export const backFacing = {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const bodiceFacingHemSa = sa * options.bodiceFacingHemWidth * 100
 
-        points.saPoint0 = utils.beamsIntersect(
+        points.saSideFacing = utils.beamsIntersect(
           points.sideFacingCp1
             .shiftTowards(points.sideFacing, bodiceFacingHemSa)
             .rotate(-90, points.sideFacingCp1),
@@ -126,7 +126,7 @@ export const backFacing = {
             .rotate(90, points.armholeDrop)
         )
 
-        points.saPoint1 = utils.beamsIntersect(
+        points.saArmholeDropCorner = utils.beamsIntersect(
           points.sideFacing
             .shiftTowards(points.armholeDrop, sideSeamSa)
             .rotate(-90, points.sideFacing),
@@ -141,8 +141,8 @@ export const backFacing = {
             .rotate(90, points.armholeDropCp2)
         )
 
-        points.saPoint2 = points.strapRight.translate(sa, -sa)
-        points.saPoint3Anchor = points.strapLeft.shift(90, sa)
+        points.saStrapRight = points.strapRight.translate(sa, -sa)
+        points.saStrapLeftAnchor = points.strapLeft.shift(90, sa)
 
         points.necklineRightStart = points.strapLeft
           .shiftTowards(points.cbTopCp1, sa)
@@ -150,37 +150,37 @@ export const backFacing = {
 
         if (
           points.cbTop.y == points.strapLeft.y ||
-          points.necklineRightStart.y < points.saPoint3Anchor.y
+          points.necklineRightStart.y < points.saStrapLeftAnchor.y
         ) {
-          points.saPoint3 = points.saPoint3Anchor
+          points.saStrapLeft = points.saStrapLeftAnchor
         } else {
-          points.saPoint3 = utils.beamsIntersect(
-            points.saPoint2,
-            points.saPoint3Anchor,
+          points.saStrapLeft = utils.beamsIntersect(
+            points.saStrapRight,
+            points.saStrapLeftAnchor,
             points.necklineRightStart,
             points.cbTopCp1.shiftTowards(points.strapLeft, sa).rotate(90, points.cbTopCp1)
           )
         }
 
-        points.saPoint4 = points.cbTop.shift(180, cbSa)
-        points.saPoint5 = points.cbFacing.translate(-cbSa, bodiceFacingHemSa)
+        points.saCbTop = points.cbTop.shift(180, cbSa)
+        points.saCbFacing = points.cbFacing.translate(-cbSa, bodiceFacingHemSa)
 
         paths.sa = paths.hemBase
           .offset(bodiceFacingHemSa)
-          .line(points.saPoint0)
+          .line(points.saSideFacing)
           .line(paths.sideSeam.offset(sideSeamSa).start())
           .join(paths.sideSeam.offset(sideSeamSa))
-          .line(points.saPoint1)
+          .line(points.saArmholeDropCorner)
           .line(paths.necklineRight.offset(sa).start())
           .join(paths.necklineRight.offset(sa))
-          .line(points.saPoint2)
+          .line(points.saStrapRight)
           .line(paths.strap.offset(sa).start())
           .join(paths.strap.offset(sa))
-          .line(points.saPoint3)
+          .line(points.saStrapLeft)
           .line(paths.necklineLeft.offset(sa).start())
           .join(paths.necklineLeft.offset(sa))
-          .line(points.saPoint4)
-          .line(points.saPoint5)
+          .line(points.saCbTop)
+          .line(points.saCbFacing)
           .close()
           .attr('class', 'fabric sa')
       }
