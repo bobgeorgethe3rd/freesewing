@@ -11,8 +11,11 @@ export const front = {
   optionalMeasurements: ['shoulderToElbow'],
   options: {
     //Constant
-    bustDartPlacement: 'armholePitch', //Altered for Aimee
-    bustDartLength: 1, //Altered for Aimee
+    bustDartPlacement: 'armholePitch', //Locked for Aimee
+    bustDartLength: 1, //Locked for Aimee
+    frontArmholeDepth: 0.552, //Locked for Aimee
+    frontArmholePitchDepth: 0.5, //Locked for Aimee
+    frontArmholePitchWidth: 0.911, //Locked for Aimee
     // bustDartCurve: 1,
     bustDartFraction: 0.5, //Altered for Aimee
     //Fit

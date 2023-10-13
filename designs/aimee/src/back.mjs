@@ -10,6 +10,10 @@ export const back = {
     inherited: true,
   },
   options: {
+    //Constants
+    backArmholeDepth: 0.552, //Locked for Aimee
+    backArmholePitchDepth: 0.5, //Locked for Aimee
+    backArmholePitchWidth: 0.97, //Locked for Aimee
     //Construction
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
   },
