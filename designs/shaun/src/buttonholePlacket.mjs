@@ -81,26 +81,32 @@ export const buttonholePlacket = {
     if (complete && sa) {
       const hemSa = sa * options.hemWidth * 100
 
-      points.saPoint0 = new Point(
+      points.saBottomRight = new Point(
         paths.saLeft.offset(sa).start().x,
         paths.hemBase.offset(hemSa).end().y
       )
-      points.saPoint1 = new Point(paths.saLeft.offset(sa).end().x, drawNeck().offset(sa).start().y)
-      points.saPoint2 = new Point(drawSaRight().offset(sa).start().x, drawNeck().offset(sa).end().y)
-      points.saPoint3 = new Point(
+      points.saTopRight = new Point(
+        paths.saLeft.offset(sa).end().x,
+        drawNeck().offset(sa).start().y
+      )
+      points.saTopLeft = new Point(
+        drawSaRight().offset(sa).start().x,
+        drawNeck().offset(sa).end().y
+      )
+      points.saBottomLeft = new Point(
         drawSaRight().offset(sa).end().x,
         paths.hemBase.offset(hemSa).start().y
       )
 
-      paths.sa = paths.hemBase
-        .offset(hemSa)
-        .line(points.saPoint0)
+      paths.sa = new Path()
+        .move(points.saBottomLeft)
+        .line(points.saBottomRight)
         .join(paths.saLeft.offset(sa))
-        .line(points.saPoint1)
+        .line(points.saTopRight)
         .join(drawNeck().offset(sa))
-        .line(points.saPoint2)
+        .line(points.saTopLeft)
         .join(drawSaRight().offset(sa))
-        .line(points.saPoint3)
+        .line(points.saBottomLeft)
         .close()
         .attr('class', 'fabric sa')
     }

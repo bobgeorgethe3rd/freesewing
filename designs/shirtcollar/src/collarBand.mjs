@@ -140,16 +140,16 @@ export const collarBand = {
 
       paths.cfRight = new Path().move(points.top).line(points.bottom).attr('class', 'mark help')
       if (sa) {
-        points.saPoint0 = points.bottomLeft
+        points.saBottomLeft = points.bottomLeft
           .shift(points.fBottom.angle(points.bottomLeft), sa)
           .shift(points.fBottom.angle(points.bottomLeft) + 90, sa)
-        points.saPoint1 = points.bottomRight
+        points.saBottomRight = points.bottomRight
           .shift(points.bottom.angle(points.bottomRight), sa)
           .shift(points.bottom.angle(points.bottomRight) - 90, sa)
         paths.sa = new Path()
-          .move(points.saPoint0)
+          .move(points.saBottomLeft)
           .join(paths.saBottom.offset(sa))
-          .line(points.saPoint1)
+          .line(points.saBottomRight)
           .join(paths.saTop.offset(sa))
           .close()
           .attr('class', 'fabric sa')

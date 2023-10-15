@@ -206,7 +206,7 @@ export const frontBase = {
     if (complete && sa) {
       const hemSa = sa * options.hemWidth * 100
       const sideSeamSa = sa * options.sideSeamSaWidth * 100
-      points.saPoint0 = points.sideHem
+      points.saSideHem = points.sideHem
         .shift(points.sideHemCp1.angle(points.sideHem), sideSeamSa)
         .shift(points.sideHemCp1.angle(points.sideHem) - 90, hemSa)
     }

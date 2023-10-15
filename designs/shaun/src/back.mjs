@@ -277,7 +277,7 @@ export const back = {
         const hemSa = sa * options.hemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
 
-        points.saPoint0 = points.sideHem
+        points.saSideHem = points.sideHem
           .shift(points.sideHemCp1.angle(points.sideHem), sideSeamSa)
           .shift(points.sideHemCp1.angle(points.sideHem) - 90, hemSa)
 
@@ -319,7 +319,7 @@ export const back = {
 
         const drawSaTop = () => {
           if (options.yokeBack) {
-            points.saPoint4 = drawSeamTop()
+            points.saYokeBack = drawSeamTop()
               .offset(sa)
               .start()
               .shift(
@@ -327,7 +327,7 @@ export const back = {
                 sa * options.armholeSaWidth * 100
               )
             return new Path()
-              .move(points.saPoint4)
+              .move(points.saYokeBack)
               .join(
                 new Path()
                   .move(points.backTopRight)
@@ -337,17 +337,22 @@ export const back = {
               )
           } else {
             return new Path()
-              .move(points.saPoint2)
-              .line(points.saPoint3)
-              .join(new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck).offset(sa))
+              .move(points.saShoulderCorner)
+              .line(points.saHps)
+              .join(
+                new Path()
+                  .move(points.hps)
+                  ._curve(points.cbNeckCp1, points.cbNeck)
+                  .offset(sa * options.neckSaWidth * 100)
+              )
           }
         }
 
         paths.sa = paths.hemBase
           .offset(hemSa)
-          .line(points.saPoint0)
+          .line(points.saSideHem)
           .join(paths.sideSeam.offset(sideSeamSa))
-          .line(points.saPoint1)
+          .line(points.saArmholeCorner)
           .join(drawSaArmhole())
           .join(drawSaTop())
           .join(drawSeamLeft().offset(cbSa))

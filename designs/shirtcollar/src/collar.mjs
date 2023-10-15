@@ -128,24 +128,24 @@ export const collar = {
         .attr('data-text-class', 'center')
 
       if (sa) {
-        points.saPoint0 = points.fTopCollar
+        points.saFTopCollar = points.fTopCollar
           .shift(points.fTopCp1.angle(points.fTopCollar), sa)
           .shift(points.fBottomCollar.angle(points.fTopCollar), sa)
-        points.saPoint1 = utils.beamsIntersect(
+        points.saFBottomCollar = utils.beamsIntersect(
           points.fTopCollar.shiftTowards(points.fBottomCollar, sa).rotate(-90, points.fTopCollar),
           points.fBottomCollar.shiftTowards(points.fTopCollar, sa).rotate(90, points.fBottomCollar),
           paths.saBottom.offset(sa).start(),
           paths.saBottom.offset(sa).shiftFractionAlong(0.001)
         )
-        points.saPoint2 = points.saPoint1.flipX(points.topMid)
-        points.saPoint3 = points.saPoint0.flipX(points.topMid)
+        points.saBottomCollar = points.saFBottomCollar.flipX(points.topMid)
+        points.saTopCollar = points.saFTopCollar.flipX(points.topMid)
         paths.sa = paths.saTop
           .offset(sa)
-          .line(points.saPoint0)
-          .line(points.saPoint1)
+          .line(points.saFTopCollar)
+          .line(points.saFBottomCollar)
           .join(paths.saBottom.offset(sa))
-          .line(points.saPoint2)
-          .line(points.saPoint3)
+          .line(points.saBottomCollar)
+          .line(points.saTopCollar)
           .close()
           .attr('class', 'fabric sa')
       }

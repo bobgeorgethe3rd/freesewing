@@ -200,29 +200,30 @@ export const sleeve = {
       if (sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const armholeSa = sa * options.armholeSaWidth * 100
-        points.saPoint0 = new Point(
+        points.saHemRight = new Point(
           drawSaRight().offset(sideSeamSa).start().x,
           drawHemBase().offset(sa).end().y
         )
-        points.saPoint1 = new Point(
+        //need resetting due to path changes
+        points.saSleeveCapRight = new Point(
           drawSaRight().offset(sideSeamSa).end().x,
           paths.sleevecap.offset(armholeSa).start().y
         )
-        points.saPoint2 = new Point(
+        points.saSleeveCapLeft = new Point(
           drawSaLeft().offset(sideSeamSa).start().x,
           paths.sleevecap.offset(armholeSa).end().y
         )
-        points.saPoint3 = points.saPoint0.flipX(points.bottomAnchor)
+        points.saHemLeft = points.saHemRight.flipX(points.bottomAnchor)
 
-        paths.sa = drawHemBase()
-          .offset(sa)
-          .line(points.saPoint0)
+        paths.sa = new Path()
+          .move(points.saHemLeft)
+          .line(points.saHemRight)
           .join(drawSaRight().offset(sideSeamSa))
-          .line(points.saPoint1)
+          .line(points.saSleeveCapRight)
           .join(paths.sleevecap.offset(armholeSa))
-          .line(points.saPoint2)
+          .line(points.saSleeveCapLeft)
           .join(drawSaLeft().offset(sideSeamSa))
-          .line(points.saPoint3)
+          .line(points.saHemLeft)
           .close()
           .attr('class', 'fabric sa')
       }

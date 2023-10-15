@@ -6,6 +6,7 @@ export const front = {
   options: {
     //Constants
     cfNeck: 0.55191502449,
+    cfSaWidth: 0,
     useVoidStores: false,
     //Armhole
     // frontArmholePitchWidth: { pct: 95.3, min: 95, max: 97, menu: 'armhole' },
@@ -208,13 +209,22 @@ export const front = {
     )
     if (complete) {
       //grainline
-      points.cutOnFoldFrom = points.cfNeck
-      points.cutOnFoldTo = points.cWaist
-      macro('cutonfold', {
-        from: points.cutOnFoldFrom,
-        to: points.cutOnFoldTo,
-        grainline: true,
-      })
+      if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
+        points.cutOnFoldFrom = points.cfNeck
+        points.cutOnFoldTo = points.cWaist
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.cfNeck.shiftFractionTowards(points.cfNeckCp1, 1 / 3)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cWaist.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+      }
       //notches
       snippets.armholePitch = new Snippet('notch', points.armholePitch)
       //title
@@ -227,8 +237,27 @@ export const front = {
       if (sa) {
         const armholeSa = sa * options.armholeSaWidth * 100
         const hemSa = sa * options.hemWidth * 100
-        const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const shoulderSa = sa * options.shoulderSaWidth * 100
+        const neckSa = sa * options.neckSaWidth * 100
+        const closureSa = sa * options.closureSaWidth * 100
+
+        let cfSa
+        if (options.closurePosition == 'front') {
+          cfSa = closureSa
+        } else {
+          cfSa = sa * options.cbSaWidth * 100
+        }
+        let sideSeamSa
+        if (
+          options.closurePosition == 'side' ||
+          options.closurePosition == 'sideLeft' ||
+          options.closurePosition == 'sideRight'
+        ) {
+          sideSeamSa = closureSa
+        } else {
+          sideSeamSa = sa * options.sideSeamSaWidth * 100
+        }
+
         points.saArmhole = new Point(
           points.armhole.shift(45, armholeSa).x,
           points.armhole.y - armholeSa
@@ -257,38 +286,39 @@ export const front = {
           .curve_(points.saArmholePitchCp2, points.saShoulder)
           .hide()
 
-        points.saPoint0 = new Point(points.sideWaist.x + armholeSa, points.sideWaist.y + hemSa)
-        points.saPoint1 = utils.beamsIntersect(
+        points.saSideWaist = new Point(points.sideWaist.x + armholeSa, points.sideWaist.y + hemSa)
+        points.saArmholeCorner = utils.beamsIntersect(
           points.saArmholeCp2,
           points.saArmhole,
           paths.sideSeam.offset(sideSeamSa).end(),
           paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.999)
         )
-        points.saPoint2 = points.shoulder
+        points.saShoulderCorner = points.shoulder
           .shift(points.hps.angle(points.shoulder), armholeSa)
           .shift(points.hps.angle(points.shoulder) + 90, shoulderSa)
-        points.saPoint3 = utils.beamsIntersect(
-          paths.cfNeck.offset(sa).start(),
+        points.saHps = utils.beamsIntersect(
+          paths.cfNeck.offset(neckSa).start(),
           paths.cfNeck
-            .offset(sa)
+            .offset(neckSa)
             .start()
             .shift(points.hps.angle(points.shoulder) + 90, 1),
           paths.shoulder.offset(shoulderSa).start(),
           paths.shoulder.offset(shoulderSa).end()
         )
+        points.saCfNeck = points.cfNeck.translate(-cfSa, -neckSa)
+        points.saCWaist = points.cWaist.translate(-cfSa, hemSa)
 
-        paths.sa = paths.hemBase
-          .offset(hemSa)
-          .line(points.saPoint0)
+        paths.sa = new Path()
+          .move(points.saCWaist)
+          .line(points.saSideWaist)
           .join(paths.sideSeam.offset(sideSeamSa))
-          .line(points.saPoint1)
+          .line(points.saArmholeCorner)
           .join(paths.saArmhole)
-          .line(points.saPoint2)
-          .join(paths.shoulder.offset(shoulderSa))
-          .line(points.saPoint3)
-          .join(paths.cfNeck.offset(sa))
-          .line(points.cfNeck)
-          .line(points.cWaist)
+          .line(points.saShoulderCorner)
+          .line(points.saHps)
+          .join(paths.cfNeck.offset(neckSa))
+          .line(points.saCfNeck)
+          .line(points.saCWaist)
           .close()
           .attr('class', 'fabric sa')
       }

@@ -91,26 +91,29 @@ export const buttonPlacket = {
     if (complete && sa) {
       const hemSa = sa * options.hemWidth * 100
 
-      points.saPoint0 = new Point(
+      points.saBottomLeft = new Point(
         paths.saLeft.offset(sa).start().x,
         paths.hemBase.offset(hemSa).end().y
       )
-      points.saPoint1 = new Point(paths.saLeft.offset(sa).end().x, drawNeck().offset(sa).start().y)
-      points.saPoint2 = new Point(drawSaRight().offset(sa).start().x, drawNeck().offset(sa).end().y)
-      points.saPoint3 = new Point(
+      points.saTopLeft = new Point(paths.saLeft.offset(sa).end().x, drawNeck().offset(sa).start().y)
+      points.saTopRight = new Point(
+        drawSaRight().offset(sa).start().x,
+        drawNeck().offset(sa).end().y
+      )
+      points.saBottomRight = new Point(
         drawSaRight().offset(sa).end().x,
         paths.hemBase.offset(hemSa).start().y
       )
 
-      paths.sa = paths.hemBase
-        .offset(hemSa)
-        .line(points.saPoint0)
+      paths.sa = new Path()
+        .move(points.saBottomRight)
+        .line(points.saBottomLeft)
         .join(paths.saLeft.offset(sa))
-        .line(points.saPoint1)
+        .line(points.saTopLeft)
         .join(drawNeck().offset(sa))
-        .line(points.saPoint2)
+        .line(points.saTopRight)
         .join(drawSaRight().offset(sa))
-        .line(points.saPoint3)
+        .line(points.saBottomRight)
         .close()
         .attr('class', 'fabric sa')
     }

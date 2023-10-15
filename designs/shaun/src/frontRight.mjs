@@ -166,12 +166,13 @@ export const frontRight = {
 
     if (complete && sa) {
       const hemSa = sa * options.hemWidth * 100
+      const neckSa = sa * options.neckSaWidth * 100
 
-      points.saPoint4 = new Point(
+      points.saTopRight = new Point(
         drawSeamLeft().offset(sa).start().x,
-        drawNeck().offset(sa).end().y
+        drawNeck().offset(neckSa).end().y
       )
-      points.saPoint5 = new Point(
+      points.saBottomRight = new Point(
         drawSeamLeft().offset(sa).end().x,
         paths.hemBase.offset(hemSa).start().y
       )
@@ -184,17 +185,16 @@ export const frontRight = {
 
       paths.sa = paths.hemBase
         .offset(hemSa)
-        .line(points.saPoint0)
+        .line(points.saSideHem)
         .join(paths.sideSeam.offset(sa * options.sideSeamSaWidth * 100))
-        .line(points.saPoint1)
+        .line(points.saArmholeCorner)
         .join(paths.saArmhole)
-        .line(points.saPoint2)
-        .join(paths.shoulder.offset(sa))
-        .line(points.saPoint3)
-        .join(drawNeck().offset(sa))
-        .line(points.saPoint4)
+        .line(points.saShoulderCorner)
+        .line(points.saHps)
+        .join(drawNeck().offset(neckSa))
+        .line(points.saTopRight)
         .join(drawSeamLeft().offset(sa))
-        .line(points.saPoint5)
+        .line(points.saBottomRight)
         .close()
         .attr('class', 'fabric sa')
     }

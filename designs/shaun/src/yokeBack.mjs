@@ -127,6 +127,10 @@ export const yokeBack = {
       }
       if (options.yokeBackOnBias && options.yokeBackOnFold) {
         snippets.cb = new Snippet('bnotch', points.cbYoke)
+        snippets.fBackTopCurveEnd = new Snippet(
+          'notch',
+          points.backTopCurveEnd.flipX(points.cbYoke)
+        )
       }
       snippets.backTopCurveEnd = new Snippet('notch', points.backTopCurveEnd)
       //title
@@ -139,21 +143,20 @@ export const yokeBack = {
       })
       if (sa) {
         const armholeSa = sa * options.armholeSaWidth * 100
-        const shoulderSa = sa * options.shoulderSaWidth * 100
+        const neckSa = sa * options.neckSaWidth * 100
 
-        points.saPoint0 = paths.saBottom.offset(sa).end().shift(0, armholeSa)
-        points.saPoint4 = paths.saBottom.start().translate(-armholeSa - paths.saBottom.length(), sa)
+        points.saYokeBack = points.yokeBack.translate(armholeSa, sa)
+        points.saFYokeBack = points.saYokeBack.flipX(points.cbYoke)
 
         const drawSALeft = () => {
           if (options.yokeBackOnBias && options.yokeBackOnFold) {
             return paths.mCbNeck
               .reverse()
-              .offset(sa)
-              .line(points.saPoint3.flipX(points.cbNeck))
-              .join(paths.mShoulder.reverse().offset(shoulderSa))
-              .line(points.saPoint2.flipX(points.cbNeck))
+              .offset(neckSa)
+              .line(points.saHps.flipX(points.cbNeck))
+              .line(points.saShoulderCorner.flipX(points.cbNeck))
               .join(paths.mArmhole.reverse().offset(armholeSa))
-              .line(points.saPoint4)
+              .line(points.saFYokeBack)
               .join(paths.mSaBottom.reverse().offset(sa))
           } else {
             return paths.cb.offset(cbSa)
@@ -161,12 +164,11 @@ export const yokeBack = {
         }
         paths.sa = paths.saBottom
           .offset(sa)
-          .line(points.saPoint0)
+          .line(points.saYokeBack)
           .join(paths.armhole.offset(armholeSa))
-          .line(points.saPoint2)
-          .join(paths.shoulder.offset(shoulderSa))
-          .line(points.saPoint3)
-          .join(paths.cbNeck.offset(sa))
+          .line(points.saShoulderCorner)
+          .line(points.saHps)
+          .join(paths.cbNeck.offset(neckSa))
           .join(drawSALeft())
           .close()
           .attr('class', 'fabric sa')
