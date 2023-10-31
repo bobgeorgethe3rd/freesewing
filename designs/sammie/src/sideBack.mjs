@@ -78,7 +78,7 @@ export const sideBack = {
       snippets.sideBackSeamNotch = new Snippet('bnotch', points.sideBackSeamNotch)
       //title
       points.title = new Point(
-        points.dartTopRightCp.x * 0.9,
+        points.dartTopRightCp.x,
         ((points.dartBottomRight.y + points.dartTopRight.y) / 2) * 0.975
       )
       macro('title', {

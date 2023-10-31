@@ -70,9 +70,9 @@ export const backBase = {
     points.cbTopAnchorCp = new Point(points.dartTip.x, points.cbTop.y)
 
     points.dartTopLeftCp = utils.beamsIntersect(
-      (points.dartTopLeftCp = points.cbTop.shiftFractionTowards(points.dartBottomLeft, 0.5)),
+      (points.dartTopLeftCp = points.cbTop.shiftFractionTowards(points.dartBottomLeft, 0.75)),
       (points.dartTopLeftCp = points.cbTop
-        .shiftFractionTowards(points.dartBottomLeft, 0.5)
+        .shiftFractionTowards(points.dartBottomLeft, 0.75)
         .shift(-90, 1)),
       points.cbTop,
       points.cbTop.shift(0, 1)
@@ -82,8 +82,8 @@ export const backBase = {
       .beamsIntersect(
         points.dartTopLeftCp,
         points.armholeDrop.rotate(-backDartAngle, points.dartTip),
-        points.dartTip.shiftFractionTowards(points.armhole, 0.5),
-        points.dartTip.shiftFractionTowards(points.armhole, 0.5).shift(-90, 1)
+        points.dartTip.shiftFractionTowards(points.armhole, 0.25),
+        points.dartTip.shiftFractionTowards(points.armhole, 0.25).shift(-90, 1)
       )
       .rotate(backDartAngle, points.dartTip)
 
