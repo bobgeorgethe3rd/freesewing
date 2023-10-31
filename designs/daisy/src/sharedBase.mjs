@@ -5,7 +5,7 @@ export const sharedBase = {
     cbNeck: 0.044,
     neckEase: 0, //.064,
     //Fit
-    chestEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
+    chestEase: { pct: 4.8, min: 0, max: 20, menu: 'fit' },
     shoulderToShoulderEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
     waistEase: { pct: 5, min: 0, max: 20, menu: 'fit' },
     //Armhole
