@@ -1,7 +1,9 @@
 import { pluginRingSector } from '@freesewing/plugin-ringsector'
+import { dress } from './dress.mjs'
 
 export const channel = {
   name: 'siona.channel',
+  after: dress,
   plugins: [pluginRingSector],
   draft: ({
     store,
