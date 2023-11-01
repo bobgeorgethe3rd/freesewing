@@ -100,10 +100,16 @@ export const beltLoops = {
       })
 
       if (sa) {
-        points.saTopLeft = points.topLeft.shift(180, sa)
-        points.saBottomLeft = points.bottomLeft.shift(180, sa)
-        points.saBottomRight = points.bottomRight.shift(0, sa)
-        points.saTopRight = points.topRight.shift(0, sa)
+        let beltLoopSa
+        if (options.beltLoopType == 'single') {
+          beltLoopSa = store.get('beltLoopWidth')
+        } else {
+          beltLoopSa = sa
+        }
+        points.saTopLeft = points.topLeft.shift(180, beltLoopSa)
+        points.saBottomLeft = points.bottomLeft.shift(180, beltLoopSa)
+        points.saBottomRight = points.bottomRight.shift(0, beltLoopSa)
+        points.saTopRight = points.topRight.shift(0, beltLoopSa)
 
         paths.sa = new Path()
           .move(points.saTopLeft)
