@@ -75,6 +75,8 @@ packageJson:
     author: AlfaLyr (https://github.com/alfalyr)
   shelly:
     author: Thrunic (https://github.com/Thrunic)
+  siona:
+    author: bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)
   onyx:
     author: Thrunic (https://github.com/Thrunic)
   tiberius: *starf

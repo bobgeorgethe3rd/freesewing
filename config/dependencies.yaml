@@ -150,6 +150,9 @@ simone:
     '@freesewing/simon': *freesewing
     '@freesewing/plugin-flip': *freesewing
     '@freesewing/plugin-bust': *freesewing
+siona:
+  peer:
+    '@freesewing/plugin-ringsector': *freesewing
 sven:
   peer:
     '@freesewing/brian': *freesewing
