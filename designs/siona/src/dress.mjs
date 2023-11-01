@@ -1,5 +1,5 @@
 import { pluginRingSector } from '@freesewing/plugin-ringsector'
-import { escape } from 'mustache'
+import { pctBasedOn } from '@freesewing/core'
 
 export const dress = {
   name: 'siona.dress',
@@ -8,9 +8,18 @@ export const dress = {
     shoulderToShoulderEase: { pct: -0.5, min: -1, max: 5, menu: 'fit' },
     //Style
     neckOpening: { pct: 20.5, min: 15, max: 25, menu: 'style' },
-    dressAngle: { deg: 60, min: 45, max: 90, menu: 'style' },
+    dressFullness: { deg: 60, min: 45, max: 90, menu: 'style' },
     length: { pct: 200, min: 0, max: 250, menu: 'style' },
     lengthBonus: { pct: 0, min: -50, max: 50, menu: 'style' },
+    bandType: { dflt: 'belt', list: ['belt', 'channel', 'none'], menu: 'style' },
+    bandWidth: {
+      pct: 4.2,
+      min: 1,
+      max: 6,
+      snap: 5,
+      ...pctBasedOn('waistToFloor'),
+      menu: 'style',
+    },
     //Armhole
     scyeDepth: { pct: 45.5, min: 40, max: 50, menu: 'armhole' },
     //Construction
@@ -52,7 +61,7 @@ export const dress = {
   }) => {
     //measurements
     const arcLength = measurements.head * (1 + options.neckOpening) * 0.25
-    const innerRadius = arcLength / utils.deg2rad(options.dressAngle)
+    const innerRadius = arcLength / utils.deg2rad(options.dressFullness)
     const shoulderLength =
       measurements.shoulderToShoulder * (1 + options.shoulderToShoulderEase) * 0.5 -
       (arcLength * 4) / 5
@@ -90,7 +99,7 @@ export const dress = {
 
     macro('ringsector', {
       point: points.origin,
-      angle: options.dressAngle,
+      angle: options.dressFullness,
       insideRadius: innerRadius,
       outsideRadius: innerRadius + toWaistLength + skirtLength,
       rotate: true,
@@ -108,9 +117,34 @@ export const dress = {
       measurements.waistToArmpit * (1 - options.scyeDepth)
     )
 
+    if (options.bandType != 'none') {
+      //when channel needs to be slightly wider for elastic to fit. options.bandWidth == elasticWidth when options.bandType == 'channel'
+      const bandWidth =
+        options.bandType == 'belt'
+          ? absoluteOptions.bandWidth * 0.5
+          : absoluteOptions.bandWidth * 0.5375
+
+      points.sideBandTop = points.sideWaist.shiftTowards(points.sideNeck, bandWidth)
+      points.sideBandBottom = points.sideBandTop.rotate(180, points.sideWaist)
+
+      points.cBandTop = points.sideBandTop.rotate(
+        -options.dressFullness,
+        points.__macro_ringsector_ringsector_center
+      )
+      points.cBandBottom = points.sideBandBottom.rotate(
+        -options.dressFullness,
+        points.__macro_ringsector_ringsector_center
+      )
+      store.set(
+        'channelInnerRaidus',
+        points.__macro_ringsector_ringsector_center.dist(points.sideBandTop)
+      )
+      store.set('bandWidth', bandWidth * 2)
+    }
+
     //stores
     store.set('upperArmWidth', points.shoulder.dist(points.armhole))
-
+    store.set('outerRadius', points.__macro_ringsector_ringsector_center.dist(points.sideHem))
     //details
     if (options.centreSaWidth > 0) {
       points.grainlineFrom = points.__macro_ringsector_ringsector_in2Flipped.shiftFractionTowards(
@@ -135,22 +169,76 @@ export const dress = {
       })
     }
 
-    //notches
+    //notches && guide lines
+    const guideLength = arcLength / 5
     macro('sprinkle', {
       snippet: 'notch',
       on: ['shoulder', 'armhole'],
     })
-    if (points.sideHem.x > points.sideWaist.x) {
-      points.cWaist = points.__macro_ringsector_ringsector_in2Flipped.shiftTowards(
-        points.__macro_ringsector_ringsector_ex2Flipped,
-        toWaistLength
-      )
-      macro('sprinkle', {
-        snippet: 'bnotch',
-        on: ['cWaist', 'sideWaist'],
-      })
-    }
 
+    paths.shoulderGuide = new Path()
+      .move(points.shoulder.shiftTowards(points.sideNeck, guideLength).rotate(90, points.shoulder))
+      .line(points.shoulder)
+      .attr('class', 'various')
+      .attr('data-text', 'shoulder')
+      .attr('data-text-class', 'center')
+
+    paths.armholeGuide = new Path()
+      .move(points.armhole.shiftTowards(points.sideNeck, guideLength).rotate(90, points.armhole))
+      .line(points.armhole)
+      .attr('class', 'various')
+      .attr('data-text', 'armhole')
+      .attr('data-text-class', 'center')
+
+    if (points.sideHem.x > points.sideWaist.x) {
+      paths.waistGuide = new Path()
+        .move(
+          points.sideWaist.shiftTowards(points.sideNeck, guideLength).rotate(90, points.sideWaist)
+        )
+        .line(points.sideWaist)
+        .attr('class', 'various')
+        .attr('data-text', 'waist')
+        .attr('data-text-class', 'center')
+
+      if (options.bandType == 'none') {
+        points.cWaist = points.__macro_ringsector_ringsector_in2Flipped.shiftTowards(
+          points.__macro_ringsector_ringsector_ex2Flipped,
+          toWaistLength
+        )
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['cWaist', 'sideWaist'],
+        })
+      } else {
+        if (points.sideBandBottom.x > points.sideWaist.x) {
+          macro('sprinkle', {
+            snippet: 'notch',
+            on: ['cBandTop', 'cBandBottom', 'sideBandTop', 'sideBandBottom'],
+          })
+          paths.bandTopGuide = new Path()
+            .move(
+              points.sideBandTop
+                .shiftTowards(points.sideNeck, guideLength)
+                .rotate(90, points.sideBandTop)
+            )
+            .line(points.sideBandTop)
+            .attr('class', 'various')
+            .attr('data-text', 'bandTop')
+            .attr('data-text-class', 'center')
+
+          paths.bandBottomGuide = new Path()
+            .move(
+              points.sideBandBottom
+                .shiftTowards(points.sideNeck, guideLength)
+                .rotate(90, points.sideBandBottom)
+            )
+            .line(points.sideBandBottom)
+            .attr('class', 'various')
+            .attr('data-text', 'bandBottom')
+            .attr('data-text-class', 'center')
+        }
+      }
+    }
     //title
     points.title = points.__macro_ringsector_ringsector_in1.shiftFractionTowards(
       points.__macro_ringsector_ringsector_ex1,
