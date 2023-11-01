@@ -136,7 +136,7 @@ export const dress = {
         points.__macro_ringsector_ringsector_center
       )
       store.set(
-        'channelInnerRaidus',
+        'channelInnerRadius',
         points.__macro_ringsector_ringsector_center.dist(points.sideBandTop)
       )
       store.set('bandWidth', bandWidth * 2)
@@ -146,10 +146,11 @@ export const dress = {
     store.set('upperArmWidth', points.shoulder.dist(points.armhole))
     store.set('outerRadius', points.__macro_ringsector_ringsector_center.dist(points.sideHem))
     //details
+    //grainline
     if (options.centreSaWidth > 0) {
       points.grainlineFrom = points.__macro_ringsector_ringsector_in2Flipped.shiftFractionTowards(
         points.__macro_ringsector_ringsector_in2cFlipped,
-        0.15
+        0.5
       )
       points.grainlineTo = new Point(
         points.grainlineFrom.x,

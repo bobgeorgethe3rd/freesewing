@@ -6,11 +6,13 @@ import { data } from '../data.mjs'
 // Parts
 import { dress } from './dress.mjs'
 
+import { channel } from './channel.mjs'
+
 // Create new design
 const Siona = new Design({
   data,
-  parts: [dress],
+  parts: [dress, channel],
 })
 
 // Named exports
-export { dress, i18n, Siona }
+export { dress, channel, i18n, Siona }
