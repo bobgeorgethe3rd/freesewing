@@ -140,6 +140,16 @@ export const dress = {
       snippet: 'notch',
       on: ['shoulder', 'armhole'],
     })
+    if (points.sideHem.x > points.sideWaist.x) {
+      points.cWaist = points.__macro_ringsector_ringsector_in2Flipped.shiftTowards(
+        points.__macro_ringsector_ringsector_ex2Flipped,
+        toWaistLength
+      )
+      macro('sprinkle', {
+        snippet: 'bnotch',
+        on: ['cWaist', 'sideWaist'],
+      })
+    }
 
     //title
     points.title = points.__macro_ringsector_ringsector_in1.shiftFractionTowards(
