@@ -17,15 +17,10 @@ export const pocket = {
     Path,
     paths,
     options,
-    complete,
     paperless,
     macro,
-    utils,
     measurements,
     part,
-    snippets,
-    Snippet,
-    absoluteOptions,
     log,
   }) => {
     if (!options.pocketsBool || store.get('pocketRadius') > store.get('outerRadius')) {

@@ -55,7 +55,6 @@ export const dress = {
     Path,
     paths,
     options,
-    complete,
     paperless,
     macro,
     utils,
@@ -64,7 +63,6 @@ export const dress = {
     snippets,
     Snippet,
     absoluteOptions,
-    log,
   }) => {
     //measurements
     const arcLength = measurements.head * (1 + options.neckOpening) * 0.25

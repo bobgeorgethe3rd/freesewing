@@ -5,25 +5,7 @@ export const channel = {
   name: 'siona.channel',
   after: dress,
   plugins: [pluginRingSector],
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    Snippet,
-    absoluteOptions,
-    log,
-  }) => {
+  draft: ({ store, sa, Point, points, Path, paths, options, paperless, macro, part, log }) => {
     if (
       options.bandType != 'channel' ||
       store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')
