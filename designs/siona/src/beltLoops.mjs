@@ -108,6 +108,29 @@ export const beltLoops = {
     }
 
     if (paperless) {
+      macro('vd', {
+        from: points.topLeft,
+        to: points.bottomLeft,
+        x: points.topLeft.x - absoluteOptions.beltLoopWidth - 30,
+        force: true,
+        id: 'vLength',
+      })
+      if (options.beltLoopNumber > 1) {
+        macro('vd', {
+          from: points.topLeft,
+          to: points.cutlineFrom0,
+          x: points.topLeft.x - absoluteOptions.beltLoopWidth - 15,
+          force: true,
+          id: 'vCutLength',
+        })
+      }
+      macro('hd', {
+        from: points.topLeft,
+        to: points.topRight,
+        y: points.topLeft.y - 15,
+        force: true,
+        id: 'vWidth',
+      })
     }
 
     return part

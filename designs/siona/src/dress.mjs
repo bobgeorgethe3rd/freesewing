@@ -366,6 +366,87 @@ export const dress = {
     }
 
     if (paperless) {
+      macro('vd', {
+        from: points.__macro_ringsector_ringsector_center,
+        to: points.__macro_ringsector_ringsector_in2Flipped,
+        x: points.__macro_ringsector_ringsector_center.x - sa * options.centreSaWidth * 100 - 15,
+        force: true,
+        id: 'vRadius',
+      })
+      macro('vd', {
+        from: points.__macro_ringsector_ringsector_in2Flipped,
+        to: points.__macro_ringsector_ringsector_ex2Flipped,
+        x: points.__macro_ringsector_ringsector_center.x - sa * options.centreSaWidth * 100 - 15,
+        force: true,
+        id: 'vLength',
+      })
+      macro('vd', {
+        from: points.__macro_ringsector_ringsector_center,
+        to: points.__macro_ringsector_ringsector_ex2Flipped,
+        x: points.__macro_ringsector_ringsector_center.x - sa * options.centreSaWidth * 100 - 30,
+        force: true,
+        id: 'vFull',
+      })
+      if (options.dressFullness < 90) {
+        macro('vd', {
+          from: points.__macro_ringsector_ringsector_center,
+          to: points.__macro_ringsector_ringsector_in2,
+          x: points.__macro_ringsector_ringsector_center.x,
+          force: true,
+          id: 'vSide',
+        })
+        macro('ld', {
+          from: points.__macro_ringsector_ringsector_center,
+          to: points.__macro_ringsector_ringsector_in2,
+          force: true,
+          id: 'lSide',
+        })
+      }
+      macro('hd', {
+        from: points.__macro_ringsector_ringsector_center,
+        to: points.__macro_ringsector_ringsector_in2,
+        y: points.__macro_ringsector_ringsector_in2.y,
+        force: true,
+        id: 'hSide',
+      })
+      const sideSeamSa = sa * options.sideSeamSaWidth * 100
+      macro('ld', {
+        from: points.__macro_ringsector_ringsector_in2,
+        to: points.shoulder,
+        force: true,
+        d: sideSeamSa + 15,
+        id: 'lShoulder',
+      })
+      macro('ld', {
+        from: points.shoulder,
+        to: points.armhole,
+        force: true,
+        d: sideSeamSa + 15,
+        id: 'lArmhole',
+      })
+      macro('ld', {
+        from: points.armhole,
+        to: points.sideWaist,
+        force: true,
+        d: sideSeamSa + 15,
+        id: 'lWaist',
+      })
+      if (points.sideHem.x > points.sideWaist.x) {
+        macro('ld', {
+          from: points.sideWaist,
+          to: points.sideHem,
+          force: true,
+          d: sideSeamSa + 15,
+          id: 'lSkirtLength',
+        })
+      }
+      macro('ld', {
+        from: points.sideNeck,
+        to: points.sideHem,
+        force: true,
+        d: sideSeamSa + 30,
+        id: 'lLength',
+      })
     }
 
     return part

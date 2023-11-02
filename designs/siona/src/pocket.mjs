@@ -84,6 +84,41 @@ export const pocket = {
     }
 
     if (paperless) {
+      macro('vd', {
+        from: points.topLeft,
+        to: points.bottomLeft,
+        x: points.topLeft.x - sa * options.pocketBagSaWidth * 100 - 15,
+        force: true,
+        id: 'vLength',
+      })
+      macro('hd', {
+        from: points.topLeft,
+        to: points.topRight,
+        y: points.topLeft.y - sa * options.pocketBagSaWidth * 100 - 15,
+        force: true,
+        id: 'vWidth',
+      })
+      macro('vd', {
+        from: points.topRight,
+        to: points.pocketOpeningTop,
+        x: points.topRight.x + sa * options.sideSeamSaWidth * 100 + 15,
+        force: true,
+        id: 'vOpening',
+      })
+      macro('vd', {
+        from: points.pocketOpeningTop,
+        to: points.pocketOpeningBottom,
+        x: points.topRight.x + sa * options.sideSeamSaWidth * 100 + 15,
+        force: true,
+        id: 'vOpeningLength',
+      })
+      macro('vd', {
+        from: points.pocketOpeningBottom,
+        to: points.bottomRight,
+        x: points.topRight.x + sa * options.sideSeamSaWidth * 100 + 15,
+        force: true,
+        id: 'vDepth',
+      })
     }
     return part
   },

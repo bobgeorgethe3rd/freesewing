@@ -31,7 +31,7 @@ export const sleeve = {
       return part.hide()
     }
     //measurements
-    const maxWidth = store.get('upperArmWidth')
+    const maxWidth = store.get('upperArmWidth') * 2
     const bottomWidth =
       maxWidth * (1 - options.sleeveLength) +
       measurements.wrist * (1 + options.wristEase) * options.sleeveLength
@@ -73,9 +73,15 @@ export const sleeve = {
       to: points.grainlineTo,
     })
     //title
-    points.title = points.topMid.shiftFractionTowards(points.bottomMid, 0.5)
+    points.title = new Point(points.bottomRight.x / 2, points.bottomMid.y / 2)
     macro('title', { at: points.title, nr: 2, title: 'sleeve', scale: 0.5 })
-
+    //foldline
+    paths.foldline = new Path()
+      .move(points.topMid)
+      .line(points.bottomMid)
+      .attr('class', 'various')
+      .attr('data-text', 'foldLine')
+      .attr('data-text-class', 'center')
     if (sa) {
       paths.sa = paths.saBase
         .offset(sa * options.sideSeamSaWidth * 100)
@@ -85,6 +91,48 @@ export const sleeve = {
     }
 
     if (paperless) {
+      macro('vd', {
+        from: points.topLeft,
+        to: points.bottomLeft,
+        x: points.topLeft.x - sa * options.sideSeamSaWidth * 100 - 15,
+        force: true,
+        id: 'vLength',
+      })
+      macro('hd', {
+        from: points.topLeft,
+        to: points.topMid,
+        y: points.topLeft.y - sa * options.sideSeamSaWidth * 100 - 15,
+        force: true,
+        id: 'vTopMidWidth',
+      })
+      macro('hd', {
+        from: points.topLeft,
+        to: points.topRight,
+        y: points.topLeft.y - sa * options.sideSeamSaWidth * 100 - 30,
+        force: true,
+        id: 'vTopWidth',
+      })
+      macro('hd', {
+        from: points.topLeft,
+        to: points.bottomLeft,
+        y: points.bottomLeft.y,
+        force: true,
+        id: 'vBottomDiff',
+      })
+      macro('hd', {
+        from: points.bottomLeft,
+        to: points.bottomMid,
+        y: points.bottomLeft.y + sa * options.sleeveHemWidth * 100 + 15,
+        force: true,
+        id: 'vBottomMidWidth',
+      })
+      macro('hd', {
+        from: points.bottomLeft,
+        to: points.bottomRight,
+        y: points.bottomLeft.y + sa * options.sleeveHemWidth * 100 + 30,
+        force: true,
+        id: 'vBottomWidth',
+      })
     }
 
     return part

@@ -73,6 +73,20 @@ export const belt = {
     }
 
     if (paperless) {
+      macro('vd', {
+        from: points.topLeft,
+        to: points.bottomLeft,
+        x: points.topLeft.x - sa - 15,
+        force: true,
+        id: 'vLength',
+      })
+      macro('hd', {
+        from: points.topLeft,
+        to: points.topRight,
+        y: points.topLeft.y - sa - 15,
+        force: true,
+        id: 'vWidth',
+      })
     }
 
     return part

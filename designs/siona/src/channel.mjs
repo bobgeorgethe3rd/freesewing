@@ -86,6 +86,56 @@ export const channel = {
     }
 
     if (paperless) {
+      macro('vd', {
+        from: points.__macro_ringsector_ringsector_center,
+        to: points.__macro_ringsector_ringsector_in2Flipped,
+        x: points.__macro_ringsector_ringsector_center.x - 15,
+        force: true,
+        id: 'vRadius',
+      })
+      macro('vd', {
+        from: points.__macro_ringsector_ringsector_in2Flipped,
+        to: points.__macro_ringsector_ringsector_ex2Flipped,
+        x: points.__macro_ringsector_ringsector_center.x - 15,
+        force: true,
+        id: 'vLength',
+      })
+      macro('vd', {
+        from: points.__macro_ringsector_ringsector_center,
+        to: points.__macro_ringsector_ringsector_ex2Flipped,
+        x: points.__macro_ringsector_ringsector_center.x - 30,
+        force: true,
+        id: 'vFull',
+      })
+      if (options.dressFullness < 90) {
+        macro('vd', {
+          from: points.__macro_ringsector_ringsector_center,
+          to: points.__macro_ringsector_ringsector_in2,
+          x: points.__macro_ringsector_ringsector_center.x,
+          force: true,
+          id: 'vSide',
+        })
+        macro('ld', {
+          from: points.__macro_ringsector_ringsector_center,
+          to: points.__macro_ringsector_ringsector_in2,
+          force: true,
+          id: 'lSide',
+        })
+      }
+      macro('hd', {
+        from: points.__macro_ringsector_ringsector_center,
+        to: points.__macro_ringsector_ringsector_in2,
+        y: points.__macro_ringsector_ringsector_in2.y,
+        force: true,
+        id: 'hSide',
+      })
+      macro('ld', {
+        from: points.__macro_ringsector_ringsector_in2,
+        to: points.__macro_ringsector_ringsector_ex2,
+        d: sa + 15,
+        force: true,
+        id: 'lSideLength',
+      })
     }
 
     return part
