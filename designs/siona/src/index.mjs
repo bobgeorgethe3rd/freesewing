@@ -6,6 +6,7 @@ import { data } from '../data.mjs'
 // Parts
 import { dress } from './dress.mjs'
 
+import { pocket } from './pocket.mjs'
 import { belt } from './belt.mjs'
 import { beltLoops } from './beltLoops.mjs'
 import { channel } from './channel.mjs'
@@ -13,8 +14,8 @@ import { channel } from './channel.mjs'
 // Create new design
 const Siona = new Design({
   data,
-  parts: [dress, belt, beltLoops, channel],
+  parts: [dress, pocket, belt, beltLoops, channel],
 })
 
 // Named exports
-export { dress, belt, beltLoops, channel, i18n, Siona }
+export { dress, pocket, belt, beltLoops, channel, i18n, Siona }

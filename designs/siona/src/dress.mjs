@@ -20,6 +20,11 @@ export const dress = {
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     },
+    //Pockets
+    pocketsBool: { bool: true, menu: 'pockets' },
+    pocketOpening: { pct: 8.1, min: 6, max: 12, menu: 'pockets' },
+    pocketOpeningLength: { pct: 63.5, min: 40, max: 70, menu: 'pockets' },
+    pocketOpeningDepth: { pct: 15, min: 5, max: 40, menu: 'pockets' },
     //Armhole
     scyeDepth: { pct: 45.5, min: 40, max: 50, menu: 'armhole' },
     //Construction
@@ -38,6 +43,8 @@ export const dress = {
     'waistToUpperLeg',
     'waistToKnee',
     'waistToFloor',
+    'wrist',
+    'waist',
   ],
   plugins: [pluginRingSector],
   draft: ({
@@ -238,6 +245,55 @@ export const dress = {
             .attr('data-text', 'bandBottom')
             .attr('data-text-class', 'center')
         }
+      }
+    }
+    //pocket notches && guides
+    if (options.pocketsBool) {
+      points.pocketOpeningTop = points.sideWaist.shift(
+        points.sideNeck.angle(points.sideHem),
+        measurements.waistToFloor * options.pocketOpening
+      )
+      points.pocketOpeningBottom = points.pocketOpeningTop.shift(
+        points.sideNeck.angle(points.sideHem),
+        measurements.wrist * options.pocketOpeningLength
+      )
+      points.pocketBottom = points.pocketOpeningBottom.shift(
+        points.sideNeck.angle(points.sideHem),
+        measurements.waistToFloor * options.pocketOpeningDepth
+      )
+      store.set('pocketOpening', points.sideWaist.dist(points.pocketOpeningTop))
+      store.set('pocketOpeningLength', points.pocketOpeningTop.dist(points.pocketOpeningBottom))
+      store.set('pocketDepth', points.pocketOpeningBottom.dist(points.pocketBottom))
+      store.set(
+        'pocketRadius',
+        points.__macro_ringsector_ringsector_center.dist(points.pocketBottom)
+      )
+      if (points.pocketBottom.x < points.sideHem.x) {
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
+        paths.pocketOpeningTopGuide = new Path()
+          .move(
+            points.pocketOpeningTop
+              .shiftTowards(points.sideNeck, guideLength)
+              .rotate(90, points.pocketOpeningTop)
+          )
+          .line(points.pocketOpeningTop)
+          .attr('class', 'various')
+          .attr('data-text', 'pocketOpeningTop')
+          .attr('data-text-class', 'center')
+
+        paths.pocketOpeningBottomGuide = new Path()
+          .move(
+            points.pocketOpeningBottom
+              .shiftTowards(points.sideNeck, guideLength)
+              .rotate(90, points.pocketOpeningBottom)
+          )
+          .line(points.pocketOpeningBottom)
+          .attr('class', 'various')
+          .attr('data-text', 'pocketOpeningBottom')
+          .attr('data-text-class', 'center')
       }
     }
     //title

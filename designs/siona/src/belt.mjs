@@ -3,7 +3,6 @@ import { dress } from './dress.mjs'
 export const belt = {
   name: 'siona.belt',
   after: dress,
-  measurements: ['waist'],
   options: {
     //Style
     beltLength: { pct: 200, min: 150, max: 300, menu: 'style' },
@@ -34,8 +33,7 @@ export const belt = {
       if (store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')) {
         log.info('lengthToShortForBelt')
       }
-      part.hide()
-      return part
+      return part.hide()
     }
     //measurements
     const beltWidth = store.get('bandWidth')

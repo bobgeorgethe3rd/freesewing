@@ -31,8 +31,7 @@ export const channel = {
       if (store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')) {
         log.info('lengthToShortForChannel')
       }
-      part.hide()
-      return part
+      return part.hide()
     }
     //let's begin
     points.origin = new Point(0, 0)

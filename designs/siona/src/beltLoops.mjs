@@ -11,7 +11,7 @@ export const beltLoops = {
     beltLoops: { bool: true, menu: 'style' },
     beltLoopNumber: { count: 3, min: 1, max: 7, menu: 'style' },
     beltLoopWidth: {
-      pct: 1.2,
+      pct: 1.1,
       min: 1,
       max: 6,
       snap: 5,
@@ -46,8 +46,7 @@ export const beltLoops = {
       if (store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')) {
         log.info('lengthToShortForBelt')
       }
-      part.hide()
-      return part
+      return part.hide()
     }
     //measurements
 
