@@ -67,7 +67,7 @@
     },
     "length": {
       "t": "Dress Length",
-      "d": "Controls the length of the dress. 0% waist length, 50% hips length, 100% seat length, 150% upper leg length, 200% knee length, 250% floor length/"
+      "d": "Controls the length of the dress. 0% waist length, 50% hips length, 100% seat length, 150% upper leg length, 200% knee length, 250% floor length."
     },
     "lengthBonus": {
       "t": "Dress Length Bonus",
