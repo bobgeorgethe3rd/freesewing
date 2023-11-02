@@ -21,11 +21,12 @@ export const pocket = {
     macro,
     measurements,
     part,
-    log,
   }) => {
     if (!options.pocketsBool || store.get('pocketRadius') > store.get('outerRadius')) {
       if (store.get('pocketRadius') > store.get('outerRadius')) {
-        log.info('lengthToShortForPockets')
+        store.flag.info({
+          msg: `siona:lengthTooShortForPockets`,
+        })
       }
       return part.hide()
     }

@@ -297,7 +297,7 @@ export const dress = {
     //title
     points.title = points.__macro_ringsector_ringsector_in1.shiftFractionTowards(
       points.__macro_ringsector_ringsector_ex1,
-      1 / 3
+      0.25
     )
     macro('title', { at: points.title, nr: 1, title: 'dress' })
 

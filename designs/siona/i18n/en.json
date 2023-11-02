@@ -19,9 +19,12 @@
     "cutLine": "Cut Here",
     "dress": "Dress",
     "foldline": "Fold Line",
-    "lengthToShortForBelt": "The Dress length is to short to include the Belt.",
-    "lengthToShortForChannel": "The Dress length is to short to include the Channel.",
-    "lengthToShortForPockets": "The Dress length is to short to include the Pockets.",
+    "lengthTooShortForBelt.t": "Too short for Belt",
+    "lengthTooShortForBelt.d": "The Dress length is to short to include the Belt.",
+    "lengthTooShortForChannel.t": "Too short for Channel",
+    "lengthTooShortForChannel.d": "The Dress length is to short to include the Channel.",
+    "lengthTooShortForPockets.t": "Too short for Pockets",
+    "lengthTooShortForPockets.d": "The Dress length is to short to include the Pockets.",
     "pocket": "Pocket",
     "pocketOpeningBottom": "Pocket Opening Bottom",
     "pocketOpeningTop": "Pocket Opening Top",
@@ -52,7 +55,7 @@
     },
     "centreSaWidth": {
       "t": "Centre Seam Allowance",
-      "d": "Controls the width of the centre seam allowance. At 0% the seam is on fold."
+      "d": "Controls the width of the centre seam allowance. At 0% the seam is on the fold."
     },
     "dressFullness": {
       "t": "Dress Fullness",

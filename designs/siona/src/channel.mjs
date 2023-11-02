@@ -5,7 +5,7 @@ export const channel = {
   name: 'siona.channel',
   after: dress,
   plugins: [pluginRingSector],
-  draft: ({ store, sa, Point, points, Path, paths, options, paperless, macro, part, log }) => {
+  draft: ({ store, sa, Point, points, Path, paths, options, paperless, macro, part }) => {
     if (
       options.bandType != 'channel' ||
       store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')
@@ -14,7 +14,9 @@ export const channel = {
         options.bandType == 'channel' &&
         store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')
       ) {
-        log.info('lengthToShortForChannel')
+        store.flag.info({
+          msg: `siona:lengthTooShortForChannel`,
+        })
       }
       return part.hide()
     }

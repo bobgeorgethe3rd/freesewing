@@ -19,7 +19,6 @@ export const belt = {
     macro,
     measurements,
     part,
-    log,
   }) => {
     if (
       options.bandType != 'belt' ||
@@ -29,7 +28,9 @@ export const belt = {
         options.bandType == 'belt' &&
         store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')
       ) {
-        log.info('lengthToShortForBelt')
+        store.flag.info({
+          msg: `siona:lengthTooShortForBelt`,
+        })
       }
       return part.hide()
     }
