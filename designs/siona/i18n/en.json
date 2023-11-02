@@ -63,7 +63,7 @@
     },
     "hemWidth": {
       "t": "Hem Allowance",
-      "d": "Controls the width of the hem allowance. At 0% the hem will need to bound."
+      "d": "Controls the width of the hem allowance. At 0% the hem will need to be bound."
     },
     "length": {
       "t": "Dress Length",
@@ -75,7 +75,7 @@
     },
     "neckHemWidth": {
       "t": "Neck Seam Allowance",
-      "d": "Controls the width of the neck seam allowance. At 0% the neck will need to bound."
+      "d": "Controls the width of the neck seam allowance. At 0% the neck will need to be bound."
     },
     "neckOpening": {
       "t": "Neck Opening",
@@ -127,7 +127,7 @@
     },
     "sleeveHemWidth": {
       "t": "Sleeve Hem Allowance",
-      "d": "Controls the width of the sleeve hem allowance. At 0% the sleeve hem will need to bound."
+      "d": "Controls the width of the sleeve hem allowance. At 0% the sleeve hem will need to be bound."
     },
     "sleeves": {
       "t": "Include Sleeves",
