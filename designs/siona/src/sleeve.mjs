@@ -12,7 +12,7 @@ export const sleeve = {
     sleeveLength: { pct: 100, min: 10, max: 100, menu: 'style' },
     sleeveLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
     //Construction
-    sleeveHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    sleeveHemWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
   },
   draft: ({
     store,

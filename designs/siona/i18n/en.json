@@ -1,7 +1,138 @@
 {
   "t": "Siona",
-  "d": "A FreeSewing pattern that needs a description",
-  "p": { },
-  "s": { },
-  "o": { }
+  "d": "Siona is a simple sack dress design",
+  "p": {
+    "belt": "Belt",
+    "beltLoops": "Belt Loops",
+    "channel": "Channel",
+    "dress": "Dress",
+    "pocket": "Pocket",
+    "sleeve": "Sleeve"
+   },
+  "s": { 
+    "armhole": "Armhole",
+    "bandBottom": "Band Bottom",
+    "bandTop": "Band Top",
+    "belt": "Belt",
+    "beltLoops": "Belt Loops",
+    "channel": "Channel",
+    "cutLine": "Cut Here",
+    "dress": "Dress",
+    "foldline": "Fold Line",
+    "lengthToShortForBelt": "The Dress length is to short to include the Belt.",
+    "lengthToShortForChannel": "The Dress length is to short to include the Channel.",
+    "lengthToShortForPockets": "The Dress length is to short to include the Pockets.",
+    "pocket": "Pocket",
+    "pocketOpeningBottom": "Pocket Opening Bottom",
+    "pocketOpeningTop": "Pocket Opening Top",
+    "shoulder": "Shoulder",
+    "sleeve": "Sleeve",
+    "waist": "Waist Line"
+  },
+  "o": {
+    "bandType": {
+      "t": "Band Type",
+      "d": "Whether to include a belt or channel to fit the waist."
+    },
+    "bandWidth": {
+      "t": "Band Width",
+      "d": "Controls the width of the belt & channel."
+    },
+    "beltLength": {
+      "t": "Belt Length",
+      "d": "Controls the length of the belt."
+    },
+    "beltLoopNumber": {
+      "t": "Belt Loop Number",
+      "d": "Controls the number of belt loops to include."
+    },
+    "beltLoopWidth": {
+      "t": "Belt Loop Width",
+      "d": "Controls the width of the belt loops."
+    },
+    "centreSaWidth": {
+      "t": "Centre Seam Allowance",
+      "d": "Controls the width of the centre seam allowance. At 0% the seam is on fold."
+    },
+    "dressFullness": {
+      "t": "Dress Fullness",
+      "d": "Controls the angle used to create the dress fullness."
+    },
+    "hemWidth": {
+      "t": "Hem Allowance",
+      "d": "Controls the width of the hem allowance. At 0% the hem will need to bound."
+    },
+    "length": {
+      "t": "Dress Length",
+      "d": "Controls the length of the dress. 0% waist length, 50% hips length, 100% seat length, 150% upper leg length, 200% knee length, 250% floor length/"
+    },
+    "lengthBonus": {
+      "t": "Dress Length Bonus",
+      "d": "Adds or remove extra length to the dress."
+    },
+    "neckHemWidth": {
+      "t": "Neck Seam Allowance",
+      "d": "Controls the width of the neck seam allowance. At 0% the neck will need to bound."
+    },
+    "neckOpening": {
+      "t": "Neck Opening",
+      "d": "Controls the width at the neck opening."
+    },
+    "pocketBagSaWidth": {
+      "t": "Pocket Bag Seam Allowance",
+      "d": "Controls the width of the pocket bag seam allowance."
+    },
+    "pocketDepth": {
+      "t": "Pocket Bag Depth",
+      "d": "Controls the depth of the pocket bag."
+    },
+    "pocketOpening": {
+      "t": "Pocket Opening",
+      "d": "Controls the placement of the pocket opening."
+    },
+    "pocketOpeningLength": {
+      "t": "Pocket Opening Length",
+      "d": "Controls the length of the pocket opening."
+    },
+    "pocketWidth": {
+      "t": "Pocket Bag Width",
+      "d": "Controls the width of the pocket bag."
+    },
+    "pocketsBool": {
+      "t": "Include Pockets",
+      "d": "Whether to include pockets or not."
+    },
+    "scyeDepth": {
+      "t": "Scye Depth",
+      "d": "Controls how big the arm opening will be."
+    },
+    "sideSeamSaWidth": {
+      "t": "Side Seam Allowance",
+      "d": "Controls the width of the side seam allowance."
+    },
+    "shoulderToShoulderEase": {
+      "t": "Shoulder to Shoulder ease",
+      "d": "Controls the amount of ease between your shoulders."
+    },
+    "sleeveLength": {
+      "t": "Sleeve Length",
+      "d": "Controls the length of the sleeves. 50% elbow length, 100% wrist length."
+    },
+    "sleeveLengthBonus": {
+      "t": "Sleeve Length Bonus",
+      "d": "Adds or remove extra length to the sleeve."
+    },
+    "sleeveHemWidth": {
+      "t": "Sleeve Hem Allowance",
+      "d": "Controls the width of the sleeve hem allowance. At 0% the sleeve hem will need to bound."
+    },
+    "sleeves": {
+      "t": "Include Sleeves",
+      "d": "Whether to include sleeves or not."
+    },
+    "wristEase": {
+      "t": "Wrist ease",
+      "d": "Controls the amount of ease at your wrist."
+    }
+   }
 }

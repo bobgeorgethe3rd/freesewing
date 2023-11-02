@@ -25,7 +25,10 @@ export const belt = {
       options.bandType != 'belt' ||
       store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')
     ) {
-      if (store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')) {
+      if (
+        options.bandType == 'belt' &&
+        store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')
+      ) {
         log.info('lengthToShortForBelt')
       }
       return part.hide()

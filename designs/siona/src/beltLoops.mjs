@@ -8,8 +8,7 @@ export const beltLoops = {
     //Constant
     beltLoopLength: 1.5,
     //Style
-    beltLoops: { bool: true, menu: 'style' },
-    beltLoopNumber: { count: 3, min: 1, max: 7, menu: 'style' },
+    beltLoopNumber: { count: 3, min: 0, max: 7, menu: 'style' },
     beltLoopWidth: {
       pct: 1.1,
       min: 1,
@@ -31,16 +30,12 @@ export const beltLoops = {
     macro,
     part,
     absoluteOptions,
-    log,
   }) => {
     if (
-      !options.beltLoops ||
+      options.beltLoopNumber <= 0 ||
       options.bandType != 'belt' ||
       store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')
     ) {
-      if (store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')) {
-        log.info('lengthToShortForBelt')
-      }
       return part.hide()
     }
     //measurements
@@ -91,7 +86,7 @@ export const beltLoops = {
         .move(points['cutlineFrom' + i])
         .line(points['cutlineTo' + i])
         .attr('class', 'various sa')
-        .attr('data-text', 'cuttingLine')
+        .attr('data-text', 'cutLine')
         .attr('data-text-class', 'center')
     }
 

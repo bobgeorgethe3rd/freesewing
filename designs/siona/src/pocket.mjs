@@ -25,7 +25,7 @@ export const pocket = {
   }) => {
     if (!options.pocketsBool || store.get('pocketRadius') > store.get('outerRadius')) {
       if (store.get('pocketRadius') > store.get('outerRadius')) {
-        log.info('lengthToShortForPocket')
+        log.info('lengthToShortForPockets')
       }
       return part.hide()
     }

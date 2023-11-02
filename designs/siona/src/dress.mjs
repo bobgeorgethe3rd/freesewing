@@ -24,7 +24,7 @@ export const dress = {
     pocketsBool: { bool: true, menu: 'pockets' },
     pocketOpening: { pct: 8.1, min: 6, max: 12, menu: 'pockets' },
     pocketOpeningLength: { pct: 63.5, min: 40, max: 70, menu: 'pockets' },
-    pocketOpeningDepth: { pct: 15, min: 5, max: 40, menu: 'pockets' },
+    pocketDepth: { pct: 15, min: 5, max: 40, menu: 'pockets' },
     //Armhole
     scyeDepth: { pct: 45.5, min: 40, max: 50, menu: 'armhole' },
     //Construction
@@ -257,7 +257,7 @@ export const dress = {
       )
       points.pocketBottom = points.pocketOpeningBottom.shift(
         points.sideNeck.angle(points.sideHem),
-        measurements.waistToFloor * options.pocketOpeningDepth
+        measurements.waistToFloor * options.pocketDepth
       )
       store.set('pocketOpening', points.sideWaist.dist(points.pocketOpeningTop))
       store.set('pocketOpeningLength', points.pocketOpeningTop.dist(points.pocketOpeningBottom))

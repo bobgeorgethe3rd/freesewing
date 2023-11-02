@@ -10,7 +10,10 @@ export const channel = {
       options.bandType != 'channel' ||
       store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')
     ) {
-      if (store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')) {
+      if (
+        options.bandType == 'channel' &&
+        store.get('channelInnerRadius') + store.get('bandWidth') > store.get('outerRadius')
+      ) {
         log.info('lengthToShortForChannel')
       }
       return part.hide()
