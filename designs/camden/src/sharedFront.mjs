@@ -128,18 +128,18 @@ export const sharedFront = {
     let maxWidth
     if ((measurements.seat / 4 || measurements.hips / 4) > waistFront) {
       if (measurements.seat > measurements.hips) {
-        midWidth = measurements.seat * (0.125 + options.width * 0.5)
-        maxWidth = measurements.seat * (0.125 + options.width)
-        log.warning('measurements.seat is being used to draft width')
+        midWidth = measurements.seat * 0.25
+        maxWidth = measurements.seat * 0.375
+        log.warning('measurements.seat is being used to draft width, options.width locked.')
       } else {
-        midWidth = measurements.hips * (0.125 + options.width * 0.5)
-        maxWidth = measurements.hips * (0.125 + options.width)
-        log.warning('measurements.hips is being used to draft width')
+        midWidth = measurements.hips * 0.25
+        maxWidth = measurements.hips * 0.375
+        log.warning('measurements.hips is being used to draft width, options.width locked.')
       }
     } else {
       midWidth = waistFront * (1 + options.width * 0.5)
       maxWidth = waistFront * (1 + options.width)
-      log.warning('waistFront is being used to draft width')
+      log.warning('waistFront is being used to draft width, options.width unlocked.')
     }
 
     let length
