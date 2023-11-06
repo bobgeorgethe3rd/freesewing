@@ -75,23 +75,33 @@ export const skirtBack = {
     paths.seam = paths.hemBase.join(paths.sideSeam).join(paths.waist).join(paths.cb).close()
 
     if (complete) {
-      //facing
-      if (options.skirtFacings) {
-        paths.facing = new Path()
-          .move(points.cbHemFacing)
-          .curve(points.cbFacingCp1, points.backHemFacingMidCp2, points.backHemFacingMid)
-          .curve(points.backHemFacingMidCp1, points.sideBackHemFacingCp2, points.sideBackHemFacing)
-          .attr('class', 'interfacing')
-          .attr('data-text', 'Facing Line')
-          .attr('data-text-class', 'center')
-
-        paths.cbHemFacing = new Path().move(points.cbHemFacing).line(points.cbHem).hide()
-
-        if (points.sideBackExtension) {
-          if (points.backHemFacingExSplit) {
-            paths.facing = paths.facing.line(points.backHemFacingExSplit)
-          }
-        }
+      //grainline
+      if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
+        points.cutOnFoldFrom = points.cbWaist
+        points.cutOnFoldTo = points.cbHem
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.cbWaist.shiftFractionTowards(points.cbWaistCp1, 1 / 3)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cbHem.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+      }
+      //notches
+      if (store.get('pocketLength') < skirtLength) {
+        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
+        points.pocketOpeningBottom = paths.sideSeam
+          .reverse()
+          .shiftAlong(store.get('pocketOpeningLength'))
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
       }
       //panels
       if (options.skirtPanels > 1) {
@@ -176,8 +186,8 @@ export const skirtBack = {
             macro('title', {
               at: points['titleFacing' + i],
               nr: '7' + j,
-              title: 'Skirt Facing (Back ' + k + ')',
-              prefix: 'titleFacing' + i,
+              title: 'Skirt Facing ' + k + '(Back)',
+              prefix: 'titleFacing ' + i,
               scale: 0.15,
               rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
             })
@@ -188,7 +198,7 @@ export const skirtBack = {
             macro('title', {
               at: points.titleFacing,
               nr: '7a',
-              title: 'Skirt Facing (Back A)',
+              title: 'Skirt Facing A (Back)',
               prefix: 'titleFacing',
               scale: 0.15,
             })
@@ -228,9 +238,9 @@ export const skirtBack = {
 
           macro('title', {
             at: points['title' + i],
-            nr: '2' + j,
-            title: 'Skirt Back ' + k,
-            prefix: 'title' + i,
+            nr: '6' + j,
+            title: 'Skirt ' + k + ' (Back)',
+            prefix: 'title ' + i,
             scale: 0.15,
             rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
           })
@@ -240,8 +250,8 @@ export const skirtBack = {
             .shift(0, skirtHighLength * 0.02)
           macro('title', {
             at: points.title,
-            nr: '2a',
-            title: 'Skirt Back',
+            nr: '6a',
+            title: 'Skirt Back A',
             scale: 0.15,
             prefix: 'title',
           })
@@ -250,7 +260,7 @@ export const skirtBack = {
         points.title = points.backHemMidMin.shiftFractionTowards(points.waistBackMid, 0.5)
         macro('title', {
           at: points.title,
-          nr: '2',
+          nr: '6',
           title: 'Skirt (Back)',
           prefix: 'title',
           scale: 0.5,
@@ -268,55 +278,111 @@ export const skirtBack = {
           })
         }
       }
-      //grainline
-      if (options.closurePosition == 'back' && !options.waistbandElastic) {
-        points.grainlineBackFrom = points.cbWaist.shiftFractionTowards(points.cbHem, 0.02)
-        points.grainlineBackTo = points.cbHem.shiftFractionTowards(points.cbWaist, 0.02)
-        macro('grainline', {
-          from: points.cbWaist.rotate(-90, points.grainlineBackFrom),
-          to: points.cbHem.rotate(90, points.grainlineBackTo),
-        })
-      } else {
-        points.cutOnFoldBackFrom = points.cbWaist
-        points.cutOnFoldBackTo = points.cbHem
-        macro('cutonfold', {
-          from: points.cutOnFoldBackFrom,
-          to: points.cutOnFoldBackTo,
-          grainline: true,
-        })
+      //facing
+      if (options.skirtFacings) {
+        paths.facing = new Path()
+          .move(points.cbHemFacing)
+          .curve(points.cbFacingCp1, points.backHemFacingMidCp2, points.backHemFacingMid)
+          .curve(points.backHemFacingMidCp1, points.sideBackHemFacingCp2, points.sideBackHemFacing)
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Facing Line')
+          .attr('data-text-class', 'center')
+
+        paths.cbHemFacing = new Path().move(points.cbHemFacing).line(points.cbHem).hide()
+
+        if (points.sideBackExtension) {
+          if (points.backHemFacingExSplit) {
+            paths.facing = paths.facing.line(points.backHemFacingExSplit)
+          }
+        }
       }
-      //notches
-      if (store.get('pocketLength') < store.get('sideSkirtLength')) {
-        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
-        points.pocketOpeningBottom = paths.sideSeam
-          .reverse()
-          .shiftAlong(store.get('pocketOpeningLength'))
-        macro('sprinkle', {
-          snippet: 'notch',
-          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
-        })
+    }
+    if (sa) {
+      const closureSa = sa * options.closureSaWidth * 100
+
+      let hemSa
+      if (options.skirtFacings) {
+        hemSa = sa
+      } else {
+        hemSa = sa * options.skirtHemWidth * 100
       }
 
-      if (sa) {
-        const hemSa = store.get('hemSa')
-        const cbSa = store.get('cbSa')
-        if (options.skirtFacings) {
-          paths.facingSa = paths.hemBase
-            .offset(hemSa)
-            .join(paths.sideSeam.split(paths.facing.end())[0].offset(sa))
-            .join(paths.facing.offset(-sa).reverse()) //yea weird but due to a bug has to be this way
-            .join(paths.cbHemFacing.offset(cbSa))
-            .close()
-            .attr('class', 'interfacing sa')
-        }
-        paths.sa = paths.hemBase
-          .offset(hemSa)
-          .join(paths.sideSeam.offset(sa))
-          .join(paths.waist.offset(sa))
-          .join(paths.cb.offset(cbSa))
-          .close()
-          .attr('class', 'fabric sa')
+      let cbSa
+      if (options.closurePosition == 'back' && !options.waistbandElastic) {
+        cbSa = closureSa
+      } else {
+        cbSa = sa * options.cbSaWidth * 100
       }
+
+      let sideSeamSa
+      if (
+        (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') &&
+        !options.waistbandElastic
+      ) {
+        sideSeamSa = closureSa
+      } else {
+        sideSeamSa = sa * options.sideSeamSaWidth * 100
+      }
+
+      points.saSideBackHem = utils.beamsIntersect(
+        points.sideBackHemCp1
+          .shiftTowards(points.sideBackHem, hemSa)
+          .rotate(-90, points.sideBackHemCp1),
+        points.sideBackHem
+          .shiftTowards(points.sideBackHemCp1, hemSa)
+          .rotate(90, points.sideBackHem),
+        paths.sideSeam.offset(sideSeamSa).start(),
+        paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.001)
+      )
+      points.saSideWaistBack = utils.beamsIntersect(
+        paths.sideSeam.offset(sideSeamSa).end(),
+        paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.999),
+        points.sideWaistBack
+          .shiftTowards(points.sideWaistBackCp2, sa)
+          .rotate(-90, points.sideWaistBack),
+        points.sideWaistBackCp2
+          .shiftTowards(points.sideWaistBack, sa)
+          .rotate(90, points.sideWaistBackCp2)
+      )
+
+      points.saCbWaist = points.cbWaist.translate(-cbSa, -sa)
+      points.saCbHem = points.cbHem.translate(-cbSa, hemSa)
+
+      if (options.skirtFacings) {
+        points.saSideBackHemFacing = utils.beamsIntersect(
+          paths.sideSeam.split(paths.facing.end())[0].offset(sideSeamSa).end(),
+          paths.sideSeam.split(paths.facing.end())[0].offset(sideSeamSa).shiftFractionAlong(0.999),
+          points.sideBackHemFacing
+            .shiftTowards(points.sideBackHemFacingCp2, sa)
+            .rotate(-90, points.sideBackHemFacing),
+          points.sideBackHemFacingCp2
+            .shiftTowards(points.sideBackHemFacing, sa)
+            .rotate(90, points.sideBackHemFacingCp2)
+        )
+
+        points.saCbFacing = points.cbHemFacing.translate(-cbSa, -sa)
+
+        paths.facingSa = paths.hemBase
+          .offset(hemSa)
+          .line(points.saSideBackHem)
+          .join(paths.sideSeam.split(paths.facing.end())[0].offset(sideSeamSa))
+          .line(points.saSideBackHemFacing)
+          .join(paths.facing.reverse().offset(sa))
+          .line(points.saCbFacing)
+          .line(points.saCbHem)
+          .close()
+          .attr('class', 'interfacing sa')
+      }
+      paths.sa = paths.hemBase
+        .offset(hemSa)
+        .line(points.saSideBackHem)
+        .join(paths.sideSeam.offset(sideSeamSa))
+        .line(points.saSideWaistBack)
+        .join(paths.waist.offset(sa))
+        .line(points.saCbWaist)
+        .line(points.saCbHem)
+        .close()
+        .attr('class', 'fabric sa')
     }
     return part
   },

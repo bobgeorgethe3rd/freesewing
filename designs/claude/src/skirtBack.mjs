@@ -105,7 +105,7 @@ export const skirtBack = {
         })
       } else {
         points.grainlineFrom = points.cbWaist.shiftFractionTowards(points.cbWaistCp1, 1 / 3)
-        points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cbHem.y)
         macro('grainline', {
           from: points.grainlineFrom,
           to: points.grainlineTo,
@@ -251,7 +251,7 @@ export const skirtBack = {
       }
       //facing
       if (options.skirtFacings) {
-        points.cbFacing = points.cbHem.shiftTowards(points.cbWaist, skirtFacingWidth)
+        points.cbHemFacing = points.cbHem.shiftTowards(points.cbWaist, skirtFacingWidth)
         points.backHemFacingMid = points.backHemMid.shiftTowards(
           points.waistBackMid,
           skirtFacingWidth
@@ -260,11 +260,11 @@ export const skirtBack = {
           points.sideWaistBack,
           skirtFacingWidth
         )
-        points.cbFacingCp1 = utils.beamsIntersect(
+        points.cbHemFacingCp1 = utils.beamsIntersect(
           points.cbHemCp2,
           points.cbWaistCp1,
-          points.cbFacing,
-          points.cbWaist.rotate(-90, points.cbFacing)
+          points.cbHemFacing,
+          points.cbWaist.rotate(-90, points.cbHemFacing)
         )
         points.backHemFacingMidCp2 = utils.beamsIntersect(
           points.backHemMidCp1,
@@ -281,14 +281,14 @@ export const skirtBack = {
         )
 
         paths.facing = new Path()
-          .move(points.cbFacing)
-          .curve(points.cbFacingCp1, points.backHemFacingMidCp2, points.backHemFacingMid)
+          .move(points.cbHemFacing)
+          .curve(points.cbHemFacingCp1, points.backHemFacingMidCp2, points.backHemFacingMid)
           .curve(points.backHemFacingMidCp1, points.sideBackHemFacingCp2, points.sideBackHemFacing)
           .attr('class', 'interfacing')
           .attr('data-text', 'Facing Line')
           .attr('data-text-class', 'center')
 
-        paths.cbFacing = new Path().move(points.cbFacing).line(points.cbHem).hide()
+        paths.cbHemFacing = new Path().move(points.cbHemFacing).line(points.cbHem).hide()
 
         if (points.sideBackExtension) {
           let facingBackExtension = utils.lineIntersectsCurve(
@@ -381,7 +381,7 @@ export const skirtBack = {
               .rotate(90, points.sideBackHemFacingCp2)
           )
 
-          points.saCbFacing = points.cbFacing.translate(-cbSa, -sa)
+          points.saCbFacing = points.cbHemFacing.translate(-cbSa, -sa)
 
           paths.facingSa = paths.hemBase
             .offset(hemSa)

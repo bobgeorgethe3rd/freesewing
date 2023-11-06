@@ -261,7 +261,7 @@ export const skirtFront = {
       })
       //facing
       if (options.skirtFacings) {
-        points.cfFacing = points.cfHem.shiftTowards(points.cfWaist, skirtFacingWidth)
+        points.cfHemFacing = points.cfHem.shiftTowards(points.cfWaist, skirtFacingWidth)
         points.frontHemFacingMid = points.frontHemMid.shiftTowards(
           points.waistFrontMid,
           skirtFacingWidth
@@ -270,11 +270,11 @@ export const skirtFront = {
           points.sideWaistFront,
           skirtFacingWidth
         )
-        points.cfFacingCp1 = utils.beamsIntersect(
+        points.cfHemFacingCp1 = utils.beamsIntersect(
           points.cfHemCp2,
           points.cfWaistCp1,
-          points.cfFacing,
-          points.cfWaist.rotate(-90, points.cfFacing)
+          points.cfHemFacing,
+          points.cfWaist.rotate(-90, points.cfHemFacing)
         )
         points.frontHemFacingMidCp2 = utils.beamsIntersect(
           points.frontHemMidCp1,
@@ -294,8 +294,8 @@ export const skirtFront = {
         )
 
         paths.facing = new Path()
-          .move(points.cfFacing)
-          .curve(points.cfFacingCp1, points.frontHemFacingMidCp2, points.frontHemFacingMid)
+          .move(points.cfHemFacing)
+          .curve(points.cfHemFacingCp1, points.frontHemFacingMidCp2, points.frontHemFacingMid)
           .curve(
             points.frontHemFacingMidCp1,
             points.sideFrontHemFacingCp2,
@@ -305,7 +305,7 @@ export const skirtFront = {
           .attr('data-text', 'Facing Line')
           .attr('data-text-class', 'center')
 
-        paths.cfFacing = new Path().move(points.cfFacing).line(points.cfHem).hide()
+        paths.cfHemFacing = new Path().move(points.cfHemFacing).line(points.cfHem).hide()
 
         if (points.sideFrontExtension) {
           let facingFrontExtension = utils.lineIntersectsCurve(
@@ -333,7 +333,7 @@ export const skirtFront = {
           paths.facing = paths.facing.line(points.facingFrontExtension)
         }
       }
-      //seam allowance
+      //sort seam allowance
       if (
         !options.separateBack &&
         !options.useBackMeasures &&
@@ -414,7 +414,7 @@ export const skirtFront = {
               .rotate(90, points.sideFrontHemFacingCp2)
           )
 
-          points.saCfFacing = points.cfFacing.translate(-cfSa, -sa)
+          points.saCfFacing = points.cfHemFacing.translate(-cfSa, -sa)
 
           paths.facingSa = paths.hemBase
             .offset(hemSa)
