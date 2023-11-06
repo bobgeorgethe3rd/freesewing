@@ -118,6 +118,18 @@ export const skirtFront = {
         })
       }
       //panels & title
+      let titleFront
+      if (
+        !options.separateBack &&
+        !options.useBackMeasures &&
+        !options.independentSkirtFullness &&
+        !options.independentSkirtGathering
+      ) {
+        titleFront = ''
+      } else {
+        titleFront = ' (Front)'
+      }
+
       if (options.skirtPanels > 1) {
         let j
         let k
@@ -169,7 +181,7 @@ export const skirtFront = {
           macro('title', {
             at: points['title' + i],
             nr: '1' + j,
-            title: 'Skirt ' + k,
+            title: 'Skirt ' + k + titleFront,
             prefix: 'title ' + i,
             scale: 0.15,
             rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
@@ -186,7 +198,7 @@ export const skirtFront = {
             macro('title', {
               at: points['titleFacing' + i],
               nr: '5' + j,
-              title: 'Skirt Facing ' + k,
+              title: 'Skirt Facing ' + k + titleFront,
               prefix: 'titleFacing ' + i,
               scale: 0.15,
               rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
@@ -197,7 +209,7 @@ export const skirtFront = {
             macro('title', {
               at: points.titleFacing,
               nr: '5a',
-              title: 'Skirt Facing A',
+              title: 'Skirt Facing A' + titleFront,
               prefix: 'titleFacing',
               scale: 0.15,
             })
@@ -208,7 +220,7 @@ export const skirtFront = {
           macro('title', {
             at: points.title,
             nr: '1a',
-            title: 'Skirt A',
+            title: 'Skirt A' + titleFront,
             scale: 0.15,
             prefix: 'title',
           })
@@ -221,7 +233,7 @@ export const skirtFront = {
         macro('title', {
           at: points.title,
           nr: '1',
-          title: 'Skirt',
+          title: 'Skirt' + titleFront,
           scale: 0.5,
           prefix: 'title',
           rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
@@ -235,7 +247,7 @@ export const skirtFront = {
           macro('title', {
             at: points.titleFacing,
             nr: '5',
-            title: 'Skirt Facing',
+            title: 'Skirt Facing' + titleFront,
             scale: 0.5,
             prefix: 'titleFacing',
             rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),

@@ -187,6 +187,13 @@ export const skirtFront = {
         })
       }
       //panels && titles
+      let titleFront
+      if (includeBack) {
+        titleFront = ''
+      } else {
+        titleFront = ' (Front)'
+      }
+
       if (options.skirtPanels > 1) {
         let j
         let k
@@ -411,7 +418,7 @@ export const skirtFront = {
           macro('title', {
             at: points['title' + i],
             nr: '1' + j,
-            title: 'Skirt ' + k,
+            title: 'Skirt ' + k + titleFront,
             prefix: 'title' + i,
             scale: 0.15,
             rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
@@ -423,7 +430,7 @@ export const skirtFront = {
           macro('title', {
             at: points.title,
             nr: '1a',
-            title: 'Skirt A',
+            title: 'Skirt A' + titleFront,
             scale: 0.15,
             prefix: 'title',
           })
@@ -433,7 +440,7 @@ export const skirtFront = {
         macro('title', {
           at: points.title,
           nr: '1',
-          title: 'Skirt',
+          title: 'Skirt' + titleFront,
           prefix: 'title',
           scale: 0.5,
           rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
