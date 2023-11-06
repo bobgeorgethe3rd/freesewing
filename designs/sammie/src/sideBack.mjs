@@ -71,11 +71,20 @@ export const sideBack = {
         to: points.grainlineTo,
       })
       //notches
-      points.sideBackSeamNotch = points.dartBottomRight.shiftFractionTowards(
-        points.dartTopRight,
-        0.5
+      points.sideNotch = points.sideWaist.shiftFractionTowards(points.armholeDrop, 0.5)
+      points.sideBackSeamNotchTop = points.dartTopRight.shiftFractionTowards(
+        points.dartBottomRight,
+        1 / 3
       )
-      snippets.sideBackSeamNotch = new Snippet('bnotch', points.sideBackSeamNotch)
+      points.sideBackSeamNotchBottom = points.dartTopRight.shiftFractionTowards(
+        points.dartBottomRight,
+        2 / 3
+      )
+      snippets.sideNotch = new Snippet('notch', points.sideNotch)
+      macro('sprinkle', {
+        snippet: 'bnotch',
+        on: ['sideBackSeamNotchBottom', 'sideBackSeamNotchTop'],
+      })
       //title
       points.title = new Point(
         points.dartTopRightCp.x,

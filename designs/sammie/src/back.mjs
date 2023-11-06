@@ -84,9 +84,24 @@ export const back = {
         })
       }
       //notches
-      points.sideBackSeamNotch = points.dartBottomLeft.shiftFractionTowards(points.dartTopLeft, 0.5)
-      points.cbNotch = new Point(points.cbTop.x, points.sideBackSeamNotch.y)
-      snippets.sideBackSeamNotch = new Snippet('bnotch', points.sideBackSeamNotch)
+      points.cbNotch = new Point(
+        points.cbTop.x,
+        points.dartBottomLeft.shiftFractionTowards(points.dartTopLeft, 0.5).y
+      )
+      points.sideBackSeamNotchTop = points.dartTopLeft.shiftFractionTowards(
+        points.dartBottomLeft,
+        1 / 3
+      )
+      points.sideBackSeamNotchBottom = points.dartTopLeft.shiftFractionTowards(
+        points.dartBottomLeft,
+        2 / 3
+      )
+
+      macro('sprinkle', {
+        snippet: 'bnotch',
+        on: ['sideBackSeamNotchBottom', 'sideBackSeamNotchTop'],
+      })
+
       if (points.cbNotch.y > points.cbTop.y) {
         snippets.cbNotch = new Snippet('bnotch', points.cbNotch)
       }

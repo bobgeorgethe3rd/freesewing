@@ -67,15 +67,9 @@ export const sideFrontShoulder = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
-      //logo
-      points.logo = new Point(
-        points.scalebox.x * 0.85,
-        points.bust.y + (points.waistDartRight.y - points.bust.y) / 5
-      )
-      macro('logorg', {
-        at: points.logo,
-        scale: 1 / 3,
-      })
+      //notches
+      points.sideNotch = points.sideWaist.shiftFractionTowards(points.armholeDrop, 0.5)
+      snippets.sideNotch = new Snippet('notch', points.sideNotch)
       //title
       points.title = new Point(
         points.scalebox.x * 0.8,
@@ -86,6 +80,15 @@ export const sideFrontShoulder = {
         nr: '2',
         title: 'Side Front',
         scale: 0.5,
+      })
+      //logo
+      points.logo = new Point(
+        points.scalebox.x * 0.85,
+        points.bust.y + (points.waistDartRight.y - points.bust.y) / 5
+      )
+      macro('logorg', {
+        at: points.logo,
+        scale: 1 / 3,
       })
       //scalebox
       points.scalebox = new Point(
