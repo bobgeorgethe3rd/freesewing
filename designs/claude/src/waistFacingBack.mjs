@@ -27,7 +27,8 @@ export const waistFacingBack = {
     //set render
     if (
       options.waistbandStyle != 'none' ||
-      (!options.useBackMeasures &&
+      (!options.separateBack &&
+        !options.useBackMeasures &&
         !options.independentSkirtFullness &&
         !options.independentSkirtGathering)
     ) {
@@ -79,48 +80,86 @@ export const waistFacingBack = {
 
     if (complete) {
       //grainline
-      let cbSa
-      if (
-        options.closurePosition == 'back' &&
-        !options.waistbandElastic &&
-        (options.useBackMeasures ||
-          options.independentSkirtFullness ||
-          options.independentSkirtGathering)
-      ) {
-        cbSa = sa
-        points.grainlineFrom = points.cbWaist.shiftFractionTowards(points.cbWaistFacing, 0.075)
-        points.grainlineTo = points.cbWaistFacing.shiftFractionTowards(points.cbWaist, 0.075)
-        macro('grainline', {
-          from: points.cbWaist.rotate(-90, points.grainlineFrom),
-          to: points.cbWaistFacing.rotate(90, points.grainlineTo),
-        })
-      } else {
-        cbSa = 0
-        points.cutOnFoldFrom = points.cbWaist.shiftFractionTowards(points.cbWaistFacing, 0.075)
-        points.cutOnFoldTo = points.cbWaistFacing.shiftFractionTowards(points.cbWaist, 0.075)
+      if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
+        points.cutOnFoldFrom = points.cbWaist.shiftFractionTowards(points.cbWaistFacing, 0.1)
+        points.cutOnFoldTo = points.cbWaistFacing.shiftFractionTowards(points.cbWaist, 0.1)
         macro('cutonfold', {
           from: points.cutOnFoldFrom,
           to: points.cutOnFoldTo,
           grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.cbWaist.shiftFractionTowards(points.cbWaistCp1, 1 / 3)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cbWaistFacing.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
         })
       }
       //title
       points.title = points.cbWaist
         .shiftFractionTowards(points.cbWaistCp1, 0.6)
         .shift(-90, points.cbWaist.dist(points.cbWaistFacing) / 2)
+
       macro('title', {
         at: points.title,
-        nr: '4b',
-        title: 'Skirt Waist Facing (Back)',
+        nr: '10',
+        title: 'Skirt Waist Facing Back',
         scale: 0.25,
       })
       if (sa) {
+        const closureSa = sa * options.sideSeamSaWidth * 100
+
+        let cbSa
+        if (options.closurePosition == 'back' && !options.waistbandElastic) {
+          cbSa = closureSa
+        } else {
+          cbSa = sa * options.cbSaWidth * 100
+        }
+
+        let sideSeamSa
+        if (
+          (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') &&
+          !options.waistbandElastic
+        ) {
+          sideSeamSa = closureSa
+        } else {
+          sideSeamSa = sa * options.sideSeamSaWidth * 100
+        }
+
+        points.saSideWaistBackFacing = utils.beamsIntersect(
+          points.sideWaistBackFacingCp1
+            .shiftTowards(points.sideWaistBackFacing, sa)
+            .rotate(-90, points.sideWaistBackFacingCp1),
+          points.sideWaistBackFacing
+            .shiftTowards(points.sideWaistBackFacingCp1, sa)
+            .rotate(90, points.sideWaistBackFacing),
+          paths.sideSeam.offset(sideSeamSa).start(),
+          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.001)
+        )
+        points.saSideWaistBack = utils.beamsIntersect(
+          paths.sideSeam.offset(sideSeamSa).end(),
+          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.998),
+          points.sideWaistBack
+            .shiftTowards(points.sideWaistBackCp2, sa)
+            .rotate(-90, points.sideWaistBack),
+          points.sideWaistBackCp2
+            .shiftTowards(points.sideWaistBack, sa)
+            .rotate(90, points.sideWaistBackCp2)
+        )
+
+        points.saCfWaist = points.cbWaist.translate(-cbSa, -sa)
+        points.saCfWaistFacing = points.cbWaistFacing.translate(-cbSa, sa)
+
         paths.sa = paths.cbWaistFacing
           .line(paths.sideSeam.start())
           .offset(sa)
-          .join(paths.sideSeam.offset(sa))
+          .line(points.saSideWaistBackFacing)
+          .join(paths.sideSeam.offset(sideSeamSa))
+          .line(points.saSideWaistBack)
           .join(paths.waist.offset(sa))
-          .join(paths.cb.offset(cbSa))
+          .line(points.saCfWaist)
+          .line(points.saCfWaistFacing)
           .close()
           .attr('class', 'fabric sa')
       }

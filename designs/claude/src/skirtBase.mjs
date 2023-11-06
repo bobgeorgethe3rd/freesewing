@@ -51,7 +51,9 @@ export const skirtBase = {
     skirtFullness: { pct: 100, min: 5, max: 200, menu: 'style' },
     skirtGatheringMethod: { dflt: 'spread', list: ['increase', 'spread'], menu: 'style' },
     skirtGathering: { pct: 0, min: 0, max: 300, menu: 'style' },
-
+    //Construction
+    sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
     //Advanced
     calculateWaistbandDiff: { bool: false, menu: 'advanced.fit' },
     useBackMeasures: { bool: false, menu: 'advanced.fit' },
@@ -856,6 +858,13 @@ export const skirtBase = {
 
     store.set('anchorSeamLength', (waistFront * waistHeight + hipsFront * (1 - waistHeight)) / 4)
     store.set('insertSeamLength', measurements.waistToFloor)
+
+    let sideSeamSa
+    if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
+      store.set('insertSeamSa', sa * options.closureSaWidth * 100)
+    } else {
+      store.set('insertSeamSa', sa * options.sideSeamSaWidth * 100)
+    }
 
     //guides
     // paths.waistFront = new Path()

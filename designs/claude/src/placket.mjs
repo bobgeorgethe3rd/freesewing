@@ -102,14 +102,23 @@ export const placket = {
       points.title = new Point(points.topRight.x / 8, points.bottomLeft.y / 2)
       macro('title', {
         at: points.title,
-        nr: '5',
+        nr: '4',
         title: 'Placket',
         scale: 1 / 3,
       })
 
       if (sa) {
-        points.saBottomRight = points.bottomRight.translate(sa, sa)
-        points.saTopRight = points.topRight.translate(sa, -sa)
+        let sideSeamSa
+        if (
+          (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') &&
+          !options.waistbandElastic
+        ) {
+          sideSeamSa = sa * options.closureSaWidth * 100
+        } else {
+          sideSeamSa = sa * options.sideSeamSaWidth * 100
+        }
+        points.saBottomRight = points.bottomRight.translate(sideSeamSa, sa)
+        points.saTopRight = points.topRight.translate(sideSeamSa, -sa)
         points.saTopLeft = points.topLeft.translate(-sa, -sa)
         points.saBottomCurveStart = points.bottomCurveStart.shift(180, sa)
 

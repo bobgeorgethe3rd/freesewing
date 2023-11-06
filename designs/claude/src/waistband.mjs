@@ -27,7 +27,7 @@ export const waistband = {
 
     if (complete) {
       macro('title', {
-        nr: 4,
+        nr: 2,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
         scale: 1 / 3,

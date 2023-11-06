@@ -77,82 +77,101 @@ export const waistFacingFront = {
 
     if (complete) {
       //grainline
-      let cfSa
-      if (
-        options.closurePosition == 'front' &&
-        !options.waistbandElastic &&
-        (options.useBackMeasures ||
-          options.independentSkirtFullness ||
-          options.independentSkirtGathering)
-      ) {
-        cfSa = sa
-        points.grainlineFrom = points.cfWaist.shiftFractionTowards(points.cfWaistFacing, 0.075)
-        points.grainlineTo = points.cfWaistFacing.shiftFractionTowards(points.cfWaist, 0.075)
-        macro('grainline', {
-          from: points.cfWaist.rotate(-90, points.grainlineFrom),
-          to: points.cfWaistFacing.rotate(90, points.grainlineTo),
-        })
-      } else {
-        cfSa = 0
-        points.cutOnFoldFrom = points.cfWaist.shiftFractionTowards(points.cfWaistFacing, 0.075)
-        points.cutOnFoldTo = points.cfWaistFacing.shiftFractionTowards(points.cfWaist, 0.075)
+      if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
+        points.cutOnFoldFrom = points.cfWaist.shiftFractionTowards(points.cfWaistFacing, 0.1)
+        points.cutOnFoldTo = points.cfWaistFacing.shiftFractionTowards(points.cfWaist, 0.1)
         macro('cutonfold', {
           from: points.cutOnFoldFrom,
           to: points.cutOnFoldTo,
           grainline: true,
         })
+      } else {
+        points.grainlineFrom = points.cfWaist.shiftFractionTowards(points.cfWaistCp1, 1 / 3)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cfWaistFacing.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
       }
       //title
-      let titleBack
-      let titleBackNum
-      if (
-        !options.useBackMeasures &&
-        !options.independentSkirtFullness &&
-        !options.independentSkirtGathering
-      ) {
-        titleBack = ' & Back'
-        titleBackNum = ' & 4b'
-      } else {
-        titleBack = ''
-        titleBackNum = ''
-      }
       points.title = points.cfWaist
         .shiftFractionTowards(points.cfWaistCp1, 0.6)
         .shift(-90, points.cfWaist.dist(points.cfWaistFacing) / 2)
 
       macro('title', {
         at: points.title,
-        nr: '4a' + titleBackNum,
-        title: 'Skirt Waist Facing (Front' + titleBack + ')',
+        nr: '9',
+        title: 'Skirt Waist Facing',
         scale: 0.25,
       })
-      //add seam allowance
       if (
+        !options.separateBack &&
         !options.useBackMeasures &&
         !options.independentSkirtFullness &&
         !options.independentSkirtGathering &&
-        !options.waistbandElastic &&
-        (options.closurePosition == 'front' || options.closurePosition == 'back')
+        (options.closurePosition == 'front' ||
+          options.closurePosition == 'back' ||
+          options.cbSaWidth > 0)
       ) {
-        let addSa
-        if (options.closurePosition == 'front') {
-          addSa = 'FRONT'
-        } else {
-          addSa = 'BACK'
-        }
         paths.cf
           .attr('class', 'fabric hidden')
-          .attr('data-text', 'ADD SEAM ALLOWANCE FOR ' + addSa)
+          .attr('data-text', 'Need to Back Seam Allowance')
           .attr('data-text-class', 'center')
           .unhide()
       }
       if (sa) {
+        const closureSa = sa * options.sideSeamSaWidth * 100
+
+        let cfSa
+        if (options.closurePosition == 'front' && !options.waistbandElastic) {
+          cfSa = closureSa
+        } else {
+          cfSa = sa * options.cfSaWidth * 100
+        }
+
+        let sideSeamSa
+        if (
+          (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') &&
+          !options.waistbandElastic
+        ) {
+          sideSeamSa = closureSa
+        } else {
+          sideSeamSa = sa * options.sideSeamSaWidth * 100
+        }
+
+        points.saSideWaistFrontFacing = utils.beamsIntersect(
+          points.sideWaistFrontFacingCp1
+            .shiftTowards(points.sideWaistFrontFacing, sa)
+            .rotate(-90, points.sideWaistFrontFacingCp1),
+          points.sideWaistFrontFacing
+            .shiftTowards(points.sideWaistFrontFacingCp1, sa)
+            .rotate(90, points.sideWaistFrontFacing),
+          paths.sideSeam.offset(sideSeamSa).start(),
+          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.001)
+        )
+        points.saSideWaistFront = utils.beamsIntersect(
+          paths.sideSeam.offset(sideSeamSa).end(),
+          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.998),
+          points.sideWaistFront
+            .shiftTowards(points.sideWaistFrontCp2, sa)
+            .rotate(-90, points.sideWaistFront),
+          points.sideWaistFrontCp2
+            .shiftTowards(points.sideWaistFront, sa)
+            .rotate(90, points.sideWaistFrontCp2)
+        )
+
+        points.saCfWaist = points.cfWaist.translate(-cfSa, -sa)
+        points.saCfWaistFacing = points.cfWaistFacing.translate(-cfSa, sa)
+
         paths.sa = paths.cfWaistFacing
           .line(paths.sideSeam.start())
           .offset(sa)
-          .join(paths.sideSeam.offset(sa))
+          .line(points.saSideWaistFrontFacing)
+          .join(paths.sideSeam.offset(sideSeamSa))
+          .line(points.saSideWaistFront)
           .join(paths.waist.offset(sa))
-          .join(paths.cf.offset(cfSa))
+          .line(points.saCfWaist)
+          .line(points.saCfWaistFacing)
           .close()
           .attr('class', 'fabric sa')
       }
