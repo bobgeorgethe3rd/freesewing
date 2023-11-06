@@ -1,8 +1,10 @@
+import { frontBase } from '@freesewing/daisy'
 import { front as frontDaisy } from '@freesewing/daisy'
+import { frontArmholePitchDart } from '@freesewing/daisy'
 
 export const front = {
   name: 'aimee.front',
-  from: frontDaisy,
+  from: frontBase,
   hide: {
     from: true,
     inherited: true,
@@ -10,6 +12,8 @@ export const front = {
   measurements: ['shoulderToWrist', 'wrist'],
   optionalMeasurements: ['shoulderToElbow'],
   options: {
+    //Imported
+    ...frontDaisy.options,
     //Constant
     bustDartPlacement: 'armholePitch', //Locked for Aimee
     bustDartLength: 1, //Locked for Aimee
@@ -38,23 +42,26 @@ export const front = {
     underArmCurve: { pct: 100, min: 50, max: 150, menu: 'advanced' },
     fullSleeves: { bool: true, menu: 'advanced' }, //So you can control separate sleeves later without affecting the bodice
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    Snippet,
-  }) => {
+  draft: (sh) => {
+    const {
+      store,
+      sa,
+      Point,
+      points,
+      Path,
+      paths,
+      options,
+      complete,
+      paperless,
+      macro,
+      utils,
+      measurements,
+      part,
+      snippets,
+      Snippet,
+    } = sh
+    //draft
+    frontArmholePitchDart(sh)
     //removing paths and snippets not required from Bella
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
