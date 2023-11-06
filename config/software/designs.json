@@ -78,7 +78,15 @@
     }
   },
   "costumes": {},
-  "dresses": {},
+  "dresses": {
+    "scott": {
+      "description": "Scallop Heart Dress design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["dress", "sleeves", "skirts"]
+    }
+  },
   "hats": {
     "billy": {
       "description": "A Bucket Hat design",

@@ -234,6 +234,12 @@ sandy:
 scarlett:
     peer:
     '@freesewing/wanda': *freesewing
+scott:
+    peer:
+    '@freesewing/daisy': *freesewing
+    '@freesewing/spreadsleeve': *freesewing
+    '@freesewing/claude': *freesewing
+    '@freesewing/harriet': *freesewing
 shaun:
     peer:
     '@freesewing/byron': *freesewing
