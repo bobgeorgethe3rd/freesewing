@@ -15,7 +15,7 @@ export const backBase = {
     backNeckHeight: { pct: 46, min: 38, max: 54, menu: 'style' },
     //Plackets
     placketWidth: {
-      pct: 3.1,
+      pct: 3.6,
       min: 3,
       max: 4.5,
       snap: 3.175,
@@ -63,6 +63,7 @@ export const backBase = {
     points.dartBottomLeftCp2 = points.dartBottomLeft.shift(90, dartHeight * 0.5)
     points.dartBottomRightCp1 = new Point(points.dartBottomRight.x, points.dartBottomLeftCp2.y)
     points.neckBackCornerCp = points.neckBackCorner.shift(-90, dartHeight * 0.25)
+    points.dartTip = points.dartTip.shift(180, dartShift)
     //placket
     points.neckBack = points.cbTop.shiftTowards(points.neckBackCorner, placketWidth / 2)
     points.waistLeft = new Point(points.neckBack.x, points.cbWaist.y)
@@ -103,7 +104,7 @@ export const backBase = {
       paths.daisyGuide = new Path()
         .move(points.cbWaist)
         .line(points.dartBottomLeft)
-        .line(points.dartTip.shift(180, dartShift))
+        .line(points.dartTip)
         .line(points.dartBottomRight)
         .line(points.sideWaist)
         .line(points.armhole)
