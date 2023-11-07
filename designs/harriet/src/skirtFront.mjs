@@ -641,6 +641,33 @@ export const skirtFront = {
           points.saCbCfHem = points.cfHem.translate(-cbSa, hemSa)
           points.saCbHem = points.cbHem.translate(-cbSa, hemSa)
 
+          if (options.skirtFacings) {
+            points.saSideBackHemFacing = utils.beamsIntersect(
+              paths.sideSeam.split(paths.backFacing.end())[0].offset(sideSeamSa).end(),
+              paths.sideSeam
+                .split(paths.backFacing.end())[0]
+                .offset(sideSeamSa)
+                .shiftFractionAlong(0.999),
+              points.sideBackHemFacing
+                .shiftTowards(points.sideBackHemFacingCp2, sa)
+                .rotate(-90, points.sideBackHemFacing),
+              points.sideBackHemFacingCp2
+                .shiftTowards(points.sideBackHemFacing, sa)
+                .rotate(90, points.sideBackHemFacingCp2)
+            )
+            points.saCbFacing = points.cbHemFacing.translate(-cbSa, -sa)
+            paths.backFacingSa = paths.hemBaseBack
+              .offset(hemSa)
+              .line(points.saSideBackHemFacing)
+              .join(paths.sideSeam.split(paths.facing.end())[0].offset(sideSeamSa))
+              .line(points.saSideBackHemFacing)
+              .join(paths.backFacing.reverse().offset(sa))
+              .line(points.saCbFacing)
+              .line(points.saCbHem)
+              .close()
+              .attr('class', 'interfacing sa')
+          }
+
           paths.saBack = paths.hemBaseBack
             .offset(hemSa)
             .line(points.saSideFrontHem)
