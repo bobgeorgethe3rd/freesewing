@@ -16,6 +16,7 @@ export const sleeve = {
     //Constants
     sleeveFlounces: 'none', //Locked for Scott
     //Sleeves
+    sleevesBool: { bool: true, menu: 'sleeves' },
   },
   draft: (sh) => {
     //draft
@@ -39,12 +40,17 @@ export const sleeve = {
       log,
     } = sh
     //draft
-    spreadleeve.draft(sh)
+    if (options.sleevesBool) {
+      spreadleeve.draft(sh)
+    } else {
+      part.hide()
+      return part
+    }
 
     if (complete) {
       //title
       macro('title', {
-        nr: 3,
+        nr: 5,
         title: 'Sleeve',
         at: points.title,
         scale: 0.5,

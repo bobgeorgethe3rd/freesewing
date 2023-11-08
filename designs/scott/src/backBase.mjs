@@ -22,6 +22,11 @@ export const backBase = {
       ...pctBasedOn('waist'),
       menu: 'plackets',
     },
+    placketStyle: {
+      dflt: 'separate',
+      list: ['separate', 'inbuilt', 'facing', 'zipper'],
+      menu: 'plackets',
+    },
   },
   draft: ({
     store,
@@ -65,9 +70,22 @@ export const backBase = {
     points.neckBackCornerCp = points.neckBackCorner.shift(-90, dartHeight * 0.25)
     points.dartTip = points.dartTip.shift(180, dartShift)
     //placket
-    points.neckBack = points.cbTop.shiftTowards(points.neckBackCorner, placketWidth / 2)
+    if (options.placketStyle == 'separate') {
+      points.neckBack = points.cbTop.shiftTowards(points.neckBackCorner, placketWidth * 0.5)
+    }
+    if (options.placketStyle == 'inbuilt') {
+      points.neckBack = points.cbTop.shift(180, placketWidth * 1.5)
+    }
+    if (options.placketStyle == 'facing') {
+      points.neckBack = points.cbTop.shift(180, placketWidth * 0.5)
+    }
+    if (options.placketStyle == 'zipper') {
+      points.neckBack = points.cbTop
+    }
     points.waistLeft = new Point(points.neckBack.x, points.cbWaist.y)
     //stores
+    store.set('placketWidth', placketWidth)
+    store.set('backPlacketLength', points.waistLeft.dist(points.neckBack))
     store.set(
       'waistBack',
       points.cbWaist.dist(points.dartBottomLeft) + points.dartBottomRight.dist(points.sideWaist)

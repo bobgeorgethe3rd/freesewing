@@ -23,6 +23,8 @@ export const frontBase = {
     //Style
     neckDrop: { pct: 81.2, min: 65, max: 85, menu: 'style' }, //70.3
     heartPeak: { pct: 59, min: 45, max: 75, menu: 'style' },
+    //Construction
+    cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Unlocked for Scott
   },
   draft: (sh) => {
     const {
