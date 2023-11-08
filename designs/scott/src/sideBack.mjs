@@ -74,7 +74,7 @@ export const sideBack = {
       snippets.sideNotch = new Snippet('notch', points.sideNotch)
       macro('sprinkle', {
         snippet: 'bnotch',
-        on: ['neckBackCorner', 'styleNotch'],
+        on: ['neckBackCorner', 'styleNotch', 'armholePitch'],
       })
       //title
       points.title = points.dartTip
