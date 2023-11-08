@@ -14,6 +14,7 @@ export const sleeve = {
     //Imported
     ...spreadleeve.options,
     //Constants
+    useVoidStores: false, //Altered fro Scott
     sleeveFlounces: 'none', //Locked for Scott
     //Sleeves
     sleevesBool: { bool: true, menu: 'sleeves' },
