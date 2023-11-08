@@ -11,12 +11,24 @@ import { back } from './back.mjs'
 import { sideBack } from './sideBack.mjs'
 import { sleeve } from './sleeve.mjs'
 import { sleeveBand } from './sleeveBand.mjs'
+import { skirtFront } from './skirtFront.mjs'
 
 // Create new design
 const Scott = new Design({
   data,
-  parts: [frontBase, backBase, front, sideFront, back, sideBack, sleeve, sleeveBand],
+  parts: [frontBase, backBase, front, sideFront, back, sideBack, sleeve, sleeveBand, skirtFront],
 })
 
 // Named exports
-export { frontBase, backBase, front, sideFront, back, sideBack, sleeve, sleeveBand, Scott }
+export {
+  frontBase,
+  backBase,
+  front,
+  sideFront,
+  back,
+  sideBack,
+  sleeve,
+  sleeveBand,
+  skirtFront,
+  Scott,
+}

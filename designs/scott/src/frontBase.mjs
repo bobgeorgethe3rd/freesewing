@@ -81,7 +81,7 @@ export const frontBase = {
     store.set('sideShoulderLength', points.shoulder.dist(points.bustDartBottom))
     store.set(
       'waistFront',
-      points.cfWaist.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideWaist)
+      (points.cfWaist.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideWaist)) * 4
     )
 
     store.set('scyeFrontWidth', points.armhole.dist(points.shoulder))

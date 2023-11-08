@@ -88,9 +88,10 @@ export const backBase = {
     store.set('backPlacketLength', points.waistLeft.dist(points.neckBack))
     store.set(
       'waistBack',
-      points.cbWaist.dist(points.dartBottomLeft) + points.dartBottomRight.dist(points.sideWaist)
+      (points.cbWaist.dist(points.dartBottomLeft) + points.dartBottomRight.dist(points.sideWaist)) *
+        4
     )
-    store.set('storedWaist', store.get('waistFront') + store.get('waistBack'))
+    store.set('storedWaist', (store.get('waistFront') + store.get('waistBack')) / 2)
 
     store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
     store.set(
