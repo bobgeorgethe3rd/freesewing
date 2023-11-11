@@ -93,22 +93,14 @@ export const backBase = {
     store.set('placketWidth', placketWidth)
     store.set('waistbandOverlap', placketWidth)
     store.set('backPlacketLength', points.waistLeft.dist(points.neckBack))
-    if (options.placketStyle != 'none') {
-      store.set(
-        'waistBack',
-        (points.cbWaist.dist(points.dartBottomLeft) +
-          points.dartBottomRight.dist(points.sideWaist)) *
-          4
-      )
-    } else {
-      store.set(
-        'waistBack',
-        (points.cbWaist.dist(points.dartBottomLeft) +
-          points.dartBottomRight.dist(points.sideWaist) -
-          placketWidth / 2) *
-          4
-      )
-    }
+
+    store.set(
+      'waistBack',
+      (points.cbWaist.dist(points.dartBottomLeft) +
+        points.dartBottomRight.dist(points.sideWaist) -
+        placketWidth / 2) *
+        4
+    )
 
     store.set('storedWaist', (store.get('waistFront') + store.get('waistBack')) / 2)
 

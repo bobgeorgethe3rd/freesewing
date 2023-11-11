@@ -180,7 +180,7 @@ export const skirtBack = {
       if (options.skirtFacings) {
         macro('title', {
           at: points.titleFacing,
-          nr: '12',
+          nr: '11',
           title: 'Skirt Facing (Back)',
           scale: 0.5,
           prefix: 'titleFacing',

@@ -64,7 +64,7 @@ export const skirtFront = {
       if (options.skirtFacings) {
         macro('title', {
           at: points.titleFacing,
-          nr: '11',
+          nr: '10',
           title: 'Skirt Facing (Front)',
           scale: 0.5,
           prefix: 'titleFacing',
