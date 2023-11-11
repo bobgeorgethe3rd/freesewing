@@ -89,11 +89,12 @@ export const skirtBack = {
           if (options.placketStyle == 'facing') {
             points.hemFacingTop = points.cbHemFacing.shift(180, placketWidth)
           }
-
+          //needs the .end() line otherwise sa split can break later on
           paths.facing = new Path()
             .move(points.hemFacingTop)
             .line(paths.facing.start())
             .join(paths.facing)
+            .line(paths.facing.end())
             .attr('class', 'interfacing')
             .attr('data-text', 'Facing Line')
             .attr('data-text-class', 'center')
