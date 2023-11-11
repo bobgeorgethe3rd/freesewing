@@ -48,6 +48,9 @@ export const skirtFront = {
       part.hide()
       return part
     }
+    //remove macros
+    macro('logorg', false)
+    macro('scalebox', false)
     if (complete) {
       //title
       macro('title', {
