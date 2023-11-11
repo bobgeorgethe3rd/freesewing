@@ -190,6 +190,7 @@ export const skirtBase = {
     let waistbandWidth
     if (options.waistbandStyle == 'none') {
       waistbandWidth = 0
+      store.set('waistbandWidth', 0)
     } else {
       waistbandWidth = store.get('waistbandWidth')
     }

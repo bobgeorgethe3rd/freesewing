@@ -2,7 +2,7 @@ import { pocket as inseamPocket } from '@freesewing/inseampocket'
 import { skirtBase } from './skirtBase.mjs'
 
 export const pocket = {
-  name: 'claude.inseamPocket',
+  name: 'claude.pocket',
   after: skirtBase,
   options: {
     //Imported
@@ -48,7 +48,7 @@ export const pocket = {
       //title
       macro('title', {
         nr: 3,
-        title: 'Inseam Pocket',
+        title: 'Pocket',
         at: points.title,
         scale: 0.75,
       })
