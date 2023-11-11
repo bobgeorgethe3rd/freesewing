@@ -112,10 +112,6 @@ export const pocket = {
       points.curveBREnd
     )
     //paths
-    paths.anchorSeam = new Path().move(points.pocketTopRight).line(points.pocketTopLeft).hide()
-
-    paths.insertSeam = new Path().move(points.pocketTopLeft).line(points.curveBLStart).hide()
-
     paths.bottomCurveRight = new Path()
       .move(points.curveBRStart)
       .curve(points.curveBRCp1, points.curveBRCp2, points.curveBREnd)
@@ -126,8 +122,8 @@ export const pocket = {
       .move(points.curveBLStart)
       .curve(points.curveBLCp1, points.curveBLCp2, points.curveBRStart)
       .join(paths.bottomCurveRight)
-      .join(paths.anchorSeam)
-      .join(paths.insertSeam)
+      .line(points.pocketTopLeft)
+      .line(points.curveBLStart)
       .close()
 
     if (complete) {
@@ -160,20 +156,35 @@ export const pocket = {
         const pocketBagSaWidth = sa * options.pocketBagSaWidth * 100
 
         if (options.inseamPocketCurveLeft == 0) {
-          points.curveBLStartSa = points.curveBLStart.translate(-insertSeamSa, pocketBagSaWidth)
+          points.saCurveBLStart = points.curveBLStart.translate(-insertSeamSa, pocketBagSaWidth)
         } else {
-          points.curveBLStartSa = points.curveBLStart.translate(-pocketBagSaWidth, pocketBagSaWidth)
+          points.saCurveBLStart = points.curveBLStart.translate(-pocketBagSaWidth, pocketBagSaWidth)
         }
-        points.curveBLCp1Sa = points.curveBLCp1.translate(-pocketBagSaWidth, pocketBagSaWidth)
-        points.curveBLCp2Sa = points.curveBLCp2.translate(-pocketBagSaWidth, pocketBagSaWidth)
-        points.curveBRStartSa = points.curveBRStart.shift(-90, pocketBagSaWidth)
+        points.saCurveBLCp1 = points.curveBLCp1.translate(-pocketBagSaWidth, pocketBagSaWidth)
+        points.saCurveBLCp2 = points.curveBLCp2.translate(-pocketBagSaWidth, pocketBagSaWidth)
+        points.saCurveBRStart = points.curveBRStart.shift(-90, pocketBagSaWidth)
+
+        points.saPocketTopLeft = points.pocketTopLeft.translate(-insertSeamSa, -anchorSeamSa)
+        points.saPocketTopRight = utils.beamIntersectsY(
+          points.curveBREnd
+            .shiftTowards(points.pocketTopRight, pocketBagSaWidth)
+            .rotate(-90, points.curveBREnd),
+          points.pocketTopRight
+            .shiftTowards(points.curveBREnd, pocketBagSaWidth)
+            .rotate(90, points.pocketTopRight),
+          points.saPocketTopLeft.y
+        )
+
+        points.saPocketBottomLeft = points.curveBLStart.shift(180, insertSeamSa)
 
         paths.sa = new Path()
-          .move(points.curveBLStartSa)
-          .curve(points.curveBLCp1Sa, points.curveBLCp2Sa, points.curveBRStartSa)
+          .move(points.saCurveBLStart)
+          .curve(points.saCurveBLCp1, points.saCurveBLCp2, points.saCurveBRStart)
           .join(paths.bottomCurveRight.offset(pocketBagSaWidth))
-          .join(paths.anchorSeam.offset(anchorSeamSa))
-          .join(paths.insertSeam.offset(insertSeamSa))
+          .line(points.saPocketTopRight)
+          .line(points.saPocketTopLeft)
+          .line(points.saPocketBottomLeft)
+          .line(points.saCurveBLStart)
           .close()
           .attr('class', 'fabric sa')
       }
