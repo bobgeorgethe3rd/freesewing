@@ -14,6 +14,7 @@ import { sleeveBand } from './sleeveBand.mjs'
 import { skirtBase } from './skirtBase.mjs'
 import { skirtFront } from './skirtFront.mjs'
 import { skirtBack } from './skirtBack.mjs'
+import { pocket } from './pocket.mjs'
 import { waistband } from './waistband.mjs'
 
 // Create new design
@@ -31,6 +32,7 @@ const Scott = new Design({
     skirtBase,
     skirtFront,
     skirtBack,
+    pocket,
     waistband,
   ],
 })
@@ -48,6 +50,7 @@ export {
   skirtBase,
   skirtFront,
   skirtBack,
+  pocket,
   waistband,
   Scott,
 }

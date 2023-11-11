@@ -1,10 +1,12 @@
 import { skirtBase } from './skirtBase.mjs'
+import { pocket } from './pocket.mjs'
 import { skirtBack as skirtBackClaude } from '@freesewing/claude'
 import { skirtBack as skirtBackDaisy } from '@freesewing/harriet'
 
 export const skirtBack = {
   name: 'scott.skirtBack',
   from: skirtBase,
+  after: pocket,
   hide: {
     from: true,
     inherited: true,

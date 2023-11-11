@@ -4,8 +4,7 @@ import { waistband as waistbandClaude } from '@freesewing/claude'
 
 export const waistband = {
   name: 'scott.waistband',
-  after: backBase,
-  skirtBase,
+  after: [backBase, skirtBase],
   hide: {
     after: true,
     inherited: true,
@@ -14,8 +13,8 @@ export const waistband = {
     //Imported
     ...waistbandClaude.options,
     //Constants
-    waistbandFolded: false,
-    waistbandOverlap: 0,
+    waistbandFolded: false, //Altered for Scott
+    waistbandOverlap: 0, //Altered for Scott
   },
   draft: (sh) => {
     //draft
