@@ -43,7 +43,10 @@ export const waistband = {
       void store.setIfUnset('placketWidth', 0)
     }
     void store.setIfUnset('waistbandBack', store.get('waistbandLength') * 0.5)
-    void store.setIfUnset('overlap', store.get('waistbandLength') * options.waistbandOverlap)
+    void store.setIfUnset(
+      'waistbandOverlap',
+      store.get('waistbandLength') * options.waistbandOverlap
+    )
 
     const length = store.get('waistbandLength')
 
@@ -56,17 +59,17 @@ export const waistband = {
     const widthHalf = width / widthMultiplier / 2
     const lengthBack = store.get('waistbandBack')
 
-    const overlap = store.get('overlap')
+    const waistbandOverlap = store.get('waistbandOverlap')
     const placketWidth = store.get('placketWidth')
 
     let leftExtension
     let rightExtension
     if (options.waistbandOverlapSide == 'right') {
       leftExtension = placketWidth
-      rightExtension = overlap
+      rightExtension = waistbandOverlap
       void store.setIfUnset('maxButtons', rightExtension)
     } else {
-      leftExtension = overlap
+      leftExtension = waistbandOverlap
       rightExtension = placketWidth
       void store.setIfUnset('maxButtons', leftExtension)
     }
@@ -241,7 +244,7 @@ export const waistband = {
                 -widthHalf
               )
               points['buttonOverlap' + i] = points.bottomLeft.translate(
-                overlap - (widthHalf + (width / widthMultiplier) * i),
+                waistbandOverlap - (widthHalf + (width / widthMultiplier) * i),
                 -widthHalf
               )
               snippets['buttonholeOverlap' + i] = new Snippet(
@@ -283,7 +286,7 @@ export const waistband = {
                   -widthHalf
                 )
                 points['buttonOverlap' + i] = points.bottomRight.translate(
-                  widthHalf + (width / widthMultiplier) * i - overlap,
+                  widthHalf + (width / widthMultiplier) * i - waistbandOverlap,
                   -widthHalf
                 )
                 snippets['buttonholeOverlap' + i] = new Snippet(

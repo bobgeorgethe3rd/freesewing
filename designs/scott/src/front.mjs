@@ -59,7 +59,7 @@ export const front = {
 
     if (complete) {
       //grainline
-      if (options.cfSaWidth == 0) {
+      if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
         points.cutOnFoldFrom = points.cfTop
         points.cutOnFoldTo = points.cfWaist
         macro('cutonfold', {
@@ -103,7 +103,12 @@ export const front = {
       })
       if (sa) {
         const styleLineSa = sa * options.styleLineSaWidth * 100
-        const cfSa = sa * options.cfSaWidth * 100
+        let cfSa
+        if (options.closurePosition == 'front') {
+          cfSa = sa * options.closureSaWidth * 100
+        } else {
+          cfSa = sa * options.cfSaWidth * 100
+        }
 
         points.saWaistDartLeft = points.waistDartLeft.translate(styleLineSa, sa)
         points.saCfTop = points.cfTop.shift(180, cfSa)

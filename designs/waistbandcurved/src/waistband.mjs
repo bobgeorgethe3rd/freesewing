@@ -44,7 +44,10 @@ export const waistband = {
       void store.setIfUnset('placketWidth', 0)
     }
     void store.setIfUnset('waistbandBack', store.get('waistbandLength') * 0.5)
-    void store.setIfUnset('overlap', store.get('waistbandLength') * options.waistbandOverlap)
+    void store.setIfUnset(
+      'waistbandOverlap',
+      store.get('waistbandLength') * options.waistbandOverlap
+    )
 
     //clashing protection
     if (store.get('waistbandLength') == store.get('waistbandLengthTop')) {
@@ -67,17 +70,17 @@ export const waistband = {
     //^ Adds support for it lengthTop is greater
 
     const lengthBack = store.get('waistbandBack')
-    const overlap = store.get('overlap')
+    const waistbandOverlap = store.get('waistbandOverlap')
     const placketWidth = store.get('placketWidth')
 
     let leftExtension
     let rightExtension
     if (options.waistbandOverlapSide == 'right') {
       leftExtension = placketWidth
-      rightExtension = overlap
+      rightExtension = waistbandOverlap
       void store.setIfUnset('maxButtons', rightExtension)
     } else {
-      leftExtension = overlap
+      leftExtension = waistbandOverlap
       rightExtension = placketWidth
       void store.setIfUnset('maxButtons', leftExtension)
     }
@@ -285,7 +288,7 @@ export const waistband = {
                 .shiftTowards(points.bottomRight, widthHalf + widthStatic * i)
                 .shift(points.bottomRight.angle(points.topRight), widthHalf)
               points['buttonOverlap' + i] = paths.bottomCurve
-                .shiftAlong(overlap - (widthHalf + widthStatic * i))
+                .shiftAlong(waistbandOverlap - (widthHalf + widthStatic * i))
                 .shiftTowards(points.origin, width / 2)
               snippets['buttonholeOverlap' + i] = new Snippet(
                 'buttonhole',
@@ -312,7 +315,7 @@ export const waistband = {
                   .shift(points.bottomRight.angle(points.topRight), widthHalf)
                 points['buttonOverlap' + i] = paths.bottomCurve
                   .reverse()
-                  .shiftAlong(overlap - (widthHalf + widthStatic * i))
+                  .shiftAlong(waistbandOverlap - (widthHalf + widthStatic * i))
                   .shiftTowards(points.origin, width / 2)
                 snippets['buttonholeOverlap' + i] = new Snippet(
                   'buttonhole',

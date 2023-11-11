@@ -834,6 +834,7 @@ export const skirtBase = {
         backBottomCircumference * skirtBackFullness) /
         2
     )
+    store.set('waistbandBack', backBottomCircumference * skirtBackFullness * 0.5)
     store.set(
       'waistbandLengthTop',
       (frontTopCircumference * skirtFrontFullness + backTopCircumference * skirtBackFullness) / 2

@@ -18,6 +18,7 @@ export const sleeve = {
     sleeveFlounces: 'none', //Locked for Scott
     //Sleeves
     sleevesBool: { bool: true, menu: 'sleeves' },
+    sleeveBands: { bool: true, menu: 'sleeves' },
   },
   draft: (sh) => {
     //draft

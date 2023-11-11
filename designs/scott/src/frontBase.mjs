@@ -17,7 +17,7 @@ export const frontBase = {
     bustDartLength: 1, //Locked for Scott
     waistDartLength: 1, //Locked for Scott
     bustDartFraction: 0.5, //Locked for Scott
-    closurePosition: 'back', //Locked for Scott
+    //closurePosition: 'back', //Locked for Scott
     //Fit
     daisyGuides: { bool: false, menu: 'fit' },
     //Style

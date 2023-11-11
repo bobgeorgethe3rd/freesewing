@@ -11,6 +11,7 @@ export const back = {
   },
   options: {
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
+    cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
   },
   draft: ({
     store,
@@ -54,24 +55,32 @@ export const back = {
 
     if (complete) {
       //grainline
-      points.grainlineTo = points.cbWaist
-        .shift(0, placketWidth * 0.5)
-        .shiftFractionTowards(points.dartBottomLeft, 0.15)
-      points.grainlineFrom = new Point(points.grainlineTo.x, points.cbTop.y)
-      macro('grainline', {
-        from: points.grainlineFrom,
-        to: points.grainlineTo,
-      })
-      //notches
-      points.backNotch = points.waistLeft.shiftFractionTowards(points.neckBack, 0.5)
-      points.styleNotch = paths.styleLine.shiftFractionAlong(0.5)
-      macro('sprinkle', {
-        snippet: 'bnotch',
-        on: ['backNotch', 'styleNotch', 'neckBackCorner'],
-      })
+      if (options.closurePosition != 'back' && options.cfSaWidth == 0) {
+        points.cutOnFoldFrom = points.cbTop
+        points.cutOnFoldTo = points.cbWaist
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineTo = points.cbWaist.shiftFractionTowards(points.dartBottomLeft, 1 / 3)
+        points.grainlineFrom = new Point(points.grainlineTo.x, points.cbTop.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+        //notches
+        points.backNotch = points.waistLeft.shiftFractionTowards(points.neckBack, 0.5)
+        points.styleNotch = paths.styleLine.shiftFractionAlong(0.5)
+        macro('sprinkle', {
+          snippet: 'bnotch',
+          on: ['backNotch', 'styleNotch', 'neckBackCorner'],
+        })
+      }
       //title
       points.title = new Point(
-        (placketWidth * 0.5 + points.dartBottomLeft.x) * 0.5,
+        points.dartBottomLeft.x * 0.5,
         (points.cbTop.y + points.cbWaist.y) * 0.5
       )
       macro('title', {
@@ -81,28 +90,34 @@ export const back = {
         scale: 0.5,
       })
       //lines
-      if (options.placketStyle == 'inbuilt' || options.placketStyle == 'facing') {
-        paths.stitchingLine = new Path()
-          .move(points.cbTop.shift(0, placketWidth * 0.5))
-          .line(points.cbWaist.shift(0, placketWidth * 0.5))
-          .attr('class', 'mark')
-          .attr('data-text', 'Stitching - Line')
-          .attr('data-text-class', 'center')
-      }
-      if (options.placketStyle == 'inbuilt') {
-        paths.foldLine = new Path()
-          .move(points.cbTop.shift(180, placketWidth * 0.5))
-          .line(points.cbWaist.shift(180, placketWidth * 0.5))
-          .attr('class', 'mark')
-          .attr('data-text', 'Fold - Line')
-          .attr('data-text-class', 'center')
+      if (options.closurePosition == 'back') {
+        if (options.placketStyle == 'inbuilt' || options.placketStyle == 'facing') {
+          paths.stitchingLine = new Path()
+            .move(points.cbTop.shift(0, placketWidth * 0.5))
+            .line(points.cbWaist.shift(0, placketWidth * 0.5))
+            .attr('class', 'mark')
+            .attr('data-text', 'Stitching - Line')
+            .attr('data-text-class', 'center')
+        }
+        if (options.placketStyle == 'inbuilt') {
+          paths.foldLine = new Path()
+            .move(points.cbTop.shift(180, placketWidth * 0.5))
+            .line(points.cbWaist.shift(180, placketWidth * 0.5))
+            .attr('class', 'mark')
+            .attr('data-text', 'Fold - Line')
+            .attr('data-text-class', 'center')
+        }
       }
       if (sa) {
         let backSa
-        if (options.placketStyle == 'zipper') {
+        if (options.placketStyle == 'none') {
           backSa = sa * options.closureSaWidth * 100
         } else {
-          backSa = sa
+          if (options.closurePosition == 'back') {
+            backSa = sa
+          } else {
+            backSa = sa * options.cbSaWidth * 100
+          }
         }
 
         const styleLineSa = sa * options.styleLineSaWidth * 100

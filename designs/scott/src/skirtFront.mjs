@@ -1,31 +1,18 @@
-import { backBase } from './backBase.mjs'
-import { frontBase } from './frontBase.mjs'
-import { skirtBase } from '@freesewing/harriet'
+import { skirtBase } from './skirtBase.mjs'
+import { skirtFront as skirtFrontClaude } from '@freesewing/claude'
 import { skirtFront as skirtFrontDaisy } from '@freesewing/harriet'
 
 export const skirtFront = {
   name: 'scott.skirtFront',
   from: skirtBase,
-  after: backBase,
-  frontBase,
   hide: {
     from: true,
-    after: true,
     inherited: true,
   },
   options: {
     //Imported
+    ...skirtFrontClaude.options,
     ...skirtFrontDaisy.options,
-    //Constants
-    waistHeight: 1, //Locked for Scott
-    waistbandElastic: false, //Locked for Scott
-    calculateWaistbandDiff: false, //Locked for Scott
-    useBackMeasures: true, //Locked for Scott
-    separateBack: true, //Locked for Scott
-    //Style
-    waistbandStyle: { dflt: 'none', list: ['none', 'straight', 'curved'], menu: 'style' }, //Altered for Scott
-    skirtHighLengthBonus: { pct: 2, min: -20, max: 30, menu: 'style' }, //Altered for Scott
-    skirtLengthBonus: { pct: -2, min: -20, max: 50, menu: 'style' }, //Altered for Scott
   },
   draft: (sh) => {
     //draft
@@ -49,7 +36,37 @@ export const skirtFront = {
       log,
     } = sh
     //draft
-    skirtFrontDaisy.draft(sh)
+    if (options.skirtStyle != 'none') {
+      if (options.skirtStyle == 'harriet') {
+        skirtFrontDaisy.draft(sh)
+      } else {
+        skirtFrontClaude.draft(sh)
+      }
+    } else {
+      part.hide()
+      return part
+    }
+    if (complete) {
+      //title
+      macro('title', {
+        at: points.title,
+        nr: '7',
+        title: 'Skirt (Front)',
+        scale: 0.5,
+        prefix: 'title',
+        rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
+      })
+      if (options.skirtFacings) {
+        macro('title', {
+          at: points.titleFacing,
+          nr: '11',
+          title: 'Skirt Facing (Front)',
+          scale: 0.5,
+          prefix: 'titleFacing',
+          rotation: 90 - points.frontHemMid.angle(points.frontHemFacingMid),
+        })
+      }
+    }
 
     return part
   },

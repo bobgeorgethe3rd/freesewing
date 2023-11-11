@@ -24,7 +24,7 @@ export const backBase = {
     },
     placketStyle: {
       dflt: 'separate',
-      list: ['separate', 'inbuilt', 'facing', 'zipper'],
+      list: ['separate', 'inbuilt', 'facing', 'none'],
       menu: 'plackets',
     },
   },
@@ -52,7 +52,12 @@ export const backBase = {
     //removing macros not required from Bella
     macro('title', false)
     //measurements
-    const placketWidth = absoluteOptions.placketWidth
+    let placketWidth
+    if (options.closurePosition == 'back' && options.placketStyle != 'none') {
+      placketWidth = absoluteOptions.placketWidth
+    } else {
+      placketWidth = 0
+    }
     //let's begin
     points.shoulderTop = points.shoulder.shiftTowards(points.hps, store.get('sideShoulderLength'))
     points.neckBackCorner = new Point(
@@ -70,6 +75,7 @@ export const backBase = {
     points.neckBackCornerCp = points.neckBackCorner.shift(-90, dartHeight * 0.25)
     points.dartTip = points.dartTip.shift(180, dartShift)
     //placket
+
     if (options.placketStyle == 'separate') {
       points.neckBack = points.cbTop.shiftTowards(points.neckBackCorner, placketWidth * 0.5)
     }
@@ -79,18 +85,31 @@ export const backBase = {
     if (options.placketStyle == 'facing') {
       points.neckBack = points.cbTop.shift(180, placketWidth * 0.5)
     }
-    if (options.placketStyle == 'zipper') {
+    if (options.placketStyle == 'none' || options.closurePosition != 'back') {
       points.neckBack = points.cbTop
     }
     points.waistLeft = new Point(points.neckBack.x, points.cbWaist.y)
     //stores
     store.set('placketWidth', placketWidth)
+    store.set('waistbandOverlap', placketWidth)
     store.set('backPlacketLength', points.waistLeft.dist(points.neckBack))
-    store.set(
-      'waistBack',
-      (points.cbWaist.dist(points.dartBottomLeft) + points.dartBottomRight.dist(points.sideWaist)) *
-        4
-    )
+    if (options.placketStyle != 'none') {
+      store.set(
+        'waistBack',
+        (points.cbWaist.dist(points.dartBottomLeft) +
+          points.dartBottomRight.dist(points.sideWaist)) *
+          4
+      )
+    } else {
+      store.set(
+        'waistBack',
+        (points.cbWaist.dist(points.dartBottomLeft) +
+          points.dartBottomRight.dist(points.sideWaist) -
+          placketWidth / 2) *
+          4
+      )
+    }
+
     store.set('storedWaist', (store.get('waistFront') + store.get('waistBack')) / 2)
 
     store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
