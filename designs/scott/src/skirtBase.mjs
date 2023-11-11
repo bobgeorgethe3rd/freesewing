@@ -29,8 +29,23 @@ export const skirtBase = {
     //Style
     skirtStyle: { dflt: 'harriet', list: ['claude', 'harriet', 'none'], menu: 'style' },
     waistbandStyle: { dflt: 'none', list: ['none', 'straight', 'curved'], menu: 'style' }, //Altered for Scott
+    skirtGatheringMethod: { dflt: 'increase', list: ['increase', 'spread'], menu: 'style' }, //Altered for Scott
+    skirtGathering: { pct: 100, min: 0, max: 300, menu: 'style' }, //Altered for Scott
     skirtHighLengthBonus: { pct: 10, min: -20, max: 30, menu: 'style' }, //Altered for Scott
     skirtLengthBonus: { pct: -2, min: -20, max: 50, menu: 'style' }, //Altered for Scott
+    //Advanced
+    skirtFrontGatheringMethod: {
+      dflt: 'increase',
+      list: ['increase', 'spread'],
+      menu: 'advanced.style',
+    }, //Altered for Scott
+    skirtBackGatheringMethod: {
+      dflt: 'increase',
+      list: ['increase', 'spread'],
+      menu: 'advanced.style',
+    }, //Altered for Scott
+    skirtFrontGathering: { pct: 100, min: 0, max: 300, menu: 'advanced.style' }, //Altered for Scott
+    skirtBackGathering: { pct: 100, min: 0, max: 300, menu: 'advanced.style' }, //Altered for Scott
   },
   draft: (sh) => {
     //draft
