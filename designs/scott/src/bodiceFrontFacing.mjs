@@ -84,7 +84,7 @@ export const bodiceFrontFacing = {
       .line(points.neckFront)
       ._curve(points.heartPeakCp1, points.heartPeak)
       .curve_(points.heartPeakCp2, points.cfTop)
-    // .hide()
+      .hide()
 
     const drawHemBase = () => {
       if (options.sleevesBool) {
