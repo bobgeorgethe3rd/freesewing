@@ -18,6 +18,8 @@ import { pocket } from './pocket.mjs'
 import { placket } from './placket.mjs'
 import { skirtPlacket } from './skirtPlacket.mjs'
 import { waistband } from './waistband.mjs'
+import { bodiceFrontFacing } from './bodiceFrontFacing.mjs'
+import { bodiceBackFacing } from './bodiceBackFacing.mjs'
 
 // Create new design
 const Scott = new Design({
@@ -37,6 +39,8 @@ const Scott = new Design({
     pocket,
     placket,
     skirtPlacket,
+    bodiceFrontFacing,
+    bodiceBackFacing,
     waistband,
   ],
 })
@@ -57,6 +61,8 @@ export {
   pocket,
   placket,
   skirtPlacket,
+  bodiceFrontFacing,
+  bodiceBackFacing,
   waistband,
   Scott,
 }
