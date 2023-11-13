@@ -87,8 +87,8 @@ export const sideBackArmhole = {
 
     if (complete) {
       //grainline
-      ;(points.grainlineFrom = points.dartTip.shiftFractionTowards(points.armhole, 0.25)),
-        (points.grainlineTo = new Point(points.grainlineFrom.x, points.dartBottomRight.y))
+      points.grainlineFrom = points.dartTip.shiftFractionTowards(points.armhole, 0.25)
+      points.grainlineTo = new Point(points.grainlineFrom.x, points.dartBottomRight.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
