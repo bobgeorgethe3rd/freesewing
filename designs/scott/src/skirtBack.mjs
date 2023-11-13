@@ -15,6 +15,8 @@ export const skirtBack = {
     //Imported
     ...skirtBackClaude.options,
     ...skirtBackDaisy.options,
+    //Plackets
+    skirtButtonholeNum: { count: 10, min: 3, max: 20, menu: 'plackets' },
   },
   draft: (sh) => {
     //draft
@@ -99,7 +101,7 @@ export const skirtBack = {
             .attr('data-text', 'Facing Line')
             .attr('data-text-class', 'center')
         }
-        //lines
+        //lines & buttonholes
         if (options.closurePosition == 'back') {
           if (options.placketStyle == 'inbuilt' || options.placketStyle == 'facing') {
             paths.stitchingLine = new Path()
@@ -108,6 +110,26 @@ export const skirtBack = {
               .attr('class', 'mark')
               .attr('data-text', 'Stitching - Line')
               .attr('data-text-class', 'center')
+
+            points.buttonholeStart = points.cbWaist.shiftTowards(
+              points.cbHem,
+              absoluteOptions.buttonholeStart
+            )
+            points.buttonholeEnd = points.cbHem.shiftTowards(
+              points.cbWaist,
+              absoluteOptions.buttonholeStart
+            )
+            for (let i = 0; i < options.skirtButtonholeNum; i++) {
+              points['buttonhole' + i] = points.buttonholeStart.shiftFractionTowards(
+                points.buttonholeEnd,
+                i / (options.skirtButtonholeNum - 1)
+              )
+              snippets['buttonhole' + i] = new Snippet('buttonhole', points['buttonhole' + i]).attr(
+                'data-rotate',
+                90
+              )
+              snippets['button' + i] = new Snippet('button', points['buttonhole' + i])
+            }
           }
           if (options.placketStyle == 'inbuilt') {
             paths.foldLine = new Path()

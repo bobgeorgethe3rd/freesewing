@@ -1,3 +1,4 @@
+import { pctBasedOn } from '@freesewing/core'
 import { backBase } from './backBase.mjs'
 import { front } from './front.mjs'
 
@@ -10,6 +11,17 @@ export const back = {
     inherited: true,
   },
   options: {
+    //Plackets
+    buttonholeStart: {
+      pct: 3.2,
+      min: 3,
+      max: 5,
+      snap: 3.175,
+      ...pctBasedOn('hpsToWaistBack'),
+      menu: 'plackets',
+    },
+    bodiceButtonholeNum: { count: 5, min: 3, max: 10, menu: 'plackets' },
+    //Constructin
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
   },
@@ -89,7 +101,7 @@ export const back = {
         title: 'back',
         scale: 0.5,
       })
-      //lines
+      //lines and buttonholes
       if (options.closurePosition == 'back') {
         if (options.placketStyle == 'inbuilt' || options.placketStyle == 'facing') {
           paths.stitchingLine = new Path()
@@ -98,6 +110,26 @@ export const back = {
             .attr('class', 'mark')
             .attr('data-text', 'Stitching - Line')
             .attr('data-text-class', 'center')
+
+          points.buttonholeStart = points.cbTop.shiftTowards(
+            points.cbWaist,
+            absoluteOptions.buttonholeStart
+          )
+          points.buttonholeEnd = points.cbWaist.shiftTowards(
+            points.cbTop,
+            absoluteOptions.buttonholeStart
+          )
+          for (let i = 0; i < options.bodiceButtonholeNum; i++) {
+            points['buttonhole' + i] = points.buttonholeStart.shiftFractionTowards(
+              points.buttonholeEnd,
+              i / (options.bodiceButtonholeNum - 1)
+            )
+            snippets['buttonhole' + i] = new Snippet('buttonhole', points['buttonhole' + i]).attr(
+              'data-rotate',
+              90
+            )
+            snippets['button' + i] = new Snippet('button', points['buttonhole' + i])
+          }
         }
         if (options.placketStyle == 'inbuilt') {
           paths.foldLine = new Path()

@@ -1,9 +1,9 @@
-import { backBase } from './backBase.mjs'
+import { back } from './back.mjs'
 import { skirtBase } from './skirtBase.mjs'
 
 export const placket = {
   name: 'scott.placket',
-  after: [backBase, skirtBase],
+  after: [back, skirtBase],
   options: {
     //Style
     placketFolded: { bool: true, menu: 'style' },
@@ -96,6 +96,8 @@ export const placket = {
           .attr('data-text', 'Fold - Line')
           .attr('data-text-class', 'center')
       }
+      //buttonhole
+
       if (sa) {
         points.saTopLeft = points.topLeft.translate(-sa, -sa)
         points.saTopRight = points.topRight.translate(sa, -sa)
