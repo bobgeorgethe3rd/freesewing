@@ -96,6 +96,8 @@ export const sideBackArmhole = {
       //notches
       points.princessNotch0 = paths.princessSeam.shiftFractionAlong(0.25)
       points.princessNotch1 = paths.princessSeam.shiftFractionAlong(0.75)
+      points.sideNotch = points.sideWaist.shiftFractionTowards(points.armhole, 0.5)
+      snippets.sideNotch = new Snippet('notch', points.sideNotch)
       macro('sprinkle', {
         snippet: 'bnotch',
         on: ['princessNotch0', 'princessNotch1'],

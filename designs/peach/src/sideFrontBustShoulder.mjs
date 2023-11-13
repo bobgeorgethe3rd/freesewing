@@ -98,7 +98,11 @@ export const sideFrontBustShoulder = {
       points.bustNotch = paths.princessSeam
         .reverse()
         .shiftAlong(points.waistDartLeft.dist(points.bust))
-      snippets.bustNotch = new Snippet('notch', points.bustNotch)
+      points.sideNotch = points.sideWaist.shiftFractionTowards(points.armhole, 0.5)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['bustNotch', 'sideNotch'],
+      })
       //title
       points.title = new Point(points.armholePitchCp1.x, points.armhole.y)
       macro('title', {
