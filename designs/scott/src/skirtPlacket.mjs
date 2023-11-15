@@ -82,6 +82,28 @@ export const skirtPlacket = {
           .attr('data-text', 'Fold - Line')
           .attr('data-text-class', 'center')
       }
+      //buttonhole
+      if (options.placketStyle == 'separate') {
+        points.buttonholeStart = points.topRight.translate(
+          -absoluteOptions.placketWidth * 0.5,
+          absoluteOptions.buttonholeStart
+        )
+        points.buttonholeEnd = points.bottomRight.translate(
+          -absoluteOptions.placketWidth * 0.5,
+          -absoluteOptions.buttonholeStart
+        )
+        for (let i = 0; i < options.skirtButtonholeNum; i++) {
+          points['buttonhole' + i] = points.buttonholeStart.shiftFractionTowards(
+            points.buttonholeEnd,
+            i / (options.skirtButtonholeNum - 1)
+          )
+          snippets['buttonhole' + i] = new Snippet('buttonhole', points['buttonhole' + i]).attr(
+            'data-rotate',
+            90
+          )
+          snippets['button' + i] = new Snippet('button', points['buttonhole' + i])
+        }
+      }
       if (sa) {
         points.saTopLeft = points.topLeft.translate(-sa, -sa)
         points.saTopRight = points.topRight.translate(sa, -sa)

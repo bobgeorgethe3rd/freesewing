@@ -7,6 +7,8 @@ export const placket = {
   options: {
     //Style
     placketFolded: { bool: true, menu: 'style' },
+    //Plackets
+    skirtButtonholeNum: { count: 20, min: 3, max: 25, menu: 'plackets' },
   },
   draft: ({
     store,
@@ -41,7 +43,8 @@ export const placket = {
     if (options.placketFolded && options.placketStyle == 'separate') {
       width = width * 2
     }
-    let length = store.get('backPlacketLength')
+    const backPlacketLength = store.get('backPlacketLength')
+    let length = backPlacketLength
     if (options.waistbandStyle == 'none' && options.skirtStyle != 'none') {
       length = length + store.get('skirtLength')
     }
@@ -70,7 +73,7 @@ export const placket = {
       })
       //notches
       if (options.waistbandStyle == 'none' && options.skirtStyle != 'none') {
-        points.leftNotch = points.topLeft.shift(-90, store.get('backPlacketLength'))
+        points.leftNotch = points.topLeft.shift(-90, backPlacketLength)
         points.rightNotch = new Point(points.topRight.x, points.leftNotch.y)
         macro('sprinkle', {
           snippet: 'notch',
@@ -97,7 +100,50 @@ export const placket = {
           .attr('data-text-class', 'center')
       }
       //buttonhole
-
+      const buttonholeStart = absoluteOptions.buttonholeStart
+      if (options.placketStyle == 'separate') {
+        points.bodiceButtonholeStart = points.topRight.translate(
+          -absoluteOptions.placketWidth * 0.5,
+          buttonholeStart
+        )
+        if (options.waistbandStyle == 'none' && options.skirtStyle != 'none') {
+          points.bodiceButtonholeEnd = points.bodiceButtonholeStart.shift(
+            -90,
+            backPlacketLength - buttonholeStart
+          )
+          points.skirtButtonholeEnd = points.bottomRight.translate(
+            -absoluteOptions.placketWidth * 0.5,
+            -buttonholeStart
+          )
+          for (let i = 1; i < options.skirtButtonholeNum; i++) {
+            points['skirtButtonhole' + i] = points.bodiceButtonholeEnd.shiftFractionTowards(
+              points.skirtButtonholeEnd,
+              i / (options.skirtButtonholeNum - 1)
+            )
+            snippets['skirtButtonhole' + i] = new Snippet(
+              'buttonhole',
+              points['skirtButtonhole' + i]
+            ).attr('data-rotate', 90)
+            snippets['skirtButton' + i] = new Snippet('button', points['skirtButtonhole' + i])
+          }
+        } else {
+          points.bodiceButtonholeEnd = points.bodiceButtonholeStart.shift(
+            -90,
+            backPlacketLength - buttonholeStart * 2
+          )
+        }
+        for (let i = 0; i < options.bodiceButtonholeNum; i++) {
+          points['bodiceButtonhole' + i] = points.bodiceButtonholeStart.shiftFractionTowards(
+            points.bodiceButtonholeEnd,
+            i / (options.bodiceButtonholeNum - 1)
+          )
+          snippets['bodiceButtonhole' + i] = new Snippet(
+            'buttonhole',
+            points['bodiceButtonhole' + i]
+          ).attr('data-rotate', 90)
+          snippets['bodiceButton' + i] = new Snippet('button', points['bodiceButtonhole' + i])
+        }
+      }
       if (sa) {
         points.saTopLeft = points.topLeft.translate(-sa, -sa)
         points.saTopRight = points.topRight.translate(sa, -sa)
