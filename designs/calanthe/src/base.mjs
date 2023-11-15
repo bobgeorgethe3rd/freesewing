@@ -1,3 +1,4 @@
+import { pctBasedOn } from '@freesewing/core'
 import { pluginBundle } from '@freesewing/plugin-bundle'
 
 export const base = {
@@ -12,11 +13,11 @@ export const base = {
     cbPanel: 0.182,
     // sideGap: 0.046,//0.061,
     //Fit
-    chestEase: { pct: 2.3, min: 0, max: 10, menu: 'fit' },
+    chestEase: { pct: 0, min: 0, max: 10, menu: 'fit' }, //2.3
     bustSpanEase: { pct: 4.4, min: 0, max: 10, menu: 'fit' },
-    waistEase: { pct: -7.5, min: -20, max: 0, menu: 'fit' },
+    waistEase: { pct: -5.4, min: -20, max: 0, menu: 'fit' },
     hipsEase: { pct: 2.1, min: 0, max: 10, menu: 'fit' },
-
+    laceGap: { pct: 5.4, min: 0, max: 10, snap: 5, ...pctBasedOn('waist'), menu: 'style' },
     //Style
     frontTopDepth: { pct: 8.2, min: 7.5, max: 16.4, menu: 'style' },
     cfTopCurve: { pct: 0, min: 0, max: 200, menu: 'style' },
@@ -24,14 +25,15 @@ export const base = {
     frontBottomDepth: { pct: 29.9, min: 7.4, max: 44.9, menu: 'style' },
     sideBottomReduction: { pct: 7.4, min: 0, max: 15, menu: 'style' },
     backBottomDepth: { pct: 7.4, min: 7.4, max: 29.9, menu: 'style' },
-
+    waistHeightBonus: { pct: 5.2, min: 0, max: 10, menu: 'style' },
     //Advanced
-    sideGap: { pct: 4.6, min: 3.4, max: 6.1, menu: 'advanced.fit' },
-    sideGapBalance: { pct: 50, min: 0, max: 100, menu: 'advanced.fit' },
+    // sideGap: { pct: 4.6, min: 3.4, max: 6.1, menu: 'advanced.fit' },
+    // sideGapBalance: { pct: 50, min: 0, max: 100, menu: 'advanced.fit' },
     chestFrontBalance: { pct: 50, min: 40, max: 60, menu: 'advanced.fit' },
     // waistF1Balance: { pct: 50, min: 40, max: 60, menu: 'advanced.fit' },
-    waistF1Balance: { pct: 100, min: 50, max: 150, menu: 'advanced.fit' },
-    waistB1Balance: { pct: 50, min: 40, max: 60, menu: 'advanced.fit' },
+    // waistF1Balance: { pct: 100, min: 50, max: 150, menu: 'advanced.fit' },
+    // waistB1Balance: { pct: 50, min: 40, max: 60, menu: 'advanced.fit' },
+    // waistB1Balance: { pct: 100, min: 50, max: 150, menu: 'advanced.fit' },
     cfHipsBonus: { pct: 0, min: -20, max: 20, menu: 'advanced.fit' },
   },
   measurements: [
@@ -64,14 +66,16 @@ export const base = {
     part,
     snippets,
     Snippet,
+    absoluteOptions,
   }) => {
     //measures
-    const chest = measurements.chest * (1 + options.chestEase)
+    const laceGap = absoluteOptions.laceGap
+    const chest = measurements.chest * (1 + options.chestEase) - laceGap / 2
     const bustFront = measurements.bustFront * (1 + options.chestEase)
     const chestBack = chest - bustFront
     const bustSpan = measurements.bustSpan * (1 + options.bustSpanEase)
-    const waist = measurements.waist * (1 + options.waistEase)
-    const hips = measurements.hips * (1 + options.hipsEase)
+    const waist = measurements.waist * (1 + options.waistEase) - laceGap / 2
+    const hips = measurements.hips * (1 + options.hipsEase) - laceGap / 2
 
     const waistCF = waist * options.cfPanel
     const waistF1 = waist * options.f1Panel
@@ -84,7 +88,10 @@ export const base = {
     //scaffold
     points.cfHps = new Point(0, 0)
     points.cfChest = points.cfHps.shift(-90, measurements.hpsToBust)
-    points.cfWaist = points.cfHps.shift(-90, measurements.hpsToWaistFront)
+    points.cfWaist = points.cfHps.shift(
+      -90,
+      measurements.hpsToWaistFront * (1 + options.waistHeightBonus)
+    )
     points.cfUnderbust = points.cfWaist.shift(90, measurements.waistToUnderbust)
     points.cfHips = points.cfWaist.shift(-90, measurements.waistToHips)
 
@@ -115,23 +122,19 @@ export const base = {
     points.waist01 = points.cfWaist.shift(0, waistCF / 2)
     points.waist50 = points.cbWaist.shift(180, waistCB / 2)
 
-    points.waist21 = points.sideWaist.shift(180, waist * options.sideGap * options.sideGapBalance)
-    points.waist30 = points.sideWaist.shift(
-      0,
-      waist * options.sideGap * (1 - options.sideGapBalance)
-    )
-
-    points.waist20 = points.waist21.shift(180, waistF2 / 2)
-    points.waist31 = points.waist30.shift(0, waistB2 / 2)
-
-    points.waist1 = points.waist01.shiftFractionTowards(
-      new Point((points.apex.x + points.chest2.x) / 2, points.cfWaist.y),
-      options.waistF1Balance
-    )
-    points.waist4 = points.waist31.shiftFractionTowards(points.waist50, options.waistB1Balance)
+    points.waist1 = new Point((points.apex.x + points.chest2.x) / 2, points.cfWaist.y)
+    points.waist2 = new Point((points.chest2.x + points.sideChest.x) / 2, points.cfWaist.y)
+    points.waist3 = new Point((points.sideChest.x + points.chest4.x) / 2, points.cfWaist.y)
+    points.waist4 = new Point((points.chest4.x + points.chest5.x) / 2, points.cfWaist.y)
 
     points.waist10 = points.waist1.shift(180, waistF1 / 4)
     points.waist11 = points.waist1.shift(0, waistF1 / 4)
+
+    points.waist20 = points.waist2.shift(180, waistF2 / 4)
+    points.waist21 = points.waist2.shift(0, waistF2 / 4)
+
+    points.waist30 = points.waist3.shift(180, waistB2 / 4)
+    points.waist31 = points.waist3.shift(0, waistB2 / 4)
 
     points.waist40 = points.waist4.shift(180, waistB1 / 4)
     points.waist41 = points.waist4.shift(0, waistB1 / 4)

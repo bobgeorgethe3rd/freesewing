@@ -55,7 +55,7 @@ export const sideFront = {
       points.title = new Point(points.top2.x * 1.15, points.chest2Cp2.y)
       macro('title', {
         nr: 'F3',
-        title: 'Side Front Panel',
+        title: 'Side Front',
         at: points.title,
         scale: 0.5,
       })
