@@ -29,7 +29,7 @@ export const centreFront = {
     snippets,
     Snippet,
   }) => {
-    //removing paths and snippets not required from Dalton
+    //removing paths and snippets not required from Base
     for (let i in paths) delete paths[i]
     //let's begin
     //paths

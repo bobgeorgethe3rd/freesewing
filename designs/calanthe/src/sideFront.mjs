@@ -25,7 +25,7 @@ export const sideFront = {
     snippets,
     Snippet,
   }) => {
-    //removing paths and snippets not required from Dalton
+    //removing paths and snippets not required from Base
     for (let i in paths) delete paths[i]
     //let's begin
     //paths
@@ -87,9 +87,54 @@ export const sideFront = {
         .attr('class', 'interfacing')
 
       if (sa) {
+        const bottomSa = sa * options.bottomSaWidth * 100
+        const topSa = sa * options.topSaWidth * 100
+        const sideSa = sa * options.sideSaWidth * 100
+
+        points.saBottom2Right = points.bottom2Right.translate(sideSa, bottomSa)
+        points.saSideChest = utils.beamIntersectsX(
+          paths.saTop.offset(topSa).start(),
+          paths.saTop.offset(topSa).shiftFractionAlong(0.001),
+          points.sideChest.x + sideSa
+        )
+        if (points.saSideChest.y > paths.saRight.offset(sideSa).end().y) {
+          points.saSideChest = paths.saRight.offset(sideSa).end()
+        }
+
+        points.saTop2 = utils.beamIntersectsX(
+          paths.saTop.offset(topSa).end(),
+          paths.saTop.offset(topSa).shiftFractionAlong(0.998),
+          points.top2.x - sideSa
+        )
+
+        if (points.saTop2.y > paths.saLeft.offset(sideSa).start().y) {
+          points.saTop2 = paths.saLeft.offset(sideSa).start()
+        }
+
+        points.saBottom2Left = utils.beamIntersectsX(
+          points.bottom2Left
+            .shiftTowards(points.bottom2RightCp1, bottomSa)
+            .rotate(-90, points.bottom2Left),
+          points.bottom2RightCp1
+            .shiftTowards(points.bottom2Left, bottomSa)
+            .rotate(90, points.bottom2RightCp1),
+          points.bottom2Left.x - sideSa
+        )
+
+        paths.sa = paths.saBottom
+          .clone()
+          .offset(bottomSa)
+          .line(points.saBottom2Right)
+          .join(paths.saRight.offset(sideSa))
+          .line(points.saSideChest)
+          .join(paths.saTop.offset(topSa))
+          .line(points.saTop2)
+          .join(paths.saLeft.offset(sideSa))
+          .line(points.saBottom2Left)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
-
     return part
   },
 }
