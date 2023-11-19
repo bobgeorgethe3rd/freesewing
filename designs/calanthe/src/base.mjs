@@ -20,33 +20,31 @@ export const base = {
     chestBackReduction: { pct: 3.6, min: 0, max: 4, menu: 'fit' },
     //Style
     laceGap: { pct: 5.4, min: 0, max: 10, snap: 6.35, ...pctBasedOn('waist'), menu: 'style' },
+    length: { pct: 100, min: 50, max: 100, menu: 'style' },
+    lengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
+    waistDepth: { pct: 5.2, min: 0, max: 10, menu: 'style' },
     frontTopDepth: { pct: 14.4, min: 7.5, max: 20, menu: 'style' }, //8.2
     cfTopCurve: { pct: 0, min: 0, max: 200, menu: 'style' },
     backTopDepth: { pct: 8.5, min: 0, max: 11.3, menu: 'style' },
     frontBottomDepth: { pct: 29.9, min: 7.4, max: 44.9, menu: 'style' },
     sideBottomReduction: { pct: 7.4, min: 0, max: 15, menu: 'style' },
     backBottomDepth: { pct: 7.4, min: 7.4, max: 29.9, menu: 'style' },
-    waistHeightBonus: { pct: 5.2, min: 0, max: 10, menu: 'style' },
     //Advanced
     chestFrontBalance: { pct: 50, min: 40, max: 60, menu: 'advanced.fit' },
+    cfWaistWidth: { pct: 58, min: 40, max: 75, menu: 'advanced.fit' },
+    cbWaistWidth: { pct: 97.2, min: 85, max: 98, menu: 'advanced.fit' },
+    waistFrontBalance: { pct: 43.7, min: 40, max: 60, menu: 'advanced.fit' },
+    waistBackBalance: { pct: 48.1, min: 40, max: 60, menu: 'advanced.fit' },
     cfHipsWidth: { pct: 0, min: -20, max: 50, menu: 'advanced.fit' },
     cbHipsWidth: { pct: 0, min: -20, max: 50, menu: 'advanced.fit' },
     hipsFrontBalance: { pct: 50, min: 25, max: 75, menu: 'advanced.fit' },
     hipsBackBalance: { pct: 50, min: 25, max: 75, menu: 'advanced.fit' },
-    // cfWaistWidth: { pct: 33.2, min: 30, max: 40, menu: 'advanced.fit' },
-    cfWaistWidth: { pct: 58, min: 40, max: 75, menu: 'advanced.fit' },
-    // cbWaistWidth: { pct: 36.3, min: 30, max: 40, menu: 'advanced.fit' },
-    cbWaistWidth: { pct: 97.2, min: 85, max: 98, menu: 'advanced.fit' },
-    waistFrontBalance: { pct: 43.7, min: 40, max: 60, menu: 'advanced.fit' },
-    waistBackBalance: { pct: 48.1, min: 40, max: 60, menu: 'advanced.fit' },
   },
   measurements: [
     'chest',
-    // 'underbust',
     'waist',
     'hips',
     'hpsToBust',
-    // 'hpsToWaistBack',
     'hpsToWaistFront',
     'waistToUnderbust',
     'waistToHips',
@@ -81,17 +79,21 @@ export const base = {
       laceGap
     const bustSpan = measurements.bustSpan * (1 + options.bustSpanEase)
     const waist = measurements.waist * (1 + options.waistEase) - laceGap
-    const hips = measurements.hips * (1 + options.hipsEase) - laceGap
+    const hips =
+      measurements.waist * (1 + options.waistEase) * (1 - options.length) +
+      measurements.hips * (1 + options.hipsEase) * options.length -
+      laceGap
+    const waistToHips = measurements.waistToHips * options.length * (1 + options.lengthBonus)
     //let's begin
     //scaffold
     points.cfHps = new Point(0, 0)
     points.cfChest = points.cfHps.shift(-90, measurements.hpsToBust)
     points.cfWaist = points.cfHps.shift(
       -90,
-      measurements.hpsToWaistFront * (1 + options.waistHeightBonus)
+      measurements.hpsToWaistFront * (1 + options.waistDepth)
     )
     points.cfUnderbust = points.cfWaist.shift(90, measurements.waistToUnderbust)
-    points.cfHips = points.cfWaist.shift(-90, measurements.waistToHips)
+    points.cfHips = points.cfWaist.shift(-90, waistToHips)
 
     //sideSeam
     points.sideChest = points.cfChest.shift(0, bustFront / 2)
@@ -185,9 +187,9 @@ export const base = {
 
     //style time
     //bottom curve
-    const sideBottomReduction = measurements.waistToHips * options.sideBottomReduction
-    points.cfBottom = points.cfHips.shift(-90, measurements.waistToHips * options.frontBottomDepth)
-    points.cbBottom = points.cbHips.shift(-90, measurements.waistToHips * options.backBottomDepth)
+    const sideBottomReduction = waistToHips * options.sideBottomReduction
+    points.cfBottom = points.cfHips.shift(-90, waistToHips * options.frontBottomDepth)
+    points.cbBottom = points.cbHips.shift(-90, waistToHips * options.backBottomDepth)
 
     points.bottom2Right = utils.beamsIntersect(
       points.sideHips.shift(90, sideBottomReduction),
@@ -332,7 +334,7 @@ export const base = {
     )
 
     //sides
-    points.bottom0RightCp1 = points.bottom0Right.shift(
+    points.bottom0RightCp2 = points.bottom0Right.shift(
       90,
       (points.bottom0Right.y - points.waist0Right.y) * 0.1
     )
@@ -386,12 +388,9 @@ export const base = {
     )
     points.bottom2RightCp2 = points.bottom2Right.shift(
       90,
-      (measurements.waistToHips - sideBottomReduction) * 0.1
+      (waistToHips - sideBottomReduction) * 0.1
     )
-    points.waist2RightCp1 = points.waist2Right.shift(
-      -90,
-      (measurements.waistToHips - sideBottomReduction) * 0.1
-    )
+    points.waist2RightCp1 = points.waist2Right.shift(-90, (waistToHips - sideBottomReduction) * 0.1)
     points.waist2RightCp2 = new Point(
       points.waist2Right.x,
       (points.cfUnderbust.y + points.cfWaist.y) / 2
@@ -402,14 +401,8 @@ export const base = {
       points.waist3Left.x,
       (points.cfUnderbust.y + points.cfWaist.y) / 2
     )
-    points.waist3LeftCp2 = points.waist3Left.shift(
-      -90,
-      (measurements.waistToHips - sideBottomReduction) * 0.1
-    )
-    points.bottom3LeftCp1 = points.bottom3Left.shift(
-      90,
-      (measurements.waistToHips - sideBottomReduction) * 0.1
-    )
+    points.waist3LeftCp2 = points.waist3Left.shift(-90, (waistToHips - sideBottomReduction) * 0.1)
+    points.bottom3LeftCp1 = points.bottom3Left.shift(90, (waistToHips - sideBottomReduction) * 0.1)
     points.bottom3RightCp2 = points.bottom3Right.shift(
       90,
       (points.bottom3Right.y - points.waist3Right.y) * 0.1
@@ -510,7 +503,7 @@ export const base = {
 
     paths.curves = new Path()
       .move(points.bottom0Right)
-      .curve(points.bottom0RightCp1, points.waist0RightCp1, points.waist0Right)
+      .curve(points.bottom0RightCp2, points.waist0RightCp1, points.waist0Right)
       .curve(points.waist0RightCp2, points.apexCp, points.apex)
       .line(points.top1)
       .line(points.apex)

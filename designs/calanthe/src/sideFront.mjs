@@ -1,10 +1,12 @@
 import { base } from './base.mjs'
+import { centreFront } from './centreFront.mjs'
 
 export const sideFront = {
   name: 'calanthe.sideFront',
   from: base,
+  after: centreFront,
   hide: {
-    from: true,
+    // from: true,
   },
   draft: ({
     store,
@@ -26,22 +28,39 @@ export const sideFront = {
     //removing paths and snippets not required from Dalton
     for (let i in paths) delete paths[i]
     //let's begin
+    //paths
+    paths.saBottom = new Path()
+      .move(points.bottom2Left)
+      ._curve(points.bottom2RightCp1, points.bottom2Right)
+      .hide()
 
-    paths.topCurve = new Path()
-      .move(points.sideChest)
-      .curve(points.sideTopCp1, points.top1Cp2, points.top1)
+    paths.saRight = new Path()
+      .move(points.bottom2Right)
+      .curve(points.bottom2RightCp2, points.waist2RightCp1, points.waist2Right)
+      .curve(points.waist2RightCp2, points.sideChestCp, points.sideChest)
+      .line(points.sideTop)
+      .hide()
+
+    paths.saTop = new Path()
+      .move(points.topMid)
+      .curve(points.topMidCp2, points.topFrontMidCp1, points.topFrontMid)
+      .split(points.sideTop)[1]
       .split(points.top2)[0]
       .hide()
 
-    paths.seam = paths.topCurve
+    paths.saLeft = new Path()
+      .move(points.top2)
       .line(points.chest2)
-      .curve(points.chest2Cp1, points.waist20Cp1, points.waist20)
-      .curve(points.waist20Cp2, points.hips20Cp1, points.f2BottomLeft)
-      ._curve(points.f2BottomCp1, points.f2BottomRight)
-      .curve(points.hips21Cp2, points.waist21Cp1, points.waist21)
-      .curve(points.waist21Cp2, points.sideChestCp2, points.sideChest)
+      .curve(points.chest2Cp, points.waist2LeftCp1, points.waist2Left)
+      .curve(points.waist2LeftCp2, points.bottom2LeftCp1, points.bottom2Left)
+      .hide()
+
+    paths.seam = paths.saBottom
+      .clone()
+      .join(paths.saRight)
+      .join(paths.saTop)
+      .join(paths.saLeft)
       .close()
-      .unhide()
 
     if (complete) {
       //grainline
@@ -52,7 +71,7 @@ export const sideFront = {
         to: points.grainlineTo,
       })
       //title
-      points.title = new Point(points.top2.x * 1.15, points.chest2Cp2.y)
+      points.title = new Point(points.top2.x * 1.15, points.chest2Cp.y)
       macro('title', {
         nr: 'F3',
         title: 'Side Front',
@@ -61,14 +80,13 @@ export const sideFront = {
       })
       //waist
       paths.waist = new Path()
-        .move(points.waist20)
-        .line(points.waist21)
+        .move(points.waist2Left)
+        .line(points.waist2Right)
         .attr('data-text', 'Waist-line')
         .attr('data-text-class', 'center')
         .attr('class', 'interfacing')
 
       if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
       }
     }
 
