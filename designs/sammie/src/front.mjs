@@ -22,7 +22,7 @@ export const front = {
     frontContour: {
       pct: 4.1,
       min: 0,
-      max: 2,
+      max: 5,
       snap: 1,
       ...pctBasedOn('chest'),
       menu: 'fit',
