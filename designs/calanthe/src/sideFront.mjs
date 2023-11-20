@@ -6,7 +6,7 @@ export const sideFront = {
   from: base,
   after: centreFront,
   hide: {
-    // from: true,
+    from: true,
   },
   draft: ({
     store,

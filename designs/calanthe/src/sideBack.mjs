@@ -6,7 +6,7 @@ export const sideBack = {
   from: base,
   after: centreFront,
   hide: {
-    // from: true,
+    from: true,
   },
   draft: ({
     store,
@@ -88,6 +88,52 @@ export const sideBack = {
         .attr('class', 'interfacing')
 
       if (sa) {
+        const bottomSa = sa * options.bottomSaWidth * 100
+        const topSa = sa * options.topSaWidth * 100
+        const sideSa = sa * options.sideSaWidth * 100
+
+        points.saBottom3Right = utils.beamIntersectsX(
+          points.bottom3LeftCp2
+            .shiftTowards(points.bottom3Right, bottomSa)
+            .rotate(-90, points.bottom3LeftCp2),
+          points.bottom3Right
+            .shiftTowards(points.bottom3LeftCp2, bottomSa)
+            .rotate(90, points.bottom3Right),
+          points.bottom3Right.x + sideSa
+        )
+
+        points.saTop4 = utils.beamIntersectsX(
+          paths.saTop.offset(topSa).start(),
+          paths.saTop.offset(topSa).shiftFractionAlong(0.001),
+          points.top4.x + sideSa
+        )
+        if (points.saTop4.y > paths.saRight.offset(sideSa).end().y) {
+          points.saTop4 = paths.saRight.offset(sideSa).end()
+        }
+
+        points.saSideTop = utils.beamIntersectsX(
+          paths.saTop.offset(topSa).end(),
+          paths.saTop.offset(topSa).shiftFractionAlong(0.998),
+          points.sideTop.x - sideSa
+        )
+
+        if (points.saSideTop.y > paths.saLeft.offset(sideSa).start().y) {
+          points.saSideTop = paths.saLeft.offset(sideSa).start()
+        }
+        points.saBottom3Left = points.bottom3Left.translate(-sideSa, bottomSa)
+
+        paths.sa = paths.saBottom
+          .clone()
+          .offset(bottomSa)
+          .line(points.saBottom3Right)
+          .join(paths.saRight.offset(sideSa))
+          .line(points.saTop4)
+          .join(paths.saTop.offset(topSa))
+          .line(points.saSideTop)
+          .join(paths.saLeft.offset(sideSa))
+          .line(points.saBottom3Left)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 

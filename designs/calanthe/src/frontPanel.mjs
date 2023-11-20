@@ -6,7 +6,7 @@ export const frontPanel = {
   from: base,
   after: centreFront,
   hide: {
-    // from: true,
+    from: true,
   },
   draft: ({
     store,

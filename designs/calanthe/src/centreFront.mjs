@@ -4,7 +4,7 @@ export const centreFront = {
   name: 'calanthe.centreFront',
   from: base,
   hide: {
-    // from: true,
+    from: true,
   },
   options: {
     //Construction

@@ -1,14 +1,13 @@
 import { base } from './base.mjs'
+import { centreFront } from './centreFront.mjs'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const centreBack = {
   name: 'calanthe.centreBack',
   from: base,
+  after: centreFront,
   hide: {
     from: true,
-  },
-  options: {
-    eyeletExtension: { pct: 2.9, min: 0, max: 6, menu: 'style' },
   },
   plugins: [pluginLogoRG],
   draft: ({
@@ -30,39 +29,41 @@ export const centreBack = {
   }) => {
     //removing paths and snippets not required from Dalton
     for (let i in paths) delete paths[i]
-    //measures
-    const eyeletExtension = measurements.waist * options.eyeletExtension
     //let's begin
-    points.eyeletBottom = points.cbBottom.shift(0, eyeletExtension)
-    points.eyeletTop = points.cbTop.shift(0, eyeletExtension)
+    //paths
+    paths.saBottom = new Path().move(points.bottom5Left)._curve(points.cbBottomCp1, points.cbBottom)
 
-    paths.topCurve = new Path()
+    paths.saTop = new Path()
       .move(points.cbTop)
-      .curve(points.cbCp1, points.sideTopCp2, points.sideChest)
+      .curve(points.cbTopCp2, points.topMidCp1, points.topMid)
+      .curve(points.topMidCp2, points.topFrontMidCp1, points.topFrontMid)
       .split(points.top5)[0]
       .hide()
 
-    paths.seam = paths.topCurve
+    paths.saLeft = new Path()
+      .move(points.top5)
       .line(points.chest5)
-      .curve(points.chest5Cp2, points.waist50Cp1, points.waist50)
-      .curve(points.waist50Cp2, points.hips50Cp1, points.b0BottomLeft)
-      ._curve(points.cbBottomCp1, points.cbBottom)
-      .line(points.eyeletBottom)
-      .line(points.eyeletTop)
+      .curve(points.chest5Cp, points.waist5LeftCp1, points.waist5Left)
+      .curve(points.waist5LeftCp2, points.bottom5LeftCp1, points.bottom5Left)
+      .hide()
+
+    paths.seam = paths.saBottom
+      .clone()
       .line(points.cbTop)
+      .join(paths.saTop)
+      .join(paths.saLeft)
       .close()
-      .unhide()
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.waist50.x * 1.025, points.cfChest.y)
+      points.grainlineFrom = new Point(points.waist5Left.x * 1.025, points.cfChest.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHips.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //title
-      points.title = new Point(points.waist50.x * 1.075, points.cbUnderbust.y)
+      points.title = new Point(points.waist5Left.x * 1.075, points.cbUnderbust.y)
       macro('title', {
         nr: 'B1',
         title: 'Centre Back',
@@ -71,7 +72,7 @@ export const centreBack = {
       })
       //scalebox
       points.scalebox = new Point(
-        points.waist50.x * 1.1,
+        points.waist5Left.x * 1.1,
         (points.cbUnderbust.y + points.cbWaist.y) / 2
       )
       macro('miniscale', {
@@ -85,23 +86,51 @@ export const centreBack = {
       })
       // waist
       paths.waist = new Path()
-        .move(points.waist50)
-        .line(points.cbWaist.shift(0, eyeletExtension))
+        .move(points.waist5Left)
+        .line(points.cbWaist)
         .attr('data-text', 'Waist-line')
         .attr('data-text-class', 'center')
         .attr('class', 'interfacing')
 
-      //eyelet
-      if (options.eyeletExtension > 0) {
-        paths.centreBack = new Path()
-          .move(points.cbTop)
-          .line(points.cbBottom)
-          .attr('data-text', 'Centre Back')
-          .attr('data-text-class', 'center')
-          .attr('class', 'interfacing')
-      }
       if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
+        const bottomSa = sa * options.bottomSaWidth * 100
+        const topSa = sa * options.topSaWidth * 100
+        const sideSa = sa * options.sideSaWidth * 100
+
+        points.saCbBottom = points.cbBottom.translate(sa, bottomSa)
+        points.saCbTop = points.cbTop.translate(sa, -topSa)
+
+        points.saTop5 = utils.beamIntersectsX(
+          paths.saTop.offset(topSa).end(),
+          paths.saTop.offset(topSa).shiftFractionAlong(0.998),
+          points.top5.x - sideSa
+        )
+
+        if (points.saTop5.y > paths.saLeft.offset(sideSa).start().y) {
+          points.saTop5 = paths.saLeft.offset(sideSa).start()
+        }
+
+        points.saBottom5Left = utils.beamIntersectsX(
+          paths.saBottom.offset(bottomSa).start(),
+          paths.saBottom.offset(bottomSa).shiftFractionAlong(0.001),
+          points.bottom5Left.x - sideSa
+        )
+
+        if (points.saBottom5Left.y < paths.saLeft.offset(sideSa).end().y) {
+          points.saBottom5Left = paths.saLeft.offset(sideSa).end()
+        }
+
+        paths.sa = paths.saBottom
+          .clone()
+          .offset(bottomSa)
+          .line(points.saCbBottom)
+          .line(points.saCbTop)
+          .join(paths.saTop.offset(topSa))
+          .line(points.saTop5)
+          .join(paths.saLeft.offset(sideSa))
+          .line(points.saBottom5Left)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 
