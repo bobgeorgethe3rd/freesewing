@@ -31,7 +31,10 @@ export const centreBack = {
     for (let i in paths) delete paths[i]
     //let's begin
     //paths
-    paths.saBottom = new Path().move(points.bottom5Left)._curve(points.cbBottomCp1, points.cbBottom)
+    paths.saBottom = new Path()
+      .move(points.bottom5Left)
+      ._curve(points.cbBottomCp1, points.cbBottom)
+      .hide()
 
     paths.saTop = new Path()
       .move(points.cbTop)
