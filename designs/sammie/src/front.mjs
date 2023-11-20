@@ -20,7 +20,7 @@ export const front = {
     waistDartLength: 1,
     //Fit
     frontContour: {
-      pct: 1.5,
+      pct: 4.1,
       min: 0,
       max: 2,
       snap: 1,
