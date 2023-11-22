@@ -10,7 +10,7 @@ export const centreFront = {
     //Construction
     bottomSaWidth: { pct: 1, min: 0, max: 1, menu: 'construction' },
     topSaWidth: { pct: 1, min: 0, max: 1, menu: 'construction' },
-    sideSaWidth: { pct: 1.5, min: 0, max: 2, menu: 'construction' },
+    sideSaWidth: { pct: 1.5, min: 0.5, max: 2, menu: 'construction' },
   },
   draft: ({
     store,
