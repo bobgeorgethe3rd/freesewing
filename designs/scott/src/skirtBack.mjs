@@ -111,13 +111,13 @@ export const skirtBack = {
               .attr('data-text', 'Stitching - Line')
               .attr('data-text-class', 'center')
 
-            points.buttonholeStart = points.cbWaist.shiftTowards(
-              points.cbHem,
+            points.buttonholeStart = points.cbWaist.translate(
+              placketWidth * -0.5,
               absoluteOptions.buttonholeStart
             )
-            points.buttonholeEnd = points.cbHem.shiftTowards(
-              points.cbWaist,
-              absoluteOptions.buttonholeStart
+            points.buttonholeEnd = new Point(
+              points.buttonholeStart.x,
+              points.cbHem.y - absoluteOptions.buttonholeStart
             )
             for (let i = 0; i < options.skirtButtonholeNum; i++) {
               points['buttonhole' + i] = points.buttonholeStart.shiftFractionTowards(
