@@ -14,7 +14,7 @@ export const back = {
   },
   options: {
     //Construction
-    cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Aimee
+    cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Peach
   },
   draft: (sh) => {
     const { points, Path, store, utils, options, part } = sh

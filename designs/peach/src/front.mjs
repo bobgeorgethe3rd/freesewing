@@ -12,8 +12,8 @@ export const front = {
   },
   options: {
     //Constant
-    bustDartLength: 1, //Locked for Aimee
-    waistDartLength: 1, //Locked for Aimee
+    bustDartLength: 1, //Locked for Peach
+    waistDartLength: 1, //Locked for Peach
     //Fit
     daisyGuides: { bool: false, menu: 'fit' },
     //Darts
@@ -25,8 +25,8 @@ export const front = {
     },
     //Construction
     princessSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
-    cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Aimee
-    closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Aimee
+    cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Peach
+    closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Peach
   },
   draft: (sh) => {
     const { points, Path, store, utils, options, part } = sh
