@@ -42,8 +42,8 @@ export const backShoulder = {
       points.shoulder,
       options.bustDartFraction
     )
-    points.dartBottomLeftCp = points.dartBottomLeft.shiftFractionTowards(points.dartTip, 7 / 6)
-    points.shoulderSplitCp = points.shoulderSplit.shiftFractionTowards(points.dartTip, 7 / 6)
+    points.dartBottomLeftCp = points.dartTip
+    points.shoulderSplitCp = points.dartTip
 
     //paths
     paths.waist = new Path().move(points.cbWaist).line(points.dartBottomLeft).hide()

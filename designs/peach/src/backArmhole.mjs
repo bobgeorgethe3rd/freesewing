@@ -55,8 +55,8 @@ export const backArmhole = {
       }
     }
 
-    points.dartBottomLeftCp = points.dartBottomLeft.shiftFractionTowards(points.dartTip, 7 / 6)
-    points.armholeSplitCp = points.armholeSplit.shiftFractionTowards(points.dartTip, 7 / 6)
+    points.dartBottomLeftCp = points.dartTip
+    points.armholeSplitCp = points.dartTip
 
     //paths
     paths.waist = new Path().move(points.cbWaist).line(points.dartBottomLeft).hide()

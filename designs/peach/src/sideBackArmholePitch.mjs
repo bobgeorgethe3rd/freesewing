@@ -41,7 +41,7 @@ export const sideBackArmholePitch = {
         .attr('class', 'various lashed')
     }
     //let's begin
-    points.dartBottomRightCp = points.dartBottomRight.shiftFractionTowards(points.dartTip, 7 / 6)
+    points.dartBottomRightCp = points.dartTip
 
     let tweak = 1
     let delta
@@ -132,6 +132,7 @@ export const sideBackArmholePitch = {
           .move(points.saDartBottomRight)
           .line(points.saSideWaist)
           .line(points.saArmholeCorner)
+          .line(points.saArmhole)
           .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
           .line(points.saArmholeBottomEnd)
           .line(points.saPrincessSeamStartCorner)

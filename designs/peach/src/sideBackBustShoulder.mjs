@@ -42,7 +42,7 @@ export const sideBackBustShoulder = {
     }
     //let's begin
     points.shoulderSplit = points.hps.shiftTowards(points.shoulder, store.get('shoulderPlacement'))
-    points.dartBottomRightCp = points.dartBottomRight.shiftFractionTowards(points.dartTip, 7 / 6)
+    points.dartBottomRightCp = points.dartTip
 
     let tweak = 1
     let delta
@@ -143,6 +143,7 @@ export const sideBackBustShoulder = {
           .move(points.saDartBottomRight)
           .line(points.saSideWaist)
           .line(points.saArmholeCorner)
+          .line(points.saArmhole)
           .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
           .curve_(points.saArmholePitchCp2, points.saShoulder)
           .line(points.saShoulderCorner)

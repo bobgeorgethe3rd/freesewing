@@ -56,7 +56,7 @@ export const sideBackArmhole = {
       }
     }
 
-    points.dartBottomRightCp = points.dartBottomRight.shiftFractionTowards(points.dartTip, 7 / 6)
+    points.dartBottomRightCp = points.dartTip
 
     let tweak = 1
     let delta

@@ -39,8 +39,8 @@ export const backBustShoulder = {
     }
     //let's begin
     points.shoulderSplit = points.hps.shiftTowards(points.shoulder, store.get('shoulderPlacement'))
-    points.dartBottomLeftCp = points.dartBottomLeft.shiftFractionTowards(points.dartTip, 7 / 6)
-    points.shoulderSplitCp = points.shoulderSplit.shiftFractionTowards(points.dartTip, 7 / 6)
+    points.dartBottomLeftCp = points.dartTip
+    points.shoulderSplitCp = points.dartTip
 
     //paths
     paths.waist = new Path().move(points.cbWaist).line(points.dartBottomLeft).hide()

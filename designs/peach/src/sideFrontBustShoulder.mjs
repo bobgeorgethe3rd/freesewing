@@ -142,6 +142,7 @@ export const sideFrontBustShoulder = {
           .line(points.saWaistDartRight)
           .line(points.saSideWaist)
           .line(points.saArmholeCorner)
+          .line(points.saArmhole)
           .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
           .curve_(points.saArmholePitchCp2, points.saShoulder)
           .line(points.saShoulderCorner)

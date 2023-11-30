@@ -142,6 +142,7 @@ export const sideFrontArmholePitch = {
           .move(points.saWaistDartRight)
           .line(points.saSideWaist)
           .line(points.saArmholeCorner)
+          .line(points.saArmhole)
           .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitchR)
           .line(points.saArmholeBottomEnd)
           .line(points.saBustDartBottom)
