@@ -49,27 +49,71 @@ export const skirtFront = {
       return part
     }
     //remove macros
+    macro('title', false)
     macro('logorg', false)
     macro('scalebox', false)
     if (complete) {
       //title
-      macro('title', {
-        at: points.title,
-        nr: '7',
-        title: 'Skirt (Front)',
-        scale: 0.5,
-        prefix: 'title',
-        rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
-      })
-      if (options.skirtFacings) {
+      if (options.skirtPanels > 1) {
+        let j
+        let k
+        for (let i = 0; i < options.skirtPanels - 1; i++) {
+          j = String.fromCharCode(i + 98)
+          k = String.fromCharCode(i + 66)
+
+          macro('title', {
+            at: points['title' + i],
+            nr: '7' + j,
+            title: 'Skirt ' + k + ' (Front)',
+            prefix: 'title ' + i,
+            scale: 0.15,
+            rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
+          })
+
+          if (options.skirtFacings) {
+            macro('title', {
+              at: points['titleFacing' + i],
+              nr: '10' + j,
+              title: 'Skirt Facing ' + k + ' (Front)',
+              prefix: 'titleFacing ' + i,
+              scale: 0.15,
+              rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
+            })
+            macro('title', {
+              at: points.titleFacing,
+              nr: '10a',
+              title: 'Skirt Facing A' + ' (Front)',
+              prefix: 'titleFacing',
+              scale: 0.15,
+            })
+          }
+          macro('title', {
+            at: points.title,
+            nr: '8a',
+            title: 'Skirt A' + ' (Front)',
+            scale: 0.15,
+            prefix: 'title',
+          })
+        }
+      } else {
         macro('title', {
-          at: points.titleFacing,
-          nr: '10',
-          title: 'Skirt Facing (Front)',
+          at: points.title,
+          nr: '7',
+          title: 'Skirt (Front)',
           scale: 0.5,
-          prefix: 'titleFacing',
-          rotation: 90 - points.frontHemMid.angle(points.frontHemFacingMid),
+          prefix: 'title',
+          rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
         })
+        if (options.skirtFacings) {
+          macro('title', {
+            at: points.titleFacing,
+            nr: '10',
+            title: 'Skirt Facing (Front)',
+            scale: 0.5,
+            prefix: 'titleFacing',
+            rotation: 90 - points.frontHemMid.angle(points.frontHemFacingMid),
+          })
+        }
       }
     }
 

@@ -50,6 +50,8 @@ export const skirtBack = {
       part.hide()
       return part
     }
+    //macro removal
+    macro('title', false)
     //let's begin
     if (options.placketStyle != 'none' && options.closurePosition == 'back') {
       const placketWidth = store.get('placketWidth')
@@ -191,23 +193,66 @@ export const skirtBack = {
     //For All
     if (complete) {
       //title
-      macro('title', {
-        at: points.title,
-        nr: '8',
-        title: 'Skirt (Back)',
-        scale: 0.5,
-        prefix: 'title',
-        rotation: 90 - points.backHemMid.angle(points.waistBackMid),
-      })
-      if (options.skirtFacings) {
+      if (options.skirtPanels > 1) {
+        let j
+        let k
+        for (let i = 0; i < options.skirtPanels - 1; i++) {
+          j = String.fromCharCode(i + 98)
+          k = String.fromCharCode(i + 66)
+          macro('title', {
+            at: points['title' + i],
+            nr: '8' + j,
+            title: 'Skirt Back ' + k + ' (Back)',
+            prefix: 'title ' + i,
+            scale: 0.15,
+            rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
+          })
+
+          if (options.skirtFacings) {
+            macro('title', {
+              at: points['titleFacing' + i],
+              nr: '11' + j,
+              title: 'Skirt Facing ' + k + ' (Back)',
+              prefix: 'titleFacing ' + i,
+              scale: 0.15,
+              rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
+            })
+            macro('title', {
+              at: points.titleFacing,
+              nr: '11a',
+              title: 'Skirt Facing A (Back)',
+              prefix: 'titleFacing',
+              scale: 0.15,
+            })
+          }
+        }
+        //title
         macro('title', {
-          at: points.titleFacing,
-          nr: '11',
-          title: 'Skirt Facing (Back)',
-          scale: 0.5,
-          prefix: 'titleFacing',
-          rotation: 90 - points.backHemMid.angle(points.backHemFacingMid),
+          at: points.title,
+          nr: '8a',
+          title: 'Skirt A (Back)',
+          scale: 0.15,
+          prefix: 'title',
         })
+      } else {
+        macro('title', {
+          at: points.title,
+          nr: '8',
+          title: 'Skirt (Back)',
+          scale: 0.5,
+          prefix: 'title',
+          rotation: 90 - points.backHemMid.angle(points.waistBackMid),
+        })
+        if (options.skirtFacings) {
+          macro('title', {
+            at: points.titleFacing,
+            nr: '11',
+            title: 'Skirt Facing (Back)',
+            scale: 0.5,
+            prefix: 'titleFacing',
+            rotation: 90 - points.backHemMid.angle(points.backHemFacingMid),
+          })
+        }
       }
     }
 
