@@ -4,10 +4,6 @@ import { pocket as pocketClaude } from '@freesewing/claude'
 export const pocket = {
   name: 'sam.pocket',
   after: [front, pocketClaude.after],
-  hide: {
-    after: true,
-    inherited: true,
-  },
   options: {
     //Imported
     ...pocketClaude.options,
