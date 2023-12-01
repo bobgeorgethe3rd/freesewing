@@ -126,6 +126,10 @@ export const back = {
       points.sideHemCp1,
       points.sideHemCp1.shift(180, 1)
     )
+    if (points.cbHem.y < points.cbWaist.y) {
+      points.cbHem = points.cbWaist
+      points.sideHemCp1 = new Point(points.sideHemCp1.x, points.cbWaist.y)
+    }
 
     //sideseam
     points.sideSeamCurveEnd = points.armholeDrop.shiftTowards(

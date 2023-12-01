@@ -175,6 +175,10 @@ export const sharedFront = {
       points.sideHemCp1,
       points.sideHemCp1.shift(180, 1)
     )
+    if (points.cfHem.y < points.cfWaist.y) {
+      points.cfHem = points.cfWaist
+      points.sideHemCp1 = new Point(points.sideHemCp1.x, points.cfWaist.y)
+    }
     //sideSeam
     points.sideHemCp2 = points.sideHem.shiftFractionTowards(
       points.sideWaist,
