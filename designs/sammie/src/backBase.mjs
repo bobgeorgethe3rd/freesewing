@@ -125,6 +125,11 @@ export const backBase = {
       'backSideAngle',
       points.armhole.angle(points.sideWaist) - points.armholeDrop.angle(points.dartTopRightCp)
     )
+    store.set(
+      'waistBack',
+      (points.cbWaist.dist(points.dartBottomLeft) + points.dartBottomRight.dist(points.sideWaist)) *
+        4
+    )
 
     return part
   },

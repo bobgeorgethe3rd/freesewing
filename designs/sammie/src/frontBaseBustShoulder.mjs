@@ -1,7 +1,9 @@
 import { frontBustShoulderDart } from '@freesewing/daisy'
+import { backBase } from './backBase.mjs'
 
 export const frontBaseBustShoulder = {
   name: 'sammie.frontBaseBustShoulder',
+  after: backBase,
   draft: (sh) => {
     const {
       store,
@@ -148,6 +150,11 @@ export const frontBaseBustShoulder = {
 
     //stores
     store.set('contourAngle', contourAngle * 2)
+    store.set(
+      'waistFront',
+      (points.cfWaist.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideWaist)) * 4
+    )
+    store.set('storedWaist', (store.get('waistFront') + store.get('waistBack')) / 2)
 
     if (complete) {
       //notches
