@@ -79,6 +79,13 @@
   },
   "costumes": {},
   "dresses": {
+    "sam": {
+      "description": "Strapless Sweetheart Special Occasions Dress design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["dress", "skirts", "strapless"]
+    },
     "scott": {
       "description": "Scallop Heart Dress design",
       "code": "bobgeorgethe3rd",

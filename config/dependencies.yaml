@@ -225,6 +225,11 @@ rehype-highlight-lines:
 rufflebutterflysleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing
+sam:
+  peer:
+    '@freesewing/daisy': *freesewing
+    '@freesewing/sammie': *freesewing
+    '@freesewing/claude': *freesewing
 sammie:
   peer:
     '@freesewing/daisy': *freesewing
