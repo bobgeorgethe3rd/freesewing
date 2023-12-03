@@ -341,20 +341,27 @@ export const waistband = {
         )
       }
       if (sa) {
+        void store.setIfUnset('waistbandSideSa', sa)
+        let sideSa
+        if (leftExtension > 0 || rightExtension > 0) {
+          sideSa = sa
+        } else {
+          sideSa = store.get('waistbandSideSa')
+        }
         points.saBottomLeft = points.bottomLeftEx
-          .shift(points.bottomLeftCp2.angle(points.bottomLeft), sa)
+          .shift(points.bottomLeftCp2.angle(points.bottomLeft), sideSa)
           .shift(points.topLeft.angle(points.bottomLeft), sa)
 
         points.saBottomRight = points.bottomRightEx
-          .shift(points.bottomRightCp1.angle(points.bottomRight), sa)
+          .shift(points.bottomRightCp1.angle(points.bottomRight), sideSa)
           .shift(points.topRight.angle(points.bottomRight), sa)
 
         points.saTopRight = points.topRightEx
-          .shift(points.topRightCp2.angle(points.topRight), sa)
+          .shift(points.topRightCp2.angle(points.topRight), sideSa)
           .shift(points.bottomRight.angle(points.topRight), sa)
 
         points.saTopLeft = points.topLeftEx
-          .shift(points.topLeftCp1.angle(points.topLeft), sa)
+          .shift(points.topLeftCp1.angle(points.topLeft), sideSa)
           .shift(points.bottomLeft.angle(points.topLeft), sa)
 
         paths.sa = new Path()

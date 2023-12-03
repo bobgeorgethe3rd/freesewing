@@ -332,10 +332,17 @@ export const waistband = {
       }
 
       if (sa) {
-        points.saTopLeft = points.topLeftEx.translate(-sa, -sa)
-        points.saTopRight = points.topRightEx.translate(sa, -sa)
-        points.saBottomLeft = points.bottomLeftEx.translate(-sa, sa)
-        points.saBottomRight = points.bottomRightEx.translate(sa, sa)
+        void store.setIfUnset('waistbandSideSa', sa)
+        let sideSa
+        if (leftExtension > 0 || rightExtension > 0) {
+          sideSa = sa
+        } else {
+          sideSa = store.get('waistbandSideSa')
+        }
+        points.saTopLeft = points.topLeftEx.translate(-sideSa, -sa)
+        points.saTopRight = points.topRightEx.translate(sideSa, -sa)
+        points.saBottomLeft = points.bottomLeftEx.translate(-sideSa, sa)
+        points.saBottomRight = points.bottomRightEx.translate(sideSa, sa)
         paths.sa = new Path()
           .move(points.saBottomLeft)
           .line(points.saBottomRight)
