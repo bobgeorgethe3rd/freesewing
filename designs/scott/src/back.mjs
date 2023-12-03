@@ -130,6 +130,7 @@ export const back = {
             )
             snippets['button' + i] = new Snippet('button', points['buttonhole' + i])
           }
+          store.set('buttonholeDist', points.buttonhole1.y - points.buttonhole0.y)
         }
         if (options.placketStyle == 'inbuilt') {
           paths.foldLine = new Path()

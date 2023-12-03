@@ -88,20 +88,24 @@ export const skirtPlacket = {
           -absoluteOptions.placketWidth * 0.5,
           absoluteOptions.buttonholeStart
         )
-        points.buttonholeEnd = points.bottomRight.translate(
-          -absoluteOptions.placketWidth * 0.5,
-          -absoluteOptions.buttonholeStart
+        const buttonholeDist = store.get('buttonholeDist')
+        const skirtButtonholeNum = Math.floor(
+          (points.bottomRight.y - points.buttonholeStart.y) / buttonholeDist
         )
-        for (let i = 0; i < options.skirtButtonholeNum; i++) {
-          points['buttonhole' + i] = points.buttonholeStart.shiftFractionTowards(
+        points.buttonholeEnd = points.buttonholeStart.shift(
+          -90,
+          buttonholeDist * skirtButtonholeNum
+        )
+        for (let i = 0; i <= skirtButtonholeNum; i++) {
+          points['skirtButtonhole' + i] = points.buttonholeStart.shiftFractionTowards(
             points.buttonholeEnd,
-            i / (options.skirtButtonholeNum - 1)
+            i / skirtButtonholeNum
           )
-          snippets['buttonhole' + i] = new Snippet('buttonhole', points['buttonhole' + i]).attr(
-            'data-rotate',
-            90
-          )
-          snippets['button' + i] = new Snippet('button', points['buttonhole' + i])
+          snippets['skirtButtonhole' + i] = new Snippet(
+            'buttonhole',
+            points['skirtButtonhole' + i]
+          ).attr('data-rotate', 90)
+          snippets['skirtButton' + i] = new Snippet('button', points['skirtButtonhole' + i])
         }
       }
       if (sa) {

@@ -111,21 +111,6 @@ export const placket = {
             -90,
             backPlacketLength - buttonholeStart
           )
-          points.skirtButtonholeEnd = points.bottomRight.translate(
-            -absoluteOptions.placketWidth * 0.5,
-            -buttonholeStart
-          )
-          for (let i = 1; i < options.skirtButtonholeNum; i++) {
-            points['skirtButtonhole' + i] = points.bodiceButtonholeEnd.shiftFractionTowards(
-              points.skirtButtonholeEnd,
-              i / (options.skirtButtonholeNum - 1)
-            )
-            snippets['skirtButtonhole' + i] = new Snippet(
-              'buttonhole',
-              points['skirtButtonhole' + i]
-            ).attr('data-rotate', 90)
-            snippets['skirtButton' + i] = new Snippet('button', points['skirtButtonhole' + i])
-          }
         } else {
           points.bodiceButtonholeEnd = points.bodiceButtonholeStart.shift(
             -90,
@@ -143,7 +128,30 @@ export const placket = {
           ).attr('data-rotate', 90)
           snippets['bodiceButton' + i] = new Snippet('button', points['bodiceButtonhole' + i])
         }
+        const buttonholeDist = points.bodiceButtonhole1.y - points.bodiceButtonhole0.y
+        store.set('buttonholeDist', buttonholeDist)
+        if (points.bodiceButtonholeEnd.y == backPlacketLength) {
+          const skirtButtonholeNum = Math.floor(
+            (points.bottomRight.y - backPlacketLength) / buttonholeDist
+          )
+          points.skirtButtonholeEnd = points.bodiceButtonholeEnd.shift(
+            -90,
+            buttonholeDist * skirtButtonholeNum
+          )
+          for (let i = 0; i < skirtButtonholeNum; i++) {
+            points['skirtButtonhole' + i] = points.bodiceButtonholeEnd.shiftFractionTowards(
+              points.skirtButtonholeEnd,
+              (i + 1) / skirtButtonholeNum
+            )
+            snippets['skirtButtonhole' + i] = new Snippet(
+              'buttonhole',
+              points['skirtButtonhole' + i]
+            ).attr('data-rotate', 90)
+            snippets['skirtButton' + i] = new Snippet('button', points['skirtButtonhole' + i])
+          }
+        }
       }
+
       if (sa) {
         points.saTopLeft = points.topLeft.translate(-sa, -sa)
         points.saTopRight = points.topRight.translate(sa, -sa)
