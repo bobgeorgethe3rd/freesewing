@@ -861,6 +861,8 @@ export const skirtBase = {
     store.set('anchorSeamLength', (waistFront * waistHeight + hipsFront * (1 - waistHeight)) / 4)
     store.set('insertSeamLength', measurements.waistToFloor)
 
+    store.set('waistbandSideSa', sa * options.closureSaWidth * 100)
+
     let sideSeamSa
     if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
       store.set('insertSeamSa', sa * options.closureSaWidth * 100)
