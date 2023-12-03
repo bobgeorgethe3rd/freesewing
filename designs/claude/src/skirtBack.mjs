@@ -354,7 +354,7 @@ export const skirtBack = {
 
         points.saSideWaistBack = utils.beamsIntersect(
           paths.sideSeam.offset(sideSeamSa).end(),
-          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.999),
+          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.998),
           points.sideWaistBack
             .shiftTowards(points.sideWaistBackCp2, sa)
             .rotate(-90, points.sideWaistBack),
@@ -369,10 +369,7 @@ export const skirtBack = {
         if (options.skirtFacings) {
           points.saSideBackHemFacing = utils.beamsIntersect(
             paths.sideSeam.split(paths.facing.end())[0].offset(sideSeamSa).end(),
-            paths.sideSeam
-              .split(paths.facing.end())[0]
-              .offset(sideSeamSa)
-              .shiftFractionAlong(0.999),
+            paths.sideSeam.split(paths.facing.end())[0].offset(sideSeamSa).shiftFractionAlong(0.99),
             points.sideBackHemFacing
               .shiftTowards(points.sideBackHemFacingCp2, sa)
               .rotate(-90, points.sideBackHemFacing),
