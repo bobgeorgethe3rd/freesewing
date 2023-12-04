@@ -111,9 +111,10 @@ export const backFacing = {
       })
       if (sa) {
         const bodiceFacingHem = sa * options.bodiceFacingHemWidth * 100
+        const closureSa = sa * options.closureSaWidth * 100
         let cbSa
         if (options.closurePosition == 'back') {
-          cbSa = sa
+          cbSa = closureSa
         } else {
           cbSa = sa * options.cbSaWidth * 100
         }
@@ -124,7 +125,7 @@ export const backFacing = {
           options.closurePosition == 'sideLeft' ||
           options.closurePosition == 'sideRight'
         ) {
-          sideSeamSa = sa
+          sideSeamSa = closureSa
         } else {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
         }
