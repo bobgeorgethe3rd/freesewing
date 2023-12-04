@@ -10,6 +10,7 @@ import { sideFront } from '@freesewing/sammie'
 import { backFacing } from '@freesewing/sammie'
 import { frontFacing } from '@freesewing/sammie'
 
+import { strap } from './strap.mjs'
 import { skirtFront } from './skirtFront.mjs'
 import { skirtBack } from './skirtBack.mjs'
 import { pocket } from './pocket.mjs'
@@ -25,6 +26,7 @@ const Sam = new Design({
     sideFront,
     backFacing,
     frontFacing,
+    strap,
     skirtFront,
     skirtBack,
     pocket,
@@ -40,6 +42,7 @@ export {
   sideFront,
   backFacing,
   frontFacing,
+  strap,
   skirtFront,
   skirtBack,
   pocket,
