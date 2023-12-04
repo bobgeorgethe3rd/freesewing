@@ -8,6 +8,7 @@ export const strap = {
     strapWidth: { pct: 11.1, min: 10, max: 15, menu: 'style' },
     strapBottomWidth: { pct: 60, min: 0, max: 75, menu: 'style' },
     //Construction
+    strap: { bool: true, menu: 'construction' },
     cbStrapSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
   },
   draft: (sh) => {
@@ -28,6 +29,11 @@ export const strap = {
       snippets,
       Snippet,
     } = sh
+    //render
+    if (!options.strap) {
+      part.hide()
+      return part
+    }
     //remove paths and snippets
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
