@@ -74,7 +74,7 @@ export const back = {
       store.get('underArmSleeveLength')
     )
 
-    if (!options.fitSleeves) {
+    if (!options.fitSleeveWidth) {
       points.bodiceSleeveBottomMax = points.bodiceSleeveTopMax.shift(
         points.bodiceSleeveTopMin.angle(points.bodiceSleeveBottomMin),
         points.bodiceSleeveTopMin.dist(points.bodiceSleeveBottomMin)

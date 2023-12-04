@@ -27,7 +27,7 @@ export const front = {
     daisyGuides: { bool: false, menu: 'fit' },
     wristEase: { pct: 28.9, min: 0, max: 35, menu: 'fit' },
     //Style
-    fitSleeves: { bool: true, menu: 'style' },
+    fitSleeveWidth: { bool: true, menu: 'style' },
     sleeveLength: { pct: 100, min: 0, max: 100, menu: 'style' },
     sleeveLengthBonus: { pct: 0, min: -10, max: 20, menu: 'style' },
     armholeDrop: { pct: 29, min: 0, max: 35, menu: 'style' },
@@ -108,7 +108,7 @@ export const front = {
       points.bodiceSleeveBottomMin.shift(points.sideWaist.angle(points.armhole), 1)
     )
 
-    if (!options.fitSleeves) {
+    if (!options.fitSleeveWidth) {
       points.bodiceSleeveBottomMax = points.bodiceSleeveTopMax.shift(
         points.bodiceSleeveTopMin.angle(points.bodiceSleeveBottomMin),
         points.bodiceSleeveTopMin.dist(points.bodiceSleeveBottomMin)
