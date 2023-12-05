@@ -1,12 +1,15 @@
 import { frontBase } from '@freesewing/daisy'
+import { back as backDaisy } from '@freesewing/daisy'
 import { front as frontDaisy } from '@freesewing/daisy'
 import { frontArmholePitchDart } from '@freesewing/daisy'
 
 export const front = {
   name: 'aimee.front',
   from: frontBase,
+  after: backDaisy,
   hide: {
     from: true,
+    after: true,
     inherited: true,
   },
   measurements: ['shoulderToWrist', 'wrist'],
@@ -162,7 +165,7 @@ export const front = {
         measurements.shoulderToElbow * (1 + options.sleeveLengthBonus)
       )
     } else {
-      points.elbowTop = points.shoulderRise.shiftFractionTowards(points.bodiceSleeveBottomMax, 0.5)
+      points.elbowTop = points.shoulderRise.shiftFractionTowards(points.bodiceSleeveTopMax, 0.5)
     }
 
     points.elbowBottom = points.bodiceSleeveBottomMin.shiftFractionTowards(
