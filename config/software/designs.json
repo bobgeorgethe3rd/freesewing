@@ -92,6 +92,13 @@
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
       "tags": ["dress", "sleeves", "skirts"]
+    },
+    "shannon": {
+      "description": "Simple Summer Dress design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["dress", "sleeves", "skirts"]
     }
   },
   "hats": {

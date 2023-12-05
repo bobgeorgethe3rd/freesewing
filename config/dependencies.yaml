@@ -245,6 +245,12 @@ scott:
     '@freesewing/spreadsleeve': *freesewing
     '@freesewing/claude': *freesewing
     '@freesewing/harriet': *freesewing
+shannon:
+    peer:
+    '@freesewing/aimee': *freesewing
+    '@freesewing/simpleshirtsleeve': *freesewing
+    '@freesewing/shirtcollar': *freesewing
+    '@freesewing/patchpocket': *freesewing
 shaun:
     peer:
     '@freesewing/byron': *freesewing
