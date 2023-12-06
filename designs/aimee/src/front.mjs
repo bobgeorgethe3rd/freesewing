@@ -210,7 +210,7 @@ export const front = {
         .line(points.sideWaist)
         .line(points.armhole)
         .curve(points.armholeCp2, points.armholePitchCp1, points.bustDartBottom)
-        .line(points.bust)
+        .line(points.bustDartTip)
         .line(points.bustDartTop)
         .curve_(points.armholePitchCp2, points.shoulder)
         .line(points.hps)
