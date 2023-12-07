@@ -300,6 +300,16 @@ export const back = {
           )
         )
 
+        points.saHps = utils.beamsIntersect(
+          paths.cbNeck.offset(neckSa).start(),
+          paths.cbNeck
+            .offset(neckSa)
+            .start()
+            .shift(points.hps.angle(points.shoulderRise) + 90, 1),
+          points.saBodiceSleeveTop,
+          points.saBodiceSleeveTop.shift(points.shoulderRise.angle(points.hps), 1)
+        )
+
         paths.sa = new Path()
           .move(points.saCbWaist)
           .line(points.saDartBottomLeft)

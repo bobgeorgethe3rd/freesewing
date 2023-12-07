@@ -354,6 +354,7 @@ export const front = {
       if (sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const sleeveHemSa = sa * options.sleeveHemWidth * 100
+        const shoulderSa = sa * options.shoulderSaWidth * 100
         const neckSa = sa * options.neckSaWidth * 100
 
         let cfSa
@@ -387,6 +388,15 @@ export const front = {
             points.bodiceSleeveBottom.angle(points.bodiceSleeveTop),
             1
           )
+        )
+        points.saHps = utils.beamsIntersect(
+          paths.cfNeck.offset(neckSa).start(),
+          paths.cfNeck
+            .offset(neckSa)
+            .start()
+            .shift(points.hps.angle(points.shoulderRise) + 90, 1),
+          points.shoulderRise.shiftTowards(points.hps, shoulderSa).rotate(-90, points.shoulderRise),
+          points.hps.shiftTowards(points.shoulderRise, shoulderSa).rotate(90, points.hps)
         )
 
         paths.sa = new Path()
