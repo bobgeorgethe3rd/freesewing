@@ -380,9 +380,9 @@ export const front = {
         )
         points.saBodiceSleeveTop = utils.beamsIntersect(
           points.bodiceSleeveTop
-            .shiftTowards(points.hps, sideSeamSa)
+            .shiftTowards(points.hps, shoulderSa)
             .rotate(-90, points.bodiceSleeveTop),
-          points.hps.shiftTowards(points.bodiceSleeveTop, sideSeamSa).rotate(90, points.hps),
+          points.hps.shiftTowards(points.bodiceSleeveTop, shoulderSa).rotate(90, points.hps),
           points.saBodiceSleeveBottom,
           points.saBodiceSleeveBottom.shift(
             points.bodiceSleeveBottom.angle(points.bodiceSleeveTop),

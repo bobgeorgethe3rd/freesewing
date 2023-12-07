@@ -273,6 +273,7 @@ export const back = {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const sleeveHemSa = sa * options.sleeveHemWidth * 100
         const neckSa = sa * options.neckSaWidth * 100
+        const shoulderSa = sa * options.shoulderSaWidth * 100
 
         points.saBodiceSleeveBottom = utils.beamsIntersect(
           points.bodiceSleeveBottomMinCp1
@@ -290,9 +291,9 @@ export const back = {
         )
         points.saBodiceSleeveTop = utils.beamsIntersect(
           points.bodiceSleeveTop
-            .shiftTowards(points.hps, sideSeamSa)
+            .shiftTowards(points.hps, shoulderSa)
             .rotate(-90, points.bodiceSleeveTop),
-          points.hps.shiftTowards(points.bodiceSleeveTop, sideSeamSa).rotate(90, points.hps),
+          points.hps.shiftTowards(points.bodiceSleeveTop, shoulderSa).rotate(90, points.hps),
           points.saBodiceSleeveBottom,
           points.saBodiceSleeveBottom.shift(
             points.bodiceSleeveBottom.angle(points.bodiceSleeveTop),
