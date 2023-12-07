@@ -73,6 +73,7 @@ export const back = {
         points.bodiceSleeveBottomMinCp1,
         points.bodiceSleeveBottomMin
       )
+      .hide()
 
     points.dolmanSleeveBack = paths.underArmCurve.shiftFractionAlong(0.5)
     points.dolmanSleeveTip = points.shoulderRise.shiftFractionTowards(
@@ -85,11 +86,11 @@ export const back = {
       points.dolmanSleeveBack,
       paths.underArmCurve.shiftFractionAlong(0.49).rotate(-90, points.dolmanSleeveBack)
     )
-    points.dolmanSleeveTipCp2 = points.dolmanSleeveTip.shiftFractionTowards(
+    points.dolmanSleeveTipCp1 = points.dolmanSleeveTip.shiftFractionTowards(
       points.dolmanSleeveCpTarget,
       0.5
     )
-    points.dolmanSleeveBackCp1 = points.dolmanSleeveBack.shiftFractionTowards(
+    points.dolmanSleeveBackCp2 = points.dolmanSleeveBack.shiftFractionTowards(
       points.dolmanSleeveCpTarget,
       0.5
     )
@@ -108,20 +109,60 @@ export const back = {
       points.hps,
       points.shoulderRise
     )
+    //paths
+    paths.hemBase = new Path()
+      .move(points.cbHem)
+      .curve(points.cbHemCp2, points.sideHemCp1, points.sideHem)
+      .hide()
 
-    paths.skirt = new Path()
+    paths.saRight = new Path()
+      .move(points.sideHem)
+      .curve(points.sideWaist, points.sideWaist, points.underArmCurveStart)
+      .hide()
+
+    const drawSaRight = () => {
+      if (options.sleeveStyle == 'inbuilt') {
+        return paths.saRight.join(paths.underArmCurve).line(points.bodiceSleeveBottom)
+      }
+      if (options.sleeveStyle == 'dolman') {
+        return paths.saRight.join(paths.underArmCurve).split(points.dolmanSleeveBack)[0]
+      }
+      if (options.sleeveStyle == 'inset') {
+        return paths.saRight.line(points.armhole)
+      }
+    }
+    const drawArm = () => {
+      if (options.sleeveStyle == 'inbuilt') {
+        return new Path().move(points.bodiceSleeveBottom).line(points.bodiceSleeveTop)
+      }
+      if (options.sleeveStyle == 'dolman') {
+        return new Path()
+          .move(points.dolmanSleeveBack)
+          .curve(points.dolmanSleeveBackCp2, points.dolmanSleeveTipCp1, points.dolmanSleeveTip)
+      }
+      if (options.sleeveStyle == 'inset') {
+        return new Path()
+          .move(points.armhole)
+          .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+          .curve_(points.armholePitchCp2, points.shoulder)
+      }
+    }
+
+    paths.cbNeck = new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck).hide()
+
+    paths.saLeft = new Path()
       .move(points.cbNeck)
       .line(points.cArmhole)
       .curve(points.cbWaist, points.cbWaist, points.cbHem)
-      .curve(points.cbHemCp2, points.sideHemCp1, points.sideHem)
-      .curve(points.sideWaist, points.sideWaist, points.underArmCurveStart)
+      .hide()
 
-    paths.dolman = new Path()
-      .move(points.dolmanSleeveTip)
-      .curve(points.dolmanSleeveTipCp2, points.dolmanSleeveBackCp1, points.dolmanSleeveBack)
-      .line(points.dolmanSleeveBackAnchor)
-      .move(points.bodiceSleeveBottomMin)
-      .line(points.dolmanMidAnchor)
+    paths.seam = paths.hemBase
+      .join(drawSaRight())
+      .join(drawArm())
+      .line(points.hps)
+      .join(paths.cbNeck)
+      .join(paths.saLeft)
+      .close()
 
     return part
   },
