@@ -1,10 +1,10 @@
 import { back as backAimee } from '@freesewing/aimee'
-import { frontBase } from './frontBase.mjs'
+import { front } from './front.mjs'
 
 export const back = {
   name: 'shannon.back',
   from: backAimee.from,
-  after: frontBase,
+  after: front,
   hide: {
     from: true,
     inherited: true,
@@ -12,6 +12,8 @@ export const back = {
   options: {
     //Imported
     ...backAimee.options,
+    //Construction
+    cbSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Shannon
   },
   draft: (sh) => {
     const {

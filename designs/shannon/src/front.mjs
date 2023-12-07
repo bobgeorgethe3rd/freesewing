@@ -1,7 +1,7 @@
 import { front as frontAimee } from '@freesewing/aimee'
 
-export const frontBase = {
-  name: 'shannon.frontBase',
+export const front = {
+  name: 'shannon.front',
   from: frontAimee.from,
   after: frontAimee.after,
   hide: {
@@ -24,6 +24,8 @@ export const frontBase = {
     //Constants
     waistDartLength: 1, //Locked for Shannon
     fullSleeves: false, //Locked for Shannon
+    closurePosition: 'side', //Locked for Shannon
+    closureSaWidth: 0.01, //Locked for Shannon
     cpFraction: 0.55191502449,
     //Style
     skirtFullness: { pct: 50, min: 25, max: 100, menu: 'style' },
@@ -38,6 +40,8 @@ export const frontBase = {
     neckOpeningWidth: { pct: 2.4, min: 1, max: 3, menu: 'plackets' },
     //Darts
     bustDartLength: { pct: 70, min: 60, max: 100, menu: 'darts' }, //Altered for Shannon
+    //Construction
+    cfSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Shannon
   },
   draft: (sh) => {
     const {
