@@ -1,4 +1,5 @@
 import { front as frontAimee } from '@freesewing/aimee'
+import { pctBasedOn } from '@freesewing/core'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const front = {
@@ -35,6 +36,7 @@ export const front = {
     skirtLengthBonus: { pct: 0, min: -50, max: 50, menu: 'style' },
     sleeveLength: { pct: 0, min: 0, max: 100, menu: 'style' },
     sleeveStyle: { dflt: 'inbuilt', list: ['inbuilt', 'dolman', 'inset'], menu: 'style' },
+    neckTieWidth: { pct: 6.5, min: 5, max: 8, snap: 3.175, ...pctBasedOn('hpsToWaistBack') },
     //Plackets
     frontPlacketWidth: { pct: 76.2, min: 50, max: 90, menu: 'plackets' },
     frontPlacketLength: { pct: 100, min: 75, max: 100, menu: 'plackets' },
@@ -63,6 +65,7 @@ export const front = {
       utils,
       measurements,
       part,
+      absoluteOptions,
       snippets,
       Snippet,
     } = sh
@@ -83,6 +86,7 @@ export const front = {
     const skirtFullnessRatio =
       points.cfWaist.dist(points.waistDartLeft) /
       (points.cfWaist.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideWaist))
+    const neckTieWidth = absoluteOptions.neckTieWidth
 
     let skirtLength
     if (options.skirtLength < 0.5) {
@@ -272,9 +276,33 @@ export const front = {
         to: points.grainlineTo,
       })
       //notches
+      points.neckTieTop0 = points.neckOpening.shiftFractionTowards(points.neckOpeningBottom, 0.15)
+      points.neckTieBottom0 = points.neckTieTop0.shiftTowards(
+        points.neckOpeningBottom,
+        neckTieWidth * 0.98
+      )
+      points.neckTieBottom1 = points.neckOpeningBottom.shiftFractionTowards(
+        points.neckOpening,
+        0.15
+      )
+      points.neckTieTop1 = points.neckTieBottom1.shiftTowards(
+        points.neckOpening,
+        neckTieWidth * 0.98
+      )
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['cfNeckOpening', 'cfChest', 'bust', 'underArmCurveStart'],
+        on: [
+          'cfNeckOpening',
+          'cfChest',
+          'bust',
+          'underArmCurveStart',
+          'neckTieTop0',
+          'neckTieTop1',
+        ],
+      })
+      macro('sprinkle', {
+        snippet: 'bnotch',
+        on: ['neckTieBottom0', 'neckTieBottom1'],
       })
       if (options.sleeveLength > 0 && options.fullSleeves && options.sleeveStyle == 'inbuilt') {
         snippets.bodiceSleeveBottomMin = new Snippet('notch', points.bodiceSleeveBottomMin)
