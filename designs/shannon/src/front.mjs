@@ -276,6 +276,9 @@ export const front = {
         snippet: 'notch',
         on: ['cfNeckOpening', 'cfChest', 'bust', 'underArmCurveStart'],
       })
+      if (options.sleeveLength > 0 && options.fullSleeves && options.sleeveStyle == 'inbuilt') {
+        snippets.bodiceSleeveBottomMin = new Snippet('notch', points.bodiceSleeveBottomMin)
+      }
       //title
       points.title = new Point(points.waistDartRight.x, (points.cfNeck.y + points.cfChest.y) / 2)
       macro('title', {
@@ -303,7 +306,7 @@ export const front = {
         .move(points.neckOpening)
         .line(points.neckOpeningBottom)
         .curve(points.neckOpeningBottomCp2, points.cfNeckOpeningCp1, points.cfNeckOpening)
-        .attr('class', 'fabric dashed')
+        .attr('class', 'fabric help')
         .attr('data-text', 'Stitching - Line')
         .attr('data-text-class', 'center')
       if (sa) {

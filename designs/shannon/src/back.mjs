@@ -164,6 +164,111 @@ export const back = {
       .join(paths.saLeft)
       .close()
 
+    //stoes
+    store.set('neckBack', paths.cbNeck.length())
+
+    if (complete) {
+      //grainline
+      points.grainlineFrom = new Point(points.hps.x, points.cbNeck.y)
+      points.grainlineTo = new Point(points.grainlineFrom.x, points.cbHem.y)
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
+      //notches
+      snippets.cbNotch = new Snippet('bnotch', points.cArmhole)
+      snippets.underArmCurveStart = new Snippet('notch', points.underArmCurveStart)
+      if (options.sleeveLength > 0 && options.fullSleeves && options.sleeveStyle == 'inbuilt') {
+        snippets.bodiceSleeveBottomMin = new Snippet('notch', points.bodiceSleeveBottomMin)
+      }
+      //title
+      points.title = points.dartBottomEdge
+      macro('title', {
+        at: points.title,
+        nr: '2',
+        title: 'Back',
+        scale: 2 / 3,
+      })
+      if (sa) {
+        const hemSa = sa * options.skirtHemWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
+        const neckSa = sa * options.neckSaWidth * 100
+        const shoulderSa = sa * options.shoulderSaWidth * 100
+        const cbSa = sa * options.cbSaWidth * 100
+
+        points.saCbHem = points.cbHem
+          .shift(points.cbWaist.angle(points.cbHem), hemSa)
+          .shift(points.cbHemCp2.angle(points.cbHem), cbSa)
+        points.saSideHem = points.sideHem
+          .shift(points.sideWaist.angle(points.sideHem), hemSa)
+          .shift(points.sideHemCp1.angle(points.sideHem), sideSeamSa)
+
+        points.saRightEnd = drawSaRight().offset(sideSeamSa).end()
+        points.saDolmanSleeveBack = points.saRightEnd.shift(
+          points.dolmanSleeveBack.angle(points.saRightEnd) + 90,
+          armholeSa
+        )
+        points.saDolmanSleeveTip = points.dolmanSleeveTip
+          .shift(points.dolmanSleeveTipCp1.angle(points.dolmanSleeveTip), shoulderSa)
+          .shift(points.hps.angle(points.shoulderRise), armholeSa)
+        const drawSaArm = () => {
+          if (options.sleeveStyle == 'inbuilt') {
+            return new Path()
+              .move(points.saRightEnd)
+              .line(points.saBodiceSleeveBottom)
+              .line(points.saBodiceSleeveTop)
+          }
+          if (options.sleeveStyle == 'dolman') {
+            return new Path()
+              .move(points.saRightEnd)
+              .line(points.saDolmanSleeveBack)
+              .join(
+                new Path()
+                  .move(points.dolmanSleeveBack)
+                  .curve(
+                    points.dolmanSleeveBackCp2,
+                    points.dolmanSleeveTipCp1,
+                    points.dolmanSleeveTip
+                  )
+                  .offset(sa)
+              )
+              .line(points.saDolmanSleeveTip)
+          }
+          if (options.sleeveStyle == 'inset') {
+            points.saHps = utils.beamsIntersect(
+              paths.cbNeck.offset(neckSa).start(),
+              paths.cbNeck
+                .offset(neckSa)
+                .start()
+                .shift(points.hps.angle(points.shoulder) + 90, 1),
+              points.shoulder.shiftTowards(points.hps, shoulderSa).rotate(-90, points.shoulder),
+              points.hps.shiftTowards(points.shoulder, shoulderSa).rotate(90, points.hps)
+            )
+            return new Path()
+              .move(points.saRightEnd)
+              .line(points.saArmholeCorner)
+              .line(points.saArmhole)
+              .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
+              .curve_(points.saArmholePitchCp2, points.saShoulder)
+              .line(points.saShoulderCorner)
+          }
+        }
+
+        paths.sa = paths.hemBase
+          .offset(hemSa)
+          .line(points.saSideHem)
+          .join(drawSaRight().offset(sideSeamSa))
+          .join(drawSaArm())
+          .line(points.saHps)
+          .join(paths.cbNeck.offset(neckSa))
+          .line(points.saCbNeck)
+          .join(paths.saLeft.offset(cbSa))
+          .line(points.saCbHem)
+          .close()
+          .attr('class', 'fabric sa')
+      }
+    }
     return part
   },
 }
