@@ -103,7 +103,7 @@ fallon:
     '@freesewing/inseampocket': *freesewing
     '@freesewing/boxpleatpocket': *freesewing
     '@freesewing/pearpocket': *freesewing
-fulldressshirt:
+fullshirtsleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing
     '@freesewing/plugin-mirror': *freesewing
@@ -247,6 +247,7 @@ scott:
     '@freesewing/harriet': *freesewing
 shannon:
     peer:
+    '@freesewing/plugin-mirror': *freesewing
     '@freesewing/aimee': *freesewing
     '@freesewing/simpleshirtsleeve': *freesewing
     '@freesewing/shirtcollar': *freesewing

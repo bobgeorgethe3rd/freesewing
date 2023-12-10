@@ -1,8 +1,10 @@
+import { pluginMirror } from '@freesewing/plugin-mirror'
 import { front } from './front.mjs'
 
 export const frontPlacket = {
   name: 'shannon.frontPlacket',
   from: front,
+  plugins: [pluginMirror],
   options: {
     //Style
     frontPlacketCurve: { pct: 100, min: 0, max: 100, menu: 'plackets' },
@@ -27,6 +29,11 @@ export const frontPlacket = {
     absoluteOptions,
     log,
   }) => {
+    //remove paths & snippets
+    for (let i in paths) delete paths[i]
+    for (let i in snippets) delete snippets[i]
+    //removing macros not required from Bella
+    macro('title', false)
     //measures
     const frontPlacketWidth = store.get('frontPlacketWidth')
     //let's begin
@@ -68,6 +75,32 @@ export const frontPlacket = {
         points.frontPlacketCurveStart,
         options.cpFraction
       )
+    }
+
+    paths.saRight = new Path()
+      .move(points.cfChest)
+      .line(points.frontPlacketCurveStart)
+      .curve(
+        points.frontPlacketCurveStartCp2,
+        points.frontPlacketCurveEndCp1,
+        points.frontPlacketCurveEnd
+      )
+      .line(points.frontPlacketNeck)
+
+    paths.cfNeck = new Path()
+      .move(points.hps)
+      .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+      .split(points.frontPlacketNeck)[1]
+
+    paths.stitchingGuide = new Path()
+      .move(points.neckOpening)
+      .line(points.neckOpeningBottom)
+      .curve(points.neckOpeningBottomCp2, points.cfNeckOpeningCp1, points.cfNeckOpening)
+
+    if (complete) {
+      // .attr('class', 'fabric help')
+      // .attr('data-text', 'Stitching - Line')
+      // .attr('data-text-class', 'center')
     }
 
     return part
