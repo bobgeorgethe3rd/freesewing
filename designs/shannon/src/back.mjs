@@ -120,6 +120,12 @@ export const back = {
       .curve(points.sideWaist, points.sideWaist, points.underArmCurveStart)
       .hide()
 
+    paths.dolman = new Path()
+      .move(points.dolmanSleeveBack)
+      .curve(points.dolmanSleeveBackCp2, points.dolmanSleeveTipCp1, points.dolmanSleeveTip)
+      .hide()
+    points.dolmanMid = paths.dolman.shiftFractionAlong(0.5)
+
     const drawSaRight = () => {
       if (options.sleeveStyle == 'inbuilt') {
         return paths.saRight.join(paths.underArmCurve).line(points.bodiceSleeveBottom)
@@ -136,9 +142,7 @@ export const back = {
         return new Path().move(points.bodiceSleeveBottom).line(points.bodiceSleeveTop)
       }
       if (options.sleeveStyle == 'dolman') {
-        return new Path()
-          .move(points.dolmanSleeveBack)
-          .curve(points.dolmanSleeveBackCp2, points.dolmanSleeveTipCp1, points.dolmanSleeveTip)
+        return paths.dolman
       }
       if (options.sleeveStyle == 'inset') {
         return new Path()
@@ -180,6 +184,9 @@ export const back = {
       snippets.underArmCurveStart = new Snippet('notch', points.underArmCurveStart)
       if (options.sleeveLength > 0 && options.fullSleeves && options.sleeveStyle == 'inbuilt') {
         snippets.bodiceSleeveBottomMin = new Snippet('notch', points.bodiceSleeveBottomMin)
+      }
+      if (options.sleeveStyle == 'dolman') {
+        snippets.dolmanMid = new Snippet('bnotch', points.dolmanMid)
       }
       //title
       points.title = points.dartBottomEdge
@@ -223,16 +230,7 @@ export const back = {
             return new Path()
               .move(points.saRightEnd)
               .line(points.saDolmanSleeveBack)
-              .join(
-                new Path()
-                  .move(points.dolmanSleeveBack)
-                  .curve(
-                    points.dolmanSleeveBackCp2,
-                    points.dolmanSleeveTipCp1,
-                    points.dolmanSleeveTip
-                  )
-                  .offset(sa)
-              )
+              .join(paths.dolman.offset(sa))
               .line(points.saDolmanSleeveTip)
           }
           if (options.sleeveStyle == 'inset') {

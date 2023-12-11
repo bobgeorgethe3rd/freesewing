@@ -211,6 +211,13 @@ export const front = {
       .curve(points.sideWaist, points.sideWaist, points.underArmCurveStart)
       .hide()
 
+    paths.dolman = new Path()
+      .move(points.dolmanSleeveFront)
+      .curve(points.dolmanSleeveFrontCp2, points.dolmanSleeveTipCp1, points.dolmanSleeveTip)
+      .hide()
+
+    points.dolmanMid = paths.dolman.shiftFractionAlong(0.5)
+
     const drawSaRight = () => {
       if (options.sleeveStyle == 'inbuilt') {
         return paths.saRight.join(paths.underArmCurve).line(points.bodiceSleeveBottom)
@@ -228,9 +235,7 @@ export const front = {
         return new Path().move(points.bodiceSleeveBottom).line(points.bodiceSleeveTop)
       }
       if (options.sleeveStyle == 'dolman') {
-        return new Path()
-          .move(points.dolmanSleeveFront)
-          .curve(points.dolmanSleeveFrontCp2, points.dolmanSleeveTipCp1, points.dolmanSleeveTip)
+        return paths.dolman
       }
       if (options.sleeveStyle == 'inset') {
         return new Path()
@@ -266,6 +271,12 @@ export const front = {
     store.set('skirtSideAngle', points.sideWaist.angle(points.sideHem))
     store.set('neckFront', paths.cfNeck.split(points.neckOpening)[0].length())
     store.set('frontPlacketWidth', frontPlacketWidth)
+    store.set('neckOpeningWidth', neckOpeningWidth)
+    store.set('neckTieWidth', neckTieWidth)
+    store.set(
+      'collarAngle',
+      points.neckOpening.angle(paths.cfNeck.split(points.neckOpening)[0].shiftFractionAlong(0.99))
+    )
 
     if (complete) {
       //grainline
@@ -306,6 +317,9 @@ export const front = {
       })
       if (options.sleeveLength > 0 && options.fullSleeves && options.sleeveStyle == 'inbuilt') {
         snippets.bodiceSleeveBottomMin = new Snippet('notch', points.bodiceSleeveBottomMin)
+      }
+      if (options.sleeveStyle == 'dolman') {
+        snippets.dolmanMid = new Snippet('notch', points.dolmanMid)
       }
       //title
       points.title = new Point(points.waistDartRight.x, (points.cfNeck.y + points.cfChest.y) / 2)
@@ -359,6 +373,7 @@ export const front = {
         points.saDolmanSleeveTip = points.dolmanSleeveTip
           .shift(points.dolmanSleeveTipCp1.angle(points.dolmanSleeveTip), shoulderSa)
           .shift(points.hps.angle(points.shoulderRise), armholeSa)
+
         const drawSaArm = () => {
           if (options.sleeveStyle == 'inbuilt') {
             return new Path()
@@ -370,16 +385,7 @@ export const front = {
             return new Path()
               .move(points.saRightEnd)
               .line(points.saDolmanSleeveFront)
-              .join(
-                new Path()
-                  .move(points.dolmanSleeveFront)
-                  .curve(
-                    points.dolmanSleeveFrontCp2,
-                    points.dolmanSleeveTipCp1,
-                    points.dolmanSleeveTip
-                  )
-                  .offset(sa)
-              )
+              .join(paths.dolman.offset(sa))
               .line(points.saDolmanSleeveTip)
           }
           if (options.sleeveStyle == 'inset') {
