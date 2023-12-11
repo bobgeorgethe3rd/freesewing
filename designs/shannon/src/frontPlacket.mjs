@@ -84,6 +84,7 @@ export const frontPlacket = {
         points.frontPlacketCurveEndCp1,
         points.frontPlacketCurveEnd
       )
+      .line(points.frontPlacketNeck)
       .hide()
 
     paths.cfNeck = new Path()
@@ -111,7 +112,6 @@ export const frontPlacket = {
       .line(points.frontPlacketNeck)
       .join(paths.cfNeck)
       .join(paths.mCfNeck.reverse())
-      .line(paths.mSaBase.end())
       .close()
 
     if (complete) {
@@ -150,83 +150,21 @@ export const frontPlacket = {
 
       if (sa) {
         const neckSa = sa * options.neckSaWidth * 100
-
-        if (options.frontPlacketCurve > 0.01) {
-          if (options.frontPlacketStyle == 'straight') {
-            points.saFrontPlacketCurveStart = utils.beamIntersectsY(
-              points.frontPlacketCurveStart
-                .shiftTowards(points.frontPlacketCurveStartCp2, sa)
-                .rotate(-90, points.frontPlacketCurveStart),
-              points.frontPlacketCurveStartCp2
-                .shiftTowards(points.frontPlacketCurveStart, sa)
-                .rotate(90, points.frontPlacketCurveStartCp2),
-              points.frontPlacketBottom.y + sa
-            )
-            points.saFrontPlacketCurveEnd = utils.beamIntersectsX(
-              points.frontPlacketCurveEndCp1
-                .shiftTowards(points.frontPlacketCurveEnd, sa)
-                .rotate(-90, points.frontPlacketCurveEndCp1),
-              points.frontPlacketCurveEnd
-                .shiftTowards(points.frontPlacketCurveEndCp1, sa)
-                .rotate(90, points.frontPlacketCurveEnd),
-              points.frontPlacketNeck.x + sa
-            )
-          } else {
-            points.saFrontPlacketCurveStart = paths.saBase.offset(sa).start()
-            points.saFrontPlacketCurveEnd = paths.saBase.offset(sa).end()
-          }
-        } else {
-          points.saFrontPlacketCurveStart = points.frontPlacketCurveStart.translate(sa, sa)
-          points.saFrontPlacketCurveEnd = points.saFrontPlacketCurveStart
-        }
         points.saFrontPlacketNeck = new Point(
-          points.saFrontPlacketCurveEnd.x,
+          points.frontPlacketNeck.x + sa,
           paths.cfNeck.offset(neckSa).start().y
         )
 
-        if (options.frontPlacketCurve == 1) {
-          points.saCfChest = utils.beamIntersectsX(
-            points.frontPlacketCurveStart
-              .shiftTowards(points.frontPlacketCurveStartCp2, sa)
-              .rotate(-90, points.frontPlacketCurveStart),
-            points.frontPlacketCurveStartCp2
-              .shiftTowards(points.frontPlacketCurveStart, sa)
-              .rotate(90, points.frontPlacketCurveStartCp2),
-            points.cfChest.x
-          )
-        } else {
-          points.saCfChest = points.cfChest.shift(-90, sa)
-        }
+        points.saFrontPlacketNeckF = points.saFrontPlacketNeck.flipX(points.cfNeck)
 
-        const flip = ['saFrontPlacketCurveStart', 'saFrontPlacketCurveEnd', 'saFrontPlacketNeck']
-        for (const p of flip) points[p + 'F'] = points[p].flipX(points.cfNeck)
-
-        const drawSaBottom = () => {
-          if (options.frontPlacketCurve <= '0.01') {
-            return new Path()
-              .move(points.saFrontPlacketCurveEndF)
-              .line(points.saFrontPlacketCurveStartF)
-              .line(points.saCfChest)
-              .line(points.saFrontPlacketCurveStart)
-              .line(points.saFrontPlacketCurveEnd)
-          } else {
-            return new Path()
-              .move(points.saFrontPlacketCurveEndF)
-              .join(paths.mSaBase.reverse().offset(sa))
-              .line(points.saFrontPlacketCurveStartF)
-              .line(points.saCfChest)
-              .line(points.saFrontPlacketCurveStart)
-              .join(paths.saBase.offset(sa))
-              .line(points.saFrontPlacketCurveEnd)
-          }
-        }
-
-        paths.sa = drawSaBottom()
+        paths.sa = paths.mSaBase
+          .reverse()
+          .join(paths.saBase)
+          .offset(sa)
           .line(points.saFrontPlacketNeck)
           .join(paths.cfNeck.offset(neckSa))
           .join(paths.mCfNeck.reverse().offset(neckSa))
           .line(points.saFrontPlacketNeckF)
-          .line(points.saFrontPlacketCurveEndF)
           .close()
           .attr('class', 'fabric sa')
       }

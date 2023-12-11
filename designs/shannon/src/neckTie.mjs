@@ -63,7 +63,8 @@ export const neckTie = {
       points[p + 'F'] = points[p].flipY(points.topLeft.shiftFractionTowards(points.bottomLeft, 0.5))
 
     paths.saBase = new Path()
-      .move(points.curveStart)
+      .move(points.bottomLeft)
+      .line(points.curveStart)
       .curve(points.curveStartCp2, points.curveEndCp1, points.curveEnd)
       .hide()
 
@@ -81,13 +82,10 @@ export const neckTie = {
 
     const drawSeam = () => {
       if (options.neckTieFolded)
-        return new Path()
-          .move(points.bottomLeft)
-          .line(points.curveStart)
-          .join(paths.seamBase)
+        return paths.seamBase
           .join(paths.mSeamBase.reverse())
           .line(points.bottomLeft.flipY(points.topLeft))
-      else return new Path().move(points.bottomLeft).line(points.curveStart).join(paths.seamBase)
+      else return paths.seamBase.unhide()
     }
 
     paths.seam = drawSeam().clone().line(points.topLeft).line(points.bottomLeft).close()
@@ -141,19 +139,15 @@ export const neckTie = {
         .attr('data-text-class', 'center')
 
       if (sa) {
-        points.saBottomLeft = points.bottomLeft.shift(-90, sa)
-        points.saBottomRight = points.bottomRight.translate(sa, sa)
-        points.saTopRight = new Point(points.saBottomRight.x, drawSeam().end().y - sa)
-        points.saTopLeft = new Point(points.saBottomLeft.x, points.saTopRight.y)
+        const drawSa = () => {
+          if (options.neckTieFolded)
+            return paths.saBase
+              .join(paths.mSaBase.reverse())
+              .line(points.bottomLeft.flipY(points.topLeft))
+          else return paths.seamBase.line(points.topLeft).unhide()
+        }
 
-        paths.sa = new Path()
-          .move(points.saBottomLeft)
-          .line(points.saBottomRight)
-          .line(points.saTopRight)
-          .line(points.saTopLeft)
-          .line(points.saBottomLeft)
-          .close()
-          .attr('class', 'fabric sa')
+        paths.sa = drawSa().offset(sa).line(drawSa().start()).close().attr('class', 'fabric sa')
       }
     }
 
