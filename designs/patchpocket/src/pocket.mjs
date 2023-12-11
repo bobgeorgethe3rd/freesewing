@@ -101,10 +101,10 @@ export const pocket = {
 
       const cpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 4)
 
-      points.peakCp1 = points.peakLeftStart.shiftTowards(points.peakLeft, cpDistance)
-      points.peakCp2 = points.peakLeftEnd.shiftTowards(points.peakLeft, cpDistance)
-      points.peakCp3 = points.peakCp2.flipX(points.peak)
-      points.peakCp4 = points.peakCp1.flipX(points.peak)
+      points.peakLeftStartCp2 = points.peakLeftStart.shiftTowards(points.peakLeft, cpDistance)
+      points.peakLeftEndCp1 = points.peakLeftEnd.shiftTowards(points.peakLeft, cpDistance)
+      points.peakRightStartCp2 = points.peakLeftEndCp1.flipX(points.peak)
+      points.peakRightEndCp1 = points.peakLeftStartCp2.flipX(points.peak)
     }
 
     //paths
@@ -132,9 +132,9 @@ export const pocket = {
         return new Path()
           .move(points.topLeft)
           .line(points.peakLeftStart)
-          .curve(points.peakCp1, points.peakCp2, peakFrom)
+          .curve(points.peakLeftStartCp2, points.peakLeftEndCp1, peakFrom)
           .line(peakTo)
-          .curve(points.peakCp3, points.peakCp4, points.peakRightEnd)
+          .curve(points.peakRightStartCp2, points.peakRightEndCp1, points.peakRightEnd)
           .line(points.topRight)
     }
 
