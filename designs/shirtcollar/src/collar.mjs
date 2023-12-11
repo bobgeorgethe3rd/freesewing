@@ -52,8 +52,8 @@ export const collar = {
     //let's begin
     paths.topBand = new Path()
       .move(points.top)
-      .curve(points.topCp1, points.topCp2, points.topMid)
-      .curve(points.fTopCp2, points.fTopCp1, points.fTop)
+      .curve(points.topCp2, points.topMidCp1, points.topMid)
+      .curve(points.fTopMidCp1, points.fTopCp2, points.fTop)
       .hide()
 
     points.collarMid = points.topMid.shift(-90, collarWidth)
@@ -68,25 +68,25 @@ export const collar = {
       points.bottomCollarAnchor,
       1 + options.collarPeakWidth
     )
-    points.bottomCollarCp1 = new Point(
-      (points.bottomCp1.x + points.bottomCp2.x) / 2,
+    points.collarMidCp2 = new Point(
+      (points.bottomMidCp2.x + points.bottomCp1.x) / 2,
       points.collarMid.y
     )
 
-    const flip = ['topCollar', 'bottomCollar', 'bottomCollarCp1']
+    const flip = ['topCollar', 'bottomCollar', 'collarMidCp2']
     for (const p of flip) points['f' + utils.capitalize(p)] = points[p].flipX(points.bottomMid)
 
     //paths
     paths.saTop = new Path()
       .move(points.topCollar)
-      .curve(points.topCp1, points.topCp2, points.topMid)
-      .curve(points.fTopCp2, points.fTopCp1, points.fTopCollar)
+      .curve(points.topCp2, points.topMidCp1, points.topMid)
+      .curve(points.fTopMidCp1, points.fTopCp2, points.fTopCollar)
       .hide()
 
     paths.saBottom = new Path()
       .move(points.fBottomCollar)
-      ._curve(points.fBottomCollarCp1, points.collarMid)
-      .curve_(points.bottomCollarCp1, points.bottomCollar)
+      ._curve(points.fCollarMidCp2, points.collarMid)
+      .curve_(points.collarMidCp2, points.bottomCollar)
       .hide()
 
     paths.seam = paths.saTop
@@ -98,7 +98,7 @@ export const collar = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.topMid.shiftFractionTowards(points.topCp2, 0.5)
+      points.grainlineFrom = points.topMid.shiftFractionTowards(points.topMidCp1, 0.5)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.collarMid.y)
       macro('grainline', {
         from: points.grainlineFrom,
@@ -111,7 +111,7 @@ export const collar = {
       })
       //title
       points.title = points.collarMid
-        .shiftFractionTowards(points.fBottomCollarCp1, 0.5)
+        .shiftFractionTowards(points.fCollarMidCp2, 0.5)
         .shift(90, collarWidth / 2)
       macro('title', {
         at: points.title,
@@ -129,7 +129,7 @@ export const collar = {
 
       if (sa) {
         points.saFTopCollar = points.fTopCollar
-          .shift(points.fTopCp1.angle(points.fTopCollar), sa)
+          .shift(points.fTopCp2.angle(points.fTopCollar), sa)
           .shift(points.fBottomCollar.angle(points.fTopCollar), sa)
         points.saFBottomCollar = utils.beamsIntersect(
           points.fTopCollar.shiftTowards(points.fBottomCollar, sa).rotate(-90, points.fTopCollar),

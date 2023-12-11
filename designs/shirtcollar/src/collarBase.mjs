@@ -52,19 +52,19 @@ export const collarBase = {
     points.bottomMid = points.topMid.shift(-90, collarBandWidth)
     points.bottomAnchor = points.bottomMid.shift(0, neckLength)
     points.bottom = points.bottomAnchor.shift(90, collarBandOffset)
-    points.bottomCp1 = points.bottomMid.shift(0, neckBackLength)
+    points.bottomMidCp2 = points.bottomMid.shift(0, neckBackLength)
 
     //tweak bottom to match length
     let tweak = 1
     let target = neckLength
     let delta
     do {
-      points.bottom = points.bottomCp1.shiftFractionTowards(points.bottom, tweak)
-      points.bottomCp2 = points.bottom.shiftFractionTowards(points.bottomCp1, 2 / 3)
+      points.bottom = points.bottomMidCp2.shiftFractionTowards(points.bottom, tweak)
+      points.bottomCp1 = points.bottom.shiftFractionTowards(points.bottomMidCp2, 2 / 3)
 
       paths.neckBottom = new Path()
         .move(points.bottomMid)
-        .curve(points.bottomCp1, points.bottomCp2, points.bottom)
+        .curve(points.bottomMidCp2, points.bottomCp1, points.bottom)
         .hide()
 
       delta = paths.neckBottom.length() - target
@@ -73,19 +73,19 @@ export const collarBase = {
     } while (Math.abs(delta) > 1)
 
     //points cont.
-    points.topCp2 = points.bottomCp1.shift(90, collarBandWidth)
+    points.topMidCp1 = points.bottomMidCp2.shift(90, collarBandWidth)
     points.top = points.bottom
-      .shiftTowards(points.bottomCp1, collarBandWidth)
+      .shiftTowards(points.bottomMidCp2, collarBandWidth)
       .rotate(-90, points.bottom)
-    points.topCp1 = points.bottomCp2
+    points.topCp2 = points.bottomCp1
       .shiftTowards(points.bottom, collarBandWidth)
-      .rotate(90, points.bottomCp2)
+      .rotate(90, points.bottomCp1)
     points.topNotch = new Path()
       .move(points.top)
-      .curve(points.topCp1, points.topCp2, points.topMid)
+      .curve(points.topCp2, points.topMidCp1, points.topMid)
       .shiftFractionAlong(2 / 3)
 
-    const flip = ['bottom', 'bottomCp1', 'bottomCp2', 'topCp1', 'topCp2', 'top', 'topNotch']
+    const flip = ['bottom', 'bottomMidCp2', 'bottomCp1', 'topCp2', 'topMidCp1', 'top', 'topNotch']
     for (const p of flip) points['f' + utils.capitalize(p)] = points[p].flipX(points.bottomMid)
 
     //guides
@@ -94,12 +94,12 @@ export const collarBase = {
     // .line(points.bottomMid)
     // .line(points.bottomAnchor)
     // .line(points.bottomMid)
-    // .curve(points.bottomCp1, points.bottomCp2, points.bottom)
+    // .curve(points.bottomMidCp2, points.bottomCp1, points.bottom)
     // .line(points.top)
-    // .curve(points.topCp1, points.topCp2, points.topMid)
-    // .curve(points.fTopCp2, points.fTopCp1, points.fTop)
+    // .curve(points.topCp2, points.topMidCp1, points.topMid)
+    // .curve(points.fTopMidCp1, points.fTopCp2, points.fTop)
     // .line(points.fBottom)
-    // .curve(points.fBottomCp2, points.fBottomCp1, points.bottomMid)
+    // .curve(points.fBottomCp1, points.fBottomMidCp2, points.bottomMid)
 
     if (complete) {
       //notches
