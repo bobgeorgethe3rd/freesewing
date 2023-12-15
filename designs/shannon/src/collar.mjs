@@ -9,7 +9,7 @@ export const collar = {
     //Imported
     ...collarBase.options,
     //Collar
-    collarCurve: { pct: 0, min: 0, max: 100, menu: 'collar' },
+    collarCurve: { pct: 100, min: 0, max: 100, menu: 'collar' },
     collarBandWidth: {
       pct: 7.7,
       min: 5,
@@ -40,7 +40,6 @@ export const collar = {
     } = sh
     //draft
     collarBase.draft(sh)
-    //measurements
     //let's begin
     points.topCorner = utils.beamsIntersect(
       points.bottom,
@@ -84,6 +83,73 @@ export const collar = {
       .join(paths.saTop)
       .join(paths.saLeft)
       .close()
+
+    if (complete) {
+      //grainline
+      points.grainlineFrom = points.topMid.shiftFractionTowards(points.topMidCp1, 0.25)
+      points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomMid.y)
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
+      //title
+      points.title = points.bottomMid
+        .shiftFractionTowards(points.fBottomMidCp2, 0.5)
+        .shift(90, absoluteOptions.collarBandWidth / 2)
+      macro('title', {
+        at: points.title,
+        nr: '5',
+        title: 'Collar',
+        scale: 0.25,
+      })
+      //cb
+      paths.cb = new Path()
+        .move(points.topMid)
+        .line(points.bottomMid)
+        .attr('class', 'mark')
+        .attr('data-text', 'Centre Back')
+        .attr('data-text-class', 'center')
+      if (sa) {
+        points.saBottom = utils.beamsIntersect(
+          points.bottomCp1.shiftTowards(points.bottom, sa).rotate(-90, points.bottomCp1),
+          points.bottom.shiftTowards(points.bottomCp1, sa).rotate(90, points.bottom),
+          points.bottom.shiftTowards(points.topCorner, sa).rotate(-90, points.bottom),
+          points.topCorner.shiftTowards(points.bottom, sa).rotate(90, points.topCorner)
+        )
+        points.saTopCorner = utils.beamsIntersect(
+          points.bottom.shiftTowards(points.topCorner, sa).rotate(-90, points.bottom),
+          points.topCorner.shiftTowards(points.bottom, sa).rotate(90, points.topCorner),
+          points.topCorner.shiftTowards(points.topCp2, sa).rotate(-90, points.topCorner),
+          points.topCp2.shiftTowards(points.topCorner, sa).rotate(90, points.topCp2)
+        )
+        points.saFBottom = points.saBottom.flipX(points.topMid)
+        points.saFTopCorner = points.saTopCorner.flipX(points.topMid)
+
+        const drawSaBase = () => {
+          if (options.collarCurve == 0) {
+            return paths.saBottom
+              .offset(sa)
+              .line(points.saBottom)
+              .join(paths.saRight.offset(sa))
+              .line(points.saTopCorner)
+              .join(paths.saTop.offset(sa))
+              .line(points.saFTopCorner)
+          } else {
+            return paths.saBottom
+              .offset(sa)
+              .line(points.saBottom)
+              .join(paths.saRight.offset(sa))
+              .join(paths.saTop.offset(sa))
+          }
+        }
+
+        paths.sa = drawSaBase()
+          .join(paths.saLeft.offset(sa))
+          .line(points.saFBottom)
+          .close()
+          .attr('class', 'fabric sa')
+      }
+    }
 
     return part
   },

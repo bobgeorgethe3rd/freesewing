@@ -330,7 +330,7 @@ export const front = {
         scale: 2 / 3,
       })
       //logo
-      points.logo = new Point(points.waistDartRight.x * 1.1, points.waistDartRight.y)
+      points.logo = new Point(points.waistDartRight.x * 1.1, points.bust.y)
       macro('logorg', {
         at: points.logo,
         scale: 2 / 3,
@@ -338,7 +338,7 @@ export const front = {
       //scalebox
       points.scalebox = new Point(
         points.waistDartRight.x * 1.1,
-        (points.cfWaist.y + points.cfHem.y) / 2
+        (points.cfChest.y + points.cfHem.y) / 2
       )
       macro('scalebox', {
         at: points.scalebox,

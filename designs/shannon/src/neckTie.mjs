@@ -44,35 +44,39 @@ export const neckTie = {
 
     points.curveStart = points.bottomRight.shift(180, neckTieWidth * 0.5 * options.neckTieCurve)
     points.curveEnd = points.curveStart.rotate(-90, points.bottomRight)
-    if (options.neckTieStyle == 'straight') {
-      points.curveStartCp2 = points.curveStart.shiftFractionTowards(points.curveEnd, 0.25)
-      points.curveEndCp1 = points.curveEnd.shiftFractionTowards(points.curveStart, 0.25)
-    } else {
-      points.curveStartCp2 = points.curveStart.shiftFractionTowards(
-        points.bottomRight,
-        options.cpFraction
-      )
-      points.curveEndCp1 = points.curveEnd.shiftFractionTowards(
-        points.bottomRight,
-        options.cpFraction
-      )
-    }
+
+    points.curveStartCp2 = points.curveStart.shiftFractionTowards(
+      points.bottomRight,
+      options.cpFraction
+    )
+    points.curveEndCp1 = points.curveEnd.shiftFractionTowards(
+      points.bottomRight,
+      options.cpFraction
+    )
 
     const flip = ['curveStart', 'curveStartCp2', 'curveEndCp1', 'curveEnd']
     for (const p of flip)
       points[p + 'F'] = points[p].flipY(points.topLeft.shiftFractionTowards(points.bottomLeft, 0.5))
 
-    paths.saBase = new Path()
-      .move(points.bottomLeft)
-      .line(points.curveStart)
-      .curve(points.curveStartCp2, points.curveEndCp1, points.curveEnd)
-      .hide()
+    const drawSaBase = () => {
+      if (options.neckTieStyle == 'curved')
+        return new Path()
+          .line(points.curveStart)
+          .curve(points.curveStartCp2, points.curveEndCp1, points.curveEnd)
+      else return new Path().line(points.curveStart).line(points.curveEnd)
+    }
 
-    paths.seamBase = paths.saBase
-      .clone()
-      .line(points.curveEndF)
-      .curve(points.curveEndCp1F, points.curveStartCp2F, points.curveStartF)
-      .hide()
+    paths.saBase = new Path().move(points.bottomLeft).join(drawSaBase()).hide()
+
+    const drawSeamBase = () => {
+      if (options.neckTieStyle == 'curved')
+        return new Path()
+          .line(points.curveEndF)
+          .curve(points.curveEndCp1F, points.curveStartCp2F, points.curveStartF)
+      else return new Path().move(points.curveEndF).line(points.curveStartF)
+    }
+
+    paths.seamBase = paths.saBase.clone().join(drawSeamBase()).hide()
 
     macro('mirror', {
       mirror: [points.topLeft, points.topRight],
@@ -139,15 +143,62 @@ export const neckTie = {
         .attr('data-text-class', 'center')
 
       if (sa) {
-        const drawSa = () => {
-          if (options.neckTieFolded)
-            return paths.saBase
-              .join(paths.mSaBase.reverse())
-              .line(points.bottomLeft.flipY(points.topLeft))
-          else return paths.seamBase.line(points.topLeft).unhide()
+        points.saBottomLeft = points.bottomLeft.shift(-90, sa)
+        points.saBottomRight = points.bottomRight.translate(sa, sa)
+
+        if (options.neckTieCurve > 0) {
+          points.saCurveStart = utils.beamIntersectsY(
+            points.curveStart.shiftTowards(points.curveEnd, sa).rotate(-90, points.curveStart),
+            points.curveEnd.shiftTowards(points.curveStart, sa).rotate(90, points.curveEnd),
+            points.curveStart.y + sa
+          )
+          if (options.neckTieStyle == 'straight') {
+            points.saCurveEnd = utils.beamIntersectsY(
+              points.curveStart.shiftTowards(points.curveEnd, sa).rotate(-90, points.curveStart),
+              points.curveEnd.shiftTowards(points.curveStart, sa).rotate(90, points.curveEnd),
+              points.curveEnd.y
+            )
+          } else {
+            points.saCurveEnd = points.curveEnd.shift(0, sa)
+          }
         }
 
-        paths.sa = drawSa().offset(sa).line(drawSa().start()).close().attr('class', 'fabric sa')
+        const drawSa = () => {
+          if (options.neckTieCurve == 0)
+            return new Path().move(points.saBottomLeft).line(points.saBottomRight)
+          else {
+            if (options.neckTieStyle == 'curved') {
+              return paths.saBase.offset(sa).line(points.saCurveEnd)
+            } else {
+              return new Path()
+                .move(points.saBottomLeft)
+                .line(points.saCurveStart)
+                .line(points.saCurveEnd)
+            }
+          }
+        }
+
+        paths.drawSa = drawSa().hide()
+
+        let mirrorAnchor
+        if (options.neckTieFolded) {
+          mirrorAnchor = points.topLeft
+        } else {
+          mirrorAnchor = points.bottomLeft.shiftFractionTowards(points.topLeft, 0.5)
+        }
+
+        macro('mirror', {
+          mirror: [mirrorAnchor, mirrorAnchor.shift(0, 1)],
+          paths: ['drawSa'],
+          prefix: 'm',
+        })
+
+        paths.sa = drawSa()
+          .line(paths.mDrawSa.end())
+          .join(paths.mDrawSa.reverse())
+          .line(points.saBottomLeft)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 
