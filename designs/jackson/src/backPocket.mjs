@@ -101,7 +101,7 @@ export const backPocket = {
         paths.sa = paths.saBase
           .clone()
           .offset(sa)
-          .join(paths.top.offset(sa * options.patchPocketSaTopWidth * 100))
+          .join(paths.top.offset(sa * options.patchPocketTopSaWidth * 100))
           .close()
           .attr('class', 'fabric sa')
       }

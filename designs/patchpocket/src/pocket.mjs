@@ -15,7 +15,7 @@ export const pocket = {
     patchPocketPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets' },
     patchPocketPeakPlateau: { bool: true, menu: 'pockets' },
     //Construction
-    patchPocketSaTopWidth: { pct: 3, min: 1, max: 10, menu: 'construction' },
+    patchPocketTopSaWidth: { pct: 3, min: 1, max: 10, menu: 'construction' },
     patchPocketGrainlineBias: { bool: false, menu: 'construction' },
   },
   plugins: [pluginBundle],
@@ -171,9 +171,10 @@ export const pocket = {
         scale: 0.5,
       })
       if (sa) {
+        const patchPocketTopSa = sa * options.patchPocketTopSaWidth * 100
         paths.sa = drawSaBase()
           .offset(sa)
-          .join(paths.top.offset(sa * options.patchPocketSaTopWidth * 100))
+          .join(paths.top.offset(sa * options.patchPocketTopSaWidth * 100))
           .close()
           .attr('class', 'fabric sa')
       }
