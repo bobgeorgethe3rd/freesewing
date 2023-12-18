@@ -37,13 +37,20 @@ export const front = {
     sleeveLength: { pct: 0, min: 0, max: 100, menu: 'style' },
     sleeveStyle: { dflt: 'inbuilt', list: ['inbuilt', 'dolman', 'inset'], menu: 'style' },
     neckTieWidth: { pct: 6.5, min: 5, max: 8, snap: 3.175, ...pctBasedOn('hpsToWaistBack') },
+    //Darts
+    bustDartLength: { pct: 70, min: 60, max: 100, menu: 'darts' }, //Unlocked for Shannon
     //Plackets
     frontPlacketWidth: { pct: 76.2, min: 50, max: 90, menu: 'plackets' },
     frontPlacketLength: { pct: 100, min: 75, max: 100, menu: 'plackets' },
     neckOpeningLength: { pct: 85, min: 75, max: 100, menu: 'plackets' },
     neckOpeningWidth: { pct: 2.4, min: 1, max: 3, menu: 'plackets' },
-    //Darts
-    bustDartLength: { pct: 70, min: 60, max: 100, menu: 'darts' }, //Altered for Shannon
+    //Pockets
+    frontPocketsBool: { bool: true, menu: 'pockets' },
+    frontPocketAngle: { pct: 50, min: 30, max: 70, menu: 'pockets' },
+    frontPocketPlacement: { pct: 7, min: 0, max: 10, menu: 'pockets' },
+    patchPocketWidth: { pct: 54, min: 10, max: 75, menu: 'pockets' }, //Altered for Shannon
+    patchPocketPeak: { pct: 100, min: 0, max: 100, menu: 'pockets' }, //Altered for Shannon
+    patchPocketDepth: { pct: 39.3, min: 10, max: 60, menu: 'pockets' }, //Altered for Shannon
     //Construction
     armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Shannon
     cfSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Shannon
@@ -156,6 +163,11 @@ export const front = {
     points.sideHemCp1 = points.sideHem
       .shiftTowards(points.skirtOrigin, skirtCpDistance)
       .rotate(90, points.sideHem)
+
+    points.underArmCurveStartCp1 = points.underArmCurveStartCp2.rotate(
+      180,
+      points.underArmCurveStart
+    )
     //dolman sleeves
     paths.underArmCurve = new Path()
       .move(points.underArmCurveStart)
@@ -208,7 +220,7 @@ export const front = {
 
     paths.saRight = new Path()
       .move(points.sideHem)
-      .curve(points.sideWaist, points.sideWaist, points.underArmCurveStart)
+      .curve(points.sideWaist, points.underArmCurveStartCp1, points.underArmCurveStart)
       .hide()
 
     paths.dolman = new Path()
@@ -265,6 +277,38 @@ export const front = {
       .line(points.cfNeckOpening)
       .join(paths.saLeft)
       .close()
+    //front pockets
+    if (options.frontPocketsBool) {
+      points.frontPocketAnchor = utils.lineIntersectsCurve(
+        points.skirtOrigin,
+        points.cfHem.rotate(skirtAngle * options.frontPocketAngle, points.skirtOrigin),
+        points.cfWaist,
+        points.waistDartRight,
+        points.waistDartRight,
+        points.sideWaist
+      )
+      points.frontPocketMid = points.skirtOrigin.shiftOutwards(
+        points.frontPocketAnchor,
+        measurements.waistToFloor * options.frontPocketPlacement
+      )
+      points.frontPocketLeft = points.frontPocketMid.shift(
+        points.skirtOrigin.angle(points.cfHem) + skirtAngle * options.frontPocketAngle - 90,
+        measurements.waist * 0.125 * options.patchPocketWidth
+      )
+      points.frontPocketRight = points.frontPocketLeft.rotate(180, points.frontPocketMid)
+      points.frontPocketBottom = points.frontPocketMid.shift(
+        points.frontPocketRight.angle(points.frontPocketLeft) + 90,
+        measurements.waist * 0.25 * options.patchPocketDepth +
+          points.frontPocketMid.dist(points.frontPocketLeft) * options.patchPocketPeak
+      )
+      store.set('patchPocketWidth', points.frontPocketLeft.dist(points.frontPocketRight))
+      store.set(
+        'patchPocketDepth',
+        points.frontPocketMid.dist(points.frontPocketBottom) -
+          points.frontPocketMid.dist(points.frontPocketLeft) * options.patchPocketPeak
+      )
+      store.set('patchPocketBool', points.frontPocketMid.dist(points.frontPocketBottom))
+    }
     //stores
     store.set('skirtLength', skirtLength)
     store.set('skirtCentreAngle', points.cfWaist.angle(points.cfHem))
@@ -277,10 +321,11 @@ export const front = {
       'collarAngle',
       points.neckOpening.angle(paths.cfNeck.split(points.neckOpening)[0].shiftFractionAlong(0.99))
     )
+    store.set('skirtRadius', points.skirtOrigin.dist(points.cfHem))
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.hps.x, points.cfNeck.y)
+      points.grainlineFrom = new Point(points.hps.x * 0.75, points.cfNeck.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
       macro('grainline', {
         from: points.grainlineFrom,
@@ -321,6 +366,21 @@ export const front = {
       if (options.sleeveStyle == 'dolman') {
         snippets.dolmanMid = new Snippet('notch', points.dolmanMid)
       }
+      if (
+        options.frontPocketsBool &&
+        points.skirtOrigin.dist(points.frontPocketBottom) < points.skirtOrigin.dist(points.cfHem)
+      ) {
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['frontPocketLeft', 'frontPocketRight'],
+        })
+        paths.pocketLine = new Path()
+          .move(points.frontPocketLeft)
+          .line(points.frontPocketRight)
+          .attr('class', 'mark')
+          .attr('data-text', 'Pocket line')
+          .attr('data-text-class', 'center')
+      }
       //title
       points.title = new Point(points.waistDartRight.x, (points.cfNeck.y + points.cfChest.y) / 2)
       macro('title', {
@@ -330,7 +390,7 @@ export const front = {
         scale: 2 / 3,
       })
       //logo
-      points.logo = new Point(points.waistDartRight.x * 1.1, points.bust.y)
+      points.logo = new Point(points.waistDartRight.x * 1.1, points.bust.y * 0.93)
       macro('logorg', {
         at: points.logo,
         scale: 2 / 3,
@@ -338,7 +398,7 @@ export const front = {
       //scalebox
       points.scalebox = new Point(
         points.waistDartRight.x * 1.1,
-        (points.cfChest.y + points.cfHem.y) / 2
+        (points.cfChest.y + points.cfWaist.y) / 2
       )
       macro('scalebox', {
         at: points.scalebox,

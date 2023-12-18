@@ -8,12 +8,13 @@ import { back } from './back.mjs'
 import { frontPlacket } from './frontPlacket.mjs'
 import { neckTie } from './neckTie.mjs'
 import { collar } from './collar.mjs'
+import { pocket } from './pocket.mjs'
 
 // Create new design
 const Shannon = new Design({
   data,
-  parts: [front, back, frontPlacket, neckTie, collar],
+  parts: [front, back, frontPlacket, neckTie, collar, pocket],
 })
 
 // Named exports
-export { front, back, frontPlacket, neckTie, collar, Shannon }
+export { front, back, frontPlacket, neckTie, collar, pocket, Shannon }

@@ -65,6 +65,10 @@ export const back = {
     points.sideHemCp1 = points.sideHem
       .shiftTowards(points.skirtOrigin, skirtCpDistance)
       .rotate(90, points.sideHem)
+    points.underArmCurveStartCp1 = points.underArmCurveStartCp2.rotate(
+      180,
+      points.underArmCurveStart
+    )
     //dolman sleeve
     paths.underArmCurve = new Path()
       .move(points.underArmCurveStart)
@@ -117,7 +121,7 @@ export const back = {
 
     paths.saRight = new Path()
       .move(points.sideHem)
-      .curve(points.sideWaist, points.sideWaist, points.underArmCurveStart)
+      .curve(points.sideWaist, points.underArmCurveStartCp1, points.underArmCurveStart)
       .hide()
 
     paths.dolman = new Path()
@@ -173,7 +177,7 @@ export const back = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.hps.x, points.cbNeck.y)
+      points.grainlineFrom = new Point(points.hps.x * 0.75, points.cbNeck.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.cbHem.y)
       macro('grainline', {
         from: points.grainlineFrom,
