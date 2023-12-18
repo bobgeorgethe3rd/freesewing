@@ -11,7 +11,7 @@ export const pocket = {
   draft: (sh) => {
     //draft
     const { points, options, complete, macro, store, part } = sh
-    if (!options.frontPocketsBool || store.get('patchPocketBool') > store.get('skirtRadius')) {
+    if (!options.frontPocketsBool || store.get('patchPocketRadius') > store.get('skirtRadius')) {
       part.hide()
       return part
     }

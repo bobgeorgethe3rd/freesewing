@@ -307,7 +307,7 @@ export const front = {
         points.frontPocketMid.dist(points.frontPocketBottom) -
           points.frontPocketMid.dist(points.frontPocketLeft) * options.patchPocketPeak
       )
-      store.set('patchPocketBool', points.frontPocketMid.dist(points.frontPocketBottom))
+      store.set('patchPocketRadius', points.skirtOrigin.dist(points.frontPocketBottom))
     }
     //stores
     store.set('skirtLength', skirtLength)
