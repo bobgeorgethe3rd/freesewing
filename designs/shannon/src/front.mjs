@@ -48,7 +48,7 @@ export const front = {
     frontPocketsBool: { bool: true, menu: 'pockets' },
     frontPocketAngle: { pct: 50, min: 30, max: 70, menu: 'pockets' },
     frontPocketPlacement: { pct: 7, min: 0, max: 10, menu: 'pockets' },
-    patchPocketWidth: { pct: 54, min: 10, max: 75, menu: 'pockets' }, //Altered for Shannon
+    patchPocketWidth: { pct: 70, min: 10, max: 75, menu: 'pockets' }, //Altered for Shannon
     patchPocketPeak: { pct: 100, min: 0, max: 100, menu: 'pockets' }, //Altered for Shannon
     patchPocketDepth: { pct: 39.3, min: 10, max: 60, menu: 'pockets' }, //Altered for Shannon
     //Construction
