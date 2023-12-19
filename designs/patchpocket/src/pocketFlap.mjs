@@ -1,22 +1,19 @@
 import { pluginBundle } from '@freesewing/plugin-bundle'
 import { pluginMirror } from '@freesewing/plugin-mirror'
+import { pocket } from './pocket.mjs'
 
-export const pocket = {
-  name: 'patchpocket.pocket',
+export const pocketFlap = {
+  name: 'patchpocket.pocketFlap',
+  from: pocket,
   options: {
-    //Constants
-    useVoidStores: true,
-    //Pocket
-    patchPocketStyle: { dflt: 'curved', list: ['straight', 'curved'], menu: 'pockets' },
-    patchPocketDepth: { pct: 0, min: -50, max: 200, menu: 'pockets' },
-    patchPocketWidth: { pct: 0, min: -50, max: 200, menu: 'pockets' },
-    patchPocketBottomWidth: { pct: 100, min: 50, max: 200, menu: 'pockets' },
-    patchPocketPeakDepth: { pct: 50, min: 0, max: 100, menu: 'pockets' },
-    patchPocketPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets' },
-    patchPocketPeakPlateau: { bool: true, menu: 'pockets' },
-    //Construction
-    patchPocketTopSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
-    patchPocketGrainlineBias: { bool: false, menu: 'construction' },
+    //Pockets
+    patchPocketFlapStyle: { dflt: 'curved', list: ['straight', 'curved'], menu: 'pockets.flaps' },
+    patchPocketFlapDepth: { pct: 20, min: 0, max: 50, menu: 'pockets.flaps' },
+    patchPocketFlapPeakDepth: { pct: 50, min: 0, max: 100, menu: 'pockets.flaps' },
+    patchPocketFlapBottomWidth: { pct: 100, min: 50, max: 200, menu: 'pockets.flaps' },
+    patchPocketFlapPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets.flaps' },
+    patchPocketFlapPeakPlateau: { bool: true, menu: 'pockets.flaps' },
+    independentPatchPocketFlapBottomWidth: { bool: false, menu: 'pockets.flaps' },
   },
   plugins: [pluginBundle, pluginMirror],
   draft: ({
@@ -36,50 +33,58 @@ export const pocket = {
     snippets,
     Snippet,
   }) => {
+    //delete paths
+    for (let i in paths) delete paths[i]
     //measures
-    if (options.useVoidStores) {
-      void store.setIfUnset('patchPocketDepth', 150 * (1 + options.patchPocketDepth))
-      void store.setIfUnset('patchPocketWidth', 150 * (1 + options.patchPocketWidth))
-    }
-
-    const pocketDepth = store.get('patchPocketDepth')
-    const pocketWidth = store.get('patchPocketWidth')
-    const pocketBottomWidth = pocketWidth * options.patchPocketBottomWidth
-    const pocketPeakDepth = pocketBottomWidth * options.patchPocketPeakDepth * 0.5
+    const flapDepth = store.get('patchPocketDepth') * options.patchPocketFlapDepth
+    const flapWidth = store.get('patchPocketWidth')
+    const flapBottomWidth = flapWidth * options.patchPocketFlapBottomWidth
 
     //let's begin
-    points.topMid = new Point(0, 0)
-    points.bottomMid = points.topMid.shift(-90, pocketDepth)
-    points.topLeft = points.topMid.shift(180, pocketWidth / 2)
-    points.topRight = points.topLeft.flipX(points.topMid)
-    points.bottomLeft = points.bottomMid.shift(180, pocketBottomWidth / 2)
+    points.bottomMid = points.topMid.shift(-90, flapDepth)
+    if (options.independentPatchPocketFlapBottomWidth) {
+      points.bottomLeft = points.bottomMid.shift(180, flapBottomWidth / 2)
+      points.bottomLeftAnchor = points.bottomMid.translate(flapBottomWidth / -2, 0.1)
+    } else {
+      points.bottomLeft = utils.beamIntersectsY(points.topLeft, points.peakLeft, points.bottomMid.y)
+      points.bottomLeftAnchor = utils.beamIntersectsY(
+        points.topLeft,
+        points.peakLeft,
+        points.bottomMid.y + 0.1
+      )
+    }
+    if (options.patchPocketFlapDepth != 0) {
+      points.bottomLeftAnchor = points.bottomLeft
+    }
     points.bottomRight = points.bottomLeft.flipX(points.bottomMid)
 
+    const flapPeakDepth =
+      points.bottomLeft.dist(points.bottomRight) * options.patchPocketFlapPeakDepth * 0.5
     //peak
-    points.peak = points.bottomMid.shift(-90, pocketPeakDepth)
+    points.peak = points.bottomMid.shift(-90, flapPeakDepth)
     points.peakLeft = utils.beamsIntersect(
       points.topLeft,
-      points.bottomLeft,
+      points.bottomLeftAnchor,
       points.peak,
       points.peak.shift(180, 1)
     )
 
-    if (points.peakLeft.dist(points.peak) < points.peakLeft.dist(points.bottomLeft)) {
+    if (points.peakLeft.dist(points.peak) < points.peakLeft.dist(points.bottomLeftAnchor)) {
       points.peakLeftEnd = points.peakLeft.shiftFractionTowards(
         points.peak,
-        options.patchPocketPeakCurve
+        options.patchPocketFlapPeakCurve
       )
       points.peakLeftStart = points.peakLeftEnd.rotate(
-        points.peakLeft.angle(points.bottomLeft),
+        points.peakLeft.angle(points.bottomLeftAnchor),
         points.peakLeft
       )
     } else {
       points.peakLeftStart = points.peakLeft.shiftFractionTowards(
-        points.bottomLeft,
-        options.patchPocketPeakCurve
+        points.bottomLeftAnchor,
+        options.patchPocketFlapPeakCurve
       )
       points.peakLeftEnd = points.peakLeftStart.rotate(
-        -points.peakLeft.angle(points.bottomLeft),
+        -points.peakLeft.angle(points.bottomLeftAnchor),
         points.peakLeft
       )
     }
@@ -109,7 +114,7 @@ export const pocket = {
 
     let peakFrom
     let peakTo
-    if (options.patchPocketPeakPlateau) {
+    if (options.patchPocketFlapPeakPlateau) {
       peakFrom = points.peakLeftEnd
       peakTo = points.peakRightStart
     } else {
@@ -118,7 +123,7 @@ export const pocket = {
     }
 
     const drawSaBase = () => {
-      if (options.patchPocketStyle == 'straight')
+      if (options.patchPocketFlapStyle == 'straight')
         return new Path()
           .move(points.topLeft)
           .line(points.peakLeftStart)
@@ -126,7 +131,7 @@ export const pocket = {
           .line(peakTo)
           .line(points.peakRightEnd)
           .line(points.topRight)
-      if (options.patchPocketStyle == 'curved')
+      if (options.patchPocketFlapStyle == 'curved')
         return new Path()
           .move(points.topLeft)
           .line(points.peakLeftStart)
@@ -140,23 +145,13 @@ export const pocket = {
 
     paths.seam = drawSaBase().join(paths.top).close()
 
-    //stores
-    store.set('patchPocketSideAngle', points.topLeft.angle(points.bottomLeft))
-
     if (complete) {
       //grainline
-      let grainlineFrom
-      let grainlineTo
-      if (options.patchPocketGrainlineBias) {
-        grainlineFrom = points.topLeft
-        grainlineTo = points.bottomRight
-      } else {
-        grainlineFrom = points.topMid
-        grainlineTo = points.peak
-      }
+      points.grainlineFrom = points.topMid
+      points.grainlineTo = points.peak
       macro('grainline', {
-        from: grainlineFrom,
-        to: grainlineTo,
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
       })
       //notches
       macro('sprinkle', {
@@ -164,12 +159,12 @@ export const pocket = {
         on: ['topLeft', 'topRight'],
       })
       //title
-      points.title = new Point(points.topRight.x * (1 / 3), points.bottomRight.y / 2)
+      points.title = new Point(points.topRight.x * (1 / 3), points.peak.y / 2)
       macro('title', {
-        nr: 1,
-        title: 'Patch Pocket',
+        nr: 2,
+        title: 'Patch Pocket Flap',
         at: points.title,
-        scale: 0.5,
+        scale: 1 / 3,
       })
       if (sa) {
         points.saLeft = utils.beamIntersectsY(
@@ -181,13 +176,9 @@ export const pocket = {
           .beamIntersectsY(
             points.topLeft.shiftTowards(points.peakLeftStart, sa).rotate(-90, points.topLeft),
             points.peakLeftStart.shiftTowards(points.topLeft, sa).rotate(90, points.peakLeftStart),
-            points.topLeft.y + sa * options.patchPocketTopSaWidth * 100
+            points.topLeft.y + sa
           )
           .flipY(points.topLeft)
-
-        points.saTopLeftCorner = utils
-          .beamIntersectsY(points.saTopLeft, points.saLeft, points.saTopLeft.y + sa)
-          .flipY(points.saTopLeft)
 
         points.saPeakLeft = points.peakLeftStart
           .shiftTowards(points.topLeft, sa)
@@ -199,8 +190,8 @@ export const pocket = {
           points.peak.y + sa
         )
 
-        if (options.patchPocketPeakCurve > 0 && options.patchPocketPeakDepth > 0) {
-          if (options.patchPocketPeakPlateau) {
+        if (options.patchPocketFlapPeakCurve > 0 && options.patchPocketFlapPeakDepth > 0) {
+          if (options.patchPocketFlapPeakPlateau) {
             points.saPeakLeftStart = utils.beamsIntersect(
               points.topLeft.shiftTowards(points.peakLeftStart, sa).rotate(-90, points.topLeft),
               points.peakLeftStart
@@ -213,7 +204,7 @@ export const pocket = {
                 .shiftTowards(points.peakLeftStart, sa)
                 .rotate(90, points.peakLeftEnd)
             )
-            if (options.patchPocketPeakCurve == 1 && options.patchPocketPeakDepth == 1) {
+            if (options.patchPocketFlapPeakCurve == 1 && options.patchPocketFlapPeakDepth == 1) {
               points.saPeakLeftEnd = utils.beamIntersectsX(
                 points.peakLeftStart
                   .shiftTowards(points.peakLeftEnd, sa)
@@ -250,7 +241,7 @@ export const pocket = {
             )
           }
           let peak
-          if (options.patchPocketPeakPlateau) {
+          if (options.patchPocketFlapPeakPlateau) {
             peak = points.peakLeftEnd
           } else {
             peak = points.peak
@@ -263,19 +254,18 @@ export const pocket = {
             .hide()
         }
         paths.saLeft = new Path()
-          .move(points.saTopLeftCorner)
-          .line(points.saTopLeft)
+          .move(points.saTopLeft)
           .line(points.saLeft)
           .line(points.saPeakLeft)
           .hide()
 
         const drawSa = () => {
-          if (options.patchPocketPeakDepth == 0 || options.patchPocketPeakCurve == 0) {
+          if (options.patchPocketFlapPeakDepth == 0 || options.patchPocketFlapPeakCurve == 0) {
             return paths.saLeft.line(points.saBottomLeft)
           } else {
-            if (options.patchPocketStyle == 'straight')
+            if (options.patchPocketFlapStyle == 'straight')
               return paths.saLeft.line(points.saPeakLeftStart).line(points.saPeakLeftEnd)
-            if (options.patchPocketStyle == 'curved') return paths.saLeft.join(paths.saCurve)
+            if (options.patchPocketFlapStyle == 'curved') return paths.saLeft.join(paths.saCurve)
           }
         }
 
@@ -289,23 +279,9 @@ export const pocket = {
 
         paths.sa = paths.sa
           .join(paths.mSa.reverse())
-          .line(points.saTopLeftCorner)
+          .line(points.saTopLeft)
           .close()
           .attr('class', 'fabric sa')
-
-        points.topLeftFold = points.saTopLeft.shift(0, points.saLeft.dist(points.topLeft))
-        paths.seamTop = new Path()
-          .move(points.topRight)
-          .line(points.topLeftFold.flipX(points.topMid))
-          .line(points.topLeftFold)
-          .line(points.topLeft)
-
-        paths.foldline = new Path()
-          .move(points.topLeft)
-          .line(points.topRight)
-          .attr('class', 'fabric hidden')
-          .attr('data-text', 'Fold-line')
-          .attr('data-text-class', 'center')
       }
     }
 

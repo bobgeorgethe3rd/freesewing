@@ -106,7 +106,7 @@ export const backPocket = {
 
       if (sa) {
         if (options.backPocketPleat) {
-          if (options.patchPocketPeak > 0) {
+          if (options.patchPocketPeakDepth > 0) {
             let shiftSa = ['saPeakLeftStart', 'saPeakLeftEnd']
             for (const p of shiftSa) points[p] = points[p].shift(-90, backPocketPleatWidth)
           }
@@ -134,7 +134,7 @@ export const backPocket = {
           paths.saLeft = new Path().move(points.saLeft).hide()
         }
 
-        if (options.patchPocketPeak == 0) {
+        if (options.patchPocketPeakDepth == 0) {
           paths.saLeft = paths.saLeft.line(points.saBottomLeft).hide()
         } else {
           paths.saLeft = paths.saLeft.line(points.saPeakLeftStart).line(points.saPeakLeftEnd).hide()
