@@ -1,4 +1,5 @@
 import { pluginBundle } from '@freesewing/plugin-bundle'
+import { pluginMirror } from '@freesewing/plugin-mirror'
 
 export const pocket = {
   name: 'patchpocket.pocket',
@@ -15,10 +16,10 @@ export const pocket = {
     patchPocketPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets' },
     patchPocketPeakPlateau: { bool: true, menu: 'pockets' },
     //Construction
-    patchPocketTopSaWidth: { pct: 3, min: 1, max: 10, menu: 'construction' },
+    patchPocketTopSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
     patchPocketGrainlineBias: { bool: false, menu: 'construction' },
   },
-  plugins: [pluginBundle],
+  plugins: [pluginBundle, pluginMirror],
   draft: ({
     store,
     sa,
@@ -87,25 +88,23 @@ export const pocket = {
     points.peakRightStart = points.peakLeftEnd.flipX(points.peak)
     points.peakRightEnd = points.peakLeftStart.flipX(points.peak)
 
-    if (options.patchPocketStyle == 'curved') {
-      points.peakLeftAnchor = utils.beamsIntersect(
-        points.peakLeftStart,
-        points.topLeft.rotate(-90, points.peakLeftStart),
-        points.peakLeftEnd,
-        points.peakLeftEnd.shift(90, 1)
-      )
-      const radius = points.peakLeftAnchor.dist(points.peakLeftStart)
-      const angle =
-        points.peakLeftAnchor.angle(points.peakLeftEnd) -
-        points.peakLeftAnchor.angle(points.peakLeftStart)
+    points.peakLeftAnchor = utils.beamsIntersect(
+      points.peakLeftStart,
+      points.topLeft.rotate(-90, points.peakLeftStart),
+      points.peakLeftEnd,
+      points.peakLeftEnd.shift(90, 1)
+    )
+    const radius = points.peakLeftAnchor.dist(points.peakLeftStart)
+    const angle =
+      points.peakLeftAnchor.angle(points.peakLeftEnd) -
+      points.peakLeftAnchor.angle(points.peakLeftStart)
 
-      const cpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 4)
+    const cpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 4)
 
-      points.peakLeftStartCp2 = points.peakLeftStart.shiftTowards(points.peakLeft, cpDistance)
-      points.peakLeftEndCp1 = points.peakLeftEnd.shiftTowards(points.peakLeft, cpDistance)
-      points.peakRightStartCp2 = points.peakLeftEndCp1.flipX(points.peak)
-      points.peakRightEndCp1 = points.peakLeftStartCp2.flipX(points.peak)
-    }
+    points.peakLeftStartCp2 = points.peakLeftStart.shiftTowards(points.peakLeft, cpDistance)
+    points.peakLeftEndCp1 = points.peakLeftEnd.shiftTowards(points.peakLeft, cpDistance)
+    points.peakRightStartCp2 = points.peakLeftEndCp1.flipX(points.peak)
+    points.peakRightEndCp1 = points.peakLeftStartCp2.flipX(points.peak)
 
     //paths
 
@@ -151,7 +150,7 @@ export const pocket = {
         grainlineTo = points.bottomRight
       } else {
         grainlineFrom = points.topMid
-        grainlineTo = points.bottomMid
+        grainlineTo = points.peak
       }
       macro('grainline', {
         from: grainlineFrom,
@@ -171,12 +170,140 @@ export const pocket = {
         scale: 0.5,
       })
       if (sa) {
-        const patchPocketTopSa = sa * options.patchPocketTopSaWidth * 100
-        paths.sa = drawSaBase()
-          .offset(sa)
-          .join(paths.top.offset(sa * options.patchPocketTopSaWidth * 100))
+        points.saLeft = utils.beamIntersectsY(
+          points.topLeft.shiftTowards(points.peakLeftStart, sa).rotate(-90, points.topLeft),
+          points.peakLeftStart.shiftTowards(points.topLeft, sa).rotate(90, points.peakLeftStart),
+          points.topLeft.y
+        )
+        points.saTopLeft = utils
+          .beamIntersectsY(
+            points.topLeft.shiftTowards(points.peakLeftStart, sa).rotate(-90, points.topLeft),
+            points.peakLeftStart.shiftTowards(points.topLeft, sa).rotate(90, points.peakLeftStart),
+            points.topLeft.y + sa * options.patchPocketTopSaWidth * 100
+          )
+          .flipY(points.topLeft)
+
+        points.saTopLeftCorner = utils
+          .beamIntersectsY(points.saTopLeft, points.saLeft, points.saTopLeft.y + sa)
+          .flipY(points.saTopLeft)
+
+        points.saPeakLeft = points.peakLeftStart
+          .shiftTowards(points.topLeft, sa)
+          .rotate(90, points.peakLeftStart)
+
+        points.saBottomLeft = utils.beamIntersectsY(
+          points.topLeft.shiftTowards(points.peakLeftStart, sa).rotate(-90, points.topLeft),
+          points.peakLeftStart.shiftTowards(points.topLeft, sa).rotate(90, points.peakLeftStart),
+          points.peak.y + sa
+        )
+
+        if (options.patchPocketPeakCurve > 0 && options.patchPocketPeak > 0) {
+          if (options.patchPocketPeakPlateau) {
+            points.saPeakLeftStart = utils.beamsIntersect(
+              points.topLeft.shiftTowards(points.peakLeftStart, sa).rotate(-90, points.topLeft),
+              points.peakLeftStart
+                .shiftTowards(points.topLeft, sa)
+                .rotate(90, points.peakLeftStart),
+              points.peakLeftStart
+                .shiftTowards(points.peakLeftEnd, sa)
+                .rotate(-90, points.peakLeftStart),
+              points.peakLeftEnd
+                .shiftTowards(points.peakLeftStart, sa)
+                .rotate(90, points.peakLeftEnd)
+            )
+            if (options.patchPocketPeakCurve == 1 && options.patchPocketPeak == 1) {
+              points.saPeakLeftEnd = utils.beamIntersectsX(
+                points.peakLeftStart
+                  .shiftTowards(points.peakLeftEnd, sa)
+                  .rotate(-90, points.peakLeftStart),
+                points.peakLeftEnd
+                  .shiftTowards(points.peakLeftStart, sa)
+                  .rotate(90, points.peakLeftEnd),
+                points.peak.x
+              )
+            } else {
+              points.saPeakLeftEnd = utils.beamIntersectsY(
+                points.peakLeftStart
+                  .shiftTowards(points.peakLeftEnd, sa)
+                  .rotate(-90, points.peakLeftStart),
+                points.peakLeftEnd
+                  .shiftTowards(points.peakLeftStart, sa)
+                  .rotate(90, points.peakLeftEnd),
+                points.peak.y + sa
+              )
+            }
+          } else {
+            points.saPeakLeftStart = utils.beamsIntersect(
+              points.topLeft.shiftTowards(points.peakLeftStart, sa).rotate(-90, points.topLeft),
+              points.peakLeftStart
+                .shiftTowards(points.topLeft, sa)
+                .rotate(90, points.peakLeftStart),
+              points.peakLeftStart.shiftTowards(points.peak, sa).rotate(-90, points.peakLeftStart),
+              points.peak.shiftTowards(points.peakLeftStart, sa).rotate(90, points.peak)
+            )
+            points.saPeakLeftEnd = utils.beamIntersectsX(
+              points.peakLeftStart.shiftTowards(points.peak, sa).rotate(-90, points.peakLeftStart),
+              points.peak.shiftTowards(points.peakLeftStart, sa).rotate(90, points.peak),
+              points.peak.x
+            )
+          }
+        }
+        paths.saLeft = new Path()
+          .move(points.saTopLeftCorner)
+          .line(points.saTopLeft)
+          .line(points.saLeft)
+          .line(points.saPeakLeft)
+          .hide()
+
+        if (options.patchPocketPeakPlateau) {
+          paths.saCurve = new Path()
+            .move(points.peakLeftStart)
+            .curve(points.peakLeftStartCp2, points.peakLeftEndCp1, points.peakLeftEnd)
+            .offset(sa)
+        } else {
+          paths.saCurve = new Path()
+            .move(points.peakLeftStart)
+            .curve(points.peakLeftStartCp2, points.peakLeftEndCp1, points.peak)
+            .offset(sa)
+        }
+
+        const drawSa = () => {
+          if (options.patchPocketPeak == 0 || options.patchPocketPeakCurve == 0) {
+            return paths.saLeft.line(points.saBottomLeft)
+          } else {
+            if (options.patchPocketStyle == 'straight')
+              return paths.saLeft.line(points.saPeakLeftStart).line(points.saPeakLeftEnd)
+            if (options.patchPocketStyle == 'curved') return paths.saLeft.join(paths.saCurve)
+          }
+        }
+
+        paths.sa = drawSa().hide()
+
+        macro('mirror', {
+          mirror: [points.topMid, points.peak],
+          paths: ['sa'],
+          prefix: 'm',
+        })
+
+        paths.sa = paths.sa
+          .join(paths.mSa.reverse())
+          .line(points.saTopLeftCorner)
           .close()
           .attr('class', 'fabric sa')
+
+        points.topLeftFold = points.saTopLeft.shift(0, points.saLeft.dist(points.topLeft))
+        paths.seamTop = new Path()
+          .move(points.topRight)
+          .line(points.topLeftFold.flipX(points.topMid))
+          .line(points.topLeftFold)
+          .line(points.topLeft)
+
+        paths.foldline = new Path()
+          .move(points.topLeft)
+          .line(points.topRight)
+          .attr('class', 'fabric hidden')
+          .attr('data-text', 'Fold-line')
+          .attr('data-text-class', 'center')
       }
     }
 

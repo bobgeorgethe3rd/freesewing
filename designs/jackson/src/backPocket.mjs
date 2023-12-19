@@ -24,7 +24,12 @@ export const backPocket = {
     pocket.draft(sh)
 
     // keep paths
-    const keepThese = ['top', 'grainline']
+    let keepThese
+    if (sa) {
+      keepThese = ['top', 'grainline', 'seamTop', 'foldline']
+    } else {
+      keepThese = ['top', 'grainline']
+    }
 
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
@@ -98,10 +103,15 @@ export const backPocket = {
       }
 
       if (sa) {
-        paths.sa = paths.saBase
-          .clone()
-          .offset(sa)
-          .join(paths.top.offset(sa * options.patchPocketTopSaWidth * 100))
+        paths.sa = new Path()
+          .move(points.saTopLeftCorner)
+          .line(points.saTopLeft)
+          .line(points.saLeft)
+          .join(paths.saBase.offset(sa))
+          .line(points.saLeft.flipX())
+          .line(points.saTopLeft.flipX())
+          .line(points.saTopLeftCorner.flipX())
+          .line(points.saTopLeftCorner)
           .close()
           .attr('class', 'fabric sa')
       }
