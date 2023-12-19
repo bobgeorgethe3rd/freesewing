@@ -92,6 +92,11 @@ export const collar = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      //notches
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['bottomNotch', 'fBottomNotch'],
+      })
       //title
       points.title = points.bottomMid
         .shiftFractionTowards(points.fBottomMidCp2, 0.5)
