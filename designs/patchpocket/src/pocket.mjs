@@ -255,17 +255,18 @@ export const pocket = {
           .line(points.saPeakLeft)
           .hide()
 
+        let peak
         if (options.patchPocketPeakPlateau) {
-          paths.saCurve = new Path()
-            .move(points.peakLeftStart)
-            .curve(points.peakLeftStartCp2, points.peakLeftEndCp1, points.peakLeftEnd)
-            .offset(sa)
+          peak = points.peakLeftEnd
         } else {
-          paths.saCurve = new Path()
-            .move(points.peakLeftStart)
-            .curve(points.peakLeftStartCp2, points.peakLeftEndCp1, points.peak)
-            .offset(sa)
+          peak = points.peak
         }
+
+        paths.saCurve = new Path()
+          .move(points.peakLeftStart)
+          .curve(points.peakLeftStartCp2, points.peakLeftEndCp1, peak)
+          .offset(sa)
+          .hide()
 
         const drawSa = () => {
           if (options.patchPocketPeak == 0 || options.patchPocketPeakCurve == 0) {
