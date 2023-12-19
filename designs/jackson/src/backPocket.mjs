@@ -1,4 +1,5 @@
 import { pocket } from '@freesewing/patchpocket'
+import { pluginMirror } from '@freesewing/plugin-mirror'
 import { back } from './back.mjs'
 
 export const backPocket = {
@@ -17,6 +18,7 @@ export const backPocket = {
     //Pockets
     backPocketPleat: { bool: true, menu: 'pockets.backPockets' },
   },
+  plugins: [pluginMirror],
   draft: (sh) => {
     //draft
     const { store, sa, Point, points, Path, paths, options, complete, macro, utils, part } = sh
@@ -103,14 +105,56 @@ export const backPocket = {
       }
 
       if (sa) {
+        if (options.backPocketPleat) {
+          if (options.patchPocketPeak > 0) {
+            let shiftSa = ['saPeakLeftStart', 'saPeakLeftEnd']
+            for (const p of shiftSa) points[p] = points[p].shift(-90, backPocketPleatWidth)
+          }
+
+          points.saBottomLeft = points.saBottomLeft.shift(-90, backPocketPleatWidth)
+
+          points.saPleatLeft0 = utils.beamIntersectsY(
+            points.saLeft,
+            points.saLeft.shift(points.topLeft.angle(points.pleatLeft0), 1),
+            points.pleatLeft0.y
+          )
+          points.saPleatLeft2 = utils.beamIntersectsY(
+            points.peakLeftStart
+              .shiftTowards(points.pleatLeft2, sa)
+              .rotate(-90, points.peakLeftStart),
+            points.pleatLeft2.shiftTowards(points.peakLeftStart, sa).rotate(-90, points.pleatLeft2),
+            points.pleatLeft2.y
+          )
+          paths.saLeft = new Path()
+            .move(points.saLeft)
+            .line(points.saPleatLeft0)
+            .line(points.saPleatLeft2)
+            .hide()
+        } else {
+          paths.saLeft = new Path().move(points.saLeft).hide()
+        }
+
+        if (options.patchPocketPeak == 0) {
+          paths.saLeft = paths.saLeft.line(points.saBottomLeft).hide()
+        } else {
+          paths.saLeft = paths.saLeft.line(points.saPeakLeftStart).line(points.saPeakLeftEnd).hide()
+        }
+
         paths.sa = new Path()
           .move(points.saTopLeftCorner)
           .line(points.saTopLeft)
           .line(points.saLeft)
-          .join(paths.saBase.offset(sa))
-          .line(points.saLeft.flipX())
-          .line(points.saTopLeft.flipX())
-          .line(points.saTopLeftCorner.flipX())
+          .join(paths.saLeft)
+          .hide()
+
+        macro('mirror', {
+          mirror: [points.topMid, points.peak],
+          paths: ['sa'],
+          prefix: 'm',
+        })
+
+        paths.sa = paths.sa
+          .join(paths.mSa.reverse())
           .line(points.saTopLeftCorner)
           .close()
           .attr('class', 'fabric sa')
