@@ -9,7 +9,7 @@ export const collar = {
     //Imported
     ...collarBase.options,
     //Collar
-    collarCurve: { pct: 100, min: 0, max: 100, menu: 'collar' },
+    collarCurve: { pct: 0, min: 0, max: 100, menu: 'collar' },
     collarBandWidth: {
       pct: 7.7,
       min: 5,
