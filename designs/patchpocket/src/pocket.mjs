@@ -247,25 +247,24 @@ export const pocket = {
               points.peak.x
             )
           }
+          let peak
+          if (options.patchPocketPeakPlateau) {
+            peak = points.peakLeftEnd
+          } else {
+            peak = points.peak
+          }
+
+          paths.saCurve = new Path()
+            .move(points.peakLeftStart)
+            .curve(points.peakLeftStartCp2, points.peakLeftEndCp1, peak)
+            .offset(sa)
+            .hide()
         }
         paths.saLeft = new Path()
           .move(points.saTopLeftCorner)
           .line(points.saTopLeft)
           .line(points.saLeft)
           .line(points.saPeakLeft)
-          .hide()
-
-        let peak
-        if (options.patchPocketPeakPlateau) {
-          peak = points.peakLeftEnd
-        } else {
-          peak = points.peak
-        }
-
-        paths.saCurve = new Path()
-          .move(points.peakLeftStart)
-          .curve(points.peakLeftStartCp2, points.peakLeftEndCp1, peak)
-          .offset(sa)
           .hide()
 
         const drawSa = () => {
