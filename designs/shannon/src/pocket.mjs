@@ -7,6 +7,8 @@ export const pocket = {
   options: {
     //Imported
     ...patchPocket.options,
+    //Constant
+    patchPocketGrainlineBias: false, //Locked for Shannon
   },
   draft: (sh) => {
     //draft
