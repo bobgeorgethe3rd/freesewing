@@ -13,7 +13,7 @@ export const pocketFlap = {
     patchPocketFlapBottomWidth: { pct: 100, min: 50, max: 200, menu: 'pockets.flaps' },
     patchPocketFlapPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets.flaps' },
     patchPocketFlapPeakPlateau: { bool: true, menu: 'pockets.flaps' },
-    independentPatchPocketFlapBottomWidth: { bool: false, menu: 'pockets.flaps' },
+    independentPatchPocketFlap: { bool: false, menu: 'pockets.flaps' },
   },
   plugins: [pluginBundle, pluginMirror],
   draft: ({
@@ -35,6 +35,13 @@ export const pocketFlap = {
   }) => {
     //delete paths
     for (let i in paths) delete paths[i]
+    //options
+    if (!options.independentPatchPocketFlap) {
+      options.patchPocketFlapStyle = options.patchPocketStyle
+      options.patchPocketFlapPeakDepth = options.patchPocketPeakDepth
+      options.patchPocketFlapPeakCurve = options.patchPocketPeakCurve
+      options.patchPocketFlapPeakPlateau = options.patchPocketPeakPlateau
+    }
     //measures
     const flapDepth = store.get('patchPocketDepth') * options.patchPocketFlapDepth
     const flapWidth = store.get('patchPocketWidth')
@@ -42,7 +49,7 @@ export const pocketFlap = {
 
     //let's begin
     points.bottomMid = points.topMid.shift(-90, flapDepth)
-    if (options.independentPatchPocketFlapBottomWidth) {
+    if (options.independentPatchPocketFlap) {
       points.bottomLeft = points.bottomMid.shift(180, flapBottomWidth / 2)
       points.bottomLeftAnchor = points.bottomMid.translate(flapBottomWidth / -2, 0.1)
     } else {
