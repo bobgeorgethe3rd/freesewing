@@ -21,7 +21,7 @@ export const pocket = {
     if (complete) {
       //title
       macro('title', {
-        nr: 6,
+        nr: 10,
         title: 'Pocket',
         at: points.title,
         scale: 1 / 3,

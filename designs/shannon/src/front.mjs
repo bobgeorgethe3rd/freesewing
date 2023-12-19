@@ -49,7 +49,7 @@ export const front = {
     frontPocketAngle: { pct: 50, min: 30, max: 70, menu: 'pockets' },
     frontPocketPlacement: { pct: 7, min: 0, max: 10, menu: 'pockets' },
     patchPocketWidth: { pct: 70, min: 10, max: 75, menu: 'pockets' }, //Altered for Shannon
-    patchPocketPeak: { pct: 100, min: 0, max: 100, menu: 'pockets' }, //Altered for Shannon
+    patchPocketPeakDepth: { pct: 100, min: 0, max: 100, menu: 'pockets' }, //Altered for Shannon
     patchPocketDepth: { pct: 39.3, min: 10, max: 60, menu: 'pockets' }, //Altered for Shannon
     //Construction
     armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Shannon
