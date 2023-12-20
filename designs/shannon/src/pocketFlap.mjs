@@ -28,7 +28,7 @@ export const pocketFlap = {
     if (complete) {
       //title
       macro('title', {
-        nr: 11,
+        nr: 12,
         title: 'Pocket Flap',
         at: points.title,
         scale: 1 / 3,
