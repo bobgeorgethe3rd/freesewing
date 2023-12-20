@@ -322,6 +322,10 @@ export const front = {
       points.neckOpening.angle(paths.cfNeck.split(points.neckOpening)[0].shiftFractionAlong(0.99))
     )
     store.set('skirtRadius', points.skirtOrigin.dist(points.cfHem))
+    store.set(
+      'cummerbundLength',
+      points.cfWaist.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideWaist)
+    )
 
     if (complete) {
       //grainline

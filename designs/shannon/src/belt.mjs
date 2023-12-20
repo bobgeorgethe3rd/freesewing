@@ -6,6 +6,7 @@ export const belt = {
   after: front,
   options: {
     //Style
+    belt: { bool: true, menu: 'style' },
     beltLength: { pct: 57.5, min: 0, max: 200, menu: 'style' },
     beltWidth: {
       pct: 10.2,
@@ -35,6 +36,11 @@ export const belt = {
       snippets,
       Snippet,
     } = sh
+    //render
+    if (!options.belt) {
+      part.hide()
+      return part
+    }
     //measures
     const beltLength = measurements.waist * (1 + options.waistEase) * (1 + options.beltLength)
     //let's begin
@@ -53,16 +59,24 @@ export const belt = {
       .line(points.topLeft)
       .close()
 
+    //stores
+    store.set('beltWidth', absoluteOptions.beltWidth)
+
     if (complete) {
       //grainline
-      points.grainlineFrom = points.topLeft.shiftFractionTowards(points.topMid, 0.5)
+      points.grainlineFrom = new Point(points.topLeft.x / 3, points.topMid.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomMid.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      //notches
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['topRight', 'bottomRight'],
+      })
       //title
-      points.title = new Point(points.topRight.x / 2, points.bottomRight.y / 2)
+      points.title = new Point(points.topRight.x / 3, points.bottomRight.y / 2)
       macro('title', {
         at: points.title,
         nr: '6',
