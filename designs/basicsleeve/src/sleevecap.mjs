@@ -48,16 +48,16 @@ export const sleevecap = {
       void store.setIfUnset('frontArmholeToArmholePitch', store.get('frontArmholeLength') * 0.5)
     }
     //measures
-    const scyeFrontDepth = store.get('scyeFrontDepth')
-    const scyeBackDepth = store.get('scyeBackDepth')
+    // const scyeFrontDepth = store.get('scyeFrontDepth')
+    // const scyeBackDepth = store.get('scyeBackDepth')
 
     // const sleeveCapDepth = store.get('scyeDepth') * options.sleeveCapDepth
-    let sleeveCapDepth
-    if (scyeFrontDepth > scyeBackDepth) {
-      sleeveCapDepth = scyeFrontDepth
-    } else {
-      sleeveCapDepth = scyeBackDepth
-    }
+    const sleeveCapDepth = (store.get('scyeFrontDepth') + store.get('scyeBackDepth')) / 2
+    // if (scyeFrontDepth > scyeBackDepth) {
+    // sleeveCapDepth = scyeFrontDepth
+    // } else {
+    // sleeveCapDepth = scyeBackDepth
+    // }
 
     const scyeFrontWidth = store.get('scyeFrontWidth')
     const scyeBackWidth = store.get('scyeBackWidth')
