@@ -11,25 +11,25 @@ export const cummerbund = {
     cummerbundWidth: { pct: 44, min: 0, max: 50, menu: 'style' },
     cummerbundCurve: { pct: (2 / 3) * 100, min: 0, max: 100, menu: 'style' },
   },
-  draft: (sh) => {
-    const {
-      store,
-      sa,
-      Point,
-      points,
-      Path,
-      paths,
-      options,
-      complete,
-      paperless,
-      macro,
-      utils,
-      measurements,
-      part,
-      absoluteOptions,
-      snippets,
-      Snippet,
-    } = sh
+  draft: ({
+    store,
+    sa,
+    Point,
+    points,
+    Path,
+    paths,
+    options,
+    complete,
+    paperless,
+    macro,
+    utils,
+    measurements,
+    part,
+    snippets,
+    Snippet,
+    absoluteOptions,
+    log,
+  }) => {
     //render
     if (!options.belt || !options.cummerbund) {
       part.hide()

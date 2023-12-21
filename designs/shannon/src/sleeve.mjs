@@ -11,6 +11,9 @@ export const sleeve = {
     //Imported
     ...basicSleeve.options,
     ...dolmanSleeve.options,
+    //Constant
+    sleeveBands: false, //Locked for Shannon
+    sleeveBandWidth: 0, //Locked for Shannon
   },
   draft: (sh) => {
     //draft

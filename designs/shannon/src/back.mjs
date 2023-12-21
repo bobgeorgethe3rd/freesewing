@@ -179,6 +179,8 @@ export const back = {
       store.set('scyeBackDepth', points.dolmanSleeveBackAnchor.dist(points.dolmanSleeveTip))
       store.set('backArmholeLength', paths.dolman.length())
       store.set('backArmholeToArmholePitch', paths.dolman.length() * 0.5)
+      store.set('dolmanBackExWidth', points.bodiceSleeveBottom.dist(points.dolmanMidAnchor))
+      store.set('dolmanBackExDepth', points.dolmanMidAnchor.dist(points.dolmanSleeveBackAnchor))
     }
     if (complete) {
       //grainline

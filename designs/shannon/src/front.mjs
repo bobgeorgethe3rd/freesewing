@@ -334,6 +334,12 @@ export const front = {
       store.set('scyeFrontDepth', points.dolmanSleeveFrontAnchor.dist(points.dolmanSleeveTip))
       store.set('frontArmholeLength', paths.dolman.length())
       store.set('frontArmholeToArmholePitch', paths.dolman.length() * 0.5)
+      store.set('dolmanFrontExWidth', points.bodiceSleeveBottom.dist(points.dolmanMidAnchor))
+      store.set('dolmanFrontExDepth', points.dolmanMidAnchor.dist(points.dolmanSleeveFrontAnchor))
+      store.set(
+        'dolmanSleeveLength',
+        points.dolmanSleeveFrontAnchor.dist(points.bodiceSleeveTopMax)
+      )
     }
 
     if (complete) {

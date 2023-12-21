@@ -17,25 +17,25 @@ export const belt = {
       menu: 'style',
     },
   },
-  draft: (sh) => {
-    const {
-      store,
-      sa,
-      Point,
-      points,
-      Path,
-      paths,
-      options,
-      complete,
-      paperless,
-      macro,
-      utils,
-      measurements,
-      part,
-      absoluteOptions,
-      snippets,
-      Snippet,
-    } = sh
+  draft: ({
+    store,
+    sa,
+    Point,
+    points,
+    Path,
+    paths,
+    options,
+    complete,
+    paperless,
+    macro,
+    utils,
+    measurements,
+    part,
+    snippets,
+    Snippet,
+    absoluteOptions,
+    log,
+  }) => {
     //render
     if (!options.belt) {
       part.hide()
