@@ -29,12 +29,12 @@ export const front = {
     // elbowEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
     daisyGuides: { bool: false, menu: 'fit' },
     wristEase: { pct: 28.9, min: 0, max: 35, menu: 'fit' },
-    //Style
-    fitSleeveWidth: { bool: true, menu: 'style' },
-    sleeveLength: { pct: 100, min: 0, max: 100, menu: 'style' },
-    sleeveLengthBonus: { pct: 0, min: -10, max: 20, menu: 'style' },
-    armholeDrop: { pct: 29, min: 0, max: 35, menu: 'style' },
-    underArmSleeveLength: { pct: 6.6, min: 6, max: 8, menu: 'style' },
+    //Sleeves
+    fitSleeveWidth: { bool: true, menu: 'sleeves' },
+    sleeveLength: { pct: 100, min: 0, max: 100, menu: 'sleeves' },
+    sleeveLengthBonus: { pct: 0, min: -10, max: 20, menu: 'sleeves' },
+    armholeDrop: { pct: 29, min: 0, max: 35, menu: 'sleeves' },
+    underArmSleeveLength: { pct: 6.6, min: 6, max: 8, menu: 'sleeves' },
     //Construction
     cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Aimee
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Aimee
