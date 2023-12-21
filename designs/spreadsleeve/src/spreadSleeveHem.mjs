@@ -341,7 +341,7 @@ export const spreadSleeveHem = ({
       points.saSleevecapStart = paths.sleevecap.offset(armholeSa).start()
       points.saSleevecapEnd = paths.sleevecap.offset(armholeSa).end()
 
-      if (options.sleeveLength == 0) {
+      if (sleeveLength == 0) {
         points.saSleeveCapLeft = paths.sleevecap
           .offset(armholeSa)
           .end()
