@@ -463,7 +463,7 @@ export const front = {
             return new Path()
               .move(points.saRightEnd)
               .line(points.saDolmanSleeveFront)
-              .join(paths.dolman.offset(sa))
+              .join(paths.dolman.offset(armholeSa))
               .line(points.saDolmanSleeveTip)
           }
           if (options.sleeveStyle == 'inset') {

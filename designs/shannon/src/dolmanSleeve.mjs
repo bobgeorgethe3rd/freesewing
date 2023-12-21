@@ -59,7 +59,10 @@ export const dolmanSleeve = {
 
     if (complete) {
       //title
-      points.title = new Point(points.sleeveCapRight.x * 0.25, points.dolmanExAnchor.y / 2)
+      points.title = new Point(
+        points.sleeveCapLeft.x * 0.25,
+        (points.sleeveTip.y + points.dolmanExAnchor.y) / 2
+      )
     }
 
     return part

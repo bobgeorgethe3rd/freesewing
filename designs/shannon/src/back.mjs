@@ -241,7 +241,7 @@ export const back = {
             return new Path()
               .move(points.saRightEnd)
               .line(points.saDolmanSleeveBack)
-              .join(paths.dolman.offset(sa))
+              .join(paths.dolman.offset(armholeSa))
               .line(points.saDolmanSleeveTip)
           }
           if (options.sleeveStyle == 'inset') {
