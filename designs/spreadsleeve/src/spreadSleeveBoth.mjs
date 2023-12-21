@@ -149,11 +149,11 @@ export const spreadSleeveBoth = ({
 
   //hem
   points.bottomMid = points.bottomAnchor.shift(-90, spread / 10)
-  points.bottomCp1 = new Point(
+  points.bottomMidCp1 = new Point(
     (points.capQ3BottomM.x - points.capQ2BottomM.x) / 2,
     points.bottomMid.y
   )
-  points.bottomCp2 = points.bottomCp1.flipX(points.bottomMid)
+  points.bottomMidCp2 = points.bottomMidCp1.flipX(points.bottomMid)
 
   //sleevecap
   points.capQ1 = points.capQ1M
@@ -237,8 +237,8 @@ export const spreadSleeveBoth = ({
 
   paths.hemBase = new Path()
     .move(points.bottomLeft)
-    ._curve(points.bottomCp1, points.bottomMid)
-    .curve_(points.bottomCp2, points.bottomRight)
+    ._curve(points.bottomMidCp1, points.bottomMid)
+    .curve_(points.bottomMidCp2, points.bottomRight)
     .hide()
 
   paths.saLeft = new Path().move(points.sleeveCapLeft).line(points.bottomLeft).hide()
@@ -283,31 +283,118 @@ export const spreadSleeveBoth = ({
       title: 'Sleeve' + ' (' + utils.capitalize(options.spreadType) + ' Spread)',
       scale: 0.5,
     })
-    //hemSa
-    let hemSa
-    if (options.sleeveBands || options.sleeveFlounces != 'none') hemSa = sa
-    else hemSa = sa * options.sleeveHemWidth * 100
-    const sideSeamSa = sa * options.sideSeamSaWidth * 100
     if (sa) {
-      if (sleeveLength == 0) {
-        points.saRight = points.bottomCp2.shiftOutwards(points.sleeveCapRight, sideSeamSa)
-        points.saLeft = points.bottomCp1.shiftOutwards(points.sleeveCapLeft, sideSeamSa)
-        paths.sa = paths.hemBase
-          .offset(hemSa)
-          .line(points.saRight)
-          .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
-          .line(points.saLeft)
-          .close()
-          .attr('class', 'fabric sa')
+      let hemSa
+      if (options.sleeveBands || options.sleeveFlounces != 'none') hemSa = sa
+      else hemSa = sa * options.sleeveHemWidth * 100
+      const sideSeamSa = sa * options.sideSeamSaWidth * 100
+      const armholeSa = sa * options.armholeSaWidth * 100
+
+      points.saSleevecapStart = paths.sleevecap.offset(armholeSa).start()
+      points.saSleevecapEnd = paths.sleevecap.offset(armholeSa).end()
+
+      if (options.sleeveLength == 0) {
+        points.saSleeveCapLeft = paths.sleevecap
+          .offset(armholeSa)
+          .end()
+          .shift(points.capQ4Cp2.angle(points.sleeveCapLeft), sideSeamSa)
+        points.saTopLeft = points.sleeveCapLeft.shift(
+          points.capQ4Cp2.angle(points.bottomLeft),
+          sideSeamSa
+        )
+        points.saBottomLeft = points.bottomLeft.shift(
+          points.capQ4Cp2.angle(points.bottomLeft),
+          sideSeamSa
+        )
+        points.saSleeveCapRight = paths.sleevecap
+          .offset(armholeSa)
+          .start()
+          .shift(points.capQ1Cp1.angle(points.sleeveCapRight), sideSeamSa)
+        points.saTopRight = points.sleeveCapRight.shift(
+          points.capQ1Cp1.angle(points.sleeveCapRight),
+          sideSeamSa
+        )
+        points.saBottomRight = points.bottomRight.shift(
+          points.capQ1Cp1.angle(points.sleeveCapRight),
+          sideSeamSa
+        )
       } else {
-        paths.sa = paths.hemBase
-          .offset(hemSa)
-          .join(paths.saRight.offset(sideSeamSa))
-          .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
-          .join(paths.saLeft.offset(sideSeamSa))
-          .close()
-          .attr('class', 'fabric sa')
+        points.saTopLeft = utils.beamsIntersect(
+          points.sleeveCapLeft
+            .shiftTowards(points.bottomLeft, sideSeamSa)
+            .rotate(-90, points.sleeveCapLeft),
+          points.bottomLeft
+            .shiftTowards(points.sleeveCapLeft, sideSeamSa)
+            .rotate(90, points.bottomLeft),
+          points.capQ4Cp2,
+          points.sleeveCapLeft
+        )
+        points.saSleeveCapLeft = utils.beamsIntersect(
+          points.saSleevecapEnd,
+          points.sleeveCapLeft.rotate(-90, points.saSleevecapEnd),
+          points.saTopLeft,
+          points.sleeveCapLeft.rotate(90, points.saTopLeft)
+        )
+        points.saBottomLeft = utils.beamsIntersect(
+          points.sleeveCapLeft
+            .shiftTowards(points.bottomLeft, sideSeamSa)
+            .rotate(-90, points.sleeveCapLeft),
+          points.bottomLeft
+            .shiftTowards(points.sleeveCapLeft, sideSeamSa)
+            .rotate(90, points.bottomLeft),
+          points.bottomMidCp1,
+          points.bottomLeft
+        )
+        points.saTopRight = utils.beamsIntersect(
+          points.bottomRight
+            .shiftTowards(points.sleeveCapRight, sideSeamSa)
+            .rotate(-90, points.bottomRight),
+          points.sleeveCapRight
+            .shiftTowards(points.bottomRight, sideSeamSa)
+            .rotate(90, points.sleeveCapRight),
+          points.capQ1Cp1,
+          points.sleeveCapRight
+        )
+        points.saSleeveCapRight = utils.beamsIntersect(
+          points.saSleevecapStart,
+          points.sleeveCapRight.rotate(90, points.saSleevecapStart),
+          points.saTopRight,
+          points.sleeveCapRight.rotate(-90, points.saTopRight)
+        )
+        points.saBottomRight = utils.beamsIntersect(
+          points.bottomRight
+            .shiftTowards(points.sleeveCapRight, sideSeamSa)
+            .rotate(-90, points.bottomRight),
+          points.sleeveCapRight
+            .shiftTowards(points.bottomRight, sideSeamSa)
+            .rotate(90, points.sleeveCapRight),
+          points.bottomMidCp2,
+          points.bottomRight
+        )
       }
+
+      points.saBottomLeftCorner = points.saBottomLeft.shift(
+        points.bottomLeft.angle(points.bottomMidCp1) - 90,
+        hemSa
+      )
+      points.saBottomRightCorner = points.saBottomRight.shift(
+        points.bottomRight.angle(points.bottomMidCp2) + 90,
+        hemSa
+      )
+
+      paths.sa = paths.sleevecap
+        .offset(armholeSa)
+        .line(points.saSleeveCapLeft)
+        .line(points.saTopLeft)
+        .line(points.saBottomLeft)
+        .line(points.saBottomLeftCorner)
+        .join(paths.hemBase.offset(hemSa))
+        .line(points.saBottomRightCorner)
+        .line(points.saBottomRight)
+        .line(points.saTopRight)
+        .line(points.saSleeveCapRight)
+        .close()
+        .attr('class', 'fabric sa')
     }
   }
 

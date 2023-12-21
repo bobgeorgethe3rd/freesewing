@@ -61,7 +61,18 @@ export const sleeveTie = {
         scale: 0.12,
       })
       if (sa) {
-        paths.sa = paths.seam.offset(sa).attr('class', 'fabric sa')
+        points.saTopLeft = points.topLeft.translate(-sa, -sa)
+        points.saBottomLeft = points.bottomLeft.translate(-sa, sa)
+        points.saBottomRight = points.bottomRight.translate(sa, sa)
+        points.saTopRight = points.topRight.translate(sa, -sa)
+        paths.sa = new Path()
+          .move(points.saTopLeft)
+          .line(points.saBottomLeft)
+          .line(points.saBottomRight)
+          .line(points.saTopRight)
+          .line(points.saTopLeft)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 

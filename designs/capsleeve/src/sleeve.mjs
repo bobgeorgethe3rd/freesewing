@@ -20,6 +20,7 @@ export const sleeve = {
     sleeveBands: false, //Locked for Capsleeve
     sleeveLength: 0, //Locked for Capsleeve
     sleeveLengthBonus: 0, //Locked for Capsleeve
+    sideSeamSaWidth: 1, //Locked for Capsleeve
     //Sleeves
     spread: { pct: 0, min: 0, max: 120, menu: 'sleeves' },
     sleeveReduction: { pct: 9, min: 7.5, max: 12, menu: 'sleeves' },
@@ -56,28 +57,28 @@ export const sleeve = {
     //measures
     const sleeveReduction = measurements.shoulderToElbow * options.sleeveReduction
     //let's begin
-    points.hemAnchor = points.midAnchor.shift(90, sleeveReduction)
+    points.hemSanchor = points.midAnchor.shift(90, sleeveReduction)
 
     //hem
     // points.hemCp1Anchor = utils.beamsIntersect(
     // points.capQ4,
     // points.capQ4Cp1,
-    // points.hemAnchor,
-    // points.hemAnchor.shift(180, 1)
+    // points.hemSanchor,
+    // points.hemSanchor.shift(180, 1)
     // )
     // points.hemCp2Anchor = utils.beamsIntersect(
     // points.capQ1,
     // points.capQ1Cp2,
-    // points.hemAnchor,
-    // points.hemAnchor.shift(0, 1)
+    // points.hemSanchor,
+    // points.hemSanchor.shift(0, 1)
     // )
-    points.hemCp1 = new Point(points.capQ3.x, points.hemAnchor.y)
-    points.hemCp2 = points.hemCp1.flipX(points.hemAnchor)
+    points.hemCp1 = new Point(points.capQ3.x, points.hemSanchor.y)
+    points.hemCp2 = points.hemCp1.flipX(points.hemSanchor)
 
     //paths
     paths.hemBase = new Path()
       .move(points.capQ4)
-      .curve(points.capQ4Cp1, points.hemCp1, points.hemAnchor)
+      .curve(points.capQ4Cp1, points.hemCp1, points.hemSanchor)
       .curve(points.hemCp2, points.capQ1Cp2, points.capQ1)
       .hide()
 
@@ -93,14 +94,17 @@ export const sleeve = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.hemAnchor.x, points.sleeveTip.y)
-      points.grainlineTo = points.hemAnchor
+      points.grainlineFrom = new Point(points.hemSanchor.x, points.sleeveTip.y)
+      points.grainlineTo = points.hemSanchor
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //title
-      points.title = new Point(points.capQ3.x * 0.65, (points.sleeveTip.y + points.hemAnchor.y) / 2)
+      points.title = new Point(
+        points.capQ3.x * 0.65,
+        (points.sleeveTip.y + points.hemSanchor.y) / 2
+      )
       macro('title', {
         at: points.title,
         nr: '1',
@@ -108,18 +112,56 @@ export const sleeve = {
         scale: 0.4,
       })
       if (sa) {
-        const capSa = sa * options.armholeSaWidth * 100
-        const hemA = sa * options.sleeveHemWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
+        const hemSa = sa * options.sleeveHemWidth * 100
 
-        points.saLeft = points.capQ4Cp1.shiftOutwards(points.capQ4, sa)
-        points.saRight = points.capQ1Cp2.shiftOutwards(points.capQ1, sa)
+        points.saCapQ4 = points.capQ4Cp1.shiftOutwards(points.capQ4, sa)
+        points.saCapQ1 = points.capQ1Cp2.shiftOutwards(points.capQ1, sa)
+
+        points.saBaseStart = paths.saBase.offset(armholeSa).start()
+        points.saBaseEnd = paths.saBase.offset(armholeSa).end()
+
+        points.hemBaseStart = paths.hemBase.offset(hemSa).start()
+        points.hemBaseEnd = paths.hemBase.offset(hemSa).end()
+
+        points.saTopLeft = utils.beamsIntersect(
+          points.saBaseEnd,
+          points.capQ4.rotate(-90, points.saBaseEnd),
+          points.saCapQ4,
+          points.capQ4.rotate(90, points.saCapQ4)
+        )
+
+        points.saBottomLeft = utils.beamsIntersect(
+          points.saTopLeft,
+          points.saCapQ4,
+          points.hemBaseStart,
+          points.capQ4.rotate(90, points.hemBaseStart)
+        )
+
+        points.saTopRight = utils.beamsIntersect(
+          points.saCapQ1,
+          points.capQ1.rotate(-90, points.saCapQ1),
+          points.saBaseStart,
+          points.capQ1.rotate(90, points.saBaseStart)
+        )
+        points.saBottomRight = utils.beamsIntersect(
+          points.saTopRight,
+          points.saCapQ1,
+          points.hemBaseEnd,
+          points.capQ1.rotate(-90, points.hemBaseEnd)
+        )
+
         paths.sa = paths.hemBase
-          .offset(hemA)
-          .line(points.saRight)
-          .line(paths.saBase.offset(capSa).start())
-          .join(paths.saBase.offset(capSa))
-          .line(points.saLeft)
-          .line(paths.hemBase.offset(hemA).start())
+          .offset(hemSa)
+          .line(points.saBottomRight)
+          .line(points.saCapQ1)
+          .line(points.saTopRight)
+          .line(points.saBaseStart)
+          .join(paths.saBase.offset(armholeSa))
+          .line(points.saTopLeft)
+          .line(points.saCapQ4)
+          .line(points.saBottomLeft)
+          .line(points.hemBaseStart)
           .close()
           .attr('class', 'fabric sa')
       }

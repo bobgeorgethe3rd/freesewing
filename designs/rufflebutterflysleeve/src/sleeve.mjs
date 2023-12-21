@@ -69,18 +69,18 @@ export const sleeve = {
     const sleeveTieWidth = absoluteOptions.sleeveTieWidth
     const sleeveSlitWidth = absoluteOptions.sleeveSlitWidth
 
-    let hemA
+    let hemSa
     if (options.sleeveTieChannel == 'hem') {
-      hemA = sleeveTieWidth * 1.02 + sa
+      hemSa = sleeveTieWidth * 1.02 + sa
     }
     if (options.sleeveTieChannel == 'band') {
-      hemA = sa
+      hemSa = sa
     }
     if (options.sleeveTieChannel == 'mid') {
-      hemA = sa * options.sleeveHemWidth * 100
+      hemSa = sa * options.sleeveHemWidth * 100
     }
     if (sa == 0) {
-      hemA = 0
+      hemSa = 0
     }
     //let's begin
     //time for the slit
@@ -114,7 +114,7 @@ export const sleeve = {
       points.sleeveCapLeft,
       points.bottomLeft
     )
-    points.slitMidRight = points.slitMidLeft.flipX(points.sleeveTip)
+    points.slitMidRight = points.slitMidLeft.flipX(points.midAnchor)
 
     //paths
     let bottomLeft
@@ -140,7 +140,7 @@ export const sleeve = {
 
     paths.slit = new Path()
       .move(points.slitTop)
-      .line(slitBottom.shift(-90, hemA))
+      .line(slitBottom.shift(-90, hemSa))
       .attr('data-text', 'Slit-line. Cut along line to top bnotch.')
       .attr('data-text-class', 'center')
       .attr('class', 'interfacing dashed')
@@ -154,9 +154,9 @@ export const sleeve = {
       .hide()
 
     paths.seamSlitLine = new Path()
-      .move(seamSlitBottomRight.shift(-90, hemA))
+      .move(seamSlitBottomRight.shift(-90, hemSa))
       .join(paths.seamSlitRound)
-      .line(seamSlitBottomLeft.shift(-90, hemA))
+      .line(seamSlitBottomLeft.shift(-90, hemSa))
       .attr('data-text', 'Slit Seam - line')
       .attr('data-text-class', 'center')
       .attr('class', 'interfacing')
@@ -239,11 +239,29 @@ export const sleeve = {
 
       if (sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
-        paths.sa = paths.hemBase
-          .offset(hemA)
-          .join(paths.saRight.offset(sideSeamSa))
-          .join(paths.sleevecap.offset(sa * options.armholeSaWidth * 100))
-          .join(paths.saLeft.offset(sideSeamSa))
+        points.saBottomLeft = utils.beamIntersectsY(
+          points.sleeveCapLeft
+            .shiftTowards(points.bottomLeft, sideSeamSa)
+            .rotate(-90, points.sleeveCapLeft),
+          points.bottomLeft
+            .shiftTowards(points.sleeveCapLeft, sideSeamSa)
+            .rotate(90, points.bottomLeft),
+          bottomLeft.y
+        )
+        points.saBottomLeftCorner = points.saBottomLeft.shift(-90, hemSa)
+        points.saBottomRight = points.saBottomLeft.flipX(points.midAnchor)
+        points.saBottomRightCorner = new Point(points.saBottomRight.x, points.saBottomLeftCorner.y)
+
+        paths.sa = paths.sleevecap
+          .offset(sa * options.armholeSaWidth * 100)
+          .line(points.saSleeveCapLeft)
+          .line(points.saTopLeft)
+          .line(points.saBottomLeft)
+          .line(points.saBottomLeftCorner)
+          .line(points.saBottomRightCorner)
+          .line(points.saBottomRight)
+          .line(points.saTopRight)
+          .line(points.saSleeveCapRight)
           .close()
           .attr('class', 'fabric sa')
       }

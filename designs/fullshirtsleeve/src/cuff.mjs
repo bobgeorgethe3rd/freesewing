@@ -48,21 +48,21 @@ export const cuff = {
       points.bottomLeft,
       options.sleeveBandCurve
     )
-    points.leftCp2 = points.leftEnd.shiftFractionTowards(
+    points.leftEndCp1 = points.leftEnd.shiftFractionTowards(
       points.bottomLeftCorner,
       options.cpFraction
     )
-    points.leftCp1 = points.leftCp2.rotate(90, points.bottomLeftCorner)
+    points.leftStartCp2 = points.leftEndCp1.rotate(90, points.bottomLeftCorner)
     points.leftStart = points.leftEnd.rotate(90, points.bottomLeftCorner)
     points.rightStart = points.bottomRightCorner.shiftFractionTowards(
       points.bottomRight,
       options.sleeveBandCurve
     )
-    points.rightCp1 = points.rightStart.shiftFractionTowards(
+    points.rightStartCp2 = points.rightStart.shiftFractionTowards(
       points.bottomRightCorner,
       options.cpFraction
     )
-    points.rightCp2 = points.rightCp1.rotate(-90, points.bottomRightCorner)
+    points.rightCp2 = points.rightStartCp2.rotate(-90, points.bottomRightCorner)
     points.rightEnd = points.rightStart.rotate(-90, points.bottomRightCorner)
     //guides
     // paths.scaffold = new Path()
@@ -77,11 +77,11 @@ export const cuff = {
       if (options.sleeveBandType == 'curved') {
         return new Path()
           .move(points.rightStart)
-          .curve(points.rightCp1, points.rightCp2, points.rightEnd)
+          .curve(points.rightStartCp2, points.rightCp2, points.rightEnd)
           .line(points.topRight)
           .line(points.topLeft)
           .line(points.leftStart)
-          .curve(points.leftCp1, points.leftCp2, points.leftEnd)
+          .curve(points.leftStartCp2, points.leftEndCp1, points.leftEnd)
       } else {
         return new Path()
           .move(points.rightStart)
@@ -170,6 +170,86 @@ export const cuff = {
         } else {
           paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
         }
+        points.saTopRight = points.topRight.translate(sa, -sa)
+        points.saTopLeft = points.topLeft.translate(-sa, -sa)
+        points.saBottomLeftCorner = points.bottomLeftCorner.translate(-sa, sa)
+        points.saBottomRightCorner = points.bottomRightCorner.translate(sa, sa)
+        points.saBottomLeft = points.saTopLeft.flipY(points.bottomLeftCorner)
+        points.saBottomRight = points.saTopRight.flipY(points.bottomLeftCorner)
+
+        if (options.sleeveBandCurve > 0) {
+          points.saRightStart = utils.beamIntersectsY(
+            points.rightStart.shiftTowards(points.rightEnd, sa).rotate(-90, points.rightStart),
+            points.rightEnd.shiftTowards(points.rightStart, sa).rotate(90, points.rightEnd),
+            points.rightStart.y + sa
+          )
+          points.saRightEnd = utils.beamIntersectsX(
+            points.rightStart.shiftTowards(points.rightEnd, sa).rotate(-90, points.rightStart),
+            points.rightEnd.shiftTowards(points.rightStart, sa).rotate(90, points.rightEnd),
+            points.rightEnd.x + sa
+          )
+          points.saLeftStart = utils.beamIntersectsX(
+            points.leftStart.shiftTowards(points.leftEnd, sa).rotate(-90, points.leftStart),
+            points.leftEnd.shiftTowards(points.leftStart, sa).rotate(90, points.leftEnd),
+            points.leftStart.x - sa
+          )
+          points.saLeftEnd = utils.beamIntersectsY(
+            points.leftStart.shiftTowards(points.leftEnd, sa).rotate(-90, points.leftStart),
+            points.leftEnd.shiftTowards(points.leftStart, sa).rotate(90, points.leftEnd),
+            points.leftEnd.y + sa
+          )
+        }
+
+        const drawSa = () => {
+          if (options.sleeveBandFolded) {
+            return new Path()
+              .move(points.saTopLeft)
+              .line(points.saBottomLeft)
+              .line(points.saBottomRight)
+              .line(points.saTopRight)
+              .line(points.saTopLeft)
+          } else {
+            if (options.sleeveBandCurve == 0) {
+              return new Path()
+                .move(points.saTopLeft)
+                .line(points.saBottomLeftCorner)
+                .line(points.saBottomRightCorner)
+                .line(points.saBottomRightCorner)
+                .line(points.saTopRight)
+                .line(points.saTopLeft)
+            } else {
+              if (options.sleeveBandType == 'curved') {
+                return new Path()
+                  .move(points.leftStart)
+                  .curve(points.leftStartCp2, points.leftEndCp1, points.leftEnd)
+                  .line(points.rightStart)
+                  .curve(points.rightStartCp2, points.rightCp2, points.rightEnd)
+                  .offset(sa)
+                  .line(points.saTopRight)
+                  .line(points.saTopLeft)
+              } else {
+                if (options.sleeveBandCurve == 1) {
+                  return new Path()
+                    .move(points.saTopLeft)
+                    .line(points.saLeftStart)
+                    .line(points.saLeftEnd)
+                    .line(points.saRightStart)
+                    .line(points.saRightEnd)
+                    .line(points.saTopRight)
+                    .line(points.saTopLeft)
+                } else {
+                  return new Path()
+                    .line(points.saTopLeft)
+                    .line(points.saBottomLeftCorner)
+                    .line(points.saBottomRightCorner)
+                    .line(points.saTopRight)
+                    .line(points.saTopLeft)
+                }
+              }
+            }
+          }
+        }
+        paths.sa = drawSa().close().attr('class', 'fabric sa')
       }
     }
 

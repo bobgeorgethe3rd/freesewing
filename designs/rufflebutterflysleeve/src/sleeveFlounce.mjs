@@ -282,22 +282,84 @@ export const sleeveFlounce = {
       })
 
       if (sa) {
-        const hemA = sa * options.sleeveHemWidth * 100
+        const hemSa = sa * options.sleeveHemWidth * 100
         points.saLeft = utils.beamsIntersect(
-          paths.hemBase.offset(hemA).end(),
-          points.ocBottomLeft.rotate(-90, paths.hemBase.offset(hemA).end()),
+          paths.hemBase.offset(hemSa).end(),
+          points.ocBottomLeft.rotate(-90, paths.hemBase.offset(hemSa).end()),
           points.icLeft,
           points.ocBottomLeft
         )
         points.saRight = points.saLeft.flipX(points.origin)
+        const drawHemSa = () => {
+          if (options.sleeveFlounceType == 'circular' || options.sleeveFlounceType == 'butterfly')
+            return paths.hemBase.offset(hemSa)
+          if (options.sleeveFlounceType == 'square') {
+            points.saOcBottomRightCorner = points.ocBottomRightCorner.translate(hemSa, hemSa)
+            points.saOcTopRightCorner = points.ocTopRightCorner.translate(hemSa, -hemSa)
+            points.saOcTopLeftCorner = points.ocTopLeftCorner.translate(-hemSa, -hemSa)
+            points.saOcBottomLeftCorner = points.ocBottomLeftCorner.translate(-hemSa, hemSa)
+            return new Path()
+              .move(points.saRight)
+              .line(points.saOcBottomRightCorner)
+              .line(points.saOcTopRightCorner)
+              .line(points.saOcTopLeftCorner)
+              .line(points.saOcBottomLeftCorner)
+              .line(points.saLeft)
+          }
+          if (options.sleeveFlounceType == 'diamond') {
+            points.saOcRight = utils.beamIntersectsY(
+              points.ocBottomRight
+                .shiftTowards(points.ocRight, hemSa)
+                .rotate(-90, points.ocBottomRight),
+              points.ocRight.shiftTowards(points.ocBottomRight, hemSa).rotate(90, points.ocRight),
+              points.ocRight.y
+            )
+            points.saOcTop = points.saOcRight.rotate(90, points.origin)
+            points.saOcLeft = points.saOcRight.flipX()
+            return new Path()
+              .move(points.saRight)
+              .line(points.saOcRight)
+              .line(points.saOcTop)
+              .line(points.saOcLeft)
+              .line(points.saLeft)
+          }
+          if (options.sleeveFlounceType == 'star') {
+            points.saStar1 = utils.beamsIntersect(
+              points.ocBottomRight
+                .shiftTowards(points.star1, hemSa)
+                .rotate(-90, points.ocBottomRight),
+              points.star1.shiftTowards(points.ocBottomRight, hemSa).rotate(90, points.star1),
+              points.star1.shiftTowards(points.star2, hemSa).rotate(-90, points.star1),
+              points.star2.shiftTowards(points.star1, hemSa).rotate(90, points.star2)
+            )
+            points.saStar2 = utils.beamIntersectsY(
+              points.star1.shiftTowards(points.star2, hemSa).rotate(-90, points.star1),
+              points.star2.shiftTowards(points.star1, hemSa).rotate(90, points.star2),
+              points.star2.y
+            )
+            points.saStar3 = points.saStar1.flipY()
+            points.saStar4 = points.saStar2.rotate(90, points.origin)
+            points.saStar5 = points.saStar3.flipX()
+            points.saStar6 = points.saStar2.flipX()
+            points.saStar7 = points.saStar1.flipX()
+            return new Path()
+              .move(points.saRight)
+              .line(points.saStar1)
+              .line(points.saStar2)
+              .line(points.saStar3)
+              .line(points.saStar4)
+              .line(points.saStar5)
+              .line(points.saStar6)
+              .line(points.saStar7)
+              .line(points.saLeft)
+          }
+        }
 
-        paths.sa = paths.hemBase
-          .offset(hemA)
+        paths.sa = drawHemSa()
           .line(points.saLeft)
           .line(points.ocBottomLeft)
           .join(paths.saBase)
           .line(points.saRight)
-          .line(paths.hemBase.offset(hemA).start())
           .close()
           .attr('class', 'fabric sa')
       }
