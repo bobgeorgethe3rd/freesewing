@@ -13,6 +13,7 @@ import { cummerbund } from './cummerbund.mjs'
 import { beltLoops } from './beltLoops.mjs'
 import { pocket } from './pocket.mjs'
 import { pocketFlap } from './pocketFlap.mjs'
+import { sleeve } from './sleeve.mjs'
 
 // Create new design
 const Shannon = new Design({
@@ -28,6 +29,7 @@ const Shannon = new Design({
     cummerbund,
     pocket,
     pocketFlap,
+    sleeve,
   ],
 })
 
@@ -43,5 +45,6 @@ export {
   cummerbund,
   pocket,
   pocketFlap,
+  sleeve,
   Shannon,
 }

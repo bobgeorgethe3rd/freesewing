@@ -25,6 +25,7 @@ export const front = {
     //Imported
     ...frontAimee.options,
     //Constants
+    useVoidStores: false, //Locked for Shannon
     waistDartLength: 1, //Locked for Shannon
     fullSleeves: true, //Locked for Shannon
     closurePosition: 'side', //Locked for Shannon
@@ -34,8 +35,6 @@ export const front = {
     skirtFullness: { pct: 50, min: 25, max: 100, menu: 'style' },
     skirtLength: { pct: 150, min: 0, max: 200, menu: 'style' },
     skirtLengthBonus: { pct: 0, min: -50, max: 50, menu: 'style' },
-    sleeveLength: { pct: 0, min: 0, max: 100, menu: 'style' },
-    sleeveStyle: { dflt: 'inbuilt', list: ['inbuilt', 'dolman', 'inset'], menu: 'style' },
     neckTieWidth: { pct: 6.5, min: 5, max: 8, snap: 3.175, ...pctBasedOn('hpsToWaistBack') },
     //Darts
     bustDartLength: { pct: 70, min: 60, max: 100, menu: 'darts' }, //Unlocked for Shannon
@@ -51,6 +50,9 @@ export const front = {
     patchPocketWidth: { pct: 70, min: 10, max: 75, menu: 'pockets' }, //Altered for Shannon
     patchPocketPeakDepth: { pct: 100, min: 0, max: 100, menu: 'pockets' }, //Altered for Shannon
     patchPocketDepth: { pct: 39.3, min: 10, max: 60, menu: 'pockets' }, //Altered for Shannon
+    //Sleeves
+    sleeveLength: { pct: 0, min: 0, max: 100, menu: 'sleeves' }, //Altered for Shannon
+    sleeveStyle: { dflt: 'inbuilt', list: ['inbuilt', 'dolman', 'inset'], menu: 'sleeves' }, //Altered for Shannon
     //Construction
     armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Shannon
     cfSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Shannon
@@ -327,6 +329,13 @@ export const front = {
       points.cfWaist.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideWaist)
     )
 
+    if (options.sleeveStyle == 'dolman') {
+      store.set('scyeFrontWidth', points.dolmanSleeveFront.dist(points.dolmanSleeveTip))
+      store.set('scyeFrontDepth', points.dolmanSleeveFrontAnchor.dist(points.dolmanSleeveTip))
+      store.set('frontArmholeLength', paths.dolman.length())
+      store.set('frontArmholeToArmholePitch', paths.dolman.length() * 0.5)
+    }
+
     if (complete) {
       //grainline
       points.grainlineFrom = new Point(points.hps.x * 0.75, points.cfNeck.y)
@@ -386,7 +395,6 @@ export const front = {
           .attr('data-text-class', 'center')
       }
       //title
-      points.title = new Point(points.waistDartRight.x, (points.cfNeck.y + points.cfChest.y) / 2)
       macro('title', {
         at: points.title,
         nr: '1',
@@ -394,14 +402,14 @@ export const front = {
         scale: 2 / 3,
       })
       //logo
-      points.logo = new Point(points.waistDartRight.x * 1.1, points.bust.y * 0.93)
+      points.logo = points.scalebox
       macro('logorg', {
         at: points.logo,
-        scale: 2 / 3,
+        scale: 0.5,
       })
       //scalebox
       points.scalebox = new Point(
-        points.waistDartRight.x * 1.1,
+        points.waistDartRight.x,
         (points.cfChest.y + points.cfWaist.y) / 2
       )
       macro('scalebox', {

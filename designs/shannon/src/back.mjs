@@ -174,7 +174,12 @@ export const back = {
 
     //stoes
     store.set('neckBack', paths.cbNeck.length())
-
+    if (options.sleeveStyle == 'dolman') {
+      store.set('scyeBackWidth', points.dolmanSleeveBack.dist(points.dolmanSleeveTip))
+      store.set('scyeBackDepth', points.dolmanSleeveBackAnchor.dist(points.dolmanSleeveTip))
+      store.set('backArmholeLength', paths.dolman.length())
+      store.set('backArmholeToArmholePitch', paths.dolman.length() * 0.5)
+    }
     if (complete) {
       //grainline
       points.grainlineFrom = new Point(points.hps.x * 0.75, points.cbNeck.y)
