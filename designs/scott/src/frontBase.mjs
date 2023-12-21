@@ -84,32 +84,6 @@ export const frontBase = {
       (points.cfWaist.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideWaist)) * 4
     )
 
-    store.set('scyeFrontWidth', points.armhole.dist(points.shoulder))
-    store.set(
-      'scyeFrontDepth',
-      points.armhole.dist(points.shoulder) *
-        Math.sin(
-          utils.deg2rad(
-            points.armhole.angle(points.shoulder) - (points.shoulder.angle(points.hps) - 90)
-          )
-        )
-    )
-    store.set(
-      'frontArmholeLength',
-      new Path()
-        .move(points.armhole)
-        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-        .curve_(points.armholePitchCp2, points.shoulder)
-        .length()
-    )
-    store.set(
-      'frontArmholeToArmholePitch',
-      new Path()
-        .move(points.armhole)
-        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-        .length()
-    )
-
     //guides
     //DO NOT REMOVE!!! Useful for when making changes
     if (options.daisyGuides) {

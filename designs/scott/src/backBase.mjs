@@ -103,32 +103,6 @@ export const backBase = {
     )
 
     store.set('storedWaist', (store.get('waistFront') + store.get('waistBack')) / 2)
-
-    store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
-    store.set(
-      'scyeBackDepth',
-      points.armhole.dist(points.shoulder) *
-        Math.sin(
-          utils.deg2rad(
-            points.armhole.angle(points.shoulder) - (points.shoulder.angle(points.hps) - 90)
-          )
-        )
-    )
-    store.set(
-      'backArmholeLength',
-      new Path()
-        .move(points.armhole)
-        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-        .curve_(points.armholePitchCp2, points.shoulder)
-        .length()
-    )
-    store.set(
-      'backArmholeToArmholePitch',
-      new Path()
-        .move(points.armhole)
-        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-        .length()
-    )
     //guides
     if (options.daisyGuides) {
       paths.daisyGuide = new Path()
