@@ -70,7 +70,7 @@ examples:
     '@freesewing/plugin-gore': *freesewing
 gary:
   _:
-    '@freesewing/plugin-gore': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 holmes:
   _:
     '@freesewing/plugin-gore': *freesewing
