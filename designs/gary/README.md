@@ -1,13 +1,13 @@
 ![FreeSewing](https://static.freesewing.org/banner.png)
 <p align='center'><a
-  href="https://www.npmjs.com/package/@freesewing/lumira"
-  title="@freesewing/lumira on NPM"
-  ><img src="https://img.shields.io/npm/v/@freesewing/lumira.svg"
-  alt="@freesewing/lumira on NPM"/>
+  href="https://www.npmjs.com/package/@freesewing/gary"
+  title="@freesewing/gary on NPM"
+  ><img src="https://img.shields.io/npm/v/@freesewing/gary.svg"
+  alt="@freesewing/gary on NPM"/>
   </a><a
   href="https://opensource.org/licenses/MIT"
   title="License: MIT"
-  ><img src="https://img.shields.io/npm/l/@freesewing/lumira.svg?label=License"
+  ><img src="https://img.shields.io/npm/l/@freesewing/gary.svg?label=License"
   alt="License: MIT"/>
   </a><a
   href="https://deepscan.io/dashboard#view=project&tid=2114&pid=2993&bid=23256"
@@ -15,10 +15,10 @@
   ><img src="https://deepscan.io/api/teams/2114/projects/2993/branches/23256/badge/grade.svg"
   alt="Code quality on DeepScan"/>
   </a><a
-  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Alumira"
-  title="Open issues tagged pkg:lumira"
-  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:lumira.svg?label=Issues"
-  alt="Open issues tagged pkg:lumira"/>
+  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Agary"
+  title="Open issues tagged pkg:gary"
+  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:gary.svg?label=Issues"
+  alt="Open issues tagged pkg:gary"/>
   </a><a
   href="#contributors-"
   title="All Contributors"
@@ -46,9 +46,9 @@
   alt="Follow @freesewing_org on Twitter"/>
   </a></p>
 
-# @freesewing/lumira
+# @freesewing/gary
 
-A FreeSewing pattern for leggings
+A FreeSewing pattern that makes a gronk
 
 
 
@@ -57,7 +57,7 @@ A FreeSewing pattern for leggings
 
 This repository is the FreeSewing *monorepo* holding all FreeSewing's websites, documentation, designs, plugins, and other NPM packages.
 
-This folder holds: @freesewing/lumira
+This folder holds: @freesewing/gary
 
 If you're not entirely sure what to do or how to start, type this command:
 

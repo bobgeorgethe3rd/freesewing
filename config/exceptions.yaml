@@ -26,6 +26,8 @@ packageJson:
       exclude:
         - 'node_modules/*'
         - 'tests'
+  gary:
+    author: bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)
   hi:
     author: woutervdub (https://github.com/woutervdub)
   holmes:

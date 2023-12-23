@@ -68,6 +68,9 @@ diana:
 examples:
   peer:
     '@freesewing/plugin-gore': *freesewing
+gary:
+  _:
+    '@freesewing/plugin-gore': *freesewing
 holmes:
   _:
     '@freesewing/plugin-gore': *freesewing

@@ -934,5 +934,20 @@
       "curvedSeam",
       "elastic"
     ]
+  },
+  "gary": {
+    "code": "bobgeorgethe3rd",
+    "description": "A FreeSewing pattern that makes a gronk",
+    "design": "bobgeorgethe3rd",
+    "difficulty": 1,
+    "lab": true,
+    "org": false,
+    "tags": [
+      "misc",
+      "decoration"
+    ],
+    "techniques": [
+      "hand-sewing"
+    ]
   }
 }
