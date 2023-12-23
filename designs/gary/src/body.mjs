@@ -1,9 +1,10 @@
+import { util } from 'chai'
 import { feet } from './feet.mjs'
 
 export const body = {
   name: 'gary.body',
   after: feet,
-  draft: ({ store, sa, Point, points, Path, paths, options, complete, paperless, macro, part }) => {
+  draft: ({ store, sa, Point, points, Path, paths, options, utils, paperless, macro, part }) => {
     //measures
     const bodyWidth = 210 * options.scale
     const bodyLength = 335 * options.scale
@@ -42,7 +43,6 @@ export const body = {
       snippet: 'notch',
       on: ['feetLeft0', 'feetLeft1', 'feetRight0', 'feetRight1'],
     })
-
     //title
     points.title = new Point(points.bottomRight.x / 4, points.top.y / 3)
     macro('title', {
@@ -51,6 +51,21 @@ export const body = {
       title: 'body',
       scale: 0.5 * options.scale,
     })
+    //placement
+    points.placemnetLeft = utils.curveIntersectsY(
+      points.top,
+      points.topCp2,
+      points.bottomLeftCp1,
+      points.bottomLeft,
+      points.bottom.y - 154 * options.scale
+    )
+    points.placemnetRight = points.placemnetLeft.flipX()
+    paths.placement = new Path()
+      .move(points.placemnetLeft)
+      .line(points.placemnetRight)
+      .attr('class', 'various help')
+      .attr('data-text', 'placementLine')
+      .attr('data-text-class', 'center')
     if (sa) {
       paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
     }
