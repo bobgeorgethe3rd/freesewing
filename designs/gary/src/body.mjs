@@ -1,10 +1,23 @@
-import { util } from 'chai'
 import { feet } from './feet.mjs'
 
 export const body = {
   name: 'gary.body',
   after: feet,
-  draft: ({ store, sa, Point, points, Path, paths, options, utils, paperless, macro, part }) => {
+  draft: ({
+    store,
+    sa,
+    Point,
+    points,
+    Path,
+    paths,
+    options,
+    utils,
+    paperless,
+    macro,
+    part,
+    snippets,
+    Snippet,
+  }) => {
     //measures
     const bodyWidth = 210 * options.scale
     const bodyLength = 335 * options.scale
@@ -51,6 +64,12 @@ export const body = {
       title: 'body',
       scale: 0.5 * options.scale,
     })
+    //logo
+    points.logo = new Point(points.bottomLeft.x / 3, points.top.y / 12)
+    snippets.logo = new Snippet('logo', points.logo).attr('data-scale', 0.75)
+    //scalebox
+    points.scalebox = new Point(points.bottomLeft.x / 2, points.top.y / 3)
+    macro('miniscale', { at: points.scalebox })
     //placement
     points.placemnetLeft = utils.curveIntersectsY(
       points.top,
