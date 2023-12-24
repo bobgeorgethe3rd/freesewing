@@ -279,13 +279,13 @@ export const spreadSleeveCap = ({
         sideSeamSa
       )
 
-      if (sleeveLength == 0) {
+      if (sleeveLength == 0 || !options.fitSleeveWidth) {
         points.saTopLeft = points.sleeveCapLeft.shift(
-          points.capQ4Cp2.angle(points.bottomLeft),
+          points.capQ4Cp2.angle(points.sleeveCapLeft),
           sideSeamSa
         )
         points.saBottomLeft = points.bottomLeft.shift(
-          points.capQ4Cp2.angle(points.bottomLeft),
+          points.capQ4Cp2.angle(points.sleeveCapLeft),
           sideSeamSa
         )
 

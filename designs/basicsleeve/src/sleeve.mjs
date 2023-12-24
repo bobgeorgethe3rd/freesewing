@@ -182,7 +182,7 @@ export const sleeve = {
 
         points.saSleeveCapLeft = paths.sleevecap.offset(armholeSa).end().shift(180, sideSeamSa)
 
-        if (sleeveLength == 0) {
+        if (sleeveLength == 0 || !options.fitSleeveWidth) {
           points.saTopLeft = points.sleeveCapLeft.shift(180, sideSeamSa)
           points.saBottomLeft = points.bottomLeft.shift(180, sideSeamSa)
         } else {
