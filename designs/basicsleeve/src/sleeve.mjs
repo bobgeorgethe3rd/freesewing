@@ -180,18 +180,20 @@ export const sleeve = {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const armholeSa = sa * options.armholeSaWidth * 100
 
+        points.saSleeveCapLeft = paths.sleevecap.offset(armholeSa).end().shift(180, sideSeamSa)
+
         if (sleeveLength == 0) {
-          points.saSleeveCapLeft = paths.sleevecap.offset(armholeSa).end().shift(180, sideSeamSa)
           points.saTopLeft = points.sleeveCapLeft.shift(180, sideSeamSa)
           points.saBottomLeft = points.bottomLeft.shift(180, sideSeamSa)
         } else {
-          points.saSleeveCapLeft = new Point(
-            paths.saLeft.offset(sideSeamSa).start().x,
-            paths.sleevecap.offset(armholeSa).end().y
-          )
-          points.saTopLeft = points.sleeveCapLeft.shift(
-            points.sleeveCapLeft.angle(points.bottomLeft) - 90,
-            sideSeamSa
+          points.saTopLeft = utils.beamIntersectsX(
+            points.sleeveCapLeft
+              .shiftTowards(points.bottomLeft, sideSeamSa)
+              .rotate(-90, points.sleeveCapLeft),
+            points.bottomLeft
+              .shiftTowards(points.sleeveCapLeft, sideSeamSa)
+              .rotate(90, points.bottomLeft),
+            points.saSleeveCapLeft.x
           )
           points.saBottomLeft = utils.beamIntersectsY(
             points.sleeveCapLeft
@@ -202,12 +204,15 @@ export const sleeve = {
               .rotate(90, points.bottomLeft),
             points.bottomLeft.y
           )
+          points.saBottomLeft = points.bottomLeft
+            .shiftTowards(points.sleeveCapLeft, sideSeamSa)
+            .rotate(90, points.bottomLeft)
         }
         points.saSleeveCapRight = points.saSleeveCapLeft.flipX(points.midAnchor)
         points.saTopRight = points.saTopLeft.flipX(points.midAnchor)
         points.saBottomRight = points.saBottomLeft.flipX(points.midAnchor)
 
-        points.saBottomLeftCorner = points.saBottomLeft.shift(-90, hemSa)
+        points.saBottomLeftCorner = new Point(points.saBottomLeft.x, points.bottomAnchor.y + hemSa)
         points.saBottomRightCorner = new Point(points.saBottomRight.x, points.saBottomLeftCorner.y)
 
         paths.sa = paths.sleevecap

@@ -267,11 +267,19 @@ export const spreadSleeveCap = ({
       points.saSleevecapStart = paths.sleevecap.offset(armholeSa).start()
       points.saSleevecapEnd = paths.sleevecap.offset(armholeSa).end()
 
+      points.saHemBaseStart = paths.hemBase.offset(hemSa).start()
+      points.saHemBaseEnd = paths.hemBase.offset(hemSa).end()
+
+      points.saSleeveCapLeft = points.saSleevecapEnd.shift(
+        points.capQ4Cp2.angle(points.sleeveCapLeft),
+        sideSeamSa
+      )
+      points.saSleeveCapRight = points.saSleevecapStart.shift(
+        points.capQ1Cp1.angle(points.sleeveCapRight),
+        sideSeamSa
+      )
+
       if (sleeveLength == 0) {
-        points.saSleeveCapLeft = paths.sleevecap
-          .offset(armholeSa)
-          .end()
-          .shift(points.capQ4Cp2.angle(points.sleeveCapLeft), sideSeamSa)
         points.saTopLeft = points.sleeveCapLeft.shift(
           points.capQ4Cp2.angle(points.bottomLeft),
           sideSeamSa
@@ -280,10 +288,7 @@ export const spreadSleeveCap = ({
           points.capQ4Cp2.angle(points.bottomLeft),
           sideSeamSa
         )
-        points.saSleeveCapRight = paths.sleevecap
-          .offset(armholeSa)
-          .start()
-          .shift(points.capQ1Cp1.angle(points.sleeveCapRight), sideSeamSa)
+
         points.saTopRight = points.sleeveCapRight.shift(
           points.capQ1Cp1.angle(points.sleeveCapRight),
           sideSeamSa
@@ -292,69 +297,57 @@ export const spreadSleeveCap = ({
           points.capQ1Cp1.angle(points.sleeveCapRight),
           sideSeamSa
         )
+        points.saBottomLeftCorner = points.saBottomLeft.shift(
+          points.bottomLeft.angle(points.bottomLeftCp2) - 90,
+          hemSa
+        )
+        points.saBottomRightCorner = points.saBottomRight.shift(
+          points.bottomRight.angle(points.bottomRightCp1) + 90,
+          hemSa
+        )
       } else {
         points.saTopLeft = utils.beamsIntersect(
+          points.saSleeveCapLeft,
+          points.saSleevecapEnd.rotate(-90, points.saSleeveCapLeft),
           points.sleeveCapLeft
             .shiftTowards(points.bottomLeft, sideSeamSa)
             .rotate(-90, points.sleeveCapLeft),
           points.bottomLeft
             .shiftTowards(points.sleeveCapLeft, sideSeamSa)
-            .rotate(90, points.bottomLeft),
-          points.capQ4Cp2,
-          points.sleeveCapLeft
+            .rotate(90, points.bottomLeft)
         )
-        points.saSleeveCapLeft = utils.beamsIntersect(
-          points.saSleevecapEnd,
-          points.sleeveCapLeft.rotate(-90, points.saSleevecapEnd),
-          points.saTopLeft,
-          points.sleeveCapLeft.rotate(90, points.saTopLeft)
-        )
-        points.saBottomLeft = utils.beamsIntersect(
-          points.sleeveCapLeft
-            .shiftTowards(points.bottomLeft, sideSeamSa)
-            .rotate(-90, points.sleeveCapLeft),
-          points.bottomLeft
-            .shiftTowards(points.sleeveCapLeft, sideSeamSa)
-            .rotate(90, points.bottomLeft),
-          points.bottomLeftCp2,
-          points.bottomLeft
-        )
+
+        points.saBottomLeft = points.bottomLeft
+          .shiftTowards(points.sleeveCapLeft, sideSeamSa)
+          .rotate(90, points.bottomLeft)
+
         points.saTopRight = utils.beamsIntersect(
+          points.saSleeveCapRight,
+          points.saSleevecapStart.rotate(90, points.saSleeveCapRight),
           points.bottomRight
             .shiftTowards(points.sleeveCapRight, sideSeamSa)
             .rotate(-90, points.bottomRight),
           points.sleeveCapRight
             .shiftTowards(points.bottomRight, sideSeamSa)
-            .rotate(90, points.sleeveCapRight),
-          points.capQ1Cp1,
-          points.sleeveCapRight
+            .rotate(90, points.sleeveCapRight)
         )
-        points.saSleeveCapRight = utils.beamsIntersect(
-          points.saSleevecapStart,
-          points.sleeveCapRight.rotate(90, points.saSleevecapStart),
-          points.saTopRight,
-          points.sleeveCapRight.rotate(-90, points.saTopRight)
+
+        points.saBottomRight = points.bottomRight
+          .shiftTowards(points.sleeveCapRight, sideSeamSa)
+          .rotate(-90, points.bottomRight)
+        points.saBottomLeftCorner = utils.beamsIntersect(
+          points.saBottomLeft,
+          points.saBottomLeft.shift(points.capQ4Cp2.angle(points.sleeveCapLeft) + 90, 1),
+          points.saHemBaseStart,
+          points.bottomLeft.rotate(90, points.saHemBaseStart)
         )
-        points.saBottomRight = utils.beamsIntersect(
-          points.bottomRight
-            .shiftTowards(points.sleeveCapRight, sideSeamSa)
-            .rotate(-90, points.bottomRight),
-          points.sleeveCapRight
-            .shiftTowards(points.bottomRight, sideSeamSa)
-            .rotate(90, points.sleeveCapRight),
-          points.bottomRightCp1,
-          points.bottomRight
+        points.saBottomRightCorner = utils.beamsIntersect(
+          points.saBottomRight,
+          points.saBottomRight.shift(points.capQ1Cp1.angle(points.sleeveCapRight) - 90, 1),
+          points.saHemBaseEnd,
+          points.bottomRight.rotate(90, points.saHemBaseEnd)
         )
       }
-
-      points.saBottomLeftCorner = points.saBottomLeft.shift(
-        points.bottomLeft.angle(points.bottomLeftCp2) - 90,
-        hemSa
-      )
-      points.saBottomRightCorner = points.saBottomRight.shift(
-        points.bottomRight.angle(points.bottomRightCp1) + 90,
-        hemSa
-      )
 
       paths.sa = paths.sleevecap
         .offset(armholeSa)
