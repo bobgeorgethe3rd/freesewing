@@ -31,9 +31,22 @@ export const dolmanSleeve = {
     } = sh
     sleevecap.draft(sh)
     //measurements
+    const dolmanSleeveReduction = store.get('sleeveLengthMin') * 0.5
+    const sleeveCapDepth = points.sleeveTip.y
     const wrist = measurements.wrist * (1 + options.wristEase)
     //let's begin
-    points.bottomAnchor = points.midAnchor.shift(-90, store.get('dolmanSleeveLength'))
+    points.bottomAnchorMax = points.midAnchor.shift(
+      -90,
+      measurements.shoulderToWrist * (1 + options.sleeveLengthBonus) -
+        dolmanSleeveReduction +
+        sleeveCapDepth
+    )
+    points.elbowAnchor = points.midAnchor.shift(
+      -90,
+      measurements.shoulderToElbow * (1 + options.sleeveLengthBonus) -
+        dolmanSleeveReduction +
+        sleeveCapDepth
+    )
     points.dolmanExAnchor = points.midAnchor.shift(
       -90,
       (store.get('dolmanFrontExDepth') + store.get('dolmanBackExDepth')) / 2
@@ -45,24 +58,65 @@ export const dolmanSleeve = {
     points.dolmanRight = points.dolmanLeft.flipX(points.dolmanExAnchor)
 
     if (options.fitSleeveWidth) {
-      points.bottomLeftMax = points.bottomAnchor.shift(180, wrist / 2)
+      points.bottomLeftMax = points.bottomAnchorMax.shift(180, wrist / 2)
     } else {
-      points.bottomLeftMax = new Point(points.dolmanLeft.x, points.bottomAnchor.y)
+      points.bottomLeftMax = new Point(points.dolmanLeft.x, points.bottomAnchorMax.y)
     }
-    points.bottomRightMax = points.bottomLeftMax.flipX(points.bottomAnchor)
 
-    paths.scaffold = new Path()
-      .move(points.dolmanLeft)
-      .line(points.bottomLeftMax)
-      .line(points.bottomRightMax)
+    points.bottomAnchor = points.dolmanExAnchor.shiftFractionTowards(
+      points.bottomAnchorMax,
+      options.sleeveLength
+    )
+    points.bottomLeft = utils.beamIntersectsY(
+      points.dolmanLeft,
+      points.bottomLeftMax,
+      points.bottomAnchor.y
+    )
+    points.dolmanLeftCp1 = points.dolmanLeft.shiftFractionTowards(
+      utils.beamIntersectsY(points.bottomLeftMax, points.dolmanLeft, points.origin.y),
+      2 / 3
+    )
+
+    points.dolmanRightCp2 = points.dolmanLeftCp1.flipX(points.midAnchor)
+    points.bottomRight = points.bottomLeft.flipX(points.midAnchor)
+
+    paths.saLeft = new Path()
+      .move(points.sleeveCapLeft)
+      ._curve(points.dolmanLeftCp1, points.dolmanLeft)
+      .line(points.bottomLeft)
+      .hide()
+
+    paths.saRight = new Path()
+      .move(points.bottomRight)
       .line(points.dolmanRight)
+      .curve_(points.dolmanRightCp2, points.sleeveCapRight)
+      .hide()
+
+    paths.seam = paths.sleevecap
+      .clone()
+      .join(paths.saLeft)
+      .line(points.bottomRight)
+      .join(paths.saRight)
+      .close()
 
     if (complete) {
+      //grainline
+      points.grainlineFrom = new Point(points.midAnchor.x, points.sleeveTip.y)
+      points.grainlineTo = points.bottomAnchor
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
       //title
       points.title = new Point(
         points.sleeveCapLeft.x * 0.25,
-        (points.sleeveTip.y + points.dolmanExAnchor.y) / 2
+        (points.sleeveTip.y + points.bottomAnchor.y) / 2
       )
+      if (sa) {
+        const armholeSa = sa * options.armholeSaWidth * 100
+
+        paths.sa = paths.sleevecap.offset(armholeSa)
+      }
     }
 
     return part
