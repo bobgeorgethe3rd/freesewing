@@ -36,7 +36,6 @@ export const neckTie = {
     const neckOpeningWidth = store.get('neckOpeningWidth')
     const neckTieLength = measurements.neck * options.neckTieLength + neckOpeningWidth
     //let's begin
-    //let's begin
     points.topLeft = new Point(0, 0)
     points.bottomLeft = points.topLeft.shift(-90, neckTieWidth)
     points.topRight = points.topLeft.shift(0, neckTieLength)
