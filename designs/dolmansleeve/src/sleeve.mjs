@@ -1,13 +1,37 @@
+import { pctBasedOn } from '@freesewing/core'
+import { pluginBundle } from '@freesewing/plugin-bundle'
 import { sleevecap } from '@freesewing/basicsleeve'
-import { back } from './back.mjs'
 
-export const dolmanSleeve = {
-  name: 'shannon.dolmanSleeve',
-  after: back,
+export const sleeve = {
+  name: 'dolmansleeve.sleeve',
   options: {
     //Imported
     ...sleevecap.options,
+    //Constants
+    armholeSaWidth: 0.01,
+    sideSeamSaWidth: 0.01,
+    //Fit
+    wristEase: { pct: 18, min: 0, max: 50, menu: 'fit' },
+    //Sleeve
+    fitSleeveWidth: { bool: true, menu: 'sleeves' },
+    sleeveLength: { pct: 100, min: 0, max: 100, menu: 'sleeves' },
+    sleeveLengthBonus: { pct: 0, min: -20, max: 20, menu: 'sleeves' },
+    sleeveBands: { bool: false, menu: 'sleeves' },
+    sleeveBandWidth: {
+      pct: 9.5,
+      min: 1,
+      max: 17,
+      snap: 5,
+      ...pctBasedOn('shoulderToWrist'),
+      menu: 'sleeves',
+    },
+    sleeveFlounces: { dflt: 'none', list: ['flounce', 'ruffle', 'none'], menu: 'sleeves' },
+    //Construction
+    armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
+  plugins: [pluginBundle],
   measurements: ['shoulderToElbow', 'shoulderToWrist', 'wrist'],
   draft: (sh) => {
     //draft
@@ -48,6 +72,11 @@ export const dolmanSleeve = {
     //render
     paths.sleevecap.hide()
     //measurements
+    let sleeveBandWidth
+    if (options.sleeveBands) {
+      sleeveBandWidth = absoluteOptions.sleeveBandWidth
+    } else sleeveBandWidth = 0
+
     const dolmanSleeveReduction = store.get('sleeveLengthMin') * 0.5
     const sleeveCapDepth = points.sleeveTip.y
     const wrist = measurements.wrist * (1 + options.wristEase)
@@ -91,6 +120,14 @@ export const dolmanSleeve = {
         2 * options.sleeveLength - 1
       )
     }
+
+    points.bottomAnchor = points.bottomAnchor.shift(90, sleeveBandWidth)
+    if (points.bottomAnchor.y < points.dolmanExAnchor.y) {
+      points.bottomAnchor = points.dolmanExAnchor
+    }
+
+    const sleeveLength = points.dolmanExAnchor.dist(points.bottomAnchor)
+
     points.bottomLeft = utils.beamIntersectsY(
       points.dolmanLeft,
       points.bottomLeftMax,
@@ -136,11 +173,52 @@ export const dolmanSleeve = {
         points.sleeveCapLeft.x * 0.25,
         (points.sleeveTip.y + points.bottomAnchor.y) / 2
       )
+      macro('title', {
+        at: points.title,
+        nr: 1,
+        title: 'Dolman Sleeve',
+        scale: 0.5,
+      })
       if (sa) {
-        const armholeSa = sa * options.armholeSaWidth * 100
+        let hemSa
+        if (options.sleeveBands || options.sleeveFlounces != 'none') hemSa = sa
+        else hemSa = sa * options.sleeveHemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
 
-        paths.sa = paths.sleevecap.offset(armholeSa)
+        points.saSleeveCapLeft = paths.sleevecap.offset(armholeSa).end().shift(180, sideSeamSa)
+
+        points.saTopLeft = utils.beamIntersectsX(
+          points.sleeveCapLeft
+            .shiftTowards(points.dolmanLeftCp1, sideSeamSa)
+            .rotate(-90, points.sleeveCapLeft),
+          points.dolmanLeftCp1
+            .shiftTowards(points.sleeveCapLeft, sideSeamSa)
+            .rotate(90, points.dolmanLeftCp1),
+          points.saSleeveCapLeft.x
+        )
+
+        points.saBottomLeft = paths.saLeft.offset(sideSeamSa).end()
+        points.saSleeveCapRight = points.saSleeveCapLeft.flipX(points.midAnchor)
+        points.saTopRight = points.saTopLeft.flipX(points.midAnchor)
+        points.saBottomRight = points.saBottomLeft.flipX(points.midAnchor)
+
+        points.saBottomLeftCorner = new Point(points.saBottomLeft.x, points.bottomAnchor.y + hemSa)
+        points.saBottomRightCorner = new Point(points.saBottomRight.x, points.saBottomLeftCorner.y)
+
+        paths.sa = paths.sleevecap
+          .offset(armholeSa)
+          .line(points.saSleeveCapLeft)
+          .line(points.saTopLeft)
+          .join(paths.saLeft.offset(sideSeamSa))
+          .line(points.saBottomLeftCorner)
+          .line(points.saBottomRightCorner)
+          .line(points.saBottomRight)
+          .join(paths.saRight.offset(sideSeamSa))
+          .line(points.saTopRight)
+          .line(points.saSleeveCapRight)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 

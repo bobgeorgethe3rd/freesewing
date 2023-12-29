@@ -195,15 +195,6 @@ export const sleeve = {
               .rotate(90, points.bottomLeft),
             points.saSleeveCapLeft.x
           )
-          points.saBottomLeft = utils.beamIntersectsY(
-            points.sleeveCapLeft
-              .shiftTowards(points.bottomLeft, sideSeamSa)
-              .rotate(-90, points.sleeveCapLeft),
-            points.bottomLeft
-              .shiftTowards(points.sleeveCapLeft, sideSeamSa)
-              .rotate(90, points.bottomLeft),
-            points.bottomLeft.y
-          )
           points.saBottomLeft = points.bottomLeft
             .shiftTowards(points.sleeveCapLeft, sideSeamSa)
             .rotate(90, points.bottomLeft)

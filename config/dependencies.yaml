@@ -252,7 +252,8 @@ shannon:
     peer:
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/aimee': *freesewing
-    '@freesewing/simpleshirtsleeve': *freesewing
+    '@freesewing/basicsleeve': *freesewing
+    '@freesewing/dolmansleeve': *freesewing
     '@freesewing/shirtcollar': *freesewing
     '@freesewing/patchpocket': *freesewing
 shaun:

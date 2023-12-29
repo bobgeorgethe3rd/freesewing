@@ -1,5 +1,5 @@
 import { sleeve as basicSleeve } from '@freesewing/basicsleeve'
-import { dolmanSleeve } from './dolmanSleeve.mjs'
+import { sleeve as dolmanSleeve } from '@freesewing/dolmansleeve'
 import { back } from './back.mjs'
 
 export const sleeve = {
