@@ -144,14 +144,21 @@ export const sleeve = {
     paths.saLeft = new Path()
       .move(points.sleeveCapLeft)
       ._curve(points.dolmanLeftCp1, points.dolmanLeft)
-      .line(points.bottomLeft)
       .hide()
 
     paths.saRight = new Path()
-      .move(points.bottomRight)
-      .line(points.dolmanRight)
+      .move(points.dolmanRight)
       .curve_(points.dolmanRightCp2, points.sleeveCapRight)
       .hide()
+
+    if (sleeveLength > 0) {
+      paths.saLeft = paths.saLeft.line(points.bottomLeft).hide()
+      paths.saRight = new Path()
+        .move(points.bottomRight)
+        .line(points.dolmanRight)
+        .join(paths.saRight)
+        .hide()
+    }
 
     paths.seam = paths.sleevecap
       .clone()
