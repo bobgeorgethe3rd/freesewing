@@ -8,6 +8,7 @@ export const dolmanSleeve = {
     //Imported
     ...sleevecap.options,
   },
+  measurements: ['shoulderToElbow', 'shoulderToWrist', 'wrist'],
   draft: (sh) => {
     //draft
     const {
@@ -30,6 +31,22 @@ export const dolmanSleeve = {
       log,
     } = sh
     sleevecap.draft(sh)
+    //void stores
+    if (options.useVoidStores) {
+      void store.setIfUnset('sleeveLengthMin', 71)
+      void store.setIfUnset('dolmanFrontExDepth', 22.5)
+      void store.setIfUnset('dolmanBackExDepth', 22.5)
+      void store.setIfUnset(
+        'dolmanFrontExWidth',
+        points.midAnchor.dist(points.sleeveCapLeft) * 0.978
+      )
+      void store.setIfUnset(
+        'dolmanBackExWidth',
+        points.midAnchor.dist(points.sleeveCapRight) * 0.978
+      )
+    }
+    //render
+    paths.sleevecap.hide()
     //measurements
     const dolmanSleeveReduction = store.get('sleeveLengthMin') * 0.5
     const sleeveCapDepth = points.sleeveTip.y
@@ -63,10 +80,17 @@ export const dolmanSleeve = {
       points.bottomLeftMax = new Point(points.dolmanLeft.x, points.bottomAnchorMax.y)
     }
 
-    points.bottomAnchor = points.dolmanExAnchor.shiftFractionTowards(
-      points.bottomAnchorMax,
-      options.sleeveLength
-    )
+    if (options.sleeveLength < 0.5) {
+      points.bottomAnchor = points.dolmanExAnchor.shiftFractionTowards(
+        points.elbowAnchor,
+        2 * options.sleeveLength
+      )
+    } else {
+      points.bottomAnchor = points.elbowAnchor.shiftFractionTowards(
+        points.bottomAnchorMax,
+        2 * options.sleeveLength - 1
+      )
+    }
     points.bottomLeft = utils.beamIntersectsY(
       points.dolmanLeft,
       points.bottomLeftMax,
@@ -114,6 +138,7 @@ export const dolmanSleeve = {
       )
       if (sa) {
         const armholeSa = sa * options.armholeSaWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
 
         paths.sa = paths.sleevecap.offset(armholeSa)
       }
