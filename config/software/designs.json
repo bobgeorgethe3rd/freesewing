@@ -243,6 +243,13 @@
       "difficulty": 1,
       "tags": ["sleeve"]
     },
+    "dolmansleeve": {
+      "description": "Dolman sleeves to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["sleeve"]
+    },
     "fullshirtsleeve": {
       "description": "Full shirt sleeves to be used in other designs",
       "code": "bobgeorgethe3rd",

@@ -95,6 +95,9 @@ examples:
   peer:
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/plugin-gore': *freesewing
+dolmansleeve:
+  peer:
+    '@freesewing/basicsleeve': *freesewing
 fallon:
   peer:
     '@freesewing/wanda': *freesewing
