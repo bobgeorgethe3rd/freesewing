@@ -14,6 +14,7 @@ export const sleeve = {
     //Constant
     sleeveBands: false, //Locked for Shannon
     sleeveBandWidth: 0, //Locked for Shannon
+    sleeveFlounces: 'none', //Locked for Shannon
   },
   draft: (sh) => {
     //draft
