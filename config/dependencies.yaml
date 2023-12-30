@@ -28,6 +28,10 @@ bent:
     '@freesewing/brian': *freesewing
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/plugin-bust': *freesewing
+bernice:
+  peer:
+    '@freesewing/daisy': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 breanna:
   peer:
     '@freesewing/brian': *freesewing

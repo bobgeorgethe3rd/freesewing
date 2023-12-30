@@ -79,6 +79,13 @@
   },
   "costumes": {},
   "dresses": {
+    "bernice": {
+      "description": "Billowy Slip Dress Design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["dresses", "slip"]
+    },
     "sam": {
       "description": "Strapless Sweetheart Special Occasions Dress design",
       "code": "bobgeorgethe3rd",
