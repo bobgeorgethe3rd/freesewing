@@ -71,7 +71,7 @@ export const front = {
     if (options.daisyGuides) {
       paths.daisyGuide = new Path()
         .move(points.cfWaist)
-        .curve(points.waistDartMid, points.waistDartMid, points.sideWaist)
+        .curve(points.waistDartLeft, points.waistDartRight, points.sideWaist)
         .line(points.bustDartBottom)
         .line(points.bustDartTip)
         .line(points.bustDartTop)
