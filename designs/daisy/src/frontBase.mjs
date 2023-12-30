@@ -12,12 +12,18 @@ export const frontBase = {
     //Constants
     armholeSaWidth: 0.01,
     cfNeck: 0.55191502449,
+    neckSaWidth: 0.01,
+    shoulderSaWidth: 0.01,
+    sideSeamSaWidth: 0.01,
+    closureSaWidth: 0.01,
     //Fit
     bustSpanEase: { pct: 0, min: -10, max: 20, menu: 'fit' },
     //Armhole
     frontArmholePitchDepth: { pct: 50, min: 45, max: 65, menu: 'armhole' },
     frontArmholePitchWidth: { pct: 91.1, min: 90, max: 95, menu: 'armhole' },
     frontArmholeDepth: { pct: /* 44.8 */ 55.2, min: 40, max: 65, menu: 'armhole' },
+    //Construction
+    closurePosition: { dflt: 'back', list: ['front', 'side', 'back'], menu: 'construction' },
     //Advanced
     // dartRatio: { pct: 50, min: 40, max: 60, menu: 'advanced.darts' },
   },

@@ -10,17 +10,11 @@ export const back = {
   },
   options: {
     //Constants
-    neckSaWidth: 0.01,
     cbSaWidth: 0,
-    shoulderSaWidth: 0.01,
-    sideSeamSaWidth: 0.01,
-    closureSaWidth: 0.01,
     //Armhole
     backArmholePitchWidth: { pct: 97, min: 95, max: 98.5, menu: 'armhole' },
     backArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },
     backArmholePitchDepth: { pct: 50, min: 45, max: 65, menu: 'armhole' },
-    //Construction
-    closurePosition: { dflt: 'back', list: ['front', 'side', 'back'], menu: 'construction' },
   },
   measurements: ['bustFront', 'chest'],
   draft: ({
