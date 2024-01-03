@@ -62,7 +62,14 @@ export const front = {
     log,
   }) => {
     //removing paths and snippets not required from Daisy
-    for (let i in paths) delete paths[i]
+    let keepThese = 'seam'
+    for (const name in paths) {
+      if (keepThese.indexOf(name) === -1) delete paths[name]
+    }
+    if (options.daisyGuides) {
+      paths.guide = paths.seam.attr('class', 'various lashed')
+    }
+    delete paths.seam
     for (let i in snippets) delete snippets[i]
     //removing macros not required from Daisy
     macro('title', false)
@@ -109,26 +116,6 @@ export const front = {
     // points.waistDartRight,
     // points.sideWaist
     // )
-    //daisy guide
-    if (options.daisyGuides) {
-      paths.daisyGuide = new Path()
-        .move(points.cfWaist)
-        .line(points.waistDartLeft)
-        .line(points.waistDartTip)
-        .line(points.waistDartRight)
-        .line(points.sideWaist)
-        .line(points.bustDartBottom)
-        .line(points.bustDartTip)
-        .line(points.bustDartTop)
-        .line(points.armhole)
-        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-        .curve_(points.armholePitchCp2, points.shoulder)
-        .line(points.hps)
-        .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
-        .line(points.cfWaist)
-        .close()
-        .attr('class', 'various lashed')
-    }
     //below the waist
     if (points.cfWaist.y < points.sideWaist.y) {
       points.cfWaistAnchor = new Point(points.cfWaist.x, points.sideWaist.y)
@@ -154,8 +141,8 @@ export const front = {
     points.sideBottom = new Point(points.sideSeat.x, points.cfBottom.y)
     points.sideSeatCp2 = new Point(points.sideSeat.x, points.cfHips.y)
     points.sideWaistCp1 = utils.beamIntersectsY(
-      points.sideWaist,
       points.armhole.rotate(-bustDartAngle, points.bust),
+      points.sideWaist,
       points.cfHips.y
     )
 
@@ -203,6 +190,9 @@ export const front = {
     points.armholeDropCp2 = new Point(points.armholePitch.x, points.armholeDrop.y)
 
     points.cfTopMin = new Point(points.cfNeck.x, points.shoulderPitch.y)
+    if (points.cfTopMin.y < points.cfNeck.y) {
+      points.cfTopMin = points.cfNeck
+    }
     points.cfTopMid = utils.beamIntersectsX(points.sideWaist, points.bust, points.cfNeck.x)
 
     if (options.frontNeckDepth < 0.5) {
@@ -217,11 +207,13 @@ export const front = {
       )
     }
 
-    points.shoulderPitchCp2Target = utils.beamsIntersect(
-      points.shoulderPitch,
-      points.shoulderPitch.shift(-90, 1),
+    points.shoulderPitchCp2Target = utils.beamIntersectsX(
       points.cfTop,
-      points.cfTop.shift(points.cfTop.angle(points.shoulderPitch) * options.frontNeckCurve, 1)
+      points.cfTop.shift(
+        points.cfTop.angle(points.shoulderPitch) * (1 - options.frontNeckCurve),
+        1
+      ),
+      points.shoulderPitch.x
     )
     points.shoulderPitchCp2 = points.cfTop.shiftFractionTowards(
       points.shoulderPitchCp2Target,
@@ -235,12 +227,12 @@ export const front = {
       .line(points.bustDartBottom)
       .hide()
 
-    paths.saNeckRight = new Path()
+    paths.seamNeckRight = new Path()
       .move(points.armholeDrop)
       .curve_(points.armholeDropCp2, points.shoulderPitch)
       .hide()
 
-    paths.saNeckLeft = new Path()
+    paths.seamNeckLeft = new Path()
       .move(points.shoulderPitch)
       .curve_(points.shoulderPitchCp2, points.cfTop)
       .hide()
@@ -252,8 +244,8 @@ export const front = {
       .line(points.bustDartTip)
       .line(points.bustDartTop)
       .line(points.armholeDrop)
-      .join(paths.saNeckRight)
-      .join(paths.saNeckLeft)
+      .join(paths.seamNeckRight)
+      .join(paths.seamNeckLeft)
       .hide()
 
     paths.dart = new Path()
@@ -270,10 +262,11 @@ export const front = {
 
     paths.seam = paths.seamBase.join(paths.mSeamBase.reverse())
     //stores
-    store.set('backRatio', 1 - frontRatio)
     store.set('skirtLength', skirtLength)
-    store.set('hips', (hips / frontRatio) * (1 - frontRatio))
     store.set('seat', (seat / frontRatio) * (1 - frontRatio))
+    store.set('toHips', points.cfHips.y - points.sideWaist.y)
+    store.set('toSeat', points.sideSeat.y - points.sideWaist.y)
+    store.set('armholeDrop', points.armhole.dist(points.armholeDrop))
     if (complete) {
       //grainline
       points.grainlineMid = points.cfSeat.shiftFractionTowards(points.cfBottom, 0.5)
@@ -284,11 +277,11 @@ export const front = {
         to: points.grainlineTo,
       })
       //notches
-      points.fBust = points.bust.flipX()
-      points.fShoulderPitch = points.shoulderPitch.flipX()
+      const flip = ['bust', 'shoulderPitch', 'sideWaist']
+      for (const p of flip) points['f' + utils.capitalize(p)] = points[p].flipX()
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['bust', 'fBust', 'shoulderPitch', 'fShoulderPitch'],
+        on: ['bust', 'fBust', 'shoulderPitch', 'fShoulderPitch', 'sideWaist', 'fSideWaist'],
       })
       //title
       points.title = points.cfChest.shiftFractionTowards(points.cfWaist, 0.5)
@@ -358,8 +351,21 @@ export const front = {
 
         paths.saLeft = paths.seamLeft.offset(sideSeamSa).hide()
 
+        points.saLeftSplit = utils.lineIntersectsCurve(
+          points.saBustDartEdge,
+          points.saBustDartBottom.shiftFractionTowards(points.saBustDartBottom, 10),
+          points.sideSeat.shift(0, sideSeamSa),
+          points.sideSeatCp2.shift(0, sideSeamSa),
+          points.sideWaistCp1
+            .shiftTowards(points.sideWaist, sideSeamSa)
+            .rotate(-90, points.sideWaistCp1),
+          points.sideWaist
+            .shiftTowards(points.sideWaistCp1, sideSeamSa)
+            .rotate(90, points.sideWaist)
+        )
+
         if (points.bustDartMid.y > points.bust.y) {
-          paths.saLeft = paths.saLeft.split(points.saBustDartBottom)[0].hide()
+          paths.saLeft = paths.saLeft.split(points.saLeftSplit)[0].hide()
         }
 
         points.saArmholeDrop = utils.beamsIntersect(
@@ -377,8 +383,8 @@ export const front = {
             .rotate(90, points.armhole)
         )
 
-        points.saNeckRightEnd = paths.saNeckRight.offset(neckSa).end()
-        points.saNeckLeftStart = paths.saNeckLeft.offset(neckSa).start()
+        points.saNeckRightEnd = paths.seamNeckRight.offset(neckSa).end()
+        points.saNeckLeftStart = paths.seamNeckLeft.offset(neckSa).start()
 
         if (points.saNeckRightEnd.y < points.saNeckLeftStart.y) {
           points.saShoulderPitch = utils.beamIntersectsY(
@@ -402,13 +408,29 @@ export const front = {
           )
         }
 
-        points.saSplit = utils.beamIntersectsX(
-          points.shoulderPitchCp2
-            .shiftTowards(points.cfTop, neckSa)
-            .rotate(-90, points.shoulderPitchCp2),
-          points.cfTop.shiftTowards(points.shoulderPitchCp2, neckSa).rotate(90, points.cfTop),
+        points.saShoulderPitchCp2 = points.shoulderPitchCp2
+          .shiftTowards(points.shoulderPitch, neckSa)
+          .shift(points.shoulderPitchCp2.angle(points.shoulderPitch) + 90, neckSa)
+
+        points.saCfTop = points.cfTop
+          .shiftTowards(points.shoulderPitchCp2, neckSa)
+          .rotate(90, points.cfTop)
+
+        points.saNeckSplit = utils.curveIntersectsX(
+          points.saNeckLeftStart,
+          points.saShoulderPitchCp2,
+          points.saCfTop,
+          points.saCfTop,
           points.cfNeck.x
         )
+        paths.saNeckLeft = new Path()
+          .move(points.saNeckLeftStart)
+          .curve_(points.saShoulderPitchCp2, points.saCfTop)
+          .hide()
+
+        if (points.cfTop.y > points.shoulderPitch.y) {
+          paths.saNeckLeft = paths.saNeckLeft.split(points.saNeckSplit)[0].hide()
+        }
 
         paths.saBase = new Path()
           .move(points.saCfBottom)
@@ -418,10 +440,9 @@ export const front = {
           .line(points.saBustDartEdge)
           .line(points.saBustDartTop)
           .line(points.saArmholeDrop)
-          .join(paths.saNeckRight.offset(neckSa))
+          .join(paths.seamNeckRight.offset(neckSa))
           .line(points.saShoulderPitch)
-          .join(paths.saNeckLeft.offset(neckSa))
-          .split(points.saSplit)[0]
+          .join(paths.saNeckLeft)
           .hide()
 
         macro('mirror', {
