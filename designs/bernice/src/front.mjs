@@ -300,6 +300,15 @@ export const front = {
       //dart
       paths.dart.attr('class', 'fabric help').unhide()
       paths.mDart.attr('class', 'fabric help').unhide()
+      //units
+      points.ruffle = points.cfBottom
+        .translate(-seat / 2, -seat / 2)
+        .attr(
+          'data-text',
+          'Ruffle Width: ' +
+            utils.units((skirtLength / (1 - options.ruffleWidth)) * options.ruffleWidth)
+        )
+
       if (sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const neckSa = sa * options.neckSaWidth * 100
