@@ -360,7 +360,7 @@ export const front = {
 
         paths.saLeft = paths.seamLeft.offset(sideSeamSa).hide()
 
-        points.saLeftSplit = utils.lineIntersectsCurve(
+        const saLeftIntersect = utils.lineIntersectsCurve(
           points.saBustDartEdge,
           points.saBustDartBottom.shiftFractionTowards(points.saBustDartBottom, 10),
           points.sideSeat.shift(0, sideSeamSa),
@@ -372,6 +372,21 @@ export const front = {
             .shiftTowards(points.sideWaistCp1, sideSeamSa)
             .rotate(90, points.sideWaist)
         )
+
+        if (saLeftIntersect) {
+          points.saLeftSplit = saLeftIntersect
+        } else {
+          points.saLeftSplit = utils.beamsIntersect(
+            points.saBustDartEdge,
+            points.saBustDartBottom.shiftFractionTowards(points.saBustDartBottom, 10),
+            points.sideWaistCp1
+              .shiftTowards(points.sideWaist, sideSeamSa)
+              .rotate(-90, points.sideWaistCp1),
+            points.sideWaist
+              .shiftTowards(points.sideWaistCp1, sideSeamSa)
+              .rotate(90, points.sideWaist)
+          )
+        }
 
         if (points.bustDartMid.y > points.bust.y) {
           paths.saLeft = paths.saLeft.split(points.saLeftSplit)[0].hide()
