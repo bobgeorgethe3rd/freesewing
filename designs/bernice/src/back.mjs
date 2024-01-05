@@ -91,6 +91,7 @@ export const back = {
     points.topLeft = points.cbTop.shift(180, points.armhole.x / 2)
     points.bottomLeft = new Point(points.topLeft.x, points.cbBottom.y)
 
+    //paths
     paths.saLeft = new Path()
       .move(points.sideBottom)
       .line(points.sideSeat)
@@ -134,6 +135,21 @@ export const back = {
         to: points.grainlineTo,
       })
       //notches
+      if (options.pocketsBool) {
+        const pocketOpening = store.get('pocketOpening')
+        points.pocketOpeningTop = paths.saLeft
+          .split(points.sideWaist)[0]
+          .reverse()
+          .shiftAlong(pocketOpening)
+        points.pocketOpeningBottom = paths.saLeft
+          .split(points.sideWaist)[0]
+          .reverse()
+          .shiftAlong(pocketOpening + store.get('pocketOpeningLength'))
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
+      }
       snippets.sideNotch = new Snippet('notch', points.sideWaist)
       //title
       points.title = points.dartBottomLeft

@@ -37,6 +37,11 @@ export const front = {
       list: ['french', 'side', 'bustSide', 'underarm'],
       menu: 'darts',
     },
+    //Pockets
+    pocketsBool: { bool: true, menu: 'pockets' },
+    pocketOpening: { pct: 6.4, min: 5, max: 10, menu: 'pockets' },
+    pocketLength: { pct: 53.8, min: 50, max: 60, menu: 'pockets' },
+    pearPocketDepth: { pct: 32.5, min: 25, max: 40, menu: 'pockets.pearPockets' },
     //Construction
     sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     neckSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
@@ -220,12 +225,12 @@ export const front = {
       options.frontNeckCurveDepth
     )
     //paths
-    paths.seamLeft = new Path()
+    paths.skirtLeft = new Path()
       .move(points.sideBottom)
       .line(points.sideSeat)
       .curve(points.sideSeatCp2, points.sideWaistCp1, points.sideWaist)
-      .line(points.bustDartBottom)
       .hide()
+    paths.seamLeft = paths.skirtLeft.clone().line(points.bustDartBottom).hide()
 
     paths.seamNeckRight = new Path()
       .move(points.armholeDrop)
@@ -268,7 +273,7 @@ export const front = {
     store.set('toSeat', points.sideSeat.y - points.sideWaist.y)
     store.set('armholeDrop', points.armhole.dist(points.armholeDrop))
     store.set('ruffleWidth', (skirtLength / (1 - options.ruffleWidth)) * options.ruffleWidth)
-    store.set('insertSeamLength', paths.seamLeft.length())
+    store.set('insertSeamLength', paths.skirtLeft.length())
     store.set('anchorSeamLength', points.sideWaist.x)
     if (complete) {
       //grainline
@@ -280,6 +285,21 @@ export const front = {
         to: points.grainlineTo,
       })
       //notches
+      if (options.pocketsBool) {
+        const pocketOpening = measurements.waistToFloor * options.pocketOpening
+        const pocketOpeningLength =
+          paths.skirtLeft.length() * options.pearPocketDepth * options.pocketOpeningLength
+        points.pocketOpeningTop = paths.skirtLeft.reverse().shiftAlong(pocketOpening)
+        points.pocketOpeningBottom = paths.skirtLeft
+          .reverse()
+          .shiftAlong(pocketOpening + pocketOpeningLength)
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
+        store.set('pocketOpening', pocketOpening)
+        store.set('pocketOpeningLength', pocketOpeningLength)
+      }
       const flip = ['bust', 'shoulderPitch', 'sideWaist']
       for (const p of flip) points['f' + utils.capitalize(p)] = points[p].flipX()
       macro('sprinkle', {

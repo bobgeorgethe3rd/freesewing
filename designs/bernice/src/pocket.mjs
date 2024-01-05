@@ -8,7 +8,6 @@ export const pocket = {
     //Imported
     ...pearPocket.options,
     //Pockets
-    pocketsBool: { bool: true, menu: 'pockets' },
     pearPocketWidth: { pct: 80, min: 60, max: 85, menu: 'pockets.pearPockets' },
   },
   draft: (sh) => {
