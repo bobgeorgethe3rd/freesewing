@@ -268,6 +268,8 @@ export const front = {
     store.set('toSeat', points.sideSeat.y - points.sideWaist.y)
     store.set('armholeDrop', points.armhole.dist(points.armholeDrop))
     store.set('ruffleWidth', (skirtLength / (1 - options.ruffleWidth)) * options.ruffleWidth)
+    store.set('insertSeamLength', paths.seamLeft.length())
+    store.set('anchorSeamLength', points.sideWaist.x)
     if (complete) {
       //grainline
       points.grainlineMid = points.cfSeat.shiftFractionTowards(points.cfBottom, 0.5)
