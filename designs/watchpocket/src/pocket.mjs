@@ -18,7 +18,7 @@ export const pocket = {
     watchPocketCurveCpDepth: { pct: 50, min: 0, max: 100, menu: 'pockets.watchPockets' },
     watchPocketCurveCpWidth: { pct: 75, min: 0, max: 100, menu: 'pockets.watchPockets' },
     //Construction
-    watchPocketSaTopWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    watchPocketTopSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
   plugins: [pluginBundle],
   draft: ({
@@ -65,28 +65,26 @@ export const pocket = {
       options.watchPocketCurveDepth
     )
     points.curveEnd = points.curveStart.flipX(points.bottomMid)
-    points.curveCp1 = points.curveStart.shiftFractionTowards(
+    points.curveStartCp2 = points.curveStart.shiftFractionTowards(
       points.bottomLeft,
       options.watchPocketCurveCpDepth
     )
-    points.curveCp2 = points.bottomMid.shiftFractionTowards(
+    points.bottomMidCp1 = points.bottomMid.shiftFractionTowards(
       points.bottomLeft,
       options.watchPocketCurveCpWidth
     )
-    points.curveCp3 = points.curveCp2.flipX(points.bottomMid)
-    points.curveCp4 = points.curveCp1.flipX(points.bottomMid)
+    points.bottomMidCp2 = points.bottomMidCp1.flipX(points.bottomMid)
+    points.curveEndCp1 = points.curveStartCp2.flipX(points.bottomMid)
     //paths
-    paths.saTop = new Path().move(points.topRight).line(points.topLeft).hide()
-
     paths.saBase = new Path()
       .move(points.topLeft)
       .line(points.curveStart)
-      .curve(points.curveCp1, points.curveCp2, points.bottomMid)
-      .curve(points.curveCp3, points.curveCp4, points.curveEnd)
+      .curve(points.curveStartCp2, points.bottomMidCp1, points.bottomMid)
+      .curve(points.bottomMidCp2, points.curveEndCp1, points.curveEnd)
       .line(points.topRight)
       .hide()
 
-    paths.seam = paths.saTop.clone().join(paths.saBase).close()
+    paths.seam = paths.saBase.clone().line(points.topLeft).close().unhide()
     if (complete) {
       //grainline
       points.grainlineFrom = points.topMid
@@ -104,9 +102,14 @@ export const pocket = {
         scale: 0.25,
       })
       if (sa) {
-        paths.sa = paths.saTop
-          .offset(sa * options.watchPocketSaTopWidth * 100)
-          .join(paths.saBase.offset(sa))
+        const watchPocketTopSa = sa * options.watchPocketTopSaWidth * 100
+
+        points.saTopRight = points.topRight.translate(sa, -watchPocketTopSa)
+        points.saTopLeft = points.saTopRight.flipX()
+        paths.sa = paths.saBase
+          .offset(sa)
+          .line(points.saTopRight)
+          .line(points.saTopLeft)
           .close()
           .attr('class', 'fabric sa')
       }
