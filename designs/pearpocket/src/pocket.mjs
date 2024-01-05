@@ -70,28 +70,29 @@ export const pocket = {
     points.curveLeft = points.curveMid.shift(180, width / 2)
     points.curveRight = points.curveLeft.flipX(points.curveMid)
 
-    points.curveLeftCp2 = points.curveLeft.shiftFractionTowards(
+    points.curveLeftCp1 = points.curveLeft.shiftFractionTowards(
       new Point(points.curveLeft.x, points.slitTop.y),
       1 / 3
     )
-    points.curveLeftCp1 = points.topLeft.shiftFractionTowards(points.curveLeftCp2, 0.75)
-    points.curveLeftCp3 = new Point(points.curveLeft.x, points.bottomMid.y)
-    points.curveLeftCp4 = points.bottomMid.shiftFractionTowards(points.curveLeftCp3, 0.05)
+    points.topLeftCp2 = points.topLeft.shiftFractionTowards(points.curveLeftCp1, 0.75)
+    points.curveLeftCp2 = new Point(points.curveLeft.x, points.bottomMid.y)
+    points.bottomMidCp1 = points.bottomMid.shiftFractionTowards(points.curveLeftCp2, 0.05)
 
-    points.curveRightCp1 = points.curveLeftCp4.flipX(points.bottomMid)
-    points.curveRightCp2 = points.curveLeftCp3.flipX(points.bottomMid)
-    points.curveRightCp3 = points.curveLeftCp2.flipX(points.bottomMid)
-    points.curveRightCp4 = points.curveLeftCp1.flipX(points.bottomMid)
+    points.bottomMidCp2 = points.bottomMidCp1.flipX(points.bottomMid)
+    points.curveRightCp1 = points.curveLeftCp2.flipX(points.bottomMid)
+    points.curveRightCp2 = points.curveLeftCp1.flipX(points.bottomMid)
+    points.topRightCp1 = points.topLeftCp2.flipX(points.bottomMid)
 
     //paths
-    paths.seam = new Path()
-      .move(points.bottomMid)
-      .curve(points.curveRightCp1, points.curveRightCp2, points.curveRight)
-      .curve(points.curveRightCp3, points.curveRightCp4, points.topRight)
-      .line(points.topLeft)
-      .curve(points.curveLeftCp1, points.curveLeftCp2, points.curveLeft)
-      .curve(points.curveLeftCp3, points.curveLeftCp4, points.bottomMid)
-      .close()
+    paths.saBase = new Path()
+      .move(points.topLeft)
+      .curve(points.topLeftCp2, points.curveLeftCp1, points.curveLeft)
+      .curve(points.curveLeftCp2, points.bottomMidCp1, points.bottomMid)
+      .curve(points.bottomMidCp2, points.curveRightCp1, points.curveRight)
+      .curve(points.curveRightCp2, points.topRightCp1, points.topRight)
+      .hide()
+
+    paths.seam = paths.saBase.clone().line(points.topLeft).close().unhide()
 
     //stores
     points.slitBottom = points.curveMid.shiftFractionTowards(points.slitTop, 1 / 7)
@@ -126,8 +127,19 @@ export const pocket = {
         .attr('data-text', 'Slit Opening')
         .attr('data-text-class', 'center')
       if (sa) {
-        paths.sa = paths.seam
-          .offset(sa * options.pocketBagSaWidth * 100)
+        const pocketBagSa = sa * options.pocketBagSaWidth * 100
+        points.saTopRight = utils.beamIntersectsY(
+          points.topRightCp1
+            .shiftTowards(points.topRight, pocketBagSa)
+            .rotate(-90, points.topRightCp1),
+          points.topRight.shiftTowards(points.topRightCp1, pocketBagSa).rotate(90, points.topRight),
+          points.topRight.y - pocketBagSa
+        )
+        points.saTopLeft = points.saTopRight.flipX()
+        paths.sa = paths.saBase
+          .offset(pocketBagSa)
+          .line(points.saTopRight)
+          .line(points.saTopLeft)
           .close()
           .attr('class', 'fabric sa')
       }
