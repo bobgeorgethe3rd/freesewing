@@ -6,6 +6,7 @@ export const pocket = {
     //Constants
     useVoidStores: true,
     pocketOpening: 0.064,
+    pocketOpeningLength: 0.538,
     scalePockets: true,
     //Pockets
     pearPocketTopWidth: { pct: (1 / 6) * 100, min: 15, max: 20, menu: 'pockets.pearPockets' },
@@ -95,9 +96,12 @@ export const pocket = {
     paths.seam = paths.saBase.clone().line(points.topLeft).close().unhide()
 
     //stores
-    points.slitBottom = points.curveMid.shiftFractionTowards(points.slitTop, 1 / 7)
+    points.slitBottom = points.bottomMid.shiftFractionTowards(
+      points.slitTop,
+      options.pocketOpeningLength
+    )
     store.set('pocketOpening', pocketOpening)
-
+    store.set('pocketOpeningLength', points.slitTop.dist(points.slitBottom))
     if (complete) {
       //grainline
       points.grainlineFrom = points.curveMid
