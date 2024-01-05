@@ -61,31 +61,27 @@ export const pocket = {
       width = store.get('anchorSeamLength') * options.boxPleatPocketWidth
       depth = store.get('insertSeamLength') * options.boxPleatPocketDepth
     }
-    const widthTop = width * options.boxPleatPocketTopWidth
-    const depthRight = depth * options.boxPleatPocketDepthRight
     //let's begin
     points.topLeft = new Point(0, 0)
     points.topRight = points.topLeft.shift(0, width)
     points.bottomLeft = points.topLeft.shift(-90, depth)
     points.bottomRight = new Point(points.topRight.x, points.bottomLeft.y)
-    points.openingTop = points.topLeft.shiftTowards(points.topRight, widthTop)
-    points.openingBottom = points.bottomRight.shiftTowards(points.topRight, depthRight)
+    points.openingTop = points.topLeft.shiftTowards(
+      points.topRight,
+      width * options.boxPleatPocketTopWidth
+    )
+    points.openingBottom = points.bottomRight.shiftTowards(
+      points.topRight,
+      depth * options.boxPleatPocketDepthRight
+    )
 
     //paths
-    paths.hemBase = new Path()
+    paths.seam = new Path()
       .move(points.bottomLeft)
       .line(points.bottomRight)
       .line(points.openingBottom)
-      .hide()
-
-    paths.opening = new Path().move(points.openingBottom).line(points.openingTop).hide()
-
-    paths.saTop = new Path().move(points.openingTop).line(points.topLeft).hide()
-
-    paths.seam = paths.hemBase
-      .clone()
-      .join(paths.opening)
-      .join(paths.saTop)
+      .line(points.openingTop)
+      .line(points.topLeft)
       .line(points.bottomLeft)
       .close()
 
@@ -127,28 +123,51 @@ export const pocket = {
         .attr('data-text-class', 'center')
       if (sa) {
         void store.setIfUnset('insertSeamSa', sa)
-        paths.facingSa = paths.facing
-          .clone()
-          .offset(sa)
-          .join(
-            new Path()
-              .move(points.facingRight)
-              .line(points.openingBottom)
-              .offset(sa * options.pocketBagSaWidth * 100)
-          )
-          .join(paths.opening.offset(store.get('insertSeamSa')))
-          .join(paths.saTop.offset(sa))
-          .line(points.topLeft)
-          .line(points.bottomLeft)
+
+        const insertSeamSa = store.get('insertSeamSa')
+        const pocketBagSa = sa * options.pocketBagSaWidth * 100
+
+        points.saBottomLeft = points.bottomLeft.shift(-90, pocketBagSa)
+        points.saBottomRight = points.bottomRight.translate(pocketBagSa, pocketBagSa)
+        points.saOpeningBottom = utils.beamIntersectsX(
+          points.openingBottom
+            .shiftTowards(points.openingTop, insertSeamSa)
+            .rotate(-90, points.openingBottom),
+          points.openingTop
+            .shiftTowards(points.openingBottom, insertSeamSa)
+            .rotate(90, points.openingTop),
+          points.saBottomRight.x
+        )
+        points.saOpeningTop = utils.beamIntersectsX(
+          points.openingBottom
+            .shiftTowards(points.openingTop, insertSeamSa)
+            .rotate(-90, points.openingBottom),
+          points.openingTop
+            .shiftTowards(points.openingBottom, insertSeamSa)
+            .rotate(90, points.openingTop),
+          points.openingTop.x
+        )
+        points.saTopLeft = points.topLeft.shift(90, sa)
+        points.saFacingLeft = points.facingLeft.shift(-90, pocketBagSa)
+        points.saFacingRight = points.facingRight.translate(pocketBagSa, pocketBagSa)
+
+        paths.facingSa = new Path()
+          .move(points.saFacingLeft)
+          .line(points.saFacingRight)
+          .line(points.saOpeningBottom)
+          .line(points.saOpeningTop)
+          .line(points.saTopLeft)
+          .line(points.saFacingLeft)
           .close()
           .attr('class', 'interfacing sa')
 
-        paths.sa = paths.hemBase
-          .offset(sa * options.pocketBagSaWidth * 100)
-          .join(paths.opening.offset(store.get('insertSeamSa')))
-          .join(paths.saTop.offset(sa))
-          .line(points.topLeft)
-          .line(points.bottomLeft)
+        paths.sa = new Path()
+          .move(points.saBottomLeft)
+          .line(points.saBottomRight)
+          .line(points.saOpeningBottom)
+          .line(points.saOpeningTop)
+          .line(points.saTopLeft)
+          .line(points.saBottomLeft)
           .close()
           .attr('class', 'fabric sa')
       }
