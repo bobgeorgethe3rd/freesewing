@@ -4,6 +4,7 @@ import { front } from './front.mjs'
 export const back = {
   name: 'bernice.back',
   from: backDaisy,
+  after: front,
   hide: {
     from: true,
     inherited: true,

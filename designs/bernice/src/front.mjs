@@ -25,7 +25,7 @@ export const front = {
     //Style
     armholeDrop: { pct: 50, min: 0, max: 100, menu: 'style' },
     lengthBonus: { pct: -2, min: -20, max: 50, menu: 'style' },
-    ruffleWidth: { pct: 28.5, min: 25, max: 35, menu: 'style' },
+    ruffleWidth: { pct: 25.1, min: 20, max: 30, menu: 'style' },
     shoulderPitch: { pct: 58.3, min: 30, max: 60, menu: 'style' },
     frontShoulderDepth: { pct: 100, min: 0, max: 100, menu: 'style' },
     frontNeckDepth: { pct: 50, min: 0, max: 100, menu: 'style' },
@@ -267,6 +267,7 @@ export const front = {
     store.set('toHips', points.cfHips.y - points.sideWaist.y)
     store.set('toSeat', points.sideSeat.y - points.sideWaist.y)
     store.set('armholeDrop', points.armhole.dist(points.armholeDrop))
+    store.set('ruffleWidth', (skirtLength / (1 - options.ruffleWidth)) * options.ruffleWidth)
     if (complete) {
       //grainline
       points.grainlineMid = points.cfSeat.shiftFractionTowards(points.cfBottom, 0.5)
@@ -303,11 +304,7 @@ export const front = {
       //units
       points.ruffle = points.cfBottom
         .translate(-seat / 2, -seat / 2)
-        .attr(
-          'data-text',
-          'Ruffle Width: ' +
-            utils.units((skirtLength / (1 - options.ruffleWidth)) * options.ruffleWidth)
-        )
+        .attr('data-text', 'Ruffle Width: ' + utils.units(store.get('ruffleWidth')))
 
       if (sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
