@@ -36,18 +36,13 @@ export const tab = {
     points.topRight = points.topLeft.flipX(points.topMid)
     points.bottomLeft = points.topLeft.shift(-90, length)
     points.bottomRight = new Point(points.topRight.x, points.bottomLeft.y)
-    points.bottomPeak = utils.beamsIntersect(
-      points.bottomLeft,
-      points.bottomRight.rotate(-45, points.bottomLeft),
-      points.bottomRight,
-      points.bottomLeft.rotate(45, points.bottomRight)
-    )
+    points.peak = points.bottomLeft.translate(width / 2, width / 2)
 
     //paths
     paths.seam = new Path()
       .move(points.topLeft)
       .line(points.bottomLeft)
-      .line(points.bottomPeak)
+      .line(points.peak)
       .line(points.bottomRight)
       .line(points.topRight)
       .line(points.topLeft)
@@ -73,7 +68,29 @@ export const tab = {
       points.buttonhole = new Point(points.topMid.x, points.bottomLeft.y * 0.95)
       snippets.buttonhole = new Snippet('buttonhole', points.buttonhole).attr('data-scale', 1.5)
       if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
+        points.saTopLeft = points.topLeft.translate(-sa, -sa)
+        points.saBottomLeft = utils.beamIntersectsX(
+          points.bottomLeft.shiftTowards(points.peak, sa).rotate(-90, points.bottomLeft),
+          points.peak.shiftTowards(points.bottomLeft, sa).rotate(90, points.peak),
+          points.saTopLeft.x
+        )
+        points.saPeak = utils.beamIntersectsX(
+          points.bottomLeft.shiftTowards(points.peak, sa).rotate(-90, points.bottomLeft),
+          points.peak.shiftTowards(points.bottomLeft, sa).rotate(90, points.peak),
+          points.peak.x
+        )
+        points.saBottomRight = points.saBottomLeft.flipX()
+        points.saTopRight = points.saTopLeft.flipX()
+
+        paths.sa = new Path()
+          .move(points.saTopLeft)
+          .line(points.saBottomLeft)
+          .line(points.saPeak)
+          .line(points.saBottomRight)
+          .line(points.saTopRight)
+          .line(points.saTopLeft)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 

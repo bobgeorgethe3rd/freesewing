@@ -33,41 +33,39 @@ export const welt = {
     const width = store.get('insertSeamLength') * options.weltPocketWeltWidth
     //let's begin
     if (width / -2 < points.topLeft.y) {
-      points.weltTopLeft = points.topLeft
+      points.topLeft = points.topLeft
     } else {
-      points.weltTopLeft = points.left.shift(90, width / 2)
+      points.topLeft = points.left.shift(90, width / 2)
     }
 
-    // points.weltBottomLeft = points.weltTopLeft.rotate(180, points.left)
-    points.weltBottomLeft = points.left.shift(-90, width / 2)
+    // points.bottomLeft = points.topLeft.rotate(180, points.left)
+    points.bottomLeft = points.left.shift(-90, width / 2)
 
-    points.weltBottomRight = new Point(points.right.x, points.weltBottomLeft.y)
-    points.weltTopRight = new Point(points.right.x, points.weltTopLeft.y)
+    points.bottomRight = new Point(points.right.x, points.bottomLeft.y)
+    points.topRight = new Point(points.right.x, points.topLeft.y)
 
     //paths
-    paths.saLeft = new Path().move(points.weltTopLeft).line(points.weltBottomLeft).hide()
-
-    paths.saBottom = new Path().move(points.weltBottomLeft).line(points.weltBottomRight).hide()
-
-    paths.saRight = new Path().move(points.weltBottomRight).line(points.weltTopRight).hide()
-
-    paths.saTop = new Path().move(points.weltTopRight).line(points.weltTopLeft).hide()
-
-    paths.seam = paths.saLeft.clone().join(paths.saBottom).join(paths.saRight).join(paths.saTop)
+    paths.seam = new Path()
+      .move(points.topLeft)
+      .line(points.bottomLeft)
+      .line(points.bottomRight)
+      .line(points.topRight)
+      .line(points.topLeft)
+      .close()
 
     //stores
-    store.set('weltWidth', points.weltTopLeft.dist(points.weltBottomLeft))
+    store.set('weltWidth', points.topLeft.dist(points.bottomLeft))
 
     if (complete) {
       //grainline
       points.grainlineFrom = points.openingMid
-      points.grainlineTo = new Point(points.openingMid.x, points.weltBottomLeft.y)
+      points.grainlineTo = new Point(points.openingMid.x, points.bottomLeft.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //title
-      points.title = new Point(points.openingLeft.x, points.weltBottomLeft.y * 0.6)
+      points.title = new Point(points.openingLeft.x, points.bottomLeft.y * 0.6)
       macro('title', {
         nr: 2,
         title: 'Welt Pocket Welt',
@@ -76,12 +74,19 @@ export const welt = {
       })
 
       if (sa) {
-        paths.sa = paths.saLeft
-          .clone()
-          .offset(sa * options.pocketBagSaWidth * 100)
-          .join(paths.saBottom.offset(sa))
-          .join(paths.saRight.offset(sa * options.pocketBagSaWidth * 100))
-          .join(paths.saTop.offset(sa))
+        const pocketBagSa = sa * options.pocketBagSaWidth * 100
+
+        points.saTopLeft = points.topLeft.translate(-pocketBagSa, -sa)
+        points.saBottomLeft = points.bottomLeft.translate(-pocketBagSa, sa)
+        points.saBottomRight = points.bottomRight.translate(pocketBagSa, sa)
+        points.saTopRight = points.topRight.translate(pocketBagSa, -sa)
+
+        paths.sa = new Path()
+          .move(points.saTopLeft)
+          .line(points.saBottomLeft)
+          .line(points.saBottomRight)
+          .line(points.saTopRight)
+          .line(points.saTopLeft)
           .close()
           .attr('class', 'fabric sa')
       }
