@@ -229,6 +229,13 @@ rehype-jargon:
 rehype-highlight-lines:
   _:
     'unist-util-remove': '3.1.1'
+rose:
+  peer:
+    '@freesewing/daisy': *freesewing
+    '@freesewing/peach': *freesewing
+    '@freesewing/claude': *freesewing
+    '@freesewing/capsleeve': *freesewing
+    '@freesewing/inseampocket': *freesewing
 rufflebutterflysleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing

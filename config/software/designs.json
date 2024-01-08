@@ -86,6 +86,13 @@
       "difficulty": 1,
       "tags": ["dresses", "slip"]
     },
+    "rose": {
+      "description": "Regatta Dress Design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["dresses", "skirts", "sleeves"]
+    },
     "sam": {
       "description": "Strapless Sweetheart Special Occasions Dress design",
       "code": "bobgeorgethe3rd",
