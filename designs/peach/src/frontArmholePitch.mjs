@@ -33,7 +33,7 @@ export const frontArmholePitch = {
       paths.daisyGuide = new Path()
         .move(points.cfWaist)
         .line(points.waistDartLeft)
-        .line(points.waistDartTip)
+        .line(points.bust)
         .line(points.waistDartRight)
         .line(points.sideWaist)
         .line(points.armhole)
