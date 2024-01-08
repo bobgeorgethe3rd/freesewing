@@ -293,9 +293,16 @@ export const front = {
         points.pocketOpeningBottom = paths.skirtLeft
           .reverse()
           .shiftAlong(pocketOpening + pocketOpeningLength)
+        const flipPocket = ['pocketOpeningTop', 'pocketOpeningBottom']
+        for (const p of flipPocket) points['f' + utils.capitalize(p)] = points[p].flipX()
         macro('sprinkle', {
           snippet: 'notch',
-          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+          on: [
+            'pocketOpeningTop',
+            'pocketOpeningBottom',
+            'fPocketOpeningTop',
+            'fPocketOpeningBottom',
+          ],
         })
         store.set('pocketOpening', pocketOpening)
         store.set('pocketOpeningLength', pocketOpeningLength)

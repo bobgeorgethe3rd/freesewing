@@ -46,7 +46,7 @@ export const ruffleGuide = {
       //title
       points.title = new Point(points.bottomRight.x / 4, points.bottomRight.y / 2)
       macro('title', {
-        nr: 4,
+        nr: 5,
         title: 'Ruffle Guide',
         at: points.title,
         scale: 0.25,
