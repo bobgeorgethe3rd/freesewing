@@ -28,7 +28,6 @@ export const sleeve = {
     armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
-  // plugins: [...spreadsleeve.plugins],
   draft: (sh) => {
     const {
       store,
