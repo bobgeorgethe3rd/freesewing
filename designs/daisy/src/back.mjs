@@ -186,7 +186,10 @@ export const back = {
         })
       }
       //notches
-      snippets.armholePitch = new Snippet('bnotch', points.armholePitch)
+      macro('sprinkle', {
+        snippet: 'bnotch',
+        on: ['cArmhole', 'armholePitch'],
+      })
       //title
       points.title = new Point(points.hps.x, points.armholePitch.y)
       macro('title', {
