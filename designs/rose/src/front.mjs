@@ -17,7 +17,7 @@ export const front = {
     daisyGuides: { bool: false, menu: 'fit' },
     //Style
     style: { dflt: 'dart', list: ['dart', 'seam'], menu: 'style' },
-    necklineDrop: { pct: 14.1, min: -6, max: 45, menu: 'style' },
+    frontNeckDepth: { pct: 14.1, min: -6, max: 45, menu: 'style' },
     shoulderWidth: { pct: 50, min: (1 / 3) * 100, max: (2 / 3) * 100, menu: 'style' }, //37.6
     frontNeckCurve: { pct: 100, min: 0, max: 100, menu: 'style' },
     frontNeckCurveDepth: { pct: 100, min: 0, max: 100, menu: 'style' },
@@ -88,7 +88,7 @@ export const front = {
       paths.daisyGuide = paths.seam.clone().attr('class', 'various lashed')
     }
     //let's begin
-    points.cfNeck = points.cfNeck.shiftFractionTowards(points.cfChest, options.necklineDrop)
+    points.cfNeck = points.cfNeck.shiftFractionTowards(points.cfChest, options.frontNeckDepth)
     points.shoulderTop = points.shoulder.shiftFractionTowards(points.hps, options.shoulderWidth)
 
     points.cfNeckCp1 = points.cfNeck.shiftFractionTowards(
