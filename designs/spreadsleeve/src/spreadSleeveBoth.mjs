@@ -324,11 +324,11 @@ export const spreadSleeveBoth = ({
           sideSeamSa
         )
         points.saBottomLeftCorner = points.saBottomLeft.shift(
-          points.bottomLeft.angle(points.bottomLeftCp2) - 90,
+          points.bottomLeft.angle(points.bottomMidCp1) - 90,
           hemSa
         )
         points.saBottomRightCorner = points.saBottomRight.shift(
-          points.bottomRight.angle(points.bottomRightCp1) + 90,
+          points.bottomRight.angle(points.bottomMidCp2) + 90,
           hemSa
         )
       } else {
