@@ -26,6 +26,8 @@ export const skirtBase = {
     useBackMeasures: true, //Locked for Scott
     separateBack: true, //Locked for Scott
     highLow: false, //Locked for Scott
+    //Fit
+    waistEase: { pct: 5, min: 0, max: 20, menu: 'fit' }, //Altered for Scott
     //Style
     skirtStyle: { dflt: 'harriet', list: ['claude', 'harriet', 'none'], menu: 'style' },
     waistbandStyle: { dflt: 'none', list: ['none', 'straight', 'curved'], menu: 'style' }, //Altered for Scott
