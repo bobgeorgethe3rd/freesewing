@@ -134,7 +134,7 @@ export const front = {
         })
       }
       //title
-      points.title = points.cfChest.shiftFractionTowards(points.bust, 0.25)
+      points.title = points.cfChest.shiftFractionTowards(points.bust, 0.5)
       macro('title', {
         at: points.title,
         nr: '1',
