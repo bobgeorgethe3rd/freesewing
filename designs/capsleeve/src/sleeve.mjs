@@ -20,10 +20,10 @@ export const sleeve = {
     sleeveBands: false, //Locked for Capsleeve
     sleeveLength: 0, //Locked for Capsleeve
     sleeveLengthBonus: 0, //Locked for Capsleeve
-    sideSeamSaWidth: 1, //Locked for Capsleeve
+    sideSeamSaWidth: 0.01, //Locked for Capsleeve
     //Sleeves
     spread: { pct: 0, min: 0, max: 120, menu: 'sleeves' },
-    sleeveReduction: { pct: 9, min: 7.5, max: 12, menu: 'sleeves' },
+    sleeveReduction: { pct: 15, min: 12, max: 20, menu: 'sleeves' },
     //Construction
     armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
@@ -57,29 +57,29 @@ export const sleeve = {
     //measures
     const sleeveReduction = measurements.shoulderToElbow * options.sleeveReduction
     //let's begin
-    points.hemSanchor = points.midAnchor.shift(90, sleeveReduction)
+    points.hemAnchor = points.midAnchor.shift(90, sleeveReduction)
 
     //hem
-    // points.hemCp1Anchor = utils.beamsIntersect(
+    // points.hemAnchorCp1Anchor = utils.beamsIntersect(
     // points.capQ4,
     // points.capQ4Cp1,
-    // points.hemSanchor,
-    // points.hemSanchor.shift(180, 1)
+    // points.hemAnchor,
+    // points.hemAnchor.shift(180, 1)
     // )
-    // points.hemCp2Anchor = utils.beamsIntersect(
+    // points.hemAnchorCp2Anchor = utils.beamsIntersect(
     // points.capQ1,
     // points.capQ1Cp2,
-    // points.hemSanchor,
-    // points.hemSanchor.shift(0, 1)
+    // points.hemAnchor,
+    // points.hemAnchor.shift(0, 1)
     // )
-    points.hemCp1 = new Point(points.capQ3.x, points.hemSanchor.y)
-    points.hemCp2 = points.hemCp1.flipX(points.hemSanchor)
+    points.hemAnchorCp1 = new Point(points.capQ3.x, points.hemAnchor.y)
+    points.hemAnchorCp2 = new Point(points.capQ2.x, points.hemAnchor.y)
 
     //paths
     paths.hemBase = new Path()
       .move(points.capQ4)
-      .curve(points.capQ4Cp1, points.hemCp1, points.hemSanchor)
-      .curve(points.hemCp2, points.capQ1Cp2, points.capQ1)
+      .curve(points.capQ4Cp1, points.hemAnchorCp1, points.hemAnchor)
+      .curve(points.hemAnchorCp2, points.capQ1Cp2, points.capQ1)
       .hide()
 
     paths.saBase = new Path()
@@ -94,17 +94,14 @@ export const sleeve = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.hemSanchor.x, points.sleeveTip.y)
-      points.grainlineTo = points.hemSanchor
+      points.grainlineFrom = new Point(points.hemAnchor.x, points.sleeveTip.y)
+      points.grainlineTo = points.hemAnchor
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //title
-      points.title = new Point(
-        points.capQ3.x * 0.65,
-        (points.sleeveTip.y + points.hemSanchor.y) / 2
-      )
+      points.title = new Point(points.capQ3.x * 0.65, (points.sleeveTip.y + points.hemAnchor.y) / 2)
       macro('title', {
         at: points.title,
         nr: '1',
