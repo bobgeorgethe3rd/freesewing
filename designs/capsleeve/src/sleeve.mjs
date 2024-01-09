@@ -23,7 +23,7 @@ export const sleeve = {
     sideSeamSaWidth: 0.01, //Locked for Capsleeve
     //Sleeves
     spread: { pct: 0, min: 0, max: 120, menu: 'sleeves' },
-    sleeveReduction: { pct: 15, min: 12, max: 20, menu: 'sleeves' },
+    sleeveReduction: { pct: (1 / 3) * 100, min: 25, max: 50, menu: 'sleeves' },
     //Construction
     armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
@@ -54,9 +54,12 @@ export const sleeve = {
     //removing macros not required from sleevecap
     macro('title', false)
     //measures
-    const sleeveReduction = measurements.shoulderToElbow * options.sleeveReduction
+    // const sleeveReduction = measurements.shoulderToElbow * options.sleeveReduction
     //let's begin
-    points.hemAnchor = points.midAnchor.shift(90, sleeveReduction)
+    points.hemAnchor = points.midAnchor.shiftFractionTowards(
+      new Point(points.midAnchor.x, points.sleeveTip.y),
+      options.sleeveReduction
+    )
 
     //hem
     // points.hemAnchorCp1Anchor = utils.beamsIntersect(
