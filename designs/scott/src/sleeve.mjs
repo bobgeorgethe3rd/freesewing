@@ -1,5 +1,5 @@
 import { sleeveBase } from '@freesewing/spreadsleeve'
-import { sleeve as spreadleeve } from '@freesewing/spreadsleeve'
+import { sleeve as spreadSleeve } from '@freesewing/spreadsleeve'
 import { backBase } from './backBase.mjs'
 import { frontBase } from './frontBase.mjs'
 
@@ -12,7 +12,7 @@ export const sleeve = {
   },
   options: {
     //Imported
-    ...spreadleeve.options,
+    ...spreadSleeve.options,
     //Constants
     useVoidStores: false, //Altered for Scott
     sleeveFlounces: 'none', //Locked for Scott
@@ -43,7 +43,7 @@ export const sleeve = {
     } = sh
     //draft
     if (options.sleevesBool) {
-      spreadleeve.draft(sh)
+      spreadSleeve.draft(sh)
     } else {
       part.hide()
       return part
