@@ -73,23 +73,42 @@ export const skirtFront = {
 
     if (complete) {
       //title
-      macro('title', {
-        at: points.title,
-        nr: '7',
-        title: 'Skirt (Front)',
-        scale: 0.5,
-        prefix: 'title',
-        rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
-      })
-      if (options.skirtFacings) {
+      if (options.skirtPanels <= 1) {
         macro('title', {
-          at: points.titleFacing,
-          nr: '11',
-          title: 'Skirt Facing (Front)',
+          at: points.title,
+          nr: '7',
+          title: 'Skirt (Front)',
           scale: 0.5,
-          prefix: 'titleFacing',
-          rotation: 90 - points.frontHemMid.angle(points.frontHemFacingMid),
+          prefix: 'title',
+          rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
         })
+        if (options.skirtFacings) {
+          macro('title', {
+            at: points.titleFacing,
+            nr: '11',
+            title: 'Skirt Facing (Front)',
+            scale: 0.5,
+            prefix: 'titleFacing',
+            rotation: 90 - points.frontHemMid.angle(points.frontHemFacingMid),
+          })
+        }
+      } else {
+        macro('title', {
+          at: points.title,
+          nr: '7a',
+          title: 'Skirt A (Front)',
+          scale: 0.15,
+          prefix: 'title',
+        })
+        if (options.skirtFacings) {
+          macro('title', {
+            at: points.titleFacing,
+            nr: '11a',
+            title: 'Skirt Facing A (Front)',
+            scale: 0.15,
+            prefix: 'titleFacing',
+          })
+        }
       }
     }
 
