@@ -28,7 +28,7 @@ export const sleeve = {
     //Construction
     armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
-    sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
+    sleeveHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
   plugins: [...sleevecap.plugins],
   draft: (sh) => {

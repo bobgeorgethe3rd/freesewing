@@ -24,9 +24,6 @@ export const sleeve = {
     //Sleeves
     spread: { pct: 0, min: 0, max: 120, menu: 'sleeves' },
     sleeveReduction: { pct: (1 / 3) * 100, min: 25, max: 50, menu: 'sleeves' },
-    //Construction
-    armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
-    sleeveHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   draft: (sh) => {
     const {
