@@ -12,12 +12,39 @@ import { pocket } from './pocket.mjs'
 import { skirtFront } from './skirtFront.mjs'
 import { skirtBack } from './skirtBack.mjs'
 import { waistband } from './waistband.mjs'
+import { frontFacing } from './frontFacing.mjs'
+import { backFacing } from './backFacing.mjs'
 
 // Create new design
 const Rose = new Design({
   data,
-  parts: [front, sideFront, back, sideBack, sleeve, pocket, skirtFront, skirtBack, waistband],
+  parts: [
+    front,
+    sideFront,
+    back,
+    sideBack,
+    sleeve,
+    pocket,
+    skirtFront,
+    skirtBack,
+    waistband,
+    frontFacing,
+    backFacing,
+  ],
 })
 
 // Named exports
-export { front, sideFront, back, sideBack, sleeve, pocket, skirtFront, skirtBack, waistband, Rose }
+export {
+  front,
+  sideFront,
+  back,
+  sideBack,
+  sleeve,
+  pocket,
+  skirtFront,
+  skirtBack,
+  waistband,
+  frontFacing,
+  backFacing,
+  Rose,
+}
