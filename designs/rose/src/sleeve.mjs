@@ -13,11 +13,13 @@ export const sleeve = {
     //Imported
     ...capSleeve.options,
     //Constants
-    useVoidStores: false, //Altered for Rose
+    useVoidStores: false, //Locked for Rose
     sleeveFlounces: 'none', //Locked for Rose
     sleeveBands: false, //Locked for Rose
     //Sleeves
     sleevesBool: { bool: true, menu: 'sleeves' },
+    //Construction
+    sleeveHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Rose
   },
   draft: (sh) => {
     //draft
