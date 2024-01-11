@@ -83,7 +83,7 @@ export const backFacing = {
         })
       }
       //notches
-      snippets.notch = new Snippet('notch', points.armholePitch)
+      snippets.notch = new Snippet('bnotch', points.armholePitch)
       //title
       points.title = new Point(points.cbNeckCp1.x * 0.95, (points.cbNeck.y + points.cbFacing.y) / 2)
       macro('title', {
