@@ -18,6 +18,7 @@ export const skirtFront = {
     useVoidStores: false, //Locked for Sam
     waistbandElastic: false, //Locked for Sam
     waistHeight: 1, //Locked for Sam
+    separateBack: false, //Locked for Sam
     //Fit
     waistEase: { pct: 5, min: 0, max: 20, menu: 'fit' }, //Altered for Sam
     //Style
