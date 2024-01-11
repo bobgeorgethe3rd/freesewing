@@ -31,6 +31,11 @@ export const front = {
     princessSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Rose
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Rose
+    closurePosition: {
+      dflt: 'back',
+      list: ['front', 'sideLeft', 'sideRight', 'back'],
+      menu: 'construction',
+    }, //Altered for Rose
   },
   draft: (sh) => {
     const {
@@ -76,6 +81,12 @@ export const front = {
         .move(points.armhole)
         .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
         .length()
+    )
+
+    store.set('sideWaistFront', points.sideWaist.dist(points.waistDartRight))
+    store.set(
+      'waistFront',
+      (store.get('sideWaistFront') + points.waistDartLeft.dist(points.cfWaist)) * 4
     )
 
     if (options.style == 'dart') {

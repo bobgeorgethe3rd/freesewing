@@ -63,6 +63,13 @@ export const back = {
         .length()
     )
 
+    store.set(
+      'waistBack',
+      (points.sideWaist.dist(points.dartBottomRight) + points.dartBottomLeft.dist(points.cbWaist)) *
+        4
+    )
+    store.set('storedWaist', (store.get('waistFront') + store.get('waistBack')) / 2)
+
     if (options.style == 'dart') {
       backDaisy.draft(sh)
     } else {
