@@ -47,7 +47,7 @@ export const skirtBack = {
       if (options.skirtPanels <= 1) {
         macro('title', {
           at: points.title,
-          nr: '7',
+          nr: '5',
           title: 'Skirt (Back)',
           scale: 0.5,
           prefix: 'title',
@@ -56,7 +56,7 @@ export const skirtBack = {
         if (options.skirtFacings) {
           macro('title', {
             at: points.titleFacing,
-            nr: '17',
+            nr: '11',
             title: 'Skirt Facing (Back)',
             scale: 0.5,
             prefix: 'titleFacing',
@@ -66,7 +66,7 @@ export const skirtBack = {
       } else {
         macro('title', {
           at: points.title,
-          nr: '7a',
+          nr: '5a',
           title: 'Skirt A (Back)',
           scale: 0.15,
           prefix: 'title',
@@ -74,7 +74,7 @@ export const skirtBack = {
         if (options.skirtFacings) {
           macro('title', {
             at: points.titleFacing,
-            nr: '17a',
+            nr: '11a',
             title: 'Skirt Facing A (Back)',
             scale: 0.15,
             prefix: 'titleFacing',

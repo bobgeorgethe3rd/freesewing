@@ -44,9 +44,9 @@ export const pocket = {
       //title
       macro('title', {
         at: points.title,
-        nr: '10',
+        nr: '6',
         title: 'Pocket',
-        scale: 1 / 3,
+        scale: 0.5,
       })
     }
 

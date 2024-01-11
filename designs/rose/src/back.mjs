@@ -131,6 +131,13 @@ export const back = {
           to: points.grainlineTo,
         })
       }
+      //title
+      macro('title', {
+        at: points.title,
+        nr: '2',
+        title: 'Back',
+        scale: 0.5,
+      })
       if (sa) {
         const neckSa = sa * options.neckSaWidth * 100
         let cbSa

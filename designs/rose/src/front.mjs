@@ -150,7 +150,7 @@ export const front = {
         at: points.title,
         nr: '1',
         title: 'Front',
-        scale: 2 / 3,
+        scale: 0.5,
       })
       if (sa) {
         const neckSa = sa * options.neckSaWidth * 100

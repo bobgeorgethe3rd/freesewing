@@ -45,7 +45,7 @@ export const waistband = {
       //title
       macro('title', {
         at: points.title,
-        nr: '16',
+        nr: '9',
         title: 'Waistband',
         scale: 1 / 3,
       })
