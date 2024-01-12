@@ -73,13 +73,19 @@ export const placket = {
       })
       //notches
       if (options.waistbandStyle == 'none' && options.skirtStyle != 'none') {
-        points.leftNotch = points.topLeft.shift(-90, backPlacketLength)
-        points.rightNotch = new Point(points.topRight.x, points.leftNotch.y)
+        points.waistLeftNotch = points.topLeft.shift(-90, backPlacketLength)
+        points.waistRightNotch = new Point(points.topRight.x, points.waistLeftNotch.y)
         macro('sprinkle', {
           snippet: 'notch',
-          on: ['leftNotch', 'rightNotch'],
+          on: ['waistLeftNotch', 'waistRightNotch'],
         })
       }
+      points.backLeftNotch = points.topLeft.shift(-90, backPlacketLength * 0.5)
+      points.backRightNotch = new Point(points.topRight.x, points.backLeftNotch.y)
+      macro('sprinkle', {
+        snippet: 'bnotch',
+        on: ['backLeftNotch', 'backRightNotch'],
+      })
       //title
       points.title = new Point(points.topRight.x - placketWidth * 0.75, points.bottomLeft.y / 2)
       macro('title', {
