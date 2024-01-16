@@ -62,7 +62,7 @@ export const sideFrontShoulder = {
     if (complete) {
       //grainline
       points.grainlineTo = points.waistDartRight.shiftFractionTowards(points.sideWaist, 0.075)
-      points.grainlineFrom = new Point(points.grainlineTo.x, points.neckSideFront.y * 1.1)
+      points.grainlineFrom = new Point(points.grainlineTo.x, points.bustCp2.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
