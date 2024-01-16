@@ -305,23 +305,26 @@ export const spreadSleeveBoth = ({
         sideSeamSa
       )
 
-      if (sleeveLength == 0) {
-        points.saTopLeft = points.sleeveCapLeft.shift(
-          points.capQ4Cp2.angle(points.bottomLeft),
-          sideSeamSa
+      if (sleeveLength == 0 || !options.fitSleeveWidth) {
+        points.saTopLeft = utils.beamIntersectsX(
+          points.sleeveCapLeft,
+          points.sleeveCapLeft.shift(points.bottomMidCp1.angle(points.bottomLeft), 1),
+          points.sleeveCapLeft.x - sideSeamSa
         )
-        points.saBottomLeft = points.bottomLeft.shift(
-          points.capQ4Cp2.angle(points.bottomLeft),
-          sideSeamSa
+        points.saBottomLeft = utils.beamIntersectsX(
+          points.bottomLeft,
+          points.bottomLeft.shift(points.bottomMidCp1.angle(points.bottomLeft), 1),
+          points.bottomLeft.x - sideSeamSa
         )
-
-        points.saTopRight = points.sleeveCapRight.shift(
-          points.capQ1Cp1.angle(points.sleeveCapRight),
-          sideSeamSa
+        points.saTopRight = utils.beamIntersectsX(
+          points.sleeveCapRight,
+          points.sleeveCapRight.shift(points.bottomMidCp2.angle(points.bottomRight), 1),
+          points.sleeveCapRight.x + sideSeamSa
         )
-        points.saBottomRight = points.bottomRight.shift(
-          points.capQ1Cp1.angle(points.sleeveCapRight),
-          sideSeamSa
+        points.saBottomRight = utils.beamIntersectsX(
+          points.bottomRight,
+          points.bottomRight.shift(points.bottomMidCp2.angle(points.bottomRight), 1),
+          points.bottomRight.x + sideSeamSa
         )
         points.saBottomLeftCorner = points.saBottomLeft.shift(
           points.bottomLeft.angle(points.bottomMidCp1) - 90,
