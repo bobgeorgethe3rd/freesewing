@@ -2,7 +2,7 @@ import { back } from './back.mjs'
 import { frontBase } from './frontBase.mjs'
 import { frontWaistDart } from './frontWaistDart.mjs'
 // import { frontWaistSplitDart } from './frontWaistSplitDart.mjs'
-// import { front2WaistDart } from './front2WaistDart.mjs'
+import { front2WaistDart } from './front2WaistDart.mjs'
 import { frontFrenchDart } from './frontFrenchDart.mjs'
 import { frontSideDart } from './frontSideDart.mjs'
 import { frontBustSideDart } from './frontBustSideDart.mjs'
@@ -23,8 +23,8 @@ const daisyFront = (params) => {
       return frontWaistDart(params)
     // case 'waistSplit':
     // return frontWaistSplitDart(params)
-    // case '2waist':
-    // return front2WaistDart(params)
+    case '2waist':
+      return front2WaistDart(params)
     case 'french':
       return frontFrenchDart(params)
     case 'side':
@@ -71,7 +71,7 @@ export const front = {
       list: [
         'waist',
         // 'waistSplit',
-        // '2waist',
+        '2waist',
         'french',
         'side',
         'bustside',
