@@ -9,7 +9,7 @@ import { front } from './front.mjs'
 
 import { frontWaistDart } from './frontWaistDart.mjs'
 // import { frontWaistSplitDart } from './frontWaistSplitDart.mjs'
-// import { front2WaistDart } from './front2WaistDart.mjs'
+import { front2WaistDart } from './front2WaistDart.mjs'
 import { frontFrenchDart } from './frontFrenchDart.mjs'
 import { frontSideDart } from './frontSideDart.mjs'
 import { frontBustSideDart } from './frontBustSideDart.mjs'
@@ -37,7 +37,7 @@ export {
   front,
   frontWaistDart,
   // frontWaistSplitDart,
-  // front2WaistDart,
+  front2WaistDart,
   frontFrenchDart,
   frontSideDart,
   frontBustSideDart,
