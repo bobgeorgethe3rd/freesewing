@@ -86,6 +86,13 @@
       "difficulty": 1,
       "tags": ["dresses", "slip"]
     },
+    "petunia": {
+      "description": "Pullover Dress Design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tagname"]
+    },
     "rose": {
       "description": "Regatta Dress Design",
       "code": "bobgeorgethe3rd",

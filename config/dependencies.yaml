@@ -187,6 +187,11 @@ paco:
 peach:
   peer:
     '@freesewing/daisy': *freesewing
+petunia:
+  peer:
+    '@freesewing/daisy': *freesewing
+    '@freesewing/rufflebutterflysleeve': *freesewing
+    '@freesewing/inseampocket': *freesewing
 plugin-bundle:
   dev:
     '@freesewing/plugin-annotations': *freesewing
