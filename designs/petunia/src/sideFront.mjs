@@ -132,16 +132,9 @@ export const sideFront = {
           points.sideHemLeft.shiftTowards(points.sideWaistLeft, sa).rotate(90, points.sideHemLeft)
         )
 
-        points.saSideHemLeft = utils.beamsIntersect(
-          points.saSideWaistLeft,
-          points.saSideWaistLeft.shift(points.sideWaistLeft.angle(points.sideHemLeft), 1),
-          points.sideHemLeft
-            .shiftTowards(points.sideHemLeftCp2, hemSa)
-            .rotate(-90, points.sideHemLeft),
-          points.sideHemLeftCp2
-            .shiftTowards(points.sideHemLeft, hemSa)
-            .rotate(90, points.sideHemLeftCp2)
-        )
+        points.saSideHemLeft = points.sideHemLeft
+          .shift(points.sideWaistLeft.angle(points.sideHemLeft), hemSa)
+          .shift(points.sideHemLeftCp2.angle(points.sideHemLeft), sa)
 
         paths.sa = paths.hemBase
           .clone()
