@@ -186,14 +186,14 @@ export const sleeve = {
           points.saTopLeft = points.sleeveCapLeft.shift(180, sideSeamSa)
           points.saBottomLeft = points.bottomLeft.shift(180, sideSeamSa)
         } else {
-          points.saTopLeft = utils.beamIntersectsX(
+          points.saTopLeft = utils.beamIntersectsY(
             points.sleeveCapLeft
               .shiftTowards(points.bottomLeft, sideSeamSa)
               .rotate(-90, points.sleeveCapLeft),
             points.bottomLeft
               .shiftTowards(points.sleeveCapLeft, sideSeamSa)
               .rotate(90, points.bottomLeft),
-            points.saSleeveCapLeft.x
+            points.saSleeveCapLeft.y
           )
           points.saBottomLeft = points.bottomLeft
             .shiftTowards(points.sleeveCapLeft, sideSeamSa)
