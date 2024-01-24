@@ -28,6 +28,9 @@ export const frontBase = {
     skirtLengthBonus: { pct: -2, min: -50, max: 50, menu: 'style' },
     skirtFullness: { pct: 25, min: 25, max: 100, menu: 'style' },
     cfPanelFullness: { pct: (2 / 45) * 100, min: 1.1, max: 25, menu: 'style' },
+    //Construction
+    cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
+    sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
   },
   measurements: ['waistToHips', 'waistToSeat', 'waistToUpperLeg', 'waistToKnee', 'waistToFloor'],
   draft: (sh) => {
@@ -116,7 +119,7 @@ export const frontBase = {
       points.sideWaistCp1,
       points.sideWaist
     )
-    points.sideWaistRight = utils.lineIntersectsCurve(
+    points.sideWaistLeft = utils.lineIntersectsCurve(
       points.waistDartRight,
       points.bust,
       points.cfNeck,
@@ -151,16 +154,16 @@ export const frontBase = {
       .rotate(90, points.cfHemRight)
 
     const sideSkirtAngle = 90 * options.skirtFullness - cfSkirtAngle
-    points.sideWaistR = points.sideWaist.rotate(-store.get('bustDartAngle'), points.bust)
+    points.sideWaistRight = points.sideWaist.rotate(-store.get('bustDartAngle'), points.bust)
 
     points.sideSkirtOrigin = utils.beamsIntersect(
+      points.sideWaistLeft,
+      points.sideWaistLeft.shift(90 - sideSkirtAngle / 2, 1),
       points.sideWaistRight,
-      points.sideWaistRight.shift(90 - sideSkirtAngle / 2, 1),
-      points.sideWaistR,
-      points.sideWaistR.shift(90 + sideSkirtAngle / 2, 1)
+      points.sideWaistRight.shift(90 + sideSkirtAngle / 2, 1)
     )
 
-    points.sideHemLeft = points.sideWaistRight.shift(
+    points.sideHemLeft = points.sideWaistLeft.shift(
       270 - sideSkirtAngle / 2,
       points.cfWaistLeft.dist(points.cfHemRight)
     )
@@ -184,8 +187,12 @@ export const frontBase = {
       .rotate(90, points.sideHemRight)
 
     //stores
-    store.set('sideSkirtLength', points.sideWaistR.dist(points.sideHemRight))
-
+    store.set('sideSkirtLength', points.sideWaistRight.dist(points.sideHemRight))
+    store.get('insertSeamLength', points.sideWaistRight.dist(points.sideHemRight))
+    store.get(
+      'anchorSeamLength',
+      points.cfWaist.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideWaistRight)
+    )
     //guides
     paths.frontTop = new Path()
       .move(points.shoulderTop)
@@ -199,11 +206,11 @@ export const frontBase = {
       .line(points.cfWaistLeft)
 
     paths.sideFront = new Path()
-      .move(points.sideWaistRight)
+      .move(points.sideWaistLeft)
       .line(points.sideHemLeft)
       .curve(points.sideHemLeftCp2, points.sideHemRightCp1, points.sideHemRight)
-      .line(points.sideWaistR)
       .line(points.sideWaistRight)
+      .line(points.sideWaistLeft)
 
     return part
   },

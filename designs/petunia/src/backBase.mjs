@@ -142,7 +142,7 @@ export const backBase = {
         points.dartBottomLeft,
         points.dartBottomRight.dist(points.sideHemLeft) * cbTweak
       )
-      points.cbCurveRight = points.dartBottomLeft.shiftFractionTowards(points.cbHemRight, 1)
+      points.cbCurveRight = points.dartBottomLeft.shiftFractionTowards(points.cbHemRight, 0.5)
       cbDelta =
         new Path()
           .move(points.cbHemRight)
