@@ -188,8 +188,8 @@ export const frontBase = {
 
     //stores
     store.set('sideSkirtLength', points.sideWaistRight.dist(points.sideHemRight))
-    store.get('insertSeamLength', points.sideWaistRight.dist(points.sideHemRight))
-    store.get(
+    store.set('insertSeamLength', measurements.waistToFloor)
+    store.set(
       'anchorSeamLength',
       points.cfWaist.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideWaistRight)
     )

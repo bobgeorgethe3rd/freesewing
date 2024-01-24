@@ -1,10 +1,11 @@
 import { frontBase } from './frontBase.mjs'
 import { centreFront } from './centreFront.mjs'
+import { pocket } from './pocket.mjs'
 
 export const sideFront = {
   name: 'petunia.sideFront',
   from: frontBase,
-  after: centreFront,
+  after: [centreFront, pocket],
   hide: {
     from: true,
     inherited: true,
@@ -81,7 +82,20 @@ export const sideFront = {
         points.cfWaistLeft.dist(points.waistDartLeft)
       )
       snippets.waistNotch = new Snippet('notch', points.waistNotch)
-      //NEED POCKET ONES SO IS SPRINKLE FOR NOW
+      if (options.pocketsBool && store.get('sideSkirtLength') > store.get('pocketLength')) {
+        points.pocketOpeningTop = points.sideWaistRight.shiftTowards(
+          points.sideHemRight,
+          store.get('pocketOpening')
+        )
+        points.pocketOpeningBottom = points.sideWaistRight.shiftTowards(
+          points.sideHemRight,
+          store.get('pocketOpeningLength')
+        )
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
+      }
       //title
       points.title = new Point(
         (points.sideWaistLeft.x + points.sideWaistRight.x) / 2,

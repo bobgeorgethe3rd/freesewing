@@ -1,10 +1,11 @@
 import { backBase } from './backBase.mjs'
 import { back } from './back.mjs'
+import { pocket } from './pocket.mjs'
 
 export const sideBack = {
   name: 'petunia.sideBack',
   from: backBase,
-  after: back,
+  after: [back, pocket],
   hide: {
     from: true,
     inherited: true,
@@ -98,6 +99,18 @@ export const sideBack = {
         snippet: 'bnotch',
         on: ['dartTip', 'sideBackNotch', 'armholePitch'],
       })
+      if (options.pocketsBool && store.get('sideSkirtLength') > store.get('pocketLength')) {
+        points.pocketOpeningTop = paths.sideSeam
+          .reverse()
+          .shiftAlong(points.sideWaist.dist(points.armhole) + store.get('pocketOpening'))
+        points.pocketOpeningBottom = paths.sideSeam
+          .reverse()
+          .shiftAlong(points.sideWaist.dist(points.armhole) + store.get('pocketOpeningLength'))
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
+      }
       //title
       points.title = new Point(
         points.armholePitch.x,
