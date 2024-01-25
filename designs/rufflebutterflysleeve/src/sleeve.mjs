@@ -229,7 +229,7 @@ export const sleeve = {
       })
       snippets.slitTop = new Snippet('bnotch', points.slitTop)
       //title
-      points.title = new Point(points.capQ4.x, points.slitMid.y / 2)
+      points.title = new Point(points.capQ2.x, points.slitMid.y / 2)
       macro('title', {
         at: points.title,
         nr: '1',
