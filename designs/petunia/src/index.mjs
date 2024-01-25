@@ -11,11 +11,13 @@ import { frontTop } from './frontTop.mjs'
 import { back } from './back.mjs'
 import { sideBack } from './sideBack.mjs'
 import { pocket } from './pocket.mjs'
+import { backFacing } from './backFacing.mjs'
 import { sleeve } from './sleeve.mjs'
 import { sleeveFlounce } from './sleeveFlounce.mjs'
 import { sleeveChannel } from './sleeveChannel.mjs'
 import { sleeveTie } from './sleeveTie.mjs'
 import { sleeveBand } from './sleeveBand.mjs'
+import { frontFacing } from './frontFacing.mjs'
 
 // Create new design
 const Petunia = new Design({
@@ -29,11 +31,13 @@ const Petunia = new Design({
     back,
     sideBack,
     pocket,
+    backFacing,
     sleeve,
     sleeveFlounce,
     sleeveChannel,
     sleeveTie,
     sleeveBand,
+    frontFacing,
   ],
 })
 
@@ -47,10 +51,12 @@ export {
   back,
   sideBack,
   pocket,
+  backFacing,
   sleeve,
   sleeveFlounce,
   sleeveChannel,
   sleeveTie,
   sleeveBand,
+  frontFacing,
   Petunia,
 }

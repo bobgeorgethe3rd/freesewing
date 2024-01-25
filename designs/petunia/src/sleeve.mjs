@@ -10,7 +10,7 @@ export const sleeve = {
     //Constants
     useVoidStores: false, //Locked for Petunia
     //Sleeves
-    sleevesBool: { bool: true, menu: 'sleeves' },
+    sleevesBool: { bool: false, menu: 'sleeves' },
   },
   measurements: rbSleeve.measurements,
   draft: (sh) => {
