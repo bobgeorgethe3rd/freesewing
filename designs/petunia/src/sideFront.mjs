@@ -150,12 +150,32 @@ export const sideFront = {
           .shift(points.sideWaistLeft.angle(points.sideHemLeft), hemSa)
           .shift(points.sideHemLeftCp2.angle(points.sideHemLeft), sa)
 
+        if (options.skirtSlit > 0) {
+          points.saSlitTopLeft = points.sideHemLeft
+            .shiftFractionTowards(points.sideWaistLeft, options.skirtSlit)
+            .shift(points.sideHemLeft.angle(points.sideWaistLeft), sa)
+            .shift(points.sideHemLeftCp2.angle(points.sideHemLeft), sa)
+          points.saSlitTopRight = points.sideHemLeft
+            .shiftFractionTowards(points.sideWaistLeft, options.skirtSlit)
+            .shift(points.sideHemLeftCp2.angle(points.sideHemLeft), hemSa)
+          points.saSlitBottom = points.sideHemLeft
+            .shift(points.sideWaistLeft.angle(points.sideHemLeft), hemSa)
+            .shift(points.sideHemLeftCp2.angle(points.sideHemLeft), hemSa)
+        } else {
+          points.saSlitTopLeft = points.saSideHemLeft
+          points.saSlitTopRight = points.saSideHemLeft
+          points.saSlitBottom = points.saSideHemLeft
+        }
+
         paths.sa = paths.hemBase
           .clone()
           .offset(hemSa)
           .line(points.saSideHemRight)
           .line(points.saSideWaistRight)
           .line(points.saSideWaistLeft)
+          .line(points.saSlitTopLeft)
+          .line(points.saSlitTopRight)
+          .line(points.saSlitBottom)
           .line(points.saSideHemLeft)
           .close()
           .attr('class', 'fabric sa')

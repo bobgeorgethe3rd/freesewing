@@ -9,6 +9,9 @@ export const centreFront = {
     inherited: true,
   },
   options: {
+    //Style
+    skirtSlit: { pct: 0, min: 0, max: 75, menu: 'style' },
+    //Construction
     skirtHemWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
   },
   plugins: [pluginLogoRG],
@@ -113,6 +116,23 @@ export const centreFront = {
           .shift(points.cfWaistLeft.angle(points.cfHemRight), hemSa)
           .shift(points.cfHemRightCp1.angle(points.cfHemRight), sa)
 
+        if (options.skirtSlit > 0) {
+          points.saSlitBottom = points.cfHemRight
+            .shift(points.cfWaistLeft.angle(points.cfHemRight), hemSa)
+            .shift(points.cfHemRightCp1.angle(points.cfHemRight), hemSa)
+          points.saSlitTopRight = points.cfHemRight
+            .shiftFractionTowards(points.cfWaistLeft, options.skirtSlit)
+            .shift(points.cfHemRightCp1.angle(points.cfHemRight), hemSa)
+          points.saSlitTopLeft = points.cfHemRight
+            .shiftFractionTowards(points.cfWaistLeft, options.skirtSlit)
+            .shift(points.cfHemRight.angle(points.cfWaistLeft), sa)
+            .shift(points.cfHemRightCp1.angle(points.cfHemRight), sa)
+        } else {
+          points.saSlitBottom = points.saCfHemRight
+          points.saSlitTopRight = points.saCfHemRight
+          points.saSlitTopLeft = points.saCfHemRight
+        }
+
         points.saWaistLeft = utils.beamsIntersect(
           points.saCfHemRight,
           points.saCfHemRight.shift(points.cfHemRight.angle(points.cfWaistLeft), 1),
@@ -132,6 +152,9 @@ export const centreFront = {
           .clone()
           .offset(hemSa)
           .line(points.saCfHemRight)
+          .line(points.saSlitBottom)
+          .line(points.saSlitTopRight)
+          .line(points.saSlitTopLeft)
           .line(points.saWaistLeft)
           .join(paths.saTop.offset(sa))
           .line(points.saCfNeck)
