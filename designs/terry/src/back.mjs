@@ -11,7 +11,7 @@ export const back = {
   options: {
     //Constants
     useChestFront: false, //Locked for Terry
-    closurePosition: 'side', //Locked for Terry
+    closurePosition: 'sideLeft', //Locked for Terry
     //Fit
     byronGuides: { bool: false, menu: 'fit' },
     chestEase: { pct: 17, min: 0, max: 20, menu: 'fit' }, //Altered for Terry
