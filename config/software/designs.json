@@ -308,6 +308,13 @@
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
       "tags": ["tops", "shirts"]
+    },
+    "terry": {
+      "description": "A T-shirt pattern",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "shirts"]
     }
   },
   "waistbands": {

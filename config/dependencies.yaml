@@ -312,6 +312,12 @@ teagan:
   peer:
     '@freesewing/brian': *freesewing
     '@freesewing/plugin-bust': *freesewing
+terry:
+  peer:
+    '@freesewing/byron': *freesewing
+    '@freesewing/simpleshirtsleeve': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
 theobald:
   peer:
     '@freesewing/dalton': *freesewing
