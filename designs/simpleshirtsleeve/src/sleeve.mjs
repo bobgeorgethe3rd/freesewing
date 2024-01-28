@@ -63,9 +63,7 @@ export const sleeve = {
       points.bottomLeft.y * options.sleeveSideCurveDepth
     )
 
-    const sleeveSideAngle =
-      points.sleeveCapLeft.angle(points.bottomLeftCp1Max) -
-      points.sleeveCapLeft.angle(points.bottomLeft)
+    const sleeveSideAngle = points.bottomLeft.angle(points.sleeveCapLeft) - 90
 
     points.bottomLeftCp1 = points.bottomLeftCp1Max.rotate(
       sleeveSideAngle * (1 - options.sleeveSideCurve),
