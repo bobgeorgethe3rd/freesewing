@@ -14,7 +14,7 @@ export const sleeve = {
     sleeveBands: false, //Locked for Simpleshirtsleeve
     //Sleeves
     sleeveHemStyle: { dflt: 'cuffed', list: ['cuffed', 'band', 'turnover'], menu: 'sleeves' },
-    sleeveLength: { pct: 25, min: 15, max: 100, menu: 'sleeves' },
+    sleeveLength: { pct: 25, min: 10, max: 100, menu: 'sleeves' },
     sleeveSideCurve: { pct: 50, min: 0, max: 100, menu: 'sleeves' },
     sleeveTurnoverDoubleFold: { bool: true, menu: 'sleeves' },
     //Advanced
