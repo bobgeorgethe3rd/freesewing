@@ -10,7 +10,6 @@ export const pocket = {
     //Constant
     patchPocketBottomWidth: 1, //Locked for Terry
     //Pockets
-    pockets: { bool: true, menu: 'pockets.patchPockets' },
     patchPocketPeakPlateau: { bool: false, menu: 'pockets.patchPockets' }, //Altered for Terry
     patchPocketStyle: {
       dflt: 'straight',
@@ -21,7 +20,7 @@ export const pocket = {
   draft: (sh) => {
     //draft
     const { points, options, complete, macro, part } = sh
-    if (!options.pockets) {
+    if (!options.pocketsBool) {
       part.hide()
       return part
     }
