@@ -11,8 +11,12 @@ export const pocket = {
     patchPocketBottomWidth: 1, //Locked for Shaun
     //Pockets
     pockets: { bool: true, menu: 'pockets' },
-    patchPocketPeakPlateau: { bool: false, menu: 'pockets' }, //Altered for Shaun
-    patchPocketStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'pockets' }, //Altered for Shaun
+    patchPocketPeakPlateau: { bool: false, menu: 'pockets.patchPockets' }, //Altered for Shaun
+    patchPocketStyle: {
+      dflt: 'straight',
+      list: ['straight', 'curved'],
+      menu: 'pockets.patchPockets',
+    }, //Altered for Shaun
   },
   draft: (sh) => {
     //draft

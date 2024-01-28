@@ -12,6 +12,7 @@ export const backPocket = {
     patchPocketPeakPlateau: false, //locked for Jackson
     patchPocketPeakCurve: 1, //locked for Jackson
     patchPocketStyle: 'straight', //locked for Jackson
+    patchPocketFolded: false, //locked for Jackson
     patchPocketGrainlineBias: false, //locked for Jackson
     backPocketPleatWidth: 0.143,
     backPocketPleatPlacement: 0.25,
@@ -28,9 +29,9 @@ export const backPocket = {
     // keep paths
     let keepThese
     if (sa) {
-      keepThese = ['top', 'grainline', 'seamTop', 'foldline']
+      keepThese = ['grainline', 'seamTop', 'foldline']
     } else {
-      keepThese = ['top', 'grainline']
+      keepThese = ['grainline']
     }
 
     for (const name in paths) {
@@ -79,7 +80,7 @@ export const backPocket = {
     }
 
     //paths
-    paths.seam = paths.saBase.clone().join(paths.top).close()
+    paths.seam = paths.saBase.clone().line(points.topLeft).close().unhide()
 
     if (complete) {
       //title

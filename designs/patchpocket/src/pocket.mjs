@@ -7,14 +7,19 @@ export const pocket = {
     //Constants
     useVoidStores: true,
     //Pocket
-    patchPocketStyle: { dflt: 'curved', list: ['straight', 'curved'], menu: 'pockets' },
-    patchPocketDepth: { pct: 0, min: -50, max: 200, menu: 'pockets' },
-    patchPocketWidth: { pct: 0, min: -50, max: 200, menu: 'pockets' },
-    patchPocketBottomWidth: { pct: 100, min: 50, max: 200, menu: 'pockets' },
-    patchPocketPeakDepth: { pct: 50, min: 0, max: 100, menu: 'pockets' },
-    patchPocketPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets' },
-    patchPocketPeakPlateau: { bool: true, menu: 'pockets' },
+    patchPocketStyle: {
+      dflt: 'curved',
+      list: ['straight', 'curved'],
+      menu: 'pockets.patchPockets',
+    },
+    patchPocketDepth: { pct: 0, min: -50, max: 200, menu: 'pockets.patchPockets' },
+    patchPocketWidth: { pct: 0, min: -50, max: 200, menu: 'pockets.patchPockets' },
+    patchPocketBottomWidth: { pct: 100, min: 50, max: 200, menu: 'pockets.patchPockets' },
+    patchPocketPeakDepth: { pct: 50, min: 0, max: 100, menu: 'pockets.patchPockets' },
+    patchPocketPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets.patchPockets' },
+    patchPocketPeakPlateau: { bool: true, menu: 'pockets.patchPockets' },
     //Construction
+    patchPocketFolded: { bool: false, menu: 'construction' },
     patchPocketTopSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
     patchPocketGrainlineBias: { bool: false, menu: 'construction' },
   },
@@ -117,7 +122,7 @@ export const pocket = {
       peakTo = points.peak
     }
 
-    const drawSaBase = () => {
+    const drawSeamBase = () => {
       if (options.patchPocketStyle == 'straight')
         return new Path()
           .move(points.topLeft)
@@ -136,9 +141,20 @@ export const pocket = {
           .line(points.topRight)
     }
 
-    paths.top = new Path().move(points.topRight).line(points.topLeft).hide()
+    paths.seamBase = drawSeamBase().hide()
 
-    paths.seam = drawSaBase().join(paths.top).close()
+    macro('mirror', {
+      mirror: [points.topLeft, points.topRight],
+      paths: ['seamBase'],
+      prefix: 'm',
+    })
+
+    const drawSeamTop = () => {
+      if (options.patchPocketFolded) return paths.mSeamBase.reverse()
+      else return new Path().move(points.topRight).line(points.topLeft)
+    }
+
+    paths.seam = drawSeamBase().join(drawSeamTop()).close()
 
     //stores
     store.set('patchPocketSideAngle', points.topLeft.angle(points.bottomLeft))
@@ -148,10 +164,15 @@ export const pocket = {
       let grainlineFrom
       let grainlineTo
       if (options.patchPocketGrainlineBias) {
-        grainlineFrom = points.topLeft
-        grainlineTo = points.bottomRight
+        points.grainlineMid = new Point(points.topMid.x, points.bottomRight.y / 2)
+        grainlineFrom = points.grainlineMid.shift(135, pocketWidth * 0.5)
+        grainlineTo = points.grainlineMid.shift(315, pocketBottomWidth * 0.5)
       } else {
-        grainlineFrom = points.topMid
+        if (options.patchPocketFolded) {
+          grainlineFrom = points.peak.flipY()
+        } else {
+          grainlineFrom = points.topMid
+        }
         grainlineTo = points.peak
       }
       macro('grainline', {
@@ -249,61 +270,116 @@ export const pocket = {
               points.peak.x
             )
           }
-          let peak
+          let peakLeft
+          let peakRight
           if (options.patchPocketPeakPlateau) {
-            peak = points.peakLeftEnd
+            peakLeft = points.peakLeftEnd
+            peakRight = points.peakRightStart
           } else {
-            peak = points.peak
+            peakLeft = points.peak
+            peakRight = points.peak
           }
 
-          paths.saCurve = new Path()
+          paths.saCurveLeft = new Path()
             .move(points.peakLeftStart)
-            .curve(points.peakLeftStartCp2, points.peakLeftEndCp1, peak)
+            .curve(points.peakLeftStartCp2, points.peakLeftEndCp1, peakLeft)
+            .offset(sa)
+            .hide()
+
+          paths.saCurveRight = new Path()
+            .move(peakRight)
+            .curve(points.peakRightStartCp2, points.peakRightEndCp1, points.peakRightEnd)
             .offset(sa)
             .hide()
         }
-        paths.saLeft = new Path()
-          .move(points.saTopLeftCorner)
-          .line(points.saTopLeft)
-          .line(points.saLeft)
-          .line(points.saPeakLeft)
-          .hide()
 
-        const drawSa = () => {
+        const drawSaLeftBase = () => {
+          if (options.patchPocketFolded) {
+            return new Path().move(points.saLeft)
+          } else {
+            return new Path()
+              .move(points.saTopLeftCorner)
+              .line(points.saTopLeft)
+              .line(points.saLeft)
+          }
+        }
+
+        const drawSaRightBase = () => {
+          if (options.patchPocketFolded) {
+            return new Path().line(points.saLeft.flipX())
+          } else {
+            return new Path()
+              .line(points.saLeft.flipX())
+              .line(points.saTopLeft.flipX())
+              .move(points.saTopLeftCorner.flipX())
+          }
+        }
+
+        paths.saLeft = drawSaLeftBase().line(points.saPeakLeft).hide()
+
+        paths.saRight = new Path().move(points.saPeakLeft.flipX()).join(drawSaRightBase()).hide()
+
+        const drawSaLeft = () => {
           if (options.patchPocketPeakDepth == 0 || options.patchPocketPeakCurve == 0) {
             return paths.saLeft.line(points.saBottomLeft)
           } else {
             if (options.patchPocketStyle == 'straight')
               return paths.saLeft.line(points.saPeakLeftStart).line(points.saPeakLeftEnd)
-            if (options.patchPocketStyle == 'curved') return paths.saLeft.join(paths.saCurve)
+            if (options.patchPocketStyle == 'curved') return paths.saLeft.join(paths.saCurveLeft)
           }
         }
 
-        paths.sa = drawSa().hide()
+        const drawSaRight = () => {
+          if (options.patchPocketPeakDepth == 0 || options.patchPocketPeakCurve == 0) {
+            return new Path()
+              .move(points.saBottomLeft.flipX())
+              .line(points.saPeakLeft.flipX())
+              .join(paths.saRight)
+          } else {
+            if (options.patchPocketStyle == 'straight')
+              return new Path()
+                .move(points.saPeakLeftEnd.flipX())
+                .line(points.saPeakLeftStart.flipX())
+                .join(paths.saRight)
+            if (options.patchPocketStyle == 'curved') return paths.saCurveRight.join(paths.saRight)
+          }
+        }
+
+        paths.saBase = drawSaLeft().join(drawSaRight()).hide()
 
         macro('mirror', {
-          mirror: [points.topMid, points.peak],
-          paths: ['sa'],
+          mirror: [points.topLeft, points.topRight],
+          paths: ['saBase'],
           prefix: 'm',
         })
 
-        paths.sa = paths.sa
-          .join(paths.mSa.reverse())
-          .line(points.saTopLeftCorner)
+        const drawSaBase = () => {
+          if (options.patchPocketFolded) {
+            return paths.saBase.join(paths.mSaBase.reverse())
+          } else {
+            return paths.saBase
+          }
+        }
+
+        paths.sa = drawSaBase()
+          .line(drawSaLeft().start())
           .close()
           .attr('class', 'fabric sa')
+          .unhide()
 
-        points.topLeftFold = points.saTopLeft.shift(0, points.saLeft.dist(points.topLeft))
-        paths.seamTop = new Path()
-          .move(points.topRight)
-          .line(points.topLeftFold.flipX(points.topMid))
-          .line(points.topLeftFold)
-          .line(points.topLeft)
+        if (!options.patchPocketFolded) {
+          points.topLeftFold = points.saTopLeft.shift(0, points.saLeft.dist(points.topLeft))
+          paths.seamTop = new Path()
+            .move(points.topRight)
+            .line(points.topLeftFold.flipX(points.topMid))
+            .line(points.topLeftFold)
+            .line(points.topLeft)
+        }
 
         paths.foldline = new Path()
           .move(points.topLeft)
           .line(points.topRight)
-          .attr('class', 'fabric hidden')
+          .attr('class', 'various')
           .attr('data-text', 'Fold-line')
           .attr('data-text-class', 'center')
       }

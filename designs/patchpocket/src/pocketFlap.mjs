@@ -7,13 +7,17 @@ export const pocketFlap = {
   from: pocket,
   options: {
     //Pockets
-    patchPocketFlapStyle: { dflt: 'curved', list: ['straight', 'curved'], menu: 'pockets.flaps' },
-    patchPocketFlapDepth: { pct: 20, min: 0, max: 50, menu: 'pockets.flaps' },
-    patchPocketFlapPeakDepth: { pct: 50, min: 0, max: 100, menu: 'pockets.flaps' },
-    patchPocketFlapBottomWidth: { pct: 100, min: 50, max: 200, menu: 'pockets.flaps' },
-    patchPocketFlapPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets.flaps' },
-    patchPocketFlapPeakPlateau: { bool: true, menu: 'pockets.flaps' },
-    independentPatchPocketFlap: { bool: false, menu: 'pockets.flaps' },
+    patchPocketFlapStyle: {
+      dflt: 'curved',
+      list: ['straight', 'curved'],
+      menu: 'pockets.patchPocketsFlaps',
+    },
+    patchPocketFlapDepth: { pct: 20, min: 0, max: 50, menu: 'pockets.patchPocketsFlaps' },
+    patchPocketFlapPeakDepth: { pct: 50, min: 0, max: 100, menu: 'pockets.patchPocketsFlaps' },
+    patchPocketFlapBottomWidth: { pct: 100, min: 50, max: 200, menu: 'pockets.patchPocketsFlaps' },
+    patchPocketFlapPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets.patchPocketsFlaps' },
+    patchPocketFlapPeakPlateau: { bool: true, menu: 'pockets.patchPocketsFlaps' },
+    independentPatchPocketFlap: { bool: false, menu: 'pockets.patchPocketsFlaps' },
   },
   plugins: [pluginBundle, pluginMirror],
   draft: ({
@@ -36,11 +40,26 @@ export const pocketFlap = {
     //delete paths
     for (let i in paths) delete paths[i]
     //options
+    let patchPocketFlapPeakDepth
+    let patchPocketFlapPeakCurve
     if (!options.independentPatchPocketFlap) {
       options.patchPocketFlapStyle = options.patchPocketStyle
-      options.patchPocketFlapPeakDepth = options.patchPocketPeakDepth
-      options.patchPocketFlapPeakCurve = options.patchPocketPeakCurve
       options.patchPocketFlapPeakPlateau = options.patchPocketPeakPlateau
+
+      if (options.patchPocketPeakDepth != 0) {
+        patchPocketFlapPeakDepth = options.patchPocketPeakDepth
+      } else {
+        patchPocketFlapPeakDepth = 0
+      }
+
+      if (options.patchPocketPeakCurve != 0) {
+        patchPocketFlapPeakCurve = options.patchPocketPeakCurve
+      } else {
+        patchPocketFlapPeakCurve = 0
+      }
+    } else {
+      patchPocketFlapPeakDepth = options.patchPocketFlapPeakDepth
+      patchPocketFlapPeakCurve = options.patchPocketFlapPeakCurve
     }
     //measures
     const flapDepth = store.get('patchPocketDepth') * options.patchPocketFlapDepth
@@ -66,7 +85,7 @@ export const pocketFlap = {
     points.bottomRight = points.bottomLeft.flipX(points.bottomMid)
 
     const flapPeakDepth =
-      points.bottomLeft.dist(points.bottomRight) * options.patchPocketFlapPeakDepth * 0.5
+      points.bottomLeft.dist(points.bottomRight) * patchPocketFlapPeakDepth * 0.5
     //peak
     points.peak = points.bottomMid.shift(-90, flapPeakDepth)
     points.peakLeft = utils.beamsIntersect(
@@ -79,7 +98,7 @@ export const pocketFlap = {
     if (points.peakLeft.dist(points.peak) < points.peakLeft.dist(points.bottomLeftAnchor)) {
       points.peakLeftEnd = points.peakLeft.shiftFractionTowards(
         points.peak,
-        options.patchPocketFlapPeakCurve
+        patchPocketFlapPeakCurve
       )
       points.peakLeftStart = points.peakLeftEnd.rotate(
         points.peakLeft.angle(points.bottomLeftAnchor),
@@ -88,7 +107,7 @@ export const pocketFlap = {
     } else {
       points.peakLeftStart = points.peakLeft.shiftFractionTowards(
         points.bottomLeftAnchor,
-        options.patchPocketFlapPeakCurve
+        patchPocketFlapPeakCurve
       )
       points.peakLeftEnd = points.peakLeftStart.rotate(
         -points.peakLeft.angle(points.bottomLeftAnchor),
@@ -197,7 +216,7 @@ export const pocketFlap = {
           points.peak.y + sa
         )
 
-        if (options.patchPocketFlapPeakCurve > 0 && options.patchPocketFlapPeakDepth > 0) {
+        if (patchPocketFlapPeakCurve > 0 && patchPocketFlapPeakDepth > 0) {
           if (options.patchPocketFlapPeakPlateau) {
             points.saPeakLeftStart = utils.beamsIntersect(
               points.topLeft.shiftTowards(points.peakLeftStart, sa).rotate(-90, points.topLeft),
@@ -211,7 +230,7 @@ export const pocketFlap = {
                 .shiftTowards(points.peakLeftStart, sa)
                 .rotate(90, points.peakLeftEnd)
             )
-            if (options.patchPocketFlapPeakCurve == 1 && options.patchPocketFlapPeakDepth == 1) {
+            if (patchPocketFlapPeakCurve == 1 && patchPocketFlapPeakDepth == 1) {
               points.saPeakLeftEnd = utils.beamIntersectsX(
                 points.peakLeftStart
                   .shiftTowards(points.peakLeftEnd, sa)
@@ -267,7 +286,7 @@ export const pocketFlap = {
           .hide()
 
         const drawSa = () => {
-          if (options.patchPocketFlapPeakDepth == 0 || options.patchPocketFlapPeakCurve == 0) {
+          if (patchPocketFlapPeakDepth == 0 || patchPocketFlapPeakCurve == 0) {
             return paths.saLeft.line(points.saBottomLeft)
           } else {
             if (options.patchPocketFlapStyle == 'straight')

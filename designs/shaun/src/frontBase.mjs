@@ -24,8 +24,8 @@ export const frontBase = {
     buttonEnd: { pct: 12.7, min: 5, max: 15, menu: 'plackets' },
     buttonNumber: { count: 6, min: 5, max: 10, menu: 'plackets' },
     //Pockets
-    patchPocketWidth: { pct: 56, min: 30, max: 80, menu: 'pockets' },
-    patchPocketDepth: { pct: 23.9, min: 20, max: 30, menu: 'pockets' },
+    patchPocketWidth: { pct: 56, min: 30, max: 80, menu: 'pockets.patchPockets' },
+    patchPocketDepth: { pct: 23.9, min: 20, max: 30, menu: 'pockets.patchPockets' },
     //Advanced
     skirtFrontWidth: { pct: 36.4, min: 0, max: 50, menu: 'advanced.style' },
     skirtFrontCurve: { pct: 50, min: 0, max: 50, menu: 'advanced.style' },

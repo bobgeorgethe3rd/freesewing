@@ -9,7 +9,7 @@ export const pocketFlap = {
     ...patchPocketFlap.options,
     //Pockets
     frontPocketFlapsBool: { bool: true, menu: 'pockets' },
-    patchPocketFlapPeakDepth: { pct: 100, min: 0, max: 100, menu: 'pockets.flaps' }, //Altered for Shannon
+    patchPocketFlapPeakDepth: { pct: 100, min: 0, max: 100, menu: 'pockets.patchPocketsFlaps' }, //Altered for Shannon
   },
   draft: (sh) => {
     //draft
