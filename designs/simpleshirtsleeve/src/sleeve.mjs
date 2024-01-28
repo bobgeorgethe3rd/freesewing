@@ -11,7 +11,7 @@ export const sleeve = {
     ...basicsleeve.options,
     //Constants
     sleeveFlounces: 'none', //Locked for Simpleshirtsleeve
-    sleeveBands: 'false', //Locked for Simpleshirtsleeve
+    sleeveBands: false, //Locked for Simpleshirtsleeve
     //Sleeves
     sleeveHemStyle: { dflt: 'cuffed', list: ['cuffed', 'band', 'turnover'], menu: 'sleeves' },
     sleeveLength: { pct: 25, min: 15, max: 100, menu: 'sleeves' },

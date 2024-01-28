@@ -13,7 +13,6 @@ export const sleeve = {
     ...fullshirtsleeve.options,
     ...simpleshirtsleeve.options,
     //Constants
-    sleeveBands: false, //Locked for Shaun
     sleeveTurnoverDoubleFold: true, //Lockedfor Shaun
     //Sleeves
     sleeveType: { dflt: 'full', list: ['full', 'short'], menu: 'sleeves' },
