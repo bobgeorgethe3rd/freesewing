@@ -5,12 +5,13 @@ import { data } from '../data.mjs'
 // Parts
 import { back } from './back.mjs'
 import { front } from './front.mjs'
+import { pocket } from './pocket.mjs'
 
 // Create new design
 const Terry = new Design({
   data,
-  parts: [back, front],
+  parts: [back, front, pocket],
 })
 
 // Named exports
-export { back, front, Terry }
+export { back, front, pocket, Terry }

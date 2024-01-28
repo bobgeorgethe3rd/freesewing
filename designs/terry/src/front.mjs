@@ -11,7 +11,12 @@ export const front = {
     from: true,
     inherited: true,
   },
-  options: {},
+  options: {
+    //Pockets
+    pocketsBool: { bool: true, menu: 'pockets' },
+    patchPocketWidth: { pct: 46.6, min: 30, max: 60, menu: 'pockets.patchPockets' },
+    patchPocketDepth: { pct: 91.6, min: 70, max: 110, menu: 'pockets.patchPockets' },
+  },
   plugins: [pluginLogoRG],
   draft: ({
     store,
@@ -87,6 +92,19 @@ export const front = {
       .line(points.cfHem)
       .close()
 
+    //pocket
+    const patchPocketWidth = points.shoulder.x * options.patchPocketWidth
+    points.pocketMid = new Point(
+      points.armholePitch.x / 2,
+      points.cArmholePitch.shiftFractionTowards(points.cArmhole, 2 / 3).y
+    )
+    points.pocketLeft = points.pocketMid.shift(180, patchPocketWidth / 2)
+    points.pocketRight = points.pocketLeft.flipX(points.pocketMid)
+
+    //stores
+    store.set('patchPocketWidth', patchPocketWidth)
+    store.set('patchPocketDepth', patchPocketWidth * options.patchPocketDepth)
+
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.cfHead
@@ -103,7 +121,7 @@ export const front = {
       //title
       points.title = new Point(
         points.shoulder.x * 0.45,
-        points.armholePitch.y + (points.sideHem.y - points.armholePitch.y) * 0.25
+        points.armhole.y + (points.sideHem.y - points.armhole.y) * 0.1
       )
       macro('title', {
         at: points.title,
@@ -114,15 +132,28 @@ export const front = {
       //logo
       points.logo = new Point(
         points.shoulder.x * 0.5,
-        points.armholePitch.y + (points.sideHem.y - points.armholePitch.y) * 0.5
+        points.armhole.y + (points.sideHem.y - points.armhole.y) * 0.4
       )
       macro('logorg', { at: points.logo, scale: 0.5 })
       //scalebox
       points.scalebox = new Point(
         points.shoulder.x * 0.5,
-        points.armholePitch.y + (points.sideHem.y - points.armholePitch.y) * 0.75
+        points.armhole.y + (points.sideHem.y - points.armhole.y) * 0.8
       )
       macro('scalebox', { at: points.scalebox })
+      //pockets
+      if (options.pocketsBool) {
+        paths.pocketline = new Path()
+          .move(points.pocketLeft)
+          .line(points.pocketRight)
+          .attr('class', 'mark')
+          .attr('data-text', 'Pocket line')
+          .attr('data-text-class', 'center')
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketLeft', 'pocketRight'],
+        })
+      }
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
