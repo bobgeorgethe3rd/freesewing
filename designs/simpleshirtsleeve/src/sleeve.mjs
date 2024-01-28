@@ -242,7 +242,11 @@ export const sleeve = {
           options.sleeveHemStyle == 'turnover' &&
           points.bottomAnchor.y > 0
         ) {
-          points.saHemRight = new Point(drawSaRight().start().x, drawHemBase().end().y)
+          points.saHemRight = utils.beamIntersectsY(
+            drawSaRight().start(),
+            drawSaRight().shiftFractionAlong(0.01),
+            drawHemBase().end().y
+          )
         } else {
           points.saHemRight = new Point(drawSaRight().start().x, drawHemBase().offset(sa).end().y)
         }
