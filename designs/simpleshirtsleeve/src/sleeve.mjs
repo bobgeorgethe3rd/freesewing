@@ -16,6 +16,7 @@ export const sleeve = {
     sleeveHemStyle: { dflt: 'cuffed', list: ['cuffed', 'band', 'turnover'], menu: 'sleeves' },
     sleeveLength: { pct: 25, min: 15, max: 100, menu: 'sleeves' },
     sleeveSideCurve: { pct: 50, min: 0, max: 100, menu: 'sleeves' },
+    sleeveTurnoverDoubleFold: { bool: true, menu: 'sleeves' },
     //Advanced
     sleeveSideCurveDepth: { pct: 50, min: 30, max: 70, menu: 'advanced.sleeves' },
   },
@@ -110,18 +111,11 @@ export const sleeve = {
           'bottomRightCp2',
           'sleeveCapRight',
         ],
+        paths: ['saLeft', 'saRight'],
         prefix: 'm',
       })
-      paths.saLeft1 = new Path()
-        .move(points.bottomLeft)
-        .curve_(points.mBottomLeftCp1, points.mSleeveCapLeft)
-        .split(points.mSplitLeft)[0]
-        .hide()
-      paths.saRight1 = new Path()
-        .move(points.mSleeveCapRight)
-        ._curve(points.mBottomRightCp2, points.bottomRight)
-        .split(points.mSplitRight)[1]
-        .hide()
+      paths.saLeft1 = paths.mSaLeft.reverse().split(points.mSplitLeft)[0].hide()
+      paths.saRight1 = paths.mSaRight.reverse().split(points.mSplitRight)[1].hide()
 
       macro('mirror', {
         mirror: [points.mSplitLeft, points.mSplitRight],
@@ -130,7 +124,7 @@ export const sleeve = {
       })
     }
 
-    const drawSaLeft = () => {
+    const drawSeamLeft = () => {
       if (options.sleeveHemStyle != 'band' && points.bottomAnchor.y > 0) {
         if (options.sleeveHemStyle == 'cuffed') {
           return paths.saLeft.join(paths.saLeft1).join(paths.mSaLeft1.reverse())
@@ -154,7 +148,7 @@ export const sleeve = {
       }
     }
 
-    const drawSaRight = () => {
+    const drawSeamRight = () => {
       if (options.sleeveHemStyle != 'band' && points.bottomAnchor.y > 0) {
         if (options.sleeveHemStyle == 'cuffed') {
           return paths.mSaRight1.reverse().join(paths.saRight1).join(paths.saRight)
@@ -166,7 +160,11 @@ export const sleeve = {
       }
     }
 
-    paths.seam = drawHemBase().join(drawSaRight()).join(paths.sleevecap).join(drawSaLeft()).close()
+    paths.seam = drawHemBase()
+      .join(drawSeamRight())
+      .join(paths.sleevecap)
+      .join(drawSeamLeft())
+      .close()
 
     //stores
     store.set('sleeveBandLength', points.bottomLeft.dist(points.bottomRight))
@@ -200,17 +198,61 @@ export const sleeve = {
       if (sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const armholeSa = sa * options.armholeSaWidth * 100
-        points.saHemRight = new Point(
-          drawSaRight().offset(sideSeamSa).start().x,
-          drawHemBase().offset(sa).end().y
-        )
+
+        const drawSaLeft = () => {
+          if (options.sleeveHemStyle != 'band' && points.bottomAnchor.y > 0) {
+            if (options.sleeveHemStyle == 'cuffed') {
+              return paths.saLeft
+                .join(paths.saLeft1)
+                .offset(sideSeamSa)
+                .join(paths.mSaLeft1.offset(-sideSeamSa).reverse())
+            } else {
+              return paths.saLeft.join(paths.saLeft1).offset(sideSeamSa)
+            }
+          } else {
+            if (points.bottomAnchor.y > 0) {
+              return paths.saLeft.offset(sideSeamSa)
+            } else {
+              return new Path().move(points.saSleeveCapLeft)
+            }
+          }
+        }
+
+        const drawSaRight = () => {
+          if (options.sleeveHemStyle != 'band' && points.bottomAnchor.y > 0) {
+            if (options.sleeveHemStyle == 'cuffed') {
+              return paths.mSaRight1
+                .offset(-sideSeamSa)
+                .reverse()
+                .join(paths.saRight1.offset(sideSeamSa))
+                .join(paths.saRight.offset(sideSeamSa))
+            } else {
+              return paths.saRight1.join(paths.saRight).offset(sideSeamSa)
+            }
+          } else {
+            if (points.bottomAnchor.y > 0) {
+              return paths.saRight.offset(sideSeamSa)
+            } else {
+              return new Path().move(points.saSleeveCapRight)
+            }
+          }
+        }
+        if (
+          !options.sleeveTurnoverDoubleFold &&
+          options.sleeveHemStyle == 'turnover' &&
+          points.bottomAnchor.y > 0
+        ) {
+          points.saHemRight = new Point(drawSaRight().start().x, drawHemBase().end().y)
+        } else {
+          points.saHemRight = new Point(drawSaRight().start().x, drawHemBase().offset(sa).end().y)
+        }
         //need resetting due to path changes
         points.saSleeveCapRight = new Point(
-          drawSaRight().offset(sideSeamSa).end().x,
+          drawSaRight().end().x,
           paths.sleevecap.offset(armholeSa).start().y
         )
         points.saSleeveCapLeft = new Point(
-          drawSaLeft().offset(sideSeamSa).start().x,
+          drawSaLeft().start().x,
           paths.sleevecap.offset(armholeSa).end().y
         )
         points.saHemLeft = points.saHemRight.flipX(points.bottomAnchor)
@@ -218,11 +260,11 @@ export const sleeve = {
         paths.sa = new Path()
           .move(points.saHemLeft)
           .line(points.saHemRight)
-          .join(drawSaRight().offset(sideSeamSa))
+          .join(drawSaRight())
           .line(points.saSleeveCapRight)
           .join(paths.sleevecap.offset(armholeSa))
           .line(points.saSleeveCapLeft)
-          .join(drawSaLeft().offset(sideSeamSa))
+          .join(drawSaLeft())
           .line(points.saHemLeft)
           .close()
           .attr('class', 'fabric sa')
