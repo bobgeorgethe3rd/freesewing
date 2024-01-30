@@ -258,6 +258,34 @@ export const front = {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
         }
 
+        // points.saArmhole = new Point(
+        // points.armhole.shift(45, armholeSa).x,
+        // points.armhole.y - armholeSa
+        // )
+        // points.saArmholeCp2 = new Point(
+        // points.armholeCp2.shift(45, armholeSa).x,
+        // points.armholeCp2.y - armholeSa
+        // )
+        // points.saArmholePitch = points.armholePitch.shift(0, armholeSa)
+        // points.saArmholePitchCp1 = utils.beamsIntersect(
+        // points.saArmholePitch,
+        // points.armholePitch.rotate(-90, points.saArmholePitch),
+        // points.armholePitchCp1,
+        // points.armholePitchCp1.shift(45, 1)
+        // )
+        // points.saArmholePitchCp2 = utils.beamsIntersect(
+        // points.armholePitchCp2,
+        // points.shoulder.rotate(-90, points.armholePitchCp2),
+        // points.saArmholePitchCp1,
+        // points.saArmholePitch
+        // )
+        // points.saShoulder = points.hps.shiftOutwards(points.shoulder, armholeSa)
+        // paths.saArmhole = new Path()
+        // .move(points.saArmhole)
+        // .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
+        // .curve_(points.saArmholePitchCp2, points.saShoulder)
+        // .hide()
+
         points.saSideWaist = new Point(points.sideWaist.x + armholeSa, points.sideWaist.y + hemSa)
         points.saArmholeCorner = utils.beamsIntersect(
           points.armholeCp2.shift(90, armholeSa),
