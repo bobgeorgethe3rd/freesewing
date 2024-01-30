@@ -13,6 +13,7 @@ export const waistbandLeft = {
     closurePosition: 'front', //locked for Theobald
   },
   after: [frontBase, flyShield],
+  plugins: [...waistbandStraight.plugins, ...waistbandCurved.plugins],
   draft: (sh) => {
     const {
       macro,
@@ -39,22 +40,27 @@ export const waistbandLeft = {
     if (options.waistbandFishtail) {
       leftPathKeep = ''
     } else {
-      leftPathKeep = 'left'
+      leftPathKeep = 'waistbandLeft'
     }
-    const keepPaths = ['leftEx', leftPathKeep]
+    const keepPaths = ['waistbandLeftEx', leftPathKeep]
     for (const name in paths) {
       if (keepPaths.indexOf(name) === -1) delete paths[name]
     }
 
     let buttonKeep
     if (options.waistbandOverlapSide == 'right') {
-      buttonKeep = ['buttonOverlap0', 'buttonOverlapF0', 'buttonPlacket', 'buttonPlacketF']
+      buttonKeep = [
+        'waistbandButtonOverlap0',
+        'waistbandButtonOverlapF0',
+        'waistbandButtonPlacket',
+        'waistbandButtonPlacketF',
+      ]
     } else {
       buttonKeep = [
-        'buttonholeOverlap0',
-        'buttonholeOverlapF0',
-        'buttonholePlacket',
-        'buttonholePlacketF',
+        'waistbandButtonholeOverlap0',
+        'waistbandButtonholeOverlapF0',
+        'waistbandButtonholePlacket',
+        'waistbandButtonholePlacketF',
       ]
     }
 
@@ -62,10 +68,11 @@ export const waistbandLeft = {
     if (options.waistbandFishtail) {
       leftNotchKeep = ''
     } else {
-      leftNotchKeep = ['bottomLeftNotch-notch', 'topLeftNotch-notch']
+      leftNotchKeep = ['waistbandBottomLeftNotch-notch', 'waistbandTopLeftNotch-notch']
     }
 
-    const keepSnippets = ['bottomLeft-notch', 'topLeft-notch'] + buttonKeep + leftNotchKeep
+    const keepSnippets =
+      ['waistbandBottomLeft-notch', 'waistbandTopLeft-notch'] + buttonKeep + leftNotchKeep
     for (const name in snippets) {
       if (keepSnippets.indexOf(name) === -1) delete snippets[name]
     }
@@ -75,33 +82,44 @@ export const waistbandLeft = {
     const waistbandWidth = store.get('waistbandWidth')
     //let's begin
     if (options.waistbandFishtail) {
-      points.pivot = points.bottomLeftNotch.shiftTowards(points.topLeftNotch, waistbandWidth)
+      points.pivot = points.waistbandBottomLeftNotch.shiftTowards(
+        points.waistbandTopLeftNotch,
+        waistbandWidth
+      )
       points.fishtailLeftEx = points.pivot
-        .shiftTowards(points.bottomLeftNotch, store.get('waistbandFishtailOffset'))
+        .shiftTowards(points.waistbandBottomLeftNotch, store.get('waistbandFishtailOffset'))
         .rotate(90, points.pivot)
       if (options.waistbandStyle == 'curved') {
         let angle
         let fishtailWidth
         if (store.get('waistbandLengthTop') > store.get('waistbandLength')) {
           angle =
-            points.origin.angle(points.bottomLeft) - points.origin.angle(points.bottomLeftNotch)
+            points.waistbandOrigin.angle(points.waistbandBottomLeft) -
+            points.waistbandOrigin.angle(points.waistbandBottomLeftNotch)
           fishtailWidth = store.get('waistbandWidth') * -1
         } else {
           angle =
-            points.origin.angle(points.bottomLeftNotch) - points.origin.angle(points.bottomLeft)
+            points.waistbandOrigin.angle(points.waistbandBottomLeftNotch) -
+            points.waistbandOrigin.angle(points.waistbandBottomLeft)
           fishtailWidth = store.get('waistbandWidth')
         }
-        const radius = points.origin.dist(points.bottomLeftNotch)
+        const radius = points.waistbandOrigin.dist(points.waistbandBottomLeftNotch)
         const fishtailCpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 4)
 
-        points.fishtailLeftCp1 = points.bottomLeft
-          .shiftTowards(points.topLeft, fishtailCpDistance)
-          .rotate(-90, points.bottomLeft)
-        points.fishtailLeftCp2 = points.bottomLeftNotch
-          .shiftTowards(points.topLeftNotch, fishtailCpDistance)
-          .rotate(90, points.bottomLeftNotch)
-        points.fishtailLeftCp3 = points.fishtailLeftCp2.shiftTowards(points.origin, fishtailWidth)
-        points.fishtailLeftCp4 = points.fishtailLeftCp1.shiftTowards(points.origin, fishtailWidth)
+        points.fishtailLeftCp1 = points.waistbandBottomLeft
+          .shiftTowards(points.waistbandTopLeft, fishtailCpDistance)
+          .rotate(-90, points.waistbandBottomLeft)
+        points.fishtailLeftCp2 = points.waistbandBottomLeftNotch
+          .shiftTowards(points.waistbandTopLeftNotch, fishtailCpDistance)
+          .rotate(90, points.waistbandBottomLeftNotch)
+        points.fishtailLeftCp3 = points.fishtailLeftCp2.shiftTowards(
+          points.waistbandOrigin,
+          fishtailWidth
+        )
+        points.fishtailLeftCp4 = points.fishtailLeftCp1.shiftTowards(
+          points.waistbandOrigin,
+          fishtailWidth
+        )
         //stores
         store.set('fishtailWidth', fishtailWidth)
       }
@@ -111,42 +129,46 @@ export const waistbandLeft = {
       if (options.waistbandStyle == 'straight') {
         if (options.waistbandFishtail)
           return new Path()
-            .move(points.bottomLeftEx)
-            .line(points.bottomLeftNotch)
+            .move(points.waistbandBottomLeftEx)
+            .line(points.waistbandBottomLeftNotch)
             .line(points.fishtailLeftEx)
-            .line(points.topLeftNotch)
-            .line(points.topLeftEx)
-            .line(points.bottomLeftEx)
+            .line(points.waistbandTopLeftNotch)
+            .line(points.waistbandTopLeftEx)
+            .line(points.waistbandBottomLeftEx)
             .close()
         else
           return new Path()
-            .move(points.bottomLeftEx)
-            .line(points.bottomMid)
-            .line(points.topMid)
-            .line(points.topLeftEx)
-            .line(points.bottomLeftEx)
+            .move(points.waistbandBottomLeftEx)
+            .line(points.waistbandBottomMid)
+            .line(points.waistbandTopMid)
+            .line(points.waistbandTopLeftEx)
+            .line(points.waistbandBottomLeftEx)
             .close()
       } else {
         if (options.waistbandFishtail)
           return new Path()
-            .move(points.bottomLeftEx)
-            .line(points.bottomLeft)
-            .curve(points.fishtailLeftCp1, points.fishtailLeftCp2, points.bottomLeftNotch)
+            .move(points.waistbandBottomLeftEx)
+            .line(points.waistbandBottomLeft)
+            .curve(points.fishtailLeftCp1, points.fishtailLeftCp2, points.waistbandBottomLeftNotch)
             .line(points.fishtailLeftEx)
-            .line(points.topLeftNotch)
-            .curve(points.fishtailLeftCp3, points.fishtailLeftCp4, points.topLeft)
-            .line(points.topLeftEx)
-            .line(points.bottomLeftEx)
+            .line(points.waistbandTopLeftNotch)
+            .curve(points.fishtailLeftCp3, points.fishtailLeftCp4, points.waistbandTopLeft)
+            .line(points.waistbandTopLeftEx)
+            .line(points.waistbandBottomLeftEx)
             .close()
         else
           return new Path()
-            .move(points.bottomLeftEx)
-            .line(points.bottomLeft)
-            .curve(points.bottomLeftCp2, points.bottomMidCp1, points.bottomMid)
-            .line(points.topMid)
-            .curve(points.topMidCp2, points.topLeftCp1, points.topLeft)
-            .line(points.topLeftEx)
-            .line(points.bottomLeftEx)
+            .move(points.waistbandBottomLeftEx)
+            .line(points.waistbandBottomLeft)
+            .curve(
+              points.waistbandBottomLeftCp2,
+              points.waistbandBottomMidCp1,
+              points.waistbandBottomMid
+            )
+            .line(points.waistbandTopMid)
+            .curve(points.waistbandTopMidCp2, points.waistbandTopLeftCp1, points.waistbandTopLeft)
+            .line(points.waistbandTopLeftEx)
+            .line(points.waistbandBottomLeftEx)
             .close()
       }
     }
@@ -158,16 +180,25 @@ export const waistbandLeft = {
       let titleRot
       if (options.waistbandStyle == 'straight') {
         titleRot = 0
-        points.grainlineFrom = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
-        points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomLeft.y)
-        points.title = points.topLeftNotch
-          .shiftFractionTowards(points.topLeft, 0.25)
+        points.grainlineFrom = points.waistbandTopLeft.shiftFractionTowards(
+          points.waistbandTopLeftNotch,
+          0.5
+        )
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.waistbandBottomLeft.y)
+        points.title = points.waistbandTopLeftNotch
+          .shiftFractionTowards(points.waistbandTopLeft, 0.25)
           .shift(-90, waistbandWidth / 2)
       } else {
-        titleRot = 90 - points.bottomLeftCp2.angle(points.topLeftCp1)
-        points.grainlineFrom = points.topLeft.shiftFractionTowards(points.topLeftCp1, 0.5)
-        points.grainlineTo = new Point(points.grainlineFrom.x, points.bottomLeft.y * 0.75)
-        points.title = points.topLeftCp1.shiftFractionTowards(points.bottomLeftCp2, 0.4)
+        titleRot = 90 - points.waistbandBottomLeftCp2.angle(points.waistbandTopLeftCp1)
+        points.grainlineFrom = points.waistbandTopLeft.shiftFractionTowards(
+          points.waistbandTopLeftCp1,
+          0.5
+        )
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.waistbandBottomLeft.y * 0.75)
+        points.title = points.waistbandTopLeftCp1.shiftFractionTowards(
+          points.waistbandBottomLeftCp2,
+          0.4
+        )
       }
 
       //grainline
@@ -189,11 +220,11 @@ export const waistbandLeft = {
         if (options.waistbandFishtail) {
           foldlineTo = points.fishtailLeftEx
         } else {
-          foldlineTo = new Point(points.topMid.x, points.topLeftEx.y / 2)
+          foldlineTo = new Point(points.waistbandTopMid.x, points.waistbandTopLeftEx.y / 2)
         }
 
         paths.foldline = new Path()
-          .move(new Point(points.topLeftEx.x, points.topLeftEx.y / 2))
+          .move(new Point(points.waistbandTopLeftEx.x, points.waistbandTopLeftEx.y / 2))
           .line(foldlineTo)
           .attr('class', 'interfacing')
           .attr('data-text', 'Fold - Line')

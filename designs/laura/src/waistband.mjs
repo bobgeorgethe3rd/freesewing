@@ -17,6 +17,7 @@ export const waistband = {
     waistbandFolded: { bool: true, menu: 'style' }, //Altered for Laura
   },
   after: [leg8],
+  plugins: [...waistbandStraight.plugins, ...waistbandCurved.plugins],
   draft: (sh) => {
     const { macro, points, utils, options, measurements, complete, part } = sh
 

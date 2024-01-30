@@ -13,6 +13,7 @@ export const waistband = {
     closurePosition: 'front', //locked for Jackson
   },
   after: [frontBase, flyShield],
+  plugins: [...waistbandStraight.plugins, ...waistbandCurved.plugins],
   draft: (sh) => {
     const { macro, points, utils, options, measurements, complete, part } = sh
 

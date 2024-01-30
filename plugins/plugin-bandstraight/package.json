@@ -1,7 +1,7 @@
 {
-  "name": "@freesewing/waistbandcurved",
+  "name": "@freesewing/plugin-bandstraight",
   "version": "3.0.0-alpha.8",
-  "description": "Curved waistband",
+  "description": "A plugin that creates straight bands for waistbands/neckbands",
   "author": "bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)",
   "homepage": "https://freesewing.org/",
   "repository": "github:freesewing/freesewing",
@@ -15,14 +15,14 @@
   },
   "keywords": [
     "freesewing",
-    "design",
-    "diy",
-    "fashion",
-    "made to measure",
-    "parametric design",
-    "pattern",
+    "plugin",
+    "sewing pattern",
     "sewing",
-    "sewing pattern"
+    "design",
+    "parametric design",
+    "made to measure",
+    "diy",
+    "fashion"
   ],
   "type": "module",
   "module": "dist/index.mjs",
@@ -41,15 +41,12 @@
     "lint": "npx eslint 'src/**' 'tests/*.mjs'",
     "prettier": "npx prettier --write 'src/*.mjs' 'tests/*.mjs'",
     "testci": "npx mocha tests/*.test.mjs --reporter ../../tests/reporters/terse.js",
-    "cibuild_step5": "node build.mjs",
+    "cibuild_step1": "node build.mjs",
     "wbuild": "node build.mjs",
-    "wcibuild_step5": "node build.mjs"
+    "wcibuild_step1": "node build.mjs"
   },
   "peerDependencies": {
-    "@freesewing/core": "3.0.0-alpha.8",
-    "@freesewing/plugin-bundle": "3.0.0-alpha.8",
-    "@freesewing/plugin-logorg": "3.0.0-alpha.8",
-    "@freesewing/bandcurved": "3.0.0-alpha.8"
+    "@freesewing/core": "3.0.0-alpha.8"
   },
   "dependencies": {},
   "devDependencies": {

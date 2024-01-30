@@ -91,7 +91,10 @@ export const flyShield = {
       .close()
 
     //stores
-    store.set('placketWidth', points['styleWaistIn' + suffix].dist(points['flyShieldOut' + suffix]))
+    store.set(
+      'waistbandPlacketWidth',
+      points['styleWaistIn' + suffix].dist(points['flyShieldOut' + suffix])
+    )
 
     if (complete) {
       //grainline

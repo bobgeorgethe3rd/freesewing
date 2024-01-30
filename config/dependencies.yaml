@@ -344,6 +344,12 @@ wahid:
   peer:
     '@freesewing/brian': *freesewing
     '@freesewing/plugin-bust': *freesewing
+waistbandcurved:
+  peer:
+   '@freesewing/bandcurved': *freesewing
+waistbandstraight:
+  peer:
+   '@freesewing/bandstraight': *freesewing
 yuri:
   peer:
     '@freesewing/brian': *freesewing

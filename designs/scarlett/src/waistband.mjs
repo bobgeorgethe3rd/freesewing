@@ -18,6 +18,7 @@ export const waistband = {
     }, //altered for Scarlett
   },
   after: [skirtBase, swingPanel, placket],
+  plugins: [...waistbandStraight.plugins, ...waistbandCurved.plugins],
   draft: (sh) => {
     const {
       macro,
@@ -57,39 +58,81 @@ export const waistband = {
         const buttonWidth = store.get('waistbandWidth') / 2
         const buttonLength = store.get('swingWaisbandLength') - buttonWidth
         if (options.closurePosition == 'front') {
-          points.pleatFrom0 = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.5)
-          points.pleatFrom1 = points.topMidNotch.shiftFractionTowards(points.topRightNotch, 0.5)
+          points.pleatFrom0 = points.waistbandTopLeftNotch.shiftFractionTowards(
+            points.waistbandTopMidNotch,
+            0.5
+          )
+          points.pleatFrom1 = points.waistbandTopMidNotch.shiftFractionTowards(
+            points.waistbandTopRightNotch,
+            0.5
+          )
           if (options.swingPanelStyle != 'none') {
-            points.swingButton0 = points.bottomLeft.translate(buttonLength, -buttonWidth)
-            points.swingButton1 = points.bottomRight.translate(-buttonLength, -buttonWidth)
+            points.swingButton0 = points.waistbandBottomLeft.translate(buttonLength, -buttonWidth)
+            points.swingButton1 = points.waistbandBottomRight.translate(-buttonLength, -buttonWidth)
           }
         }
         if (options.closurePosition == 'back') {
-          points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
-          points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
+          points.pleatFrom0 = points.waistbandTopLeft.shiftFractionTowards(
+            points.waistbandTopLeftNotch,
+            0.5
+          )
+          points.pleatFrom1 = points.waistbandTopRightNotch.shiftFractionTowards(
+            points.waistbandTopRight,
+            0.5
+          )
           if (options.swingPanelStyle == 'separate') {
-            points.swingButton0 = points.bottomMidNotch.translate(-buttonLength, -buttonWidth)
-            points.swingButton1 = points.bottomMidNotch.translate(buttonLength, -buttonWidth)
+            points.swingButton0 = points.waistbandBottomMidNotch.translate(
+              -buttonLength,
+              -buttonWidth
+            )
+            points.swingButton1 = points.waistbandBottomMidNotch.translate(
+              buttonLength,
+              -buttonWidth
+            )
           }
         }
         if (options.closurePosition == 'sideRight') {
-          points.pleatFrom0 = points.topRightNotch.shiftFractionTowards(points.topMidNotch, 0.5)
-          points.pleatFrom1 = points.topRightNotch.shiftFractionTowards(points.topRight, 0.5)
+          points.pleatFrom0 = points.waistbandTopRightNotch.shiftFractionTowards(
+            points.waistbandTopMidNotch,
+            0.5
+          )
+          points.pleatFrom1 = points.waistbandTopRightNotch.shiftFractionTowards(
+            points.waistbandTopRight,
+            0.5
+          )
           if (options.swingPanelStyle == 'separate') {
-            points.swingButton0 = points.bottomLeftNotch.translate(-buttonLength, -buttonWidth)
-            points.swingButton1 = points.bottomLeftNotch.translate(buttonLength, -buttonWidth)
+            points.swingButton0 = points.waistbandBottomLeftNotch.translate(
+              -buttonLength,
+              -buttonWidth
+            )
+            points.swingButton1 = points.waistbandBottomLeftNotch.translate(
+              buttonLength,
+              -buttonWidth
+            )
           }
         }
         if (options.closurePosition == 'sideLeft') {
-          points.pleatFrom0 = points.topLeft.shiftFractionTowards(points.topLeftNotch, 0.5)
-          points.pleatFrom1 = points.topLeftNotch.shiftFractionTowards(points.topMidNotch, 0.5)
+          points.pleatFrom0 = points.waistbandTopLeft.shiftFractionTowards(
+            points.waistbandTopLeftNotch,
+            0.5
+          )
+          points.pleatFrom1 = points.waistbandTopLeftNotch.shiftFractionTowards(
+            points.waistbandTopMidNotch,
+            0.5
+          )
           if (options.swingPanelStyle == 'separate') {
-            points.swingButton0 = points.bottomRightNotch.translate(-buttonLength, -buttonWidth)
-            points.swingButton1 = points.bottomRightNotch.translate(buttonLength, -buttonWidth)
+            points.swingButton0 = points.waistbandBottomRightNotch.translate(
+              -buttonLength,
+              -buttonWidth
+            )
+            points.swingButton1 = points.waistbandBottomRightNotch.translate(
+              buttonLength,
+              -buttonWidth
+            )
           }
         }
         for (let i = 0; i < 2; i++) {
-          points['pleatTo' + i] = new Point(points['pleatFrom' + i].x, points.bottomLeft.y)
+          points['pleatTo' + i] = new Point(points['pleatFrom' + i].x, points.waistbandBottomLeft.y)
           if (options.waistbandFolded) {
             points['swingButton' + i + 'F'] = points['swingButton' + i].flipY(points.flipAnchor)
             snippets['swingButton' + i + 'F'] = new Snippet(
@@ -102,72 +145,72 @@ export const waistband = {
         //pleat lines & buttons
         const buttonWidth = store.get('waistbandWidth') / 2
         const buttonLength = store.get('swingWaisbandLength') - buttonWidth
-        const bottomCurveLength = paths.bottomCurve.length()
+        const bottomCurveLength = paths.waistbandBottomCurve.length()
 
         if (options.closurePosition == 'front') {
-          points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(3 / 8)
-          points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(5 / 8)
+          points.pleatTo0 = paths.waistbandBottomCurve.shiftFractionAlong(3 / 8)
+          points.pleatTo1 = paths.waistbandBottomCurve.shiftFractionAlong(5 / 8)
           if (options.swingPanelStyle != 'none') {
-            points.swingButton0A = paths.bottomCurve.shiftAlong(buttonLength)
-            points.swingButton1A = paths.bottomCurve.reverse().shiftAlong(buttonLength)
+            points.swingButton0A = paths.waistbandBottomCurve.shiftAlong(buttonLength)
+            points.swingButton1A = paths.waistbandBottomCurve.reverse().shiftAlong(buttonLength)
           }
         }
         if (options.closurePosition == 'back') {
-          points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(1 / 8)
-          points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
+          points.pleatTo0 = paths.waistbandBottomCurve.shiftFractionAlong(1 / 8)
+          points.pleatTo1 = paths.waistbandBottomCurve.shiftFractionAlong(7 / 8)
           if (options.swingPanelStyle == 'separate') {
-            points.swingButton0A = paths.bottomCurve.shiftAlong(
+            points.swingButton0A = paths.waistbandBottomCurve.shiftAlong(
               bottomCurveLength / 2 - buttonLength
             )
-            points.swingButton1A = paths.bottomCurve.shiftAlong(
+            points.swingButton1A = paths.waistbandBottomCurve.shiftAlong(
               bottomCurveLength / 2 + buttonLength
             )
           }
         }
         if (options.closurePosition == 'sideRight') {
-          points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(5 / 8)
-          points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(7 / 8)
+          points.pleatTo0 = paths.waistbandBottomCurve.shiftFractionAlong(5 / 8)
+          points.pleatTo1 = paths.waistbandBottomCurve.shiftFractionAlong(7 / 8)
           if (options.swingPanelStyle == 'separate') {
-            points.swingButton0A = paths.bottomCurve.shiftAlong(
+            points.swingButton0A = paths.waistbandBottomCurve.shiftAlong(
               bottomCurveLength / 4 - buttonLength
             )
-            points.swingButton1A = paths.bottomCurve.shiftAlong(
+            points.swingButton1A = paths.waistbandBottomCurve.shiftAlong(
               bottomCurveLength / 4 + buttonLength
             )
           }
         }
         if (options.closurePosition == 'sideLeft') {
-          points.pleatTo0 = paths.bottomCurve.shiftFractionAlong(1 / 8)
-          points.pleatTo1 = paths.bottomCurve.shiftFractionAlong(3 / 8)
+          points.pleatTo0 = paths.waistbandBottomCurve.shiftFractionAlong(1 / 8)
+          points.pleatTo1 = paths.waistbandBottomCurve.shiftFractionAlong(3 / 8)
           if (options.swingPanelStyle == 'separate') {
-            points.swingButton0A = paths.bottomCurve.shiftAlong(
+            points.swingButton0A = paths.waistbandBottomCurve.shiftAlong(
               bottomCurveLength * (3 / 4) - buttonLength
             )
-            points.swingButton1A = paths.bottomCurve.shiftAlong(
+            points.swingButton1A = paths.waistbandBottomCurve.shiftAlong(
               bottomCurveLength * (3 / 4) + buttonLength
             )
           }
         }
         for (let i = 0; i < 2; i++) {
-          if (points.origin < points.bottomMid) {
-            points['pleatFrom' + i] = points.origin.shiftOutwards(
+          if (points.waistbandOrigin < points.waistbandBottomMid) {
+            points['pleatFrom' + i] = points.waistbandOrigin.shiftOutwards(
               points['pleatTo' + i],
-              points.topMid.dist(points.bottomMid)
+              points.waistbandTopMid.dist(points.waistbandBottomMid)
             )
             if (points['swingButton' + i + 'A']) {
-              points['swingButton' + i] = points.origin.shiftOutwards(
+              points['swingButton' + i] = points.waistbandOrigin.shiftOutwards(
                 points['swingButton' + i + 'A'],
                 buttonWidth
               )
             }
           } else {
             points['pleatFrom' + i] = points['pleatTo' + i].shiftTowards(
-              points.origin,
-              points.topMid.dist(points.bottomMid)
+              points.waistbandOrigin,
+              points.waistbandTopMid.dist(points.waistbandBottomMid)
             )
             if (points['swingButton' + i + 'A']) {
               points['swingButton' + i] = points['swingButton' + i + 'A'].shiftTowards(
-                points.origin,
+                points.waistbandOrigin,
                 buttonWidth
               )
             }

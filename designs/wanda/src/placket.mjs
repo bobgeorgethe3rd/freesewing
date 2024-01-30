@@ -53,7 +53,7 @@ export const placket = {
 
     //stores
     if (options.plackets) {
-      store.set('placketWidth', placketWidth)
+      store.set('waistbandPlacketWidth', placketWidth)
     }
     if (complete) {
       //grainline

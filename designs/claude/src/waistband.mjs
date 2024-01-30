@@ -13,6 +13,7 @@ export const waistband = {
     waistbandOverlapSide: { dflt: 'right', list: ['left', 'right'], menu: 'style' },
   },
   after: [skirtBase, placket],
+  plugins: [...waistbandStraight.plugins, ...waistbandCurved.plugins],
   draft: (sh) => {
     const { macro, points, utils, options, measurements, complete, part } = sh
 

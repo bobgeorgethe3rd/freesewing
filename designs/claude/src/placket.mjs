@@ -31,12 +31,12 @@ export const placket = {
   }) => {
     //set Render
     if (!options.placket || options.waistbandElastic) {
-      store.set('placketWidth', 0)
+      store.set('waistbandPlacketWidth', 0)
       part.hide()
       return part
     }
     //measures
-    let width = measurements.waist * options.placketWidth
+    const width = measurements.waist * options.placketWidth
     let length
     if (options.pocketsBool) {
       const pocketOpeningLength = store.get('pocketOpeningLength')
@@ -79,7 +79,7 @@ export const placket = {
       .unhide()
 
     //stores
-    store.set('placketWidth', width)
+    store.set('waistbandPlacketWidth', width)
 
     if (complete) {
       //grainline
