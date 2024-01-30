@@ -276,24 +276,20 @@ export const back = {
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
 
         points.saSideHem = points.sideHem
           .shift(points.sideHemCp1.angle(points.sideHem), sideSeamSa)
           .shift(points.sideHemCp1.angle(points.sideHem) - 90, hemSa)
 
-        paths.saArmhole = new Path()
-          .move(points.saArmhole)
-          .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-          .curve_(points.saArmholePitchCp2, points.saShoulder)
-          .hide()
         if (options.yokeBack) {
           let saArmholeIntersect = utils.lineIntersectsCurve(
             points.backTopCurveCp1,
             points.backTopCurveCp1.shiftOutwards(points.backTopRight, shirtLength),
-            points.saArmholePitch,
-            points.saArmholePitchCp2,
-            points.saShoulder,
-            points.saShoulder
+            points.armholePitch,
+            points.armholePitchCp2,
+            points.shoulder,
+            points.shoulder
           )
 
           if (saArmholeIntersect) {
@@ -302,30 +298,29 @@ export const back = {
             points.saArmholeSplit = utils.lineIntersectsCurve(
               points.backTopCurveCp1,
               points.backTopCurveCp1.shiftOutwards(points.backTopRight, shirtLength),
-              points.saArmhole,
-              points.saArmholeCp2,
-              points.saArmholePitchCp1,
-              points.saArmholePitch
+              points.armhole,
+              points.armholeCp2,
+              points.armholePitchCp1,
+              points.armholePitch
             )
           }
         }
         const drawSaArmhole = () => {
           if (options.yokeBack) {
-            return paths.saArmhole.split(points.saArmholeSplit)[0]
+            return paths.armhole.split(points.saArmholeSplit)[0].offset(armholeSa)
           } else {
-            return paths.saArmhole
+            return paths.armhole.offset(armholeSa)
           }
         }
 
         const drawSaTop = () => {
           if (options.yokeBack) {
-            points.saYokeBack = drawSeamTop()
-              .offset(sa)
-              .start()
-              .shift(
-                points.backTopCurveCp1.angle(points.backTopRight),
-                sa * options.armholeSaWidth * 100
-              )
+            points.saYokeBack = utils.beamsIntersect(
+              drawSeamTop().offset(sa).start(),
+              drawSeamTop().offset(sa).shiftFractionAlong(0.01),
+              drawSaArmhole().shiftFractionAlong(0.99),
+              drawSaArmhole().end()
+            )
             return new Path()
               .move(points.saYokeBack)
               .join(
