@@ -312,6 +312,7 @@ export const front = {
           .move(points.saCWaist)
           .line(points.saSideWaist)
           .join(paths.sideSeam.offset(sideSeamSa))
+          .line(points.saArmholeCorner)
           .join(paths.armhole.offset(armholeSa))
           .line(points.saShoulderCorner)
           .line(points.saHps)
