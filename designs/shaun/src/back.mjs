@@ -283,7 +283,7 @@ export const back = {
           .shift(points.sideHemCp1.angle(points.sideHem) - 90, hemSa)
 
         if (options.yokeBack) {
-          let saArmholeIntersect = utils.lineIntersectsCurve(
+          let armholeIntersect = utils.lineIntersectsCurve(
             points.backTopCurveCp1,
             points.backTopCurveCp1.shiftOutwards(points.backTopRight, shirtLength),
             points.armholePitch,
@@ -292,10 +292,10 @@ export const back = {
             points.shoulder
           )
 
-          if (saArmholeIntersect) {
-            points.saArmholeSplit = saArmholeIntersect
+          if (armholeIntersect) {
+            points.armholeSplit = armholeIntersect
           } else {
-            points.saArmholeSplit = utils.lineIntersectsCurve(
+            points.armholeSplit = utils.lineIntersectsCurve(
               points.backTopCurveCp1,
               points.backTopCurveCp1.shiftOutwards(points.backTopRight, shirtLength),
               points.armhole,
@@ -307,7 +307,7 @@ export const back = {
         }
         const drawSaArmhole = () => {
           if (options.yokeBack) {
-            return paths.armhole.split(points.saArmholeSplit)[0].offset(armholeSa)
+            return paths.armhole.split(points.armholeSplit)[0].offset(armholeSa)
           } else {
             return paths.armhole.offset(armholeSa)
           }
