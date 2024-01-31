@@ -165,6 +165,9 @@ minerva:
   peer:
     '@freesewing/mildred': *freesewing
     '@freesewing/henry': *freesewing
+neckbandcurved:
+  peer:
+    '@freesewing/plugin-bandcurved': *freesewing
 neckbandstraight:
   peer:
     '@freesewing/plugin-bandstraight': *freesewing
@@ -320,7 +323,7 @@ terry:
     '@freesewing/byron': *freesewing
     '@freesewing/simpleshirtsleeve': *freesewing
     '@freesewing/neckbandstraight': *freesewing
-    '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/neckbandcurved': *freesewing
 theobald:
   peer:
     '@freesewing/dalton': *freesewing

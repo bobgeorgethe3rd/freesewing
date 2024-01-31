@@ -1,13 +1,13 @@
 ![FreeSewing](https://static.freesewing.org/banner.png)
 <p align='center'><a
-  href="https://www.npmjs.com/package/@freesewing/beltloops"
-  title="@freesewing/beltloops on NPM"
-  ><img src="https://img.shields.io/npm/v/@freesewing/beltloops.svg"
-  alt="@freesewing/beltloops on NPM"/>
+  href="https://www.npmjs.com/package/@freesewing/neckbandcurved"
+  title="@freesewing/neckbandcurved on NPM"
+  ><img src="https://img.shields.io/npm/v/@freesewing/neckbandcurved.svg"
+  alt="@freesewing/neckbandcurved on NPM"/>
   </a><a
   href="https://opensource.org/licenses/MIT"
   title="License: MIT"
-  ><img src="https://img.shields.io/npm/l/@freesewing/beltloops.svg?label=License"
+  ><img src="https://img.shields.io/npm/l/@freesewing/neckbandcurved.svg?label=License"
   alt="License: MIT"/>
   </a><a
   href="https://deepscan.io/dashboard#view=project&tid=2114&pid=2993&bid=23256"
@@ -15,10 +15,10 @@
   ><img src="https://deepscan.io/api/teams/2114/projects/2993/branches/23256/badge/grade.svg"
   alt="Code quality on DeepScan"/>
   </a><a
-  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Abeltloops"
-  title="Open issues tagged pkg:beltloops"
-  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:beltloops.svg?label=Issues"
-  alt="Open issues tagged pkg:beltloops"/>
+  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Aneckbandcurved"
+  title="Open issues tagged pkg:neckbandcurved"
+  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:neckbandcurved.svg?label=Issues"
+  alt="Open issues tagged pkg:neckbandcurved"/>
   </a><a
   href="#contributors-"
   title="All Contributors"
@@ -46,9 +46,9 @@
   alt="Follow @freesewing_org on Twitter"/>
   </a></p>
 
-# @freesewing/beltloops
+# @freesewing/neckbandcurved
 
-Belt loop design to be used in other designs
+Curved neckband design to be used in other designs
 
 
 
@@ -65,7 +65,7 @@ Belt loop design to be used in other designs
 
 This repository is our *monorepo* holding all our NPM designs, plugins, other NPM packages, and (web)sites.
 
-This folder holds: @freesewing/beltloops
+This folder holds: @freesewing/neckbandcurved
 
 If you're not entirely sure what to do or how to start, type this command:
 

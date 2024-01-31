@@ -48,7 +48,7 @@
 
 # @freesewing/waistbandstraight
 
-Straight waistband
+Straight waistband to be used in other designs
 
 
 

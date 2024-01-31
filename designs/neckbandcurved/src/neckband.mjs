@@ -1,13 +1,12 @@
 import { pluginBundle } from '@freesewing/plugin-bundle'
-import { pluginBandStraight } from '@freesewing/plugin-bandstraight'
+import { pluginBandCurved } from '@freesewing/plugin-bandcurved'
 
 export const neckband = {
-  name: 'neckbandstraight.neckband',
+  name: 'neckbandscurved.neckband',
   options: {
     //Constants
     useVoidStores: true,
     //Style
-    neckbandFolded: { bool: true, menu: 'style' },
     neckbandOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'style' },
     neckbandOverlap: { pct: 0, min: 0, max: 15, menu: 'style' },
     //Construction
@@ -17,7 +16,7 @@ export const neckband = {
       menu: 'construction',
     },
   },
-  plugins: [pluginBundle, pluginBandStraight],
+  plugins: [pluginBundle, pluginBandCurved],
   draft: ({
     store,
     sa,
@@ -34,10 +33,12 @@ export const neckband = {
     part,
     snippets,
     Snippet,
+    log,
   }) => {
-    //measures
+    //void 	measures
     if (options.useVoidStores) {
       void store.setIfUnset('neckbandLength', 900)
+      void store.setIfUnset('neckbandLengthTop', store.get('neckbandLength') * 0.98)
       void store.setIfUnset('neckbandWidth', 50)
       void store.setIfUnset('neckbandPlacketWidth', 40)
     } else {
@@ -48,20 +49,21 @@ export const neckband = {
     void store.setIfUnset('neckbandSideSa', sa)
 
     //begin
-    macro('bandstraight', {
+    macro('bandcurved', {
       length: store.get('neckbandLength'),
+      lengthTop: store.get('neckbandLengthTop'),
       lengthBack: store.get('neckbandBack'),
       width: store.get('neckbandWidth'),
       placketWidth: store.get('neckbandPlacketWidth'),
       overlap: store.get('neckbandOverlap'),
       overlapSide: options.neckbandOverlapSide,
-      folded: options.neckbandFolded,
       closurePosition: options.closurePosition,
       sideSa: store.get('neckbandSideSa'),
       prefix: 'neckband',
     })
 
     if (complete) {
+      //title
       macro('title', {
         at: points.title,
         nr: 1,

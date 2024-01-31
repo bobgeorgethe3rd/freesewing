@@ -69,8 +69,15 @@
     }
   },
   "collars": {
+    "neckbandcurved": {
+      "description": "Curved neckband design to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["collars"]
+    },
     "neckbandstraight": {
-      "description": "Neckband design to be used in other designs",
+      "description": "Straight neckband design to be used in other designs",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -326,21 +333,21 @@
   },
   "waistbands": {
     "beltloops": {
-      "description": "A pattern that needs a description",
+      "description": "Belt loop design to be used in other designs",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
       "tags": ["beltloop"]
     },
     "waistbandcurved": {
-      "description": "Curved waistband",
+      "description": "Curved waistband to be used in other designs",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
       "tags": ["waistbands"]
     },
     "waistbandstraight": {
-      "description": "Straight waistband",
+      "description": "Straight waistband to be used in other designs",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,

@@ -48,7 +48,7 @@
 
 # @freesewing/neckbandstraight
 
-Neckband design to be used in other designs
+Straight neckband design to be used in other designs
 
 
 
