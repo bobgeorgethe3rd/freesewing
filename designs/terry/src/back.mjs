@@ -24,7 +24,7 @@ export const back = {
       pct: 4.3,
       min: 1,
       max: 6,
-      snap: 5,
+      snap: 2.5,
       ...pctBasedOn('hpsToWaistBack'),
       menu: 'style',
     },
