@@ -16,6 +16,8 @@ export const pocket = {
       list: ['straight', 'curved'],
       menu: 'pockets.patchPockets',
     }, //Altered for Terry
+    //Construction
+    patchPocketFolded: { bool: true, menu: 'construction' }, //Altered for Terry
   },
   draft: (sh) => {
     //draft
