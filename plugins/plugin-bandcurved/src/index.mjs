@@ -95,7 +95,9 @@ export const plugin = {
       const radius = so.length / angleRads
       const angleDegs = utils.rad2deg(angleRads)
 
-      const cpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angleDegs / 8))
+      const bottomCpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angleDegs / 8))
+      const topCpDistance =
+        (4 / 3) * (radius - widthStatic) * Math.tan(utils.deg2rad(angleDegs / 8))
 
       //let's begin
       points[prefixFunction('bottomMid')] = new Point(0, 0)
@@ -122,10 +124,10 @@ export const plugin = {
 
       //control points
       points[prefixFunction('bottomLeftCp2')] = points[prefixFunction('bottomLeft')]
-        .shiftTowards(points[prefixFunction('topLeft')], cpDistance)
+        .shiftTowards(points[prefixFunction('topLeft')], bottomCpDistance)
         .rotate(-90, points[prefixFunction('bottomLeft')])
       points[prefixFunction('bottomMidCp1')] = points[prefixFunction('bottomMid')]
-        .shiftTowards(points[prefixFunction('topMid')], cpDistance)
+        .shiftTowards(points[prefixFunction('topMid')], bottomCpDistance)
         .rotate(90, points[prefixFunction('bottomMid')])
       points[prefixFunction('bottomMidCp2')] = points[prefixFunction('bottomMidCp1')].flipX(
         points[prefixFunction('bottomMid')]
@@ -133,14 +135,12 @@ export const plugin = {
       points[prefixFunction('bottomRightCp1')] = points[prefixFunction('bottomLeftCp2')].flipX(
         points[prefixFunction('bottomMid')]
       )
-      points[prefixFunction('topRightCp2')] = points[prefixFunction('bottomRightCp1')].shiftTowards(
-        points[prefixFunction('origin')],
-        width
-      )
-      points[prefixFunction('topMidCp1')] = points[prefixFunction('bottomMidCp2')].shiftTowards(
-        points[prefixFunction('origin')],
-        width
-      )
+      points[prefixFunction('topRightCp2')] = points[prefixFunction('topRight')]
+        .shiftTowards(points[prefixFunction('bottomRight')], topCpDistance)
+        .rotate(-90, points[prefixFunction('topRight')])
+      points[prefixFunction('topMidCp1')] = points[prefixFunction('topMid')]
+        .shiftTowards(points[prefixFunction('bottomMid')], topCpDistance)
+        .rotate(90, points[prefixFunction('topMid')])
       points[prefixFunction('topMidCp2')] = points[prefixFunction('topMidCp1')].flipX(
         points[prefixFunction('bottomMid')]
       )
