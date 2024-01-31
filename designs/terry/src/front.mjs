@@ -38,6 +38,10 @@ export const front = {
     log,
   }) => {
     //remove paths & snippets
+    store.set(
+      'neckbandLengthTop',
+      store.get('neckbandBackTop') + paths.cfNeck.length() * 2 * (1 + options.neckbandEase)
+    )
     const keepThese = ['armhole', 'seam']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
@@ -104,7 +108,11 @@ export const front = {
     //stores
     store.set('patchPocketWidth', patchPocketWidth)
     store.set('patchPocketDepth', patchPocketWidth * options.patchPocketDepth)
-
+    store.set('neckLength', store.get('neckBack') + paths.cfNeck.length() * 2)
+    store.set(
+      'neckbandLength',
+      store.get('neckBack') + paths.cfNeck.length() * 2 * (1 + options.neckbandEase)
+    )
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.cfHead

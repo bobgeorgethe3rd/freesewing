@@ -18,6 +18,7 @@ export const back = {
     waistEase: { pct: 25, min: 0, max: 35, menu: 'fit' }, //Altered for Terry
     hipsEase: { pct: 20, min: 0, max: 25, menu: 'fit' },
     seatEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
+    neckbandEase: { pct: -10, min: -15, max: 0, menu: 'fit' },
     //Style
     neckbandWidth: {
       pct: 4.3,
@@ -55,6 +56,7 @@ export const back = {
     log,
   }) => {
     //remove paths & snippets
+    store.set('neckbandBackTop', paths.cbNeck.length() * 2 * (1 + options.neckbandEase))
     const keepThese = ['armhole', 'seam']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
@@ -141,7 +143,8 @@ export const back = {
     store.set('neckShoulder', points.hps.dist(points.shoulderTop))
     store.set('bodyLength', bodyLength)
     store.set('bodyWidth', bodyWidth)
-    store.set('neckBack', paths.cbNeck.length())
+    store.set('neckBack', paths.cbNeck.length() * 2)
+    store.set('neckbandBack', paths.cbNeck.length() * 2 * (1 + options.neckbandEase))
 
     if (complete) {
       //grainline
