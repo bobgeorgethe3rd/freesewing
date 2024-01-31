@@ -1,7 +1,7 @@
 {
-  "name": "@freesewing/terry",
+  "name": "@freesewing/neckbandstraight",
   "version": "3.0.0-alpha.8",
-  "description": "A T-shirt pattern",
+  "description": "Neckband design to be used in other designs",
   "author": "bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)",
   "homepage": "https://freesewing.org/",
   "repository": "github:freesewing/freesewing",
@@ -49,10 +49,7 @@
     "@freesewing/core": "3.0.0-alpha.8",
     "@freesewing/plugin-bundle": "3.0.0-alpha.8",
     "@freesewing/plugin-logorg": "3.0.0-alpha.8",
-    "@freesewing/byron": "3.0.0-alpha.8",
-    "@freesewing/simpleshirtsleeve": "3.0.0-alpha.8",
-    "@freesewing/neckbandstraight": "3.0.0-alpha.8",
-    "@freesewing/waistbandcurved": "3.0.0-alpha.8"
+    "@freesewing/plugin-bandstraight": "3.0.0-alpha.8"
   },
   "dependencies": {},
   "devDependencies": {
