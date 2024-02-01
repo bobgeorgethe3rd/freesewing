@@ -69,6 +69,13 @@
     }
   },
   "collars": {
+    "hood": {
+      "description": "Hood design to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["collars", "hoods"]
+    },
     "neckbandcurved": {
       "description": "Curved neckband design to be used in other designs",
       "code": "bobgeorgethe3rd",

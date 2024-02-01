@@ -324,6 +324,7 @@ terry:
     '@freesewing/simpleshirtsleeve': *freesewing
     '@freesewing/neckbandstraight': *freesewing
     '@freesewing/neckbandcurved': *freesewing
+    '@freesewing/hood': *freesewing
 theobald:
   peer:
     '@freesewing/dalton': *freesewing
