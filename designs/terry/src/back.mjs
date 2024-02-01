@@ -143,7 +143,10 @@ export const back = {
     store.set('neckShoulder', points.hps.dist(points.shoulderTop))
     store.set('bodyLength', bodyLength)
     store.set('bodyWidth', bodyWidth)
-    store.set('neckBack', paths.cbNeck.length() * 2)
+    store.set('neckBack', paths.cbNeck.length())
+    store.set('neckBackDepth', points.cbHead.y - points.shoulderTop.y)
+    store.set('neckBackWidth', points.shoulderTop.x)
+    store.set('neckBackAngle', points.shoulderTop.angle(points.cbHeadCp1))
     store.set('neckbandBack', paths.cbNeck.length() * 2 * (1 + options.neckbandEase))
 
     if (complete) {

@@ -108,10 +108,11 @@ export const front = {
     //stores
     store.set('patchPocketWidth', patchPocketWidth)
     store.set('patchPocketDepth', patchPocketWidth * options.patchPocketDepth)
-    store.set('neckLength', store.get('neckBack') + paths.cfNeck.length() * 2)
+    store.set('neckFront', paths.cfNeck.length())
+    store.set('neckFrontDepth', points.cfHead.y - points.shoulderTop.y)
     store.set(
       'neckbandLength',
-      store.get('neckBack') + paths.cfNeck.length() * 2 * (1 + options.neckbandEase)
+      (store.get('neckBack') + store.get('neckFront')) * 2 * (1 + options.neckbandEase)
     )
     if (complete) {
       //grainline
