@@ -125,7 +125,7 @@ export const back = {
 
     paths.cbNeck = new Path()
       .move(points.shoulderTop)
-      .line(points.hpsHead)
+      // .line(points.hpsHead)
       ._curve(points.cbHeadCp1, points.cbHead)
       .hide()
 
