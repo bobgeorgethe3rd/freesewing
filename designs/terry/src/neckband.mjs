@@ -19,6 +19,7 @@ export const neckband = {
   },
   after: [front],
   plugins: [...neckbandStraight.plugins, ...neckbandCurved.plugins],
+  measurements: [...hood.measurements],
   draft: (sh) => {
     const { macro, points, utils, options, measurements, complete, part } = sh
 
