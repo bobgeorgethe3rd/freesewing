@@ -323,6 +323,13 @@
   },
   "swimwear": {},
   "tops": {
+    "riley": {
+      "description": "Raglam Tee",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "shirts", "t-shirts"]
+    },
     "shaun": {
       "description": "A Shirt pattern",
       "code": "bobgeorgethe3rd",
@@ -335,7 +342,7 @@
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
-      "tags": ["tops", "shirts"]
+      "tags": ["tops", "shirts", "t-shirts"]
     }
   },
   "waistbands": {

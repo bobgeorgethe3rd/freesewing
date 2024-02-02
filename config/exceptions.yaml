@@ -137,6 +137,8 @@ packageJson:
       - package.json
   rehype-hightlight-lines:
     private: true
+  riley:
+    author: bobgeorgethe3rd (https://github.com/bobgeorgethe3rd) 
   rose:
     author: bobgeorgethe3rd (https://github.com/bobgeorgethe3rd) 
   rufflebutterflysleeve:

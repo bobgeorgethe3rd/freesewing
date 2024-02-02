@@ -240,6 +240,9 @@ rehype-jargon:
 rehype-highlight-lines:
   _:
     'unist-util-remove': '3.1.1'
+riley:
+  peer:
+    '@freesewing/terry': *freesewing
 rose:
   peer:
     '@freesewing/daisy': *freesewing
