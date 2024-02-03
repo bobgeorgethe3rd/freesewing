@@ -81,11 +81,11 @@ export const back = {
     store.set('shoulderLength', points.shoulderTop.dist(points.shoulder))
     store.set(
       'neckBackCpAngleDiag',
-      points.shoulderTop.angle(points.shoulder) - points.shoulderTop.angle(points.cbHeadCp1)
+      points.shoulderTop.angle(points.shoulder) - points.shoulderTop.angle(points.cbTopCp1)
     )
-    store.set('neckBackCpDistDiag', points.shoulderTop.dist(points.cbHeadCp1))
+    store.set('neckBackCpDistDiag', points.shoulderTop.dist(points.cbTopCp1))
     store.set('neckBackCpAngle', points.shoulderTop.angle(points.shoulder) - 180)
-    store.set('neckBackCpDist', points.cbHeadCp1.dist(points.cbHead))
+    store.set('neckBackCpDist', points.cbTopCp1.dist(points.cbTop))
     store.set(
       'neckBackRaglanAngle',
       points.shoulderTop.angle(points.shoulder) - points.neckSplit.angle(points.armholeSplitCp2)
@@ -119,7 +119,7 @@ export const back = {
           .join(paths.armhole.offset(sa))
           .line(points.saShoulderTop)
           .join(paths.cbNeck.split(points.neckSplit)[1].offset(sa * options.neckSaWidth * 100))
-          .line(points.saCbHead)
+          .line(points.saCbTop)
           .line(points.saCbHem)
           .close()
           .attr('class', 'fabric sa')

@@ -100,7 +100,7 @@ export const front = {
           .join(paths.armhole.offset(sa))
           .line(points.saShoulderTop)
           .join(paths.cfNeck.split(points.neckSplit)[1].offset(sa * options.neckSaWidth * 100))
-          .line(points.saCfHead)
+          .line(points.saCfTop)
           .line(points.saCfHem)
           .close()
           .attr('class', 'fabric sa')

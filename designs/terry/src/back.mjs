@@ -90,17 +90,17 @@ export const back = {
 
     //let's begin
     //neck
-    points.hpsHead = points.hps.shiftTowards(points.cbNeckCp1, neckbandWidth).rotate(90, points.hps)
-    points.cbHead = points.cbNeck.shift(-90, neckbandWidth)
-    points.cbHeadCp1 = utils.beamsIntersect(
-      points.hpsHead,
-      points.hps.rotate(90, points.hpsHead),
-      points.cbHead,
-      points.cbHead.shift(0, 1)
+    points.hpsTop = points.hps.shiftTowards(points.cbNeckCp1, neckbandWidth).rotate(90, points.hps)
+    points.cbTop = points.cbNeck.shift(-90, neckbandWidth)
+    points.cbTopCp1 = utils.beamsIntersect(
+      points.hpsTop,
+      points.hps.rotate(90, points.hpsTop),
+      points.cbTop,
+      points.cbTop.shift(0, 1)
     )
     points.shoulderTop = utils.beamsIntersect(
-      points.cbHeadCp1,
-      points.hpsHead,
+      points.cbTopCp1,
+      points.hpsTop,
       points.shoulder,
       points.hps
     )
@@ -125,8 +125,8 @@ export const back = {
 
     paths.cbNeck = new Path()
       .move(points.shoulderTop)
-      // .line(points.hpsHead)
-      ._curve(points.cbHeadCp1, points.cbHead)
+      // .line(points.hpsTop)
+      ._curve(points.cbTopCp1, points.cbTop)
       .hide()
 
     paths.seam = paths.hemBase
@@ -144,14 +144,14 @@ export const back = {
     store.set('bodyLength', bodyLength)
     store.set('bodyWidth', bodyWidth)
     store.set('neckBack', paths.cbNeck.length())
-    store.set('neckBackDepth', points.cbHead.y - points.shoulderTop.y)
+    store.set('neckBackDepth', points.cbTop.y - points.shoulderTop.y)
     store.set('neckBackWidth', points.shoulderTop.x)
-    store.set('neckBackAngle', points.shoulderTop.angle(points.cbHeadCp1))
+    store.set('neckBackAngle', points.shoulderTop.angle(points.cbTopCp1))
     store.set('neckbandBack', paths.cbNeck.length() * 2 * (1 + options.neckbandEase))
 
     if (complete) {
       //grainline
-      points.cutOnFoldFrom = points.cbHead
+      points.cutOnFoldFrom = points.cbTop
       points.cutOnFoldTo = points.cbHem
       macro('cutonfold', {
         from: points.cutOnFoldFrom,
@@ -191,7 +191,7 @@ export const back = {
           points.saShoulderCorner,
           points.saHps
         )
-        points.saCbHead = points.cbHead.translate(-cbSa, -neckSa)
+        points.saCbTop = points.cbTop.translate(-cbSa, -neckSa)
 
         paths.sa = new Path()
           .move(points.saCbHem)
@@ -202,7 +202,7 @@ export const back = {
           .line(points.saShoulderCorner)
           .line(points.saShoulderTop)
           .join(paths.cbNeck.offset(neckSa))
-          .line(points.saCbHead)
+          .line(points.saCbTop)
           .line(points.saCbHem)
           .close()
           .attr('class', 'fabric sa')

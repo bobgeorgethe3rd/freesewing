@@ -56,13 +56,13 @@ export const front = {
     const neckbandWidth = store.get('neckbandWidth')
     //let's begin
     points.shoulderTop = points.hps.shiftTowards(points.shoulder, store.get('neckShoulder'))
-    points.cfHead = points.cfNeck.shift(-90, store.get('neckbandWidth'))
-    points.cfHeadCorner = new Point(points.shoulderTop.x, points.cfHead.y)
+    points.cfTop = points.cfNeck.shift(-90, store.get('neckbandWidth'))
+    points.cfTopCorner = new Point(points.shoulderTop.x, points.cfTop.y)
     points.shoulderTopCp2 = points.shoulderTop.shiftFractionTowards(
-      points.cfHeadCorner,
+      points.cfTopCorner,
       options.cfNeck
     )
-    points.cfHeadCp1 = points.cfHead.shiftFractionTowards(points.cfHeadCorner, options.cfNeck)
+    points.cfTopCp1 = points.cfTop.shiftFractionTowards(points.cfTopCorner, options.cfNeck)
     //hem
     points.cfHem = points.cWaist.shift(-90, store.get('bodyLength'))
     if (options.fitSide) {
@@ -84,7 +84,7 @@ export const front = {
 
     paths.cfNeck = new Path()
       .move(points.shoulderTop)
-      .curve(points.shoulderTopCp2, points.cfHeadCp1, points.cfHead)
+      .curve(points.shoulderTopCp2, points.cfTopCp1, points.cfTop)
       .hide()
 
     paths.seam = paths.hemBase
@@ -109,14 +109,14 @@ export const front = {
     store.set('patchPocketWidth', patchPocketWidth)
     store.set('patchPocketDepth', patchPocketWidth * options.patchPocketDepth)
     store.set('neckFront', paths.cfNeck.length())
-    store.set('neckFrontDepth', points.cfHead.y - points.shoulderTop.y)
+    store.set('neckFrontDepth', points.cfTop.y - points.shoulderTop.y)
     store.set(
       'neckbandLength',
       (store.get('neckBack') + store.get('neckFront')) * 2 * (1 + options.neckbandEase)
     )
     if (complete) {
       //grainline
-      points.cutOnFoldFrom = points.cfHead
+      points.cutOnFoldFrom = points.cfTop
       points.cutOnFoldTo = points.cfHem
       macro('cutonfold', {
         from: points.cutOnFoldFrom,
@@ -181,7 +181,7 @@ export const front = {
           points.saShoulderCorner,
           points.saHps
         )
-        points.saCfHead = points.cfHead.translate(-cfSa, -neckSa)
+        points.saCfTop = points.cfTop.translate(-cfSa, -neckSa)
 
         paths.sa = new Path()
           .move(points.saCfHem)
@@ -192,7 +192,7 @@ export const front = {
           .line(points.saShoulderCorner)
           .line(points.saShoulderTop)
           .join(paths.cfNeck.offset(neckSa))
-          .line(points.saCfHead)
+          .line(points.saCfTop)
           .line(points.saCfHem)
           .close()
           .attr('class', 'fabric sa')
