@@ -53,7 +53,8 @@
     "@freesewing/simpleshirtsleeve": "3.0.0-alpha.8",
     "@freesewing/neckbandstraight": "3.0.0-alpha.8",
     "@freesewing/neckbandcurved": "3.0.0-alpha.8",
-    "@freesewing/hood": "3.0.0-alpha.8"
+    "@freesewing/hood": "3.0.0-alpha.8",
+    "@freesewing/patchpocket": "3.0.0-alpha.8"
   },
   "dependencies": {},
   "devDependencies": {

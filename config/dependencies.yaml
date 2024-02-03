@@ -328,6 +328,7 @@ terry:
     '@freesewing/neckbandstraight': *freesewing
     '@freesewing/neckbandcurved': *freesewing
     '@freesewing/hood': *freesewing
+    '@freesewing/patchpocket': *freesewing
 theobald:
   peer:
     '@freesewing/dalton': *freesewing
