@@ -11,6 +11,7 @@ export const back = {
   options: {
     //Sleeves
     raglanNeckWidth: { pct: 42.1, min: 15, max: 50, menu: 'sleeves' },
+    raglanArmholeDepth: { pct: 59.7, min: 50, max: 70, menu: 'sleeves' },
   },
   draft: ({
     store,
@@ -36,7 +37,18 @@ export const back = {
     delete paths.sa
     delete snippets.armholePitch
     //let's begin
-    points.armholeSplit = paths.armhole.split(points.armholePitch)[0].shiftFractionAlong(2 / 3)
+    points.cArmholeSplit = points.cArmhole.shiftFractionTowards(
+      points.cArmholePitch,
+      options.raglanArmholeDepth
+    ) //0.597
+    // points.armholeSplit = paths.armhole.split(points.armholePitch)[0].shiftFractionAlong(2 / 3)
+    points.armholeSplit = utils.curveIntersectsY(
+      points.armhole,
+      points.armholeCp2,
+      points.armholePitchCp1,
+      points.armholePitch,
+      points.cArmholeSplit.y
+    )
     points.neckSplit = paths.cbNeck.shiftFractionAlong(options.raglanNeckWidth)
     points.armholeSplitCp2Target = utils.beamsIntersect(
       paths.armhole.split(points.armholePitch)[0].shiftFractionAlong((2 / 3) * 0.99),
