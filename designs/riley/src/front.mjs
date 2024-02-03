@@ -36,13 +36,12 @@ export const front = {
     //measurements
     const armholeSplitDepth = store.get('armholeSplitDepth')
     //let's begin
-    points.armholeSplit = utils.lineIntersectsCurve(
-      new Point(points.cfHead.x, armholeSplitDepth),
-      new Point(points.armhole.x, armholeSplitDepth),
+    points.armholeSplit = utils.curveIntersectsY(
       points.armhole,
       points.armholeCp2,
       points.armholePitchCp1,
-      points.armholePitch
+      points.armholePitch,
+      armholeSplitDepth
     )
     points.neckSplit = paths.cfNeck.shiftAlong(store.get('neckSplitWidth'))
     points.armholeSplitCp2Target = utils.beamsIntersect(
