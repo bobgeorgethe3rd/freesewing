@@ -40,7 +40,7 @@ export const back = {
     points.cArmholeSplit = points.cArmhole.shiftFractionTowards(
       points.cArmholePitch,
       options.raglanArmholeDepth
-    ) //0.597
+    )
     // points.armholeSplit = paths.armhole.split(points.armholePitch)[0].shiftFractionAlong(2 / 3)
     points.armholeSplit = utils.curveIntersectsY(
       points.armhole,
