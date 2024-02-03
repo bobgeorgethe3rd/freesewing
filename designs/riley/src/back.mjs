@@ -67,6 +67,19 @@ export const back = {
     store.set('armholeSplitDepth', points.armholeSplit.y)
     store.set('neckSplitWidth', paths.cbNeck.split(points.neckSplit)[0].length())
     store.set('shoulderLength', points.shoulderTop.dist(points.shoulder))
+    store.set(
+      'neckBackCpAngleDiag',
+      points.shoulderTop.angle(points.shoulder) - points.shoulderTop.angle(points.cbHeadCp1)
+    )
+    store.set('neckBackCpDistDiag', points.shoulderTop.dist(points.cbHeadCp1))
+    store.set('neckBackCpAngle', points.shoulderTop.angle(points.shoulder) - 180)
+    store.set('neckBackCpDist', points.cbHeadCp1.dist(points.cbHead))
+    store.set(
+      'neckBackRaglanAngle',
+      points.shoulderTop.angle(points.shoulder) - points.neckSplit.angle(points.armholeSplitCp2)
+    )
+    store.set('raglanBackSplitDist', paths.armhole.split(points.armholeSplit)[0].length())
+    store.set('raglanBackDist', paths.armhole.length())
     if (complete) {
       //notches
       points.armholeBottomNotch = paths.armhole.shiftFractionAlong(0.25)

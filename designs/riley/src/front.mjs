@@ -71,6 +71,13 @@ export const front = {
       .close()
     //stores
     store.set('neckFrontWidth', points.shoulderTop.x)
+    store.set('neckFrontAngle', points.shoulderTop.angle(points.shoulder) - 270)
+    store.set(
+      'neckFrontRaglanAngle',
+      points.shoulderTop.angle(points.shoulder) - points.neckSplit.angle(points.armholeSplitCp2)
+    )
+    store.set('raglanFrontSplitDist', paths.armhole.split(points.armholeSplit)[0].length())
+    store.set('raglanFrontDist', paths.armhole.length())
     if (complete) {
       //notches
       points.armholeNotch = paths.armhole.shiftFractionAlong(0.5)
