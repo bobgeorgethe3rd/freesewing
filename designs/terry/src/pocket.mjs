@@ -7,6 +7,7 @@ export const pocket = {
   options: {
     //Imported
     ...patchPocket.options,
+    ...front.options,
     //Constant
     patchPocketBottomWidth: 1, //Locked for Terry
     //Pockets

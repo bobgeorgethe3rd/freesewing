@@ -6,12 +6,13 @@ import { data } from '../data.mjs'
 import { back } from './back.mjs'
 import { front } from './front.mjs'
 import { neckband } from './neckband.mjs'
+import { pocket } from '@freesewing/terry'
 
 // Create new design
 const Riley = new Design({
   data,
-  parts: [back, front, neckband],
+  parts: [back, front, neckband, pocket],
 })
 
 // Named exports
-export { back, front, neckband, Riley }
+export { back, front, neckband, pocket, Riley }
