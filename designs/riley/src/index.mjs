@@ -3,13 +3,15 @@
 import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
-import { box } from './box.mjs'
+import { back } from './back.mjs'
+import { front } from './front.mjs'
+import { neckband } from './neckband.mjs'
 
 // Create new design
 const Riley = new Design({
   data,
-  parts: [box],
+  parts: [back, front, neckband],
 })
 
 // Named exports
-export { box, Riley }
+export { back, front, neckband, Riley }
