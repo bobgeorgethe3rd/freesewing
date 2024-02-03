@@ -190,6 +190,9 @@ paco:
   peer:
     '@freesewing/titan': *freesewing
     '@freesewing/snapseries': *freesewing
+patchpocket:
+  peer:
+    'freesewing/plugin-mirror': *freesewing
 peach:
   peer:
     '@freesewing/daisy': *freesewing
