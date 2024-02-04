@@ -106,7 +106,7 @@ export const back = {
     )
     //hem
     points.cbHem = points.cWaist.shift(-90, bodyLength)
-    if (options.fitSide) {
+    if (options.fitSide || measurements.seat / 4 > points.armhole.x) {
       points.sideHem = points.cbHem.shift(0, bodyWidth)
     } else {
       points.sideHem = new Point(points.armhole.x, points.cbHem.y)
