@@ -271,6 +271,13 @@
     }
   },
   "sleeves": {
+    "basicraglansleeve": {
+      "description": "Basic raglan sleeve that can be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["sleeve", "raglan"]
+    },
     "basicsleeve": {
       "description": "Basic sleeve that can be used as is or extended",
       "code": "bobgeorgethe3rd",
