@@ -13,8 +13,8 @@ export const sleevecap = {
     capQ4Depth: { pct: (1 / 6) * 100, min: 15, max: (1 / 3) * 100, menu: 'advanced.sleevecap' },
     capQ1Offest: { pct: 9, min: 5, max: 15, menu: 'advanced.sleevecap' },
     capQ2Offest: { pct: 17.9, min: 15, max: 25, menu: 'advanced.sleevecap' },
-    capQ3Offest: { pct: 9, min: 5, max: 15, menu: 'advanced.sleevecap' },
-    capQ4Offest: { pct: 17.9, min: 15, max: 25, menu: 'advanced.sleevecap' },
+    capQ3Offest: { pct: 17.9, min: 15, max: 25, menu: 'advanced.sleevecap' },
+    capQ4Offest: { pct: 9, min: 5, max: 15, menu: 'advanced.sleevecap' },
   },
   plugins: [pluginBundle],
   draft: ({
@@ -133,7 +133,7 @@ export const sleevecap = {
       )
 
       points.capQ4 = points.capQ4Anchor
-        .shiftTowards(points.sleeveCapLeft, sleeveCapDepth * options.capQ3Offest * sleeveBackTweak)
+        .shiftTowards(points.sleeveCapLeft, sleeveCapDepth * options.capQ4Offest * sleeveBackTweak)
         .rotate(90, points.capQ4Anchor)
       points.capQ4Cp2 = utils.beamsIntersect(
         points.origin,
@@ -144,7 +144,7 @@ export const sleevecap = {
       points.capQ4Cp1 = points.capQ4Cp2.rotate(180, points.capQ4)
 
       points.capQ3 = points.capQ3Anchor
-        .shiftTowards(points.sleeveTip, sleeveCapDepth * options.capQ4Offest * sleeveBackTweak)
+        .shiftTowards(points.sleeveTip, sleeveCapDepth * options.capQ3Offest * sleeveBackTweak)
         .rotate(90, points.capQ3Anchor)
       points.capQ3Cp1 = utils.beamsIntersect(
         points.capQ3,
