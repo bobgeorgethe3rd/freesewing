@@ -3,13 +3,14 @@
 import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
-import { box } from './box.mjs'
+import { sleeve } from './sleeve.mjs'
+import { band } from './band.mjs'
 
 // Create new design
 const Simpleraglanshirtsleeve = new Design({
   data,
-  parts: [box],
+  parts: [sleeve, band],
 })
 
 // Named exports
-export { box, Simpleraglanshirtsleeve }
+export { sleeve, band, Simpleraglanshirtsleeve }
