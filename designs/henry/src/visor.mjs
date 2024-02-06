@@ -110,7 +110,7 @@ export const visor = {
         .attr('data-text-class', 'center')
 
       if (sa) {
-        const hemSa = sa * options.crownHemWidth * 100
+        const hemSa = sa * options.crownSaWidth * 100
 
         points.saHemBaseEnd = points.topLeft.rotate(-90, paths.hemBase.offset(hemSa).end())
         points.saTopLeft = new Point(points.topLeft.x - sa, points.saHemBaseEnd.y)

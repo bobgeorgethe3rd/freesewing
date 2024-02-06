@@ -180,7 +180,7 @@ export const brim = {
       })
 
       if (sa) {
-        const hemSa = sa * options.crownHemWidth * 100
+        const hemSa = sa * options.crownSaWidth * 100
 
         points.saInnerEnd = points.innerEnd
           .shift(points.outerStart.angle(points.innerEnd), hemSa)

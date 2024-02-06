@@ -122,7 +122,7 @@ export const band = {
         rotation: 360 - angle / 4,
       })
       if (sa) {
-        const hemSa = sa * options.crownHemWidth * 100
+        const hemSa = sa * options.crownSaWidth * 100
 
         points.saOuterRight = points.outerRight
           .shift(points.outerRightCp1.angle(points.outerRight), sa)

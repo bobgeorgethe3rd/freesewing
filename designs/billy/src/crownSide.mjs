@@ -17,7 +17,7 @@ export const crownSide = {
     ventsV: { pct: 70, min: 50, max: 80, menu: 'style.vents' },
     ventsH: { pct: 6, min: 0, max: 10, menu: 'style.vents' },
     //Construction
-    crownHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    crownSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
   measurements: ['head'],
   plugins: [pluginBundle],
@@ -256,7 +256,7 @@ export const crownSide = {
         rotation: 360 - angle / 4,
       })
       if (sa) {
-        const hemSa = sa * options.crownHemWidth * 100
+        const hemSa = sa * options.crownSaWidth * 100
 
         points.saOuterRight = points.outerRight
           .shift(points.outerRightCp1.angle(points.outerRight), sa)

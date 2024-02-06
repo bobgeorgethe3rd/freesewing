@@ -182,7 +182,7 @@ export const earFlap = {
         .attr('data-text', 'Centre Line')
         .attr('data-text-class', 'center')
       if (sa) {
-        const hemSa = sa * options.crownHemWidth * 100
+        const hemSa = sa * options.crownSaWidth * 100
 
         points.saBottomLeft = points.bottomLeft.translate(-sa, hemSa)
         points.saBottomRight = points.saBottomLeft.flipX(points.bottomMid)
@@ -229,7 +229,7 @@ export const earFlap = {
       macro('hd', {
         from: points.bottomLeft,
         to: points.bottomRight,
-        y: points.bottomMid.y + sa * options.crownHemWidth * 100 + 15,
+        y: points.bottomMid.y + sa * options.crownSaWidth * 100 + 15,
       })
       macro('vd', {
         from: points.bottomMid,

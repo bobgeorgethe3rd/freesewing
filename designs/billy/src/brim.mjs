@@ -249,7 +249,7 @@ export const brim = {
       }
 
       if (sa) {
-        const hemSa = sa * options.crownHemWidth * 100
+        const hemSa = sa * options.crownSaWidth * 100
 
         paths.hemSa = paths.hemBase.offset(hemSa).attr('class', 'fabrinner sa').hide()
 
