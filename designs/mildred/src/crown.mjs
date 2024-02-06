@@ -10,7 +10,7 @@ export const crown = {
     crownLength: { pct: 45, min: 30, max: 200, menu: 'style' },
     crownNumber: { count: 1, min: 1, max: 20, menu: 'style' },
     //Construction
-    hemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    crownHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
   measurements: ['head'],
   draft: ({
@@ -121,7 +121,7 @@ export const crown = {
       })
     }
     if (sa) {
-      const hemSa = sa * options.hemWidth * 100
+      const hemSa = sa * options.crownHemWidth * 100
 
       points.saBottomRight = points.bottomRight
         .shift(points.bottomRightCp1.angle(points.bottomRight), sa)

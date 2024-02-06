@@ -11,7 +11,7 @@ export const crown = {
     crownLength: { pct: 55, min: 40, max: 60, menu: 'style' },
     crownNumber: { count: 6, min: 4, max: 20, menu: 'style' },
     //Construction
-    hemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    crownHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
   measurements: ['head'],
   draft: ({
@@ -109,7 +109,7 @@ export const crown = {
     }
 
     if (sa) {
-      const hemSa = sa * options.hemWidth * 100
+      const hemSa = sa * options.crownHemWidth * 100
 
       points.saCrown_p2 = utils.beamsIntersect(
         points.crown_p3.shift(-90, hemSa),
@@ -147,7 +147,7 @@ export const crown = {
       macro('hd', {
         from: points.crown_p3,
         to: points.crown_p3F,
-        y: points.origin.y + sa * options.hemWidth * 100 + 15,
+        y: points.origin.y + sa * options.crownHemWidth * 100 + 15,
       })
     }
 

@@ -8,7 +8,7 @@ export const band = {
     //Style
     bandWidth: { pct: 4.9, min: 4.9, max: 16.4, snap: 5, ...pctBasedOn('head'), menu: 'style' },
     //Construction
-    hemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    crownHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
   draft: ({
     store,
@@ -93,7 +93,7 @@ export const band = {
       .attr('data-text-class', 'center')
 
     if (sa) {
-      const hemSa = sa * options.hemWidth * 100
+      const hemSa = sa * options.crownHemWidth * 100
 
       points.saBottomLeft = points.bottomLeft.translate(-sa, hemSa)
       points.saBottomRight = points.bottomRight.translate(sa, hemSa)

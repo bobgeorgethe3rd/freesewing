@@ -89,7 +89,7 @@ export const brimBase = {
       })
       if (sa) {
         paths.saInner = paths.seamInner
-          .offset(sa * options.hemWidth * 100)
+          .offset(sa * options.crownHemWidth * 100)
           .close()
           .attr('class', 'fabric sa')
       }

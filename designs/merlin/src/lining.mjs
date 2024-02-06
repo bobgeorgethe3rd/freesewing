@@ -118,7 +118,7 @@ export const lining = {
     }
 
     if (sa) {
-      const hemSa = sa * options.hemWidth * 100
+      const hemSa = sa * options.crownHemWidth * 100
 
       points.saLining_p2 = utils.beamsIntersect(
         points.lining_p3.shift(-90, hemSa),
@@ -156,7 +156,7 @@ export const lining = {
       macro('hd', {
         from: points.lining_p3,
         to: points.lining_p3F,
-        y: points.origin.y + sa * options.hemWidth * 100 + 15,
+        y: points.origin.y + sa * options.crownHemWidth * 100 + 15,
       })
     }
 

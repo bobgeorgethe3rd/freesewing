@@ -168,7 +168,7 @@ export const peak = {
         .attr('data-text-class', 'center')
 
       if (sa) {
-        const hemSa = sa * options.hemWidth * 100
+        const hemSa = sa * options.crownHemWidth * 100
 
         points.saHemBaseEnd = points.leftInner.rotate(-90, paths.hemBase.offset(hemSa).end())
 
