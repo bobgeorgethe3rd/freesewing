@@ -246,6 +246,7 @@ rehype-highlight-lines:
 riley:
   peer:
     '@freesewing/terry': *freesewing
+    '@freesewing/simpleraglanshirtsleeve': *freesewing
 rose:
   peer:
     '@freesewing/daisy': *freesewing
