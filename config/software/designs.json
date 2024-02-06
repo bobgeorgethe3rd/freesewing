@@ -313,6 +313,13 @@
       "difficulty": 1,
       "tags": ["sleeve"]
     },
+    "simpleraglanshirtsleeve": {
+      "description": "Simple raglan shirt sleeves to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["sleeve", "raglan"]
+    },
     "simpleshirtsleeve": {
       "description": "Simple shirt sleeves to be used in other designs",
       "code": "bobgeorgethe3rd",

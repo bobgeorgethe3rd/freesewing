@@ -306,6 +306,10 @@ simone:
     '@freesewing/simon': *freesewing
     '@freesewing/plugin-flip': *freesewing
     '@freesewing/plugin-bust': *freesewing
+simpleraglanshirtsleeve:
+  peer:
+    '@freesewing/basicsleeve': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 simpleshirtsleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing
