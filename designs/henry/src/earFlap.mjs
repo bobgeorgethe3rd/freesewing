@@ -223,19 +223,19 @@ export const earFlap = {
           .close()
           .attr('class', 'fabric sa')
       }
-    }
-    // Paperless?
-    if (paperless) {
-      macro('hd', {
-        from: points.bottomLeft,
-        to: points.bottomRight,
-        y: points.bottomMid.y + sa * options.crownSaWidth * 100 + 15,
-      })
-      macro('vd', {
-        from: points.bottomMid,
-        to: points.topMid,
-        x: points.bottomLeft.x - sa - 30,
-      })
+      // Paperless?
+      if (paperless) {
+        macro('hd', {
+          from: points.bottomLeft,
+          to: points.bottomRight,
+          y: points.bottomMid.y + sa * options.crownSaWidth * 100 + 15,
+        })
+        macro('vd', {
+          from: points.bottomMid,
+          to: points.topMid,
+          x: points.bottomLeft.x - sa - 30,
+        })
+      }
     }
     return part
   },

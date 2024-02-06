@@ -106,49 +106,49 @@ export const crown = {
         .attr('class', 'mark')
         .attr('data-text', 'Centre Line')
         .attr('data-text-class', 'center')
-    }
 
-    if (sa) {
-      const hemSa = sa * options.crownSaWidth * 100
+      if (sa) {
+        const hemSa = sa * options.crownSaWidth * 100
 
-      points.saCrown_p2 = utils.beamsIntersect(
-        points.crown_p3.shift(-90, hemSa),
-        points.crown_p3F.shift(-90, hemSa),
-        points.crown_Cp2.shiftTowards(points.crown_p2, sa).rotate(-90, points.crown_Cp2),
-        points.crown_p2.shiftTowards(points.crown_Cp2, sa).rotate(90, points.crown_p2)
-      )
-      points.saCrown_p2F = points.saCrown_p2.flipX(points.origin)
-      points.saCrown_p1 = utils.beamsIntersect(
-        points.origin,
-        points.crown_p1,
-        points.crown_Cp1.shiftTowards(points.crown_p1, sa).rotate(90, points.crown_Cp1),
-        points.crown_p1.shiftTowards(points.crown_Cp1, sa).rotate(-90, points.crown_p1)
-      )
+        points.saCrown_p2 = utils.beamsIntersect(
+          points.crown_p3.shift(-90, hemSa),
+          points.crown_p3F.shift(-90, hemSa),
+          points.crown_Cp2.shiftTowards(points.crown_p2, sa).rotate(-90, points.crown_Cp2),
+          points.crown_p2.shiftTowards(points.crown_Cp2, sa).rotate(90, points.crown_p2)
+        )
+        points.saCrown_p2F = points.saCrown_p2.flipX(points.origin)
+        points.saCrown_p1 = utils.beamsIntersect(
+          points.origin,
+          points.crown_p1,
+          points.crown_Cp1.shiftTowards(points.crown_p1, sa).rotate(90, points.crown_Cp1),
+          points.crown_p1.shiftTowards(points.crown_Cp1, sa).rotate(-90, points.crown_p1)
+        )
 
-      paths.sa = new Path()
-        .move(points.saCrown_p2)
-        .line(points.saCrown_p2F)
-        .line(paths.saRight.offset(sa).start())
-        .join(paths.saRight.offset(sa))
-        .line(points.saCrown_p1)
-        .line(paths.saLeft.offset(sa).start())
-        .join(paths.saLeft.offset(sa))
-        .line(points.saCrown_p2)
-        .close()
-        .attr('class', 'fabric sa')
-    }
-    // Paperless?
-    if (paperless) {
-      macro('vd', {
-        from: points.crown_p1,
-        to: points.origin,
-        x: points.crown_p2.x - sa - 15,
-      })
-      macro('hd', {
-        from: points.crown_p3,
-        to: points.crown_p3F,
-        y: points.origin.y + sa * options.crownSaWidth * 100 + 15,
-      })
+        paths.sa = new Path()
+          .move(points.saCrown_p2)
+          .line(points.saCrown_p2F)
+          .line(paths.saRight.offset(sa).start())
+          .join(paths.saRight.offset(sa))
+          .line(points.saCrown_p1)
+          .line(paths.saLeft.offset(sa).start())
+          .join(paths.saLeft.offset(sa))
+          .line(points.saCrown_p2)
+          .close()
+          .attr('class', 'fabric sa')
+      }
+      // Paperless?
+      if (paperless) {
+        macro('vd', {
+          from: points.crown_p1,
+          to: points.origin,
+          x: points.crown_p2.x - sa - 15,
+        })
+        macro('hd', {
+          from: points.crown_p3,
+          to: points.crown_p3F,
+          y: points.origin.y + sa * options.crownSaWidth * 100 + 15,
+        })
+      }
     }
 
     return part
