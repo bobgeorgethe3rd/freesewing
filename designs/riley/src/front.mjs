@@ -69,14 +69,44 @@ export const front = {
       .line(points.cfHem)
       .close()
     //stores
+    points.raglanAnchor = utils.beamsIntersect(
+      points.neckSplit,
+      points.neckSplit.shift(points.shoulderTop.angle(points.shoulder), 1),
+      points.armholeSplit,
+      points.armholeSplit.shift(points.shoulderTop.angle(points.shoulder) + 90, 1)
+    )
+    points.raglanArmholeAnchor = points.armhole.rotate(
+      180,
+      utils.beamsIntersect(
+        points.armholeSplitCp2,
+        points.armholeSplit,
+        points.armhole,
+        points.armhole.shift(points.armholeSplit.angle(points.armholeSplitCp2) + 90, 1)
+      )
+    )
+    points.raglanShoulderAnchor = utils.beamsIntersect(
+      points.shoulderTop,
+      points.shoulder,
+      points.raglanArmholeAnchor,
+      points.raglanArmholeAnchor.shift(points.shoulderTop.angle(points.shoulder) + 90, 1)
+    )
     store.set('neckFrontWidth', points.shoulderTop.x)
     store.set('neckFrontAngle', points.shoulderTop.angle(points.shoulder) - 270)
     store.set(
-      'neckFrontRaglanAngle',
+      'raglanNeckFrontAngle',
       points.shoulderTop.angle(points.shoulder) - points.neckSplit.angle(points.armholeSplitCp2)
     )
-    store.set('raglanFrontSplitDist', paths.armhole.split(points.armholeSplit)[0].length())
-    store.set('raglanFrontDist', paths.armhole.length())
+    store.set(
+      'raglanArmholeFrontAngle',
+      90 -
+        (points.shoulder.angle(points.shoulderTop) -
+          points.armholeSplit.angle(points.armholeSplitCp2))
+    )
+    store.set('raglanFrontLength', paths.armhole.length())
+    store.set('raglanFrontWidth', points.armholeSplit.dist(points.raglanAnchor))
+    store.set('raglanFrontDepth', points.neckSplit.dist(points.raglanAnchor))
+    store.set('raglanScyeFrontWidth', points.raglanArmholeAnchor.dist(points.raglanShoulderAnchor))
+    store.set('raglanScyeFrontDepth', points.raglanShoulderAnchor.dist(points.shoulderTop))
     if (complete) {
       //notches
       points.armholeNotch = paths.armhole.shiftFractionAlong(0.5)

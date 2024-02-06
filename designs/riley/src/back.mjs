@@ -76,6 +76,27 @@ export const back = {
       .close()
 
     //stores
+    points.raglanAnchor = utils.beamsIntersect(
+      points.neckSplit,
+      points.neckSplit.shift(points.shoulderTop.angle(points.shoulder), 1),
+      points.armholeSplit,
+      points.armholeSplit.shift(points.shoulderTop.angle(points.shoulder) + 90, 1)
+    )
+    points.raglanArmholeAnchor = points.armhole.rotate(
+      180,
+      utils.beamsIntersect(
+        points.armholeSplitCp2,
+        points.armholeSplit,
+        points.armhole,
+        points.armhole.shift(points.armholeSplit.angle(points.armholeSplitCp2) + 90, 1)
+      )
+    )
+    points.raglanShoulderAnchor = utils.beamsIntersect(
+      points.shoulderTop,
+      points.shoulder,
+      points.raglanArmholeAnchor,
+      points.raglanArmholeAnchor.shift(points.shoulderTop.angle(points.shoulder) + 90, 1)
+    )
     store.set('armholeSplitDepth', points.armholeSplit.y)
     store.set('neckSplitWidth', paths.cbNeck.split(points.neckSplit)[0].length())
     store.set('shoulderLength', points.shoulderTop.dist(points.shoulder))
@@ -87,11 +108,20 @@ export const back = {
     store.set('neckBackCpAngle', points.shoulderTop.angle(points.shoulder) - 180)
     store.set('neckBackCpDist', points.cbTopCp1.dist(points.cbTop))
     store.set(
-      'neckBackRaglanAngle',
+      'raglanNeckBackAngle',
       points.shoulderTop.angle(points.shoulder) - points.neckSplit.angle(points.armholeSplitCp2)
     )
-    store.set('raglanBackSplitDist', paths.armhole.split(points.armholeSplit)[0].length())
-    store.set('raglanBackDist', paths.armhole.length())
+    store.set(
+      'raglanArmholeBackAngle',
+      90 -
+        (points.shoulder.angle(points.shoulderTop) -
+          points.armholeSplit.angle(points.armholeSplitCp2))
+    )
+    store.set('backRaglanLength', paths.armhole.length())
+    store.set('raglanBackWidth', points.armholeSplit.dist(points.raglanAnchor))
+    store.set('raglanBackDepth', points.neckSplit.dist(points.raglanAnchor))
+    store.set('raglanScyeBackWidth', points.raglanArmholeAnchor.dist(points.raglanShoulderAnchor))
+    store.set('raglanScyeBackDepth', points.raglanShoulderAnchor.dist(points.shoulderTop))
     if (complete) {
       //notches
       points.armholeBottomNotch = paths.armhole.shiftFractionAlong(0.25)
