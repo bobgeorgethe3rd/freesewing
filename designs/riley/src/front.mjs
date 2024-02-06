@@ -102,7 +102,7 @@ export const front = {
         (points.shoulder.angle(points.shoulderTop) -
           points.armholeSplit.angle(points.armholeSplitCp2))
     )
-    store.set('raglanFrontLength', paths.armhole.length())
+    store.set('frontRaglanLength', paths.armhole.length())
     store.set('raglanFrontWidth', points.armholeSplit.dist(points.raglanAnchor))
     store.set('raglanFrontDepth', points.neckSplit.dist(points.raglanAnchor))
     store.set('raglanScyeFrontWidth', points.raglanArmholeAnchor.dist(points.raglanShoulderAnchor))
