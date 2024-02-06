@@ -144,6 +144,13 @@
     }
   },
   "hats": {
+    "barkley": {
+      "description": "Baker's Boy Cap design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["hats"]
+    },
     "billy": {
       "description": "A Bucket Hat design",
       "code": "bobgeorgethe3rd",

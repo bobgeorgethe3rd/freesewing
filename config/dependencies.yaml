@@ -20,6 +20,11 @@ aaron:
 aimee:
   peer:
     '@freesewing/daisy': *freesewing
+barkley:
+  peer:
+    '@freesewing/henry': *freesewing
+    '@freesewing/perry': *freesewing
+    '@freesewing/plugin-gore': *freesewing
 bee:
   peer:
     '@freesewing/bella': *freesewing
