@@ -170,6 +170,10 @@ minerva:
   peer:
     '@freesewing/mildred': *freesewing
     '@freesewing/henry': *freesewing
+nathaniel:
+  peer:
+    '@freesewing/barkley': *freesewing
+    '@freesewing/perry': *freesewing
 neckbandcurved:
   peer:
     '@freesewing/plugin-bandcurved': *freesewing
