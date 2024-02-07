@@ -168,9 +168,9 @@ export const peak = {
         .attr('data-text-class', 'center')
 
       if (sa) {
-        const hemSa = sa * options.crownSaWidth * 100
+        const crownSa = sa * options.crownSaWidth * 100
 
-        points.saHemBaseEnd = points.leftInner.rotate(-90, paths.hemBase.offset(hemSa).end())
+        points.saHemBaseEnd = points.leftInner.rotate(-90, paths.hemBase.offset(crownSa).end())
 
         points.saLeftInner = utils.beamsIntersect(
           points.saHemBaseEnd,
@@ -184,8 +184,8 @@ export const peak = {
 
         paths.sa = new Path()
           .move(points.saHemBaseStart)
-          .line(paths.hemBase.offset(hemSa).start())
-          .join(paths.hemBase.offset(hemSa))
+          .line(paths.hemBase.offset(crownSa).start())
+          .join(paths.hemBase.offset(crownSa))
           .line(points.saHemBaseEnd)
           .line(points.saLeftInner)
           .line(paths.saBase.offset(sa).start())

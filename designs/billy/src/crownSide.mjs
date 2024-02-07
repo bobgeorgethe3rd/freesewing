@@ -256,27 +256,27 @@ export const crownSide = {
         rotation: 360 - angle / 4,
       })
       if (sa) {
-        const hemSa = sa * options.crownSaWidth * 100
+        const crownSa = sa * options.crownSaWidth * 100
 
         points.saOuterRight = points.outerRight
           .shift(points.outerRightCp1.angle(points.outerRight), sa)
-          .shift(points.innerRight.angle(points.outerRight), hemSa)
+          .shift(points.innerRight.angle(points.outerRight), crownSa)
         points.saInnerRight = points.innerRight
           .shift(points.innerLeftCp2.angle(points.innerRight), sa)
           .shift(points.outerRight.angle(points.innerRight), sa)
 
         points.saInnerLeft = points.innerLeft.translate(-sa, sa)
-        points.saOuterLeft = points.outerLeft.translate(hemSa, sa)
+        points.saOuterLeft = points.outerLeft.translate(crownSa, sa)
 
         paths.sa = paths.hemBase
-          .offset(hemSa)
+          .offset(crownSa)
           .line(points.saOuterRight)
           .line(points.saInnerRight)
           .line(paths.saBase.offset(sa).start())
           .join(paths.saBase.offset(sa))
           .line(points.saInnerLeft)
           .line(points.saOuterLeft)
-          .line(paths.hemBase.offset(hemSa).start())
+          .line(paths.hemBase.offset(crownSa).start())
           .close()
           .attr('class', 'fabrinner sa')
       }

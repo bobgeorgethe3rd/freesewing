@@ -118,11 +118,11 @@ export const lining = {
     }
 
     if (sa) {
-      const hemSa = sa * options.crownSaWidth * 100
+      const crownSa = sa * options.crownSaWidth * 100
 
       points.saLining_p2 = utils.beamsIntersect(
-        points.lining_p3.shift(-90, hemSa),
-        points.lining_p3F.shift(-90, hemSa),
+        points.lining_p3.shift(-90, crownSa),
+        points.lining_p3F.shift(-90, crownSa),
         points.lining_Cp2.shiftTowards(points.lining_p2, sa).rotate(-90, points.lining_Cp2),
         points.lining_p2.shiftTowards(points.lining_Cp2, sa).rotate(90, points.lining_p2)
       )

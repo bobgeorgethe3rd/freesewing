@@ -93,10 +93,10 @@ export const band = {
       .attr('data-text-class', 'center')
 
     if (sa) {
-      const hemSa = sa * options.crownSaWidth * 100
+      const crownSa = sa * options.crownSaWidth * 100
 
-      points.saBottomLeft = points.bottomLeft.translate(-sa, hemSa)
-      points.saBottomRight = points.bottomRight.translate(sa, hemSa)
+      points.saBottomLeft = points.bottomLeft.translate(-sa, crownSa)
+      points.saBottomRight = points.bottomRight.translate(sa, crownSa)
       points.saTopRight = points.topRight.translate(sa, -sa)
       points.saTopLeft = points.topLeft.translate(-sa, -sa)
 

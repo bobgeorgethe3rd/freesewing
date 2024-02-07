@@ -249,15 +249,15 @@ export const brim = {
       }
 
       if (sa) {
-        const hemSa = sa * options.crownSaWidth * 100
+        const crownSa = sa * options.crownSaWidth * 100
 
-        paths.hemSa = paths.hemBase.offset(hemSa).attr('class', 'fabrinner sa').hide()
+        paths.crownSa = paths.hemBase.offset(crownSa).attr('class', 'fabrinner sa').hide()
 
         if (options.brimAngle == 360 && options.brimNumber == 1) {
-          paths.hemSa.unhide().close()
+          paths.crownSa.unhide().close()
           paths.sa = paths.saOuter.offset(sa).attr('class', 'fabrinner sa').close()
         } else {
-          points.saInnerEnd = points.innerEnd.translate(-hemSa, sa)
+          points.saInnerEnd = points.innerEnd.translate(-crownSa, sa)
           points.saOuterStart = points.outerStart.translate(sa, sa)
           points.saOuterEnd = points.outerEnd
             .shift(points.outerEndCp1.angle(points.outerEnd), sa)
@@ -265,14 +265,14 @@ export const brim = {
 
           points.saInnerStart = points.innerStart
             .shift(points.innerStartCp2.angle(points.innerStart), sa)
-            .shift(points.outerEnd.angle(points.innerStart), hemSa)
+            .shift(points.outerEnd.angle(points.innerStart), crownSa)
 
           paths.sa = paths.saOuter
             .offset(sa)
             .line(points.saOuterEnd)
             .line(points.saInnerStart)
-            .line(paths.hemSa.start())
-            .join(paths.hemSa)
+            .line(paths.crownSa.start())
+            .join(paths.crownSa)
             .line(points.saInnerEnd)
             .line(points.saOuterStart)
             .line(paths.saOuter.offset(sa).start())

@@ -108,11 +108,11 @@ export const crown = {
         .attr('data-text-class', 'center')
 
       if (sa) {
-        const hemSa = sa * options.crownSaWidth * 100
+        const crownSa = sa * options.crownSaWidth * 100
 
         points.saCrown_p2 = utils.beamsIntersect(
-          points.crown_p3.shift(-90, hemSa),
-          points.crown_p3F.shift(-90, hemSa),
+          points.crown_p3.shift(-90, crownSa),
+          points.crown_p3F.shift(-90, crownSa),
           points.crown_Cp2.shiftTowards(points.crown_p2, sa).rotate(-90, points.crown_Cp2),
           points.crown_p2.shiftTowards(points.crown_Cp2, sa).rotate(90, points.crown_p2)
         )

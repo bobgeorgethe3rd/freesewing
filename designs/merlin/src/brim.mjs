@@ -180,10 +180,10 @@ export const brim = {
       })
 
       if (sa) {
-        const hemSa = sa * options.crownSaWidth * 100
+        const crownSa = sa * options.crownSaWidth * 100
 
         points.saInnerEnd = points.innerEnd
-          .shift(points.outerStart.angle(points.innerEnd), hemSa)
+          .shift(points.outerStart.angle(points.innerEnd), crownSa)
           .shift(points.innerEndCp1.angle(points.innerEnd), sa)
 
         points.saOuterStart = points.outerStart
@@ -191,17 +191,17 @@ export const brim = {
           .shift(points.outerStartCp2.angle(points.outerStart), sa)
 
         points.saOuterEnd = points.outerEnd.translate(sa, sa)
-        points.saInnerStart = points.innerStart.translate(sa, -hemSa)
+        points.saInnerStart = points.innerStart.translate(sa, -crownSa)
 
         paths.sa = paths.hemBase
-          .offset(hemSa)
+          .offset(crownSa)
           .line(points.saInnerEnd)
           .line(points.saOuterStart)
           .line(paths.saOuter.offset(sa).start())
           .join(paths.saOuter.offset(sa))
           .line(points.saOuterEnd)
           .line(points.saInnerStart)
-          .line(paths.hemBase.offset(hemSa).start())
+          .line(paths.hemBase.offset(crownSa).start())
           .close()
           .attr('class', 'fabric sa')
       }

@@ -121,11 +121,11 @@ export const crown = {
       })
     }
     if (sa) {
-      const hemSa = sa * options.crownSaWidth * 100
+      const crownSa = sa * options.crownSaWidth * 100
 
       points.saBottomRight = points.bottomRight
         .shift(points.bottomRightCp1.angle(points.bottomRight), sa)
-        .shift(points.origin.angle(points.bottomRight), hemSa)
+        .shift(points.origin.angle(points.bottomRight), crownSa)
 
       points.saTop = utils.beamsIntersect(
         points.bottomRight.shiftTowards(points.origin, sa).rotate(-90, points.bottomRight),
@@ -134,14 +134,14 @@ export const crown = {
         points.bottomLeft.shiftTowards(points.origin, sa).rotate(90, points.bottomLeft)
       )
 
-      points.saBottomLeft = points.bottomLeft.translate(-sa, hemSa)
+      points.saBottomLeft = points.bottomLeft.translate(-sa, crownSa)
 
       paths.sa = paths.hemBase
-        .offset(hemSa)
+        .offset(crownSa)
         .line(points.saBottomRight)
         .line(points.saTop)
         .line(points.saBottomLeft)
-        .line(paths.hemBase.offset(hemSa).start())
+        .line(paths.hemBase.offset(crownSa).start())
         .close()
         .attr('class', 'fabric sa')
     }
