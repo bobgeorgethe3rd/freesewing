@@ -33,7 +33,10 @@ export const band = {
     draftBand.draft(sh)
     //delete snippets
     for (let i in snippets) delete snippets[i]
-
+    macro('sprinkle', {
+      snippet: 'notch',
+      on: ['notch0', 'notch2'],
+    })
     return part
   },
 }
