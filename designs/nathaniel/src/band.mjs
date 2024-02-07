@@ -31,6 +31,8 @@ export const band = {
     } = sh
     //draft
     draftBand.draft(sh)
+    //delete snippets
+    for (let i in snippets) delete snippets[i]
 
     return part
   },
