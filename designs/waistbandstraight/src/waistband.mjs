@@ -60,6 +60,7 @@ export const waistband = {
       overlapSide: options.waistbandOverlapSide,
       folded: options.waistbandFolded,
       closurePosition: options.closurePosition,
+      maxButtons: store.get('waistbandMaxButtons'),
       sideSa: store.get('waistbandSideSa'),
       prefix: 'waistband',
     })

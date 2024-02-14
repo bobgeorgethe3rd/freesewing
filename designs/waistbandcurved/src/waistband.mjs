@@ -61,6 +61,7 @@ export const waistband = {
       overlap: store.get('waistbandOverlap'),
       overlapSide: options.waistbandOverlapSide,
       closurePosition: options.closurePosition,
+      maxButtons: store.get('waistbandMaxButtons'),
       sideSa: store.get('waistbandSideSa'),
       prefix: 'waistband',
     })

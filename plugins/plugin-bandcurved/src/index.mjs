@@ -358,7 +358,7 @@ export const plugin = {
               .shiftTowards(points[prefixFunction('origin')], width / 2)
           }
           if (rightExtension > widthStatic) {
-            for (let i = 0; i < maxButtons; i++) {
+            for (let i = 0; i < so.maxButtons; i++) {
               if (rightExtension > widthStatic * (i + 1)) {
                 points[prefixFunction('buttonholeOverlap') + i] = points[
                   prefixFunction('bottomRightEx')
@@ -369,7 +369,7 @@ export const plugin = {
                     widthHalf
                   )
                 points[prefixFunction('buttonOverlap') + i] = paths[prefixFunction('bottomCurve')]
-                  .shiftAlong(waistbandOverlap - (widthHalf + widthStatic * i))
+                  .shiftAlong(so.overlap - (widthHalf + widthStatic * i))
                   .shiftTowards(points[prefixFunction('origin')], width / 2)
                 snippets[prefixFunction('buttonholeOverlap') + i] = new Snippet(
                   'buttonhole',
@@ -399,41 +399,38 @@ export const plugin = {
             points[prefixFunction('buttonholePlacket')] = paths[prefixFunction('bottomCurve')]
               .shiftAlong(widthStatic / 2)
               .shiftTowards(points[prefixFunction('origin')], width / 2)
-            if (leftExtension > widthStatic) {
-              for (let i = 0; i < maxButtons; i++) {
-                if (leftExtension > widthStatic * (i + 1)) {
-                  points[prefixFunction('buttonholeOverlap') + i] = points[
-                    prefixFunction('bottomLeftEx')
-                  ]
-                    .shiftTowards(points[prefixFunction('bottomLeft')], widthHalf + widthStatic * i)
-                    .shift(
-                      points[prefixFunction('bottomRight')].angle(
-                        points[prefixFunction('topRight')]
-                      ),
-                      widthHalf
-                    )
-                  points[prefixFunction('buttonOverlap') + i] = paths[prefixFunction('bottomCurve')]
-                    .reverse()
-                    .shiftAlong(waistbandOverlap - (widthHalf + widthStatic * i))
-                    .shiftTowards(points[prefixFunction('origin')], width / 2)
-                  snippets[prefixFunction('buttonholeOverlap') + i] = new Snippet(
-                    'buttonhole',
-                    points[prefixFunction('buttonholeOverlap') + i]
-                  ).attr(
-                    'data-rotate',
-                    points[prefixFunction('bottomLeft')].angle(points[prefixFunction('topLeft')]) *
-                      -1
+          }
+          if (leftExtension > widthStatic) {
+            for (let i = 0; i < so.maxButtons; i++) {
+              if (leftExtension > widthStatic * (i + 1)) {
+                points[prefixFunction('buttonholeOverlap') + i] = points[
+                  prefixFunction('bottomLeftEx')
+                ]
+                  .shiftTowards(points[prefixFunction('bottomLeft')], widthHalf + widthStatic * i)
+                  .shift(
+                    points[prefixFunction('bottomLeft')].angle(points[prefixFunction('topLeft')]),
+                    widthHalf
                   )
-                  snippets[prefixFunction('buttonOverlap') + i] = new Snippet(
-                    'button',
-                    points[prefixFunction('buttonOverlap') + i]
-                  ).attr(
-                    'data-rotate',
-                    points[prefixFunction('buttonOverlap') + i].angle(
-                      points[prefixFunction('origin')]
-                    ) * -1
-                  )
-                }
+                points[prefixFunction('buttonOverlap') + i] = paths[prefixFunction('bottomCurve')]
+                  .reverse()
+                  .shiftAlong(so.overlap - (widthHalf + widthStatic * i))
+                  .shiftTowards(points[prefixFunction('origin')], width / 2)
+                snippets[prefixFunction('buttonholeOverlap') + i] = new Snippet(
+                  'buttonhole',
+                  points[prefixFunction('buttonholeOverlap') + i]
+                ).attr(
+                  'data-rotate',
+                  points[prefixFunction('bottomLeft')].angle(points[prefixFunction('topLeft')]) * -1
+                )
+                snippets[prefixFunction('buttonOverlap') + i] = new Snippet(
+                  'button',
+                  points[prefixFunction('buttonOverlap') + i]
+                ).attr(
+                  'data-rotate',
+                  points[prefixFunction('buttonOverlap') + i].angle(
+                    points[prefixFunction('origin')]
+                  ) * -1
+                )
               }
             }
           }

@@ -347,40 +347,40 @@ export const plugin = {
                 prefixFunction('buttonholePlacket')
               ].flipY(points[prefixFunction('flipAnchor')])
             }
-            if (leftExtension > width / widthMultiplier) {
-              for (let i = 0; i < so.maxButtons; i++) {
-                if (leftExtension > (width / widthMultiplier) * (i + 1)) {
-                  points[prefixFunction('buttonholeOverlap') + i] = points[
-                    prefixFunction('bottomLeftEx')
-                  ].translate(widthHalf + (width / widthMultiplier) * i, -widthHalf)
-                  points[prefixFunction('buttonOverlap') + i] = points[
-                    prefixFunction('bottomRight')
-                  ].translate(widthHalf + (width / widthMultiplier) * i - so.overlap, -widthHalf)
-                  snippets[prefixFunction('buttonholeOverlap') + i] = new Snippet(
-                    'buttonhole',
-                    points[prefixFunction('buttonholeOverlap') + i]
-                  ).attr('data-rotate', 90)
-                  snippets[prefixFunction('buttonOverlap') + i] = new Snippet(
-                    'button',
-                    points[prefixFunction('buttonOverlap') + i]
-                  )
+          }
+          if (leftExtension > width / widthMultiplier) {
+            for (let i = 0; i < so.maxButtons; i++) {
+              if (leftExtension > (width / widthMultiplier) * (i + 1)) {
+                points[prefixFunction('buttonholeOverlap') + i] = points[
+                  prefixFunction('bottomLeftEx')
+                ].translate(widthHalf + (width / widthMultiplier) * i, -widthHalf)
+                points[prefixFunction('buttonOverlap') + i] = points[
+                  prefixFunction('bottomRight')
+                ].translate(widthHalf + (width / widthMultiplier) * i - so.overlap, -widthHalf)
+                snippets[prefixFunction('buttonholeOverlap') + i] = new Snippet(
+                  'buttonhole',
+                  points[prefixFunction('buttonholeOverlap') + i]
+                ).attr('data-rotate', 90)
+                snippets[prefixFunction('buttonOverlap') + i] = new Snippet(
+                  'button',
+                  points[prefixFunction('buttonOverlap') + i]
+                )
 
-                  if (so.folded) {
-                    points[prefixFunction('buttonholeOverlapF') + i] = points[
-                      prefixFunction('buttonholeOverlap') + i
-                    ].flipY(points[prefixFunction('flipAnchor')])
-                    points[prefixFunction('buttonOverlapF') + i] = points[
-                      prefixFunction('buttonOverlap') + i
-                    ].flipY(points[prefixFunction('flipAnchor')])
-                    snippets[prefixFunction('buttonholeOverlapF') + i] = new Snippet(
-                      'buttonhole',
-                      points[prefixFunction('buttonholeOverlapF') + i]
-                    ).attr('data-rotate', 90)
-                    snippets[prefixFunction('buttonOverlapF') + i] = new Snippet(
-                      'button',
-                      points[prefixFunction('buttonOverlapF') + i]
-                    )
-                  }
+                if (so.folded) {
+                  points[prefixFunction('buttonholeOverlapF') + i] = points[
+                    prefixFunction('buttonholeOverlap') + i
+                  ].flipY(points[prefixFunction('flipAnchor')])
+                  points[prefixFunction('buttonOverlapF') + i] = points[
+                    prefixFunction('buttonOverlap') + i
+                  ].flipY(points[prefixFunction('flipAnchor')])
+                  snippets[prefixFunction('buttonholeOverlapF') + i] = new Snippet(
+                    'buttonhole',
+                    points[prefixFunction('buttonholeOverlapF') + i]
+                  ).attr('data-rotate', 90)
+                  snippets[prefixFunction('buttonOverlapF') + i] = new Snippet(
+                    'button',
+                    points[prefixFunction('buttonOverlapF') + i]
+                  )
                 }
               }
             }
