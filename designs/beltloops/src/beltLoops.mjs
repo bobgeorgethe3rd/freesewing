@@ -91,7 +91,7 @@ export const beltLoops = {
           .attr('data-text-class', 'center')
       }
       //title
-      points.title = new Point(points.topRight.x * (5 / 8), points.bottomRight.y / 4)
+      points.title = new Point(points.topRight.x * 0.25, points.bottomRight.y / 4)
       macro('title', {
         at: points.title,
         nr: 1,
