@@ -12,9 +12,9 @@ import { front } from './front.mjs'
 import { frontPocketFacing } from './frontPocketFacing.mjs'
 import { coinPocket } from './coinPocket.mjs'
 import { frontPocketBag } from './frontPocketBag.mjs'
-// import { fly } from './fly.mjs'
-// import { buttonholePlacket } from './buttonholePlacket.mjs'
-// import { flyShield } from './flyShield.mjs'
+import { fly } from './fly.mjs'
+import { buttonholePlacket } from './buttonholePlacket.mjs'
+import { flyShield } from './flyShield.mjs'
 import { beltLoops } from './beltLoops.mjs'
 import { waistband } from './waistband.mjs'
 import { leatherPatch } from './leatherPatch.mjs'
@@ -32,9 +32,9 @@ const Jackson = new Design({
     frontPocketFacing,
     coinPocket,
     frontPocketBag,
-    // fly,
-    // buttonholePlacket,
-    // flyShield,
+    fly,
+    buttonholePlacket,
+    flyShield,
     beltLoops,
     waistband,
     leatherPatch,
@@ -52,9 +52,9 @@ export {
   frontPocketFacing,
   coinPocket,
   frontPocketBag,
-  // fly,
-  // buttonholePlacket,
-  // flyShield,
+  fly,
+  buttonholePlacket,
+  flyShield,
   beltLoops,
   waistband,
   leatherPatch,

@@ -163,10 +163,10 @@ export const frontBase = {
             points.flyShieldExWaist,
             points.flyShieldExWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
             points.flyShieldCrotch
-              .shiftTowards(points.flyShieldExCrotch, flyShieldEx)
+              .shiftTowards(points.flyShieldExCrotch, sa)
               .rotate(-90, points.flyShieldCrotch),
             points.flyShieldExCrotch
-              .shiftTowards(points.flyShieldCrotch, flyShieldEx)
+              .shiftTowards(points.flyShieldCrotch, sa)
               .rotate(90, points.flyShieldExCrotch)
           )
         }
