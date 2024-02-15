@@ -4,8 +4,9 @@ export const leatherPatch = {
   name: 'jackson.leatherPatch',
   options: {
     leatherPatch: { bool: true, menu: 'style' },
-    leatherPatchWidth: { pct: 10.4, min: 10, max: 12, menu: 'style' },
-    leatherPatchLength: { pct: 5.9, min: 5, max: 7, menu: 'style' },
+    leatherPatchWidth: { pct: 5.3, min: 5, max: 6, menu: 'style' },
+    leatherPatchLength: { pct: 9.7, min: 8.5, max: 10, menu: 'style' },
+    scaleLeatherPatch: { bool: true, menu: 'advanced' },
   },
   plugins: [pluginLogoRG],
   draft: ({
@@ -32,14 +33,20 @@ export const leatherPatch = {
       return part
     }
     //measures
-    const width = measurements.waist * options.leatherPatchWidth
-    const length = measurements.waistToFloor * options.leatherPatchLength
-
+    let width
+    let length
+    if (options.scaleLeatherPatch) {
+      length = measurements.waist * options.leatherPatchLength
+      width = measurements.waistToFloor * options.leatherPatchWidth
+    } else {
+      length = 82
+      width = 63
+    }
     //let's begin
     points.origin = new Point(0, 0)
-    points.topLeft = points.origin.translate(width / -2, length / -2)
-    points.bottomLeft = points.origin.translate(width / -2, length / 2)
-    points.bottomRight = points.origin.translate(width / 2, length / 2)
+    points.topLeft = points.origin.translate(length / -2, width / -2)
+    points.bottomLeft = points.origin.translate(length / -2, width / 2)
+    points.bottomRight = points.origin.translate(length / 2, width / 2)
     points.topRight = new Point(points.bottomRight.x, points.topLeft.y)
 
     //paths
@@ -62,7 +69,7 @@ export const leatherPatch = {
         to: points.bottomRight.rotate(90, points.grainlineTo),
       })
       //title
-      points.title = points.bottomLeft.translate(width * 0.06, length * -0.2)
+      points.title = points.bottomLeft.translate(length * 0.06, width * -0.2)
       macro('title', {
         nr: 13,
         title: 'Leather Patch',
@@ -70,13 +77,9 @@ export const leatherPatch = {
         scale: 0.2,
       })
       //logo
-      let logoScale = length / 150
-      if (width < length) {
-        logoScale = width / 150
-      }
       macro('logorg', {
         at: points.origin,
-        scale: logoScale,
+        scale: 0.45,
       })
     }
 

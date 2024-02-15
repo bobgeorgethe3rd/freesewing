@@ -1,10 +1,10 @@
 import { pctBasedOn } from '@freesewing/core'
 import { beltLoops as draftBeltLoops } from '@freesewing/beltloops'
-import { frontBase } from './frontBase.mjs'
+import { flyShield } from './flyShield.mjs'
 
 export const beltLoops = {
   name: 'jackson.beltLoops',
-  after: frontBase,
+  after: flyShield,
   options: {
     //Imported
     ...draftBeltLoops.options,
@@ -12,7 +12,7 @@ export const beltLoops = {
     beltLoopNumber: 5, //locked for Jackson
     //Style
     beltLoopWidth: {
-      pct: 1.3,
+      pct: 1.1,
       min: 1,
       max: 2,
       snap: 5,

@@ -9,11 +9,11 @@ export const backPocket = {
     //Imported
     ...pocket.options,
     //Constants
-    patchPocketPeakPlateau: false, //Locked for Jackson
-    patchPocketPeakCurve: 1, //Locked for Jackson
-    patchPocketStyle: 'straight', //Locked for Jackson
-    patchPocketFolded: false, //Locked for Jackson
-    patchPocketGrainlineBias: false, //Locked for Jackson
+    patchPocketPeakPlateau: false, //locked for Jackson
+    patchPocketPeakCurve: 1, //locked for Jackson
+    patchPocketStyle: 'straight', //locked for Jackson
+    patchPocketFolded: false, //locked for Jackson
+    patchPocketGrainlineBias: false, //locked for Jackson
     backPocketPleatWidth: 0.143,
     backPocketPleatPlacement: 0.25,
     //Pockets
@@ -23,12 +23,9 @@ export const backPocket = {
   draft: (sh) => {
     //draft
     const { store, sa, Point, points, Path, paths, options, complete, macro, utils, part } = sh
-    if (options.backPocketsBool) {
-      pocket.draft(sh)
-    } else {
-      part.hide()
-      return part
-    }
+
+    pocket.draft(sh)
+
     // keep paths
     let keepThese
     if (sa) {
@@ -88,7 +85,7 @@ export const backPocket = {
     if (complete) {
       //title
       macro('title', {
-        nr: 2,
+        nr: 3,
         title: 'Back Pocket',
         at: points.title,
         scale: 0.5,

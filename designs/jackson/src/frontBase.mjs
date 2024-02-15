@@ -1,24 +1,30 @@
-import { front as daltonFront } from '@freesewing/dalton'
-import { backBase } from './backBase.mjs'
+import { frontBase as daltonFrontBase } from '@freesewing/dalton'
+import { back } from './back.mjs'
 
 export const frontBase = {
   name: 'jackson.frontBase',
-  from: daltonFront,
-  after: backBase,
+  from: daltonFrontBase,
+  after: back,
   hide: {
     from: true,
   },
   options: {
+    //Constants
+    cpFraction: 0.55191502449,
+    //Style
+    fitWaistFront: { bool: true, menu: 'style' }, //Altered For Jackson
     //Pockets
     frontPocketsBool: { bool: true, menu: 'pockets' },
-    frontPocketWidth: { pct: 68.2, min: 65, max: 75, menu: 'pockets.frontPockets' },
+    frontPocketWidth: { pct: 40, min: 30, max: 60, menu: 'pockets.frontPockets' },
     frontPocketOpeningWidth: { pct: 50, min: 45, max: 60, menu: 'pockets.frontPockets' },
-    frontPocketOpeningDepth: { pct: 14.9, min: 12, max: 20, menu: 'pockets.frontPockets' },
+    frontPocketOpeningDepth: { pct: 16.6, min: 12, max: 20, menu: 'pockets.frontPockets' },
     frontPocketOpeningCurve: { pct: 66.7, min: 50, max: 100, menu: 'pockets.frontPockets' },
-    frontPocketOutSeamDepth: { pct: 31.7, min: 30, max: 40, menu: 'pockets.frontPockets' },
-    //Plackets
-    flyDepth: { pct: 64, min: 60, max: 70, menu: 'plackets' },
-    flyWidth: { pct: 18.2, min: 18, max: 20, menu: 'plackets' },
+    frontPocketOutSeamDepth: { pct: 46, min: 30, max: 50, menu: 'pockets.frontPockets' },
+    // Plackets
+    flyLength: { pct: 70.2, min: 70, max: 80, menu: 'plackets' },
+    flyWidth: { pct: 5.1, min: 5, max: 6, menu: 'plackets' },
+    //Construction
+    crotchSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
   },
   draft: ({
     store,
@@ -38,139 +44,266 @@ export const frontBase = {
     Snippet,
     absoluteOptions,
   }) => {
-    //removing paths and snippets not required from Dalton
-    for (let i in paths) delete paths[i]
-    for (let i in snippets) delete snippets[i]
     //removing macros not required from Dalton
     macro('title', false)
-    macro('scalebox', false)
     //measurements
-    const frontPocketOpeningDepth =
-      (measurements.waistToKnee - measurements.waistToHips - absoluteOptions.waistbandWidth) *
-      options.frontPocketOpeningDepth
-    const frontPocketOutSeamDepth =
-      (measurements.waistToKnee - measurements.waistToHips - absoluteOptions.waistbandWidth) *
-      options.frontPocketOutSeamDepth
-    const flyDepth =
-      (measurements.crossSeamFront - measurements.waistToHips - absoluteOptions.waistbandWidth) *
-      (1 - options.flyDepth)
-    //draw guides
-    const drawOutseam = () => {
-      let waistOut = points.styleWaistOut || points.waistOut
-      if (options.fitKnee && !options.fitFloor) {
-        if (points.waistOut.x < points.seatOut.x)
-          return new Path()
-            .move(waistOut)
-            .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
-            .line(points.floorOut)
-        else
-          return new Path()
-            .move(waistOut)
-            ._curve(points.seatOutCp1, points.seatOut)
-            .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
-            .line(points.floorOut)
-      }
-      if (options.fitFloor) {
-        if (points.waistOut.x < points.seatOut.x)
-          return new Path()
-            .move(waistOut)
-            .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
-            ._curve(points.floorOutCp1, points.floorOut)
-        else
-          return new Path()
-            .move(waistOut)
-            ._curve(points.seatOutCp1, points.seatOut)
-            .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
-            ._curve(points.floorOutCp1, points.floorOut)
-      }
-      if (!options.fitKnee && !options.fitFloor) {
-        if (points.waistOut.x < points.seatOut.x)
-          return new Path().move(waistOut).curve(points.seatOut, points.kneeOutCp1, points.floorOut)
-        else
-          return new Path()
-            .move(waistOut)
-            ._curve(points.seatOutCp1, points.seatOut)
-            .curve(points.seatOutCp2, points.kneeOutCp1, points.floorOut)
+    const waistbandWidth = store.get('waistbandWidth')
+    const flyWidth = measurements.waist * options.flyWidth
+    const flyLength = (measurements.crossSeamFront - measurements.waistToHips) * options.flyLength
+    const flyShieldEx = 10 //(1 - options.flyWidth) * 10.537407797681770284510010537408
+    //let's begin
+    //plackets
+    points.flyCrotch = paths.crotchSeam
+      .reverse()
+      .shiftAlong(measurements.waistToHips * options.waistHeight + flyLength - waistbandWidth)
+    points.flyShieldCrotch = paths.crotchSeam
+      .reverse()
+      .shiftAlong(
+        measurements.waistToHips * options.waistHeight + flyLength - waistbandWidth + flyShieldEx
+      )
+    points.flyShieldExWaist = utils.beamsIntersect(
+      points.crotchSeamCurveStart
+        .shiftTowards(points.waistIn, flyShieldEx)
+        .rotate(-90, points.crotchSeamCurveStart),
+      points.waistIn
+        .shiftTowards(points.crotchSeamCurveStart, flyShieldEx)
+        .rotate(+90, points.waistIn),
+      points.waistOut,
+      points.waistIn
+    )
+    points.flyWaist = points.waistIn.shiftTowards(points.waistOut, flyWidth)
+    points.flyCurveEnd = utils.beamsIntersect(
+      points.waistIn,
+      points.crotchSeamCurveStart,
+      points.flyCrotch,
+      points.flyCrotch.shift(points.crotchSeamCurveStart.angle(points.waistIn) - 90, 1)
+    )
+    points.flyCpTarget = utils.beamsIntersect(
+      points.flyWaist,
+      points.flyWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
+      points.flyCrotch,
+      points.flyCurveEnd
+    )
+    points.flyCurveStart = points.flyCurveEnd.rotate(90, points.flyCpTarget)
+    points.flyCurveStartCp2 = points.flyCurveStart.shiftFractionTowards(
+      points.flyCpTarget,
+      options.cpFraction
+    )
+    points.flyCurveEndCp1 = points.flyCurveEnd.shiftFractionTowards(
+      points.flyCpTarget,
+      options.cpFraction
+    )
+
+    const flyShieldExI = utils.lineIntersectsCurve(
+      points.flyShieldCrotch,
+      points.flyShieldCrotch.shift(
+        points.waistIn.angle(points.crotchSeamCurveStart) + 90,
+        points.waistOut.dist(points.waistIn)
+      ),
+      points.upperLegIn.shift(points.upperLegInCp1.angle(points.upperLegIn), flyShieldEx),
+      points.upperLegInCp2
+        .shift(points.upperLegInCp1.angle(points.upperLegIn), flyShieldEx)
+        .shift(points.upperLegInCp2.angle(points.upperLegIn), flyShieldEx),
+      points.crotchSeamCurveStartCp1
+        .shift(points.crotchSeamCurveStart.angle(points.crotchSeamCurveStartCp1), flyShieldEx)
+        .shift(points.crotchSeamCurveStart.angle(points.crotchSeamCurveStartCp1) + 90, flyShieldEx),
+      points.crotchSeamCurveStart.shift(
+        points.crotchSeamCurveStartCp1.angle(points.crotchSeamCurveStart) - 90,
+        flyShieldEx
+      )
+    )
+    if (flyShieldExI) {
+      points.flyShieldExCrotch = flyShieldExI
+    } else {
+      points.flyShieldCrotch = utils.beamsIntersect(
+        points.flyShieldExWaist,
+        points.flyShieldExWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
+        points.flyShieldCrotch,
+        points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart) + 90, 1)
+      )
+    }
+    paths.placketCurve = new Path()
+      .move(points.flyWaist)
+      .line(points.flyCurveStart)
+      .curve(points.flyCurveStartCp2, points.flyCurveEndCp1, points.flyCurveEnd)
+      .hide()
+    //stores
+    store.set('flyWidth', flyWidth)
+    store.set('waistbandPlacketWidth', flyWidth + flyShieldEx)
+    if (complete) {
+      if (sa) {
+        const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
+        const saFlyShieldExI = utils.lineIntersectsCurve(
+          points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart), sa),
+          points.flyShieldCrotch
+            .shift(points.waistIn.angle(points.crotchSeamCurveStart), sa)
+            .shift(
+              points.waistIn.angle(points.crotchSeamCurveStart) + 90,
+              points.waistOut.dist(points.waistIn)
+            ),
+          points.upperLegIn.shift(points.upperLegInCp1.angle(points.upperLegIn), crotchSeamSa),
+          points.upperLegInCp2
+            .shift(points.upperLegInCp1.angle(points.upperLegIn), crotchSeamSa)
+            .shift(points.upperLegInCp2.angle(points.upperLegIn), crotchSeamSa),
+          points.crotchSeamCurveStartCp1
+            .shift(points.crotchSeamCurveStart.angle(points.crotchSeamCurveStartCp1), crotchSeamSa)
+            .shift(
+              points.crotchSeamCurveStart.angle(points.crotchSeamCurveStartCp1) + 90,
+              crotchSeamSa
+            ),
+          points.crotchSeamCurveStart.shift(
+            points.crotchSeamCurveStartCp1.angle(points.crotchSeamCurveStart) - 90,
+            crotchSeamSa
+          )
+        )
+        if (saFlyShieldExI) {
+          points.saFlyShieldExCrotch = saFlyShieldExI
+        } else {
+          points.saFlyShieldExCrotch = utils.beamsIntersect(
+            points.flyShieldExWaist,
+            points.flyShieldExWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
+            points.flyShieldCrotch
+              .shiftTowards(points.flyShieldExCrotch, flyShieldEx)
+              .rotate(-90, points.flyShieldCrotch),
+            points.flyShieldExCrotch
+              .shiftTowards(points.flyShieldCrotch, flyShieldEx)
+              .rotate(90, points.flyShieldExCrotch)
+          )
+        }
+        points.saFlyShieldExCrotchCorner = utils.beamsIntersect(
+          points.saFlyShieldExCrotch,
+          points.saFlyShieldExCrotch.shift(
+            points.waistIn.angle(points.crotchSeamCurveStart) + 90,
+            1
+          ),
+          paths.crotchSeam
+            .offset(crotchSeamSa)
+            .split(points.saFlyShieldExCrotch)[1]
+            .offset(flyShieldEx)
+            .shiftFractionAlong(0.01),
+          paths.crotchSeam
+            .offset(crotchSeamSa)
+            .split(points.saFlyShieldExCrotch)[1]
+            .offset(flyShieldEx)
+            .start()
+        )
+        points.saFlyWaist = utils.beamsIntersect(
+          points.flyWaist.shiftTowards(points.flyCurveStart, sa).rotate(-90, points.flyWaist),
+          points.flyCurveStart.shiftTowards(points.flyWaist, sa).rotate(90, points.flyCurveStart),
+          points.saWaistOut,
+          points.saWaistIn
+        )
+        points.saWaistInExCorner = utils.beamsIntersect(
+          points.saWaistOut,
+          points.saWaistIn,
+          points.crotchSeamCurveStart
+            .shiftTowards(points.waistIn, flyShieldEx + crotchSeamSa)
+            .rotate(-90, points.crotchSeamCurveStart),
+          points.waistIn
+            .shiftTowards(points.crotchSeamCurveStart, flyShieldEx + crotchSeamSa)
+            .rotate(90, points.waistIn)
+        )
+        points.saWaistInEx = utils.beamsIntersect(
+          points.saWaistInExCorner,
+          points.saWaistInExCorner.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
+          points.waistOut,
+          points.waistIn
+        )
       }
     }
-
-    //lets begin
+    //if pockets
     if (options.frontPocketsBool) {
-      //pocket opening
-      points.frontPocketOpeningWaist = points.styleWaistOut.shiftFractionTowards(
-        points.styleWaistIn,
+      //measures
+      const pocketMaxDepth = measurements.waistToKnee - measurements.waistToHips - waistbandWidth
+      const frontPocketOpeningDepth = pocketMaxDepth * options.frontPocketOpeningDepth
+      const frontPocketOutSeamDepth = pocketMaxDepth * options.frontPocketOutSeamDepth
+
+      const drawOutseam = () => {
+        if (options.fitKnee) {
+          if (points.seatOutAnchor.x < points.seatOut.x)
+            return new Path()
+              .move(points.waistOut)
+              .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
+              ._curve(points.floorOutCp1, points.floorOut)
+          else
+            return new Path()
+              .move(points.waistOut)
+              ._curve(points.seatOutCp1, points.seatOut)
+              .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
+              ._curve(points.floorOutCp1, points.floorOut)
+        } else {
+          if (points.seatOutAnchor.x < points.seatOut.x)
+            return new Path()
+              .move(points.waistOut)
+              .curve(points.seatOut, points.floorOutCp1, points.floorOut)
+          else
+            return new Path()
+              .move(points.waistOut)
+              ._curve(points.seatOutCp1, points.seatOut)
+              .curve(points.seatOutCp2, points.floorOutCp1, points.floorOut)
+        }
+      }
+
+      points.frontPocketOpeningOut = drawOutseam().shiftAlong(frontPocketOpeningDepth)
+      points.frontPocketOpeningWaist = points.waistIn.shiftFractionTowards(
+        points.waistOut,
         options.frontPocketOpeningWidth
       )
-      points.frontPocketWaist = points.styleWaistOut.shiftFractionTowards(
-        points.styleWaistIn,
-        options.frontPocketWidth
-      )
-      points.frontPocketOpeningOut = drawOutseam().shiftAlong(frontPocketOpeningDepth)
       points.frontPocketOpeningCpTarget = utils.beamsIntersect(
         points.frontPocketOpeningWaist,
-        points.styleWaistOut.rotate(90, points.frontPocketOpeningWaist),
+        points.waistOut.rotate(90, points.frontPocketOpeningWaist),
         points.frontPocketOpeningOut,
-        points.frontPocketOpeningOut.shift(points.styleWaistOut.angle(points.styleWaistIn), 1)
+        points.frontPocketOpeningOut.shift(points.waistOut.angle(points.waistIn), 1)
       )
-      points.frontPocketOpeningCp1 = points.frontPocketOpeningWaist.shiftFractionTowards(
-        points.frontPocketOpeningCpTarget,
-        2 / 3
-      )
-      points.frontPocketOpeningCp2 = points.frontPocketOpeningOut.shiftFractionTowards(
+      points.frontPocketOpeningWaistCp2 = points.frontPocketOpeningWaist.shiftFractionTowards(
         points.frontPocketOpeningCpTarget,
         options.frontPocketOpeningCurve
       )
-      points.frontPocketOutSeam = drawOutseam().shiftAlong(frontPocketOutSeamDepth)
-      // paths.frontPocketOpening = new Path()
-      // .move(points.frontPocketOpeningOut)
-      // .curve(
-      // points.frontPocketOpeningCp2,
-      // points.frontPocketOpeningCp1,
-      // points.frontPocketOpeningWaist
-      // )
+      points.frontPocketOpeningOutCp1 = points.frontPocketOpeningOut.shiftFractionTowards(
+        points.frontPocketOpeningCpTarget,
+        options.frontPocketOpeningCurve
+      )
+      points.frontPocketOut = drawOutseam().shiftAlong(frontPocketOutSeamDepth)
+      points.frontPocketWaist = points.frontPocketOpeningWaist.shiftFractionTowards(
+        points.waistIn,
+        options.frontPocketWidth
+      )
+
+      paths.pocketCurve = new Path()
+        .move(points.frontPocketOpeningWaist)
+        .curve(
+          points.frontPocketOpeningWaistCp2,
+          points.frontPocketOpeningOutCp1,
+          points.frontPocketOpeningOut
+        )
+        .hide()
+
+      //stores
+      store.set('flyShieldEx', flyShieldEx)
+      if (complete) {
+        if (sa) {
+          const sideSeamSa = sa * options.sideSeamSaWidth * 100
+
+          points.saFrontPocketOpeningWaist = points.frontPocketOpeningWaist
+            .shift(points.waistIn.angle(points.waistOut) - 90, sa)
+            .shift(points.waistIn.angle(points.waistOut), sa)
+
+          points.saFrontPocketOpeningOut = utils.beamsIntersect(
+            points.frontPocketOpeningOutCp1
+              .shiftTowards(points.frontPocketOpeningOut, sa)
+              .rotate(-90, points.frontPocketOpeningOutCp1),
+            points.frontPocketOpeningOut
+              .shiftTowards(points.frontPocketOpeningOutCp1, sa)
+              .rotate(90, points.frontPocketOpeningOut),
+            drawOutseam().split(points.frontPocketOpeningOut)[1].offset(sideSeamSa).start(),
+            drawOutseam()
+              .split(points.frontPocketOpeningOut)[1]
+              .offset(sideSeamSa)
+              .shiftFractionAlong(0.01)
+          )
+        }
+      }
     }
-
-    points.flyCrotch = new Path()
-      .move(points.fork)
-      .curve(points.crotchSeamCurveCp1, points.crotchSeamCurveCp2, points.crotchSeamCurveStart)
-      .line(points.styleWaistIn)
-      .shiftAlong(flyDepth)
-
-    const flyShieldDepthExt =
-      (points.styleWaistIn.dist(points.styleWaistOut) * options.flyWidth) / 4
-
-    points.flyCurveEnd = utils.beamsIntersect(
-      points.styleWaistIn,
-      points.crotchSeamCurveStart,
-      points.flyCrotch,
-      points.flyCrotch.shift(points.styleWaistIn.angle(points.styleWaistOut), 1)
-    )
-
-    points.flyShieldCurveEnd = points.styleWaistIn.shiftOutwards(
-      points.flyCurveEnd,
-      flyShieldDepthExt
-    )
-    points.flyShieldCrotch = utils.lineIntersectsCurve(
-      points.flyShieldCurveEnd,
-      points.flyShieldCurveEnd.shift(
-        points.styleWaistOut.angle(points.styleWaistIn),
-        measurements.seat
-      ),
-      points.fork,
-      points.crotchSeamCurveCp1,
-      points.crotchSeamCurveCp2,
-      points.crotchSeamCurveStart
-    )
-
-    //stores
-    store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
-    store.set('flyDepth', flyDepth)
-    store.set('flyShieldDepthExt', flyShieldDepthExt)
-    store.set('waistFront', points.styleWaistOut.dist(points.styleWaistIn))
-    store.set('waistFrontTop', points.waistTopOut.dist(points.waistTopIn))
-    store.set('waistbandLength', store.get('waistFront') * 2 + store.get('waistbandBack'))
-    store.set('waistbandLengthTop', store.get('waistFrontTop') * 2 + store.get('waistBackTop'))
-    store.set('maxButtons', 1)
     return part
   },
 }

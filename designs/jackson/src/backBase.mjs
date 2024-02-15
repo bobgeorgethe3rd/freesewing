@@ -1,45 +1,54 @@
-import { back as daltonBack } from '@freesewing/dalton'
+import { backBase as daltonBackBase } from '@freesewing/dalton'
 import { pctBasedOn } from '@freesewing/core'
-import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const backBase = {
   name: 'jackson.backBase',
-  from: daltonBack,
+  from: daltonBackBase,
   hide: {
     from: true,
   },
   options: {
     //Dalton
     //Constants
-    useVoidStores: false, //locked for Jackson
-    legBandWidth: 0, //locked for Jackson
+    useVoidStores: false, //Locked for Jackson
+    fitWaist: false, //Locked for Jackson
+    legBandWidth: {
+      pct: 0,
+      min: 0,
+      max: 0,
+      snap: 5,
+      ...pctBasedOn('waistToFloor'),
+    }, //locked for Jackson
+    calculateLegBandDiff: false, //Locked for Jackson
     //Fit
-    waistEase: { pct: 5.7, min: -20, max: 20, menu: 'fit' }, //altered for Jackson 5.7 //11.8
-    seatEase: { pct: 4.7, min: -20, max: 10, menu: 'fit' }, //altered for Jackson 4.7 // 7.6
-    kneeEase: { pct: 9.5, min: -25, max: 25, menu: 'fit' }, //altered for Jackson 9.5 //9.4
-    heelEase: { pct: 11, min: -25, max: 25, menu: 'fit' }, //altered for Jackson
-    ankleEase: { pct: 16.2, min: -25, max: 25, menu: 'fit' }, //altered for Jackson
-    //Style
+    waistEase: { pct: 6.4, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson
+    hipsEase: { pct: 5.9, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson
+    seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson
+    kneeEase: { pct: 13.2, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson
+    fitGuides: { bool: false, menu: 'fit' }, //Altered for Jackson
+    //style
+    waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //Altered for Jackson
     waistbandWidth: {
-      pct: 3.8,
+      pct: 3.7,
       min: 1,
       max: 6,
       snap: 5,
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
-    }, // based on size 40 //altered for Jackson
-    waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //altered for Jackson
-    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'style' },
+    }, //Altered for Jackson
+    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'style' }, //Altered for Jackson
+    fitWaistBack: { bool: true, menu: 'style' }, //Altered For Jackson
+    yokeAngle: { deg: 6.2, min: 3.5, max: 7, menu: 'style' },
     //Darts
-    backDartWidth: { pct: 1.2, min: 0, max: 3, menu: 'darts' }, //1.2 //altered for Jackson
-    backDartDepth: { pct: 66.7, min: 45, max: 70, menu: 'darts' }, //altered for Jackson
+    backDartWidth: { pct: 1.3, min: 1, max: 2, menu: 'darts' }, //Altered for Jackson
+    backDartDepth: { pct: 78.3, min: 60, max: 100, menu: 'darts' }, //Altered for Jackson
+    //Construction
+    crossSeamSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Jackson
+    inseamSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Jackson
+    sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Jackson
     //Advanced
-    backDartMultiplier: { count: 1, min: 0, max: 2, menu: 'advanced' }, //altered for Jackson
-    //Jackson
-    //Style
-    yokeAngle: { deg: 5.1, min: 3.5, max: 5.6, menu: 'style' },
+    backDartMultiplier: { count: 1, min: 0, max: 2, menu: 'advanced' }, //Altered for Jackson
   },
-  plugins: [pluginLogoRG],
   draft: ({
     store,
     sa,
@@ -58,126 +67,58 @@ export const backBase = {
     log,
     absoluteOptions,
   }) => {
-    //removing paths and snippets not required from Dalton
-    for (let i in paths) delete paths[i]
-    for (let i in snippets) delete snippets[i]
-    //removing macros not required from Dalton
-    macro('title', false)
-    macro('scalebox', false)
-    macro('logorg', false)
-    //outseam guide
-    const drawOutseam = () => {
-      let waistOut = points.styleWaistOut || points.waistOut
-      if (options.fitKnee && !options.fitFloor) {
-        if (points.waistOut.x > points.seatOut.x)
-          return new Path()
-            .move(points.floorOut)
-            .line(points.kneeOut)
-            .curve(points.kneeOutCp2, points.seatOut, waistOut)
-        else
-          return new Path()
-            .move(points.floorOut)
-            .line(points.kneeOut)
-            .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
-            .curve_(points.seatOutCp2, waistOut)
-      }
-      if (options.fitFloor) {
-        if (points.waistOut.x > points.seatOut.x)
-          return new Path()
-            .move(points.floorOut)
-            .curve_(points.floorOutCp2, points.kneeOut)
-            .curve(points.kneeOutCp2, points.seatOut, waistOut)
-        else
-          return new Path()
-            .move(points.floorOut)
-            .curve_(points.floorOutCp2, points.kneeOut)
-            .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
-            .curve_(points.seatOutCp2, waistOut)
-      }
-      if (!options.fitKnee && !options.fitFloor) {
-        if (points.waistOut.x > points.seatOut.x)
-          return new Path().move(points.floorOut).curve(points.kneeOutCp2, points.seatOut, waistOut)
-        else
-          return new Path()
-            .move(points.floorOut)
-            .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
-            .curve_(points.seatOutCp2, waistOut)
-      }
-    }
-
-    //yoke
-    points.yokeInTarget = points.dartTip
-      .shiftTowards(points.dartMid, measurements.waist * 4)
-      .rotate(90 + options.yokeAngle, points.dartTip)
-    points.yokeOutTarget = points.dartTip
-      .shiftTowards(points.dartMid, measurements.waist * 4)
-      .rotate(-90 + options.yokeAngle, points.dartTip)
-
-    if (points.yokeInTarget.y > points.crossSeamCurveStart.y) {
+    //let's begin
+    points.yokeIn = utils.beamsIntersect(
+      points.dartTip,
+      points.dartMid.rotate(90 + options.yokeAngle, points.dartTip),
+      points.waistIn,
+      points.crossSeamCurveStart
+    )
+    if (points.yokeIn.y > points.crossSeamCurveStart.y) {
       points.yokeIn = utils.lineIntersectsCurve(
         points.dartTip,
-        points.yokeInTarget,
+        points.dartTip.shiftFractionTowards(points.yokeIn, 2),
         points.crossSeamCurveStart,
-        points.crossSeamCurveCp1,
-        points.crossSeamCurveCp2,
-        points.fork
+        points.crossSeamCurveStartCp2,
+        points.upperLegInCp1,
+        points.upperLeg
       )
       log.info(
         'points.yokeIn intersects with the crossSeamCurve, This may be an indicated of inaccurate measures.'
       )
-    } else {
-      points.yokeIn = utils.beamsIntersect(
-        points.dartTip,
-        points.yokeInTarget,
-        points.styleWaistIn,
-        points.crossSeamCurveStart
-      )
     }
 
-    let waistOut = points.styleWaistOut || points.waistOut
-    if (points.waistOut.x > points.seatOut.x) {
-      if (options.fitKnee || options.fitFloor) {
+    if (points.seatOutAnchor.x < points.seatOut.x) {
+      points.yokeOut = utils.lineIntersectsCurve(
+        points.yokeIn,
+        points.yokeIn.shiftFractionTowards(points.yokeIn.rotate(180, points.dartTip), 2),
+        points.seatOut,
+        points.seatOutCp2,
+        points.waistOut,
+        points.waistOut
+      )
+    } else {
+      if (options.fitKnee) {
         points.yokeOut = utils.lineIntersectsCurve(
-          points.dartTip,
-          points.yokeOutTarget,
+          points.yokeIn,
+          points.yokeIn.shiftFractionTowards(points.yokeIn.rotate(180, points.dartTip), 2),
           points.kneeOut,
           points.kneeOutCp2,
           points.seatOut,
-          waistOut
+          points.waistOut
         )
       } else {
         points.yokeOut = utils.lineIntersectsCurve(
-          points.dartTip,
-          points.yokeOutTarget,
+          points.yokeIn,
+          points.yokeIn.shiftFractionTowards(points.yokeIn.rotate(180, points.dartTip), 2),
           points.floorOut,
-          points.kneeOutCp2,
+          points.floorOutCp2,
           points.seatOut,
-          waistOut
+          points.waistOut
         )
       }
-    } else {
-      points.yokeOut = utils.lineIntersectsCurve(
-        points.dartTip,
-        points.yokeOutTarget,
-        points.seatOut,
-        points.seatOutCp2,
-        waistOut,
-        waistOut
-      )
     }
-    //yoke guide
 
-    // paths.yokeLine = new Path()
-    // .move(points.yokeIn)
-    // .line(points.yokeOut)
-
-    //stores
-    store.set(
-      'waistbandBack',
-      (points.styleWaistIn.dist(points.dartIn) + points.styleWaistOut.dist(points.dartOut)) * 2
-    )
-    store.set('waistBackTop', points.waistTopIn.dist(points.waistTopOut) * 2)
-    store.set('waistbandWidth', absoluteOptions.waistbandWidth)
     return part
   },
 }

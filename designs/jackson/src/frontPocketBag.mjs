@@ -1,3 +1,4 @@
+import { pluginMirror } from '@freesewing/plugin-mirror'
 import { frontBase } from './frontBase.mjs'
 
 export const frontPocketBag = {
@@ -8,10 +9,11 @@ export const frontPocketBag = {
   },
   options: {
     //Pockets
-    frontPocketDepth: { pct: 9.9, min: 0, max: 15, menu: 'pockets.frontPockets' },
+    frontPocketDepth: { pct: 11.5, min: 0, max: 15, menu: 'pockets.frontPockets' },
     //Construction
-    frontPocketBagSaWidth: { pct: 2, min: 1, max: 4, menu: 'construction' },
+    frontPocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
+  plugins: [pluginMirror],
   draft: ({
     store,
     sa,
@@ -32,182 +34,177 @@ export const frontPocketBag = {
   }) => {
     //set render
     if (!options.frontPocketsBool) {
-      part.render = false
+      part.hide()
       return part
     }
     //removing paths and snippets not required from Dalton
-    for (let i in paths) delete paths[i]
+    const keepThese = ['seam', 'pocketCurve']
+    for (const name in paths) {
+      if (keepThese.indexOf(name) === -1) delete paths[name]
+    }
+    if (options.daltonGuides) {
+      paths.daltonGuide = paths.seam.clone().attr('class', 'various lashed')
+    }
+    delete paths.seam
     for (let i in snippets) delete snippets[i]
     //measurements
     const frontPocketDepth =
       (measurements.waistToKnee - measurements.waistToHips - absoluteOptions.waistbandWidth) *
       options.frontPocketDepth
-
-    //draw guides
-    const drawOutseam = () => {
-      let waistOut = points.styleWaistOut || points.waistOut
-      if (options.fitKnee && !options.fitFloor) {
-        if (points.waistOut.x < points.seatOut.x)
-          return new Path()
-            .move(waistOut)
-            .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
-            .line(points.floorOut)
-        else
-          return new Path()
-            .move(waistOut)
-            ._curve(points.seatOutCp1, points.seatOut)
-            .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
-            .line(points.floorOut)
-      }
-      if (options.fitFloor) {
-        if (points.waistOut.x < points.seatOut.x)
-          return new Path()
-            .move(waistOut)
-            .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
-            ._curve(points.floorOutCp1, points.floorOut)
-        else
-          return new Path()
-            .move(waistOut)
-            ._curve(points.seatOutCp1, points.seatOut)
-            .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
-            ._curve(points.floorOutCp1, points.floorOut)
-      }
-      if (!options.fitKnee & !options.fitFloor) {
-        if (points.waistOut.x < points.seatOut.x)
-          return new Path().move(waistOut).curve(points.seatOut, points.kneeOutCp1, points.floorOut)
-        else
-          return new Path()
-            .move(waistOut)
-            ._curve(points.seatOutCp1, points.seatOut)
-            .curve(points.seatOutCp2, points.kneeOutCp1, points.floorOut)
-      }
-    }
-
-    //lets begin
+    //let's begin
     points.frontPocketBottomAnchor = utils.beamsIntersect(
       points.frontPocketWaist,
-      points.styleWaistOut.rotate(90, points.frontPocketWaist),
-      points.frontPocketOutSeam,
-      points.frontPocketOutSeam.shift(points.styleWaistOut.angle(points.styleWaistIn), 1)
+      points.frontPocketWaist.shift(points.waistIn.angle(points.waistOut) + 90, 1),
+      points.frontPocketOut,
+      points.frontPocketOut.shift(points.waistOut.angle(points.waistIn), 1)
     )
-    points.frontPocketBottom = points.frontPocketWaist.shiftOutwards(
+
+    points.frontPocketBottomMid = points.frontPocketWaist.shiftOutwards(
       points.frontPocketBottomAnchor,
       frontPocketDepth
     )
-    points.frontPocketCp1 = points.frontPocketOutSeam.shiftFractionTowards(
+    points.frontPocketOutCp2 = points.frontPocketOut.shiftFractionTowards(
       points.frontPocketBottomAnchor,
-      0.1
+      0.15
     )
-    points.frontPocketCp2 = utils.beamsIntersect(
-      points.frontPocketCp1,
-      points.frontPocketOutSeam.rotate(90, points.frontPocketCp1),
-      points.frontPocketBottom,
-      points.frontPocketWaist.rotate(90, points.frontPocketBottom)
+    points.frontPocketBottomMidCp1 = points.frontPocketBottomMid.shift(
+      points.waistIn.angle(points.waistOut),
+      points.frontPocketBottomAnchor.dist(points.frontPocketOutCp2)
     )
-    //lets create some paths
-    paths.outSeam0 = drawOutseam().split(points.frontPocketOutSeam)[0].hide()
+    //draw guides
+    const drawOutseam = () => {
+      if (options.fitKnee) {
+        if (points.seatOutAnchor.x < points.seatOut.x)
+          return new Path()
+            .move(points.waistOut)
+            .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
+            ._curve(points.floorOutCp1, points.floorOut)
+        else
+          return new Path()
+            .move(points.waistOut)
+            ._curve(points.seatOutCp1, points.seatOut)
+            .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
+            ._curve(points.floorOutCp1, points.floorOut)
+      } else {
+        if (points.seatOutAnchor.x < points.seatOut.x)
+          return new Path()
+            .move(points.waistOut)
+            .curve(points.seatOut, points.floorOutCp1, points.floorOut)
+        else
+          return new Path()
+            .move(points.waistOut)
+            ._curve(points.seatOutCp1, points.seatOut)
+            .curve(points.seatOutCp2, points.floorOutCp1, points.floorOut)
+      }
+    }
+    //paths
+    paths.outSeamM = drawOutseam().split(points.frontPocketOut)[0].hide()
 
-    paths.outSeam1 = paths.outSeam0.split(points.frontPocketOpeningOut)[1].hide()
+    paths.outSeam = paths.outSeamM.split(points.frontPocketOpeningOut)[1].hide()
 
-    paths.bottomCurve = new Path()
-      .move(points.frontPocketOutSeam)
-      .curve(points.frontPocketCp1, points.frontPocketCp2, points.frontPocketBottom)
+    paths.bottom = new Path()
+      .move(points.frontPocketOut)
+      .curve(points.frontPocketOutCp2, points.frontPocketBottomMidCp1, points.frontPocketBottomMid)
       .hide()
 
     macro('mirror', {
       mirror: [points.frontPocketWaist, points.frontPocketBottomAnchor],
-      paths: ['bottomCurve', 'outSeam0'],
-      points: ['frontPocketOpeningOut'],
+      paths: ['bottom', 'outSeamM'],
+      points: ['frontPocketOpeningWaist', 'frontPocketOpeningOut', 'frontPocketOut'],
       prefix: 'm',
     })
 
-    //paths
-
-    paths.bottomCurve = paths.bottomCurve.join(paths.mBottomCurve.reverse()).hide()
-
-    paths.mFrontPocketOutSeam = paths.mOutSeam0.reverse().hide()
-
-    paths.waistSeam = new Path()
-      .move(paths.mFrontPocketOutSeam.end())
-      .line(points.frontPocketOpeningWaist)
-      .curve(
-        points.frontPocketOpeningCp1,
-        points.frontPocketOpeningCp2,
-        points.frontPocketOpeningOut
-      )
-      .hide()
-
-    paths.seam = paths.bottomCurve
+    paths.seam = paths.bottom
       .clone()
-      .join(paths.mFrontPocketOutSeam)
-      .join(paths.waistSeam)
-      .join(paths.outSeam1)
+      .join(paths.mBottom.reverse())
+      .join(paths.mOutSeamM.reverse())
+      .line(points.frontPocketOpeningWaist)
+      .join(paths.pocketCurve)
+      .join(paths.outSeam)
       .close()
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.frontPocketWaist
-      points.grainlineTo = points.frontPocketBottom
+      points.grainlineFrom = points.frontPocketOpeningWaist.shiftFractionTowards(
+        points.frontPocketWaist,
+        0.5
+      )
+      points.grainlineTo = points.frontPocketBottomMid.shift(
+        points.waistIn.angle(points.waistOut),
+        points.frontPocketWaist.dist(points.grainlineFrom)
+      )
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //notches
-      snippets.mFrontPocketOpeningOut = new Snippet('notch', points.mFrontPocketOpeningOut)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: [
+          'frontPocketOpeningWaist',
+          'frontPocketOpeningOut',
+          'frontPocketOut',
+          'mFrontPocketOut',
+          'mFrontPocketOpeningOut',
+          'mFrontPocketOpeningWaist',
+        ],
+      })
       //title
-      points.title = points.frontPocketWaist
-        .shiftFractionTowards(points.frontPocketBottom, 0.5)
+      points.title = points.frontPocketBottomMid
+        .shiftFractionTowards(points.frontPocketWaist, 0.5)
         .shift(
-          points.styleWaistOut.angle(points.styleWaistIn),
-          points.frontPocketWaist.dist(points.styleWaistOut) * 0.15
+          points.waistOut.angle(points.waistIn),
+          points.frontPocketOpeningWaist.dist(points.frontPocketWaist)
         )
       macro('title', {
-        nr: 6,
-        title: 'Front Pocket Bag',
         at: points.title,
-        scale: 0.75,
-        rotation: 270 - points.frontPocketWaist.angle(points.frontPocketBottom),
+        nr: 7,
+        title: 'Front Pocket Bag',
+        scale: 0.5,
+        rotation: 90 - points.frontPocketBottomMid.angle(points.frontPocketWaist),
+      })
+      //fold-line
+      paths.foldline = new Path()
+        .move(points.frontPocketWaist)
+        .line(points.frontPocketBottomMid)
+        .attr('class', 'mark')
+        .attr('data-text', 'Fold - Line')
+        .attr('data-text-class', 'center')
+    }
+    if (sa) {
+      const sideSeamSa = sa * options.sideSeamSaWidth * 100
+      const frontPocketBagSa = sa * options.frontPocketBagSaWidth * 100
+
+      points.saFrontPocketOut = utils.beamsIntersect(
+        paths.outSeam.offset(sideSeamSa).end(),
+        paths.outSeam.offset(sideSeamSa).shiftFractionAlong(0.99),
+        points.frontPocketOut
+          .shiftTowards(points.frontPocketOutCp2, frontPocketBagSa)
+          .rotate(-90, points.frontPocketOut),
+        points.frontPocketOutCp2
+          .shiftTowards(points.frontPocketOut, frontPocketBagSa)
+          .rotate(90, points.frontPocketOutCp2)
+      )
+
+      macro('mirror', {
+        mirror: [points.frontPocketWaist, points.frontPocketBottomAnchor],
+        points: ['saFrontPocketOut', 'saWaistOut'],
+        prefix: 'm',
       })
 
-      if (sa) {
-        const outSeamSa = sa * options.outSeamSaWidth * 100
-        const frontPocketBagSa = sa * options.frontPocketBagSaWidth * 100
-        points.saFrontPocketOutSeam = paths.outSeam1
-          .offset(outSeamSa)
-          .end()
-          .shift(points.frontPocketWaist.angle(points.frontPocketBottom), frontPocketBagSa)
-        points.saMFrontPocketOutSeam = paths.mFrontPocketOutSeam
-          .offset(outSeamSa)
-          .start()
-          .shift(points.frontPocketWaist.angle(points.frontPocketBottom), frontPocketBagSa)
-        points.saFrontPocketBottom = points.frontPocketBottom.shift(
-          points.frontPocketWaist.angle(points.frontPocketBottom),
-          frontPocketBagSa
-        )
-        points.saFrontPocketCp1 = points.saFrontPocketOutSeam.shift(
-          points.styleWaistOut.angle(points.styleWaistIn),
-          points.frontPocketOutSeam.dist(points.frontPocketCp1)
-        )
-        points.saFrontPocketCp2 = points.saFrontPocketBottom.shift(
-          points.styleWaistIn.angle(points.styleWaistOut),
-          points.frontPocketBottom.dist(points.frontPocketCp2) + outSeamSa
-        )
-        points.saFrontPocketCp3 = points.saFrontPocketCp2.rotate(180, points.saFrontPocketBottom)
-        points.saFrontPocketCp4 = points.saMFrontPocketOutSeam.shift(
-          points.frontPocketCp1.angle(points.frontPocketOutSeam),
-          points.frontPocketCp1.dist(points.frontPocketOutSeam)
-        )
-
-        paths.sa = new Path()
-          .move(points.saFrontPocketOutSeam)
-          .curve(points.saFrontPocketCp1, points.saFrontPocketCp2, points.saFrontPocketBottom)
-          .curve(points.saFrontPocketCp3, points.saFrontPocketCp4, points.saMFrontPocketOutSeam)
-          .join(paths.mFrontPocketOutSeam.offset(outSeamSa))
-          .join(paths.waistSeam.offset(sa))
-          .join(paths.outSeam1.offset(outSeamSa))
-          .close()
-          .attr('class', 'fabric sa')
-      }
+      paths.sa = paths.bottom
+        .join(paths.mBottom.reverse())
+        .offset(frontPocketBagSa)
+        .line(points.mSaFrontPocketOut)
+        .join(paths.mOutSeamM.reverse().offset(sideSeamSa))
+        .line(points.mSaWaistOut)
+        .line(points.saFrontPocketOpeningWaist)
+        .join(paths.pocketCurve.offset(sa))
+        .line(points.saFrontPocketOpeningOut)
+        .join(paths.outSeam.offset(sideSeamSa))
+        .line(points.saFrontPocketOut)
+        .close()
+        .attr('class', 'fabric sa')
     }
 
     return part

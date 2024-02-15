@@ -1,8 +1,7 @@
 import { waistband as waistbandStraight } from '@freesewing/waistbandstraight'
 import { waistband as waistbandCurved } from '@freesewing/waistbandcurved'
 import { frontBase } from './frontBase.mjs'
-import { yokeBack } from './yokeBack.mjs'
-// import { flyShield } from './flyShield.mjs'
+import { flyShield } from './flyShield.mjs'
 
 export const waistband = {
   name: 'jackson.waistband',
@@ -13,11 +12,10 @@ export const waistband = {
     //Constants
     closurePosition: 'front', //locked for Jackson
   },
-  after: [yokeBack, frontBase /*,  flyShield */],
+  after: [frontBase, flyShield],
   plugins: [...waistbandStraight.plugins, ...waistbandCurved.plugins],
   draft: (sh) => {
-    const { macro, store, points, utils, options, measurements, complete, part } = sh
-    store.set('waistbandMaxButtons', 1)
+    const { macro, points, utils, options, measurements, complete, part } = sh
 
     if (options.waistbandStyle == 'straight') waistbandStraight.draft(sh)
     else waistbandCurved.draft(sh)
