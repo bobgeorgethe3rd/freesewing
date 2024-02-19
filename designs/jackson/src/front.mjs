@@ -31,7 +31,11 @@ export const front = {
     //paths
     paths.flyShieldEx = paths.crotchSeam
       .split(points.flyShieldCrotch)[0]
-      .join(paths.crotchSeam.offset(flyShieldEx).split(points.flyShieldExCrotch)[1])
+      .join(
+        paths.crotchSeam
+          .split(points.flyShieldCrotch)[1]
+          .offset(flyShieldEx) /* .split(points.flyShieldExCrotch)[1] */
+      )
       .split(points.flyShieldExWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1))[0]
       .line(points.flyShieldExWaist)
       .line(points.waistIn)
@@ -74,21 +78,26 @@ export const front = {
       if (sa) {
         const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
 
+        points.saFlyShieldCrotch = paths.crotchSeam
+          .split(points.flyShieldCrotch)[0]
+          .reverse()
+          .shiftAlong(flyShieldEx)
+
         paths.saFlyShieldExDetail = paths.crotchSeam
+          .clone()
+          .split(points.saFlyShieldCrotch)[0]
           .offset(crotchSeamSa)
-          .split(points.saFlyShieldExCrotch)[0]
-          .line(points.saFlyShieldExCrotchCorner)
           .join(
             paths.crotchSeam
-              .offset(crotchSeamSa)
-              .split(points.saFlyShieldExCrotch)[1]
-              .offset(flyShieldEx)
+              .clone()
+              .split(points.crotchSeamCurveStart)[0]
+              .split(points.saFlyShieldCrotch)[1]
+              .offset(crotchSeamSa + flyShieldEx)
           )
-          .split(points.saWaistInEx)[0]
+          .line(points.saWaistInEx)
           .attr('class', 'fabric hidden')
-          .attr('data-text', 'Right Leg Sa Exstention')
+          .attr('data-text', 'Right Leg SA Extension')
           .attr('data-text-class', 'right')
-
         paths.saFlyShieldEx = paths.saFlyShieldExDetail
           .clone()
           .line(points.saWaistInExCorner)

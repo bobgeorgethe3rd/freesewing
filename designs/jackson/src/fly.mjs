@@ -72,45 +72,25 @@ export const fly = {
       })
       if (sa) {
         const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
-        const saFlyCrotch = utils.lineIntersectsCurve(
-          points.flyCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart), sa),
-          points.flyCrotch
-            .shift(points.waistIn.angle(points.crotchSeamCurveStart), sa)
-            .shift(
-              points.waistIn.angle(points.crotchSeamCurveStart) + 90,
-              points.waistOut.dist(points.waistIn)
-            ),
-          points.upperLegIn.shift(points.upperLegInCp1.angle(points.upperLegIn), crotchSeamSa),
-          points.upperLegInCp2
-            .shift(points.upperLegInCp1.angle(points.upperLegIn), crotchSeamSa)
-            .shift(points.upperLegInCp2.angle(points.upperLegIn), crotchSeamSa),
-          points.crotchSeamCurveStartCp1
-            .shift(points.crotchSeamCurveStart.angle(points.crotchSeamCurveStartCp1), crotchSeamSa)
-            .shift(
-              points.crotchSeamCurveStart.angle(points.crotchSeamCurveStartCp1) + 90,
-              crotchSeamSa
-            ),
-          points.crotchSeamCurveStart.shift(
-            points.crotchSeamCurveStartCp1.angle(points.crotchSeamCurveStart) - 90,
-            crotchSeamSa
-          )
+
+        paths.saCrotchSeam = paths.crotchSeam
+          .split(points.flyCrotch)[1]
+          .clone()
+          .offset(crotchSeamSa)
+          .hide()
+
+        points.saFlyCrotch = utils.beamsIntersect(
+          paths.saCrotchSeam.start(),
+          paths.saCrotchSeam.shiftFractionAlong(0.01),
+          points.flyCurveEnd.shiftTowards(points.flyCrotch, sa).rotate(-90, points.flyCurveEnd),
+          points.flyCrotch.shiftTowards(points.flyCurveEnd, sa).rotate(90, points.flyCrotch)
         )
-        if (saFlyCrotch) {
-          points.saFlyCrotch = saFlyCrotch
-        } else {
-          points.saFlyCrotch = utils.beamsIntersect(
-            points.flyCurveEnd.shift(points.waistIn.angle(points.crotchSeamCurveStart), sa),
-            points.flyCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart), sa),
-            points.saWaistIn,
-            points.saWaistIn.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1)
-          )
-        }
 
         paths.sa = paths.placketCurve
           .line(points.flyCrotch)
           .offset(sa)
           .line(points.saFlyCrotch)
-          .join(paths.crotchSeam.offset(crotchSeamSa).split(points.saFlyCrotch)[1])
+          .join(paths.saCrotchSeam)
           .line(points.saWaistIn)
           .line(points.saFlyWaist)
           .close()

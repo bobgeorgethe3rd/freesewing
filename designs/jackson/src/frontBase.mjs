@@ -93,35 +93,6 @@ export const frontBase = {
       points.flyCpTarget,
       options.cpFraction
     )
-
-    const flyShieldExI = utils.lineIntersectsCurve(
-      points.flyShieldCrotch,
-      points.flyShieldCrotch.shift(
-        points.waistIn.angle(points.crotchSeamCurveStart) + 90,
-        points.waistOut.dist(points.waistIn)
-      ),
-      points.upperLegIn.shift(points.upperLegInCp1.angle(points.upperLegIn), flyShieldEx),
-      points.upperLegInCp2
-        .shift(points.upperLegInCp1.angle(points.upperLegIn), flyShieldEx)
-        .shift(points.upperLegInCp2.angle(points.upperLegIn), flyShieldEx),
-      points.crotchSeamCurveStartCp1
-        .shift(points.crotchSeamCurveStart.angle(points.crotchSeamCurveStartCp1), flyShieldEx)
-        .shift(points.crotchSeamCurveStart.angle(points.crotchSeamCurveStartCp1) + 90, flyShieldEx),
-      points.crotchSeamCurveStart.shift(
-        points.crotchSeamCurveStartCp1.angle(points.crotchSeamCurveStart) - 90,
-        flyShieldEx
-      )
-    )
-    if (flyShieldExI) {
-      points.flyShieldExCrotch = flyShieldExI
-    } else {
-      points.flyShieldCrotch = utils.beamsIntersect(
-        points.flyShieldExWaist,
-        points.flyShieldExWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
-        points.flyShieldCrotch,
-        points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart) + 90, 1)
-      )
-    }
     paths.placketCurve = new Path()
       .move(points.flyWaist)
       .line(points.flyCurveStart)
@@ -133,60 +104,7 @@ export const frontBase = {
     if (complete) {
       if (sa) {
         const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
-        const saFlyShieldExI = utils.lineIntersectsCurve(
-          points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart), sa),
-          points.flyShieldCrotch
-            .shift(points.waistIn.angle(points.crotchSeamCurveStart), sa)
-            .shift(
-              points.waistIn.angle(points.crotchSeamCurveStart) + 90,
-              points.waistOut.dist(points.waistIn)
-            ),
-          points.upperLegIn.shift(points.upperLegInCp1.angle(points.upperLegIn), crotchSeamSa),
-          points.upperLegInCp2
-            .shift(points.upperLegInCp1.angle(points.upperLegIn), crotchSeamSa)
-            .shift(points.upperLegInCp2.angle(points.upperLegIn), crotchSeamSa),
-          points.crotchSeamCurveStartCp1
-            .shift(points.crotchSeamCurveStart.angle(points.crotchSeamCurveStartCp1), crotchSeamSa)
-            .shift(
-              points.crotchSeamCurveStart.angle(points.crotchSeamCurveStartCp1) + 90,
-              crotchSeamSa
-            ),
-          points.crotchSeamCurveStart.shift(
-            points.crotchSeamCurveStartCp1.angle(points.crotchSeamCurveStart) - 90,
-            crotchSeamSa
-          )
-        )
-        if (saFlyShieldExI) {
-          points.saFlyShieldExCrotch = saFlyShieldExI
-        } else {
-          points.saFlyShieldExCrotch = utils.beamsIntersect(
-            points.flyShieldExWaist,
-            points.flyShieldExWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
-            points.flyShieldCrotch
-              .shiftTowards(points.flyShieldExCrotch, sa)
-              .rotate(-90, points.flyShieldCrotch),
-            points.flyShieldExCrotch
-              .shiftTowards(points.flyShieldCrotch, sa)
-              .rotate(90, points.flyShieldExCrotch)
-          )
-        }
-        points.saFlyShieldExCrotchCorner = utils.beamsIntersect(
-          points.saFlyShieldExCrotch,
-          points.saFlyShieldExCrotch.shift(
-            points.waistIn.angle(points.crotchSeamCurveStart) + 90,
-            1
-          ),
-          paths.crotchSeam
-            .offset(crotchSeamSa)
-            .split(points.saFlyShieldExCrotch)[1]
-            .offset(flyShieldEx)
-            .shiftFractionAlong(0.01),
-          paths.crotchSeam
-            .offset(crotchSeamSa)
-            .split(points.saFlyShieldExCrotch)[1]
-            .offset(flyShieldEx)
-            .start()
-        )
+
         points.saFlyWaist = utils.beamsIntersect(
           points.flyWaist.shiftTowards(points.flyCurveStart, sa).rotate(-90, points.flyWaist),
           points.flyCurveStart.shiftTowards(points.flyWaist, sa).rotate(90, points.flyCurveStart),

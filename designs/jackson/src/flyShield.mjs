@@ -41,7 +41,18 @@ export const flyShield = {
       points.waistOut,
       store.get('flyWidth')
     )
+    paths.crotchSeamEx = paths.crotchSeam
+      .split(points.flyShieldCrotch)[1]
+      .offset(flyShieldEx)
+      .line(points.flyShieldExWaist)
+      .hide()
 
+    points.flyShieldExCrotch = utils.beamsIntersect(
+      paths.crotchSeamEx.start(),
+      paths.crotchSeamEx.shiftFractionAlong(0.01),
+      points.flyShieldCrotch,
+      points.waistIn.rotate(-90, points.flyShieldCrotch)
+    )
     points.flyShieldCorner = utils.beamsIntersect(
       points.flyShieldWaist,
       points.flyShieldWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
@@ -49,17 +60,11 @@ export const flyShield = {
       points.flyShieldCrotch
     )
     //paths
-    paths.crotchSeam = paths.crotchSeam
-      .offset(flyShieldEx)
-      .split(points.flyShieldExCrotch)[1]
-      .split(points.flyShieldExWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1))[0]
-      .line(points.flyShieldExWaist)
-      .hide()
 
     paths.seam = new Path()
       .move(points.flyShieldCorner)
       .line(points.flyShieldExCrotch)
-      .join(paths.crotchSeam)
+      .join(paths.crotchSeamEx)
       .line(points.flyShieldWaist)
       .line(points.flyShieldCorner)
       .close()
@@ -73,7 +78,7 @@ export const flyShield = {
         to: points.cutOnFoldTo,
       })
       //notches
-      snippets.flyShieldExCrotch = new Snippet('notch', points.flyShieldExCrotch)
+      snippets.flyShieldCrotch = new Snippet('notch', points.flyShieldCrotch)
       //title
       points.title = points.flyShieldWaist
         .shiftFractionTowards(points.flyShieldExWaist, 0.5)
@@ -90,6 +95,7 @@ export const flyShield = {
       })
 
       if (sa) {
+        const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
         points.saFlyShieldCorner = points.flyShieldWaist.shiftOutwards(points.flyShieldCorner, sa)
 
         points.saFlyShieldWaist = utils.beamsIntersect(
@@ -99,23 +105,24 @@ export const flyShield = {
           points.saWaistIn
         )
 
+        paths.saCrotchSeam = paths.crotchSeam
+          .clone()
+          .split(points.crotchSeamCurveStart)[0]
+          .split(points.flyShieldCrotch)[1]
+          .offset(flyShieldEx + crotchSeamSa)
+          .hide()
+
+        points.saFlyShieldExCrotch = utils.beamsIntersect(
+          paths.saCrotchSeam.start(),
+          paths.saCrotchSeam.shiftFractionAlong(0.01),
+          points.saFlyShieldCorner,
+          points.saFlyShieldCorner.shift(points.flyShieldCorner.angle(points.flyShieldCrotch), 1)
+        )
+
         paths.sa = new Path()
           .move(points.saFlyShieldCorner)
-          .line(points.saFlyShieldExCrotchCorner)
-          .join(
-            new Path()
-              .move(points.upperLegIn)
-              .curve(
-                points.upperLegInCp2,
-                points.crotchSeamCurveStartCp1,
-                points.crotchSeamCurveStart
-              )
-              .line(points.waistIn)
-              .offset(sa * options.crotchSeamSaWidth * 100)
-              .split(points.saFlyShieldExCrotch)[1]
-              .offset(flyShieldEx)
-              .split(points.saWaistInEx)[0]
-          )
+          .line(points.saFlyShieldExCrotch)
+          .join(paths.saCrotchSeam)
           .line(points.saWaistInExCorner)
           .line(points.saFlyShieldWaist)
           .line(points.saFlyShieldCorner)
