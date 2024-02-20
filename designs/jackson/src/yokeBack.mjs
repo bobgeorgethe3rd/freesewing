@@ -28,6 +28,11 @@ export const yokeBack = {
     log,
     absoluteOptions,
   }) => {
+    //set render
+    if (!options.yoke) {
+      part.hide()
+      return part
+    }
     //removing paths and snippets not required from Dalton
     const keepThese = ['crossSeam', 'seam']
     for (const name in paths) {
