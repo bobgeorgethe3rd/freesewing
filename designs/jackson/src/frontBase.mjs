@@ -100,7 +100,7 @@ export const frontBase = {
         .offset(flyShieldEx)
         .shiftFractionAlong(0.01),
       points.flyShieldCrotch,
-      points.waistIn.rotate(-90, points.flyShieldCrotch)
+      points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart) - 90, 1)
     )
     paths.placketCurve = new Path()
       .move(points.flyWaist)
