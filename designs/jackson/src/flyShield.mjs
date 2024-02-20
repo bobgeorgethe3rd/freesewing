@@ -48,7 +48,6 @@ export const flyShield = {
       points.flyShieldCrotch
     )
     //paths
-
     paths.seam = new Path()
       .move(points.flyShieldCorner)
       .line(points.flyShieldExCrotch)
