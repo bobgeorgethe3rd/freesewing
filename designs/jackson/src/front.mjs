@@ -31,12 +31,13 @@ export const front = {
     //paths
     paths.flyShieldEx = paths.crotchSeam
       .split(points.flyShieldCrotch)[0]
+      .line(points.flyShieldExCrotch)
       .join(
         paths.crotchSeam
           .split(points.flyShieldCrotch)[1]
-          .offset(flyShieldEx) /* .split(points.flyShieldExCrotch)[1] */
+          .split(points.crotchSeamCurveStart)[0]
+          .offset(flyShieldEx)
       )
-      .split(points.flyShieldExWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1))[0]
       .line(points.flyShieldExWaist)
       .line(points.waistIn)
 
@@ -62,9 +63,7 @@ export const front = {
       }
       //detail paths
       paths.flyShieldExDetail = paths.flyShieldEx
-        .split(
-          points.flyShieldExWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1)
-        )[0]
+        .split(points.flyShieldExWaist)[0]
         .attr('class', 'fabric hidden')
         .attr('data-text', 'Right Leg Exstention')
         .attr('data-text-class', 'right')
@@ -78,20 +77,29 @@ export const front = {
       if (sa) {
         const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
 
-        points.saFlyShieldCrotch = paths.crotchSeam
-          .split(points.flyShieldCrotch)[0]
-          .reverse()
-          .shiftAlong(flyShieldEx)
+        points.saFlyShieldCrotchSplit = paths.crotchSeam
+          .offset(crotchSeamSa)
+          .intersects(
+            new Path()
+              .move(
+                points.flyShieldCrotch.shift(
+                  points.waistIn.angle(points.crotchSeamCurveStart),
+                  flyShieldEx
+                )
+              )
+              .line(points.saFlyShieldExCrotch)
+          )[0]
 
         paths.saFlyShieldExDetail = paths.crotchSeam
           .clone()
-          .split(points.saFlyShieldCrotch)[0]
           .offset(crotchSeamSa)
+          .split(points.saFlyShieldCrotchSplit)[0]
+          .line(points.saFlyShieldExCrotch)
           .join(
             paths.crotchSeam
               .clone()
               .split(points.crotchSeamCurveStart)[0]
-              .split(points.saFlyShieldCrotch)[1]
+              .split(points.flyShieldCrotch)[1]
               .offset(crotchSeamSa + flyShieldEx)
           )
           .line(points.saWaistInEx)

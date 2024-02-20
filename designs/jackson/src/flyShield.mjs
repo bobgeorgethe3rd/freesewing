@@ -41,18 +41,6 @@ export const flyShield = {
       points.waistOut,
       store.get('flyWidth')
     )
-    paths.crotchSeamEx = paths.crotchSeam
-      .split(points.flyShieldCrotch)[1]
-      .offset(flyShieldEx)
-      .line(points.flyShieldExWaist)
-      .hide()
-
-    points.flyShieldExCrotch = utils.beamsIntersect(
-      paths.crotchSeamEx.start(),
-      paths.crotchSeamEx.shiftFractionAlong(0.01),
-      points.flyShieldCrotch,
-      points.waistIn.rotate(-90, points.flyShieldCrotch)
-    )
     points.flyShieldCorner = utils.beamsIntersect(
       points.flyShieldWaist,
       points.flyShieldWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
@@ -64,7 +52,8 @@ export const flyShield = {
     paths.seam = new Path()
       .move(points.flyShieldCorner)
       .line(points.flyShieldExCrotch)
-      .join(paths.crotchSeamEx)
+      .join(paths.crotchSeam.split(points.flyShieldCrotch)[1].offset(flyShieldEx))
+      .line(points.flyShieldExWaist)
       .line(points.flyShieldWaist)
       .line(points.flyShieldCorner)
       .close()
@@ -105,24 +94,15 @@ export const flyShield = {
           points.saWaistIn
         )
 
-        paths.saCrotchSeam = paths.crotchSeam
-          .clone()
-          .split(points.crotchSeamCurveStart)[0]
-          .split(points.flyShieldCrotch)[1]
-          .offset(flyShieldEx + crotchSeamSa)
-          .hide()
-
-        points.saFlyShieldExCrotch = utils.beamsIntersect(
-          paths.saCrotchSeam.start(),
-          paths.saCrotchSeam.shiftFractionAlong(0.01),
-          points.saFlyShieldCorner,
-          points.saFlyShieldCorner.shift(points.flyShieldCorner.angle(points.flyShieldCrotch), 1)
-        )
-
         paths.sa = new Path()
           .move(points.saFlyShieldCorner)
           .line(points.saFlyShieldExCrotch)
-          .join(paths.saCrotchSeam)
+          .join(
+            paths.crotchSeam
+              .split(points.crotchSeamCurveStart)[0]
+              .split(points.flyShieldCrotch)[1]
+              .offset(flyShieldEx + crotchSeamSa)
+          )
           .line(points.saWaistInExCorner)
           .line(points.saFlyShieldWaist)
           .line(points.saFlyShieldCorner)

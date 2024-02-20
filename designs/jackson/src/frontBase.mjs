@@ -93,6 +93,15 @@ export const frontBase = {
       points.flyCpTarget,
       options.cpFraction
     )
+    points.flyShieldExCrotch = utils.beamsIntersect(
+      paths.crotchSeam.split(points.flyShieldCrotch)[1].offset(flyShieldEx).start(),
+      paths.crotchSeam
+        .split(points.flyShieldCrotch)[1]
+        .offset(flyShieldEx)
+        .shiftFractionAlong(0.01),
+      points.flyShieldCrotch,
+      points.waistIn.rotate(-90, points.flyShieldCrotch)
+    )
     paths.placketCurve = new Path()
       .move(points.flyWaist)
       .line(points.flyCurveStart)
@@ -126,6 +135,21 @@ export const frontBase = {
           points.saWaistInExCorner.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
           points.waistOut,
           points.waistIn
+        )
+
+        points.saFlyShieldExCrotch = utils.beamsIntersect(
+          paths.crotchSeam
+            .split(points.flyShieldCrotch)[1]
+            .offset(flyShieldEx + crotchSeamSa)
+            .start(),
+          paths.crotchSeam
+            .split(points.flyShieldCrotch)[1]
+            .offset(flyShieldEx + crotchSeamSa)
+            .shiftFractionAlong(0.001),
+          points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart), sa),
+          points.flyShieldCrotch
+            .shift(points.waistIn.angle(points.crotchSeamCurveStart), sa)
+            .shift(points.waistIn.angle(points.crotchSeamCurveStart) + 90, 1)
         )
       }
     }
