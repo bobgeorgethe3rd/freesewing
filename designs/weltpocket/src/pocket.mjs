@@ -7,9 +7,9 @@ export const pocket = {
     useVoidStores: true,
     cpFraction: 0.55191502449,
     //Pockets
-    weltPocketOpeningWidth: { pct: 62.2, min: 50, max: 80, menu: 'pockets.weltPockets' },
+    weltPocketOpeningWidth: { pct: 73.7, min: 50, max: 80, menu: 'pockets.weltPockets' },
     weltPocketWidth: { pct: 28.6, min: 20, max: 40, menu: 'pockets.weltPockets' },
-    weltPocketDepth: { pct: 16.9, min: 15, max: 40, menu: 'pockets.weltPockets' },
+    weltPocketDepth: { pct: 18.7, min: 15, max: 40, menu: 'pockets.weltPockets' },
     weltPocketCurve: { pct: (1 / 3) * 100, min: 0, max: 100, menu: 'pockets.weltPockets' },
     weltPocketStyle: { dflt: 'curved', list: ['straight', 'curved'], menu: 'pockets.weltPockets' },
     //Construction
@@ -37,9 +37,9 @@ export const pocket = {
   }) => {
     //measures
     if (options.useVoidStores) {
-      void store.setIfUnset('weltPocketOpeningWidth', 214 * options.weltPocketOpeningWidth)
-      void store.setIfUnset('insertSeamLength', 1184)
-      void store.setIfUnset('weltToAnchor', 43.875)
+      void store.setIfUnset('weltPocketOpeningWidth', 190 * options.weltPocketOpeningWidth)
+      void store.setIfUnset('insertSeamLength', 1070)
+      void store.setIfUnset('weltToAnchor', 35)
     }
 
     const openingWidth = store.get('weltPocketOpeningWidth')
@@ -125,7 +125,7 @@ export const pocket = {
       //notches
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['openingLeft', 'openingRight'],
+        on: ['openingLeft', 'openingMid', 'openingRight'],
       })
       //title
       points.title = new Point(points.openingLeft.x, points.bottomMid.y / 2)
@@ -133,7 +133,7 @@ export const pocket = {
         nr: 1,
         title: 'Welt Pocket Bag',
         at: points.title,
-        scale: 0.75,
+        scale: 0.5,
       })
       //paths
       paths.opening.attr('data-text', 'Pocket Opening')

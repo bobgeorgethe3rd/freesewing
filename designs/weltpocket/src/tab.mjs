@@ -4,7 +4,7 @@ export const tab = {
   name: 'weltpocket.tab',
   options: {
     //Pockets
-    weltPocketTabWidth: { pct: 14, min: 10, max: 20, menu: 'pockets.weltPockets' },
+    weltPocketTabWidth: { pct: 18.2, min: 10, max: 20, menu: 'pockets.weltPockets' },
     weltPocketTabLengthBonus: { pct: 50, min: 40, max: 100, menu: 'pockets.weltPockets' },
   },
   after: welt,
@@ -26,9 +26,7 @@ export const tab = {
     Snippet,
   }) => {
     //measures
-    const width =
-      (store.get('weltPocketOpeningWidth') * options.weltPocketTabWidth) /
-      options.weltPocketOpeningWidth
+    const width = store.get('weltPocketOpeningWidth') * options.weltPocketTabWidth
     const length = store.get('weltWidth') * (1 + options.weltPocketTabLengthBonus)
     //let's begin
     points.topMid = new Point(0, 0)
@@ -56,6 +54,8 @@ export const tab = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      //notches
+      snippets.topMid = new Snippet('notch', points.topMid)
       //title
       points.title = new Point(points.topLeft.x * 0.75, points.bottomRight.y * 0.5)
       macro('title', {

@@ -4,7 +4,7 @@ export const welt = {
   name: 'weltpocket.welt',
   options: {
     //Pockets
-    weltPocketWeltWidth: { pct: 5.9, min: 5, max: 10, menu: 'pockets.weltPockets' },
+    weltPocketWeltWidth: { pct: 6.6, min: 5, max: 10, menu: 'pockets.weltPockets' },
   },
   from: pocket,
   draft: ({
