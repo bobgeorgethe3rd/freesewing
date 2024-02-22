@@ -39,7 +39,7 @@ export const pocket = {
     if (options.useVoidStores) {
       void store.setIfUnset('weltPocketOpeningWidth', 214 * options.weltPocketOpeningWidth)
       void store.setIfUnset('insertSeamLength', 1184)
-      void store.setIfUnset('weltToAnchor', 43.875 * (1 + options.weltToAnchorLength))
+      void store.setIfUnset('weltToAnchor', 43.875)
     }
 
     const openingWidth = store.get('weltPocketOpeningWidth')
@@ -65,18 +65,21 @@ export const pocket = {
       options.weltPocketCurve
     )
     points.bottomLeftCurveStart = points.bottomLeftCurveEnd.rotate(90, points.bottomLeftCorner)
-    points.bottomLeftCp1 = points.bottomLeftCurveStart.shiftFractionTowards(
+    points.bottomLeftCurveStartCp2 = points.bottomLeftCurveStart.shiftFractionTowards(
       points.bottomLeftCorner,
       options.cpFraction
     )
-    points.bottomLeftCp2 = points.bottomLeftCp1.rotate(-90, points.bottomLeftCorner)
+    points.bottomLeftCurveEndCp1 = points.bottomLeftCurveStartCp2.rotate(
+      -90,
+      points.bottomLeftCorner
+    )
 
     points.bottomRightCurveStart = points.bottomLeftCurveEnd.flipX(points.bottomMid)
     points.bottomRightCurveEnd = points.bottomLeftCurveStart.flipX(points.bottomMid)
-    points.bottomRightCp1 = points.bottomLeftCp2.flipX(points.bottomMid)
-    points.bottomRightCp2 = points.bottomLeftCp1.flipX(points.bottomMid)
+    points.bottomRightCurveEndCp2 = points.bottomLeftCurveEndCp1.flipX(points.bottomMid)
+    points.bottomRightCurveStartCp1 = points.bottomLeftCurveStartCp2.flipX(points.bottomMid)
 
-    const drawSaBase = () => {
+    const drawBottom = () => {
       if (options.weltPocketStyle == 'straight') {
         return new Path()
           .move(points.topLeft)
@@ -89,9 +92,17 @@ export const pocket = {
         return new Path()
           .move(points.topLeft)
           .line(points.bottomLeftCurveStart)
-          .curve(points.bottomLeftCp1, points.bottomLeftCp2, points.bottomLeftCurveEnd)
+          .curve(
+            points.bottomLeftCurveStartCp2,
+            points.bottomLeftCurveEndCp1,
+            points.bottomLeftCurveEnd
+          )
           .line(points.bottomRightCurveStart)
-          .curve(points.bottomRightCp1, points.bottomRightCp2, points.bottomRightCurveEnd)
+          .curve(
+            points.bottomRightCurveEndCp2,
+            points.bottomRightCurveStartCp1,
+            points.bottomRightCurveEnd
+          )
           .line(points.topRight)
       }
     }
@@ -101,9 +112,7 @@ export const pocket = {
       .line(points.openingRight)
       .attr('class', 'interfacing')
 
-    paths.saTop = new Path().move(points.topRight).line(points.topLeft).hide()
-
-    paths.seam = drawSaBase().join(paths.saTop).close()
+    paths.seam = drawBottom().line(points.topLeft).close()
 
     if (complete) {
       //grainline
@@ -130,9 +139,59 @@ export const pocket = {
       paths.opening.attr('data-text', 'Pocket Opening')
 
       if (sa) {
+        const pocketBagSa = sa * options.pocketBagSaWidth * 100
+
+        if (options.weltPocketCurve == 0) {
+          points.saBottomLeftCurveStart = points.bottomLeftCurveStart.translate(
+            -pocketBagSa,
+            pocketBagSa
+          )
+          points.saBottomLeftCurveEnd = points.saBottomLeftCurveStart
+        } else {
+          points.saBottomLeftCurveStart = utils.beamIntersectsX(
+            points.bottomLeftCurveStart.shift(215, pocketBagSa),
+            points.bottomLeftCurveStart.shift(215, pocketBagSa).shift(135, 1),
+            points.bottomLeftCurveStart.x - pocketBagSa
+          )
+
+          if (options.weltPocketCurve == 1) {
+            points.saBottomLeftCurveEnd = utils.beamIntersectsX(
+              points.bottomLeftCurveEnd.shift(215, pocketBagSa),
+              points.bottomLeftCurveEnd.shift(215, pocketBagSa).shift(315, 1),
+              points.bottomLeftCurveEnd.x
+            )
+          } else {
+            points.saBottomLeftCurveEnd = utils.beamIntersectsY(
+              points.bottomLeftCurveEnd.shift(215, pocketBagSa),
+              points.bottomLeftCurveEnd.shift(215, pocketBagSa).shift(315, 1),
+              points.bottomLeftCurveEnd.y + pocketBagSa
+            )
+          }
+        }
+
+        points.saBottomRightCurveStart = points.saBottomLeftCurveEnd.flipX()
+        points.saBottomRightCurveEnd = points.saBottomLeftCurveStart.flipX()
+
+        points.saTopRight = points.topRight.translate(pocketBagSa, -sa)
+        points.saTopLeft = points.topLeft.translate(-pocketBagSa, -sa)
+
+        const drawSaBase = () => {
+          if (options.weltPocketStyle == 'straight' || options.weltPocketCurve == 0) {
+            return new Path()
+              .move(points.saTopLeft)
+              .line(points.saBottomLeftCurveStart)
+              .line(points.saBottomLeftCurveEnd)
+              .line(points.saBottomRightCurveStart)
+              .line(points.saBottomRightCurveEnd)
+              .line(points.saTopRight)
+          } else {
+            return drawBottom().offset(pocketBagSa)
+          }
+        }
+
         paths.sa = drawSaBase()
-          .offset(sa * options.pocketBagSaWidth * 100)
-          .join(paths.saTop.offset(sa * 2))
+          .line(points.saTopRight)
+          .line(points.saTopLeft)
           .close()
           .attr('class', 'fabric sa')
       }
