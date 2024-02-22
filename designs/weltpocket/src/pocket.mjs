@@ -172,8 +172,8 @@ export const pocket = {
         points.saBottomRightCurveStart = points.saBottomLeftCurveEnd.flipX()
         points.saBottomRightCurveEnd = points.saBottomLeftCurveStart.flipX()
 
-        points.saTopRight = points.topRight.translate(pocketBagSa, -sa)
-        points.saTopLeft = points.topLeft.translate(-pocketBagSa, -sa)
+        points.saTopRight = points.topRight.translate(pocketBagSa, -sa * 2)
+        points.saTopLeft = points.topLeft.translate(-pocketBagSa, -sa * 2)
 
         const drawSaBase = () => {
           if (options.weltPocketStyle == 'straight' || options.weltPocketCurve == 0) {
