@@ -188,8 +188,8 @@ export const frontBase = {
       }
 
       points.frontPocketOpeningOut = drawOutseam().shiftAlong(frontPocketOpeningDepth)
-      points.frontPocketOpeningWaist = points.waistIn.shiftFractionTowards(
-        points.waistOut,
+      points.frontPocketOpeningWaist = points.waistOut.shiftFractionTowards(
+        points.waistIn,
         options.frontPocketOpeningWidth
       )
       points.frontPocketOpeningCpTarget = utils.beamsIntersect(
