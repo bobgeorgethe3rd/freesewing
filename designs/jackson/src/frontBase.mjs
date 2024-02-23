@@ -53,6 +53,7 @@ export const frontBase = {
     const flyShieldEx = 10 //(1 - options.flyWidth) * 10.537407797681770284510010537408
     //let's begin
     //plackets
+    points.flyWaist = points.waistIn.shiftTowards(points.waistOut, flyWidth)
     points.flyCrotch = paths.crotchSeam
       .reverse()
       .shiftAlong(measurements.waistToHips * options.waistHeight + flyLength - waistbandWidth)
@@ -68,10 +69,9 @@ export const frontBase = {
       points.waistIn
         .shiftTowards(points.crotchSeamCurveStart, flyShieldEx)
         .rotate(+90, points.waistIn),
-      points.waistOut,
+      points.flyWaist,
       points.waistIn
     )
-    points.flyWaist = points.waistIn.shiftTowards(points.waistOut, flyWidth)
     points.flyCurveEnd = utils.beamsIntersect(
       points.waistIn,
       points.crotchSeamCurveStart,
