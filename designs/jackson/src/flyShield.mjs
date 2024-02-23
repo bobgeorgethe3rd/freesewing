@@ -38,7 +38,7 @@ export const flyShield = {
     const flyShieldEx = store.get('flyShieldEx')
     //let's begin
     points.flyShieldWaist = points.flyShieldExWaist.shiftTowards(
-      points.waistOut,
+      points.flyWaist,
       store.get('flyWidth')
     )
     points.flyShieldCorner = utils.beamsIntersect(
