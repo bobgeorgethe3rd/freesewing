@@ -109,6 +109,7 @@ export const frontBase = {
       .hide()
     //stores
     store.set('flyWidth', flyWidth)
+    store.set('flyShieldEx', flyShieldEx)
     store.set('waistbandPlacketWidth', flyWidth + flyShieldEx)
     if (complete) {
       if (sa) {
@@ -220,8 +221,6 @@ export const frontBase = {
         )
         .hide()
 
-      //stores
-      store.set('flyShieldEx', flyShieldEx)
       if (complete) {
         if (sa) {
           const sideSeamSa = sa * options.sideSeamSaWidth * 100
