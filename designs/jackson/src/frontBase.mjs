@@ -158,8 +158,6 @@ export const frontBase = {
     if (options.frontPocketsBool) {
       //measures
       const pocketMaxDepth = measurements.waistToKnee - measurements.waistToHips - waistbandWidth
-      const frontPocketOpeningDepth = pocketMaxDepth * options.frontPocketOpeningDepth
-      const frontPocketOutSeamDepth = pocketMaxDepth * options.frontPocketOutSeamDepth
 
       const drawOutseam = () => {
         if (options.fitKnee) {
@@ -187,7 +185,9 @@ export const frontBase = {
         }
       }
 
-      points.frontPocketOpeningOut = drawOutseam().shiftAlong(frontPocketOpeningDepth)
+      points.frontPocketOpeningOut = drawOutseam().shiftAlong(
+        pocketMaxDepth * options.frontPocketOpeningDepth
+      )
       points.frontPocketOpeningWaist = points.waistOut.shiftFractionTowards(
         points.waistIn,
         options.frontPocketOpeningWidth
@@ -206,7 +206,9 @@ export const frontBase = {
         points.frontPocketOpeningCpTarget,
         options.frontPocketOpeningCurve
       )
-      points.frontPocketOut = drawOutseam().shiftAlong(frontPocketOutSeamDepth)
+      points.frontPocketOut = drawOutseam().shiftAlong(
+        pocketMaxDepth * options.frontPocketOutSeamDepth
+      )
       points.frontPocketWaist = points.frontPocketOpeningWaist.shiftFractionTowards(
         points.waistIn,
         options.frontPocketWidth
