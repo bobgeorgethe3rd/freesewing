@@ -153,25 +153,19 @@ export const coinPocket = {
         }
       }
       if (sa) {
-        points.saCoinPocketBottomOut = utils.lineIntersectsCurve(
-          points.coinPocketOut.shift(points.waistIn.angle(points.waistOut), sa),
-          points.coinPocketOut
-            .shift(points.waistIn.angle(points.waistOut), sa)
-            .shift(points.waistIn.angle(points.waistOut) + 90, paths.bottom.length()),
-          points.frontPocketFacingOut,
-          points.frontPocketFacingOutCp2,
-          points.frontPocketFacingWaistCp1,
-          points.frontPocketFacingWaist
-        )
-        points.saCoinPocketBottomIn = utils.lineIntersectsCurve(
-          points.coinPocketIn.shift(points.waistOut.angle(points.waistIn), sa),
+        paths.saBottom = paths.bottom
+          .split(points.coinPocketBottomOut)[1]
+          .split(points.coinPocketBottomIn)[0]
+
+        points.saCoinPocketBottomIn = utils.beamsIntersect(
+          paths.saBottom.offset(sa).end(),
+          paths.saBottom.offset(sa).shiftFractionAlong(0.995),
+          points.coinPocketBottomIn
+            .shiftTowards(points.coinPocketIn, sa)
+            .rotate(-90, points.coinPocketBottomIn),
           points.coinPocketIn
-            .shift(points.waistOut.angle(points.waistIn), sa)
-            .shift(points.waistIn.angle(points.waistOut) + 90, paths.bottom.length()),
-          points.frontPocketFacingOut,
-          points.frontPocketFacingOutCp2,
-          points.frontPocketFacingWaistCp1,
-          points.frontPocketFacingWaist
+            .shiftTowards(points.coinPocketBottomIn, sa)
+            .rotate(90, points.coinPocketIn)
         )
         points.saCoinPocketIn = points.coinPocketIn
           .shift(points.waistOut.angle(points.waistIn), sa)
@@ -181,9 +175,20 @@ export const coinPocket = {
           .shift(points.waistIn.angle(points.waistOut), sa)
           .shift(points.waistIn.angle(points.waistOut) - 90, sa * 2)
 
-        paths.sa = paths.bottom
-          .split(points.saCoinPocketBottomOut)[1]
-          .split(points.saCoinPocketBottomIn)[0]
+        points.saCoinPocketBottomOut = utils.beamsIntersect(
+          points.coinPocketOut
+            .shiftTowards(points.coinPocketBottomOut, sa)
+            .rotate(-90, points.coinPocketOut),
+          points.coinPocketBottomOut
+            .shiftTowards(points.coinPocketOut, sa)
+            .rotate(90, points.coinPocketBottomOut),
+          paths.saBottom.offset(sa).start(),
+          paths.saBottom.offset(sa).shiftFractionAlong(0.005)
+        )
+
+        paths.sa = paths.saBottom
+          .offset(sa)
+          .line(points.saCoinPocketBottomIn)
           .line(points.saCoinPocketIn)
           .line(points.saCoinPocketOut)
           .line(points.saCoinPocketBottomOut)

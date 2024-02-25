@@ -198,20 +198,24 @@ export const frontPocketFacing = {
       if (sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
 
-        points.saFrontPocketFacingWaist = points.frontPocketFacingWaist.shift(
-          points.waistOut.angle(points.waistIn) + 90,
-          sa
-        )
+        points.saFrontPocketFacingWaist = points.frontPocketFacingWaist
+          .shift(points.waistOut.angle(points.waistIn) + 90, sa)
+          .shift(points.waistOut.angle(points.waistIn), sa)
 
         points.saFrontPocketFacingOut = utils.beamsIntersect(
           paths.outSeam.offset(sideSeamSa).shiftFractionAlong(0.99),
           paths.outSeam.offset(sideSeamSa).end(),
-          points.frontPocketFacingOutCp2,
           points.frontPocketFacingOut
+            .shiftTowards(points.frontPocketFacingOutCp2, sa)
+            .rotate(-90, points.frontPocketFacingOut),
+          points.frontPocketFacingOutCp2
+            .shiftTowards(points.frontPocketFacingOut, sa)
+            .rotate(90, points.frontPocketFacingOutCp2)
         )
 
         paths.sa = paths.bottom
           .clone()
+          .offset(sa)
           .line(points.saFrontPocketFacingWaist)
           .line(points.saWaistOut)
           .join(paths.outSeam.offset(sideSeamSa))
