@@ -85,7 +85,11 @@ export const flyShield = {
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.flyShieldWaist
-      points.cutOnFoldTo = points.flyShieldCurveStart
+      if (options.flyShieldCurved) {
+        points.cutOnFoldTo = points.flyShieldCurveStart
+      } else {
+        points.cutOnFoldTo = points.flyShieldCorner
+      }
       macro('cutonfold', {
         from: points.cutOnFoldFrom,
         to: points.cutOnFoldTo,
