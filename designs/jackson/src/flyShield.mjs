@@ -6,6 +6,10 @@ export const flyShield = {
   hide: {
     from: true,
   },
+  options: {
+    //Plackets
+    flyShieldCurved: { bool: false, menu: 'plackets' },
+  },
   draft: ({
     store,
     sa,
@@ -47,26 +51,50 @@ export const flyShield = {
       points.flyShieldExCrotch,
       points.flyShieldCrotch
     )
+
+    points.flyShieldCurveStart = points.flyShieldCrotch.rotate(90, points.flyShieldCorner)
+    points.flyShieldCurveStartCp2 = points.flyShieldCurveStart.shiftFractionTowards(
+      points.flyShieldCorner,
+      options.cpFraction
+    )
+    points.flyShieldCrotchCp1 = points.flyShieldCrotch.shiftFractionTowards(
+      points.flyShieldCorner,
+      options.cpFraction
+    )
+
+    if (options.flyShieldCurved) {
+      paths.bottom = new Path()
+        .move(points.flyShieldCurveStart)
+        .curve(points.flyShieldCurveStartCp2, points.flyShieldCrotchCp1, points.flyShieldCrotch)
+        .line(points.flyShieldExCrotch)
+        .hide()
+    } else {
+      paths.bottom = new Path().move(points.flyShieldCorner).line(points.flyShieldExCrotch).hide()
+    }
+
     //paths
-    paths.seam = new Path()
-      .move(points.flyShieldCorner)
-      .line(points.flyShieldExCrotch)
+    paths.seam = paths.bottom
+      .clone()
       .join(paths.crotchSeam.split(points.flyShieldCrotch)[1].offset(flyShieldEx))
       .line(points.flyShieldExWaist)
       .line(points.flyShieldWaist)
-      .line(points.flyShieldCorner)
+      .line(points.flyShieldCurveStart)
+      .line(paths.bottom.start())
       .close()
 
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.flyShieldWaist
-      points.cutOnFoldTo = points.flyShieldCorner
+      points.cutOnFoldTo = points.flyShieldCurveStart
       macro('cutonfold', {
         from: points.cutOnFoldFrom,
         to: points.cutOnFoldTo,
       })
       //notches
       snippets.flyShieldCrotch = new Snippet('notch', points.flyShieldCrotch)
+      if (options.flyShieldCurved) {
+        snippets.flyShieldCurveStart = new Snippet('notch', points.flyShieldCurveStart)
+      }
       //title
       points.title = points.flyShieldWaist
         .shiftFractionTowards(points.flyShieldExWaist, 0.5)
@@ -93,8 +121,9 @@ export const flyShield = {
           points.saWaistIn
         )
 
-        paths.sa = new Path()
-          .move(points.saFlyShieldCorner)
+        paths.sa = paths.bottom
+          .clone()
+          .offset(sa)
           .line(points.saFlyShieldExCrotch)
           .join(
             paths.crotchSeam
@@ -104,7 +133,8 @@ export const flyShield = {
           )
           .line(points.saWaistInExCorner)
           .line(points.saFlyShieldWaist)
-          .line(points.saFlyShieldCorner)
+          .line(points.flyShieldCurveStart)
+          .line(paths.bottom.offset(sa).start())
           .close()
           .attr('class', 'fabric sa')
       }
