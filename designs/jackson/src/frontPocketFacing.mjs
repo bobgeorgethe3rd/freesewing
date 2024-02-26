@@ -146,12 +146,13 @@ export const frontPocketFacing = {
         points.frontPocketFacingWaist,
         0.05
       )
-      points.grainlineTo = utils.beamsIntersect(
-        points.grainlineFrom,
-        points.waistOut.rotate(90, points.grainlineFrom),
-        points.frontPocketFacingOut,
-        points.frontPocketFacingOutCp2
-      )
+      points.grainlineTo = new Point(points.grainlineFrom.x, points.frontPocketFacingOut.y)
+      // points.grainlineTo = utils.beamsIntersect(
+      // points.grainlineFrom,
+      // points.waistOut.rotate(90, points.grainlineFrom),
+      // points.frontPocketFacingOut,
+      // points.frontPocketFacingOutCp2
+      // )
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,

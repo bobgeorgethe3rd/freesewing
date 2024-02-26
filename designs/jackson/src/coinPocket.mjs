@@ -90,13 +90,18 @@ export const coinPocket = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.coinPocketOut.shiftFractionTowards(points.coinPocketIn, 0.15)
-      points.grainlineTo = utils.beamsIntersect(
-        points.grainlineFrom,
-        points.coinPocketOut.rotate(90, points.grainlineFrom),
-        points.coinPocketBottomOut,
-        points.coinPocketOut.rotate(-90, points.coinPocketBottomOut)
-      )
+      // points.grainlineFrom = points.coinPocketOut.shiftFractionTowards(points.coinPocketIn, 0.15)
+      // points.grainlineTo = utils.beamsIntersect(
+      // points.grainlineFrom,
+      // points.coinPocketOut.rotate(90, points.grainlineFrom),
+      // points.coinPocketBottomOut,
+      // points.coinPocketOut.rotate(-90, points.coinPocketBottomOut)
+      // )
+      points.grainlineTo = paths.bottom
+        .split(points.coinPocketBottomOut)[1]
+        .split(points.coinPocketBottomIn)[0]
+        .shiftFractionAlong(0.1)
+      points.grainlineFrom = new Point(points.grainlineTo.x, points.coinPocketOut.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
