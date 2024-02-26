@@ -123,7 +123,7 @@ export const coinPocket = {
         title: 'Coin Pocket',
         at: points.title,
         scale: 0.25,
-        rotation: 90 - points.coinPocketBottomIn.angle(points.coinPocketIn),
+        // rotation: 90 - points.coinPocketBottomIn.angle(points.coinPocketIn),
       })
       //pleat
       if (options.coinPocketPleat) {

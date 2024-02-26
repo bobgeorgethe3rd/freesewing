@@ -174,7 +174,7 @@ export const frontPocketFacing = {
         title: 'Front Pocket Facing',
         at: points.title,
         scale: 0.25,
-        rotation: 90 - points.frontPocketFacingCpTarget.angle(points.frontPocketFacingWaist),
+        // rotation: 90 - points.frontPocketFacingCpTarget.angle(points.frontPocketFacingWaist),
       })
       //pocket curve
       paths.pocketCurve = paths.pocketCurve
