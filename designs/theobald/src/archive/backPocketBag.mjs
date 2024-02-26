@@ -21,10 +21,10 @@ export const backPocketBag = {
     if (complete) {
       //title
       macro('title', {
-        nr: 2,
+        nr: 4,
         title: 'Back Pocket Bag',
         at: points.title,
-        scale: 0.5,
+        scale: 0.75,
       })
     }
 

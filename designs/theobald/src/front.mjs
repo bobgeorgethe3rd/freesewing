@@ -8,17 +8,13 @@ export const front = {
   },
   options: {
     //Style
-    frontPleats: { bool: false, menu: 'style' },
-    frontPleatDistance: { pct: 4.7, min: 3, max: 6, menu: 'style' },
+    frontPleatDistance: { pct: 5.1, min: 3, max: 6, menu: 'style' },
     //Pockets
-    frontPocketsBool: { bool: true, menu: 'pockets' },
     frontPocketOpeningStyle: {
       dflt: 'slanted',
       list: ['inseam', 'slanted'],
       menu: 'pockets.frontPockets',
     },
-    //Construction
-    crotchSeamSaWidth: { pct: 1, min: 1, max: 4, menu: 'construction' },
   },
   draft: ({
     store,
@@ -38,245 +34,221 @@ export const front = {
     Snippet,
     absoluteOptions,
   }) => {
-    //removing paths and snippets not required from Dalton
-    for (let i in paths) delete paths[i]
-    //measurements
-    const frontPleatWidth = store.get('frontPleatWidth')
-    const frontPleatDistance = measurements.waist * options.frontPleatDistance + frontPleatWidth
-    //draw guides
-    let suffix
-    if (options.frontPleats) {
-      suffix = 'R'
-    } else {
-      suffix = ''
-    }
-
-    const drawInseam = () => {
-      if (options.fitKnee || options.fitFloor) {
-        if (options.frontPleats || options.fitFloor) {
-          return new Path()
+    //measures
+    const flyShieldEx = store.get('flyShieldEx')
+    //guides
+    const drawInseam = () =>
+      options.fitKnee
+        ? new Path()
             .move(points.floorIn)
-            .curve_(points['floorInCp2' + suffix], points['kneeIn' + suffix])
-            .curve(
-              points['kneeInCp2' + suffix],
-              points['forkCp1' + suffix],
-              points['fork' + suffix]
-            )
-        } else {
-          return new Path()
+            .curve_(points.floorInCp2, points.kneeIn)
+            .curve(points.kneeInCp2, points.upperLegInCp1, points.upperLegIn)
+        : new Path()
             .move(points.floorIn)
-            .line(points.kneeIn)
-            .curve(points.kneeInCp2, points.forkCp1, points.fork)
-        }
-      } else {
-        return new Path()
-          .move(points.floorIn)
-          .curve(points.kneeInCp2, points['forkCp1' + suffix], points['fork' + suffix])
-      }
-    }
-    paths.crotch = new Path()
-      .move(points['fork' + suffix])
-      .curve(
-        points['crotchSeamCurveCp1' + suffix],
-        points['crotchSeamCurveCp2' + suffix],
-        points['crotchSeamCurveStart' + suffix]
-      )
-      .line(points['styleWaistIn' + suffix])
-      .hide()
-
-    const drawWaistSeam = () => {
-      if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool) {
-        return new Path()
-          .move(points['styleWaistIn' + suffix])
-          .line(points['frontPocketOpeningWaist' + suffix])
-          .line(points['frontPocketOpeningOut' + suffix])
-      } else {
-        return new Path()
-          .move(points['styleWaistIn' + suffix])
-          .line(points['styleWaistOut' + suffix])
-      }
-    }
+            .curve(points.floorInCp2, points.upperLegInCp1, points.upperLegIn)
 
     const drawOutseam = () => {
-      let waistOut = points['styleWaistOut' + suffix] || points['waistOut' + suffix]
-      if (options.fitKnee || options.fitFloor) {
-        if (options.frontPleats || options.fitFloor) {
-          if (points.waistOut.x < points.seatOut.x)
-            return new Path()
-              .move(waistOut)
-              .curve(
-                points['seatOut' + suffix],
-                points['kneeOutCp1' + suffix],
-                points['kneeOut' + suffix]
-              )
-              ._curve(points['floorOutCp1' + suffix], points.floorOut)
-          else
-            return new Path()
-              .move(waistOut)
-              ._curve(points['seatOutCp1' + suffix], points['seatOut' + suffix])
-              .curve(
-                points['seatOutCp2' + suffix],
-                points['kneeOutCp1' + suffix],
-                points['kneeOut' + suffix]
-              )
-              ._curve(points['floorOutCp1' + suffix], points.floorOut)
-        } else {
-          if (points.waistOut.x < points.seatOut.x)
-            return new Path()
-              .move(waistOut)
-              .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
-              .line(points.floorOut)
-          else
-            return new Path()
-              .move(waistOut)
-              ._curve(points.seatOutCp1, points.seatOut)
-              .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
-              .line(points.floorOut)
-        }
-      } else {
-        if (points.waistOut.x < points.seatOut.x)
+      if (options.fitKnee) {
+        if (points.seatOutAnchor.x < points.seatOut.x)
           return new Path()
-            .move(waistOut)
-            .curve(points['seatOut' + suffix], points.kneeOutCp1, points.floorOut)
+            .move(points.waistOut)
+            .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
+            ._curve(points.floorOutCp1, points.floorOut)
         else
           return new Path()
-            .move(waistOut)
-            ._curve(points['seatOutCp1' + suffix], points['seatOut' + suffix])
-            .curve(points['seatOutCp2' + suffix], points.kneeOutCp1, points.floorOut)
+            .move(points.waistOut)
+            ._curve(points.seatOutCp1, points.seatOut)
+            .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
+            ._curve(points.floorOutCp1, points.floorOut)
+      } else {
+        if (points.seatOutAnchor.x < points.seatOut.x)
+          return new Path()
+            .move(points.waistOut)
+            .curve(points.seatOut, points.floorOutCp1, points.floorOut)
+        else
+          return new Path()
+            .move(points.waistOut)
+            ._curve(points.seatOutCp1, points.seatOut)
+            .curve(points.seatOutCp2, points.floorOutCp1, points.floorOut)
       }
     }
-
-    if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool) {
-      paths.outSeam = drawOutseam()
-        .split(points['frontPocketOpeningOut' + suffix])[1]
-        .hide()
-    } else {
-      paths.outSeam = drawOutseam().hide()
-    }
-
-    //let's begin
     //paths
-    paths.hemBase = new Path().move(points.floorOut).line(points.floorIn).hide()
+    paths.flyShieldEx = paths.crotchSeam
+      .split(points.flyShieldCrotch)[0]
+      .line(points.flyShieldExCrotch)
+      .join(
+        paths.crotchSeam
+          .split(points.flyShieldCrotch)[1]
+          .split(points.crotchSeamCurveStart)[0]
+          .offset(flyShieldEx)
+      )
+      .line(points.flyShieldExWaist)
+      .line(points.waistIn)
+
+    paths.outseam = drawOutseam().hide()
+    paths.saWaist = paths.waist.clone().hide()
+    if (options.frontPocketsBool && options.frontPocketOpeningStyle == 'slanted') {
+      paths.waist = paths.waist
+        .split(points.frontPocketOpeningWaist)[0]
+        .line(points.frontPocketOpeningOut)
+        .hide()
+      paths.outseam = paths.outseam.split(points.frontPocketOpeningOut)[1].hide()
+    }
 
     paths.seam = paths.hemBase
       .clone()
       .join(drawInseam())
-      .join(paths.crotch)
-      .join(drawWaistSeam())
-      .join(paths.outSeam)
+      .join(paths.crotchSeam)
+      .join(paths.waist)
+      .join(paths.outseam)
+      .close()
+    //pleats
+    const frontPleatWidth = store.get('frontPleatWidth')
+    if (options.frontPleats) {
+      points.frontPleatFromMid0 = utils.curveIntersectsX(
+        points.flyWaist,
+        points.waistOutEndCp,
+        points.waistOutEndCp,
+        points.waistOutEnd,
+        points.upperLeg.x
+      )
+      points.frontPleatFromIn0 = paths.waist
+        .split(points.frontPleatFromMid0)[0]
+        .reverse()
+        .shiftAlong(frontPleatWidth * 0.5)
+      points.frontPleatFromOut0 = paths.waist
+        .split(points.frontPleatFromMid0)[1]
+        .shiftAlong(frontPleatWidth * 0.5)
+      points.frontPleatFromMid1 = paths.waist
+        .split(points.frontPleatFromMid0)[1]
+        .shiftAlong(measurements.waist * options.frontPleatDistance + frontPleatWidth)
+      points.frontPleatFromIn1 = paths.waist
+        .split(points.frontPleatFromMid1)[0]
+        .reverse()
+        .shiftAlong(frontPleatWidth * 0.5)
+      points.frontPleatFromOut1 = paths.waist
+        .split(points.frontPleatFromMid1)[1]
+        .shiftAlong(frontPleatWidth * 0.5)
 
-    if (complete) {
-      //grainline
-      macro('grainline', {
-        from: points.grainlineFrom,
-        to: points.grainlineTo,
-      })
-      //notches
-      if (options.frontPocketOpeningStyle == 'inseam' || !options.frontPocketsBool) {
-        snippets.frontPocketOpening = new Snippet('notch', points['frontPocketOpening' + suffix])
+      const j = ['Out', 'Mid', 'In']
+      for (const p of j) {
+        for (let i = 0; i < 2; i++) {
+          points['frontPleatTo' + p + i] = points['frontPleatFrom' + p + i].shift(
+            points['frontPleatFromIn' + i].angle(points['frontPleatFromOut' + i]) + 90,
+            frontPleatWidth * 2
+          )
+          paths['frontPleat' + p + i] = new Path()
+            .move(points['frontPleatFrom' + p + i])
+            .line(points['frontPleatTo' + p + i])
+
+          if (complete) {
+            if (p == 'Mid') {
+              paths['frontPleat' + p + i].attr('class', 'fabric help')
+            } else {
+              paths['frontPleat' + p + i]
+                .attr('data-text', 'Pleat Line')
+                .attr('data-text-class', 'center')
+            }
+          }
+        }
       }
-
+    }
+    if (complete) {
+      //notches
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['flyShieldCrotch' + suffix, 'frontPocketOpeningOut' + suffix],
+        on: ['flyCrotch', 'flyShieldCrotch'],
       })
+      if (options.frontPocketsBool) {
+        snippets.frontPocketOpeningOut = new Snippet('notch', points.frontPocketOpeningOut)
+        if (options.frontPocketOpeningStyle == 'slanted') {
+          snippets.frontPocketOpeningWaist = new Snippet('notch', points.frontPocketOpeningWaist)
+        } else {
+          snippets.frontPocketOpeningOutTop = new Snippet('notch', points.frontPocketOpeningOutTop)
+        }
+      }
       //title
       macro('title', {
-        nr: 2,
+        nr: 7,
         title: 'Front',
         at: points.title,
+        scale: 0.5,
       })
-      //Fit Guides
-      if (options.fitGuides) {
-        if (points.hipsGuideIn) {
-          paths.hipsGuide = new Path()
-            .move(points.hipsGuideOut)
-            .line(points.hipsGuideIn)
-            .attr('class', 'various')
-            .attr('data-text', 'Hips Guide')
-            .attr('data-text-class', 'left')
+      //detail paths
+      paths.flyShieldExDetail = paths.flyShieldEx
+        .split(points.flyShieldExWaist)[0]
+        .attr('class', 'fabric hidden')
+        .attr('data-text', 'Right Leg Exstention')
+        .attr('data-text-class', 'right')
 
-          macro('sprinkle', {
-            snippet: 'notch',
-            on: ['hipsGuideOut', 'hipsGuideIn'],
-          })
-        }
-
-        paths.seatGuide = new Path()
-          .move(points.seatGuideOut)
-          .line(points.seatGuideIn)
-          .attr('class', 'various')
-          .attr('data-text', 'Seat Guide')
-          .attr('data-text-class', 'left')
-
-        paths.kneeGuide = new Path()
-          .move(points.kneeGuideOut)
-          .line(points.kneeGuideIn)
-          .attr('class', 'various')
-          .attr('data-text', 'Knee Guide')
-          .attr('data-text-class', 'left')
-
-        macro('sprinkle', {
-          snippet: 'notch',
-          on: ['seatGuideOut', 'seatGuideIn', 'kneeGuideOut', 'kneeGuideIn'],
-        })
-      }
-      //pleats
-      if (options.frontPleats) {
-        points.pleatMidTop0 = utils.beamsIntersect(
-          points.floor,
-          points.knee,
-          points.styleWaistInR,
-          points.styleWaistOutR
-        )
-
-        points.pleatMidTop1 = points.pleatMidTop0.shiftTowards(
-          points.styleWaistOutR,
-          frontPleatDistance
-        )
-
-        for (let i = 0; i < 2; i++) {
-          points['pleatFromTop' + i] = points['pleatMidTop' + i].shiftTowards(
-            points.styleWaistOutR,
-            frontPleatWidth / 2
-          )
-          points['pleatToTop' + i] = points['pleatMidTop' + i].shiftTowards(
-            points.styleWaistInR,
-            frontPleatWidth / 2
-          )
-          points['pleatFromBottom' + i] = points['pleatFromTop' + i]
-            .shiftTowards(points.styleWaistOutR, frontPleatWidth * 2)
-            .rotate(90, points['pleatFromTop' + i])
-          points['pleatMidBottom' + i] = points['pleatMidTop' + i]
-            .shiftTowards(points.styleWaistOutR, frontPleatWidth * 2)
-            .rotate(90, points['pleatMidTop' + i])
-          points['pleatToBottom' + i] = points['pleatToTop' + i]
-            .shiftTowards(points.styleWaistOutR, frontPleatWidth * 2)
-            .rotate(90, points['pleatToTop' + i])
-
-          paths['pleatFrom' + i] = new Path()
-            .move(points['pleatFromTop' + i])
-            .line(points['pleatFromBottom' + i])
-            .attr('class', 'fabric help')
-
-          paths['pleatMid' + i] = new Path()
-            .move(points['pleatMidTop' + i])
-            .line(points['pleatMidBottom' + i])
-
-          paths['pleatTo' + i] = new Path()
-            .move(points['pleatToTop' + i])
-            .line(points['pleatToBottom' + i])
-            .attr('class', 'fabric help')
-        }
-      }
+      paths.placketCurve
+        .line(points.flyCrotch)
+        .unhide()
+        .attr('class', 'mark sa')
+        .attr('data-text', 'Fly Stitching Line')
+        .attr('data-text-class', 'center')
       if (sa) {
+        const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
+
+        points.saFlyShieldCrotchSplit = paths.crotchSeam
+          .offset(crotchSeamSa)
+          .intersects(
+            new Path()
+              .move(
+                points.flyShieldCrotch.shift(
+                  points.waistIn.angle(points.crotchSeamCurveStart),
+                  flyShieldEx
+                )
+              )
+              .line(points.saFlyShieldExCrotch)
+          )[0]
+
+        paths.saFlyShieldExDetail = paths.crotchSeam
+          .clone()
+          .offset(crotchSeamSa)
+          .split(points.saFlyShieldCrotchSplit)[0]
+          .line(points.saFlyShieldExCrotch)
+          .join(
+            paths.crotchSeam
+              .clone()
+              .split(points.crotchSeamCurveStart)[0]
+              .split(points.flyShieldCrotch)[1]
+              .offset(crotchSeamSa + flyShieldEx)
+          )
+          .line(points.saWaistInEx)
+          .attr('class', 'fabric hidden')
+          .attr('data-text', 'Right Leg SA Extension')
+          .attr('data-text-class', 'right')
+        paths.saFlyShieldEx = paths.saFlyShieldExDetail
+          .clone()
+          .line(points.saWaistInExCorner)
+          .line(points.saWaistIn)
+          .attr('class', 'fabric sa', true)
+          .attr('data-text', '', true)
+
+        const drawSaWaist = () => {
+          if (options.frontPocketsBool && options.frontPocketOpeningStyle == 'slanted') {
+            return paths.saWaist
+              .split(points.frontPocketOpeningWaist)[0]
+              .offset(sa)
+              .line(points.saFrontPocketOpeningWaist)
+              .line(points.saFrontPocketOpeningOut)
+          } else {
+            return paths.saWaist.offset(sa).line(points.saWaistOut)
+          }
+        }
+
         paths.sa = paths.hemBase
           .clone()
           .offset(sa * options.hemWidth * 100)
+          .line(points.saFloorIn)
           .join(drawInseam().offset(sa * options.inseamSaWidth * 100))
-          .join(paths.crotch.offset(sa * options.crotchSeamSaWidth * 100))
-          .join(drawWaistSeam().offset(sa))
-          .join(paths.outSeam.offset(sa * options.outSeamSaWidth * 100))
+          .line(points.saUpperLegIn)
+          .join(paths.crotchSeam.offset(crotchSeamSa))
+          .line(points.saWaistIn)
+          .join(drawSaWaist())
+          .join(paths.outseam.offset(sa * options.sideSeamSaWidth * 100))
+          .line(points.saFloorOut)
           .close()
           .attr('class', 'fabric sa')
       }

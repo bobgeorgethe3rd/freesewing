@@ -1,12 +1,12 @@
-import { fly as flyJackson } from '@freesewing/jackson'
+import { buttonholePlacket as buttonholePlacketJackson } from '@freesewing/jackson'
 import { frontBase } from './frontBase.mjs'
 
-export const fly = {
-  name: 'theobald.fly',
+export const buttonholePlacket = {
+  name: 'theobald.buttonholePlacket',
   from: frontBase,
   options: {
     //Imported
-    ...flyJackson.options,
+    ...buttonholePlacketJackson.options,
   },
   draft: (sh) => {
     const { macro, points, paths, options, complete, part } = sh
@@ -14,7 +14,7 @@ export const fly = {
     if (options.daltonGuides) {
       paths.seam = paths.daltonGuide
     }
-    flyJackson.draft(sh)
+    buttonholePlacketJackson.draft(sh)
 
     return part
   },

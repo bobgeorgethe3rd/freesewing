@@ -1,7 +1,6 @@
 import { waistband as waistbandStraight } from '@freesewing/waistbandstraight'
 import { waistband as waistbandCurved } from '@freesewing/waistbandcurved'
 import { frontBase } from './frontBase.mjs'
-import { flyShield } from './flyShield.mjs'
 import { waistbandLeft } from './waistbandLeft.mjs'
 
 export const waistbandRight = {
@@ -11,7 +10,7 @@ export const waistbandRight = {
     ...waistbandStraight.options,
     ...waistbandCurved.options,
   },
-  after: [frontBase, flyShield, waistbandLeft],
+  after: [frontBase, waistbandLeft],
   plugins: [...waistbandStraight.plugins, ...waistbandCurved.plugins],
   draft: (sh) => {
     const {
@@ -33,7 +32,6 @@ export const waistbandRight = {
 
     if (options.waistbandStyle == 'straight') waistbandStraight.draft(sh)
     else waistbandCurved.draft(sh)
-
     //removing paths and snippets not required from from
     let rightPathKeep
     if (options.waistbandFishtail) {
@@ -41,7 +39,7 @@ export const waistbandRight = {
     } else {
       rightPathKeep = 'waistbandRight'
     }
-    const keepPaths = ['waistbandRightEx', rightPathKeep]
+    const keepPaths = ['waistbandSeam', 'waistbandRightEx', rightPathKeep]
     for (const name in paths) {
       if (keepPaths.indexOf(name) === -1) delete paths[name]
     }
@@ -75,147 +73,81 @@ export const waistbandRight = {
     for (const name in snippets) {
       if (keepSnippets.indexOf(name) === -1) delete snippets[name]
     }
+    paths.waistbandSeam.hide()
     //remove macros
     macro('title', false)
     //measurements
+    const waistbandFolded = options.waistbandFolded && options.waistbandStyle == 'straight'
     const waistbandWidth = store.get('waistbandWidth')
     //let's begin
     if (options.waistbandFishtail) {
-      points.pivot = points.waistbandBottomRightNotch.shiftTowards(
-        points.waistbandTopRightNotch,
-        waistbandWidth
-      )
-      points.fishtailRightEx = points.pivot
-        .shiftTowards(points.waistbandBottomRightNotch, store.get('waistbandFishtailOffset'))
-        .rotate(-90, points.pivot)
-
-      if (options.waistbandStyle == 'curved') {
-        const fishtailWidth = store.get('fishtailWidth')
-        let angle
-        if (store.get('waistbandLengthTop') > store.get('waistbandLength')) {
-          angle =
-            points.waistbandOrigin.angle(points.waistbandBottomRightNotch) -
-            points.waistbandOrigin.angle(points.waistbandBottomRight)
-        } else {
-          angle =
-            points.waistbandOrigin.angle(points.waistbandBottomRight) -
-            points.waistbandOrigin.angle(points.waistbandBottomRightNotch)
-        }
-
-        const radius = points.waistbandOrigin.dist(points.waistbandBottomRightNotch)
-        const fishtailCpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angle) / 4)
-
-        points.fishtailRightCp1 = points.waistbandBottomRightNotch
-          .shiftTowards(points.waistbandTopRightNotch, fishtailCpDistance)
-          .rotate(-90, points.waistbandBottomRightNotch)
-        points.fishtailRightCp2 = points.waistbandBottomRight
-          .shiftTowards(points.waistbandTopRight, fishtailCpDistance)
-          .rotate(90, points.waistbandBottomRight)
-        points.fishtailRightCp3 = points.fishtailRightCp2.shiftTowards(
-          points.waistbandOrigin,
-          fishtailWidth
-        )
-        points.fishtailRightCp4 = points.fishtailRightCp1.shiftTowards(
-          points.waistbandOrigin,
-          fishtailWidth
-        )
-      }
-    }
-
-    const drawSeam = () => {
-      if (options.waistbandStyle == 'straight') {
-        if (options.waistbandFishtail)
-          return new Path()
-            .move(points.waistbandBottomRightNotch)
-            .line(points.waistbandBottomRightEx)
-            .line(points.waistbandTopRightEx)
-            .line(points.waistbandTopRightNotch)
-            .line(points.fishtailRightEx)
-            .line(points.waistbandBottomRightNotch)
-            .close()
-        else
-          return new Path()
-            .move(points.waistbandBottomMid)
-            .line(points.waistbandBottomRightEx)
-            .line(points.waistbandTopRightEx)
-            .line(points.waistbandTopMid)
-            .line(points.waistbandBottomMid)
-            .close()
+      if (waistbandFolded) {
+        points.waistbandFishtailRight = points.waistbandTopRightNotch
+          .shiftTowards(points.waistbandBottomRightNotch, waistbandWidth)
+          .shift(
+            points.waistbandTopRightNotch.angle(points.waistbandBottomRightNotch) - 90,
+            store.get('waistbandFishtailOffset')
+          )
       } else {
-        if (options.waistbandFishtail)
-          return new Path()
-            .move(points.waistbandBottomRightNotch)
-            .curve(points.fishtailRightCp1, points.fishtailRightCp2, points.waistbandBottomRight)
-            .line(points.waistbandBottomRightEx)
-            .line(points.waistbandTopRightEx)
-            .line(points.waistbandTopRight)
-            .curve(points.fishtailRightCp3, points.fishtailRightCp4, points.waistbandTopRightNotch)
-            .line(points.fishtailRightEx)
-            .line(points.waistbandBottomRightNotch)
-            .close()
-        else
-          return new Path()
-            .move(points.waistbandBottomMid)
-            .curve(
-              points.waistbandBottomMidCp2,
-              points.waistbandBottomRightCp1,
-              points.waistbandBottomRight
-            )
-            .line(points.waistbandBottomRightEx)
-            .line(points.waistbandTopRightEx)
-            .line(points.waistbandTopRight)
-            .curve(points.waistbandTopRightCp2, points.waistbandTopMidCp1, points.waistbandTopMid)
-            .line(points.waistbandBottomMid)
-            .close()
+        points.waistbandFishtailRight = points.waistbandTopRightNotch
+          .shiftTowards(points.waistbandBottomRightNotch, store.get('waistbandFishtailOffset'))
+          .rotate(-90, points.waistbandTopRightNotch)
       }
+      paths.seam = paths.waistbandSeam
+        .split(points.waistbandBottomRightNotch)[1]
+        .split(points.waistbandBottomRight)[0]
+        .line(points.waistbandBottomRightEx)
+        .line(points.waistbandTopRightEx)
+        .line(points.waistbandTopRight)
+        .join(
+          paths.waistbandSeam
+            .split(points.waistbandTopRight)[1]
+            .split(points.waistbandTopRightNotch)[0]
+            .line(points.waistbandFishtailRight)
+            .line(points.waistbandBottomRightNotch)
+        )
+        .close()
+    } else {
+      paths.seam = paths.waistbandSeam
+        .split(points.waistbandBottomMid)[1]
+        .split(points.waistbandBottomRight)[0]
+        .line(points.waistbandBottomRightEx)
+        .line(points.waistbandTopRightEx)
+        .line(points.waistbandTopRight)
+        .join(
+          paths.waistbandSeam.split(points.waistbandTopRight)[1].split(points.waistbandTopMid)[0]
+        )
+        .line(points.waistbandBottomMid)
+        .close()
     }
-
-    //paths
-    paths.seam = drawSeam()
-
     if (complete) {
-      let titleRot
-      if (options.waistbandStyle == 'straight') {
-        titleRot = 0
-        points.grainlineFrom = points.waistbandTopRightNotch.shiftFractionTowards(
-          points.waistbandTopRight,
-          0.5
-        )
-        points.grainlineTo = new Point(points.grainlineFrom.x, points.waistbandBottomLeft.y)
-        points.title = points.waistbandTopRightNotch
-          .shiftFractionTowards(points.waistbandTopRight, 0.25)
-          .shift(-90, waistbandWidth / 2)
-      } else {
-        titleRot = 90 - points.waistbandBottomRightCp1.angle(points.waistbandTopRightCp2)
-        points.grainlineFrom = points.waistbandTopRight.shiftFractionTowards(
-          points.waistbandTopRightCp2,
-          0.5
-        )
-        points.grainlineTo = new Point(points.grainlineFrom.x, points.waistbandBottomLeft.y * 0.75)
-        points.title = points.waistbandTopRightCp2.shiftFractionTowards(
-          points.waistbandBottomRightCp1,
-          0.4
-        )
-      }
-
       //grainline
+      points.grainlineTo = paths.waistbandSeam
+        .split(points.waistbandBottomMid)[1]
+        .split(points.waistbandBottomRight)[0]
+        .shiftFractionAlong(0.875)
+      points.grainlineFrom = points.grainlineTo.shift(90, waistbandWidth)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //title
+      points.title = paths.waistbandSeam
+        .split(points.waistbandBottomMid)[1]
+        .split(points.waistbandBottomRight)[0]
+        .shiftFractionAlong(0.75)
+        .shift(90, waistbandWidth * 0.5)
       macro('title', {
-        nr: 11,
-        title: 'Waistband ' + utils.capitalize(options.waistbandStyle) + ' Right',
+        nr: 12,
+        title: 'Waistband Right ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
         scale: 1 / 3,
-        rotation: titleRot,
       })
-      //fold line
-      if (options.waistbandFolded && options.waistbandStyle == 'straight') {
+      //foldline
+      if (waistbandFolded) {
         let foldlineFrom
         if (options.waistbandFishtail) {
-          foldlineFrom = points.fishtailRightEx
+          foldlineFrom = points.waistbandFishtailRight
         } else {
           foldlineFrom = new Point(points.waistbandTopMid.x, points.waistbandTopRightEx.y / 2)
         }
@@ -227,9 +159,106 @@ export const waistbandRight = {
           .attr('data-text', 'Fold - Line')
       }
       if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
+        if (options.waistbandFishtail) {
+          points.saWaistbandBottomMidNotch = utils.beamsIntersect(
+            paths.waistbandSeam.split(points.waistbandBottomRightNotch)[1].offset(sa).start(),
+            paths.waistbandSeam
+              .split(points.waistbandBottomRightNotch)[1]
+              .offset(sa)
+              .shiftFractionAlong(0.005),
+            points.waistbandFishtailRight
+              .shiftTowards(points.waistbandBottomRightNotch, sa)
+              .rotate(-90, points.waistbandFishtailRight),
+            points.waistbandBottomRightNotch
+              .shiftTowards(points.waistbandFishtailRight, sa)
+              .rotate(90, points.waistbandBottomRightNotch)
+          )
+          if (waistbandFolded) {
+            points.saWaistbandTopRightNotch = utils.beamsIntersect(
+              paths.waistbandSeam.split(points.waistbandTopRightNotch)[0].offset(sa).end(),
+              paths.waistbandSeam
+                .split(points.waistbandTopRightNotch)[0]
+                .offset(sa)
+                .shiftFractionAlong(0.995),
+              points.waistbandTopRightNotch
+                .shiftTowards(points.waistbandFishtailRight, sa)
+                .rotate(-90, points.waistbandTopRightNotch),
+              points.waistbandFishtailRight
+                .shiftTowards(points.waistbandTopRightNotch, sa)
+                .rotate(90, points.waistbandFishtailRight)
+            )
+            points.saWaistbandFishtailRight = utils.beamIntersectsY(
+              points.waistbandFishtailRight
+                .shiftTowards(points.waistbandBottomRightNotch, sa)
+                .rotate(-90, points.waistbandFishtailRight),
+              points.waistbandBottomRightNotch
+                .shiftTowards(points.waistbandFishtailRight, sa)
+                .rotate(90, points.waistbandBottomRightNotch),
+              points.waistbandFishtailRight.y
+            )
+          } else {
+            points.saWaistbandTopRightNotch = points.waistbandBottomRightNotch.shiftOutwards(
+              points.waistbandTopRightNotch,
+              sa
+            )
+            points.saWaistbandFishtailRight = utils.beamsIntersect(
+              points.waistbandFishtailRight
+                .shiftTowards(points.waistbandBottomRightNotch, sa)
+                .rotate(-90, points.waistbandFishtailRight),
+              points.waistbandBottomRightNotch
+                .shiftTowards(points.waistbandFishtailRight, sa)
+                .rotate(90, points.waistbandBottomRightNotch),
+              points.waistbandBottomRightNotch.shiftOutwards(points.waistbandTopRightNotch, sa),
+              points.waistbandBottomRightNotch
+                .shiftOutwards(points.waistbandTopRightNotch, sa)
+                .shift(
+                  points.waistbandBottomRightNotch.angle(points.waistbandTopRightNotch) + 90,
+                  1
+                )
+            )
+          }
+          paths.sa = paths.waistbandSeam
+            .split(points.waistbandBottomRightNotch)[1]
+            .split(points.waistbandBottomRight)[0]
+            .offset(sa)
+            .line(points.waistbandSaBottomRight)
+            .line(points.waistbandSaTopRight)
+            .join(
+              paths.waistbandSeam
+                .split(points.waistbandTopRight)[1]
+                .split(points.waistbandTopRightNotch)[0]
+                .offset(sa)
+            )
+            .line(points.saWaistbandTopRightNotch)
+            .line(points.saWaistbandFishtailRight)
+            .line(points.saWaistbandBottomMidNotch)
+            .close()
+            .attr('class', 'fabric sa')
+        } else {
+          points.saWaistbandBottomMid = points.waistbandBottomMid.translate(-sa, sa)
+          points.saWaistbandTopMid = points.waistbandTopMid.translate(-sa, -sa)
+
+          paths.sa = paths.waistbandSeam
+            .split(points.waistbandBottomMid)[1]
+            .split(points.waistbandBottomRight)[0]
+            .line(points.waistbandBottomRightEx)
+            .offset(sa)
+            .line(points.waistbandSaBottomRight)
+            .line(points.waistbandSaTopRight)
+            .join(
+              paths.waistbandSeam
+                .split(points.waistbandTopRight)[1]
+                .split(points.waistbandTopMid)[0]
+                .offset(sa)
+            )
+            .line(points.saWaistbandTopMid)
+            .line(points.saWaistbandBottomMid)
+            .close()
+            .attr('class', 'fabric sa')
+        }
       }
     }
+
     return part
   },
 }

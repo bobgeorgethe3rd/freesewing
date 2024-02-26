@@ -1,10 +1,10 @@
 import { pctBasedOn } from '@freesewing/core'
 import { beltLoops as draftBeltLoops } from '@freesewing/beltloops'
-import { frontBase } from './frontBase.mjs'
+import { flyShield } from './flyShield.mjs'
 
 export const beltLoops = {
   name: 'theobald.beltLoops',
-  after: frontBase,
+  after: flyShield,
   options: {
     //Imported
     ...draftBeltLoops.options,
@@ -36,8 +36,8 @@ export const beltLoops = {
 
     if (complete) {
       macro('title', {
-        nr: 15,
-        title: 'Belt Loops',
+        nr: 14,
+        title: 'Belt Loops ',
         at: points.title,
         scale: 0.1,
       })

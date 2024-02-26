@@ -1,51 +1,60 @@
-import { back as daltonBack } from '@freesewing/dalton'
+import { backBase as daltonBackBase } from '@freesewing/dalton'
 import { pctBasedOn } from '@freesewing/core'
-import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const backBase = {
   name: 'theobald.backBase',
-  from: daltonBack,
+  from: daltonBackBase,
   hide: {
     from: true,
   },
   options: {
     //Dalton
     //Constants
-    legBandWidth: 0, //locked for Theobald
-    waistbandFishtailAngle: 99.93963012477667,
+    useVoidStores: false, //Locked for Theobald
+    fitWaist: true, //Locked for Theobald
+    legBandWidth: {
+      pct: 0,
+      min: 0,
+      max: 0,
+      snap: 5,
+      ...pctBasedOn('waistToFloor'),
+    }, //locked for Theobald
+    calculateLegBandDiff: false, //Locked for Theobald
+    // waistbandFishtailAngle: 99.93963012477667,
     //Fit
-    waistEase: { pct: 15.6, min: 0, max: 20, menu: 'fit' }, //altered for Theobald
-    seatEase: { pct: 9.5, min: 0, max: 10, menu: 'fit' }, //altered for Theobald
-    kneeEase: { pct: 11.2, min: 0, max: 25, menu: 'fit' }, //altered for Theobald
-    heelEase: { pct: 15.1, min: -25, max: 25, menu: 'fit' }, //altered for Theobald
-    ankleEase: { pct: 22.3, min: 0, max: 25, menu: 'fit' }, //altered for Theobald
+    waistEase: { pct: 6.4, min: 0, max: 20, menu: 'fit' }, //Altered for Theobald
+    hipsEase: { pct: 5.9, min: 0, max: 20, menu: 'fit' }, //Altered for Theobald
+    seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' }, //Altered for Theobald
+    kneeEase: { pct: 13.2, min: 0, max: 20, menu: 'fit' }, //Altered for Theobald
+    fitGuides: { bool: false, menu: 'fit' }, //Altered for Theobald
     //Style
+    waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //Altered for Theobald
     waistbandWidth: {
-      pct: 4.2,
+      pct: 3.7,
       min: 1,
       max: 6,
       snap: 5,
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
-    }, // based on size 40 //altered for Theobald
-    waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //altered for Theobald
-    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'style' },
-    waistbandFishtail: { bool: true, menu: 'style' },
-    waistbandFishtailBack: { pct: 25, min: 10, max: 50, menu: 'style' },
-    waistbandFishtailExtension: { pct: 5.9, min: 3, max: 8, menu: 'style' },
+    }, //Altered for Theobald
+    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'style' }, //Altered for Theobald
+    waistbandFishtail: { bool: true, menu: 'style' }, //Altered for Theobald
+    waistbandFishtailAngle: { deg: 9.9, min: 0, max: 15, menu: 'style' }, //Altered for Theobald
+    waistbandFishtailBack: { pct: 25, min: 0, max: 50, menu: 'style' }, //Altered for Theobald
+    waistbandFishtailEmbedded: { bool: false, menu: 'style' }, //Altered for Theobald
+    waistbandFishtailExtension: { pct: 5.7, min: 4, max: 7, menu: 'style' }, //Altered for Theobald
+    // waistbandFishtailOffset: { pct: 1.1, min: 0, max: 2, menu: 'style' }, //Altered for Theobald
     //Darts
-    backDartWidth: { pct: 3, min: 1, max: 6, menu: 'darts' }, //altered for Theobald
-    // backDartDepth: { pct: 66.7, min: 45, max: 70, menu: 'darts' }, //altered for Theobald
+    backDartWidth: { pct: 3.2, min: 1, max: 6, menu: 'darts' }, //Altered for Theobald
+    backDartDepth: { pct: 95, min: 75, max: 100, menu: 'darts' }, //Altered for Darts
+    //Construction
+    crossSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Theobald
+    hemWidth: { pct: 5, min: 1, max: 5, menu: 'construction' }, //Altered for Theobald
+    inseamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Theobald
+    sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Theobald
     //Advanced
-    backDartMultiplier: { count: 1, min: 0, max: 2, menu: 'advanced' }, //altered for Theobald
-    waistbandFishtailOffset: { pct: (1 / 3) * 100, min: 0, max: (1 / 3) * 100, menu: 'advanced' },
-    //Waistbands
-    useVoidStores: false, //locked for Theobald
-    //Theobald
-    //Style
-    backHemDrop: { pct: 0.8, min: 0, max: 1.5, menu: 'style' },
+    backDartMultiplier: { count: 1, min: 0, max: 2, menu: 'advanced' }, //Altered for Theobald
   },
-  plugins: [pluginLogoRG],
   draft: ({
     store,
     sa,
@@ -64,93 +73,84 @@ export const backBase = {
     log,
     absoluteOptions,
   }) => {
-    //removing paths and snippets not required from Dalton
-    for (let i in paths) delete paths[i]
-    for (let i in snippets) delete snippets[i]
-    //removing macros not required from Dalton
-    macro('title', false)
-    macro('scalebox', false)
-    macro('logorg', false)
     //measurements
-    const backHemDrop = measurements.waistToFloor * options.backHemDrop
-    const waistbandWidth = absoluteOptions.waistbandWidth
-    //fishtail
+    const waistbandWidth = store.get('waistbandWidth')
+    const waistbandFishtailExtension =
+      measurements.waistToFloor * options.waistbandFishtailExtension
+    //let's begin
     if (options.waistbandFishtail) {
-      const waistbandFishtailBack = waistbandWidth * (1 + options.waistbandFishtailBack)
-      const waistAngle = points.styleWaistIn.angle(points.styleWaistOut)
-      const waistbandFishtailExtension =
-        measurements.waistToFloor * options.waistbandFishtailExtension
-      let waistbandFishtailMultiplier
-      if (options.backDartMultiplier == 0) {
-        waistbandFishtailMultiplier = 2
-      } else {
-        waistbandFishtailMultiplier = 1
-      }
-      points.waistbandFIn = points.styleWaistIn
-        .shiftTowards(points.styleWaistOut, waistbandFishtailBack)
-        .rotate(options.waistbandFishtailAngle, points.styleWaistIn)
-      points.waistbandFTop = points.waistbandFIn
-        .shift(waistAngle, waistbandFishtailExtension)
-        .shift(waistAngle + 90, waistbandFishtailExtension)
-      points.waistbandFOutAnchor = points.styleWaistOut
-        .shiftTowards(points.styleWaistIn, waistbandWidth)
-        .rotate(-90, points.styleWaistOut)
-      points.waistbandFOut = points.waistbandFOutAnchor.shiftTowards(
-        points.waistTopOut,
-        (points.dartIn.dist(points.dartOut) /
-          (1 + options.backDartMultiplier * options.waistHeight)) *
-          options.waistbandFishtailOffset
+      points.waistbandFIn = points.waistIn.shift(
+        points.waistIn.angle(points.waistOut) + 90 + options.waistbandFishtailAngle,
+        waistbandWidth * (1 + options.waistbandFishtailBack)
       )
-      points.waistbandFCp = utils.beamsIntersect(
-        points.waistbandFTop,
-        points.waistbandFIn.rotate(90, points.waistbandFTop),
-        points.waistTopIn,
-        points.waistTopOut
-      )
-      points.waistbandFSplit = utils.lineIntersectsCurve(
-        points.dartMid,
-        points.dartMid.shiftOutwards(points.waistTopMid, measurements.waistToFloor),
-        points.waistbandFOut,
-        points.waistbandFCp,
-        points.waistbandFTop,
-        points.waistbandFTop
-      )
-      //guides
-      // paths.waistbandFBackIn = new Path()
-      // .move(points.waistbandFOut)
-      // .curve_(points.waistbandFCp, points.waistbandFTop)
-      // .line(points.waistbandFIn)
-      // .line(points.styleWaistIn)
-      // .line(points.dartIn)
-      // .line(points.waistbandFSplit)
+      // points.waistbandFOut = points.waistOut
+      // .shift(points.waistOut.angle(points.waistIn), measurements.waist * options.waistbandFishtailOffset)
+      // .shift(points.waistOut.angle(points.waistIn) - 90, waistbandWidth)
 
-      // paths.waistbandFBackOut = new Path()
-      // .move(points.waistbandFSplit)
-      // .line(points.dartOut)
-      // .line(points.styleWaistOut)
-      // .line(points.waistbandFOut)
+      points.waistbandFOut = utils.beamsIntersect(
+        points.waistOut.shift(points.waistIn.angle(points.waistOut) + 90, waistbandWidth),
+        points.waistIn.shift(points.waistIn.angle(points.waistOut) + 90, waistbandWidth),
+        points.waistOut,
+        points.waistOut.shift(
+          points.waistIn.angle(points.waistOut) + 90 + options.waistbandFishtailAngle,
+          1
+        )
+      )
+
+      points.waistbandF = points.waistbandFIn
+        .shift(points.waistIn.angle(points.waistOut), waistbandFishtailExtension)
+        .shift(points.waistIn.angle(points.waistOut) + 90, waistbandFishtailExtension)
+      points.waistbandFOutCp2 = utils.beamsIntersect(
+        points.waistbandFOut,
+        points.waistbandFOut.shift(points.waistOut.angle(points.waistIn), 1),
+        points.waistbandF,
+        points.waistbandFIn.rotate(90, points.waistbandF)
+      )
+      points.waistbandFDart = utils.lineIntersectsCurve(
+        points.seatDart,
+        points.seatDart.shiftOutwards(points.dartMid, waistbandWidth + waistbandFishtailExtension),
+        points.waistbandFOut,
+        points.waistbandFOutCp2,
+        points.waistbandF,
+        points.waistbandF
+      )
+
+      //paths
+      paths.waistbandFCurve = new Path()
+        .move(points.waistbandFOut)
+        .curve_(points.waistbandFOutCp2, points.waistbandF)
+        .hide()
+
+      //guides
+      // paths.waistbandF = new Path()
+      // .move(points.waistOut)
+      // .join(paths.waistbandFCurve)
+      // .line(points.waistbandFIn)
+      // .line(points.waistIn)
+      // .move(points.dartOut)
+      // .line(points.waistbandFDart)
+      // .line(points.dartIn)
 
       //stores
-      store.set('waistbandFishtailOffset', points.waistbandFOutAnchor.dist(points.waistbandFOut))
+      store.set(
+        'waistbandFishtailOffset',
+        points.waistOut.dist(
+          utils.beamsIntersect(
+            points.waistbandFOut,
+            points.waistbandFOut.shift(points.waistOut.angle(points.waistIn) + 90, 1),
+            points.waistOut,
+            points.waistIn
+          )
+        )
+      )
+      if (complete && sa) {
+        points.saWaistbandF = points.waistbandF
+          .shift(points.waistbandFOutCp2.angle(points.waistbandF), sa)
+          .shift(points.waistbandFIn.angle(points.waistbandF), sa)
+      }
     }
+    store.set('waistbandMaxButtons', 1)
 
-    //hem
-    points.floor = points.floor.shift(-90, backHemDrop)
-    points.floorCp1 = points.floor.shift(180, points.floorOut.dist(points.floorIn) / 4)
-    points.floorCp2 = points.floor.shift(0, points.floorIn.dist(points.floorOut) / 4)
-    //guide
-    // paths.floorHem = new Path()
-    // .move(points.floorIn)
-    // ._curve(points.floorCp1, points.floor)
-    // .curve_(points.floorCp2, points.floorOut)
-
-    //stores
-    store.set(
-      'waistbandBack',
-      (points.styleWaistIn.dist(points.dartIn) + points.styleWaistOut.dist(points.dartOut)) * 2
-    )
-    store.set('waistBackTop', points.waistTopIn.dist(points.waistTopOut) * 2)
-    store.set('waistbandWidth', absoluteOptions.waistbandWidth)
     return part
   },
 }

@@ -31,56 +31,95 @@ export const waistbandFishtailRight = {
       return part
     }
     //removing paths and snippets not required from backBase
-    for (let i in paths) delete paths[i]
+    const keepThese = ['seam', 'waistbandFCurve']
+    for (const name in paths) {
+      if (keepThese.indexOf(name) === -1) delete paths[name]
+    }
+    if (options.daltonGuides) {
+      paths.daltonGuide = paths.seam.attr('class', 'various dashed')
+    }
     for (let i in snippets) delete snippets[i]
+    //remove macros
+    macro('scalebox', false)
     //let's begin
     //paths
-    paths.seam = new Path()
-      .move(points.waistbandFOut)
-      .curve_(points.waistbandFCp, points.waistbandFTop)
-      .split(points.waistbandFSplit)[0]
+    paths.seam = paths.waistbandFCurve
+      .split(points.waistbandFDart)[0]
       .line(points.dartOut)
-      .line(points.styleWaistOut)
+      .line(points.waistOut)
       .line(points.waistbandFOut)
       .close()
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.waistbandFOut.shiftFractionTowards(points.waistbandFCp, 0.5)
-      points.grainlineTo = utils.beamsIntersect(
-        points.grainlineFrom,
-        points.grainlineFrom.shift(points.waistbandFSplit.angle(points.dartMid), 1),
-        points.styleWaistIn,
-        points.styleWaistOut
+      points.grainlineTo = points.dartOut.shiftFractionTowards(points.waistOut, 0.25)
+      points.grainlineFrom = utils.beamsIntersect(
+        points.waistbandFOut,
+        points.waistbandFOut.shift(points.waistOut.angle(points.dartOut), 1),
+        points.grainlineTo,
+        points.grainlineTo.shift(points.dartOut.angle(points.waistOut) + 90, 1)
       )
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //title
-      let titlePrefix
-      if (options.waistbandFishtailEmbedded) {
-        titlePrefix = 'Facing '
-      } else {
-        titlePrefix = 'Waistband '
-      }
-
-      points.title = points.dartOut
-        .shiftFractionTowards(points.styleWaistOut, 0.55)
+      points.title = points.waistbandFDart
+        .shiftFractionTowards(points.waistbandFOut, 0.5)
         .shift(
-          points.dartMid.angle(points.waistbandFSplit),
-          points.dartMid.dist(points.waistbandFSplit) / 3
+          points.waistbandFOut.angle(points.waistOut),
+          points.waistbandFOut.dist(points.waistOut) * 0.75
         )
       macro('title', {
-        nr: 13,
-        title: titlePrefix + 'Fishtail Right',
+        nr: 14,
+        title: 'Waistband Fishtail Right',
         at: points.title,
-        scale: 1 / 3,
-        rotation: 90 - points.dartMid.angle(points.waistbandFSplit),
+        scale: 0.25,
+        rotation: 180 - points.waistOut.angle(points.dartOut),
       })
-
       if (sa) {
-        paths.sa = paths.seam.offset(sa).attr('class', 'fabric sa')
+        paths.saWaistbandFCurve = paths.waistbandFCurve
+          .split(points.waistbandFDart)[0]
+          .offset(sa)
+          .hide()
+
+        points.saWaistbandFDart = utils.beamsIntersect(
+          paths.saWaistbandFCurve.end(),
+          paths.saWaistbandFCurve.shiftFractionAlong(0.995),
+          points.waistbandFDart.shiftTowards(points.dartOut, sa).rotate(-90, points.waistbandFDart),
+          points.dartOut.shiftTowards(points.waistbandFDart, sa).rotate(90, points.dartOut)
+        )
+        points.saDartOut = utils.beamsIntersect(
+          points.waistbandFDart.shiftTowards(points.dartOut, sa).rotate(-90, points.waistbandFDart),
+          points.dartOut.shiftTowards(points.waistbandFDart, sa).rotate(90, points.dartOut),
+          points.dartOut.shiftTowards(points.waistOut, sa).rotate(-90, points.dartOut),
+          points.waistOut.shiftTowards(points.dartOut, sa).rotate(90, points.waistOut)
+        )
+        points.saWaistOut = utils.beamsIntersect(
+          points.saDartOut,
+          points.saDartOut.shift(points.dartOut.angle(points.waistOut), 1),
+          points.waistOut.shiftTowards(points.waistbandFOut, sa).rotate(-90, points.waistOut),
+          points.waistbandFOut.shiftTowards(points.waistOut, sa).rotate(90, points.waistbandFOut)
+        )
+        points.saWaistbandFOut = utils.beamsIntersect(
+          points.saWaistOut,
+          points.saWaistOut.shift(points.waistOut.angle(points.waistbandFOut), 1),
+          points.waistbandFOut
+            .shiftTowards(points.waistbandFOutCp2, sa)
+            .rotate(-90, points.waistbandFOut),
+          points.waistbandFOutCp2
+            .shiftTowards(points.waistbandFOut, sa)
+            .rotate(90, points.waistbandFOutCp2)
+        )
+
+        paths.sa = paths.saWaistbandFCurve
+          .line(points.saWaistbandFDart)
+          .line(points.saDartOut)
+          .line(points.saWaistOut)
+          .line(points.saWaistbandFOut)
+          .close()
+          .attr('class', 'fabric sa')
+          .unhide()
       }
     }
 

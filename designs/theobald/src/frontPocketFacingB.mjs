@@ -21,82 +21,71 @@ export const frontPocketFacingB = {
     Snippet,
     absoluteOptions,
   }) => {
-    //set Render
+    //setRender
     if (!options.frontPocketsBool || options.frontPocketOpeningStyle != 'slanted') {
       part.hide()
       return part
     }
-    //delete paths
-    for (let i in paths) delete paths[i]
+    //remove paths & snippets
+    const deleteThese = ['seam', 'sa', 'outseam', 'foldline', 'grainline']
+    for (const p of deleteThese) {
+      delete paths[p]
+    }
     for (let i in snippets) delete snippets[i]
+    //remove macros
     macro('title', false)
-    //measurements
-    const suffix = store.get('frontPleatSuffix')
     //let's begin
     //paths
-    paths.saBottom = new Path()
-      .move(points['frontPocketOpeningOut' + suffix])
-      .curve_(points['frontPocketCp1' + suffix], points['frontPocketBottomLeft' + suffix])
-      .hide()
-
-    paths.saBase = new Path()
-      .move(points['frontPocketBottomLeft' + suffix])
-      .line(points['frontPocketFacingWaist' + suffix])
-      .line(points['frontPocketOpeningWaist' + suffix])
-      .line(points['frontPocketOpeningOut' + suffix])
-      .hide()
-
-    paths.seam = paths.saBottom.join(paths.saBase).close()
+    paths.seam = paths.curve
+      .clone()
+      .line(points.frontPocketFacingOut)
+      .join(
+        paths.waist.split(points.frontPocketFacingOut)[1].split(points.frontPocketOpeningWaist)[0]
+      )
+      .line(points.frontPocketOpeningOut)
+      .close()
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points['frontPocketOpeningWaist' + suffix].shiftFractionTowards(
-        points['frontPocketFacingWaist' + suffix],
-        0.5
+      points.grainlineTo = new Point(
+        (points.frontPocketOpeningOutCp2.x + points.frontPocketBottomLeft.x) / 2,
+        points.frontPocketOpeningOutCp2.y
       )
-      points.grainlineTo = utils.beamsIntersect(
-        points.grainlineFrom,
-        points.grainlineFrom.shift(
-          points['frontPocketWaist' + suffix].angle(points['frontPocketBottom' + suffix]),
-          1
-        ),
-        points['frontPocketBottomLeft' + suffix],
-        points['frontPocketFacingWaist' + suffix]
-      )
+      points.grainlineFrom = new Point(points.grainlineTo.x, points.frontPocketOpeningOut.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //notches
-      snippets.frontPocketOpeningOut = new Snippet(
-        'notch',
-        points['frontPocketOpeningOut' + suffix]
-      )
+      snippets.frontPocketOpeningOut = new Snippet('notch', points.frontPocketOpeningOut)
       //title
-      points.title = points['frontPocketOpeningOut' + suffix].shift(
-        points['styleWaistOut' + suffix].angle(points['styleWaistIn' + suffix]),
-        points['frontPocketOpeningWaist' + suffix].dist(points['frontPocketFacingWaist' + suffix]) /
-          4
+      points.title = new Point(
+        points.frontPocketOpeningWaist.x * 0.99,
+        (points.seatOutCp1.y + points.waistOut.y) / 2
       )
-
       macro('title', {
         nr: '6b',
         title: 'Front Pocket Facing B',
         at: points.title,
         scale: 0.2,
-        rotation:
-          90 - points['frontPocketBottom' + suffix].angle(points['frontPocketWaist' + suffix]),
       })
-
       if (sa) {
-        paths.sa = paths.saBottom
+        paths.sa = paths.curve
           .offset(sa * options.frontPocketBagSaWidth * 100)
-          .join(paths.saBase.offset(sa))
+          .line(points.saFrontBottomLeftFacing)
+          .line(points.saFrontPocketFacingOut)
+          .join(
+            paths.waist
+              .split(points.frontPocketFacingOut)[1]
+              .split(points.frontPocketOpeningWaist)[0]
+              .offset(sa)
+          )
+          .line(points.saFrontPocketOpeningWaist)
+          .line(points.saFrontPocketOpeningOut)
           .close()
           .attr('class', 'fabric sa')
       }
     }
-
     return part
   },
 }

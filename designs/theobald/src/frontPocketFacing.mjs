@@ -21,87 +21,67 @@ export const frontPocketFacing = {
     Snippet,
     absoluteOptions,
   }) => {
-    //set Render
+    //setRender
     if (!options.frontPocketsBool) {
       part.hide()
       return part
     }
-    //Keep paths
-    const keepThese = ['outSeam', 'outSeamR']
-    for (const name in paths) {
-      if (keepThese.indexOf(name) === -1) delete paths[name]
+    //remove paths & snippets
+    const deleteThese = ['seam', 'sa', 'foldline', 'grainline']
+    for (const p of deleteThese) {
+      delete paths[p]
     }
     for (let i in snippets) delete snippets[i]
+    //remove macros
     macro('title', false)
-    //measurements
-    const suffix = store.get('frontPleatSuffix')
     //let's begin
     //paths
-
-    paths.saBottom = new Path()
-      .move(points['frontPocketOpeningOut' + suffix])
-      .curve_(points['frontPocketCp1' + suffix], points['frontPocketBottomLeft' + suffix])
-      .hide()
-
-    paths.saBase = new Path()
-      .move(points['frontPocketBottomLeft' + suffix])
-      .line(points['frontPocketFacingWaist' + suffix])
-      .line(points['styleWaistOut' + suffix])
-      .hide()
-
-    paths.seam = paths['outSeam' + suffix].join(paths.saBottom).join(paths.saBase).close()
+    paths.seam = paths.curve
+      .clone()
+      .line(points.frontPocketFacingOut)
+      .join(paths.waist.split(points.frontPocketFacingOut)[1])
+      .join(paths.outSeam)
+      .close()
 
     if (complete) {
       //grainline
-      points.grainlineTo = points['frontPocketBottomLeft' + suffix]
-      points.grainlineFrom = utils.beamsIntersect(
-        points.grainlineTo,
-        points.grainlineTo.shift(
-          points['frontPocketBottom' + suffix].angle(points['frontPocketWaist' + suffix]),
-          1
-        ),
-        points['styleWaistOut' + suffix],
-        points['styleWaistIn' + suffix]
+      points.grainlineTo = new Point(
+        (points.frontPocketOpeningOutCp2.x + points.frontPocketBottomLeft.x) / 2,
+        points.frontPocketOpeningOutCp2.y
       )
+      points.grainlineFrom = new Point(points.grainlineTo.x, points.waistOut.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //notches
-      snippets.frontPocketOpeningOut = new Snippet(
-        'notch',
-        points['frontPocketOpeningOut' + suffix]
-      )
-      if (options.frontPocketOpeningStyle == 'inseam') {
-        snippets.frontPocketOpening = new Snippet('notch', points['frontPocketOpening' + suffix])
-      }
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['frontPocketOpeningOutTop', 'frontPocketOpeningOut'],
+      })
       //title
-      let titleSuffix
-      if (options.frontPocketOpeningStyle == 'slanted') {
-        titleSuffix = 'a'
-      } else {
-        titleSuffix = ''
-      }
-      points.title = points.title.shiftFractionTowards(points['styleWaistOut' + suffix], 0.4)
+      points.title = new Point(
+        points.frontPocketOpeningWaist.x * 0.99,
+        (points.seatOutCp1.y + points.waistOut.y) / 2
+      )
       macro('title', {
-        nr: 6 + titleSuffix,
-        title: 'Front Pocket Facing ' + utils.capitalize(titleSuffix),
+        nr: '6',
+        title: 'Front Pocket Facing',
         at: points.title,
         scale: 0.2,
-        rotation:
-          90 - points['frontPocketBottom' + suffix].angle(points['frontPocketWaist' + suffix]),
       })
-
       if (sa) {
-        paths.sa = paths['outSeam' + suffix]
-          .offset(sa * options.outSeamSaWidth * 100)
-          .join(paths.saBottom.offset(sa * options.frontPocketBagSaWidth * 100))
-          .join(paths.saBase.offset(sa))
+        paths.sa = paths.curve
+          .offset(sa * options.frontPocketBagSaWidth * 100)
+          .line(points.saFrontBottomLeftFacing)
+          .line(points.saFrontPocketFacingOut)
+          .join(paths.waist.split(points.frontPocketFacingOut)[1].offset(sa))
+          .line(points.saWaistOut)
+          .join(paths.outSeam.offset(sa * options.sideSeamSaWidth * 100))
           .close()
           .attr('class', 'fabric sa')
       }
     }
-
     return part
   },
 }

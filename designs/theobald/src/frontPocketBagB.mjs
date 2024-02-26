@@ -21,94 +21,60 @@ export const frontPocketBagB = {
     Snippet,
     absoluteOptions,
   }) => {
-    //set Render
+    //setRender
     if (
       !options.frontPocketsBool ||
-      options.frontPocketOpeningStyle != 'slanted' ||
-      options.frontPocketStyle == 'pear'
+      options.frontPocketStyle != 'original' ||
+      options.frontPocketOpeningStyle != 'slanted'
     ) {
       part.hide()
       return part
     }
-    //removing paths and snippets not required from Dalton
-    const keepThese = ['grainline']
-    for (const name in paths) {
-      if (keepThese.indexOf(name) === -1) delete paths[name]
+    //remove paths & snippets
+    const deleteThese = ['seam', 'sa', 'foldline']
+    for (const p of deleteThese) {
+      delete paths[p]
     }
     for (let i in snippets) delete snippets[i]
-    //measures
-    const suffix = store.get('frontPleatSuffix')
+    //remove macros
+    macro('title', false)
     //let's begin
     //paths
-
-    paths.saWaist = new Path()
-      .move(points['frontPocketOgWaist' + suffix])
-      .line(points['frontPocketOpeningWaist' + suffix])
-      .line(points['frontPocketOpeningOut' + suffix])
-      .hide()
-
-    paths.saBottomLeft = new Path()
-      .move(points['frontPocketOpeningOut' + suffix])
-      .curve_(points['frontPocketCp1' + suffix], points['frontPocketBottomLeft' + suffix])
-      .curve(
-        points['frontPocketCp2' + suffix],
-        points['frontPocketCp3' + suffix],
-        points['frontPocketBottom' + suffix]
-      )
-      .hide()
-
-    paths.saBottomRight = new Path()
-      .move(points['frontPocketBottom' + suffix])
-      .curve(
-        points['frontPocketCp4' + suffix],
-        points['frontPocketCp5' + suffix],
-        points['frontPocketBottomRight' + suffix]
-      )
-      .hide()
-
-    paths.saRight = new Path()
-      .move(points['frontPocketBottomRight' + suffix])
-      .line(points['frontPocketOgWaist' + suffix])
-      .hide()
-
-    paths.seam = paths.saBottomLeft
+    paths.seam = paths.saBase
       .clone()
-      .join(paths.saBottomRight)
-      .join(paths.saRight)
-      .join(paths.saWaist)
+      .line(points.frontPocketOut)
+      .join(paths.waist.split(points.frontPocketOut)[1].split(points.frontPocketOpeningWaist)[0])
+      .line(points.frontPocketOpeningOut)
       .close()
 
     if (complete) {
       //notches
-      snippets.frontPocketOpeningOut = new Snippet(
-        'notch',
-        points['frontPocketOpeningOut' + suffix]
-      )
+      snippets.frontPocketOpeningOut = new Snippet('notch', points.frontPocketOpeningOut)
       //title
       macro('title', {
-        nr: '7b',
+        nr: '5b',
         title: 'Front Pocket Bag B',
         at: points.title,
         scale: 0.5,
-        rotation:
-          90 - points['frontPocketBottom' + suffix].angle(points['frontPocketWaist' + suffix]),
+        rotation: 90 - points.frontPocketBottomMid.angle(points.frontPocketWaist),
       })
-
       if (sa) {
-        paths.sa = paths.saBottomLeft
+        paths.sa = paths.saBase
           .offset(sa * options.frontPocketBagSaWidth * 100)
-          .curve(
-            points['frontPocketCp4Sa' + suffix],
-            points['frontPocketCp5Sa' + suffix],
-            points['frontPocketBottomRightSa' + suffix]
+          .line(points.saFrontPocketBottomOut)
+          .line(points.saFrontPocketOut)
+          .join(
+            paths.waist
+              .split(points.frontPocketOut)[1]
+              .split(points.frontPocketOpeningWaist)[0]
+              .offset(sa)
           )
-          .join(paths.saRight.offset(sa * options.crotchSeamSaWidth * 100))
-          .join(paths.saWaist.offset(sa))
+          .line(points.saFrontPocketOpeningWaist)
+          .line(points.saFrontPocketOpeningOut)
           .close()
           .attr('class', 'fabric sa')
       }
     }
-
     return part
   },
 }
