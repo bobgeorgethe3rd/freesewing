@@ -45,6 +45,7 @@ export const sideFront = {
         title: 'Side Front',
         at: points.title,
         rotation: 90 - points.hemD.angle(points.origin),
+        scale: 0.5,
       })
 
       if (sa) {

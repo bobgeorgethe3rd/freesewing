@@ -82,6 +82,7 @@ export const backPanel = {
         title: 'Back Panel',
         at: points.title,
         rotation: 90 - points.hemY.angle(points.origin),
+        scale: 0.5,
       })
       //facings
       points.hemFacingY = points.hemY.shiftTowards(points.waistF, skirtHemFacingWidth)

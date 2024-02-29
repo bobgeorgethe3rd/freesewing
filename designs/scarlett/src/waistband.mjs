@@ -50,7 +50,7 @@ export const waistband = {
         at: points.title,
         nr: 9,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
-        scale: 1 / 3,
+        scale: 0.25,
       })
 
       if (options.waistbandStyle == 'straight' || !measurements.waistToHips || !measurements.hips) {

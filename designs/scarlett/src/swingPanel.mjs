@@ -78,6 +78,7 @@ export const swingPanel = {
         nr: 1,
         title: 'Swing Panel',
         at: points.title,
+        scale: 0.5,
       })
       //facings
       paths.hemFacing = new Path()

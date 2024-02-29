@@ -52,6 +52,14 @@ export const waistband = {
     const fullWaist = store.get('fullWaist')
 
     if (complete) {
+      //title
+      macro('title', {
+        nr: 8,
+        title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
+        at: points.title,
+        scale: 0.1,
+      })
+      //placement lines
       if (options.waistbandStyle == 'straight' || !measurements.waistToHips || !measurements.hips) {
         if (options.seams == 'none' || options.seams == 'sideFront') {
           if (options.closurePosition != 'back') {
@@ -345,13 +353,6 @@ export const waistband = {
           paths.waistbandLeftEx.attr('data-text', 'Side Back', true)
         }
       }
-      //title
-      macro('title', {
-        nr: 8,
-        title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
-        at: points.title,
-        scale: 0.1,
-      })
     }
     return part
   },

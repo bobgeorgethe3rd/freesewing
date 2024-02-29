@@ -119,6 +119,7 @@ export const sideFront = {
         title: titleName,
         at: points.title,
         rotation: 90 - points.hemD.angle(points.origin),
+        scale: 0.5,
       })
       //facings
       let hemFacingSplit

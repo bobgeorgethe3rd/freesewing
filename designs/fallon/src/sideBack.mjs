@@ -90,6 +90,7 @@ export const sideBack = {
         title: 'Side Back',
         at: points.title,
         rotation: 90 - points.hemE.angle(points.origin),
+        scale: 0.5,
       })
       //facings
       paths.hemFacing = new Path()

@@ -144,6 +144,7 @@ export const sidePanel = {
         title: titleName,
         at: points.title,
         rotation: 90 - points.hemE.angle(points.origin),
+        scale: 0.5,
       })
       //facings
       points.hemFacingE = points.hemE.shiftTowards(points.waistE, store.get('skirtHemFacingWidth'))

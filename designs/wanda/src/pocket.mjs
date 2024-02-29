@@ -56,7 +56,7 @@ export const pocket = {
         nr: 6,
         title: utils.capitalize(options.pocketStyle) + ' Pocket',
         at: points.title,
-        scale: 0.75,
+        scale: 0.5,
       })
     }
     return part

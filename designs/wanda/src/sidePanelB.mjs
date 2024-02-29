@@ -83,6 +83,7 @@ export const sidePanelB = {
         title: titleName,
         at: points.title,
         rotation: 90 - points.hemF.angle(points.origin),
+        scale: 0.5,
       })
       //facings
       paths.hemFacing = new Path()

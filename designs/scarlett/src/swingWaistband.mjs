@@ -76,7 +76,7 @@ export const swingWaistband = {
         at: points.title,
         nr: 11,
         title: 'Swing  Waistband',
-        scale: 1 / 3,
+        scale: 0.25,
       })
       //paths
       paths.centreFront = new Path()

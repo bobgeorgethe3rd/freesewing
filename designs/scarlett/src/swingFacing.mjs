@@ -114,7 +114,7 @@ export const swingFacing = {
         title: 'Swing Facing',
         at: points.title,
         rotation: points.swingDLeft.angle(points.dartTipD) * -1 - 270,
-        scale: 0.25,
+        scale: 0.2,
       })
       if (sa) {
         paths.sa = paths.saBase

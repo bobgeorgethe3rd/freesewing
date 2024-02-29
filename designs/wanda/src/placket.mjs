@@ -69,7 +69,7 @@ export const placket = {
         nr: '5',
         title: 'Placket',
         at: points.title,
-        scale: 1 / 3,
+        scale: 0.15,
       })
 
       if (sa) {

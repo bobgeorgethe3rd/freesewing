@@ -111,20 +111,30 @@ export const centreFront = {
         titleNum = 1
       } else titleNum = '1a'
       //title
-      points.title = new Point(points.waist0Left.x * 1.05, points.cfHem.y * 0.6)
+      points.title = new Point(
+        points.waist0Left.x * 1.05,
+        points.cfWaist.y + points.cfWaist.dy(points.cfHem) * 0.2
+      )
       macro('title', {
         nr: titleNum,
         title: 'Centre Front',
         at: points.title,
+        scale: 0.5,
       })
       //logo
-      points.logo = new Point(points.waist0LeftCp1.x, points.cfHem.y * 0.7)
+      points.logo = new Point(
+        points.waist0LeftCp1.x,
+        points.cfWaist.y + points.cfWaist.dy(points.cfHem) * 0.4
+      )
       macro('logorg', {
         at: points.logo,
-        scale: 0.75,
+        scale: 0.5,
       })
       //scalebox
-      points.scalebox = new Point(points.waist0LeftCp1.x, points.cfHem.y * 0.8)
+      points.scalebox = new Point(
+        points.waist0LeftCp1.x,
+        points.cfWaist.y + points.cfWaist.dy(points.cfHem) * 0.6
+      )
       macro('scalebox', {
         at: points.scalebox,
       })

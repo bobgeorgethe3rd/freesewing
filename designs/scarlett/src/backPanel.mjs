@@ -106,6 +106,7 @@ export const backPanel = {
         title: 'Back Panel',
         at: points.title,
         rotation: 90 - points.hemK.angle(points.origin),
+        scale: 0.5,
       })
       //facings
       const skirtHemFacingWidth = store.get('skirtHemFacingWidth')
