@@ -27,7 +27,7 @@ export const backBase = {
     useHeel: { bool: true, menu: 'style' },
     crotchDrop: { pct: 2, min: 0, max: 15, menu: 'style' },
     waistHeight: { pct: 100, min: 0, max: 100, menu: 'style' },
-    legLengthBonus: { pct: -5, min: -20, max: 20, menu: 'style' },
+    legLengthBonus: { pct: 2, min: -20, max: 20, menu: 'style' },
     //Darts
     backDartPlacement: { pct: 62.5, min: 40, max: 70, menu: 'darts' },
     backDartWidth: { pct: 3.2, min: 0, max: 6, menu: 'darts' },
