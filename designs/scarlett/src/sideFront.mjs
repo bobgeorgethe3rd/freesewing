@@ -51,16 +51,16 @@ export const sideFront = {
       if (sa) {
         const hemSa = sa * options.skirtHemWidth * 100
         const sideFrontSa = store.get('sideFrontSa')
-
-        paths.hemFacingSa = paths.hemBase
-          .clone()
-          .offset(hemSa)
-          .join(new Path().move(points.hemD).line(points.hemFacingD).offset(sideFrontSa))
-          .join(paths.hemFacing.reverse().offset(sa))
-          .join(new Path().move(paths.hemFacing.start()).line(points.hemE).offset(sa))
-          .close()
-          .attr('class', 'interfacing sa')
-
+        if (options.skirtHemFacings) {
+          paths.hemFacingSa = paths.hemBase
+            .clone()
+            .offset(hemSa)
+            .join(new Path().move(points.hemD).line(points.hemFacingD).offset(sideFrontSa))
+            .join(paths.hemFacing.reverse().offset(sa))
+            .join(new Path().move(paths.hemFacing.start()).line(points.hemE).offset(sa))
+            .close()
+            .attr('class', 'interfacing sa')
+        }
         if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .clone()

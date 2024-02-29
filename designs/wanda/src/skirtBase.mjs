@@ -5,14 +5,28 @@ export const skirtBase = {
   name: 'wanda.skirtBase',
   options: {
     //Constants
+    closureSaWidth: 0.01,
     cpFraction: 0.55191502449,
-    sideWaistFront: 4, //just in case we want a different size side front panel
     fullDress: false, //This allows for the skirtBase to be extended out and used for Diagram 77, "The Full Dress Skirt" Fallon
     sidePanelFullness: 3 / 8, //This is changed to an optional optional for 50% to 75% for Diagram 77, "The Full Dress Skirt" Fallon
+    sideSeamSaWidth: 0.01,
+    sideWaistFront: 4, //just in case we want a different size side front panel
     useVoidStores: false, //locked for Wanda
     //Fit
     waistEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
+    wandaGuides: { bool: false, menu: 'fit' },
     //Style
+    pleatNumber: { count: 3, min: 1, max: 10, menu: 'style' },
+    pleats: { bool: true, menu: 'style' },
+    skirtLengthBonus: { pct: -2, min: -30, max: 10, menu: 'style' },
+    style: { dflt: 'bell', list: ['straight', 'bell', 'umbrella'], menu: 'style' },
+    umbrellaExtenstion: { pct: (1 / 16) * 100, min: 6, max: 10, menu: 'style' },
+    umbrellaFullness: { pct: (5 / 12) * 100, min: 40, max: 50, menu: 'style' },
+    waistbandStyle: {
+      dflt: 'straight',
+      list: ['straight', 'curved', 'none'],
+      menu: 'style',
+    },
     waistbandWidth: {
       pct: 1.25,
       min: 1,
@@ -21,30 +35,32 @@ export const skirtBase = {
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     },
-    waistbandStyle: {
-      dflt: 'straight',
-      list: ['straight', 'curved', 'none'],
-      menu: 'style',
-    },
-    skirtLengthBonus: { pct: -2, min: -30, max: 10, menu: 'style' },
-    umbrellaFullness: { pct: (5 / 12) * 100, min: 40, max: 50, menu: 'style' },
-    umbrellaExtenstion: { pct: (1 / 16) * 100, min: 6, max: 10, menu: 'style' },
-    pleats: { bool: true, menu: 'style' },
-    pleatNumber: { count: 3, min: 1, max: 10, menu: 'style' },
     //Darts
+    dartExtension: { pct: 0.75, min: 0.5, max: 1, menu: 'darts' },
+    dartLength: { pct: (9 / 80) * 100, min: (1 / 10) * 100, max: (3 / 20) * 100, menu: 'darts' },
     frontDartWidth: {
       pct: (1 / 24) * 100,
       min: (1 / 32) * 100,
       max: (5 / 96) * 100,
       menu: 'darts',
     },
-    sideDartWidth: { pct: (1 / 24) * 100, min: (1 / 32) * 100, max: (5 / 96) * 100, menu: 'darts' },
     hipDartWidth: { pct: (5 / 96) * 100, min: (1 / 32) * 100, max: (1 / 16) * 100, menu: 'darts' },
-    dartLength: { pct: (9 / 80) * 100, min: (1 / 10) * 100, max: (3 / 20) * 100, menu: 'darts' },
-    dartExtension: { pct: 0.75, min: 0.5, max: 1, menu: 'darts' },
+    sideDartWidth: { pct: (1 / 24) * 100, min: (1 / 32) * 100, max: (5 / 96) * 100, menu: 'darts' },
     //Construction
-    skirtWaistFacingWidth: { pct: 25, min: 0, max: 50, menu: 'construction' },
+    cbSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
+    closurePosition: {
+      dflt: 'back',
+      list: ['back', 'sideLeft', 'sideRight', 'front'],
+      menu: 'construction',
+    },
+    frontDart: { dflt: 'dart', list: ['seam', 'dart'], menu: 'construction' },
+    sideDart: { dflt: 'dart', list: ['seam', 'dart'], menu: 'construction' },
+    skirtHemFacings: { bool: true, menu: 'construction' },
     skirtHemFacingWidth: { pct: (11 / 40) * 100, min: 20, max: 35, menu: 'construction' },
+    skirtHemWidth: { pct: 2, min: 0, max: 10, menu: 'construction' },
+    skirtWaistFacingWidth: { pct: 25, min: 0, max: 50, menu: 'construction' },
+    waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
     //Advanced
     calculateWaistbandDiff: { bool: false, menu: 'advanced.fit' },
   },
@@ -120,22 +136,12 @@ export const skirtBase = {
     points.waistCorner = new Point(points.waistEnd.x, points.cfWaist.y)
     points.waistCp1 = points.cfWaist.shiftFractionTowards(points.waistCorner, options.cpFraction)
     points.waistCp2 = points.waistEnd.shiftFractionTowards(points.waistCorner, options.cpFraction)
-    paths.waistGuide = new Path()
-      .move(points.cfWaist)
-      .curve(points.waistCp1, points.waistCp2, points.waistEnd)
-      .attr('class', 'various')
-    //.hide()
 
     //hem guide
     points.hemEnd = points.origin.shiftOutwards(points.waistEnd, frontLength)
     points.hemCorner = new Point(points.hemEnd.x, points.cfHem.y)
     points.hemCp1 = points.cfHem.shiftFractionTowards(points.hemCorner, options.cpFraction)
     points.hemCp2 = points.hemEnd.shiftFractionTowards(points.hemCorner, options.cpFraction)
-    paths.hemGuide = new Path()
-      .move(points.cfHem)
-      .curve(points.hemCp1, points.hemCp2, points.hemEnd)
-      .attr('class', 'various')
-      .hide()
 
     //front darts
     const sideWaistFront = waist / options.sideWaistFront
@@ -462,7 +468,7 @@ export const skirtBase = {
       paths.umbrellaHemGuide = new Path()
         .move(points.hemL)
         .curve(points.hemLCp1, points.hemEndCp2, points.hemEnd)
-      //.hide()
+
       points.hemM = paths.umbrellaHemGuide.shiftAlong(backFullness)
       points.hemN = points.waistA.shiftOutwards(points.hemM, umbrellaExtenstion)
       points.hemNCp2 = utils.beamsIntersect(
@@ -559,35 +565,36 @@ export const skirtBase = {
       // .curve(points.waistFacing6UCp2, points.waistFacingFCp1, points.waistFacingF)
     }
 
-    points.hemFacingK = points.hemK.shiftTowards(points.origin, skirtHemFacingWidth)
-    points.hemFacingF = points.hemF.shiftTowards(points.origin, skirtHemFacingWidth)
-    points.hemFacingE = points.hemE.shiftTowards(points.origin, skirtHemFacingWidth)
-    points.hemFacingD = points.hemD.shiftTowards(points.origin, skirtHemFacingWidth)
-    points.hemFacingDCp2 = utils.beamsIntersect(
-      points.hemDCp1,
-      points.origin,
-      points.hemFacingD,
-      points.origin.rotate(90, points.hemFacingD)
-    )
-    points.hemFacingECp1 = utils.beamsIntersect(
-      points.hemECp2,
-      points.origin,
-      points.hemFacingE,
-      points.origin.rotate(-90, points.hemFacingE)
-    )
-    points.hemFacingFCp2 = utils.beamsIntersect(
-      points.hemFCp1,
-      points.origin,
-      points.hemFacingF,
-      points.origin.rotate(90, points.hemFacingF)
-    )
-    points.hemFacingKCp1 = utils.beamsIntersect(
-      points.hemKCp2,
-      points.origin,
-      points.hemFacingK,
-      points.origin.rotate(-90, points.hemFacingK)
-    )
-
+    if (options.skirtHemFacings) {
+      points.hemFacingK = points.hemK.shiftTowards(points.origin, skirtHemFacingWidth)
+      points.hemFacingF = points.hemF.shiftTowards(points.origin, skirtHemFacingWidth)
+      points.hemFacingE = points.hemE.shiftTowards(points.origin, skirtHemFacingWidth)
+      points.hemFacingD = points.hemD.shiftTowards(points.origin, skirtHemFacingWidth)
+      points.hemFacingDCp2 = utils.beamsIntersect(
+        points.hemDCp1,
+        points.origin,
+        points.hemFacingD,
+        points.origin.rotate(90, points.hemFacingD)
+      )
+      points.hemFacingECp1 = utils.beamsIntersect(
+        points.hemECp2,
+        points.origin,
+        points.hemFacingE,
+        points.origin.rotate(-90, points.hemFacingE)
+      )
+      points.hemFacingFCp2 = utils.beamsIntersect(
+        points.hemFCp1,
+        points.origin,
+        points.hemFacingF,
+        points.origin.rotate(90, points.hemFacingF)
+      )
+      points.hemFacingKCp1 = utils.beamsIntersect(
+        points.hemKCp2,
+        points.origin,
+        points.hemFacingK,
+        points.origin.rotate(-90, points.hemFacingK)
+      )
+    }
     //adding dart tops for seam paths
     points.dartTopD = utils.beamsIntersect(
       points.waist0LeftCp1,
@@ -735,7 +742,75 @@ export const skirtBase = {
 
     store.set('anchorSeamLength', fullWaist / 2)
     store.set('insertSeamLength', measurements.waistToFloor)
+    //wanda guides
+    paths.wandaGuide = new Path()
+      .move(points.cfHem)
+      .curve(points.hemCp1, points.hemCp2, points.hemEnd)
+      .offset(skirtHemFacingWidth)
+      .move(points.cfWaist)
+      .curve(points.waistCp1, points.waistCp2, points.waistEnd)
+      .move(points.cfHem)
+      .curve(points.hemCp1, points.hemCp2, points.hemEnd)
+      .move(points.origin)
+      .line(points.cfHem)
+      .move(points.origin)
+      .line(points.hemD)
+      .move(points.origin)
+      .line(points.hemE)
+      .move(points.origin)
+      .line(points.hemF)
+      .move(points.origin)
+      .line(points.hemK)
+      .attr('class', 'various')
 
+    if (!options.fullDress) {
+      paths.wandaGuide
+        .move(points.waistA)
+        .line(points.hemL)
+        .move(points.waistA)
+        .line(points.hemN)
+        .move(points.hemK)
+        .curve(points.hemKCp1U, points.hemNCp2, points.hemN)
+
+      //needed for Scarlett
+      paths.umbrellaHem = new Path()
+        .move(points.hemK)
+        .curve(points.hemKCp1U, points.hemNCp2, points.hemN)
+    }
+
+    if (complete && sa) {
+      const closureSa = sa * options.closureSaWidth * 100
+
+      let cfSa = sa * options.cfSaWidth * 100
+      if (options.closurePosition == 'front') {
+        cfSa = closureSa
+      }
+
+      let cbSa = sa * options.cbSaWidth * 100
+      if (options.closurePosition == 'back') {
+        cbSa = closureSa
+      }
+
+      let sideSeamSa = sa * options.sideSeamSaWidth * 100
+      if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
+        sideSeamSa = closureSa
+      }
+
+      let hemSa = sa * options.skirtHemWidth * 100
+      if (options.skirtHemFacings) {
+        hemSa = sa
+      }
+
+      points.saCfHem = points.cfHem.translate(cfSa, hemSa)
+      points.saCfWaist = points.cfWaist.translate(cfSa, -sa)
+      points.saWaist1Left = points.waist1Left
+        .shift(points.waist1LeftCp2.angle(points.waist1Left), sa)
+        .shift(points.waist1LeftCp1.angle(points.waist1Left), sideSeamSa)
+
+      points.saHemE = points.hemE
+        .shift(points.dartTipE.angle(points.hemE), hemSa)
+        .shift(points.hemECp2.angle(points.hemE), sideSeamSa)
+    }
     //Uncomment to see how the scaffolding. Helpful if re-working please keep.
     paths.cfWaist = new Path()
       .move(points.cfWaist)
@@ -767,18 +842,6 @@ export const skirtBase = {
       .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
       .curve(points.dartTipFCp, points.waist3RightCp1, points.waist3Right)
 
-    paths.originLines = new Path()
-      .move(points.cfHem)
-      .line(points.origin)
-      .line(points.hemD)
-      .line(points.origin)
-      .line(points.hemE)
-      .line(points.origin)
-      .line(points.hemF)
-      .line(points.origin)
-      .line(points.hemK)
-      .attr('class', 'various')
-
     paths.frontHem = new Path()
       .move(points.hemE)
       .curve(points.hemECp2, points.hemDCp1, points.hemD)
@@ -790,25 +853,24 @@ export const skirtBase = {
       .curve(points.hemFCp2, points.hemECp1, points.hemE)
 
     if (!options.fullDress) {
-      paths.lineAN = new Path().move(points.waistA).line(points.hemN).attr('class', 'fabric help')
-
-      paths.lineGU = new Path().move(points.waistG).line(points.hemU).attr('class', 'fabric help')
-
-      paths.lineAL = new Path().move(points.waistA).line(points.hemL).attr('class', 'fabric help')
-
-      paths.umbrellaHem = new Path()
-        .move(points.hemK)
-        .curve(points.hemKCp1U, points.hemNCp2, points.hemN)
+      paths.skirtLines = new Path()
+        .move(points.waistA)
+        .line(points.hemL)
+        .move(points.waistA)
+        .line(points.hemN)
+        .move(points.waistG)
+        .line(points.hemU)
+        .attr('class', 'fabric help')
 
       paths.bellHem = new Path()
         .move(points.hemL)
         .curve(points.hemLCp2, points.hemKCp1B, points.hemK)
     }
-
-    paths.fullHemFacingGuide = paths.hemGuide
+    paths.fullHemFacingGuide = new Path()
+      .move(points.cfHem)
+      .curve(points.hemCp1, points.hemCp2, points.hemEnd)
       .offset(skirtHemFacingWidth)
       .attr('class', 'interfacing')
-
     //Angle checker
     // points.waistPanel0.attr('data-text', points.origin.angle(points.cfWaist) - points.origin.angle(points.waist1))
     // points.waistPanel1.attr('data-text', points.origin.angle(points.waist2) - points.origin.angle(points.waist3))

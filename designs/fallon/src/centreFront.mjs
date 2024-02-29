@@ -179,16 +179,16 @@ export const centreFront = {
       } else {
         hemFacingSplit = points.hemFacingSplitL
       }
-
-      paths.hemFacing = new Path()
-        .move(points.hemFacingL)
-        .curve(points.hemFacingLCp1, points.hemFacingDCp2, points.hemFacingD)
-        .curve(points.hemFacingDCp1, points.cfHemFacingCp2, points.cfHemFacing)
-        .split(hemFacingSplit)[1]
-        .attr('class', 'interfacing')
-        .attr('data-text', 'Hem Facing - Line')
-        .attr('data-text-class', 'center')
-
+      if (options.skirtHemFacings) {
+        paths.hemFacing = new Path()
+          .move(points.hemFacingL)
+          .curve(points.hemFacingLCp1, points.hemFacingDCp2, points.hemFacingD)
+          .curve(points.hemFacingDCp1, points.cfHemFacingCp2, points.cfHemFacing)
+          .split(hemFacingSplit)[1]
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Hem Facing - Line')
+          .attr('data-text-class', 'center')
+      }
       if (options.waistbandStyle == 'none') {
         const drawWaistFacing = () => {
           if (options.seams != 'none') {
@@ -257,15 +257,15 @@ export const centreFront = {
               .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
           }
         }
-
-        paths.hemFacingSa = drawHemBase()
-          .offset(hemSa)
-          .line(points.cfHemFacing)
-          .join(paths.hemFacing.reverse().offset(sa))
-          .join(drawSaRight().split(hemFacingSplit)[1].offset(sa))
-          .close()
-          .attr('class', 'interfacing sa')
-
+        if (options.skirtHemFacings) {
+          paths.hemFacingSa = drawHemBase()
+            .offset(hemSa)
+            .line(points.cfHemFacing)
+            .join(paths.hemFacing.reverse().offset(sa))
+            .join(drawSaRight().split(hemFacingSplit)[1].offset(sa))
+            .close()
+            .attr('class', 'interfacing sa')
+        }
         if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .offset(sa * options.waistFacingHemWidth * 100)

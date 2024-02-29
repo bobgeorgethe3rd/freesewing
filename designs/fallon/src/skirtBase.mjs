@@ -122,45 +122,55 @@ export const skirtBase = {
       .shiftTowards(points.origin, backCpDistance)
       .rotate(90 + hemLAngle, points.hemY)
     //hem facings
-    points.cfHemFacing = points.cfHem.shiftTowards(points.cfWaist, store.get('skirtHemFacingWidth'))
-    points.hemFacingL = points.hemL.shiftTowards(points.origin, skirtHemFacingWidth)
-    points.hemFacingDCp1 = utils.beamsIntersect(
-      points.hemDCp2,
-      points.origin,
-      points.hemFacingD,
-      points.origin.rotate(-90, points.hemFacingD)
-    )
-    points.cfHemFacingCp2 = utils.beamsIntersect(
-      points.cfHemCp1,
-      points.origin,
-      points.cfHemFacing,
-      points.origin.rotate(90, points.cfHemFacing)
-    )
-    points.hemFacingDCp2 = utils.beamsIntersect(
-      points.hemFacingD,
-      points.hemFacingDCp2,
-      points.hemLCp2,
-      points.origin
-    )
-    points.hemFacingLCp1 = points.hemFacingL.shiftFractionTowards(points.hemFacingDCp2, 0.1)
-    points.hemFacingSplitZ = utils.lineIntersectsCurve(
-      points.waistE,
-      points.hemZ,
-      points.hemFacingD,
-      points.hemFacingDCp2,
-      points.hemFacingLCp1,
-      points.hemFacingL
-    )
-    points.hemFacingSplitL = utils.curvesIntersect(
-      points.curveStartL,
-      points.curveStartLCp2,
-      points.hemLCp1,
-      points.hemL,
-      points.hemFacingD,
-      points.hemFacingDCp2,
-      points.hemFacingLCp1,
-      points.hemFacingL
-    )
+    if (options.skirtHemFacings) {
+      points.cfHemFacing = points.cfHem.shiftTowards(
+        points.cfWaist,
+        store.get('skirtHemFacingWidth')
+      )
+      points.hemFacingL = points.hemL.shiftTowards(points.origin, skirtHemFacingWidth)
+      points.hemFacingDCp1 = utils.beamsIntersect(
+        points.hemDCp2,
+        points.origin,
+        points.hemFacingD,
+        points.origin.rotate(-90, points.hemFacingD)
+      )
+      points.cfHemFacingCp2 = utils.beamsIntersect(
+        points.cfHemCp1,
+        points.origin,
+        points.cfHemFacing,
+        points.origin.rotate(90, points.cfHemFacing)
+      )
+      points.hemFacingDCp2 = utils.beamsIntersect(
+        points.hemFacingD,
+        points.hemFacingDCp2,
+        points.hemLCp2,
+        points.origin
+      )
+      points.hemFacingLCp1 = points.hemFacingL.shiftFractionTowards(points.hemFacingDCp2, 0.1)
+      points.hemFacingSplitZ = utils.lineIntersectsCurve(
+        points.waistE,
+        points.hemZ,
+        points.hemFacingD,
+        points.hemFacingDCp2,
+        points.hemFacingLCp1,
+        points.hemFacingL
+      )
+      points.hemFacingSplitL = utils.curvesIntersect(
+        points.curveStartL,
+        points.curveStartLCp2,
+        points.hemLCp1,
+        points.hemL,
+        points.hemFacingD,
+        points.hemFacingDCp2,
+        points.hemFacingLCp1,
+        points.hemFacingL
+      )
+      paths.sideBackHemFacing = new Path()
+        .move(points.cfHemFacing)
+        .curve(points.cfHemFacingCp2, points.hemFacingDCp1, points.hemFacingD)
+        .curve(points.hemFacingDCp2, points.hemFacingLCp1, points.hemFacingL)
+        .attr('class', 'interfacing')
+    }
     //waist facings
     if (options.waistbandStyle == 'none') {
       points.cfWaistFacingCp1 = utils.beamsIntersect(
@@ -191,11 +201,6 @@ export const skirtBase = {
 
     //guides
     paths.sideBackHem = new Path().move(points.hemL)._curve(points.hemLCp2, points.hemD)
-    paths.sideBackHemFacing = new Path()
-      .move(points.cfHemFacing)
-      .curve(points.cfHemFacingCp2, points.hemFacingDCp1, points.hemFacingD)
-      .curve(points.hemFacingDCp2, points.hemFacingLCp1, points.hemFacingL)
-      .attr('class', 'interfacing')
 
     paths.lineKJ = new Path().move(points.hemK).line(points.hemJ).attr('class', 'various')
 

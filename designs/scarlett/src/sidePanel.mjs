@@ -171,20 +171,6 @@ export const sidePanel = {
         scale: 0.5,
       })
       //facings
-      points.hemFacingE = points.hemE.shiftTowards(points.waistE, store.get('skirtHemFacingWidth'))
-      points.hemFacingFCp1 = utils.beamsIntersect(
-        points.hemFCp2,
-        points.origin,
-        points.hemFacingF,
-        points.origin.rotate(-90, points.hemFacingF)
-      )
-      points.hemFacingECp2 = utils.beamsIntersect(
-        points.hemECp1,
-        points.origin,
-        points.hemFacingE,
-        points.origin.rotate(90, points.hemFacingE)
-      )
-
       const drawHemFacing = () => {
         if (options.sideDart == 'dart') {
           if (options.style == 'straight') {
@@ -205,12 +191,28 @@ export const sidePanel = {
             .curve(points.hemFacingFCp1, points.hemFacingECp2, points.hemFacingE)
         }
       }
-
-      paths.hemFacing = drawHemFacing()
-        .attr('class', 'interfacing')
-        .attr('data-text', 'Hem Facing - Line')
-        .attr('data-text-class', 'center')
-
+      if (options.skirtHemFacings) {
+        points.hemFacingE = points.hemE.shiftTowards(
+          points.waistE,
+          store.get('skirtHemFacingWidth')
+        )
+        points.hemFacingFCp1 = utils.beamsIntersect(
+          points.hemFCp2,
+          points.origin,
+          points.hemFacingF,
+          points.origin.rotate(-90, points.hemFacingF)
+        )
+        points.hemFacingECp2 = utils.beamsIntersect(
+          points.hemECp1,
+          points.origin,
+          points.hemFacingE,
+          points.origin.rotate(90, points.hemFacingE)
+        )
+        paths.hemFacing = drawHemFacing()
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Hem Facing - Line')
+          .attr('data-text-class', 'center')
+      }
       if (options.waistbandStyle == 'none') {
         points.waistFacingFCp2 = utils.beamsIntersect(
           points.hemFCp2,
@@ -326,18 +328,20 @@ export const sidePanel = {
       if (sa) {
         const hemSa = sa * options.skirtHemWidth * 100
         const crossSa = sa * options.crossSaWidth * 100
-        paths.hemFacingSa = drawHemBase()
-          .offset(hemSa)
-          .join(
-            new Path()
-              .move(points.hemE)
-              .line(points.hemFacingE)
-              .join(drawHemFacing().reverse())
-              .line(drawHemBase().start())
-              .offset(sa)
-          )
-          .close()
-          .attr('class', 'interfacing sa')
+        if (options.skirtHemFacings) {
+          paths.hemFacingSa = drawHemBase()
+            .offset(hemSa)
+            .join(
+              new Path()
+                .move(points.hemE)
+                .line(points.hemFacingE)
+                .join(drawHemFacing().reverse())
+                .line(drawHemBase().start())
+                .offset(sa)
+            )
+            .close()
+            .attr('class', 'interfacing sa')
+        }
 
         if (options.waistbandStyle == 'none') {
           const drawWaistFacingSa = () => {

@@ -16,12 +16,6 @@ export const waistband = {
       menu: 'style',
     }, //altered for Wanda
     waistbandFolded: { bool: true, menu: 'style' }, //altered for Wanda
-    //Construction
-    closurePosition: {
-      dflt: 'back',
-      list: ['back', 'sideLeft', 'sideRight'],
-      menu: 'construction',
-    }, //altered for Wanda
   },
   after: [skirtBase, placket],
   plugins: [...waistbandStraight.plugins, ...waistbandCurved.plugins],

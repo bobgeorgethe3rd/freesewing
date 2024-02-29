@@ -85,27 +85,28 @@ export const backPanel = {
         scale: 0.5,
       })
       //facings
-      points.hemFacingY = points.hemY.shiftTowards(points.waistF, skirtHemFacingWidth)
-      points.hemFacingJ = points.hemJ.shiftTowards(points.waist6B, skirtHemFacingWidth)
-      points.hemFacingYCp2 = utils.beamsIntersect(
-        points.hemFacingY,
-        points.hemFacingY.shift(points.hemY.angle(points.hemYCp1, 1), 1),
-        points.hemYCp1,
-        points.origin
-      )
-      points.hemFacingJCp1 = utils.beamsIntersect(
-        points.hemFacingJ,
-        points.origin.rotate(-90, points.hemFacingJ),
-        points.hemJCp2,
-        points.origin
-      )
-      paths.hemFacing = new Path()
-        .move(points.hemFacingJ)
-        .curve(points.hemFacingJCp1, points.hemFacingYCp2, points.hemFacingY)
-        .attr('class', 'interfacing')
-        .attr('data-text', 'Hem Facing - Line')
-        .attr('data-text-class', 'center')
-
+      if (options.skirtHemFacings) {
+        points.hemFacingY = points.hemY.shiftTowards(points.waistF, skirtHemFacingWidth)
+        points.hemFacingJ = points.hemJ.shiftTowards(points.waist6B, skirtHemFacingWidth)
+        points.hemFacingYCp2 = utils.beamsIntersect(
+          points.hemFacingY,
+          points.hemFacingY.shift(points.hemY.angle(points.hemYCp1, 1), 1),
+          points.hemYCp1,
+          points.origin
+        )
+        points.hemFacingJCp1 = utils.beamsIntersect(
+          points.hemFacingJ,
+          points.origin.rotate(-90, points.hemFacingJ),
+          points.hemJCp2,
+          points.origin
+        )
+        paths.hemFacing = new Path()
+          .move(points.hemFacingJ)
+          .curve(points.hemFacingJCp1, points.hemFacingYCp2, points.hemFacingY)
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Hem Facing - Line')
+          .attr('data-text-class', 'center')
+      }
       if (options.waistbandStyle == 'none') {
         paths.waistFacing = new Path()
           .move(points.waistFacing6B)
@@ -155,18 +156,20 @@ export const backPanel = {
 
       if (sa) {
         const hemSa = sa * options.skirtHemWidth * 100
-        paths.hemFacingSa = paths.hemBase
-          .offset(hemSa)
-          .join(
-            new Path()
-              .move(points.hemY)
-              .line(points.hemFacingY)
-              .join(paths.hemFacing.reverse())
-              .line(points.hemJ)
-              .offset(sa)
-          )
-          .close()
-          .attr('class', 'interfacing sa')
+        if (options.skirtHemFacings) {
+          paths.hemFacingSa = paths.hemBase
+            .offset(hemSa)
+            .join(
+              new Path()
+                .move(points.hemY)
+                .line(points.hemFacingY)
+                .join(paths.hemFacing.reverse())
+                .line(points.hemJ)
+                .offset(sa)
+            )
+            .close()
+            .attr('class', 'interfacing sa')
+        }
         if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .offset(sa * options.waistFacingHemWidth * 100)

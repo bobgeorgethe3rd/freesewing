@@ -128,15 +128,15 @@ export const sideFront = {
       } else {
         hemFacingSplit = points.hemFacingSplitZ
       }
-
-      paths.hemFacing = new Path()
-        .move(points.hemFacingL)
-        .curve(points.hemFacingLCp1, points.hemFacingDCp2, points.hemFacingD)
-        .split(hemFacingSplit)[1]
-        .attr('class', 'interfacing')
-        .attr('data-text', 'Hem Facing - Line')
-        .attr('data-text-class', 'center')
-
+      if (options.skirtHemFacings) {
+        paths.hemFacing = new Path()
+          .move(points.hemFacingL)
+          .curve(points.hemFacingLCp1, points.hemFacingDCp2, points.hemFacingD)
+          .split(hemFacingSplit)[1]
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Hem Facing - Line')
+          .attr('data-text-class', 'center')
+      }
       if (options.waistbandStyle == 'none') {
         const drawWaistFacing = () => {
           if (options.seams == 'sideFront') {
@@ -177,15 +177,16 @@ export const sideFront = {
             return paths.saWaist
           }
         }
-        paths.hemFacingSa = paths.hemBase
-          .clone()
-          .offset(hemSa)
-          .join(paths.saLeft.split(points.hemFacingD)[0].offset(sa))
-          .join(paths.hemFacing.reverse().offset(sa))
-          .join(drawSaRight().split(hemFacingSplit)[1].offset(sa))
-          .close()
-          .attr('class', 'interfacing sa')
-
+        if (options.skirtHemFacings) {
+          paths.hemFacingSa = paths.hemBase
+            .clone()
+            .offset(hemSa)
+            .join(paths.saLeft.split(points.hemFacingD)[0].offset(sa))
+            .join(paths.hemFacing.reverse().offset(sa))
+            .join(drawSaRight().split(hemFacingSplit)[1].offset(sa))
+            .close()
+            .attr('class', 'interfacing sa')
+        }
         if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .clone()

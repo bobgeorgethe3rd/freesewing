@@ -73,8 +73,9 @@ export const placket = {
       })
 
       if (sa) {
-        points.saTopLeft = points.topLeft.translate(-sa, -sa)
-        points.saBottomLeft = points.bottomLeft.translate(-sa, sa)
+        const closureSa = sa * options.closureSaWidth * 100
+        points.saTopLeft = points.topLeft.translate(-closureSa, -sa)
+        points.saBottomLeft = points.bottomLeft.translate(-closureSa, sa)
         points.saBottomRight = points.bottomRight.translate(sa, sa)
         points.saTopRight = points.topRight.translate(sa, -sa)
 

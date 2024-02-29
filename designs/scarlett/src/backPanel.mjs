@@ -110,36 +110,6 @@ export const backPanel = {
       })
       //facings
       const skirtHemFacingWidth = store.get('skirtHemFacingWidth')
-      points.crossFacingB = points.crossHemB.shiftTowards(points.crossB, skirtHemFacingWidth)
-      points.hemFacingL = points.hemLB.shiftTowards(points.waistL, skirtHemFacingWidth)
-      points.hemFacingLCp1 = utils.beamsIntersect(
-        points.crossFacingB,
-        points.hemFacingL,
-        points.hemLCp2B,
-        points.origin
-      )
-      points.hemFacingKCp2B = utils.beamsIntersect(
-        points.hemFacingKCp1,
-        points.hemFacingK,
-        points.hemKCp1B,
-        points.origin
-      )
-
-      points.crossFacingU = points.crossHemU.shiftTowards(points.crossU, skirtHemFacingWidth)
-      points.hemFacingM = points.hemMU.shiftTowards(points.waistH, skirtHemFacingWidth)
-      points.hemFacingMCp1 = utils.beamsIntersect(
-        points.crossFacingU,
-        points.hemFacingM,
-        points.hemMCp2U,
-        points.origin
-      )
-      points.hemFacingKCp2U = utils.beamsIntersect(
-        points.hemFacingKCp1,
-        points.hemFacingK,
-        points.hemKCp1U,
-        points.origin
-      )
-
       const drawHemFacing = () => {
         if (options.style == 'bell') {
           return new Path()
@@ -153,11 +123,41 @@ export const backPanel = {
             .curve(points.hemFacingMCp1, points.hemFacingKCp2U, points.hemFacingK)
         }
       }
+      if (options.skirtHemFacings) {
+        points.crossFacingB = points.crossHemB.shiftTowards(points.crossB, skirtHemFacingWidth)
+        points.hemFacingL = points.hemLB.shiftTowards(points.waistL, skirtHemFacingWidth)
+        points.hemFacingLCp1 = utils.beamsIntersect(
+          points.crossFacingB,
+          points.hemFacingL,
+          points.hemLCp2B,
+          points.origin
+        )
+        points.hemFacingKCp2B = utils.beamsIntersect(
+          points.hemFacingKCp1,
+          points.hemFacingK,
+          points.hemKCp1B,
+          points.origin
+        )
 
-      paths.hemFacing = drawHemFacing()
-        .attr('class', 'interfacing')
-        .attr('data-text', 'Hem Facing - Line')
-        .attr('data-text-class', 'center')
+        points.crossFacingU = points.crossHemU.shiftTowards(points.crossU, skirtHemFacingWidth)
+        points.hemFacingM = points.hemMU.shiftTowards(points.waistH, skirtHemFacingWidth)
+        points.hemFacingMCp1 = utils.beamsIntersect(
+          points.crossFacingU,
+          points.hemFacingM,
+          points.hemMCp2U,
+          points.origin
+        )
+        points.hemFacingKCp2U = utils.beamsIntersect(
+          points.hemFacingKCp1,
+          points.hemFacingK,
+          points.hemKCp1U,
+          points.origin
+        )
+        paths.hemFacing = drawHemFacing()
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Hem Facing - Line')
+          .attr('data-text-class', 'center')
+      }
       if (options.waistbandStyle == 'none') {
       }
 
@@ -336,22 +336,22 @@ export const backPanel = {
         const hemSa = sa * options.skirtHemWidth * 100
         const crossSa = sa * options.crossSaWidth * 100
         const inseamSa = sa * options.inseamSaWidth * 100
-
-        paths.hemFacingSa = drawHemBase()
-          .offset(hemSa)
-          .join(
-            new Path()
-              .move(drawHemBase().end())
-              .line(paths.hemFacing.end())
-              .join(paths.hemFacing.reverse())
-              .offset(sa)
-          )
-          .join(
-            new Path().move(paths.hemFacing.start()).line(drawHemBase().start()).offset(inseamSa)
-          )
-          .close()
-          .attr('class', 'interfacing sa')
-
+        if (options.skirtHemFacings) {
+          paths.hemFacingSa = drawHemBase()
+            .offset(hemSa)
+            .join(
+              new Path()
+                .move(drawHemBase().end())
+                .line(paths.hemFacing.end())
+                .join(paths.hemFacing.reverse())
+                .offset(sa)
+            )
+            .join(
+              new Path().move(paths.hemFacing.start()).line(drawHemBase().start()).offset(inseamSa)
+            )
+            .close()
+            .attr('class', 'interfacing sa')
+        }
         if (options.waistbandStyle == 'none') {
           const drawFacingSaBase = () => {
             if (options.style == 'bell') {

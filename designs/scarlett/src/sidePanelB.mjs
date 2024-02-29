@@ -130,11 +130,12 @@ export const sidePanelB = {
             .curve(points.hemFacingKCp1, points.hemFacingFCp2, points.hemFacingF)
         }
       }
-
-      paths.hemFacing = drawHemFacing()
-        .attr('class', 'interfacing')
-        .attr('data-text', 'Hem Facing - Line')
-        .attr('data-text-class', 'center')
+      if (options.skirtHemFacings) {
+        paths.hemFacing = drawHemFacing()
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Hem Facing - Line')
+          .attr('data-text-class', 'center')
+      }
 
       if (options.waistbandStyle == 'none') {
         const drawWaistFacing = () => {
@@ -229,19 +230,20 @@ export const sidePanelB = {
       if (sa) {
         const hemSa = sa * options.skirtHemWidth * 100
         const crossSa = sa * options.crossSaWidth * 100
-        paths.hemFacingSa = drawHemBase()
-          .offset(hemSa)
-          .join(
-            new Path()
-              .move(points.hemF)
-              .line(points.hemFacingF)
-              .join(drawHemFacing().reverse())
-              .line(drawHemBase().start())
-              .offset(sa)
-          )
-          .close()
-          .attr('class', 'interfacing sa')
-
+        if (options.skirtHemFacings) {
+          paths.hemFacingSa = drawHemBase()
+            .offset(hemSa)
+            .join(
+              new Path()
+                .move(points.hemF)
+                .line(points.hemFacingF)
+                .join(drawHemFacing().reverse())
+                .line(drawHemBase().start())
+                .offset(sa)
+            )
+            .close()
+            .attr('class', 'interfacing sa')
+        }
         if (options.waistbandStyle == 'none') {
           const drawWaistFacingSa = () => {
             if (options.style == 'straight') {

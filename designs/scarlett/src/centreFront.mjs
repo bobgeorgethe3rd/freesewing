@@ -116,14 +116,16 @@ export const centreFront = {
         at: points.scalebox,
       })
       //facings
-      points.hemFacingCrotch = new Point(points.crotch.x, points.cfHemFacing.y)
-      paths.hemFacing = new Path()
-        .move(points.hemFacingD)
-        .curve(points.hemFacingDCp1, points.cfHemFacingCp2, points.cfHemFacing)
-        .line(points.hemFacingCrotch)
-        .attr('class', 'interfacing')
-        .attr('data-text', 'Hem Facing - Line')
-        .attr('data-text-class', 'center')
+      if (options.skirtHemFacings) {
+        points.hemFacingCrotch = new Point(points.crotch.x, points.cfHemFacing.y)
+        paths.hemFacing = new Path()
+          .move(points.hemFacingD)
+          .curve(points.hemFacingDCp1, points.cfHemFacingCp2, points.cfHemFacing)
+          .line(points.hemFacingCrotch)
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Hem Facing - Line')
+          .attr('data-text-class', 'center')
+      }
 
       if (options.waistbandStyle == 'none') {
         points.waistFacingCrotch = utils.lineIntersectsCurve(
@@ -192,17 +194,17 @@ export const centreFront = {
         } else {
           sideFrontSa = sa * options.sideFrontSaWidth * 100
         }
-
         store.set('sideFrontSa', sideFrontSa)
 
-        paths.hemFacingSa = paths.hemBase
-          .offset(hemSa)
-          .join(new Path().move(points.crotchHem).line(points.hemFacingCrotch).offset(inseamSa))
-          .join(paths.hemFacing.reverse().offset(sa))
-          .join(new Path().move(paths.hemFacing.start()).line(points.hemD).offset(sideFrontSa))
-          .close()
-          .attr('class', 'interfacing sa')
-
+        if (options.skirtHemFacings) {
+          paths.hemFacingSa = paths.hemBase
+            .offset(hemSa)
+            .join(new Path().move(points.crotchHem).line(points.hemFacingCrotch).offset(inseamSa))
+            .join(paths.hemFacing.reverse().offset(sa))
+            .join(new Path().move(paths.hemFacing.start()).line(points.hemD).offset(sideFrontSa))
+            .close()
+            .attr('class', 'interfacing sa')
+        }
         if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .offset(sa * options.waistFacingHemWidth * 100)

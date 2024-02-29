@@ -81,12 +81,14 @@ export const swingPanel = {
         scale: 0.5,
       })
       //facings
-      paths.hemFacing = new Path()
-        .move(points.hemFacingD)
-        .curve(points.hemFacingDCp1, points.cfHemFacingCp2, points.cfHemFacing)
-        .attr('class', 'interfacing')
-        .attr('data-text', 'Hem Facing - Line')
-        .attr('data-text-class', 'center')
+      if (options.skirtHemFacings) {
+        paths.hemFacing = new Path()
+          .move(points.hemFacingD)
+          .curve(points.hemFacingDCp1, points.cfHemFacingCp2, points.cfHemFacing)
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Hem Facing - Line')
+          .attr('data-text-class', 'center')
+      }
 
       if (options.waistbandStyle == 'none' && options.swingPanelStyle != 'separate') {
         paths.waistFacing = new Path()
@@ -109,15 +111,16 @@ export const swingPanel = {
         const hemSa = sa * options.skirtHemWidth * 100
         const sideFrontSa = sa * options.sideFrontSaWidth * 100
 
-        paths.hemFacingSa = paths.hemBase
-          .offset(hemSa)
-          .line(points.cfHem)
-          .line(points.cfHemFacing)
-          .join(paths.hemFacing.reverse().offset(sa))
-          .join(new Path().move(paths.hemFacing.start()).line(points.hemD).offset(sideFrontSa))
-          .close()
-          .attr('class', 'interfacing sa')
-
+        if (options.skirtHemFacings) {
+          paths.hemFacingSa = paths.hemBase
+            .offset(hemSa)
+            .line(points.cfHem)
+            .line(points.cfHemFacing)
+            .join(paths.hemFacing.reverse().offset(sa))
+            .join(new Path().move(paths.hemFacing.start()).line(points.hemD).offset(sideFrontSa))
+            .close()
+            .attr('class', 'interfacing sa')
+        }
         if (options.waistbandStyle == 'none' && options.swingPanelStyle != 'separate') {
           paths.waistFacingSa = paths.waistFacing
             .offset(sa * options.waistFacingHemWidth * 100)

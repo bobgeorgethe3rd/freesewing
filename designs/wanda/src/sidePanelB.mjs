@@ -31,7 +31,14 @@ export const sidePanelB = {
       return part
     }
     //removing paths
-    for (let i in paths) delete paths[i]
+    if (options.wandaGuides) {
+      const keepThese = ['wandaGuide']
+      for (const name in paths) {
+        if (keepThese.indexOf(name) === -1) delete paths[name]
+      }
+    } else {
+      for (let i in paths) delete paths[i]
+    }
     //let's begin
     let waist3Left
     let waist3LeftCp1
@@ -77,7 +84,7 @@ export const sidePanelB = {
       if (options.style == 'straight') {
         titleName = 'Back Panel B'
       } else titleName = 'Side Panel B'
-      points.title = points.waist3Right.shiftFractionTowards(points.hemFacingKCp1, 0.5)
+      points.title = points.waist3Right.shiftFractionTowards(points.hemFCp1, 0.5)
       macro('title', {
         nr: '2b',
         title: titleName,
@@ -86,12 +93,14 @@ export const sidePanelB = {
         scale: 0.5,
       })
       //facings
-      paths.hemFacing = new Path()
-        .move(points.hemFacingK)
-        .curve(points.hemFacingKCp1, points.hemFacingFCp2, points.hemFacingF)
-        .attr('class', 'interfacing')
-        .attr('data-text', 'Hem Facing - Line')
-        .attr('data-text-class', 'center')
+      if (options.skirtHemFacings) {
+        paths.hemFacing = new Path()
+          .move(points.hemFacingK)
+          .curve(points.hemFacingKCp1, points.hemFacingFCp2, points.hemFacingF)
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Hem Facing - Line')
+          .attr('data-text-class', 'center')
+      }
 
       if (options.waistbandStyle == 'none') {
         let waistFacing6
@@ -186,19 +195,20 @@ export const sidePanelB = {
       if (sa) {
         const hemSa = sa * options.skirtHemWidth * 100
 
-        paths.hemFacingSa = paths.hemBase
-          .clone()
-          .offset(hemSa)
-          .join(
-            new Path()
-              .move(points.hemF)
-              .line(points.hemFacingF)
-              .join(paths.hemFacing.reverse())
-              .line(points.hemK)
-              .offset(sa)
-          )
-          .attr('class', 'interfacing sa')
-
+        if (options.skirtHemFacings) {
+          paths.hemFacingSa = paths.hemBase
+            .clone()
+            .offset(hemSa)
+            .join(
+              new Path()
+                .move(points.hemF)
+                .line(points.hemFacingF)
+                .join(paths.hemFacing.reverse())
+                .line(points.hemK)
+                .offset(sa)
+            )
+            .attr('class', 'interfacing sa')
+        }
         if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .clone()

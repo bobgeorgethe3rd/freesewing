@@ -31,7 +31,14 @@ export const backPanel = {
       return part
     }
     //removing paths
-    for (let i in paths) delete paths[i]
+    if (options.wandaGuides) {
+      const keepThese = ['wandaGuide']
+      for (const name in paths) {
+        if (keepThese.indexOf(name) === -1) delete paths[name]
+      }
+    } else {
+      for (let i in paths) delete paths[i]
+    }
     //let's begin
     if (options.style == 'bell') {
       paths.bellWaist = new Path()
@@ -87,64 +94,64 @@ export const backPanel = {
       })
       //facings
       const skirtHemFacingWidth = store.get('skirtHemFacingWidth')
+      if (options.skirtHemFacings) {
+        let lineFrom
+        let lineTo
+        let hemFacingEnd
+        let hemFacingCp2
+        let hemFacingCp1
+        if (options.style == 'bell') {
+          lineFrom = points.hemL
+          lineTo = points.waistL
+          hemFacingEnd = points.hemL.shiftTowards(points.origin, skirtHemFacingWidth)
+          hemFacingCp2 = utils.beamsIntersect(
+            points.hemLCp2,
+            points.origin,
+            hemFacingEnd,
+            points.origin.rotate(-90, hemFacingEnd)
+          )
+          hemFacingCp1 = utils.beamsIntersect(
+            points.hemKCp1B,
+            points.origin,
+            points.hemFacingK,
+            points.origin.rotate(90, points.hemFacingK)
+          )
+        } else {
+          lineFrom = points.hemN
+          lineTo = points.waistH
+          hemFacingEnd = points.hemN.shiftTowards(points.origin, skirtHemFacingWidth)
+          hemFacingCp2 = utils.beamsIntersect(
+            points.hemNCp2,
+            points.origin,
+            hemFacingEnd,
+            points.origin.rotate(-90, hemFacingEnd)
+          )
+          hemFacingCp1 = utils.beamsIntersect(
+            points.hemKCp1U,
+            points.origin,
+            points.hemFacingK,
+            points.origin.rotate(90, points.hemFacingK)
+          )
+        }
 
-      let lineFrom
-      let lineTo
-      let hemFacingEnd
-      let hemFacingCp2
-      let hemFacingCp1
-      if (options.style == 'bell') {
-        lineFrom = points.hemL
-        lineTo = points.waistL
-        hemFacingEnd = points.hemL.shiftTowards(points.origin, skirtHemFacingWidth)
-        hemFacingCp2 = utils.beamsIntersect(
-          points.hemLCp2,
-          points.origin,
-          hemFacingEnd,
-          points.origin.rotate(-90, hemFacingEnd)
-        )
-        hemFacingCp1 = utils.beamsIntersect(
-          points.hemKCp1B,
-          points.origin,
+        points.hemFacingSplit = utils.lineIntersectsCurve(
+          lineFrom,
+          lineTo,
           points.hemFacingK,
-          points.origin.rotate(90, points.hemFacingK)
+          hemFacingCp1,
+          hemFacingCp2,
+          hemFacingEnd
         )
-      } else {
-        lineFrom = points.hemN
-        lineTo = points.waistH
-        hemFacingEnd = points.hemN.shiftTowards(points.origin, skirtHemFacingWidth)
-        hemFacingCp2 = utils.beamsIntersect(
-          points.hemNCp2,
-          points.origin,
-          hemFacingEnd,
-          points.origin.rotate(-90, hemFacingEnd)
-        )
-        hemFacingCp1 = utils.beamsIntersect(
-          points.hemKCp1U,
-          points.origin,
-          points.hemFacingK,
-          points.origin.rotate(90, points.hemFacingK)
-        )
+
+        paths.hemFacing = new Path()
+          .move(points.hemFacingK)
+          .curve(hemFacingCp1, hemFacingCp2, hemFacingEnd)
+          .split(points.hemFacingSplit)[0]
+          .reverse()
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Hem Facing - Line')
+          .attr('data-text-class', 'center')
       }
-
-      points.hemFacingSplit = utils.lineIntersectsCurve(
-        lineFrom,
-        lineTo,
-        points.hemFacingK,
-        hemFacingCp1,
-        hemFacingCp2,
-        hemFacingEnd
-      )
-
-      paths.hemFacing = new Path()
-        .move(points.hemFacingK)
-        .curve(hemFacingCp1, hemFacingCp2, hemFacingEnd)
-        .split(points.hemFacingSplit)[0]
-        .reverse()
-        .attr('class', 'interfacing')
-        .attr('data-text', 'Hem Facing - Line')
-        .attr('data-text-class', 'center')
-
       if (options.waistbandStyle == 'none') {
         let waistFacingStart
         let waistFacingCp1
@@ -303,18 +310,18 @@ export const backPanel = {
       }
       if (sa) {
         const hemSa = sa * options.skirtHemWidth * 100
-
-        paths.hemFacingSa = drawHemBase()
-          .offset(hemSa)
-          .join(
-            new Path()
-              .move(points.hemFacingK)
-              .join(paths.hemFacing.reverse())
-              .line(drawHemBase().start())
-              .offset(sa)
-          )
-          .attr('class', 'interfacing sa')
-
+        if (options.skirtHemFacings) {
+          paths.hemFacingSa = drawHemBase()
+            .offset(hemSa)
+            .join(
+              new Path()
+                .move(points.hemFacingK)
+                .join(paths.hemFacing.reverse())
+                .line(drawHemBase().start())
+                .offset(sa)
+            )
+            .attr('class', 'interfacing sa')
+        }
         if (options.waistbandStyle == 'none') {
           const drawWaistFacingSaBase = () => {
             if (options.style == 'bell') {
