@@ -217,8 +217,8 @@ export const waistband = {
               )
             }
           } else {
-            paths.left.attr('data-text', 'Side Dart', true)
-            paths.right.attr('data-text', 'Side Dart', true)
+            paths.waistbandLeft.attr('data-text', 'Side Dart', true)
+            paths.waistbandRight.attr('data-text', 'Side Dart', true)
           }
         }
         if (options.pleats) {
@@ -286,14 +286,14 @@ export const waistband = {
             .attr('data-text', midName)
             .attr('data-text-class', 'center')
 
-          paths.left = new Path()
+          paths.waistbandLeft = new Path()
             .move(points.waistbandTopLeftNotch)
             .line(points.waistbandBottomLeftNotch)
             .attr('class', 'various')
             .attr('data-text', leftName)
             .attr('data-text-class', 'center')
 
-          paths.right = new Path()
+          paths.waistbandRight = new Path()
             .move(points.waistbandTopRightNotch)
             .line(points.waistbandBottomRightNotch)
             .attr('class', 'various')
@@ -321,28 +321,28 @@ export const waistband = {
             ],
           })
         } else {
-          paths.left.attr('data-text', 'Side Dart', true)
-          paths.right.attr('data-text', 'Side Dart', true)
+          paths.waistbandLeft.attr('data-text', 'Side Dart', true)
+          paths.waistbandRight.attr('data-text', 'Side Dart', true)
         }
       }
-      if (paths.rightEx) {
+      if (paths.waistbandRightEx) {
         if (
           (options.waistbandOverlapSide == 'right' || options.closurePosition == 'sideLeft') &&
           options.pleats
         ) {
-          delete paths.rightEx
+          delete paths.waistbandRightEx
         } else {
-          paths.rightEx.attr('data-text', 'Side Back', true)
+          paths.waistbandRightEx.attr('data-text', 'Side Back', true)
         }
       }
-      if (paths.leftEx) {
+      if (paths.waistbandLeftEx) {
         if (
           (options.waistbandOverlapSide == 'left' || options.closurePosition == 'sideLeft') &&
           options.pleats
         ) {
-          delete paths.leftEx
+          delete paths.waistbandLeftEx
         } else {
-          paths.leftEx.attr('data-text', 'Side Back', true)
+          paths.waistbandLeftEx.attr('data-text', 'Side Back', true)
         }
       }
       //title
