@@ -133,8 +133,10 @@ export const waistband = {
         }
         for (let i = 0; i < 2; i++) {
           points['pleatTo' + i] = new Point(points['pleatFrom' + i].x, points.waistbandBottomLeft.y)
-          if (options.waistbandFolded) {
-            points['swingButton' + i + 'F'] = points['swingButton' + i].flipY(points.flipAnchor)
+          if (options.waistbandFolded && points['swingButton' + i]) {
+            points['swingButton' + i + 'F'] = points['swingButton' + i].flipY(
+              points.waistbandBottomRight.shiftFractionTowards(points.waistbandTopRight, 0.5)
+            )
             snippets['swingButton' + i + 'F'] = new Snippet(
               'button',
               points['swingButton' + i + 'F']
