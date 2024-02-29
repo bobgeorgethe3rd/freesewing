@@ -12,7 +12,6 @@ export const skirtBase = {
     useVoidStores: false, //locked for Wanda
     //Fit
     waistEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
-
     //Style
     waistbandWidth: {
       pct: 1.25,
