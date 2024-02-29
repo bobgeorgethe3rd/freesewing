@@ -61,8 +61,8 @@ export const centreFront = {
 
     paths.cfWaist = new Path()
       .move(points.cfWaist)
-      .curve(points.waist0Cp1, points.waist0Cp2, points.waistPanel0)
-      .curve(points.waist0Cp3, points.waist0Cp4, points.waist0Left)
+      .curve(points.cfWaistCp2, points.waistPanel0Cp1, points.waistPanel0)
+      .curve(points.waistPanel0Cp2, points.waist0LeftCp1, points.waist0Left)
       .hide()
 
     const drawWaistSeam = () => {
@@ -72,22 +72,22 @@ export const centreFront = {
         } else {
           return paths.cfWaist
             .clone()
-            .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
-            .curve(points.dartTipDCp2, points.dartTipDCp3, points.waist1Right)
-            .curve(points.waist1Cp1, points.waist1Cp2, points.waistPanel1)
-            .curve(points.waist1Cp3, points.waist1Cp4, points.waist1Left)
+            .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
+            .curve(points.dartTipDCp, points.waist1RightCp1, points.waist1Right)
+            .curve(points.waist1RightCp2, points.waistPanel1Cp1, points.waistPanel1)
+            .curve(points.waistPanel1Cp2, points.waist1LeftCp1, points.waist1Left)
         }
       } else {
         return paths.cfWaist
           .clone()
-          .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
-          .curve(points.dartTipDCp2, points.dartTipDCp3, points.waist1Right)
-          .curve(points.waist1Cp1, points.waist1Cp2, points.waistPanel1)
-          .curve(points.waist1Cp3, points.waist1Cp4, points.waist1Left)
-          .curve(points.dartTipECp1, points.dartTipECp2, points.dartTipE)
-          .curve(points.dartTipECp2, points.dartTipECp3, points.waist2Right)
-          .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
-          .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
+          .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
+          .curve(points.dartTipDCp, points.waist1RightCp1, points.waist1Right)
+          .curve(points.waist1RightCp2, points.waistPanel1Cp1, points.waistPanel1)
+          .curve(points.waistPanel1Cp2, points.waist1LeftCp1, points.waist1Left)
+          .curve(points.waist1LeftCp2, points.dartTipECp, points.dartTipE)
+          .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
+          .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
+          .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
       }
     }
 
@@ -96,20 +96,20 @@ export const centreFront = {
         if (options.seams == 'all' || options.seams == 'sideFront') {
           return new Path()
             .move(points.waist0Left)
-            .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
+            .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
             .line(points.hemD)
         } else {
           return new Path()
             .move(points.waist1Left)
-            .curve(points.dartTipECp1, points.dartTipECp2, points.dartTipE)
+            .curve(points.waist1LeftCp2, points.dartTipECp, points.dartTipE)
             .line(points.hemZ)
         }
       } else {
         return new Path()
           .move(points.waist2Left)
-          .curve(points.dartTipFCp1, points.dartTipFCp2, points.dartTipF)
+          .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
           .line(points.curveStartL)
-          .curve(points.curveLCp1, points.curveLCp2, points.hemL)
+          .curve(points.curveStartLCp2, points.hemLCp1, points.hemL)
       }
     }
 
@@ -148,13 +148,13 @@ export const centreFront = {
         at: points.title,
       })
       //logo
-      points.logo = new Point(points.waist0Cp4.x, points.cfHem.y * 0.7)
+      points.logo = new Point(points.waist0LeftCp1.x, points.cfHem.y * 0.7)
       macro('logorg', {
         at: points.logo,
         scale: 0.75,
       })
       //scalebox
-      points.scalebox = new Point(points.waist0Cp4.x, points.cfHem.y * 0.8)
+      points.scalebox = new Point(points.waist0LeftCp1.x, points.cfHem.y * 0.8)
       macro('scalebox', {
         at: points.scalebox,
       })
@@ -231,20 +231,20 @@ export const centreFront = {
                 .clone()
                 .line(points.dartTopD)
                 .line(points.waist1Right)
-                .curve(points.waist1Cp1, points.waist1Cp2, points.waistPanel1)
-                .curve(points.waist1Cp3, points.waist1Cp4, points.waist1Left)
+                .curve(points.waist1RightCp2, points.waistPanel1Cp1, points.waistPanel1)
+                .curve(points.waistPanel1Cp2, points.waist1LeftCp1, points.waist1Left)
             }
           } else {
             return paths.cfWaist
               .clone()
               .line(points.dartTopD)
               .line(points.waist1Right)
-              .curve(points.waist1Cp1, points.waist1Cp2, points.waistPanel1)
-              .curve(points.waist1Cp3, points.waist1Cp4, points.waist1Left)
+              .curve(points.waist1RightCp2, points.waistPanel1Cp1, points.waistPanel1)
+              .curve(points.waistPanel1Cp2, points.waist1LeftCp1, points.waist1Left)
               .line(points.dartTopE)
               .line(points.waist2Right)
-              .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
-              .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
+              .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
+              .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
           }
         }
 

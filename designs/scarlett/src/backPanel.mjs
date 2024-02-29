@@ -35,7 +35,7 @@ export const backPanel = {
     if (options.style == 'bell') {
       paths.bellWaist = new Path()
         .move(points.waist6B)
-        .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
+        .curve(points.waist6Cp2B, points.waistEndCp2B, points.waistEndB)
         .split(points.waistL)[0]
     }
 
@@ -60,7 +60,7 @@ export const backPanel = {
         return new Path()
           .move(points.hemK)
           .line(points.waist6)
-          .curve(points.waist6Cp1, points.waistHCp2, points.waistH)
+          .curve(points.waist6Cp2, points.waistHCp1, points.waistH)
       }
     }
 
@@ -100,7 +100,7 @@ export const backPanel = {
       points.crossNotch = drawCross().shiftFractionAlong(0.45)
       snippets.crossNotch = new Snippet('bnotch', points.crossNotch)
       //title
-      points.title = points.waist6Cp1B.shiftFractionTowards(points.hemKCp1B, 0.5)
+      points.title = points.waist6Cp2B.shiftFractionTowards(points.hemKCp1B, 0.5)
       macro('title', {
         nr: '5',
         title: 'Back Panel',
@@ -274,7 +274,7 @@ export const backPanel = {
               pleatKeep + (pleatKeep + pleatLengthBell) * i >
               new Path()
                 .move(points.waist3Right)
-                .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
+                .curve(points.waist3RightCp2, points.waist3LeftCp1B, points.waist6B)
                 .length()
             ) {
               paths['pleatFromB' + i] = new Path()
@@ -288,7 +288,7 @@ export const backPanel = {
               (pleatKeep + pleatLengthBell) * (i + 1) >
               new Path()
                 .move(points.waist3Right)
-                .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
+                .curve(points.waist3RightCp2, points.waist3LeftCp1B, points.waist6B)
                 .length()
             ) {
               paths['pleatToB' + i] = new Path()
@@ -304,7 +304,7 @@ export const backPanel = {
               pleatKeep + (pleatKeep + pleatLengthUmbrella) * i >
               new Path()
                 .move(points.waist3Right)
-                .curve(points.waist3Cp1, points.waist3Cp2U, points.waist6)
+                .curve(points.waist3RightCp2, points.waist3LeftCp1U, points.waist6)
                 .length()
             ) {
               paths['pleatFromU' + i] = new Path()
@@ -318,7 +318,7 @@ export const backPanel = {
               (pleatKeep + pleatLengthUmbrella) * (i + 1) >
               new Path()
                 .move(points.waist3Right)
-                .curve(points.waist3Cp1, points.waist3Cp2U, points.waist6)
+                .curve(points.waist3RightCp2, points.waist3LeftCp1U, points.waist6)
                 .length()
             ) {
               paths['pleatToU' + i] = new Path()
@@ -362,7 +362,7 @@ export const backPanel = {
               return new Path()
                 .move(points.waistFacing6U)
                 .line(points.waist6)
-                .curve(points.waist6Cp1, points.waistHCp2, points.waistH)
+                .curve(points.waist6Cp2, points.waistHCp1, points.waistH)
             }
           }
 

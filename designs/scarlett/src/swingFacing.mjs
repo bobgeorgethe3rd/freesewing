@@ -43,7 +43,7 @@ export const swingFacing = {
     //let's begin
     paths.sideSeam = new Path()
       .move(points.waist0Left)
-      .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
+      .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
       .line(points.hemD)
       .hide()
 
@@ -54,26 +54,26 @@ export const swingFacing = {
     points.swingDartTipD = points.dartTipD
       .shiftTowards(points.waistD, swingWidth)
       .rotate(-90, points.dartTipD)
-    points.swingDartTipDCp1 = points.dartTipDCp2
+    points.swingDartTipDCp1 = points.dartTipDCp
       .shiftTowards(points.waistD, swingWidth)
-      .rotate(-90, points.dartTipDCp2)
-    points.swingDartTipDCp2 = points.dartTipDCp1
+      .rotate(-90, points.dartTipDCp)
+    points.swingDartTipDCp2 = points.waist0LeftCp2
       .shiftTowards(points.waist0Left, swingWidth)
-      .rotate(-90, points.dartTipDCp1)
-    points.swingWaist0Left = points.waist0Left.shiftTowards(points.waist0Cp4, swingWidth)
+      .rotate(-90, points.waist0LeftCp2)
+    points.swingWaist0Left = points.waist0Left.shiftTowards(points.waist0LeftCp1, swingWidth)
 
     points.waistSplit = utils.lineIntersectsCurve(
       points.swingDartTipDCp2,
       points.swingDartTipDCp2.shiftOutwards(points.swingWaist0Left, store.get('placketLength')),
       points.waistPanel0,
-      points.waist0Cp3,
-      points.waist0Cp4,
+      points.waistPanel0Cp2,
+      points.waist0LeftCp1,
       points.waist0Left
     )
 
     paths.waist = new Path()
       .move(points.waistPanel0)
-      .curve(points.waist0Cp3, points.waist0Cp4, points.waist0Left)
+      .curve(points.waistPanel0Cp2, points.waist0LeftCp1, points.waist0Left)
       .split(points.waistSplit)[1]
       .hide()
 
@@ -88,7 +88,7 @@ export const swingFacing = {
 
     paths.sideFrontSeam = new Path()
       .move(points.waist0Left)
-      .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
+      .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
       .line(points.swingDLeft)
       .hide()
 
@@ -100,8 +100,8 @@ export const swingFacing = {
       points.grainlineFrom = utils.beamsIntersect(
         points.grainlineTo,
         points.swingDRight.rotate(90, points.grainlineTo),
-        points.dartTipDCp1,
-        points.dartTipDCp1.shift(points.swingDLeft.angle(points.swingDRight), 1)
+        points.waist0LeftCp2,
+        points.waist0LeftCp2.shift(points.swingDLeft.angle(points.swingDRight), 1)
       )
       macro('grainline', {
         from: points.grainlineFrom,

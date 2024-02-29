@@ -34,17 +34,17 @@ export const sidePanelB = {
     for (let i in paths) delete paths[i]
     //let's begin
     let waist3Left
-    let waist3Cp2
+    let waist3LeftCp1
     if (options.style == 'straight') {
       waist3Left = points.waist3LeftS
-      waist3Cp2 = points.waist3Cp2
+      waist3LeftCp1 = points.waist3LeftCp1
     } else {
       if (options.style == 'umbrella') {
         waist3Left = points.waist6
-        waist3Cp2 = points.waist3Cp2U
+        waist3LeftCp1 = points.waist3LeftCp1U
       } else {
         waist3Left = points.waist6B
-        waist3Cp2 = points.waist3Cp2B
+        waist3LeftCp1 = points.waist3LeftCp1B
       }
     }
 
@@ -52,8 +52,8 @@ export const sidePanelB = {
     paths.saBase = new Path()
       .move(points.hemF)
       .line(points.dartTipF)
-      .curve(points.dartTipFCp2, points.dartTipFCp3, points.waist3Right)
-      .curve(points.waist3Cp1, waist3Cp2, waist3Left)
+      .curve(points.dartTipFCp, points.waist3RightCp1, points.waist3Right)
+      .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
       .line(points.hemK)
       .hide()
 
@@ -124,7 +124,7 @@ export const sidePanelB = {
 
         paths.pleatLine = new Path()
           .move(points.waist3Right)
-          .curve(points.waist3Cp1, waist3Cp2, waist3Left)
+          .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
           .hide()
 
         for (let i = 0; i < options.pleatNumber; i++) {
@@ -206,8 +206,8 @@ export const sidePanelB = {
               new Path()
                 .move(points.waistFacingF)
                 .line(points.dartTipF)
-                .curve(points.dartTipFCp2, points.dartTipFCp3, points.waist3Right)
-                .curve(points.waist3Cp1, waist3Cp2, waist3Left)
+                .curve(points.dartTipFCp, points.waist3RightCp1, points.waist3Right)
+                .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
                 .line(paths.waistFacing.start())
                 .offset(sa)
             )

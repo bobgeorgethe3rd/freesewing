@@ -48,17 +48,17 @@ export const sidePanel = {
     }
 
     let waist3Left
-    let waist3Cp2
+    let waist3LeftCp1
     if (options.style == 'straight') {
       waist3Left = points.waist3LeftS
-      waist3Cp2 = points.waist3Cp2
+      waist3LeftCp1 = points.waist3LeftCp1
     } else {
       if (options.style == 'umbrella') {
         waist3Left = points.waist6
-        waist3Cp2 = points.waist3Cp2U
+        waist3LeftCp1 = points.waist3LeftCp1U
       } else {
         waist3Left = points.waist6B
-        waist3Cp2 = points.waist3Cp2B
+        waist3LeftCp1 = points.waist3LeftCp1B
       }
     }
 
@@ -67,21 +67,21 @@ export const sidePanel = {
         return new Path()
           .move(points.hemE)
           .line(points.dartTipE)
-          .curve(points.dartTipECp2, points.dartTipECp3, points.waist2Right)
-          .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
-          .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
-          .curve(points.dartTipFCp1, points.dartTipFCp2, points.dartTipF)
-          .curve(points.dartTipFCp2, points.dartTipFCp3, points.waist3Right)
-          .curve(points.waist3Cp1, waist3Cp2, waist3Left)
+          .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
+          .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
+          .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
+          .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
+          .curve(points.dartTipFCp, points.waist3RightCp1, points.waist3Right)
+          .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
           .line(points.hemK)
       } else {
         return new Path()
           .move(points.hemE)
           .line(points.dartTipE)
-          .curve(points.dartTipECp2, points.dartTipECp3, points.waist2Right)
-          .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
-          .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
-          .curve(points.dartTipFCp1, points.dartTipFCp2, points.dartTipF)
+          .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
+          .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
+          .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
+          .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
           .line(points.hemF)
       }
     }
@@ -101,7 +101,7 @@ export const sidePanel = {
       if (options.pocketsBool) {
         paths.sideSeam = new Path()
           .move(points.waist2Right)
-          .curve(points.dartTipECp3, points.dartTipECp2, points.dartTipE)
+          .curve(points.waist2RightCp1, points.dartTipECp, points.dartTipE)
           .line(points.hemE)
           .hide()
         points.pocketOpeningTop = paths.sideSeam.shiftAlong(store.get('pocketOpening'))
@@ -234,7 +234,7 @@ export const sidePanel = {
 
         paths.pleatLine = new Path()
           .move(points.waist3Right)
-          .curve(points.waist3Cp1, waist3Cp2, waist3Left)
+          .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
           .hide()
 
         for (let i = 0; i < options.pleatNumber; i++) {
@@ -314,21 +314,21 @@ export const sidePanel = {
               return new Path()
                 .move(points.waistFacingE)
                 .line(points.dartTipE)
-                .curve(points.dartTipECp2, points.dartTipECp3, points.waist2Right)
-                .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
-                .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
+                .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
+                .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
+                .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
                 .line(points.dartTopF)
                 .line(points.waist3Right)
-                .curve(points.waist3Cp1, waist3Cp2, waist3Left)
+                .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
                 .line(paths.waistFacing.start())
             } else {
               return new Path()
                 .move(points.waistFacingE)
                 .line(points.dartTipE)
-                .curve(points.dartTipECp2, points.dartTipECp3, points.waist2Right)
-                .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
-                .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
-                .curve(points.dartTipFCp1, points.dartTipFCp2, points.dartTipF)
+                .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
+                .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
+                .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
+                .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
                 .line(points.waistFacingF)
             }
           }
@@ -344,21 +344,21 @@ export const sidePanel = {
             return new Path()
               .move(points.hemE)
               .line(points.dartTipE)
-              .curve(points.dartTipECp2, points.dartTipECp3, points.waist2Right)
-              .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
-              .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
+              .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
+              .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
+              .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
               .line(points.dartTopF)
               .line(points.waist3Right)
-              .curve(points.waist3Cp1, waist3Cp2, waist3Left)
+              .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
               .line(points.hemK)
           } else {
             return new Path()
               .move(points.hemE)
               .line(points.dartTipE)
-              .curve(points.dartTipECp2, points.dartTipECp3, points.waist2Right)
-              .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
-              .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
-              .curve(points.dartTipFCp1, points.dartTipFCp2, points.dartTipF)
+              .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
+              .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
+              .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
+              .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
               .line(points.hemF)
           }
         }

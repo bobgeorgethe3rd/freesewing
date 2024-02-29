@@ -51,8 +51,8 @@ export const skirtBase = {
       points.hemF.rotate(-angleL, points.origin),
       trainLength / 2
     )
-    points.curveLCp1 = points.curveStartL.shiftFractionTowards(points.hemF, 1 / 3)
-    points.curveLCp2 = points.hemL.shiftFractionTowards(points.curveLCp1, 1 / 3)
+    points.curveStartLCp2 = points.curveStartL.shiftFractionTowards(points.hemF, 1 / 3)
+    points.hemLCp1 = points.hemL.shiftFractionTowards(points.curveStartLCp2, 1 / 3)
 
     // const sideBackCpDistance = (4 / 3) * points.origin.dist(points.hemL) * Math.tan(utils.deg2rad((points.origin.angle(points.hemE) - points.origin.angle(points.hemL)) / 4))
 
@@ -84,18 +84,18 @@ export const skirtBase = {
     //back panels shaping
     paths.sideBack = new Path()
       .move(points.waist2Left)
-      .curve(points.dartTipFCp1, points.dartTipFCp2, points.dartTipF)
+      .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
       .line(points.curveStartL)
-      .curve(points.curveLCp1, points.curveLCp2, points.hemL)
+      .curve(points.curveStartLCp2, points.hemLCp1, points.hemL)
 
     points.waistFCp2 = points.waistF
       .shiftTowards(
         points.origin,
-        points.waistF.dist(points.waist3Cp1) * (1 + options.sidePanelFullness)
+        points.waistF.dist(points.waist3RightCp2) * (1 + options.sidePanelFullness)
       )
       .rotate(90, points.waistF)
     points.waist6BCp1 = points.waist6B.shiftFractionTowards(
-      points.waist3Cp2B,
+      points.waist3LeftCp1B,
       1 - options.sidePanelFullness
     )
 
@@ -113,7 +113,7 @@ export const skirtBase = {
       Math.tan(
         utils.deg2rad((points.origin.angle(points.hemY) - points.origin.angle(points.hemJ)) / 4)
       )
-    const hemLAngle = 90 - (points.hemL.angle(points.curveLCp2) - points.hemL.angle(points.hemLCp2))
+    const hemLAngle = 90 - (points.hemL.angle(points.hemLCp1) - points.hemL.angle(points.hemLCp2))
 
     points.hemJCp2 = points.hemJ
       .shiftTowards(points.origin, backCpDistance)
@@ -153,8 +153,8 @@ export const skirtBase = {
     )
     points.hemFacingSplitL = utils.curvesIntersect(
       points.curveStartL,
-      points.curveLCp1,
-      points.curveLCp2,
+      points.curveStartLCp2,
+      points.hemLCp1,
       points.hemL,
       points.hemFacingD,
       points.hemFacingDCp2,

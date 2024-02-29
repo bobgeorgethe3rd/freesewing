@@ -7,8 +7,8 @@ export const skirtBase = {
     //Constants
     cpFraction: 0.55191502449,
     sideWaistFront: 4, //just in case we want a different size side front panel
-    fullDress: false, //This allows for the skirtBase to be extended out and used for Diagram 77, "The Full Dress Skirt"
-    sidePanelFullness: 3 / 8, //This is changed to an optional optional for 50% to 75% for Diagram 77, "The Full Dress Skirt"
+    fullDress: false, //This allows for the skirtBase to be extended out and used for Diagram 77, "The Full Dress Skirt" Fallon
+    sidePanelFullness: 3 / 8, //This is changed to an optional optional for 50% to 75% for Diagram 77, "The Full Dress Skirt" Fallon
     useVoidStores: false, //locked for Wanda
     //Fit
     waistEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
@@ -189,25 +189,25 @@ export const skirtBase = {
     points.dartTipD = points.origin.shiftOutwards(points.waistD, dartLength)
     points.dartTipE = points.origin.shiftOutwards(points.waistE, dartLength)
     points.dartTipF = points.origin.shiftOutwards(points.waistF, dartLength)
-    points.dartTipDCp1 = points.dartTipD
+    points.waist0LeftCp2 = points.dartTipD
       .shiftFractionTowards(points.waist1, 2 / 3)
       .rotate(5, points.dartTipD)
-    points.dartTipDCp2 = points.dartTipD.shiftFractionTowards(points.waistD, 1 / 4)
-    points.dartTipDCp3 = points.dartTipD
+    points.dartTipDCp = points.dartTipD.shiftFractionTowards(points.waistD, 1 / 4)
+    points.waist1RightCp1 = points.dartTipD
       .shiftFractionTowards(points.waist2, 2 / 3)
       .rotate(-5, points.dartTipD)
-    points.dartTipECp1 = points.dartTipE
+    points.waist1LeftCp2 = points.dartTipE
       .shiftFractionTowards(points.waist3, 2 / 3)
       .rotate(5, points.dartTipE)
-    points.dartTipECp2 = points.dartTipE.shiftFractionTowards(points.waistE, 1 / 4)
-    points.dartTipECp3 = points.dartTipE
+    points.dartTipECp = points.dartTipE.shiftFractionTowards(points.waistE, 1 / 4)
+    points.waist2RightCp1 = points.dartTipE
       .shiftFractionTowards(points.waist0, 2 / 3)
       .rotate(-5, points.dartTipE)
-    points.dartTipFCp1 = points.dartTipF
+    points.waist2LeftCp2 = points.dartTipF
       .shiftFractionTowards(points.waist4, 2 / 3)
       .rotate(5, points.dartTipF)
-    points.dartTipFCp2 = points.dartTipF.shiftFractionTowards(points.waistF, 1 / 4)
-    points.dartTipFCp3 = points.dartTipF
+    points.dartTipFCp = points.dartTipF.shiftFractionTowards(points.waistF, 1 / 4)
+    points.waist3RightCp1 = points.dartTipF
       .shiftFractionTowards(points.waist5, 2 / 3)
       .rotate(-5, points.dartTipF)
 
@@ -271,20 +271,20 @@ export const skirtBase = {
       points.origin.dist(points.cfWaist) *
       Math.tan(utils.deg2rad((270 - points.origin.angle(points.waist1)) / 8))
 
-    points.waist0Cp1 = points.cfWaist
+    points.cfWaistCp2 = points.cfWaist
       .shiftTowards(points.origin, waistFrontCpDistance)
       .rotate(90, points.cfWaist)
-    points.waist0Cp2 = points.waistPanel0
+    points.waistPanel0Cp1 = points.waistPanel0
       .shiftTowards(points.origin, waistFrontCpDistance)
       .rotate(-90, points.waistPanel0)
-    points.waist0Cp3 = points.waistPanel0
+    points.waistPanel0Cp2 = points.waistPanel0
       .shiftTowards(points.origin, waistFrontCpDistance)
       .rotate(90, points.waistPanel0)
     points.waist0Left = points.waist1
       .shiftTowards(points.origin, dartExtension)
       .rotate(-5, points.waist1)
-    points.waist0Cp4 = points.waist0Left
-      .shiftTowards(points.dartTipDCp1, waistFrontCpDistance)
+    points.waist0LeftCp1 = points.waist0Left
+      .shiftTowards(points.waist0LeftCp2, waistFrontCpDistance)
       .rotate(90, points.waist0Left)
 
     const sideWaistFrontCpDistance =
@@ -297,20 +297,20 @@ export const skirtBase = {
     points.waist1Right = points.waist2
       .shiftTowards(points.origin, dartExtension)
       .rotate(5, points.waist2)
-    points.waist1Cp1 = points.waist1Right
-      .shiftTowards(points.dartTipDCp3, sideWaistFrontCpDistance)
+    points.waist1RightCp2 = points.waist1Right
+      .shiftTowards(points.waist1RightCp1, sideWaistFrontCpDistance)
       .rotate(-90, points.waist1Right)
-    points.waist1Cp2 = points.waistPanel1
+    points.waistPanel1Cp1 = points.waistPanel1
       .shiftTowards(points.origin, sideWaistFrontCpDistance)
       .rotate(-90, points.waistPanel1)
-    points.waist1Cp3 = points.waistPanel1
+    points.waistPanel1Cp2 = points.waistPanel1
       .shiftTowards(points.origin, sideWaistFrontCpDistance)
       .rotate(90, points.waistPanel1)
     points.waist1Left = points.waist3
       .shiftTowards(points.origin, dartExtension)
       .rotate(-5, points.waist3)
-    points.waist1Cp4 = points.waist1Left
-      .shiftTowards(points.dartTipECp1, sideWaistFrontCpDistance)
+    points.waist1LeftCp1 = points.waist1Left
+      .shiftTowards(points.waist1LeftCp2, sideWaistFrontCpDistance)
       .rotate(90, points.waist1Left)
 
     //shaping side panel
@@ -324,20 +324,20 @@ export const skirtBase = {
     points.waist2Right = points.waist0
       .shiftTowards(points.origin, dartExtension)
       .rotate(5, points.waist0)
-    points.waist2Cp1 = points.waist2Right
-      .shiftTowards(points.dartTipECp3, sideWaistCpDistance0)
+    points.waist2RightCp2 = points.waist2Right
+      .shiftTowards(points.waist2RightCp1, sideWaistCpDistance0)
       .rotate(-90, points.waist2Right)
-    points.waist2Cp2 = points.waistPanel2
+    points.waistPanel2Cp1 = points.waistPanel2
       .shiftTowards(points.origin, sideWaistCpDistance0)
       .rotate(-90, points.waistPanel2)
-    points.waist2Cp3 = points.waistPanel2
+    points.waistPanel2Cp2 = points.waistPanel2
       .shiftTowards(points.origin, sideWaistCpDistance0)
       .rotate(90, points.waistPanel2)
     points.waist2Left = points.waist4
       .shiftTowards(points.origin, dartExtension)
       .rotate(-5, points.waist4)
-    points.waist2Cp4 = points.waist2Left
-      .shiftTowards(points.dartTipFCp1, sideWaistCpDistance0)
+    points.waist2LeftCp1 = points.waist2Left
+      .shiftTowards(points.waist2LeftCp2, sideWaistCpDistance0)
       .rotate(90, points.waist2Left)
 
     const sideWaistCpDistance1 =
@@ -350,33 +350,33 @@ export const skirtBase = {
     points.waist3Right = points.waist5
       .shiftTowards(points.origin, dartExtension)
       .rotate(5, points.waist5)
-    points.waist3Cp1 = points.waist3Right
-      .shiftTowards(points.dartTipFCp3, sideWaistCpDistance1)
+    points.waist3RightCp2 = points.waist3Right
+      .shiftTowards(points.waist3RightCp1, sideWaistCpDistance1)
       .rotate(-90, points.waist3Right)
-    points.waist3Cp2 = points.waist3LeftS
+    points.waist3LeftCp1 = points.waist3LeftS
       .shiftTowards(points.origin, sideWaistCpDistance1)
       .rotate(-90, points.waist3LeftS)
-    points.waist3Cp2B = points.waist6B
+    points.waist3LeftCp1B = points.waist6B
       .shiftTowards(points.origin, sideWaistCpDistance1)
       .rotate(-90, points.waist6B)
-    points.waist3Cp2U = points.waist6
+    points.waist3LeftCp1U = points.waist6
       .shiftTowards(points.origin, sideWaistCpDistance1)
       .rotate(-90, points.waist6)
 
     //back panel shaping
     if (!options.fullDress) {
-      points.waist6Cp1B = points.waist3Cp2B.rotate(180, points.waist6B)
+      points.waist6Cp2B = points.waist3LeftCp1B.rotate(180, points.waist6B)
       points.waistEndCp2B = utils.beamsIntersect(
         points.waistEndB,
         points.waistEndB.shift(-90, 1),
         points.waist6B,
-        points.waist6Cp1B
+        points.waist6Cp2B
       )
       points.waistL = utils.lineIntersectsCurve(
         points.waistA,
         points.hemL,
         points.waist6B,
-        points.waist6Cp1B,
+        points.waist6Cp2B,
         points.waistEndCp2B,
         points.waistEndB
       )
@@ -492,10 +492,10 @@ export const skirtBase = {
           )
         )
 
-      points.waist6Cp1 = points.waist6
+      points.waist6Cp2 = points.waist6
         .shiftTowards(points.origin, umbrellaWaistGuideCpDistance)
         .rotate(90, points.waist6)
-      points.waistHCp2 = points.waistH
+      points.waistHCp1 = points.waistH
         .shiftTowards(points.origin, umbrellaWaistGuideCpDistance)
         .rotate(-90, points.waistH)
     }
@@ -591,21 +591,21 @@ export const skirtBase = {
 
     //adding dart tops for seam paths
     points.dartTopD = utils.beamsIntersect(
-      points.waist0Cp4,
+      points.waist0LeftCp1,
       points.waist0Left,
-      points.waist1Cp1,
+      points.waist1RightCp2,
       points.waist1Right
     )
     points.dartTopE = utils.beamsIntersect(
-      points.waist1Cp4,
+      points.waist1LeftCp1,
       points.waist1Left,
-      points.waist2Cp1,
+      points.waist2RightCp2,
       points.waist2Right
     )
     points.dartTopF = utils.beamsIntersect(
-      points.waist2Cp4,
+      points.waist2LeftCp1,
       points.waist2Left,
-      points.waist3Cp1,
+      points.waist3RightCp2,
       points.waist3Right
     )
 
@@ -614,25 +614,25 @@ export const skirtBase = {
       //needed for pleating
       paths.straightCurve = new Path()
         .move(points.waist3Right)
-        .curve(points.waist3Cp1, points.waist3Cp2, points.waist3LeftS)
+        .curve(points.waist3RightCp2, points.waist3LeftCp1, points.waist3LeftS)
 
       paths.bellCurve = new Path()
         .move(points.waist3Right)
-        .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
-        .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
+        .curve(points.waist3RightCp2, points.waist3LeftCp1B, points.waist6B)
+        .curve(points.waist6Cp2B, points.waistEndCp2B, points.waistEndB)
 
       paths.umbrellaCurve = new Path()
         .move(points.waist3Right)
-        .curve(points.waist3Cp1, points.waist3Cp2U, points.waist6)
-        .curve(points.waist6Cp1, points.waistHCp2, points.waistH)
+        .curve(points.waist3RightCp2, points.waist3LeftCp1U, points.waist6)
+        .curve(points.waist6Cp2, points.waistHCp1, points.waistH)
 
       const pleatTo = waist - waist / 4 - sideWaistFront - sideWaist
       const pleatFromStraight = paths.straightCurve.length()
 
       paths.bellWaist = new Path()
         .move(points.waist3Right)
-        .curve(points.waist3Cp1, points.waist3Cp2B, points.waist6B)
-        .curve(points.waist6Cp1B, points.waistEndCp2B, points.waistEndB)
+        .curve(points.waist3RightCp2, points.waist3LeftCp1B, points.waist6B)
+        .curve(points.waist6Cp2B, points.waistEndCp2B, points.waistEndB)
         .split(points.waistL)[0]
         .hide()
 
@@ -740,33 +740,33 @@ export const skirtBase = {
     //Uncomment to see how the scaffolding. Helpful if re-working please keep.
     paths.cfWaist = new Path()
       .move(points.cfWaist)
-      .curve(points.waist0Cp1, points.waist0Cp2, points.waistPanel0)
-      .curve(points.waist0Cp3, points.waist0Cp4, points.waist0Left)
+      .curve(points.cfWaistCp2, points.waistPanel0Cp1, points.waistPanel0)
+      .curve(points.waistPanel0Cp2, points.waist0LeftCp1, points.waist0Left)
 
     paths.sideWaistFront = new Path()
       .move(points.waist1Right)
-      .curve(points.waist1Cp1, points.waist1Cp2, points.waistPanel1)
-      .curve(points.waist1Cp3, points.waist1Cp4, points.waist1Left)
+      .curve(points.waist1RightCp2, points.waistPanel1Cp1, points.waistPanel1)
+      .curve(points.waistPanel1Cp2, points.waist1LeftCp1, points.waist1Left)
 
     paths.sideWaist0 = new Path()
       .move(points.waist2Right)
-      .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
-      .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
+      .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
+      .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
 
     paths.dartD = new Path()
       .move(points.waist0Left)
-      .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
-      .curve(points.dartTipDCp2, points.dartTipDCp3, points.waist1Right)
+      .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
+      .curve(points.dartTipDCp, points.waist1RightCp1, points.waist1Right)
 
     paths.dartE = new Path()
       .move(points.waist1Left)
-      .curve(points.dartTipECp1, points.dartTipECp2, points.dartTipE)
-      .curve(points.dartTipECp2, points.dartTipECp3, points.waist2Right)
+      .curve(points.waist1LeftCp2, points.dartTipECp, points.dartTipE)
+      .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
 
     paths.dartF = new Path()
       .move(points.waist2Left)
-      .curve(points.dartTipFCp1, points.dartTipFCp2, points.dartTipF)
-      .curve(points.dartTipFCp2, points.dartTipFCp3, points.waist3Right)
+      .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
+      .curve(points.dartTipFCp, points.waist3RightCp1, points.waist3Right)
 
     paths.originLines = new Path()
       .move(points.cfHem)

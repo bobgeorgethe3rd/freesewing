@@ -46,12 +46,12 @@ export const sideBack = {
     paths.saBase = new Path()
       .move(points.hemZ)
       .line(points.dartTipE)
-      .curve(points.dartTipECp2, points.dartTipECp3, points.waist2Right)
-      .curve(points.waist2Cp1, points.waist2Cp2, points.waistPanel2)
-      .curve(points.waist2Cp3, points.waist2Cp4, points.waist2Left)
-      .curve(points.dartTipFCp1, points.dartTipFCp2, points.dartTipF)
+      .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
+      .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
+      .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
+      .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
       .line(points.curveStartL)
-      .curve(points.curveLCp1, points.curveLCp2, points.hemL)
+      .curve(points.curveStartLCp2, points.hemLCp1, points.hemL)
       .hide()
 
     paths.seam = paths.hemBase.join(paths.saBase)
@@ -68,7 +68,7 @@ export const sideBack = {
       if (options.pocketsBool) {
         paths.sideSeam = new Path()
           .move(points.waist2Right)
-          .curve(points.dartTipECp3, points.dartTipECp2, points.dartTipE)
+          .curve(points.waist2RightCp1, points.dartTipECp, points.dartTipE)
           .line(points.hemZ)
           .hide()
 

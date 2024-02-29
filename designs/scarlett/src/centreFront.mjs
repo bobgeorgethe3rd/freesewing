@@ -58,13 +58,13 @@ export const centreFront = {
 
     paths.waist = new Path()
       .move(points.cfWaist)
-      .curve(points.waist0Cp1, points.waist0Cp1, points.waistPanel0)
-      .curve(points.waist0Cp3, points.waist0Cp4, points.waist0Left)
+      .curve(points.cfWaistCp2, points.cfWaistCp2, points.waistPanel0)
+      .curve(points.waistPanel0Cp2, points.waist0LeftCp1, points.waist0Left)
       .hide()
 
     paths.sideFront = new Path()
       .move(points.waist0Left)
-      .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
+      .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
       .line(points.hemD)
       .hide()
 
@@ -95,13 +95,13 @@ export const centreFront = {
         at: points.title,
       })
       //logo
-      points.logo = new Point(points.waist0Cp4.x, points.cfHem.y * 0.7)
+      points.logo = new Point(points.waist0LeftCp1.x, points.cfHem.y * 0.7)
       macro('logorg', {
         at: points.logo,
         scale: 0.75,
       })
       //scalebox
-      points.scalebox = new Point(points.waist0Cp4.x, points.cfHem.y * 0.8)
+      points.scalebox = new Point(points.waist0LeftCp1.x, points.cfHem.y * 0.8)
       macro('scalebox', {
         at: points.scalebox,
       })
@@ -201,7 +201,7 @@ export const centreFront = {
             .join(
               new Path()
                 .move(points.waist0Left)
-                .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
+                .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
                 .line(points.waistFacingD)
                 .offset(sideFrontSa)
             )

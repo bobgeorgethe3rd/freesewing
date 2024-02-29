@@ -72,7 +72,7 @@ export const swingPanel = {
       //title
       points.title = new Point(
         points.waist0Left.x,
-        points.waist0Cp2.y + (points.cfHem.y - points.cfWaist.y) / 3
+        points.waistPanel0Cp1.y + (points.cfHem.y - points.cfWaist.y) / 3
       )
       macro('title', {
         nr: 1,
@@ -126,7 +126,7 @@ export const swingPanel = {
             .join(
               new Path()
                 .move(points.waist0Left)
-                .curve(points.dartTipDCp1, points.dartTipDCp2, points.dartTipD)
+                .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
                 .line(points.waistFacingD)
                 .offset(sideFrontSa)
             )
