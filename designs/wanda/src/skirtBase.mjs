@@ -18,7 +18,7 @@ export const skirtBase = {
       pct: 1.25,
       min: 1,
       max: 8,
-      snap: 5,
+      snap: 3.175,
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     },
