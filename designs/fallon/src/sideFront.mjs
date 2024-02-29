@@ -47,6 +47,7 @@ export const sideFront = {
       .move(points.hemD)
       .line(points.dartTipD)
       .curve(points.dartTipDCp, points.waist1RightCp1, points.waist1Right)
+      .hide()
 
     paths.saWaist = new Path()
       .move(points.waist1Right)
