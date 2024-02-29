@@ -13,7 +13,7 @@ export const centreFront = {
     //Construction
     buttons: { bool: true, menu: 'construction' },
     buttonNum: { count: 9, min: 2, max: 20, menu: 'construction' },
-    buttonOffset: { count: 8, min: 4, max: 10, menu: 'construction' },
+    buttonOffset: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
     buttonStart: { pct: 1, min: 1, max: 5, menu: 'construction' },
     buttonEnd: { pct: 2.5, min: 1, max: 10, menu: 'construction' },
     inseamSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
@@ -147,7 +147,7 @@ export const centreFront = {
         paths.button = paths.sideFront
           .split(points.buttonStart)[1]
           .split(points.buttonEnd)[0]
-          .offset(store.get('fullWaist') / (8 * -(14 - options.buttonOffset)))
+          .offset(store.get('fullWaist') * -options.buttonOffset)
           .hide()
 
         let j
@@ -155,9 +155,9 @@ export const centreFront = {
           j = i + 1
           points['button' + i] = paths.button.shiftFractionAlong(i / (options.buttonNum - 1))
           points['buttonAngle' + i] = paths.button.shiftFractionAlong(
-            (i / (options.buttonNum - 1)) * 0.999
+            (i / (options.buttonNum - 1)) * 0.995
           )
-          points.buttonAngle0 = paths.button.shiftAlong(1)
+          points.buttonAngle0 = paths.button.shiftAlong(1).rotate(180, points.buttonStart)
           snippets['button' + i] = new Snippet('button', points['button' + i]).attr(
             'data-rotate',
             points['button' + i].angle(points['buttonAngle' + i]) * -1
