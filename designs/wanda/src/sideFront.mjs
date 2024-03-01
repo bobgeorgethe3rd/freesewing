@@ -127,15 +127,18 @@ export const sideFront = {
       }
 
       if (sa) {
+        let sideSeamSa = sa * options.sideSeamSaWidth * 100
+        if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
+          sideSeamSa = sa * options.closureSaWidth * 100
+        }
+
         let hemSa = sa * options.skirtHemWidth * 100
         if (options.skirtHemFacings) {
           hemSa = sa
         }
-
-        let sideSeamSa = sa * options.sideSeamSaWidth * 100
-        if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
-          sideSeamSa = closureSa
-        }
+        points.saWaist1Left = points.waist1Left
+          .shift(points.waist1LeftCp2.angle(points.waist1Left), sa)
+          .shift(points.waist1LeftCp1.angle(points.waist1Left), sideSeamSa)
 
         points.saHemD = points.hemD
           .shift(points.hemDCp1.angle(points.hemD), sa)
@@ -145,15 +148,14 @@ export const sideFront = {
           .shift(points.waist1RightCp1.angle(points.waist1Right), sa)
           .shift(points.waist1RightCp2.angle(points.waist1Right), sa)
 
-        points.saWaist1Left = points.waist1Left
-          .shift(points.waist1LeftCp2.angle(points.waist1Left), sa)
-          .shift(points.waist1LeftCp1.angle(points.waist1Left), sideSeamSa)
+        points.saHemE = points.hemE
+          .shift(points.dartTipE.angle(points.hemE), hemSa)
+          .shift(points.hemECp2.angle(points.hemE), sideSeamSa)
 
         if (options.skirtHemFacings) {
           points.saHemFacingD = points.hemFacingD
             .shift(points.hemD.angle(points.hemFacingD), sa)
             .shift(points.hemFacingDCp2.angle(points.hemFacingD), sa)
-
           points.saHemFacingE = points.hemFacingE
             .shift(points.hemE.angle(points.hemFacingE), sa)
             .shift(points.hemFacingECp1.angle(points.hemFacingE), sideSeamSa)
@@ -192,7 +194,7 @@ export const sideFront = {
           .clone()
           .offset(hemSa)
           .line(points.saHemD)
-          .join(paths.saRight.offset(sideSeamSa))
+          .join(paths.saRight.offset(sa))
           .line(points.saWaist1Right)
           .join(paths.saWaist.offset(sa))
           .line(points.saWaist1Left)

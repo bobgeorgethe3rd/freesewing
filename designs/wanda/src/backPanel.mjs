@@ -102,35 +102,39 @@ export const backPanel = {
       if (options.style == 'bell') {
         lineFrom = points.hemL
         lineTo = points.waistL
-        hemFacingEnd = points.hemL.shiftTowards(points.origin, skirtHemFacingWidth)
-        hemFacingCp2 = utils.beamsIntersect(
-          points.hemLCp2,
-          points.origin,
-          hemFacingEnd,
-          points.origin.rotate(-90, hemFacingEnd)
-        )
-        hemFacingCp1 = utils.beamsIntersect(
-          points.hemKCp1B,
-          points.origin,
-          points.hemFacingK,
-          points.origin.rotate(90, points.hemFacingK)
-        )
+        if (options.skirtHemFacings) {
+          hemFacingEnd = points.hemL.shiftTowards(points.origin, skirtHemFacingWidth)
+          hemFacingCp2 = utils.beamsIntersect(
+            points.hemLCp2,
+            points.origin,
+            hemFacingEnd,
+            points.origin.rotate(-90, hemFacingEnd)
+          )
+          hemFacingCp1 = utils.beamsIntersect(
+            points.hemKCp1B,
+            points.origin,
+            points.hemFacingK,
+            points.origin.rotate(90, points.hemFacingK)
+          )
+        }
       } else {
         lineFrom = points.hemN
         lineTo = points.waistH
-        hemFacingEnd = points.hemN.shiftTowards(points.origin, skirtHemFacingWidth)
-        hemFacingCp2 = utils.beamsIntersect(
-          points.hemNCp2,
-          points.origin,
-          hemFacingEnd,
-          points.origin.rotate(-90, hemFacingEnd)
-        )
-        hemFacingCp1 = utils.beamsIntersect(
-          points.hemKCp1U,
-          points.origin,
-          points.hemFacingK,
-          points.origin.rotate(90, points.hemFacingK)
-        )
+        if (options.skirtHemFacings) {
+          hemFacingEnd = points.hemN.shiftTowards(points.origin, skirtHemFacingWidth)
+          hemFacingCp2 = utils.beamsIntersect(
+            points.hemNCp2,
+            points.origin,
+            hemFacingEnd,
+            points.origin.rotate(-90, hemFacingEnd)
+          )
+          hemFacingCp1 = utils.beamsIntersect(
+            points.hemKCp1U,
+            points.origin,
+            points.hemFacingK,
+            points.origin.rotate(90, points.hemFacingK)
+          )
+        }
       }
       if (options.skirtHemFacings) {
         points.hemFacingSplit = utils.lineIntersectsCurve(
@@ -308,7 +312,10 @@ export const backPanel = {
         }
       }
       if (sa) {
-        const hemSa = sa * options.skirtHemWidth * 100
+        let hemSa = sa * options.skirtHemWidth * 100
+        if (options.skirtHemFacings) {
+          hemSa = sa
+        }
         if (options.skirtHemFacings) {
           paths.hemFacingSa = drawHemBase()
             .offset(hemSa)

@@ -218,15 +218,48 @@ export const centreFront = {
       }
 
       if (sa) {
-        let hemSa = sa * options.skirtHemWidth * 100
-        if (options.skirtHemFacings) {
-          hemSa = sa
+        const closureSa = sa * options.closureSaWidth * 100
+
+        let cfSa = sa * options.cfSaWidth * 100
+        if (options.closurePosition == 'front') {
+          cfSa = closureSa
         }
 
         let sideSeamSa = sa * options.sideSeamSaWidth * 100
         if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
           sideSeamSa = closureSa
         }
+
+        let hemSa = sa * options.skirtHemWidth * 100
+        if (options.skirtHemFacings) {
+          hemSa = sa
+        }
+        points.saCfHem = points.cfHem.translate(cfSa, hemSa)
+        points.saCfWaist = points.cfWaist.translate(cfSa, -sa)
+        points.saWaist1Left = points.waist1Left
+          .shift(points.waist1LeftCp2.angle(points.waist1Left), sa)
+          .shift(points.waist1LeftCp1.angle(points.waist1Left), sideSeamSa)
+
+        points.saHemE = points.hemE
+          .shift(points.dartTipE.angle(points.hemE), hemSa)
+          .shift(points.hemECp2.angle(points.hemE), sideSeamSa)
+
+        points.saDartTopD = utils.beamsIntersect(
+          points.waist0LeftCp1
+            .shiftTowards(points.waist0Left, sa)
+            .rotate(-90, points.waist0LeftCp1),
+          points.waist0Left.shiftTowards(points.waist0LeftCp1, sa).rotate(90, points.waist0Left),
+          points.dartTipD,
+          points.dartTopD
+        )
+
+        points.saWaist0Left = points.waist0Left
+          .shift(points.waist0LeftCp1.angle(points.waist0Left), sa)
+          .shift(points.waist0LeftCp2.angle(points.waist0Left), sa)
+
+        points.saHemD = points.hemD
+          .shift(points.dartTipD.angle(points.hemD), hemSa)
+          .shift(points.hemDCp2.angle(points.hemD), sa)
 
         if (options.waistbandStyle == 'none') {
           const drawWaistFacingSaBase = () => {
@@ -258,23 +291,6 @@ export const centreFront = {
             .close()
             .attr('class', 'interfacing sa')
         }
-
-        points.saDartTopD = utils.beamsIntersect(
-          points.waist0LeftCp1
-            .shiftTowards(points.waist0Left, sa)
-            .rotate(-90, points.waist0LeftCp1),
-          points.waist0Left.shiftTowards(points.waist0LeftCp1, sa).rotate(90, points.waist0Left),
-          points.dartTipD,
-          points.dartTopD
-        )
-
-        points.saWaist0Left = points.waist0Left
-          .shift(points.waist0LeftCp1.angle(points.waist0Left), sa)
-          .shift(points.waist0LeftCp2.angle(points.waist0Left), sa)
-
-        points.saHemD = points.hemD
-          .shift(points.dartTipD.angle(points.hemD), hemSa)
-          .shift(points.hemDCp2.angle(points.hemD), sa)
 
         const drawSaBase = () => {
           if (options.frontDart == 'dart') {
@@ -323,6 +339,9 @@ export const centreFront = {
           points.saHemFacingD = points.hemFacingD
             .shift(points.hemD.angle(points.hemFacingD), sa)
             .shift(points.hemFacingDCp1.angle(points.hemFacingD), sa)
+          points.saHemFacingE = points.hemFacingE
+            .shift(points.hemE.angle(points.hemFacingE), sa)
+            .shift(points.hemFacingECp1.angle(points.hemFacingE), sideSeamSa)
 
           let saHemFacing = points.saHemFacingD
           let saHemEnd = points.saHemD

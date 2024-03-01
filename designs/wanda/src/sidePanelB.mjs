@@ -56,12 +56,15 @@ export const sidePanelB = {
     }
 
     //paths
-    paths.saBase = new Path()
+    paths.saRight = new Path()
       .move(points.hemF)
       .line(points.dartTipF)
       .curve(points.dartTipFCp, points.waist3RightCp1, points.waist3Right)
+      .hide()
+
+    paths.saWaist = new Path()
+      .move(points.waist3Right)
       .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
-      .line(points.hemK)
       .hide()
 
     paths.hemBase = new Path()
@@ -69,7 +72,7 @@ export const sidePanelB = {
       .curve(points.hemKCp2, points.hemFCp1, points.hemF)
       .hide()
 
-    paths.seam = paths.hemBase.join(paths.saBase).close()
+    paths.seam = paths.hemBase.join(paths.saRight).join(paths.saWaist).line(points.hemK).close()
 
     if (complete) {
       //grainline
@@ -193,20 +196,53 @@ export const sidePanelB = {
       }
 
       if (sa) {
-        const hemSa = sa * options.skirtHemWidth * 100
+        let hemSa = sa * options.skirtHemWidth * 100
+        if (options.skirtHemFacings) {
+          hemSa = sa
+        }
+        let cbSa
+        if (options.closurePosition == 'back' && options.style == 'straight') {
+          cbSa = sa * options.closureSaWidth * 100
+        } else {
+          if (options.style == 'straight') {
+            cbSa = sa * options.cbSaWidth * 100
+          } else {
+            cbSa = sa
+          }
+        }
+        points.saHemF = points.hemF
+          .shift(points.hemFCp1.angle(points.hemF), sa)
+          .shift(points.dartTipF.angle(points.hemF), hemSa)
+
+        points.saWaist3Right = points.waist3Right
+          .shift(points.waist3RightCp1.angle(points.waist3Right), sa)
+          .shift(points.waist3RightCp2.angle(points.waist3Right), sa)
+
+        points.saWaist3Left = waist3Left
+          .shift(points.hemK.angle(waist3Left), sa)
+          .shift(waist3LeftCp1.angle(waist3Left), cbSa)
+
+        points.saHemK = points.hemK
+          .shift(points.hemKCp2.angle(points.hemK), cbSa)
+          .shift(waist3Left.angle(points.hemK), hemSa)
 
         if (options.skirtHemFacings) {
+          points.saHemFacingF = points.hemFacingF
+            .shift(points.hemF.angle(points.hemFacingF), sa)
+            .shift(points.hemFacingFCp2.angle(points.hemFacingF), sa)
+
+          points.saHemFacingK = points.hemFacingK
+            .shift(points.hemK.angle(points.hemFacingK), sa)
+            .shift(points.hemFacingKCp1.angle(points.hemFacingK), sa)
+
           paths.hemFacingSa = paths.hemBase
             .clone()
             .offset(hemSa)
-            .join(
-              new Path()
-                .move(points.hemF)
-                .line(points.hemFacingF)
-                .join(paths.hemFacing.reverse())
-                .line(points.hemK)
-                .offset(sa)
-            )
+            .line(points.saHemF)
+            .line(points.saHemFacingF)
+            .join(paths.hemFacing.reverse().offset(sa))
+            .line(points.saHemFacingK)
+            .line(points.saHemK)
             .attr('class', 'interfacing sa')
         }
         if (options.waistbandStyle == 'none') {
@@ -229,7 +265,12 @@ export const sidePanelB = {
         paths.sa = paths.hemBase
           .clone()
           .offset(hemSa)
-          .join(paths.saBase.offset(sa))
+          .line(points.saHemF)
+          .join(paths.saRight.offset(sa))
+          .line(points.saWaist3Right)
+          .join(paths.saWaist.offset(sa))
+          .line(points.saWaist3Left)
+          .line(points.saHemK)
           .close()
           .attr('class', 'fabric sa')
       }

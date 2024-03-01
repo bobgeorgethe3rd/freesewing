@@ -62,33 +62,36 @@ export const sidePanel = {
         waist3LeftCp1 = points.waist3LeftCp1B
       }
     }
+    paths.saRight = new Path()
+      .move(points.hemE)
+      .line(points.dartTipE)
+      .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
+      .hide()
+
+    paths.saWaist = new Path()
+      .move(points.waist2Right)
+      .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
+      .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
+      .hide()
 
     const drawSeam = () => {
       if (options.sideDart == 'dart') {
         return new Path()
-          .move(points.hemE)
-          .line(points.dartTipE)
-          .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
-          .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
-          .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
+          .move(points.waist2Left)
           .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
           .curve(points.dartTipFCp, points.waist3RightCp1, points.waist3Right)
           .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
           .line(points.hemK)
       } else {
         return new Path()
-          .move(points.hemE)
-          .line(points.dartTipE)
-          .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
-          .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
-          .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
+          .move(points.waist2Left)
           .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
           .line(points.hemF)
       }
     }
 
     //paths
-    paths.seam = drawHemBase().join(drawSeam()).close()
+    paths.seam = drawHemBase().join(paths.saRight).join(paths.saWaist).join(drawSeam()).close()
 
     if (complete) {
       //grainline
@@ -297,22 +300,59 @@ export const sidePanel = {
       }
 
       if (sa) {
-        const hemSa = sa * options.skirtHemWidth * 100
-
-        if (options.skirtHemFacings) {
-          paths.hemFacingSa = drawHemBase()
-            .offset(hemSa)
-            .join(
-              new Path()
-                .move(points.hemE)
-                .line(points.hemFacingE)
-                .join(paths.hemFacing.reverse())
-                .line(drawHemBase().start())
-                .offset(sa)
-            )
-            .close()
-            .attr('class', 'interfacing sa')
+        const closureSa = sa * options.closureSaWidth * 100
+        let cbSa
+        if (options.closurePosition == 'back' && options.style == 'straight') {
+          cbSa = closureSa
+        } else {
+          if (options.style == 'straight') {
+            cbSa = sa * options.cbSaWidth * 100
+          } else {
+            cbSa = sa
+          }
         }
+        let sideSeamSa = sa * options.sideSeamSaWidth * 100
+        if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
+          sideSeamSa = closureSa
+        }
+
+        let hemSa = sa * options.skirtHemWidth * 100
+        if (options.skirtHemFacings) {
+          hemSa = sa
+        }
+        points.saHemE = points.hemE
+          .shift(points.hemECp1.angle(points.hemE), sideSeamSa)
+          .shift(points.dartTipE.angle(points.hemE), hemSa)
+
+        points.saWaist2Right = points.waist2Right
+          .shift(points.waist2RightCp2.angle(points.waist2Right), sideSeamSa)
+          .shift(points.waist2RightCp1.angle(points.waist2Right), sa)
+
+        points.saDartTopF = utils.beamsIntersect(
+          points.waist2LeftCp1
+            .shiftTowards(points.waist2Left, sa)
+            .rotate(-90, points.waist2LeftCp1),
+          points.waist2Left.shiftTowards(points.waist2LeftCp1, sa).rotate(90, points.waist2Left),
+          points.dartTipF,
+          points.dartTopF
+        )
+
+        points.saWaist3Left = waist3Left
+          .shift(points.hemK.angle(waist3Left), sa)
+          .shift(waist3LeftCp1.angle(waist3Left), cbSa)
+
+        points.saHemK = points.hemK
+          .shift(points.hemKCp2.angle(points.hemK), cbSa)
+          .shift(waist3Left.angle(points.hemK), hemSa)
+
+        points.saWaist2Left = points.waist2Left
+          .shift(points.waist2LeftCp1.angle(points.waist2Left), sa)
+          .shift(points.waist2LeftCp2.angle(points.waist2Left), sa)
+
+        points.saHemF = points.hemF
+          .shift(points.hemFCp2.angle(points.hemF), sa)
+          .shift(points.dartTipF.angle(points.hemF), hemSa)
+
         if (options.waistbandStyle == 'none') {
           const drawWaistFacingSaBase = () => {
             if (options.sideDart == 'dart') {
@@ -347,29 +387,69 @@ export const sidePanel = {
         const drawSaBase = () => {
           if (options.sideDart == 'dart') {
             return new Path()
-              .move(points.hemE)
-              .line(points.dartTipE)
-              .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
-              .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
-              .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
-              .line(points.dartTopF)
-              .line(points.waist3Right)
-              .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
-              .line(points.hemK)
+              .move(paths.saWaist.offset(sa).end())
+              .line(points.saDartTopF)
+              .join(
+                new Path()
+                  .move(points.dartTopF)
+                  .line(points.waist3Right)
+                  .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
+                  .offset(sa)
+              )
+              .line(points.saWaist3Left)
+              .line(points.saHemK)
           } else {
             return new Path()
-              .move(points.hemE)
-              .line(points.dartTipE)
-              .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
-              .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
-              .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
-              .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
-              .line(points.hemF)
+              .move(paths.saWaist.offset(sa).end())
+              .line(points.saWaist2Left)
+              .join(
+                new Path()
+                  .move(points.waist2Left)
+                  .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
+                  .offset(sa)
+              )
+              .line(points.saHemF)
           }
         }
+
+        if (options.skirtHemFacings) {
+          points.saHemFacingE = points.hemFacingE
+            .shift(points.hemE.angle(points.hemFacingE), sa)
+            .shift(points.hemFacingECp2.angle(points.hemFacingE), sideSeamSa)
+
+          points.saHemFacingF = points.hemFacingF
+            .shift(points.hemF.angle(points.hemFacingF), sa)
+            .shift(points.hemFacingFCp1.angle(points.hemFacingF), sa)
+
+          points.saHemFacingK = points.hemFacingK
+            .shift(points.hemFacingKCp1.angle(points.hemFacingK), cbSa)
+            .shift(points.hemK.angle(points.hemFacingK), sa)
+
+          let saHemFacing = points.saHemFacingF
+          let saHemEnd = points.saHemF
+          if (options.sideDart == 'dart') {
+            saHemFacing = points.saHemFacingK
+            saHemEnd = points.saHemK
+          }
+
+          paths.hemFacingSa = drawHemBase()
+            .offset(hemSa)
+            .line(points.saHemE)
+            .line(points.saHemFacingE)
+            .join(paths.hemFacing.reverse().offset(sa))
+            .line(saHemFacing)
+            .line(saHemEnd)
+            .close()
+            .attr('class', 'interfacing sa')
+        }
+
         paths.sa = drawHemBase()
           .offset(hemSa)
-          .join(drawSaBase().offset(sa))
+          .line(points.saHemE)
+          .join(paths.saRight.offset(sideSeamSa))
+          .line(points.saWaist2Right)
+          .join(paths.saWaist.offset(sa))
+          .join(drawSaBase())
           .close()
           .attr('class', 'fabric sa')
       }

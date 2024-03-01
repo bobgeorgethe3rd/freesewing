@@ -47,7 +47,7 @@ export const skirtBase = {
     hipDartWidth: { pct: (5 / 96) * 100, min: (1 / 32) * 100, max: (1 / 16) * 100, menu: 'darts' },
     sideDartWidth: { pct: (1 / 24) * 100, min: (1 / 32) * 100, max: (5 / 96) * 100, menu: 'darts' },
     //Construction
-    cbSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    cbSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
     cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
     closurePosition: {
       dflt: 'back',
@@ -776,45 +776,6 @@ export const skirtBase = {
       paths.umbrellaHem = new Path()
         .move(points.hemK)
         .curve(points.hemKCp1U, points.hemNCp2, points.hemN)
-    }
-
-    if (complete && sa) {
-      const closureSa = sa * options.closureSaWidth * 100
-
-      let cfSa = sa * options.cfSaWidth * 100
-      if (options.closurePosition == 'front') {
-        cfSa = closureSa
-      }
-
-      let cbSa = sa * options.cbSaWidth * 100
-      if (options.closurePosition == 'back') {
-        cbSa = closureSa
-      }
-
-      let sideSeamSa = sa * options.sideSeamSaWidth * 100
-      if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
-        sideSeamSa = closureSa
-      }
-
-      let hemSa = sa * options.skirtHemWidth * 100
-      if (options.skirtHemFacings) {
-        hemSa = sa
-      }
-
-      points.saCfHem = points.cfHem.translate(cfSa, hemSa)
-      points.saCfWaist = points.cfWaist.translate(cfSa, -sa)
-      points.saWaist1Left = points.waist1Left
-        .shift(points.waist1LeftCp2.angle(points.waist1Left), sa)
-        .shift(points.waist1LeftCp1.angle(points.waist1Left), sideSeamSa)
-
-      points.saHemE = points.hemE
-        .shift(points.dartTipE.angle(points.hemE), hemSa)
-        .shift(points.hemECp2.angle(points.hemE), sideSeamSa)
-      if (options.skirtHemFacings) {
-        points.saHemFacingE = points.hemFacingE
-          .shift(points.hemE.angle(points.hemFacingE), sa)
-          .shift(points.hemFacingECp1.angle(points.hemFacingE), sideSeamSa)
-      }
     }
     //Uncomment to see how the scaffolding. Helpful if re-working please keep.
     paths.cfWaist = new Path()
