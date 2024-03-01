@@ -2,33 +2,31 @@ import { pocket as wandaPocket } from '@freesewing/wanda'
 
 export const pocket = {
   name: 'scarlett.pocket',
-  from: wandaPocket,
-  hide: {
-    from: true,
+  options: {
+    //Imported
+    ...wandaPocket.options,
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    Snippet,
-    absoluteOptions,
-    log,
-  }) => {
+  draft: (sh) => {
+    const {
+      macro,
+      points,
+      Point,
+      paths,
+      Path,
+      utils,
+      options,
+      measurements,
+      snippets,
+      Snippet,
+      store,
+      complete,
+      part,
+    } = sh
     //set Render
     if (!options.pocketsBool) {
       part.hide()
     }
+    wandaPocket.draft(sh)
 
     if (complete) {
       //title

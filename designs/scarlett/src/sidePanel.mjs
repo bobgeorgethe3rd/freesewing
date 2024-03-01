@@ -1,5 +1,5 @@
 import { skirtBase } from './skirtBase.mjs'
-import { pocket } from '@freesewing/wanda'
+import { pocket } from './pocket.mjs'
 
 export const sidePanel = {
   name: 'scarlett.sidePanel',
@@ -7,13 +7,6 @@ export const sidePanel = {
   after: pocket,
   hide: {
     from: true,
-  },
-  options: {
-    //Style
-    style: { dflt: 'straight', list: ['straight', 'bell', 'umbrella'], menu: 'style' },
-    //Construction
-    sideDart: { dflt: 'dart', list: ['dart', 'seam'], menu: 'construction' },
-    crossSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
   },
   draft: ({
     store,

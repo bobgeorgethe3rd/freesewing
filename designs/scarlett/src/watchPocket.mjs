@@ -2,33 +2,31 @@ import { watchPocket as wandaWatchPocket } from '@freesewing/wanda'
 
 export const watchPocket = {
   name: 'scarlett.watchPocket',
-  from: wandaWatchPocket,
-  hide: {
-    from: true,
+  options: {
+    //Imported
+    ...wandaWatchPocket.options,
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    Snippet,
-    absoluteOptions,
-    log,
-  }) => {
+  draft: (sh) => {
+    const {
+      macro,
+      points,
+      Point,
+      paths,
+      Path,
+      utils,
+      options,
+      measurements,
+      snippets,
+      Snippet,
+      store,
+      complete,
+      part,
+    } = sh
     //set Render
     if (!options.pocketsBool) {
       part.hide()
     }
+    wandaWatchPocket.draft(sh)
 
     if (complete) {
       //title

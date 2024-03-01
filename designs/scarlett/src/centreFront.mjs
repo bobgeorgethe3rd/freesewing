@@ -8,8 +8,6 @@ export const centreFront = {
     from: true,
   },
   options: {
-    //Style
-    swingPanelStyle: { dflt: 'connected', list: ['connected', 'separate', 'none'], menu: 'style' },
     //Construction
     buttons: { bool: true, menu: 'construction' },
     buttonNum: { count: 9, min: 2, max: 20, menu: 'construction' },

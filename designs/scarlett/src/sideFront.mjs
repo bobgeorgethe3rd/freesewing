@@ -1,37 +1,35 @@
 import { sideFront as wandaSideFront } from '@freesewing/wanda'
+import { skirtBase } from './skirtBase.mjs'
 import { centreFront } from './centreFront.mjs'
-import { pocket } from '@freesewing/wanda'
+import { pocket } from './pocket.mjs'
 
 export const sideFront = {
   name: 'scarlett.sideFront',
-  from: wandaSideFront,
+  from: skirtBase,
   after: [centreFront, pocket],
   hide: {
     from: true,
   },
-  options: {
-    //Constants
-    frontDart: 'seam', //locked for Scarlett
-  },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    Snippet,
-    absoluteOptions,
-    log,
-  }) => {
+  draft: (sh) => {
+    const {
+      macro,
+      points,
+      Point,
+      paths,
+      Path,
+      utils,
+      options,
+      measurements,
+      snippets,
+      Snippet,
+      store,
+      complete,
+      part,
+      sa,
+    } = sh
+    //set draft
+    wandaSideFront.draft(sh)
+    //delete paths
     delete paths.sa
     delete paths.hemFacingSa
     if (options.waistbandStyle == 'none') {

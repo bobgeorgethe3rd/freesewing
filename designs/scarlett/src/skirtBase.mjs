@@ -4,16 +4,19 @@ import { skirtBase as wandaSkirtBase } from '@freesewing/wanda'
 
 export const skirtBase = {
   name: 'scarlett.skirtBase',
-  from: wandaSkirtBase,
-  hide: {
-    from: true,
-  },
   options: {
+    //Imported
+    ...wandaSkirtBase.options,
     //Constants
-    umbrellaExtenstion: 1 / 16, //locked for Scarlett
+    frontDart: 'seam', //Locked for Scarlett
+    umbrellaExtenstion: 1 / 16, //Locked for Scarlett
     //Fit
     crossSeamEase: { pct: 2, min: 0, max: 15, menu: 'fit' },
     //Style
+    crossCuvre: { pct: 100, min: 50, max: 100, menu: 'style' },
+    crotchCuvre: { pct: 100, min: 50, max: 100, menu: 'style' },
+    style: { dflt: 'straight', list: ['straight', 'bell', 'umbrella'], menu: 'style' },
+    swingPanelStyle: { dflt: 'connected', list: ['connected', 'separate', 'none'], menu: 'style' },
     waistbandWidth: {
       pct: 3.75,
       min: 1,
@@ -22,32 +25,32 @@ export const skirtBase = {
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     }, //altered for Scarlett
-    crotchCuvre: { pct: 100, min: 50, max: 100, menu: 'style' },
-    crossCuvre: { pct: 100, min: 50, max: 100, menu: 'style' },
+    //Construction
+    crossSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     //Advanced
     crossSeamDrop: { pct: 0, min: -10, max: 10, menu: 'advanced.fit' },
   },
   measurements: ['crossSeam', 'crossSeamFront', 'waistToSeat', 'waistToUpperLeg'],
   plugins: [pluginBundle],
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    Snippet,
-    absoluteOptions,
-    log,
-  }) => {
+  draft: (sh) => {
+    const {
+      macro,
+      points,
+      Point,
+      paths,
+      Path,
+      utils,
+      options,
+      measurements,
+      snippets,
+      Snippet,
+      store,
+      complete,
+      part,
+      sa,
+    } = sh
+    //set render
+    wandaSkirtBase.draft(sh)
     //measures
     const waistbandWidth = store.get('waistbandWidth')
     const crossSeam = measurements.crossSeam * (1 + options.crossSeamEase) - waistbandWidth * 2
