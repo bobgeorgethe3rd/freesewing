@@ -26,6 +26,11 @@ export const skirtBase = {
       menu: 'style',
     }, //altered for Scarlett
     //Construction
+    closurePosition: {
+      dflt: 'front',
+      list: ['front', 'sideLeft', 'sideRight', 'back'],
+      menu: 'construction',
+    }, //Altered for Scarlett
     crossSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     //Advanced
     crossSeamDrop: { pct: 0, min: -10, max: 10, menu: 'advanced.fit' },
