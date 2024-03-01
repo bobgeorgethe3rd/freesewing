@@ -9,12 +9,6 @@ export const centreFront = {
   hide: {
     from: true,
   },
-  options: {
-    //Construction
-    seams: { dflt: 'all', list: ['all', 'sideSeam', 'sideFront', 'none'], menu: 'construction' },
-    skirtHemWidth: { pct: 1, min: 0, max: 10, menu: 'construction' },
-    waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
-  },
   plugins: [pluginLogoRG],
   draft: ({
     store,

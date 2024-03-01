@@ -10,6 +10,8 @@ export const skirtBase = {
   options: {
     //Constants
     fullDress: true, //Altered for Fallon
+    frontDart: 'dart', //Locked for Fallon
+    sideDart: 'dart', //Locked for Fallon
     style: 'straight', //Locked for Fallon
     umbrellaFullness: 0,
     umbrellaExtenstion: 0,
@@ -17,6 +19,10 @@ export const skirtBase = {
     sidePanelFullness: { pct: 50, min: 50, max: 75, menu: 'style' },
     trainLength: { pct: 50, min: 50, max: (5 / 6) * 100, menu: 'style' },
     trainBackLength: { pct: 50, min: 50, max: 100, menu: 'style' },
+    //Construction
+    seams: { dflt: 'all', list: ['all', 'sideSeam', 'sideFront', 'none'], menu: 'construction' },
+    skirtHemWidth: { pct: 1, min: 0, max: 10, menu: 'construction' },
+    waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   plugins: [pluginBundle],
   draft: ({
