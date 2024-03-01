@@ -94,46 +94,45 @@ export const backPanel = {
       })
       //facings
       const skirtHemFacingWidth = store.get('skirtHemFacingWidth')
+      let lineFrom
+      let lineTo
+      let hemFacingEnd
+      let hemFacingCp2
+      let hemFacingCp1
+      if (options.style == 'bell') {
+        lineFrom = points.hemL
+        lineTo = points.waistL
+        hemFacingEnd = points.hemL.shiftTowards(points.origin, skirtHemFacingWidth)
+        hemFacingCp2 = utils.beamsIntersect(
+          points.hemLCp2,
+          points.origin,
+          hemFacingEnd,
+          points.origin.rotate(-90, hemFacingEnd)
+        )
+        hemFacingCp1 = utils.beamsIntersect(
+          points.hemKCp1B,
+          points.origin,
+          points.hemFacingK,
+          points.origin.rotate(90, points.hemFacingK)
+        )
+      } else {
+        lineFrom = points.hemN
+        lineTo = points.waistH
+        hemFacingEnd = points.hemN.shiftTowards(points.origin, skirtHemFacingWidth)
+        hemFacingCp2 = utils.beamsIntersect(
+          points.hemNCp2,
+          points.origin,
+          hemFacingEnd,
+          points.origin.rotate(-90, hemFacingEnd)
+        )
+        hemFacingCp1 = utils.beamsIntersect(
+          points.hemKCp1U,
+          points.origin,
+          points.hemFacingK,
+          points.origin.rotate(90, points.hemFacingK)
+        )
+      }
       if (options.skirtHemFacings) {
-        let lineFrom
-        let lineTo
-        let hemFacingEnd
-        let hemFacingCp2
-        let hemFacingCp1
-        if (options.style == 'bell') {
-          lineFrom = points.hemL
-          lineTo = points.waistL
-          hemFacingEnd = points.hemL.shiftTowards(points.origin, skirtHemFacingWidth)
-          hemFacingCp2 = utils.beamsIntersect(
-            points.hemLCp2,
-            points.origin,
-            hemFacingEnd,
-            points.origin.rotate(-90, hemFacingEnd)
-          )
-          hemFacingCp1 = utils.beamsIntersect(
-            points.hemKCp1B,
-            points.origin,
-            points.hemFacingK,
-            points.origin.rotate(90, points.hemFacingK)
-          )
-        } else {
-          lineFrom = points.hemN
-          lineTo = points.waistH
-          hemFacingEnd = points.hemN.shiftTowards(points.origin, skirtHemFacingWidth)
-          hemFacingCp2 = utils.beamsIntersect(
-            points.hemNCp2,
-            points.origin,
-            hemFacingEnd,
-            points.origin.rotate(-90, hemFacingEnd)
-          )
-          hemFacingCp1 = utils.beamsIntersect(
-            points.hemKCp1U,
-            points.origin,
-            points.hemFacingK,
-            points.origin.rotate(90, points.hemFacingK)
-          )
-        }
-
         points.hemFacingSplit = utils.lineIntersectsCurve(
           lineFrom,
           lineTo,

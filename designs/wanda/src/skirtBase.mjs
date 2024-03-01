@@ -810,6 +810,11 @@ export const skirtBase = {
       points.saHemE = points.hemE
         .shift(points.dartTipE.angle(points.hemE), hemSa)
         .shift(points.hemECp2.angle(points.hemE), sideSeamSa)
+      if (options.skirtHemFacings) {
+        points.saHemFacingE = points.hemFacingE
+          .shift(points.hemE.angle(points.hemFacingE), sa)
+          .shift(points.hemFacingECp1.angle(points.hemFacingE), sideSeamSa)
+      }
     }
     //Uncomment to see how the scaffolding. Helpful if re-working please keep.
     paths.cfWaist = new Path()

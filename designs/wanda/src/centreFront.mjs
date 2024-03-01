@@ -319,13 +319,28 @@ export const centreFront = {
         }
 
         if (options.skirtHemFacings) {
+          points.saCfHemFacing = new Point(points.saCfHem.x, points.cfHemFacing.y - sa)
+          points.saHemFacingD = points.hemFacingD
+            .shift(points.hemD.angle(points.hemFacingD), sa)
+            .shift(points.hemFacingDCp1.angle(points.hemFacingD), sa)
+
+          let saHemFacing = points.saHemFacingD
+          let saHemEnd = points.saHemD
+          if (options.frontDart == 'dart') {
+            saHemFacing = points.saHemFacingE
+            saHemEnd = points.saHemE
+          }
+
           paths.hemFacingSa = drawHemBase()
             .offset(hemSa)
-            .line(points.cfHem)
-            .line(points.cfWaist)
-            .join(drawHemFacing().reverse().line(drawHemBase().start()).offset(sa))
+            .line(points.saCfHem)
+            .line(points.saCfHemFacing)
+            .join(drawHemFacing().reverse().offset(sa))
+            .line(saHemFacing)
+            .line(saHemEnd)
             .attr('class', 'interfacing sa')
         }
+
         paths.sa = drawHemBase()
           .offset(hemSa)
           .line(points.saCfHem)
