@@ -66,7 +66,7 @@ export const placket = {
       //title
       points.title = new Point(points.topRight.x / 2, points.bottomLeft.y / 2)
       macro('title', {
-        nr: '5',
+        nr: 6,
         title: 'Placket',
         at: points.title,
         scale: 0.15,

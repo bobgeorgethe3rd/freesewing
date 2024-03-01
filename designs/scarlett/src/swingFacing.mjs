@@ -110,7 +110,7 @@ export const swingFacing = {
       //title
       points.title = points.dartTipD.shiftFractionTowards(points.swingDartTipD, 0.15)
       macro('title', {
-        nr: 10,
+        nr: 8,
         title: 'Swing Facing',
         at: points.title,
         rotation: points.swingDLeft.angle(points.dartTipD) * -1 - 270,

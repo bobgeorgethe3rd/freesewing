@@ -10,18 +10,13 @@ import { sideFront } from './sideFront.mjs'
 import { sidePanel } from './sidePanel.mjs'
 import { sidePanelB } from './sidePanelB.mjs'
 import { backPanel } from './backPanel.mjs'
+import { pocket } from './pocket.mjs'
 import { placket } from './placket.mjs'
-import { waistband } from './waistband.mjs'
-// import { waistbandStraight } from './waistbandStraight.mjs'
-// import { waistbandCurved } from './waistbandCurved.mjs'
+import { watchPocket } from '@freesewing/wanda'
 import { swingFacing } from './swingFacing.mjs'
 import { swingWaistband } from './swingWaistband.mjs'
-// Inherited Parts
-import { pocket } from '@freesewing/wanda'
-// import { inseamPocket } from '@freesewing/wanda'
-// import { boxPleatPocket } from '@freesewing/wanda'
-// import { pearPocket } from '@freesewing/wanda'
-import { watchPocket } from '@freesewing/wanda'
+import { waistband } from './waistband.mjs'
+
 // Create new design
 const Scarlett = new Design({
   data,
@@ -33,17 +28,12 @@ const Scarlett = new Design({
     sidePanel,
     sidePanelB,
     backPanel,
+    pocket,
+    watchPocket,
     placket,
-    waistband,
-    // waistbandStraight,
-    // waistbandCurved,
     swingFacing,
     swingWaistband,
-    pocket,
-    // inseamPocket,
-    // boxPleatPocket,
-    // pearPocket,
-    watchPocket,
+    waistband,
   ],
 })
 
@@ -56,16 +46,11 @@ export {
   sidePanel,
   sidePanelB,
   backPanel,
+  pocket,
+  watchPocket,
   placket,
-  waistband,
-  // waistbandStraight,
-  // waistbandCurved,
   swingFacing,
   swingWaistband,
-  pocket,
-  // inseamPocket,
-  // boxPleatPocket,
-  // pearPocket,
-  watchPocket,
+  waistband,
   Scarlett,
 }

@@ -53,7 +53,7 @@ export const pocket = {
     if (complete) {
       //title
       macro('title', {
-        nr: 6,
+        nr: 4,
         title: utils.capitalize(options.pocketStyle) + ' Pocket',
         at: points.title,
         scale: 0.5,

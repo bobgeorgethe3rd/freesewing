@@ -74,7 +74,7 @@ export const swingWaistband = {
       points.title = points.topLeft.shiftFractionTowards(points.topMid, 2 / 3).shift(-90, widthHalf)
       macro('title', {
         at: points.title,
-        nr: 11,
+        nr: 9,
         title: 'Swing  Waistband',
         scale: 0.25,
       })

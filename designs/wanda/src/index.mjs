@@ -9,15 +9,10 @@ import { sideFront } from './sideFront.mjs'
 import { sidePanel } from './sidePanel.mjs'
 import { sidePanelB } from './sidePanelB.mjs'
 import { backPanel } from './backPanel.mjs'
+import { pocket } from './pocket.mjs'
+import { watchPocket } from './watchPocket.mjs'
 import { placket } from './placket.mjs'
 import { waistband } from './waistband.mjs'
-// import { waistbandStraight } from './waistbandStraight.mjs'
-// import { waistbandCurved } from './waistbandCurved.mjs'
-import { pocket } from './pocket.mjs'
-// import { inseamPocket } from './inseamPocket.mjs'
-// import { boxPleatPocket } from './boxPleatPocket.mjs'
-// import { pearPocket } from './pearPocket.mjs'
-import { watchPocket } from './watchPocket.mjs'
 
 // Create new design
 const Wanda = new Design({
@@ -29,15 +24,10 @@ const Wanda = new Design({
     sidePanel,
     sidePanelB,
     backPanel,
+    pocket,
+    watchPocket,
     placket,
     waistband,
-    // waistbandStraight,
-    // waistbandCurved,
-    pocket,
-    // inseamPocket,
-    // boxPleatPocket,
-    // pearPocket,
-    watchPocket,
   ],
 })
 
@@ -49,14 +39,9 @@ export {
   sidePanel,
   sidePanelB,
   backPanel,
+  pocket,
+  watchPocket,
   placket,
   waistband,
-  // waistbandStraight,
-  // waistbandCurved,
-  pocket,
-  // inseamPocket,
-  // boxPleatPocket,
-  // pearPocket,
-  watchPocket,
   Wanda,
 }

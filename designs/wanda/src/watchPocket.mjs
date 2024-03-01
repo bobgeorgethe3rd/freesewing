@@ -26,7 +26,7 @@ export const watchPocket = {
     if (complete) {
       //title
       macro('title', {
-        nr: 7,
+        nr: 5,
         title: 'Watch Pocket',
         at: points.title,
         scale: 0.25,

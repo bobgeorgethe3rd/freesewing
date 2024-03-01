@@ -1,7 +1,7 @@
 import { placket as wandaPlacket } from '@freesewing/wanda'
 
 export const placket = {
-  name: 'scarlett.placket',
+  name: 'fallon.placket',
   from: wandaPlacket,
   hide: {
     from: true,
@@ -28,12 +28,6 @@ export const placket = {
     //set Render
     if (!options.plackets) {
       part.hide()
-    }
-    //stores
-    store.set('placketLength', points.topLeft.dist(points.bottomLeft))
-    store.set('swingWidth', points.topLeft.dist(points.topRight))
-    if (options.closurePosition == 'front' && options.swingPanelStyle == 'connected') {
-      store.set('waistbandPlacketWidth', 0)
     }
 
     if (complete) {
