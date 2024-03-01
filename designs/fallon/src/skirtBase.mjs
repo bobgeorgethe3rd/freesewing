@@ -9,7 +9,8 @@ export const skirtBase = {
   },
   options: {
     //Constants
-    fullDress: true, //altered for Fallon
+    fullDress: true, //Altered for Fallon
+    style: 'straight', //Locked for Fallon
     umbrellaFullness: 0,
     umbrellaExtenstion: 0,
     //Style
