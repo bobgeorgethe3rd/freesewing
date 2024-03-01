@@ -1,5 +1,5 @@
 import { skirtBase } from './skirtBase.mjs'
-import { pocket } from '@freesewing/wanda'
+import { pocket } from './pocket.mjs'
 
 export const sideFront = {
   name: 'fallon.sideFront',

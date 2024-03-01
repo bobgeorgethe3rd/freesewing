@@ -2,34 +2,36 @@ import { placket as wandaPlacket } from '@freesewing/wanda'
 
 export const placket = {
   name: 'fallon.placket',
-  from: wandaPlacket,
-  hide: {
-    from: true,
+  options: {
+    //Imported
+    ...wandaPlacket.options,
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    Snippet,
-    absoluteOptions,
-    log,
-  }) => {
+  draft: (sh) => {
+    const {
+      store,
+      sa,
+      Point,
+      points,
+      Path,
+      paths,
+      options,
+      complete,
+      paperless,
+      macro,
+      utils,
+      measurements,
+      part,
+      snippets,
+      Snippet,
+      absoluteOptions,
+      log,
+    } = sh
     //set Render
     if (!options.plackets) {
       part.hide()
     }
-
+    //set draft
+    wandaPlacket.draft(sh)
     if (complete) {
       //title
       macro('title', {

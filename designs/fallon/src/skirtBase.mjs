@@ -3,11 +3,9 @@ import { skirtBase as wandaSkirtBase } from '@freesewing/wanda'
 
 export const skirtBase = {
   name: 'fallon.skirtBase',
-  from: wandaSkirtBase,
-  hide: {
-    from: true,
-  },
   options: {
+    //Imported
+    ...wandaSkirtBase.options,
     //Constants
     fullDress: true, //Altered for Fallon
     frontDart: 'dart', //Locked for Fallon
@@ -25,25 +23,27 @@ export const skirtBase = {
     waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   plugins: [pluginBundle],
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    complete,
-    paperless,
-    macro,
-    utils,
-    measurements,
-    part,
-    snippets,
-    Snippet,
-    absoluteOptions,
-    log,
-  }) => {
+  draft: (sh) => {
+    const {
+      store,
+      sa,
+      Point,
+      points,
+      Path,
+      paths,
+      options,
+      complete,
+      paperless,
+      macro,
+      utils,
+      measurements,
+      part,
+      snippets,
+      Snippet,
+      absoluteOptions,
+      log,
+    } = sh
+    wandaSkirtBase.draft(sh)
     //remove paths
     delete paths.dartF
     //measures
@@ -51,7 +51,6 @@ export const skirtBase = {
     const angleL = utils.rad2deg(trainLength / points.origin.dist(points.hemF))
     const skirtHemFacingWidth = store.get('skirtHemFacingWidth')
     //let's begin
-
     //side gore
     points.curveStartL = points.waistF.shiftFractionTowards(points.hemF, 1 / 3)
     points.hemL = points.origin.shiftOutwards(

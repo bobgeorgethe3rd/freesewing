@@ -2,7 +2,7 @@ import { waistband as waistbandStraight } from '@freesewing/waistbandstraight'
 import { waistband as waistbandCurved } from '@freesewing/waistbandcurved'
 import { skirtBase } from './skirtBase.mjs'
 import { backPanel } from './backPanel.mjs'
-import { placket } from '@freesewing/wanda'
+import { placket } from './placket.mjs'
 
 export const waistband = {
   name: 'fallon.waistband',

@@ -1,5 +1,5 @@
 import { skirtBase } from './skirtBase.mjs'
-import { pocket } from '@freesewing/wanda'
+import { pocket } from './pocket.mjs'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const centreFront = {
