@@ -733,7 +733,7 @@ export const skirtBase = {
     if (complete && sa) {
       let sideSeamSa = sa * options.sideSeamSaWidth * 100
       if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
-        sideSeamSa = sa * closureSaWidth * 100
+        sideSeamSa = sa * options.closureSaWidth * 100
       }
       store.set('insertSeamSa', sideSeamSa)
     }
