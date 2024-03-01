@@ -40,7 +40,14 @@ export const centreFront = {
     log,
   }) => {
     //removing paths
-    for (let i in paths) delete paths[i]
+    if (options.wandaGuides) {
+      const keepThese = ['wandaGuide']
+      for (const name in paths) {
+        if (keepThese.indexOf(name) === -1) delete paths[name]
+      }
+    } else {
+      for (let i in paths) delete paths[i]
+    }
     //let's begin
     //paths
     paths.hemBase = new Path()

@@ -35,9 +35,16 @@ export const swingPanel = {
     }
     //removing paths and in heritance
     delete points.scalebox
-    const keepThese = ['waist', 'sideFront']
-    for (const name in paths) {
-      if (keepThese.indexOf(name) === -1) delete paths[name]
+    if (options.wandaGuides) {
+      const keepThese = ['wandaGuide', 'waist', 'sideFront']
+      for (const name in paths) {
+        if (keepThese.indexOf(name) === -1) delete paths[name]
+      }
+    } else {
+      const keepThese = ['waist', 'sideFront']
+      for (const name in paths) {
+        if (keepThese.indexOf(name) === -1) delete paths[name]
+      }
     }
     macro('scalebox', false)
     macro('logorg', false)
