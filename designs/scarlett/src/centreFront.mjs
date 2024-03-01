@@ -16,6 +16,7 @@ export const centreFront = {
     buttonEnd: { pct: 2.5, min: 1, max: 10, menu: 'construction' },
     inseamSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
     crotchSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
+    sideFrontSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
   plugins: [pluginLogoRG],
   draft: ({

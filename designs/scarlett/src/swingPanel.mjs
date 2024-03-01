@@ -3,12 +3,6 @@ import { centreFront } from './centreFront.mjs'
 export const swingPanel = {
   name: 'scarlett.swingPanel',
   from: centreFront,
-  options: {
-    //Construction
-    skirtHemWidth: { pct: 1, min: 0, max: 10, menu: 'construction' },
-    waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
-    sideFrontSaWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
-  },
   draft: ({
     store,
     sa,
