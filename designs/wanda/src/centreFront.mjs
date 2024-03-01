@@ -234,6 +234,7 @@ export const centreFront = {
         if (options.skirtHemFacings) {
           hemSa = sa
         }
+
         points.saCfHem = points.cfHem.translate(cfSa, hemSa)
         points.saCfWaist = points.cfWaist.translate(cfSa, -sa)
         points.saWaist1Left = points.waist1Left

@@ -5,11 +5,9 @@ export const skirtBase = {
   name: 'wanda.skirtBase',
   options: {
     //Constants
-    closureSaWidth: 0.01,
     cpFraction: 0.55191502449,
     fullDress: false, //This allows for the skirtBase to be extended out and used for Diagram 77, "The Full Dress Skirt" Fallon
     sidePanelFullness: 3 / 8, //This is changed to an optional optional for 50% to 75% for Diagram 77, "The Full Dress Skirt" Fallon
-    sideSeamSaWidth: 0.01,
     sideWaistFront: 4, //just in case we want a different size side front panel
     useVoidStores: false, //locked for Wanda
     //Fit
@@ -49,6 +47,7 @@ export const skirtBase = {
     //Construction
     cbSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
     cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
+    closureSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     closurePosition: {
       dflt: 'back',
       list: ['back', 'sideLeft', 'sideRight', 'front'],
@@ -56,6 +55,7 @@ export const skirtBase = {
     },
     frontDart: { dflt: 'dart', list: ['seam', 'dart'], menu: 'construction' },
     sideDart: { dflt: 'dart', list: ['seam', 'dart'], menu: 'construction' },
+    sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     skirtHemFacings: { bool: true, menu: 'construction' },
     skirtHemFacingWidth: { pct: (11 / 40) * 100, min: 20, max: 35, menu: 'construction' },
     skirtHemWidth: { pct: 2, min: 0, max: 10, menu: 'construction' },
@@ -728,6 +728,14 @@ export const skirtBase = {
       store.set('pleatLengthStraight', pleatLengthStraight)
       store.set('pleatLengthBell', pleatLengthBell)
       store.set('pleatLengthUmbrella', pleatLengthUmbrella)
+    }
+
+    if (complete && sa) {
+      let sideSeamSa = sa * options.sideSeamSaWidth * 100
+      if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
+        sideSeamSa = sa * closureSaWidth * 100
+      }
+      store.set('insertSeamSa', sideSeamSa)
     }
 
     //stores
