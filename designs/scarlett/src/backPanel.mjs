@@ -165,10 +165,7 @@ export const backPanel = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-      if (options.waistbandStyle == 'none') {
-      }
-
-      if (options.waistbandStyle == 'none') {
+      /*  if (options.waistbandStyle == 'none') {
         let crossStart
         let crossSeat
         let crossCp1
@@ -268,7 +265,7 @@ export const backPanel = {
             .attr('data-text', 'Waist Facing - Line')
             .attr('data-text-class', 'center')
         }
-      }
+      } */
 
       //pleats
       if (options.pleats) {
@@ -359,7 +356,7 @@ export const backPanel = {
             .close()
             .attr('class', 'interfacing sa')
         }
-        if (options.waistbandStyle == 'none') {
+        /*   if (options.waistbandStyle == 'none') {
           const drawFacingSaBase = () => {
             if (options.style == 'bell') {
               return new Path()
@@ -383,7 +380,7 @@ export const backPanel = {
             .join(paths.crossFacing.offset(crossSa))
             .close()
             .attr('class', 'interfacing sa')
-        }
+        } */
 
         paths.sa = drawHemBase()
           .offset(hemSa)

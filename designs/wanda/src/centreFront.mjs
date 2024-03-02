@@ -184,7 +184,7 @@ export const centreFront = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-      if (options.waistbandStyle == 'none') {
+      /*       if (options.waistbandStyle == 'none') {
         points.cfWaistFacingCp1 = utils.beamsIntersect(
           points.cfHemCp1,
           points.origin,
@@ -215,7 +215,7 @@ export const centreFront = {
           .attr('class', 'interfacing')
           .attr('data-text', 'Waist Facing - Line')
           .attr('data-text-class', 'center')
-      }
+      } */
 
       if (sa) {
         const closureSa = sa * options.closureSaWidth * 100
@@ -262,7 +262,7 @@ export const centreFront = {
           .shift(points.dartTipD.angle(points.hemD), hemSa)
           .shift(points.hemDCp2.angle(points.hemD), sa)
 
-        if (options.waistbandStyle == 'none') {
+        /*         if (options.waistbandStyle == 'none') {
           const drawWaistFacingSaBase = () => {
             if (options.frontDart == 'dart') {
               return new Path()
@@ -291,7 +291,7 @@ export const centreFront = {
             .join(drawWaistFacingSaBase().offset(sa))
             .close()
             .attr('class', 'interfacing sa')
-        }
+        } */
 
         const drawSaBase = () => {
           if (options.frontDart == 'dart') {

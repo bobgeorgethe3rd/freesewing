@@ -32,9 +32,6 @@ export const sideFront = {
     //delete paths
     delete paths.sa
     delete paths.hemFacingSa
-    if (options.waistbandStyle == 'none') {
-      delete paths.waistFacingSa
-    }
 
     if (complete) {
       //title
@@ -59,7 +56,7 @@ export const sideFront = {
             .close()
             .attr('class', 'interfacing sa')
         }
-        if (options.waistbandStyle == 'none') {
+        /* if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .clone()
             .offset(sa * options.waistFacingHemWidth * 100)
@@ -81,7 +78,7 @@ export const sideFront = {
             )
             .close()
             .attr('class', 'interfacing sa')
-        }
+        } */
 
         paths.sa = paths.hemBase
           .clone()

@@ -114,14 +114,14 @@ export const backPanel = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-      if (options.waistbandStyle == 'none') {
+      /* if (options.waistbandStyle == 'none') {
         paths.waistFacing = new Path()
           .move(points.waistFacing6B)
           .curve(points.waistFacing6BCp2, points.waistFacingFCp1, points.waistFacingF)
           .attr('class', 'interfacing')
           .attr('data-text', 'Waist Facing - Line')
           .attr('data-text-class', 'center')
-      }
+      } */
       //pleats
       if (options.pleats) {
         const pleatTo = store.get('fullWaist') / 12
@@ -177,7 +177,7 @@ export const backPanel = {
             .close()
             .attr('class', 'interfacing sa')
         }
-        if (options.waistbandStyle == 'none') {
+        /* if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .offset(sa * options.waistFacingHemWidth * 100)
             .join(new Path().move(points.waistFacingF).line(points.waistF).offset(sa))
@@ -185,7 +185,7 @@ export const backPanel = {
             .join(new Path().move(points.waist6B).line(points.waistFacing6B).offset(sa))
             .close()
             .attr('class', 'interfacing sa')
-        }
+        } */
         paths.sa = paths.hemBase
           .offset(hemSa)
           .join(paths.saBase.offset(sa))

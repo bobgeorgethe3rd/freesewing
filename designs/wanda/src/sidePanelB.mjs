@@ -119,7 +119,7 @@ export const sidePanelB = {
           .attr('data-text-class', 'center')
       }
 
-      if (options.waistbandStyle == 'none') {
+      /*   if (options.waistbandStyle == 'none') {
         let waistFacing6
         let waistFacing6Cp2
         if (options.style == 'straight') {
@@ -141,7 +141,7 @@ export const sidePanelB = {
           .attr('class', 'interfacing')
           .attr('data-text', 'Waist Facing - Line')
           .attr('data-text-class', 'center')
-      }
+      } */
       //pleats
       if (options.pleats) {
         const pleatKeep = store.get('pleatKeep')
@@ -259,7 +259,7 @@ export const sidePanelB = {
             .line(points.saHemK)
             .attr('class', 'interfacing sa')
         }
-        if (options.waistbandStyle == 'none') {
+        /*   if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .clone()
             .offset(sa * options.waistFacingHemWidth * 100)
@@ -274,7 +274,7 @@ export const sidePanelB = {
             )
             .close()
             .attr('class', 'interfacing sa')
-        }
+        } */
 
         paths.sa = paths.hemBase
           .clone()

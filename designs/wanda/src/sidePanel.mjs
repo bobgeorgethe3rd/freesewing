@@ -200,7 +200,7 @@ export const sidePanel = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-      if (options.waistbandStyle == 'none') {
+      /* if (options.waistbandStyle == 'none') {
         points.waistFacingFCp2 = utils.beamsIntersect(
           points.hemFCp2,
           points.origin,
@@ -246,7 +246,7 @@ export const sidePanel = {
           .attr('class', 'interfacing')
           .attr('data-text', 'Waist Facing - Line')
           .attr('data-text-class', 'center')
-      }
+      } */
       //pleats
       if (options.pleats && options.sideDart == 'dart') {
         const pleatKeep = store.get('pleatKeep')
@@ -368,7 +368,7 @@ export const sidePanel = {
           .shift(points.hemFCp2.angle(points.hemF), sa)
           .shift(points.dartTipF.angle(points.hemF), hemSa)
 
-        if (options.waistbandStyle == 'none') {
+        /* if (options.waistbandStyle == 'none') {
           const drawWaistFacingSaBase = () => {
             if (options.sideDart == 'dart') {
               return new Path()
@@ -397,7 +397,7 @@ export const sidePanel = {
             .join(drawWaistFacingSaBase().offset(sa))
             .close()
             .attr('class', 'interfacing sa')
-        }
+        } */
 
         const drawSaBase = () => {
           if (options.sideDart == 'dart') {

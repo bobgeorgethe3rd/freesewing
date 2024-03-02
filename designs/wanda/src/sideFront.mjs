@@ -117,14 +117,14 @@ export const sideFront = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-      if (options.waistbandStyle == 'none') {
+      /*       if (options.waistbandStyle == 'none') {
         paths.waistFacing = new Path()
           .move(points.waistFacingE)
           .curve(points.waistFacingECp2, points.waistFacingDCp1, points.waistFacingD)
           .attr('class', 'interfacing')
           .attr('data-text', 'Waist Facing - Line')
           .attr('data-text-class', 'center')
-      }
+      } */
 
       if (sa) {
         let sideSeamSa = sa * options.sideSeamSaWidth * 100
@@ -171,7 +171,7 @@ export const sideFront = {
             .close()
             .attr('class', 'interfacing sa')
         }
-        if (options.waistbandStyle == 'none') {
+        /* if (options.waistbandStyle == 'none') {
           paths.waistFacingSa = paths.waistFacing
             .clone()
             .offset(sa * options.waistFacingHemWidth * 100)
@@ -188,7 +188,7 @@ export const sideFront = {
             )
             .close()
             .attr('class', 'interfacing sa')
-        }
+        } */
 
         paths.sa = paths.hemBase
           .clone()

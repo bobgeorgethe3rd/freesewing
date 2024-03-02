@@ -91,14 +91,14 @@ export const swingPanel = {
           .attr('data-text-class', 'center')
       }
 
-      if (options.waistbandStyle == 'none' && options.swingPanelStyle != 'separate') {
+      /* if (options.waistbandStyle == 'none' && options.swingPanelStyle != 'separate') {
         paths.waistFacing = new Path()
           .move(points.waistFacingD)
           .curve(points.waistFacingDCp2, points.cfWaistFacingCp1, points.cfWaistFacing)
           .attr('class', 'interfacing')
           .attr('data-text', 'Waist Facing - Line')
           .attr('data-text-class', 'center')
-      }
+      } */
       //buttons & buttonholes
       if (options.buttons) {
         for (let i = 0; i <= options.buttonNum - 1; i++) {
@@ -122,7 +122,7 @@ export const swingPanel = {
             .close()
             .attr('class', 'interfacing sa')
         }
-        if (options.waistbandStyle == 'none' && options.swingPanelStyle != 'separate') {
+        /*         if (options.waistbandStyle == 'none' && options.swingPanelStyle != 'separate') {
           paths.waistFacingSa = paths.waistFacing
             .offset(sa * options.waistFacingHemWidth * 100)
             .line(points.cfWaistFacing)
@@ -137,7 +137,7 @@ export const swingPanel = {
             )
             .close()
             .attr('class', 'interfacing sa')
-        }
+        } */
         paths.sa = paths.hemBase
           .offset(hemSa)
           .join(paths.centreFront)
