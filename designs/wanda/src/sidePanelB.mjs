@@ -76,12 +76,26 @@ export const sidePanelB = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.waistF.shiftFractionTowards(points.hemF, 0.025)
-      points.grainlineTo = points.hemF.shiftFractionTowards(points.waistF, 0.025)
-      macro('grainline', {
-        from: points.waistF.rotate(90, points.grainlineFrom),
-        to: points.hemF.rotate(-90, points.grainlineTo),
-      })
+      if (
+        options.closurePosition != 'back' &&
+        options.cbSaWidth == 0 &&
+        options.style == 'straight'
+      ) {
+        points.cutOnFoldFrom = points.waist3LeftS
+        points.cutOnFoldTo = points.hemK
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.waistF.shiftFractionTowards(points.hemF, 0.025)
+        points.grainlineTo = points.hemF.shiftFractionTowards(points.waistF, 0.025)
+        macro('grainline', {
+          from: points.waistF.rotate(90, points.grainlineFrom),
+          to: points.hemF.rotate(-90, points.grainlineTo),
+        })
+      }
       //title
       let titleName
       if (options.style == 'straight') {
@@ -232,8 +246,8 @@ export const sidePanelB = {
             .shift(points.hemFacingFCp2.angle(points.hemFacingF), sa)
 
           points.saHemFacingK = points.hemFacingK
+            .shift(points.hemFacingKCp1.angle(points.hemFacingK), cbSa)
             .shift(points.hemK.angle(points.hemFacingK), sa)
-            .shift(points.hemFacingKCp1.angle(points.hemFacingK), sa)
 
           paths.hemFacingSa = paths.hemBase
             .clone()

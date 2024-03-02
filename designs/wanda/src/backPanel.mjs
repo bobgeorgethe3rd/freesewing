@@ -40,14 +40,6 @@ export const backPanel = {
       for (let i in paths) delete paths[i]
     }
     //let's begin
-    if (options.style == 'bell') {
-      paths.bellWaist = new Path()
-        .move(points.waist6B)
-        .curve(points.waist6Cp2B, points.waistEndCp2B, points.waistEndB)
-        .split(points.waistL)[0]
-        .hide()
-    }
-
     const drawHemBase = () => {
       if (options.style == 'bell') {
         return new Path().move(points.hemL).curve(points.hemLCp2, points.hemKCp1B, points.hemK)
@@ -56,33 +48,50 @@ export const backPanel = {
       }
     }
 
-    const drawSaBase = () => {
+    const drawSaWaist = () => {
       if (options.style == 'bell') {
         return new Path()
-          .move(points.hemK)
-          .line(points.waist6B)
-          .join(paths.bellWaist)
-          .line(points.hemL)
+          .move(points.waist6B)
+          .curve(points.waist6Cp2B, points.waistEndCp2B, points.waistEndB)
+          .split(points.waistL)[0]
       } else {
         return new Path()
-          .move(points.hemK)
-          .line(points.waist6)
+          .move(points.waist6)
           .curve(points.waist6Cp2, points.waistHCp1, points.waistH)
-          .line(points.hemN)
       }
     }
 
+    points.drawHemBaseStart = drawHemBase().start()
     //paths
-    paths.seam = drawHemBase().join(drawSaBase()).close()
+    paths.seam = drawHemBase()
+      .line(drawSaWaist().start())
+      .join(drawSaWaist())
+      .line(points.drawHemBaseStart)
+      .close()
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.waist6.shiftFractionTowards(points.hemK, 0.025)
-      points.grainlineTo = points.hemK.shiftFractionTowards(points.waist6, 0.025)
-      macro('grainline', {
-        from: points.waist6.rotate(90, points.grainlineFrom),
-        to: points.hemK.rotate(-90, points.grainlineTo),
-      })
+      if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
+        if (options.style == 'bell') {
+          points.cutOnFoldFrom = points.waistL
+          points.cutOnFoldTo = points.hemL
+        } else {
+          points.cutOnFoldFrom = points.waistH
+          points.cutOnFoldTo = points.hemN
+        }
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.waist6.shiftFractionTowards(points.hemK, 0.025)
+        points.grainlineTo = points.hemK.shiftFractionTowards(points.waist6, 0.025)
+        macro('grainline', {
+          from: points.waist6.rotate(90, points.grainlineFrom),
+          to: points.hemK.rotate(-90, points.grainlineTo),
+        })
+      }
       //title
       points.title = points.waist6Cp2B.shiftFractionTowards(points.hemKCp1B, 0.5)
       macro('title', {
@@ -316,16 +325,76 @@ export const backPanel = {
         if (options.skirtHemFacings) {
           hemSa = sa
         }
+        let cbSa
+        if (options.closurePosition == 'back') {
+          cbSa = sa * options.closureSaWidth * 100
+        } else {
+          cbSa = sa * options.cbSaWidth * 100
+        }
+
+        points.saHemK = points.hemK
+          .shift(points.hemKCp1B.angle(points.hemK), sa)
+          .shift(points.waist6.angle(points.hemK), hemSa)
+
+        points.drawSaWaistEnd = drawSaWaist().end()
+
+        points.saWaist3Left = drawSaWaist()
+          .start()
+          .shift(points.hemK.angle(points.waist6), sa)
+          .shift(points.hemK.angle(points.waist6) - 90, sa)
+
+        points.saWaistEnd = utils.beamsIntersect(
+          drawSaWaist().offset(sa).end(),
+          drawSaWaist().offset(sa).shiftFractionAlong(0.995),
+          points.drawSaWaistEnd
+            .shiftTowards(points.drawHemBaseStart, cbSa)
+            .rotate(-90, points.drawSaWaistEnd),
+          points.drawHemBaseStart
+            .shiftTowards(points.drawSaWaistEnd, cbSa)
+            .rotate(90, points.drawHemBaseStart)
+        )
+        if (points.saWaistEnd.y > drawSaWaist().offset(sa).end().y) {
+          points.saWaistEnd = points.drawSaWaistEnd.shift(
+            points.drawHemBaseStart.angle(points.drawSaWaistEnd) + 90,
+            cbSa
+          )
+        }
+
+        points.saHemStart = utils.beamsIntersect(
+          points.drawSaWaistEnd
+            .shiftTowards(points.drawHemBaseStart, cbSa)
+            .rotate(-90, points.drawSaWaistEnd),
+          points.drawHemBaseStart
+            .shiftTowards(points.drawSaWaistEnd, cbSa)
+            .rotate(90, points.drawHemBaseStart),
+          drawHemBase().offset(hemSa).start(),
+          drawHemBase().offset(sa).shiftFractionAlong(0.005)
+        )
+
         if (options.skirtHemFacings) {
+          points.saHemFacingK = points.hemFacingK
+            .shift(hemFacingCp1.angle(points.hemFacingK), sa)
+            .shift(points.hemK.angle(points.hemFacingK), sa)
+
+          points.saHemFacing = utils.beamsIntersect(
+            paths.hemFacing.reverse().offset(sa).shiftFractionAlong(0.995),
+            paths.hemFacing.reverse().offset(sa).end(),
+            points.saWaistEnd,
+            points.saHemStart
+          )
+          if (points.saHemFacing.y > paths.hemFacing.reverse().offset(sa).end().y) {
+            points.saHemFacing = points.hemFacingSplit.shift(
+              points.drawHemBaseStart.angle(points.drawSaWaistEnd) + 90,
+              cbSa
+            )
+          }
           paths.hemFacingSa = drawHemBase()
             .offset(hemSa)
-            .join(
-              new Path()
-                .move(points.hemFacingK)
-                .join(paths.hemFacing.reverse())
-                .line(drawHemBase().start())
-                .offset(sa)
-            )
+            .line(points.saHemK)
+            .line(points.saHemFacingK)
+            .join(paths.hemFacing.reverse().offset(sa))
+            .line(points.saHemFacing)
+            .line(points.saHemStart)
             .attr('class', 'interfacing sa')
         }
         if (options.waistbandStyle == 'none') {
@@ -354,7 +423,11 @@ export const backPanel = {
 
         paths.sa = drawHemBase()
           .offset(hemSa)
-          .join(drawSaBase().offset(sa))
+          .line(points.saHemK)
+          .line(points.saWaist3Left)
+          .join(drawSaWaist().offset(sa))
+          .line(points.saWaistEnd)
+          .line(points.saHemStart)
           .close()
           .attr('class', 'fabric sa')
       }

@@ -95,12 +95,27 @@ export const sidePanel = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.waistE.shiftFractionTowards(points.hemE, 0.025)
-      points.grainlineTo = points.hemE.shiftFractionTowards(points.waistE, 0.025)
-      macro('grainline', {
-        from: points.waistE.rotate(90, points.grainlineFrom),
-        to: points.hemE.rotate(-90, points.grainlineTo),
-      })
+      if (
+        options.closurePosition != 'back' &&
+        options.cbSaWidth == 0 &&
+        options.style == 'straight' &&
+        options.sideDart == 'dart'
+      ) {
+        points.cutOnFoldFrom = points.waist3LeftS
+        points.cutOnFoldTo = points.hemK
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.waistE.shiftFractionTowards(points.hemE, 0.025)
+        points.grainlineTo = points.hemE.shiftFractionTowards(points.waistE, 0.025)
+        macro('grainline', {
+          from: points.waistE.rotate(90, points.grainlineFrom),
+          to: points.hemE.rotate(-90, points.grainlineTo),
+        })
+      }
       //notches
       if (options.pocketsBool) {
         paths.sideSeam = new Path()
