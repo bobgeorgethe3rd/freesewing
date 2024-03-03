@@ -211,8 +211,11 @@ export const sidePanelB = {
         }
       }
       if (sa) {
-        const hemSa = sa * options.skirtHemWidth * 100
-        const crossSa = sa * options.crossSaWidth * 100
+        const crossSeamSa = sa * options.crossSeamSaWidth * 100
+        let hemSa = sa * options.skirtHemWidth * 100
+        if (options.skirtHemFacings) {
+          hemSa = sa
+        }
         if (options.skirtHemFacings) {
           paths.hemFacingSa = drawHemBase()
             .offset(hemSa)
@@ -236,7 +239,7 @@ export const sidePanelB = {
               .curve(points.dartTipFCp, points.waist3RightCp1, points.waist3Right)
               .curve(points.waist3RightCp2, points.waist3LeftCp1, points.waist3LeftS)
               .offset(sa)
-              .join(paths.cross.offset(crossSa))
+              .join(paths.cross.offset(crossSeamSa))
               .join(
                 new Path()
                   .move(points.crossS)

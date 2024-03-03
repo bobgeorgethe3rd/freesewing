@@ -112,7 +112,20 @@ export const swingWaistband = {
       }
 
       if (sa) {
-        paths.sa = paths.seam.offset(sa).close().attr('class', 'fabric sa')
+        const sideFrontSa = store.get('sideFrontSa')
+        points.saBottomLeft = points.bottomLeft.translate(-sideFrontSa, sa)
+        points.saBottomRight = points.bottomRight.translate(sideFrontSa, sa)
+        points.saTopRight = points.topRight.translate(sideFrontSa, -sa)
+        points.saTopLeft = points.topLeft.translate(-sideFrontSa, -sa)
+
+        paths.sa = new Path()
+          .move(points.saBottomLeft)
+          .line(points.saBottomRight)
+          .line(points.saTopRight)
+          .line(points.saTopLeft)
+          .line(points.saBottomLeft)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 

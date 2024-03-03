@@ -44,15 +44,36 @@ export const sideFront = {
       })
 
       if (sa) {
-        const hemSa = sa * options.skirtHemWidth * 100
         const sideFrontSa = store.get('sideFrontSa')
+        let hemSa = sa * options.skirtHemWidth * 100
         if (options.skirtHemFacings) {
+          hemSa = sa
+        }
+        let sideSeamSa = sa * options.sideSeamSaWidth * 100
+        if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
+          sideSeamSa = sa * options.closureSaWidth * 100
+        }
+        points.saHemD = points.hemD
+          .shift(points.hemDCp1.angle(points.hemD), sideFrontSa)
+          .shift(points.dartTipD.angle(points.hemD), hemSa)
+
+        points.saWaist1Right = points.waist1Right
+          .shift(points.waist1RightCp1.angle(points.waist1Right), sa)
+          .shift(points.waist1RightCp2.angle(points.waist1Right), sideFrontSa)
+
+        if (options.skirtHemFacings) {
+          points.saHemFacingD = points.hemFacingD
+            .shift(points.hemD.angle(points.hemFacingD), sa)
+            .shift(points.hemFacingDCp2.angle(points.hemFacingD), sideFrontSa)
+
           paths.hemFacingSa = paths.hemBase
             .clone()
             .offset(hemSa)
-            .join(new Path().move(points.hemD).line(points.hemFacingD).offset(sideFrontSa))
+            .line(points.saHemD)
+            .line(points.saHemFacingD)
             .join(paths.hemFacing.reverse().offset(sa))
-            .join(new Path().move(paths.hemFacing.start()).line(points.hemE).offset(sa))
+            .line(points.saHemFacingE)
+            .line(points.saHemE)
             .close()
             .attr('class', 'interfacing sa')
         }
@@ -60,22 +81,13 @@ export const sideFront = {
         paths.sa = paths.hemBase
           .clone()
           .offset(hemSa)
-          .join(
-            new Path()
-              .move(points.hemD)
-              .line(points.dartTipD)
-              .curve(points.dartTipDCp, points.waist1RightCp1, points.waist1Right)
-              .offset(sideFrontSa)
-          )
-          .join(
-            new Path()
-              .move(points.waist1Right)
-              .curve(points.waist1RightCp2, points.waistPanel1Cp1, points.waistPanel1)
-              .curve(points.waistPanel1Cp2, points.waist1LeftCp1, points.waist1Left)
-              .curve(points.waist1LeftCp2, points.dartTipECp, points.dartTipE)
-              .line(points.hemE)
-              .offset(sa)
-          )
+          .line(points.saHemD)
+          .join(paths.saRight.offset(sideFrontSa))
+          .line(points.saWaist1Right)
+          .join(paths.saWaist.offset(sa))
+          .line(points.saWaist1Left)
+          .join(paths.saLeft.offset(sideSeamSa))
+          .line(points.saHemE)
           .close()
           .attr('class', 'fabrc sa')
       }

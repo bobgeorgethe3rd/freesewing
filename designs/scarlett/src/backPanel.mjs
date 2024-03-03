@@ -239,9 +239,12 @@ export const backPanel = {
         }
       }
       if (sa) {
-        const hemSa = sa * options.skirtHemWidth * 100
-        const crossSa = sa * options.crossSaWidth * 100
+        const crossSeamSa = sa * options.crossSeamSaWidth * 100
         const inseamSa = sa * options.inseamSaWidth * 100
+        let hemSa = sa * options.skirtHemWidth * 100
+        if (options.skirtHemFacings) {
+          hemSa = sa
+        }
         if (options.skirtHemFacings) {
           paths.hemFacingSa = drawHemBase()
             .offset(hemSa)
@@ -262,7 +265,7 @@ export const backPanel = {
         paths.sa = drawHemBase()
           .offset(hemSa)
           .join(drawSaBase().offset(sa))
-          .join(drawCross().offset(crossSa))
+          .join(drawCross().offset(crossSeamSa))
           .join(drawInseam().offset(inseamSa))
           .close()
           .attr('class', 'fabric sa')

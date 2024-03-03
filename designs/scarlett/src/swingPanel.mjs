@@ -30,12 +30,12 @@ export const swingPanel = {
     //removing paths and in heritance
     delete points.scalebox
     if (options.wandaGuides) {
-      const keepThese = ['wandaGuide', 'waist', 'sideFront']
+      const keepThese = ['wandaGuide', 'saWaist', 'saLeft']
       for (const name in paths) {
         if (keepThese.indexOf(name) === -1) delete paths[name]
       }
     } else {
-      const keepThese = ['waist', 'sideFront']
+      const keepThese = ['saWaist', 'saLeft']
       for (const name in paths) {
         if (keepThese.indexOf(name) === -1) delete paths[name]
       }
@@ -50,26 +50,34 @@ export const swingPanel = {
       .curve(points.hemDCp2, points.cfHemCp1, points.cfHem)
       .hide()
 
-    paths.centreFront = new Path().move(points.cfHem).line(points.cfWaist).hide()
-
     paths.seam = paths.hemBase
       .clone()
-      .join(paths.centreFront)
-      .join(paths.waist)
-      .join(paths.sideFront)
+      .line(points.cfWaist)
+      .join(paths.saWaist)
+      .join(paths.saLeft)
+      .close()
 
     //stores
-    store.set('swingWaisbandLength', paths.waist.length())
+    store.set('swingWaisbandLength', paths.saWaist.length())
 
     if (complete) {
       //grainline
-      points.cutOnFoldFrom = points.cfHem
-      points.cutOnFoldTo = points.cfWaist
-      macro('cutonfold', {
-        from: points.cutOnFoldFrom,
-        to: points.cutOnFoldTo,
-        grainline: true,
-      })
+      if (options.cfSaWidth == 0) {
+        points.cutOnFoldFrom = points.cfHem
+        points.cutOnFoldTo = points.cfWaist
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.cfWaist.shiftFractionTowards(points.cfWaistCp2, 0.9)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+      }
       //title
       points.title = new Point(
         points.waist0Left.x,
@@ -100,24 +108,38 @@ export const swingPanel = {
         }
       }
       if (sa) {
-        const hemSa = sa * options.skirtHemWidth * 100
-        const sideFrontSa = sa * options.sideFrontSaWidth * 100
+        const cfSa = sa * options.cfSaWidth * 100
+        const sideFrontSa = store.get('sideFrontSa')
+        let hemSa = sa * options.skirtHemWidth * 100
+        if (options.skirtHemFacings) {
+          hemSa = sa
+        }
+
+        points.saCfHem = points.cfHem.translate(cfSa, hemSa)
+        points.saCfWaist = points.cfWaist.translate(cfSa, -sa)
 
         if (options.skirtHemFacings) {
+          points.saCfHemFacing = points.cfHemFacing.translate(cfSa, -sa)
           paths.hemFacingSa = paths.hemBase
+            .clone()
             .offset(hemSa)
-            .line(points.cfHem)
-            .line(points.cfHemFacing)
+            .line(points.saCfHem)
+            .line(points.saCfHemFacing)
             .join(paths.hemFacing.reverse().offset(sa))
-            .join(new Path().move(paths.hemFacing.start()).line(points.hemD).offset(sideFrontSa))
+            .line(points.saHemFacingD)
+            .line(points.saHemD)
             .close()
             .attr('class', 'interfacing sa')
         }
         paths.sa = paths.hemBase
           .offset(hemSa)
-          .join(paths.centreFront)
-          .join(paths.waist.offset(sa))
-          .join(paths.sideFront.offset(sideFrontSa))
+          .clone()
+          .line(points.saCfHem)
+          .line(points.saCfWaist)
+          .join(paths.saWaist.offset(sa))
+          .line(points.saWaist0Left)
+          .join(paths.saLeft.offset(sideFrontSa))
+          .line(points.saHemD)
           .close()
           .attr('class', 'fabric sa')
       }

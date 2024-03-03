@@ -1,13 +1,10 @@
-import { skirtBase } from './skirtBase.mjs'
+import { centreFront } from './centreFront.mjs'
 import { placket } from './placket.mjs'
 
 export const swingFacing = {
   name: 'scarlett.swingFacing',
-  from: skirtBase,
+  from: centreFront,
   after: placket,
-  hide: {
-    from: true,
-  },
   draft: ({
     store,
     sa,
@@ -37,62 +34,59 @@ export const swingFacing = {
       return part
     }
     //removing paths
-    for (let i in paths) delete paths[i]
+    const keepThese = ['saWaist', 'saLeft']
+    for (const name in paths) {
+      if (keepThese.indexOf(name) === -1) delete paths[name]
+    }
     //measures
     const swingWidth = store.get('swingWidth')
     //let's begin
-    paths.sideSeam = new Path()
-      .move(points.waist0Left)
-      .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
-      .line(points.hemD)
-      .hide()
-
-    points.swingDLeft = paths.sideSeam.shiftAlong(store.get('placketLength'))
+    points.swingDLeft = paths.saLeft.shiftAlong(store.get('placketLength'))
     points.swingDRight = points.swingDLeft
       .shiftTowards(points.dartTipD, swingWidth)
       .rotate(-90, points.swingDLeft)
     points.swingDartTipD = points.dartTipD
       .shiftTowards(points.waistD, swingWidth)
       .rotate(-90, points.dartTipD)
-    points.swingDartTipDCp1 = points.dartTipDCp
+    points.swingDartTipDCp2 = points.dartTipDCp
       .shiftTowards(points.waistD, swingWidth)
       .rotate(-90, points.dartTipDCp)
-    points.swingDartTipDCp2 = points.waist0LeftCp2
+    points.swingWaist0LeftCp1 = points.waist0LeftCp2
       .shiftTowards(points.waist0Left, swingWidth)
       .rotate(-90, points.waist0LeftCp2)
     points.swingWaist0Left = points.waist0Left.shiftTowards(points.waist0LeftCp1, swingWidth)
 
     points.waistSplit = utils.lineIntersectsCurve(
-      points.swingDartTipDCp2,
-      points.swingDartTipDCp2.shiftOutwards(points.swingWaist0Left, store.get('placketLength')),
+      points.swingWaist0LeftCp1,
+      points.swingWaist0LeftCp1.shiftOutwards(points.swingWaist0Left, store.get('placketLength')),
       points.waistPanel0,
       points.waistPanel0Cp2,
       points.waist0LeftCp1,
       points.waist0Left
     )
 
-    paths.waist = new Path()
-      .move(points.waistPanel0)
-      .curve(points.waistPanel0Cp2, points.waist0LeftCp1, points.waist0Left)
-      .split(points.waistSplit)[1]
-      .hide()
-
-    paths.saBase = new Path()
-      .move(points.swingDLeft)
-      .line(points.swingDRight)
+    paths.saRight = new Path()
+      .move(points.swingDRight)
       .line(points.swingDartTipD)
-      .curve(points.swingDartTipDCp1, points.swingDartTipDCp2, points.swingWaist0Left)
+      .curve(points.swingDartTipDCp2, points.swingWaist0LeftCp1, points.swingWaist0Left)
       .line(points.waistSplit)
-      .join(paths.waist)
       .hide()
 
-    paths.sideFrontSeam = new Path()
+    paths.saWaist = paths.saWaist.split(points.waistSplit)[1].hide()
+
+    paths.saLeft = new Path()
       .move(points.waist0Left)
       .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
       .line(points.swingDLeft)
       .hide()
 
-    paths.seam = paths.saBase.clone().join(paths.sideFrontSeam).close()
+    paths.seam = new Path()
+      .move(points.swingDLeft)
+      .line(points.swingDRight)
+      .join(paths.saRight)
+      .join(paths.saWaist)
+      .join(paths.saLeft)
+      .close()
 
     if (complete) {
       //grainline
@@ -117,9 +111,31 @@ export const swingFacing = {
         scale: 0.2,
       })
       if (sa) {
-        paths.sa = paths.saBase
-          .offset(sa)
-          .join(paths.sideFrontSeam.offset(sa * options.sideFrontSaWidth * 100))
+        const sideFrontSa = store.get('sideFrontSa')
+
+        points.saSwingDLeft = points.swingDLeft
+          .shift(points.dartTipD.angle(points.swingDLeft), sa)
+          .shift(points.swingDRight.angle(points.swingDLeft), sideFrontSa)
+
+        points.saSwingDRight = points.swingDRight
+          .shift(points.swingDartTipD.angle(points.swingDRight), sa)
+          .shift(points.swingDLeft.angle(points.swingDRight), sa)
+
+        points.saWaistSplit = utils.beamsIntersect(
+          paths.saRight.offset(sa).shiftFractionAlong(0.995),
+          paths.saRight.offset(sa).end(),
+          paths.saWaist.offset(sa).start(),
+          paths.saWaist.offset(sa).shiftFractionAlong(0.005)
+        )
+
+        paths.sa = new Path()
+          .move(points.saSwingDLeft)
+          .line(points.saSwingDRight)
+          .join(paths.saRight.offset(sa))
+          .line(points.saWaistSplit)
+          .join(paths.saWaist.offset(sa))
+          .line(points.saWaist0Left)
+          .join(paths.saLeft.offset(sideFrontSa))
           .close()
           .attr('class', 'fabric sa')
       }

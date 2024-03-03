@@ -14,7 +14,7 @@ export const centreFront = {
     buttonOffset: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
     buttonStart: { pct: 1, min: 1, max: 5, menu: 'construction' },
     buttonEnd: { pct: 2.5, min: 1, max: 10, menu: 'construction' },
-    crotchSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    crotchSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     sideFrontSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
   plugins: [pluginLogoRG],
@@ -54,20 +54,18 @@ export const centreFront = {
       .line(points.crotchHem)
       .hide()
 
-    paths.inseam = new Path().move(points.crotchHem).line(points.crotch).hide()
-
     paths.crotch = new Path()
       .move(points.crotch)
       .curve(points.crotchCp2, points.cfWaistCp1, points.cfWaist)
       .hide()
 
-    paths.waist = new Path()
+    paths.saWaist = new Path()
       .move(points.cfWaist)
       .curve(points.cfWaistCp2, points.cfWaistCp2, points.waistPanel0)
       .curve(points.waistPanel0Cp2, points.waist0LeftCp1, points.waist0Left)
       .hide()
 
-    paths.sideFront = new Path()
+    paths.saLeft = new Path()
       .move(points.waist0Left)
       .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
       .line(points.hemD)
@@ -75,10 +73,10 @@ export const centreFront = {
 
     paths.seam = paths.hemBase
       .clone()
-      .join(paths.inseam)
+      .line(points.crotch)
       .join(paths.crotch)
-      .join(paths.waist)
-      .join(paths.sideFront)
+      .join(paths.saWaist)
+      .join(paths.saLeft)
 
     if (complete) {
       //grainline
@@ -133,14 +131,14 @@ export const centreFront = {
       }
       //buttons & buttonholes
       if (options.buttons && options.swingPanelStyle != 'none') {
-        points.buttonStart = paths.sideFront.shiftAlong(
+        points.buttonStart = paths.saLeft.shiftAlong(
           measurements.waistToFloor * options.buttonStart
         )
-        points.buttonEnd = paths.sideFront
+        points.buttonEnd = paths.saLeft
           .reverse()
           .shiftAlong(measurements.waistToFloor * options.buttonEnd)
 
-        paths.button = paths.sideFront
+        paths.button = paths.saLeft
           .split(points.buttonStart)[1]
           .split(points.buttonEnd)[0]
           .offset(store.get('fullWaist') * -options.buttonOffset)
@@ -168,9 +166,12 @@ export const centreFront = {
         }
       }
       if (sa) {
-        const hemSa = sa * options.skirtHemWidth * 100
         const inseamSa = sa * options.inseamSaWidth * 100
-        const crotchSa = sa * options.crotchSaWidth * 100
+        const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
+        let hemSa = sa * options.skirtHemWidth * 100
+        if (options.skirtHemFacings) {
+          hemSa = sa
+        }
 
         let sideFrontSa
         if (options.swingPanelStyle == 'none') {
@@ -180,21 +181,45 @@ export const centreFront = {
         }
         store.set('sideFrontSa', sideFrontSa)
 
+        points.saCrotchHem = points.crotchHem.translate(inseamSa, hemSa)
+        points.saCrotch = points.crotch.translate(inseamSa, -crotchSeamSa)
+        points.saCfWaist = points.cfWaist.translate(crotchSeamSa, -sa)
+
+        points.saWaist0Left = points.waist0Left
+          .shift(points.waist0LeftCp2.angle(points.waist0Left), sa)
+          .shift(points.waist0LeftCp1.angle(points.waist0Left), sideFrontSa)
+
+        points.saHemD = points.hemD
+          .shift(points.hemDCp2.angle(points.hemD), sideFrontSa)
+          .shift(points.dartTipD.angle(points.hemD), hemSa)
+
         if (options.skirtHemFacings) {
+          points.saHemFacingCrotch = points.hemFacingCrotch.translate(inseamSa, -sa)
+          points.saHemFacingD = points.hemFacingD
+            .shift(points.hemD.angle(points.hemFacingD), sa)
+            .shift(points.hemFacingDCp1.angle(points.hemFacingD), sideFrontSa)
           paths.hemFacingSa = paths.hemBase
+            .clone()
             .offset(hemSa)
-            .join(new Path().move(points.crotchHem).line(points.hemFacingCrotch).offset(inseamSa))
+            .line(points.saCrotchHem)
+            .line(points.saHemFacingCrotch)
             .join(paths.hemFacing.reverse().offset(sa))
-            .join(new Path().move(paths.hemFacing.start()).line(points.hemD).offset(sideFrontSa))
+            .line(points.saHemFacingD)
+            .line(points.saHemFacingD)
             .close()
             .attr('class', 'interfacing sa')
         }
         paths.sa = paths.hemBase
+          .clone()
           .offset(hemSa)
-          .join(paths.inseam.offset(inseamSa))
-          .join(paths.crotch.offset(crotchSa))
-          .join(paths.waist.offset(sa))
-          .join(paths.sideFront.offset(sideFrontSa))
+          .line(points.saCrotchHem)
+          .line(points.saCrotch)
+          .join(paths.crotch.offset(crotchSeamSa))
+          .line(points.saCfWaist)
+          .join(paths.saWaist.offset(sa))
+          .line(points.saWaist0Left)
+          .join(paths.saLeft.offset(sideFrontSa))
+          .line(points.saHemD)
           .close()
           .attr('class', 'fabric sa')
       }
