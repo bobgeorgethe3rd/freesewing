@@ -25,6 +25,7 @@ export const placket = {
     //set Render
     if (!options.plackets) {
       part.hide()
+      return part
     }
     wandaPlacket.draft(sh)
     //stores

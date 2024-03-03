@@ -25,6 +25,7 @@ export const watchPocket = {
     //set Render
     if (!options.pocketsBool) {
       part.hide()
+      return part
     }
     wandaWatchPocket.draft(sh)
 

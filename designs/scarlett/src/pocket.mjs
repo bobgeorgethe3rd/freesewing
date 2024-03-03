@@ -25,6 +25,7 @@ export const pocket = {
     //set Render
     if (!options.pocketsBool) {
       part.hide()
+      return part
     }
     wandaPocket.draft(sh)
 
