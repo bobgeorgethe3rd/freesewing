@@ -39,13 +39,6 @@ export const backPanel = {
       for (let i in paths) delete paths[i]
     }
     //let's begin
-    if (options.style == 'bell') {
-      paths.bellWaist = new Path()
-        .move(points.waist6B)
-        .curve(points.waist6Cp2B, points.waistEndCp2B, points.waistEndB)
-        .split(points.waistL)[0]
-    }
-
     const drawHemBase = () => {
       if (options.style == 'bell') {
         return new Path()
@@ -60,13 +53,15 @@ export const backPanel = {
       }
     }
 
-    const drawSaBase = () => {
+    const drawSaWaist = () => {
       if (options.style == 'bell') {
-        return new Path().move(points.hemK).line(points.waist6B).join(paths.bellWaist)
+        return new Path()
+          .move(points.waist6B)
+          .curve(points.waist6Cp2B, points.waistEndCp2B, points.waistEndB)
+          .split(points.waistL)[0]
       } else {
         return new Path()
-          .move(points.hemK)
-          .line(points.waist6)
+          .move(points.waist6)
           .curve(points.waist6Cp2, points.waistHCp1, points.waistH)
       }
     }
@@ -83,20 +78,13 @@ export const backPanel = {
       }
     }
 
-    const drawInseam = () => {
-      if (options.style == 'bell') {
-        return new Path().move(points.crossB).line(points.crossHemB)
-      } else {
-        return new Path().move(points.crossU).line(points.crossHemU)
-      }
-    }
-
+    points.drawHemBaseStart = drawHemBase().start()
     //paths
     paths.seam = drawHemBase()
       .clone()
-      .join(drawSaBase())
+      .join(drawSaWaist())
       .join(drawCross())
-      .join(drawInseam())
+      .line(points.drawHemBaseStart)
       .close()
 
     if (complete) {
@@ -245,28 +233,69 @@ export const backPanel = {
         if (options.skirtHemFacings) {
           hemSa = sa
         }
+
+        points.saHemK = points.hemK
+          .shift(points.hemKCp1B.angle(points.hemK), sa)
+          .shift(points.waist6.angle(points.hemK), hemSa)
+
+        points.drawSaWaistEnd = drawSaWaist().end()
+
+        points.saWaist3Left = drawSaWaist()
+          .start()
+          .shift(points.hemK.angle(points.waist6), sa)
+          .shift(points.hemK.angle(points.waist6) - 90, sa)
+
+        points.saCrossStart = drawCross().offset(crossSeamSa).start()
+
+        points.saWaistEnd = utils.beamsIntersect(
+          drawSaWaist().offset(sa).end(),
+          drawSaWaist().offset(sa).shiftFractionAlong(0.995),
+          drawCross().offset(crossSeamSa).shiftFractionAlong(0.005),
+          points.saCrossStart
+        )
+
+        if (points.saWaistEnd.x < points.saCrossStart.x) {
+          points.saWaistEnd = points.saCrossStart
+        }
+        points.crossEnd = drawCross().end()
+        points.saCrossEnd = points.crossEnd
+          .shift(points.drawHemBaseStart.angle(points.crossEnd), crossSeamSa)
+          .shift(points.drawHemBaseStart.angle(points.crossEnd) + 90, inseamSa)
+        points.saHemStart = points.drawHemBaseStart
+          .shift(points.crossEnd.angle(points.drawHemBaseStart) - 90, inseamSa)
+          .shift(points.crossEnd.angle(points.drawHemBaseStart), hemSa)
+
         if (options.skirtHemFacings) {
+          points.saHemFacingK = points.hemFacingK
+            .shift(points.hemFacingKCp2B.angle(points.hemFacingK), sa)
+            .shift(points.hemK.angle(points.hemFacingK), sa)
+
+          points.saCrossFacing = paths.hemFacing
+            .start()
+            .shift(points.drawHemBaseStart.angle(points.crossEnd), sa)
+            .shift(points.drawHemBaseStart.angle(points.crossEnd) + 90, inseamSa)
+
           paths.hemFacingSa = drawHemBase()
             .offset(hemSa)
-            .join(
-              new Path()
-                .move(drawHemBase().end())
-                .line(paths.hemFacing.end())
-                .join(paths.hemFacing.reverse())
-                .offset(sa)
-            )
-            .join(
-              new Path().move(paths.hemFacing.start()).line(drawHemBase().start()).offset(inseamSa)
-            )
+            .line(points.saHemK)
+            .line(points.saHemFacingK)
+            .join(paths.hemFacing.reverse().offset(sa))
+            .line(points.saCrossFacing)
+            .line(points.saHemStart)
             .close()
             .attr('class', 'interfacing sa')
         }
 
         paths.sa = drawHemBase()
+          .clone()
           .offset(hemSa)
-          .join(drawSaBase().offset(sa))
+          .line(points.saHemK)
+          .line(points.saWaist3Left)
+          .join(drawSaWaist().offset(sa))
+          .line(points.saWaistEnd)
           .join(drawCross().offset(crossSeamSa))
-          .join(drawInseam().offset(inseamSa))
+          .line(points.saCrossEnd)
+          .line(points.saHemStart)
           .close()
           .attr('class', 'fabric sa')
       }
