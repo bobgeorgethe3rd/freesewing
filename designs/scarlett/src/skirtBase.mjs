@@ -8,6 +8,7 @@ export const skirtBase = {
     //Imported
     ...wandaSkirtBase.options,
     //Constants
+    cbSaWidth: 0.01, //Locked for Scarlett
     frontDart: 'seam', //Locked for Scarlett
     umbrellaExtenstion: 1 / 16, //Locked for Scarlett
     //Style
@@ -29,6 +30,7 @@ export const skirtBase = {
       menu: 'construction',
     }, //Altered for Scarlett
     crossSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    inseamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     //Advanced
     crossSeamCuvre: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
     crotchSeamCuvre: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
