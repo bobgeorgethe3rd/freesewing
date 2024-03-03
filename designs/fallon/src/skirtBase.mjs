@@ -177,34 +177,6 @@ export const skirtBase = {
         .curve(points.hemFacingDCp2, points.hemFacingLCp1, points.hemFacingL)
         .attr('class', 'interfacing')
     }
-    //waist facings
-    /* if (options.waistbandStyle == 'none') {
-      points.cfWaistFacingCp1 = utils.beamsIntersect(
-        points.cfHemCp1,
-        points.origin,
-        points.cfWaistFacing,
-        points.origin.rotate(90, points.cfWaistFacing)
-      )
-      points.waistFacingDCp2 = utils.beamsIntersect(
-        points.hemDCp2,
-        points.origin,
-        points.waistFacingD,
-        points.origin.rotate(-90, points.waistFacingD)
-      )
-      points.waistFacingFCp2 = utils.beamsIntersect(
-        points.hemFCp2,
-        points.origin,
-        points.waistFacingF,
-        points.origin.rotate(-90, points.waistFacingF)
-      )
-      points.waistFacingECp1 = utils.beamsIntersect(
-        points.hemECp1,
-        points.origin,
-        points.waistFacingE,
-        points.origin.rotate(90, points.waistFacingE)
-      )
-    } */
-
     //guides
     paths.sideBackHem = new Path().move(points.hemL)._curve(points.hemLCp2, points.hemD)
 

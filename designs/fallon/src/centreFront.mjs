@@ -190,29 +190,6 @@ export const centreFront = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-      /*  if (options.waistbandStyle == 'none') {
-        const drawWaistFacing = () => {
-          if (options.seams != 'none') {
-            if (options.seams == 'all' || options.seams == 'sideFront') {
-              return new Path().move(points.waistFacingD)
-            } else {
-              return new Path()
-                .move(points.waistFacingE)
-                .curve(points.waistFacingECp2, points.waistFacingDCp1, points.waistFacingD)
-            }
-          } else {
-            return new Path()
-              .move(points.waistFacingF)
-              .curve(points.waistFacingFCp2, points.waistFacingECp1, points.waistFacingE)
-              .curve(points.waistFacingECp2, points.waistFacingDCp1, points.waistFacingD)
-          }
-        }
-        paths.waistFacing = drawWaistFacing()
-          .curve(points.waistFacingDCp2, points.cfWaistFacingCp1, points.cfWaistFacing)
-          .attr('class', 'interfacing')
-          .attr('data-text', 'Waist Facing - Line')
-          .attr('data-text-class', 'center')
-      } */
       //darts and seams
       if (options.seams == 'none' || options.seams == 'sideSeam') {
         if (options.seams == 'none') {
@@ -266,16 +243,6 @@ export const centreFront = {
             .close()
             .attr('class', 'interfacing sa')
         }
-        /* if (options.waistbandStyle == 'none') {
-          paths.waistFacingSa = paths.waistFacing
-            .offset(sa * options.waistFacingHemWidth * 100)
-            .line(points.cfWaist)
-            .join(drawWaistSa().offset(sa))
-            .join(drawSaRight().split(paths.waistFacing.start())[0].offset(sa))
-            .close()
-            .attr('class', 'interfacing sa')
-        } */
-
         paths.sa = drawHemBase()
           .offset(hemSa)
           .join(paths.cf)

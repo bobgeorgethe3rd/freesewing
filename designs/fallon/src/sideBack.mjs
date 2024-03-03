@@ -110,14 +110,6 @@ export const sideBack = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-      /*  if (options.waistbandStyle == 'none') {
-        paths.waistFacing = new Path()
-          .move(points.waistFacingF)
-          .curve(points.waistFacingFCp2, points.waistFacingECp1, points.waistFacingE)
-          .attr('class', 'interfacing')
-          .attr('data-text', 'Waist Facing - Line')
-          .attr('data-text-class', 'center')
-      } */
       if (sa) {
         const hemSa = sa * options.skirtHemWidth * 100
         if (options.skirtHemFacings) {
@@ -130,16 +122,6 @@ export const sideBack = {
             .close()
             .attr('class', 'interfacing sa')
         }
-        /*         if (options.waistbandStyle == 'none') {
-          paths.waistFacingSa = paths.waistFacing
-            .offset(sa * options.waistFacingHemWidth * 100)
-            .join(
-              paths.saBase.split(points.waistFacingE)[1].split(points.waistFacingF)[0].offset(sa)
-            )
-            .close()
-            .attr('class', 'interfacing sa')
-        } */
-
         paths.sa = paths.hemBase
           .offset(hemSa)
           .join(paths.saBase.offset(sa))

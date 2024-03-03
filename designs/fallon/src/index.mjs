@@ -12,6 +12,8 @@ import { pocket } from './pocket.mjs'
 import { watchPocket } from './watchPocket.mjs'
 import { placket } from './placket.mjs'
 import { waistband } from './waistband.mjs'
+import { waistFacing } from './waistFacing.mjs'
+import { sideWaistFacing } from './sideWaistFacing.mjs'
 
 // Create new design
 const Fallon = new Design({
@@ -26,6 +28,8 @@ const Fallon = new Design({
     watchPocket,
     placket,
     waistband,
+    waistFacing,
+    sideWaistFacing,
   ],
 })
 
@@ -40,5 +44,7 @@ export {
   watchPocket,
   placket,
   waistband,
+  waistFacing,
+  sideWaistFacing,
   Fallon,
 }

@@ -143,23 +143,6 @@ export const sideFront = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-      /*       if (options.waistbandStyle == 'none') {
-        const drawWaistFacing = () => {
-          if (options.seams == 'sideFront') {
-            return new Path()
-              .move(points.waistFacingF)
-              .curve(points.waistFacingFCp2, points.waistFacingECp1, points.waistFacingE)
-          } else {
-            return new Path().move(points.waistFacingE)
-          }
-        }
-
-        paths.waistFacing = drawWaistFacing()
-          .curve(points.waistFacingECp2, points.waistFacingDCp1, points.waistFacingD)
-          .attr('class', 'interfacing')
-          .attr('data-text', 'Waist Facing - Line')
-          .attr('data-text-class', 'center')
-      } */
       //darts
       if (options.seams == 'sideFront') {
         paths.dart = new Path()
@@ -193,16 +176,6 @@ export const sideFront = {
             .close()
             .attr('class', 'interfacing sa')
         }
-        /*         if (options.waistbandStyle == 'none') {
-          paths.waistFacingSa = paths.waistFacing
-            .clone()
-            .offset(sa * options.waistFacingHemWidth * 100)
-            .join(paths.saLeft.split(points.waistFacingD)[1].offset(sa))
-            .join(drawWaistSa().offset(sa))
-            .join(drawSaRight().split(paths.waistFacing.start())[0].offset(sa))
-            .close()
-            .attr('class', 'interfacing sa')
-        } */
         paths.sa = paths.hemBase
           .clone()
           .offset(hemSa)
