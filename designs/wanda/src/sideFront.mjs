@@ -83,13 +83,8 @@ export const sideFront = {
       })
       //notches
       if (options.pocketsBool) {
-        paths.sideSeam = new Path()
-          .move(points.waist1Left)
-          .curve(points.waist1LeftCp2, points.dartTipECp, points.dartTipE)
-          .line(points.hemE)
-          .hide()
-        points.pocketOpeningTop = paths.sideSeam.shiftAlong(store.get('pocketOpening'))
-        points.pocketOpeningBottom = paths.sideSeam.shiftAlong(store.get('pocketOpeningLength'))
+        points.pocketOpeningTop = paths.saLeft.shiftAlong(store.get('pocketOpening'))
+        points.pocketOpeningBottom = paths.saLeft.shiftAlong(store.get('pocketOpeningLength'))
 
         macro('sprinkle', {
           snippet: 'notch',
