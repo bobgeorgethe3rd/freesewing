@@ -8,7 +8,7 @@ export const waistFacing = {
   },
   options: {
     //Construction
-    waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
+    waistFacingHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
   draft: ({
     store,
