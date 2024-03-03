@@ -204,32 +204,6 @@ export const skirtBase = {
         .line(points.crossHemFacingS)
         .attr('class', 'interfacing')
     }
-
-    //waist facings
-    if (options.waistbandStyle == 'none') {
-      points.cfWaistFacingCp1 = utils.beamsIntersect(
-        points.cfHemCp1,
-        points.origin,
-        points.cfWaistFacing,
-        points.origin.rotate(90, points.cfWaistFacing)
-      )
-      points.waistFacingDCp2 = utils.beamsIntersect(
-        points.hemDCp2,
-        points.origin,
-        points.waistFacingD,
-        points.origin.rotate(-90, points.waistFacingD)
-      )
-
-      points.waistFacingCrossS = utils.lineIntersectsCurve(
-        points.waistFacing6SCp2,
-        points.waistFacing6SCp2.shiftOutwards(points.waistFacing6S, crossDepth),
-        points.waist3LeftS,
-        points.seatK,
-        points.crossSCp1,
-        points.crossS
-      )
-    }
-
     //guides
     paths.crotchFront = new Path()
       .move(points.cfHem)

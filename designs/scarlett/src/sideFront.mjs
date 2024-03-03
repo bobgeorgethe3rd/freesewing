@@ -56,29 +56,6 @@ export const sideFront = {
             .close()
             .attr('class', 'interfacing sa')
         }
-        /* if (options.waistbandStyle == 'none') {
-          paths.waistFacingSa = paths.waistFacing
-            .clone()
-            .offset(sa * options.waistFacingHemWidth * 100)
-            .join(
-              new Path()
-                .move(points.waistFacingD)
-                .line(points.dartTipD)
-                .curve(points.dartTipDCp, points.waist1RightCp1, points.waist1Right)
-                .offset(sideFrontSa)
-            )
-            .join(
-              new Path()
-                .move(points.waist1Right)
-                .curve(points.waist1RightCp2, points.waistPanel1Cp1, points.waistPanel1)
-                .curve(points.waistPanel1Cp2, points.waist1LeftCp1, points.waist1Left)
-                .curve(points.waist1LeftCp2, points.dartTipECp, points.dartTipE)
-                .line(points.waistFacingE)
-                .offset(sa)
-            )
-            .close()
-            .attr('class', 'interfacing sa')
-        } */
 
         paths.sa = paths.hemBase
           .clone()

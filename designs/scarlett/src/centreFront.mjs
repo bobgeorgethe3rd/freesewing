@@ -132,26 +132,6 @@ export const centreFront = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-      /*  if (options.waistbandStyle == 'none') {
-        points.waistFacingCrotch = utils.lineIntersectsCurve(
-          points.cfWaistFacingCp1,
-          points.cfWaistFacingCp1.shiftOutwards(
-            points.cfWaistFacing,
-            points.cfUpperLeg.dist(points.crotch)
-          ),
-          points.crotch,
-          points.crotchCp1,
-          points.cfSeat,
-          points.cfWaist
-        )
-        paths.waistFacing = new Path()
-          .move(points.waistFacingD)
-          .curve(points.waistFacingDCp2, points.cfWaistFacingCp1, points.cfWaistFacing)
-          .line(points.waistFacingCrotch)
-          .attr('class', 'interfacing')
-          .attr('data-text', 'Waist Facing - Line')
-          .attr('data-text-class', 'center')
-      } */
       //buttons & buttonholes
       if (options.buttons && options.swingPanelStyle != 'none') {
         points.buttonStart = paths.sideFront.shiftAlong(
@@ -210,21 +190,6 @@ export const centreFront = {
             .close()
             .attr('class', 'interfacing sa')
         }
-        /* if (options.waistbandStyle == 'none') {
-          paths.waistFacingSa = paths.waistFacing
-            .offset(sa * options.waistFacingHemWidth * 100)
-            .join(paths.crotch.split(points.waistFacingCrotch)[1].offset(crotchSa))
-            .join(paths.waist.offset(sa))
-            .join(
-              new Path()
-                .move(points.waist0Left)
-                .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
-                .line(points.waistFacingD)
-                .offset(sideFrontSa)
-            )
-            .close()
-            .attr('class', 'interfacing sa')
-        } */
         paths.sa = paths.hemBase
           .offset(hemSa)
           .join(paths.inseam.offset(inseamSa))

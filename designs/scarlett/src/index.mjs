@@ -16,6 +16,8 @@ import { watchPocket } from './watchPocket.mjs'
 import { swingFacing } from './swingFacing.mjs'
 import { swingWaistband } from './swingWaistband.mjs'
 import { waistband } from './waistband.mjs'
+import { waistFacing } from './waistFacing.mjs'
+import { sideWaistFacing } from './sideWaistFacing.mjs'
 
 // Create new design
 const Scarlett = new Design({
@@ -34,6 +36,8 @@ const Scarlett = new Design({
     swingFacing,
     swingWaistband,
     waistband,
+    waistFacing,
+    sideWaistFacing,
   ],
 })
 
@@ -52,5 +56,7 @@ export {
   swingFacing,
   swingWaistband,
   waistband,
+  waistFacing,
+  sideWaistFacing,
   Scarlett,
 }
