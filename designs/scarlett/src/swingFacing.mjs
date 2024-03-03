@@ -33,11 +33,12 @@ export const swingFacing = {
       part.hide()
       return part
     }
-    //removing paths
+    //removing paths and snippets
     const keepThese = ['saWaist', 'saLeft']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
+    for (let i in snippets) delete snippets[i]
     //measures
     const swingWidth = store.get('swingWidth')
     //let's begin
