@@ -14,8 +14,8 @@ export const waistband = {
       dflt: 'right',
       list: ['right', 'left'],
       menu: 'style',
-    }, //altered for Wanda
-    waistbandFolded: { bool: true, menu: 'style' }, //altered for Wanda
+    }, //Altered for Wanda
+    waistbandFolded: { bool: true, menu: 'style' }, //Altered for Wanda
   },
   after: [skirtBase, placket],
   plugins: [...waistbandStraight.plugins, ...waistbandCurved.plugins],

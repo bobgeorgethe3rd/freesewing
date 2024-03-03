@@ -164,93 +164,6 @@ export const backPanel = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-      /*  if (options.waistbandStyle == 'none') {
-        let waistFacingStart
-        let waistFacingCp1
-        let waistFacingCp2
-        let waistFacingEnd
-        if (options.style == 'bell') {
-          waistFacingStart = points.origin.shiftOutwards(
-            points.waistEndB,
-            points.waist6B.dist(points.waistFacing6B)
-          )
-          waistFacingEnd = points.waistFacing6B
-          waistFacingCp1 = utils.beamsIntersect(
-            points.origin,
-            points.hemLCp2,
-            waistFacingStart,
-            points.origin.rotate(-90, waistFacingStart)
-          )
-          waistFacingCp2 = utils.beamsIntersect(
-            points.origin,
-            points.hemKCp1B,
-            waistFacingEnd,
-            points.origin.rotate(90, waistFacingEnd)
-          )
-        } else {
-          waistFacingEnd = points.cfWaistFacing
-          waistFacingStart = points.origin.shiftOutwards(
-            points.waistEnd,
-            points.cfWaist.dist(points.cfWaistFacing)
-          )
-          waistFacingCp1 = utils.beamsIntersect(
-            points.origin,
-            points.waistCp2,
-            waistFacingStart,
-            points.origin.rotate(-90, waistFacingStart)
-          )
-          waistFacingCp2 = utils.beamsIntersect(
-            points.origin,
-            points.waistCp1,
-            waistFacingEnd,
-            points.origin.rotate(90, waistFacingEnd)
-          )
-        }
-
-        points.waistFacingSplit = utils.lineIntersectsCurve(
-          lineFrom,
-          lineTo,
-          waistFacingStart,
-          waistFacingCp1,
-          waistFacingCp2,
-          waistFacingEnd
-        )
-
-        if (options.style == 'bell') {
-          paths.waistFacing = new Path()
-            .move(waistFacingStart)
-            .curve(waistFacingCp1, waistFacingCp2, waistFacingEnd)
-            .split(points.waistFacingSplit)[1]
-            .attr('class', 'interfacing')
-            .attr('data-text', 'Waist Facing - Line')
-            .attr('data-text-class', 'center')
-            .unhide()
-        } else {
-          const waistFacingCpDistance =
-            (4 / 3) *
-            points.origin.dist(points.waistFacing6B) *
-            Math.tan(
-              utils.deg2rad(
-                (points.origin.angle(points.waistFacing6U) -
-                  points.origin.angle(points.waistFacingSplit)) /
-                  4
-              )
-            )
-          points.waistFacingCp1 = points.waistFacingSplit
-            .shiftTowards(points.origin, waistFacingCpDistance)
-            .rotate(-90, points.waistFacingSplit)
-          points.waistFacingCp2 = points.waistFacing6U
-            .shiftTowards(points.origin, waistFacingCpDistance)
-            .rotate(90, points.waistFacing6U)
-
-          paths.waistFacing = new Path()
-            .move(points.waistFacingSplit)
-            .curve(points.waistFacingCp1, points.waistFacingCp2, points.waistFacing6U)
-            .attr('class', 'interfacing')
-            .attr('data-text', 'Waist Facing - Line')
-            .attr('data-text-class', 'center')
-        }
-      } */
       //pleats
       if (options.pleats) {
         const pleatKeep = store.get('pleatKeep')
@@ -397,29 +310,6 @@ export const backPanel = {
             .line(points.saHemStart)
             .attr('class', 'interfacing sa')
         }
-        /* if (options.waistbandStyle == 'none') {
-          const drawWaistFacingSaBase = () => {
-            if (options.style == 'bell') {
-              return new Path()
-                .move(points.waistFacing6B)
-                .line(points.waist6B)
-                .join(paths.bellWaist)
-                .line(points.waistFacingSplit)
-            } else {
-              return new Path()
-                .move(points.waistFacing6U)
-                .line(points.waist6)
-                .curve(points.waist6Cp2, points.waistHCp1, points.waistH)
-                .line(points.waistFacingSplit)
-            }
-          }
-          paths.waistFacingSa = paths.waistFacing
-            .clone()
-            .offset(sa * options.waistFacingHemWidth * 100)
-            .join(drawWaistFacingSaBase().offset(sa))
-            .close()
-            .attr('class', 'interfacing sa')
-        } */
 
         paths.sa = drawHemBase()
           .offset(hemSa)

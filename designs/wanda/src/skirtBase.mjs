@@ -59,8 +59,6 @@ export const skirtBase = {
     skirtHemFacings: { bool: true, menu: 'construction' },
     skirtHemFacingWidth: { pct: (11 / 40) * 100, min: 20, max: 35, menu: 'construction' },
     skirtHemWidth: { pct: 2, min: 0, max: 10, menu: 'construction' },
-    skirtWaistFacingWidth: { pct: 25, min: 0, max: 50, menu: 'construction' },
-    waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
     //Advanced
     calculateWaistbandDiff: { bool: false, menu: 'advanced.fit' },
   },
@@ -122,7 +120,6 @@ export const skirtBase = {
     const dartLength = measurements.waistToFloor * options.dartLength
     const backFullness = measurements.waist * options.umbrellaFullness
     const umbrellaExtenstion = measurements.waist * options.umbrellaExtenstion
-    const skirtWaistFacingWidth = dartLength * (1 + options.skirtWaistFacingWidth)
     const skirtHemFacingWidth = measurements.waistToFloor * options.skirtHemFacingWidth
 
     //let's begin
@@ -503,66 +500,6 @@ export const skirtBase = {
       points.waistHCp1 = points.waistH
         .shiftTowards(points.origin, umbrellaWaistGuideCpDistance)
         .rotate(-90, points.waistH)
-    }
-    //facings
-    if (options.waistbandStyle == 'none') {
-      points.cfWaistFacing = points.cfWaist.shiftTowards(points.cfHem, skirtWaistFacingWidth)
-      points.waistFacingD = points.waistD.shiftTowards(points.dartTipD, skirtWaistFacingWidth)
-      points.waistFacingE = points.waistE.shiftTowards(points.dartTipE, skirtWaistFacingWidth)
-      points.waistFacingF = points.waistF.shiftTowards(points.dartTipF, skirtWaistFacingWidth)
-      points.waistFacing6S = points.waist3LeftS.shiftTowards(points.hemK, skirtWaistFacingWidth)
-      points.waistFacing6B = points.waist6B.shiftTowards(points.hemK, skirtWaistFacingWidth)
-      points.waistFacing6U = points.waist6.shiftTowards(points.hemK, skirtWaistFacingWidth)
-
-      const sideWaistFrontFacingCpDistance =
-        (4 / 3) *
-        points.origin.dist(points.waistFacingD) *
-        Math.tan(
-          utils.deg2rad(
-            (points.origin.angle(points.waistFacingD) - points.origin.angle(points.waistFacingE)) /
-              4
-          )
-        )
-      const sideWaistFacingCpDistance =
-        (4 / 3) *
-        points.origin.dist(points.waistFacingF) *
-        Math.tan(
-          utils.deg2rad(
-            (points.origin.angle(points.waistF) - points.origin.angle(points.waist6)) / 8
-          )
-        )
-
-      points.waistFacing6SCp2 = points.waistFacing6S
-        .shiftTowards(points.origin, sideWaistFacingCpDistance)
-        .rotate(-90, points.waistFacing6S)
-      points.waistFacing6BCp2 = points.waistFacing6B
-        .shiftTowards(points.origin, sideWaistFacingCpDistance)
-        .rotate(-90, points.waistFacing6B)
-      points.waistFacing6UCp2 = points.waistFacing6U
-        .shiftTowards(points.origin, sideWaistFacingCpDistance)
-        .rotate(-90, points.waistFacing6U)
-      points.waistFacingFCp1 = points.waistFacingF
-        .shiftTowards(points.origin, sideWaistFacingCpDistance)
-        .rotate(90, points.waistFacingF)
-
-      points.waistFacingECp2 = points.waistFacingE
-        .shiftTowards(points.origin, sideWaistFrontFacingCpDistance)
-        .rotate(-90, points.waistFacingE)
-      points.waistFacingDCp1 = points.waistFacingD
-        .shiftTowards(points.origin, sideWaistFrontFacingCpDistance)
-        .rotate(90, points.waistFacingD)
-
-      // paths.sideWaistFacingS = new Path()
-      // .move(points.waistFacing6S)
-      // .curve(points.waistFacing6SCp2, points.waistFacingFCp1, points.waistFacingF)
-
-      // paths.sideWaistFacingB = new Path()
-      // .move(points.waistFacing6B)
-      // .curve(points.waistFacing6BCp2, points.waistFacingFCp1, points.waistFacingF)
-
-      // paths.sideWaistFacingU = new Path()
-      // .move(points.waistFacing6U)
-      // .curve(points.waistFacing6UCp2, points.waistFacingFCp1, points.waistFacingF)
     }
 
     if (options.skirtHemFacings) {

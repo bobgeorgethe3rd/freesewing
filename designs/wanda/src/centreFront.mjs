@@ -184,38 +184,6 @@ export const centreFront = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-      /*       if (options.waistbandStyle == 'none') {
-        points.cfWaistFacingCp1 = utils.beamsIntersect(
-          points.cfHemCp1,
-          points.origin,
-          points.cfWaistFacing,
-          points.origin.rotate(90, points.cfWaistFacing)
-        )
-        points.waistFacingDCp2 = utils.beamsIntersect(
-          points.hemDCp2,
-          points.origin,
-          points.waistFacingD,
-          points.origin.rotate(-90, points.waistFacingD)
-        )
-
-        const drawWaistFacing = () => {
-          if (options.frontDart == 'dart') {
-            return new Path()
-              .move(points.waistFacingE)
-              .curve(points.waistFacingECp2, points.waistFacingDCp1, points.waistFacingD)
-              .curve(points.waistFacingDCp2, points.cfWaistFacingCp1, points.cfWaistFacing)
-          } else {
-            return new Path()
-              .move(points.waistFacingD)
-              .curve(points.waistFacingDCp2, points.cfWaistFacingCp1, points.cfWaistFacing)
-          }
-        }
-
-        paths.waistFacing = drawWaistFacing()
-          .attr('class', 'interfacing')
-          .attr('data-text', 'Waist Facing - Line')
-          .attr('data-text-class', 'center')
-      } */
 
       if (sa) {
         const closureSa = sa * options.closureSaWidth * 100
@@ -261,37 +229,6 @@ export const centreFront = {
         points.saHemD = points.hemD
           .shift(points.dartTipD.angle(points.hemD), hemSa)
           .shift(points.hemDCp2.angle(points.hemD), sa)
-
-        /*         if (options.waistbandStyle == 'none') {
-          const drawWaistFacingSaBase = () => {
-            if (options.frontDart == 'dart') {
-              return new Path()
-                .move(points.cfWaist)
-                .curve(points.cfWaistCp2, points.waistPanel0Cp1, points.waistPanel0)
-                .curve(points.waistPanel0Cp2, points.waist0LeftCp1, points.waist0Left)
-                .line(points.dartTopD)
-                .line(points.waist1Right)
-                .curve(points.waist1RightCp2, points.waistPanel1Cp1, points.waistPanel1)
-                .curve(points.waistPanel1Cp2, points.waist1LeftCp1, points.waist1Left)
-                .curve(points.waist1LeftCp2, points.dartTipECp, points.dartTipE)
-                .line(points.waistFacingE)
-            } else {
-              return new Path()
-                .move(points.cfWaist)
-                .curve(points.cfWaistCp2, points.waistPanel0Cp1, points.waistPanel0)
-                .curve(points.waistPanel0Cp2, points.waist0LeftCp1, points.waist0Left)
-                .curve(points.waist0LeftCp2, points.dartTipDCp, points.dartTipD)
-                .line(points.waistFacingD)
-            }
-          }
-          paths.waistFacingSa = paths.waistFacing
-            .offset(sa * options.waistFacingHemWidth * 100)
-            .line(points.cfWaistFacing)
-            .line(points.cfWaist)
-            .join(drawWaistFacingSaBase().offset(sa))
-            .close()
-            .attr('class', 'interfacing sa')
-        } */
 
         const drawSaBase = () => {
           if (options.frontDart == 'dart') {

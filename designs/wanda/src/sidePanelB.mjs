@@ -118,30 +118,6 @@ export const sidePanelB = {
           .attr('data-text', 'Hem Facing - Line')
           .attr('data-text-class', 'center')
       }
-
-      /*   if (options.waistbandStyle == 'none') {
-        let waistFacing6
-        let waistFacing6Cp2
-        if (options.style == 'straight') {
-          waistFacing6 = points.waistFacing6S
-          waistFacing6Cp2 = points.waistFacing6SCp2
-        } else {
-          if (options.style == 'umbrella') {
-            waistFacing6 = points.waistFacing6U
-            waistFacing6Cp2 = points.waistFacing6UCp2
-          } else {
-            waistFacing6 = points.waistFacing6B
-            waistFacing6Cp2 = points.waistFacing6BCp2
-          }
-        }
-
-        paths.waistFacing = new Path()
-          .move(waistFacing6)
-          .curve(waistFacing6Cp2, points.waistFacingFCp1, points.waistFacingF)
-          .attr('class', 'interfacing')
-          .attr('data-text', 'Waist Facing - Line')
-          .attr('data-text-class', 'center')
-      } */
       //pleats
       if (options.pleats) {
         const pleatKeep = store.get('pleatKeep')
@@ -259,22 +235,6 @@ export const sidePanelB = {
             .line(points.saHemK)
             .attr('class', 'interfacing sa')
         }
-        /*   if (options.waistbandStyle == 'none') {
-          paths.waistFacingSa = paths.waistFacing
-            .clone()
-            .offset(sa * options.waistFacingHemWidth * 100)
-            .join(
-              new Path()
-                .move(points.waistFacingF)
-                .line(points.dartTipF)
-                .curve(points.dartTipFCp, points.waist3RightCp1, points.waist3Right)
-                .curve(points.waist3RightCp2, waist3LeftCp1, waist3Left)
-                .line(paths.waistFacing.start())
-                .offset(sa)
-            )
-            .close()
-            .attr('class', 'interfacing sa')
-        } */
 
         paths.sa = paths.hemBase
           .clone()
