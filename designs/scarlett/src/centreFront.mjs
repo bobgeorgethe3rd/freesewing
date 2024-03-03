@@ -153,7 +153,7 @@ export const centreFront = {
           points['buttonAngle' + i] = paths.button.shiftFractionAlong(
             (i / (options.buttonNum - 1)) * 0.995
           )
-          points.buttonAngle0 = paths.button.shiftAlong(1).rotate(180, points.buttonStart)
+          points.buttonAngle0 = paths.button.shiftFractionAlong(0.005)
           snippets['button' + i] = new Snippet('button', points['button' + i]).attr(
             'data-rotate',
             points['button' + i].angle(points['buttonAngle' + i]) * -1
