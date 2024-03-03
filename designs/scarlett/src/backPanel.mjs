@@ -73,9 +73,13 @@ export const backPanel = {
 
     const drawCross = () => {
       if (options.style == 'bell') {
-        return new Path().move(points.waistL).curve(points.seatL, points.crossBCp1, points.crossB)
+        return new Path()
+          .move(points.waistL)
+          .curve(points.waistLCp2, points.crossBCp1, points.crossB)
       } else {
-        return new Path().move(points.waistH).curve(points.seatM, points.crossUCp1, points.crossU)
+        return new Path()
+          .move(points.waistH)
+          .curve(points.waistMCp2, points.crossUCp1, points.crossU)
       }
     }
 

@@ -59,7 +59,7 @@ export const centreFront = {
 
     paths.crotch = new Path()
       .move(points.crotch)
-      .curve(points.crotchCp1, points.cfSeat, points.cfWaist)
+      .curve(points.crotchCp2, points.cfWaistCp1, points.cfWaist)
       .hide()
 
     paths.waist = new Path()
@@ -83,7 +83,7 @@ export const centreFront = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = points.cfUpperLeg.shiftFractionTowards(points.crotch, 0.8)
+      points.grainlineFrom = points.cfCrotch.shiftFractionTowards(points.crotch, 0.8)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
       macro('grainline', {
         from: points.grainlineFrom,

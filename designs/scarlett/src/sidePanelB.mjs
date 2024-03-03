@@ -72,7 +72,7 @@ export const sidePanelB = {
 
     paths.cross = new Path()
       .move(points.waist3LeftS)
-      .curve(points.seatK, points.crossSCp1, points.crossS)
+      .curve(points.waist3LeftCp2, points.crossSCp1, points.crossS)
       .hide()
 
     const drawSeamRight = () => {
