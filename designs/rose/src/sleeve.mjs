@@ -1,5 +1,5 @@
-import { sleeveBase } from '@freesewing/spreadsleeve'
 import { sleeve as capSleeve } from '@freesewing/capsleeve'
+import { sleeveBase } from './sleeveBase.mjs'
 import { back } from './back.mjs'
 
 export const sleeve = {
@@ -12,14 +12,6 @@ export const sleeve = {
   options: {
     //Imported
     ...capSleeve.options,
-    //Constants
-    useVoidStores: false, //Locked for Rose
-    sleeveFlounces: 'none', //Locked for Rose
-    sleeveBands: false, //Locked for Rose
-    //Sleeves
-    sleevesBool: { bool: true, menu: 'sleeves' },
-    //Construction
-    sleeveHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Rose
   },
   draft: (sh) => {
     //draft

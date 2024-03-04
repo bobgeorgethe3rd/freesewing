@@ -7,6 +7,7 @@ import { front } from './front.mjs'
 import { sideFront } from './sideFront.mjs'
 import { back } from './back.mjs'
 import { sideBack } from './sideBack.mjs'
+import { sleeveBase } from './sleeveBase.mjs'
 import { sleeve } from './sleeve.mjs'
 import { pocket } from './pocket.mjs'
 import { skirtFront } from './skirtFront.mjs'
@@ -23,6 +24,7 @@ const Rose = new Design({
     sideFront,
     back,
     sideBack,
+    sleeveBase,
     sleeve,
     pocket,
     skirtFront,
@@ -39,6 +41,7 @@ export {
   sideFront,
   back,
   sideBack,
+  sleeveBase,
   sleeve,
   pocket,
   skirtFront,
