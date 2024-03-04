@@ -3,7 +3,7 @@ import { backArmholePitch } from '@freesewing/peach'
 import { front } from './front.mjs'
 
 export const back = {
-  name: 'peach.back',
+  name: 'rose.back',
   from: backDaisy,
   after: front,
   hide: {
