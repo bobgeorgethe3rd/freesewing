@@ -9,7 +9,7 @@ export const frontBase = {
     crotchSeamSaWidth: 0.01,
     //Advanced
     crotchSeamCurveAngle: { pct: 100, min: 0, max: 100, menu: 'advanced' },
-    crotchSeamCurveStart: { pct: 0, min: 0, max: 50, menu: 'advanced' },
+    crotchSeamCurveEnd: { pct: 0, min: 0, max: 50, menu: 'advanced' },
     crotchSeamCurveX: { pct: (1 / 3) * 100, min: 0, max: 50, menu: 'advanced' },
     crotchSeamCurve: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
   },
@@ -97,7 +97,7 @@ export const frontBase = {
       points.upperLegIn = points.upperLegInAnchor.shift(0, seatFront / 4)
     }
 
-    points.crotchSeamCurveStartMax = points.upperLegInAnchor.shift(
+    points.crotchSeamCurveEndMax = points.upperLegInAnchor.shift(
       90,
       toUpperLeg - measurements.waistToSeat
     )
@@ -117,65 +117,61 @@ export const frontBase = {
             crotchSeamCurveAngleMultiplier,
         1
       ),
-      points.crotchSeamCurveStartMax,
+      points.crotchSeamCurveEndMax,
       points.upperLegInAnchor.shiftFractionTowards(points.upperLegIn, options.crotchSeamCurveX)
     )
-    points.crotchSeamCurveStart = points.crotchSeamCurveCpTarget.shiftFractionTowards(
-      points.crotchSeamCurveStartMax,
-      1 + options.crotchSeamCurveStart
+    points.crotchSeamCurveEnd = points.crotchSeamCurveCpTarget.shiftFractionTowards(
+      points.crotchSeamCurveEndMax,
+      1 + options.crotchSeamCurveEnd
     )
     points.upperLegInCp2 = points.upperLegIn.shiftFractionTowards(
       points.crotchSeamCurveCpTarget,
       options.crotchSeamCurve
     )
-    points.crotchSeamCurveStartCp1 = points.crotchSeamCurveStart.shiftFractionTowards(
+    points.crotchSeamCurveEndCp1 = points.crotchSeamCurveEnd.shiftFractionTowards(
       points.crotchSeamCurveCpTarget,
       options.crotchSeamCurve
     )
 
     points.waistInMax = points.crotchSeamCurveCpTarget.shiftOutwards(
-      points.crotchSeamCurveStart,
+      points.crotchSeamCurveEnd,
       measurements.crossSeamFront -
         new Path()
           .move(points.upperLegIn)
-          .curve(points.upperLegInCp2, points.crotchSeamCurveStartCp1, points.crotchSeamCurveStart)
+          .curve(points.upperLegInCp2, points.crotchSeamCurveEndCp1, points.crotchSeamCurveEnd)
           .length()
     )
     points.waistIn = points.waistInMax.shiftTowards(
-      points.crotchSeamCurveStart,
+      points.crotchSeamCurveEnd,
       toHips + waistbandWidth
     )
     points.seatIn = points.waistInMax.shiftTowards(
-      points.crotchSeamCurveStart,
+      points.crotchSeamCurveEnd,
       measurements.waistToSeat
     )
 
     //seat protection
-    if (points.crotchSeamCurveStart.y < points.seatIn.y) {
-      points.crotchSeamCurveStart = points.seatIn
-      points.crotchSeamCurveStartCp1 = points.crotchSeamCurveStart.shiftFractionTowards(
+    if (points.crotchSeamCurveEnd.y < points.seatIn.y) {
+      points.crotchSeamCurveEnd = points.seatIn
+      points.crotchSeamCurveEndCp1 = points.crotchSeamCurveEnd.shiftFractionTowards(
         points.crotchSeamCurveCpTarget,
         options.crotchSeamCurve
       )
 
       points.waistInMax = points.crotchSeamCurveCpTarget.shiftOutwards(
-        points.crotchSeamCurveStart,
+        points.crotchSeamCurveEnd,
         measurements.crossSeamFront -
           new Path()
             .move(points.upperLegIn)
-            .curve(
-              points.upperLegInCp2,
-              points.crotchSeamCurveStartCp1,
-              points.crotchSeamCurveStart
-            )
+            .curve(points.upperLegInCp2, points.crotchSeamCurveEndCp1, points.crotchSeamCurveEnd)
             .length()
       )
       points.waistIn = points.waistInMax.shiftTowards(
-        points.crotchSeamCurveStart,
+        points.crotchSeamCurveEnd,
         toHips + waistbandWidth
       )
       points.seatIn = points.waistIn.shiftTowards(
-        points.crotchSeamCurveStart,
+        points.crotchSeamCurveEnd,
         measurements.waistToSeat - toHips - waistbandWidth
       )
     }
@@ -294,7 +290,7 @@ export const frontBase = {
 
     paths.crotchSeam = new Path()
       .move(points.upperLegIn)
-      .curve(points.upperLegInCp2, points.crotchSeamCurveStartCp1, points.crotchSeamCurveStart)
+      .curve(points.upperLegInCp2, points.crotchSeamCurveEndCp1, points.crotchSeamCurveEnd)
       .line(points.waistIn)
       .hide()
 
@@ -315,13 +311,13 @@ export const frontBase = {
     if (complete) {
       //grainline
       points.grainlineTo = points.floorIn.shiftFractionTowards(points.floor, 1 / 3)
-      points.grainlineFrom = new Point(points.grainlineTo.x, points.crotchSeamCurveStart.y)
+      points.grainlineFrom = new Point(points.grainlineTo.x, points.crotchSeamCurveEnd.y)
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
       //notches
-      snippets.crotchSeamCurveStart = new Snippet('notch', points.crotchSeamCurveStart)
+      snippets.crotchSeamCurveEnd = new Snippet('notch', points.crotchSeamCurveEnd)
       //title
       points.title = new Point(points.knee.x, points.knee.y * 0.5)
       macro('title', {
@@ -335,7 +331,7 @@ export const frontBase = {
         if (measurements.waistToHips * options.waistHeight - waistbandWidth > 0) {
           points.hipsGuideIn = points.waistIn
             .shiftTowards(
-              points.crotchSeamCurveStart,
+              points.crotchSeamCurveEnd,
               measurements.waistToHips * options.waistHeight - waistbandWidth
             )
             .shift(points.waistIn.angle(points.waistOut), waistFront * 0.05)
@@ -420,11 +416,11 @@ export const frontBase = {
           .shift(points.upperLegInCp2.angle(points.upperLegIn), inseamSa)
 
         points.saWaistIn = utils.beamsIntersect(
-          points.crotchSeamCurveStart
+          points.crotchSeamCurveEnd
             .shiftTowards(points.waistIn, crotchSeamSa)
-            .rotate(-90, points.crotchSeamCurveStart),
+            .rotate(-90, points.crotchSeamCurveEnd),
           points.waistIn
-            .shiftTowards(points.crotchSeamCurveStart, crotchSeamSa)
+            .shiftTowards(points.crotchSeamCurveEnd, crotchSeamSa)
             .rotate(90, points.waistIn),
           points.waistIn.shiftTowards(points.waistOut, sa).rotate(-90, points.waistIn),
           points.waistOut.shiftTowards(points.waistIn, sa).rotate(90, points.waistOut)

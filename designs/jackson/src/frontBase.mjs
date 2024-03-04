@@ -45,7 +45,7 @@ export const frontBase = {
     absoluteOptions,
   }) => {
     //deleting snippets
-    delete snippets.crotchSeamCurveStart
+    delete snippets.crotchSeamCurveEnd
     //removing macros not required from Dalton
     macro('title', false)
     //measurements
@@ -60,37 +60,37 @@ export const frontBase = {
       .reverse()
       .shiftAlong(measurements.waistToHips * options.waistHeight + flyLength - waistbandWidth)
     points.flyShieldCrotch = utils.lineIntersectsCurve(
-      points.flyCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart), flyShieldEx),
+      points.flyCrotch.shift(points.waistIn.angle(points.crotchSeamCurveEnd), flyShieldEx),
       points.flyCrotch
-        .shift(points.waistIn.angle(points.crotchSeamCurveStart), flyShieldEx)
+        .shift(points.waistIn.angle(points.crotchSeamCurveEnd), flyShieldEx)
         .shift(
-          points.waistIn.angle(points.crotchSeamCurveStart) + 90,
+          points.waistIn.angle(points.crotchSeamCurveEnd) + 90,
           points.waistOut.dist(points.waistIn)
         ),
       points.upperLegIn,
       points.upperLegInCp2,
-      points.crotchSeamCurveStartCp1,
-      points.crotchSeamCurveStart
+      points.crotchSeamCurveEndCp1,
+      points.crotchSeamCurveEnd
     )
     points.flyShieldExWaist = utils.beamsIntersect(
-      points.crotchSeamCurveStart
+      points.crotchSeamCurveEnd
         .shiftTowards(points.waistIn, flyShieldEx)
-        .rotate(-90, points.crotchSeamCurveStart),
+        .rotate(-90, points.crotchSeamCurveEnd),
       points.waistIn
-        .shiftTowards(points.crotchSeamCurveStart, flyShieldEx)
+        .shiftTowards(points.crotchSeamCurveEnd, flyShieldEx)
         .rotate(+90, points.waistIn),
       points.flyWaist,
       points.waistIn
     )
     points.flyCurveEnd = utils.beamsIntersect(
       points.waistIn,
-      points.crotchSeamCurveStart,
+      points.crotchSeamCurveEnd,
       points.flyCrotch,
-      points.flyCrotch.shift(points.crotchSeamCurveStart.angle(points.waistIn) - 90, 1)
+      points.flyCrotch.shift(points.crotchSeamCurveEnd.angle(points.waistIn) - 90, 1)
     )
     points.flyCpTarget = utils.beamsIntersect(
       points.flyWaist,
-      points.flyWaist.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
+      points.flyWaist.shift(points.waistIn.angle(points.crotchSeamCurveEnd), 1),
       points.flyCrotch,
       points.flyCurveEnd
     )
@@ -110,7 +110,7 @@ export const frontBase = {
         .offset(flyShieldEx)
         .shiftFractionAlong(0.01),
       points.flyShieldCrotch,
-      points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart) - 90, 1)
+      points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveEnd) - 90, 1)
     )
     paths.placketCurve = new Path()
       .move(points.flyWaist)
@@ -134,16 +134,16 @@ export const frontBase = {
         points.saWaistInExCorner = utils.beamsIntersect(
           points.saWaistOut,
           points.saWaistIn,
-          points.crotchSeamCurveStart
+          points.crotchSeamCurveEnd
             .shiftTowards(points.waistIn, flyShieldEx + crotchSeamSa)
-            .rotate(-90, points.crotchSeamCurveStart),
+            .rotate(-90, points.crotchSeamCurveEnd),
           points.waistIn
-            .shiftTowards(points.crotchSeamCurveStart, flyShieldEx + crotchSeamSa)
+            .shiftTowards(points.crotchSeamCurveEnd, flyShieldEx + crotchSeamSa)
             .rotate(90, points.waistIn)
         )
         points.saWaistInEx = utils.beamsIntersect(
           points.saWaistInExCorner,
-          points.saWaistInExCorner.shift(points.waistIn.angle(points.crotchSeamCurveStart), 1),
+          points.saWaistInExCorner.shift(points.waistIn.angle(points.crotchSeamCurveEnd), 1),
           points.waistOut,
           points.waistIn
         )
@@ -157,10 +157,10 @@ export const frontBase = {
             .split(points.flyShieldCrotch)[1]
             .offset(flyShieldEx + crotchSeamSa)
             .shiftFractionAlong(0.001),
-          points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart), sa),
+          points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveEnd), sa),
           points.flyShieldCrotch
-            .shift(points.waistIn.angle(points.crotchSeamCurveStart), sa)
-            .shift(points.waistIn.angle(points.crotchSeamCurveStart) + 90, 1)
+            .shift(points.waistIn.angle(points.crotchSeamCurveEnd), sa)
+            .shift(points.waistIn.angle(points.crotchSeamCurveEnd) + 90, 1)
         )
       }
     }

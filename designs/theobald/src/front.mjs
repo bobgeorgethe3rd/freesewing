@@ -79,7 +79,7 @@ export const front = {
       .join(
         paths.crotchSeam
           .split(points.flyShieldCrotch)[1]
-          .split(points.crotchSeamCurveStart)[0]
+          .split(points.crotchSeamCurveEnd)[0]
           .offset(flyShieldEx)
       )
       .line(points.flyShieldExWaist)
@@ -196,7 +196,7 @@ export const front = {
             new Path()
               .move(
                 points.flyShieldCrotch.shift(
-                  points.waistIn.angle(points.crotchSeamCurveStart),
+                  points.waistIn.angle(points.crotchSeamCurveEnd),
                   flyShieldEx
                 )
               )
@@ -211,7 +211,7 @@ export const front = {
           .join(
             paths.crotchSeam
               .clone()
-              .split(points.crotchSeamCurveStart)[0]
+              .split(points.crotchSeamCurveEnd)[0]
               .split(points.flyShieldCrotch)[1]
               .offset(crotchSeamSa + flyShieldEx)
           )

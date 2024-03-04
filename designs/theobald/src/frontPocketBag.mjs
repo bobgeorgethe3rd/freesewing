@@ -145,7 +145,7 @@ export const frontPocketBag = {
       .shiftTowards(points.frontPocketPivot, cpDistance)
       .rotate(90, points.frontPocketBottomMid)
     points.frontPocketBottomOut = points.frontPocketOut.shift(
-      points.waistIn.angle(points.crotchSeamCurveStart),
+      points.waistIn.angle(points.crotchSeamCurveEnd),
       measurements.waistToSeat - measurements.waistToHips - waistbandWidth
     )
     points.frontPocketBottomMidCp2 = points.frontPocketBottomMidCp1.rotate(
