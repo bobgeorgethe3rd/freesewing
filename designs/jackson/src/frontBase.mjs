@@ -59,11 +59,19 @@ export const frontBase = {
     points.flyCrotch = paths.crotchSeam
       .reverse()
       .shiftAlong(measurements.waistToHips * options.waistHeight + flyLength - waistbandWidth)
-    points.flyShieldCrotch = paths.crotchSeam
-      .reverse()
-      .shiftAlong(
-        measurements.waistToHips * options.waistHeight + flyLength - waistbandWidth + flyShieldEx
-      )
+    points.flyShieldCrotch = utils.lineIntersectsCurve(
+      points.flyCrotch.shift(points.waistIn.angle(points.crotchSeamCurveStart), flyShieldEx),
+      points.flyCrotch
+        .shift(points.waistIn.angle(points.crotchSeamCurveStart), flyShieldEx)
+        .shift(
+          points.waistIn.angle(points.crotchSeamCurveStart) + 90,
+          points.waistOut.dist(points.waistIn)
+        ),
+      points.upperLegIn,
+      points.upperLegInCp2,
+      points.crotchSeamCurveStartCp1,
+      points.crotchSeamCurveStart
+    )
     points.flyShieldExWaist = utils.beamsIntersect(
       points.crotchSeamCurveStart
         .shiftTowards(points.waistIn, flyShieldEx)
