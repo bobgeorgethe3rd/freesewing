@@ -238,11 +238,9 @@ export const backPanel = {
         if (options.skirtHemFacings) {
           hemSa = sa
         }
-        let cbSa
+        let cbSa = sa * options.cbSaWidth * 100
         if (options.closurePosition == 'back') {
           cbSa = sa * options.closureSaWidth * 100
-        } else {
-          cbSa = sa * options.cbSaWidth * 100
         }
 
         points.saHemK = points.hemK
