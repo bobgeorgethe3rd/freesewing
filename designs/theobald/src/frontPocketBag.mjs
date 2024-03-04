@@ -11,9 +11,9 @@ export const frontPocketBag = {
   },
   options: {
     //Pockets
-    frontPocketDepth: { pct: 36.9, min: 30, max: 50, menu: 'pockets.frontPockets' },
+    frontPocketDepth: { pct: 45, min: 30, max: 50, menu: 'pockets.frontPockets' },
     frontPocketStyle: { dflt: 'pear', list: ['original', 'pear'], menu: 'pockets.frontPockets' },
-    frontPocketWidth: { pct: (2 / 3) * 100, min: 50, max: 75, menu: 'pockets.frontPockets' },
+    frontPocketWidth: { pct: 72.5, min: 50, max: 75, menu: 'pockets.frontPockets' },
     //Construction
     frontPocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
