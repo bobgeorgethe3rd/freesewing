@@ -49,18 +49,26 @@ export const sideBack = {
       .split(points.hemZ)[0]
       .hide()
 
-    paths.saBase = new Path()
+    paths.saRight = new Path()
       .move(points.hemZ)
       .line(points.dartTipE)
       .curve(points.dartTipECp, points.waist2RightCp1, points.waist2Right)
+      .hide()
+
+    paths.saWaist = new Path()
+      .move(points.waist2Right)
       .curve(points.waist2RightCp2, points.waistPanel2Cp1, points.waistPanel2)
       .curve(points.waistPanel2Cp2, points.waist2LeftCp1, points.waist2Left)
+      .hide()
+
+    paths.saLeft = new Path()
+      .move(points.waist2Left)
       .curve(points.waist2LeftCp2, points.dartTipFCp, points.dartTipF)
       .line(points.curveStartL)
       .curve(points.curveStartLCp2, points.hemLCp1, points.hemL)
       .hide()
 
-    paths.seam = paths.hemBase.join(paths.saBase)
+    paths.seam = paths.hemBase.join(paths.saRight).join(paths.saWaist).join(paths.saLeft).close()
 
     if (complete) {
       //grainline
@@ -72,15 +80,10 @@ export const sideBack = {
       })
       //notches
       if (options.pocketsBool) {
-        paths.sideSeam = new Path()
-          .move(points.waist2Right)
-          .curve(points.waist2RightCp1, points.dartTipECp, points.dartTipE)
-          .line(points.hemZ)
-          .hide()
-
-        points.pocketOpeningTop = paths.sideSeam.shiftAlong(store.get('pocketOpening'))
-        points.pocketOpeningBottom = paths.sideSeam.shiftAlong(store.get('pocketOpeningLength'))
-
+        points.pocketOpeningTop = paths.saRight.reverse().shiftAlong(store.get('pocketOpening'))
+        points.pocketOpeningBottom = paths.saRight
+          .reverse()
+          .shiftAlong(store.get('pocketOpeningLength'))
         macro('sprinkle', {
           snippet: 'notch',
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],
@@ -111,20 +114,73 @@ export const sideBack = {
           .attr('data-text-class', 'center')
       }
       if (sa) {
-        const hemSa = sa * options.skirtHemWidth * 100
+        let sideSeamSa = sa * options.sideSeamSaWidth * 100
+        if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
+          sideSeamSa = sa * options.closureSaWidth * 100
+        }
+
+        let hemSa = sa * options.skirtHemWidth * 100
         if (options.skirtHemFacings) {
+          hemSa = sa
+        }
+
+        points.saHemZ = utils.beamsIntersect(
+          points.hemZ.shiftTowards(points.dartTipE, sideSeamSa).rotate(-90, points.hemZ),
+          points.dartTipE.shiftTowards(points.hemZ, sideSeamSa).rotate(90, points.dartTipE),
+          paths.hemBase.offset(hemSa).shiftFractionAlong(0.995),
+          paths.hemBase.offset(hemSa).end()
+        )
+
+        points.saWaist2Right = points.waist2Right
+          .shift(points.waist2RightCp2.angle(points.waist2Right), sideSeamSa)
+          .shift(points.waist2RightCp1.angle(points.waist2Right), sa)
+
+        points.saWaist2Left = points.waist2Left
+          .shift(points.waist2LeftCp2.angle(points.waist2Left), sa)
+          .shift(points.waist2LeftCp1.angle(points.waist2Left), sa)
+
+        points.saHemL = points.hemL
+          .shift(points.hemLCp2.angle(points.hemL), sa)
+          .shift(points.hemLCp1.angle(points.hemL), hemSa)
+
+        if (options.skirtHemFacings) {
+          points.saHemFacingSplitZ = utils.beamsIntersect(
+            points.hemZ.shiftTowards(points.dartTipE, sideSeamSa).rotate(-90, points.hemZ),
+            points.dartTipE.shiftTowards(points.hemZ, sideSeamSa).rotate(90, points.dartTipE),
+            paths.hemFacing.reverse().offset(sa).start(),
+            paths.hemFacing.reverse().offset(sa).shiftFractionAlong(0.005)
+          )
+
+          points.saHemFacingStart = utils.beamsIntersect(
+            paths.hemFacing.reverse().offset(sa).end(),
+            paths.hemFacing.reverse().offset(sa).shiftFractionAlong(0.995),
+            paths.saLeft.split(points.hemFacingSplitL)[1].offset(sa).shiftFractionAlong(0.005),
+            paths.saLeft.split(points.hemFacingSplitL)[1].offset(sa).start()
+          )
+
           paths.hemFacingSa = paths.hemBase
             .clone()
             .offset(hemSa)
-            .join(paths.saBase.split(points.hemFacingSplitZ)[0].offset(sa))
+            .line(points.saHemZ)
+            .line(points.saHemFacingSplitZ)
             .join(paths.hemFacing.reverse().offset(sa))
-            .join(paths.saBase.split(points.hemFacingSplitL)[1].offset(sa))
+            .line(points.saHemFacingStart)
+            .join(paths.saLeft.split(points.hemFacingSplitL)[1].offset(sa))
+            .line(points.saHemL)
             .close()
             .attr('class', 'interfacing sa')
         }
+
         paths.sa = paths.hemBase
+          .clone()
           .offset(hemSa)
-          .join(paths.saBase.offset(sa))
+          .line(points.saHemZ)
+          .join(paths.saRight.offset(sideSeamSa))
+          .line(points.saWaist2Right)
+          .join(paths.saWaist.offset(sa))
+          .line(points.saWaist2Left)
+          .join(paths.saLeft.offset(sa))
+          .line(points.saHemL)
           .close()
           .attr('class', 'fabric sa')
       }

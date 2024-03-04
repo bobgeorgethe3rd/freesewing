@@ -19,8 +19,6 @@ export const skirtBase = {
     trainBackLength: { pct: 50, min: 50, max: 100, menu: 'style' },
     //Construction
     seams: { dflt: 'all', list: ['all', 'sideSeam', 'sideFront', 'none'], menu: 'construction' },
-    skirtHemWidth: { pct: 1, min: 0, max: 10, menu: 'construction' },
-    waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   plugins: [pluginBundle],
   measurements: [...wandaSkirtBase.measurements],
