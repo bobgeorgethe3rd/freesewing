@@ -5,9 +5,9 @@ export const pocket = {
   options: {
     //Constants
     useVoidStores: true,
-    pocketOpening: 0.064,
     scalePockets: true,
     //Pockets
+    pocketOpening: { pct: 6.4, min: 5, max: 15, menu: 'pockets' },
     boxPleatPocketWidth: {
       pct: (11 / 18) * 100,
       min: 60,
