@@ -23,6 +23,8 @@ export const skirtBase = {
     waistFacingHemWidth: { pct: 2, min: 1, max: 10, menu: 'construction' },
   },
   plugins: [pluginBundle],
+  measurements: [...wandaSkirtBase.measurements],
+  optionalMeasurements: [...wandaSkirtBase.optionalMeasurements],
   draft: (sh) => {
     const {
       store,

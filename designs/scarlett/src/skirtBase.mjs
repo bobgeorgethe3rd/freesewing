@@ -35,7 +35,14 @@ export const skirtBase = {
     crossSeamCuvre: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
     crotchSeamCuvre: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
   },
-  measurements: ['crossSeam', 'crossSeamFront', 'waistToSeat', 'waistToUpperLeg'],
+  measurements: [
+    ...wandaSkirtBase.measurements,
+    'crossSeam',
+    'crossSeamFront',
+    'waistToSeat',
+    'waistToUpperLeg',
+  ],
+  optionalMeasurements: [...wandaSkirtBase.optionalMeasurements],
   plugins: [pluginBundle],
   draft: (sh) => {
     const {
