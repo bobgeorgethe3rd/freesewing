@@ -47,21 +47,22 @@ export const waistband = {
     } else {
       waistbandClaude.draft(sh)
     }
+    delete snippets.waistbandButtonholePlacket
 
-    /*   if (complete) {
+    if (complete) {
       //buttonhole
       if (options.placketStyle != 'none' && options.closurePosition == 'back') {
-        points.buttonholePlacket = points.buttonPlacket.flipX()
+        points.waistbandButtonholePlacket = points.waistbandButtonPlacket.flipX()
         if (options.waistbandOverlapSide == 'right') {
-          snippets.buttonholePlacket = new Snippet('buttonhole', points.buttonholePlacket).attr(
-            'data-rotate',
-            180 - points.bottomRight.angle(points.topRight)
-          )
+          snippets.buttonholePlacket = new Snippet(
+            'buttonhole',
+            points.waistbandButtonholePlacket
+          ).attr('data-rotate', 180 - points.waistbandBottomRight.angle(points.waistbandTopRight))
         } else {
-          snippets.buttonholePlacket = new Snippet('buttonhole', points.buttonholePlacket).attr(
-            'data-rotate',
-            180 - points.bottomLeft.angle(points.topLeft)
-          )
+          snippets.buttonholePlacket = new Snippet(
+            'buttonhole',
+            points.waistbandButtonholePlacket
+          ).attr('data-rotate', 180 - points.waistbandBottomLeft.angle(points.waistbandTopLeft))
         }
       }
       //title
@@ -71,7 +72,7 @@ export const waistband = {
         title: 'Waistband',
         scale: 1 / 3,
       })
-    } */
+    }
 
     return part
   },

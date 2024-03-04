@@ -15,7 +15,7 @@ export const backBase = {
     backNeckHeight: { pct: 46, min: 38, max: 54, menu: 'style' },
     //Plackets
     placketWidth: {
-      pct: 3.6,
+      pct: 3.7,
       min: 3,
       max: 4.5,
       snap: 3.175,
@@ -91,6 +91,7 @@ export const backBase = {
     points.waistLeft = new Point(points.neckBack.x, points.cbWaist.y)
     //stores
     store.set('placketWidth', placketWidth)
+    store.set('waistbandPlacketWidth', placketWidth)
     store.set('waistbandOverlap', placketWidth)
     store.set('backPlacketLength', points.waistLeft.dist(points.neckBack))
 
