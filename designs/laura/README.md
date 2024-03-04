@@ -48,7 +48,7 @@
 
 # @freesewing/laura
 
-A pattern that needs a description
+Laura leggings design
 
 
 

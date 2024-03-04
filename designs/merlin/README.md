@@ -48,7 +48,7 @@
 
 # @freesewing/merlin
 
-A Mage Hat Design
+Merlin mage hat design
 
 
 

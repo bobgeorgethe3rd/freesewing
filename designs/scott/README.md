@@ -48,7 +48,7 @@
 
 # @freesewing/scott
 
-Scallop Heart Dress design
+Scott scallop heart dress design
 
 
 

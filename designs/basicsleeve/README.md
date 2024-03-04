@@ -48,7 +48,7 @@
 
 # @freesewing/basicsleeve
 
-Basic sleeve that can be used as is or extended
+Basic Sleeve design to be used in other designs
 
 
 

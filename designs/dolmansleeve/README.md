@@ -48,7 +48,7 @@
 
 # @freesewing/dolmansleeve
 
-Dolman sleeves to be used in other designs
+Dolman Sleeve design to be used in other designs
 
 
 

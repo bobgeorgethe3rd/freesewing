@@ -48,7 +48,7 @@
 
 # @freesewing/mildred
 
-A Magical Hat Design
+Mildred magical hat design
 
 
 

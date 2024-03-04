@@ -48,7 +48,7 @@
 
 # @freesewing/fullshirtsleeve
 
-Full shirt sleeves to be used in other designs
+Full Shirt Sleeve design to be used in other designs
 
 
 

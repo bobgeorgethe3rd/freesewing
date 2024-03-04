@@ -48,7 +48,7 @@
 
 # @freesewing/billy
 
-A Bucket Hat design
+Billy bucket hat design
 
 
 

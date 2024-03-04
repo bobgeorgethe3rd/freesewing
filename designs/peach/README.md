@@ -48,7 +48,7 @@
 
 # @freesewing/peach
 
-Princess seam varation of Daisy
+Peach princess seam design based of the Daisy block design
 
 
 

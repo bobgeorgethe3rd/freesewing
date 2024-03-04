@@ -48,7 +48,7 @@
 
 # @freesewing/byron
 
-A basic body block
+Byron basic body block design
 
 
 

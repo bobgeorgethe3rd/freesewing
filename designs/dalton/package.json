@@ -1,7 +1,7 @@
 {
   "name": "@freesewing/dalton",
   "version": "3.0.0-alpha.8",
-  "description": "A dart trouser block",
+  "description": "Dalton dart trouser block design",
   "author": "bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)",
   "homepage": "https://freesewing.org/",
   "repository": "github:freesewing/freesewing",

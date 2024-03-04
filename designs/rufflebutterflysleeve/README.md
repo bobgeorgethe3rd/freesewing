@@ -48,7 +48,7 @@
 
 # @freesewing/rufflebutterflysleeve
 
-Ruffle Butterfly sleeves to be used in other designs
+Ruffle Butterfly Sleeve design to be used in other designs
 
 
 

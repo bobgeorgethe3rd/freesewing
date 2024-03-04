@@ -48,7 +48,7 @@
 
 # @freesewing/perry
 
-A Plate Cap Hat design
+Perry plate cap design
 
 
 

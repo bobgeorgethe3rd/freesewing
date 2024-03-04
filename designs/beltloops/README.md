@@ -48,7 +48,7 @@
 
 # @freesewing/beltloops
 
-Belt loop design to be used in other designs
+Belt Loop design to be used in other designs
 
 
 

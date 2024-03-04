@@ -48,7 +48,7 @@
 
 # @freesewing/rose
 
-Regatta Dress Design
+Rose regatta dress design
 
 
 

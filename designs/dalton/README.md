@@ -48,7 +48,7 @@
 
 # @freesewing/dalton
 
-A dart trouser block
+Dalton dart trouser block design
 
 
 

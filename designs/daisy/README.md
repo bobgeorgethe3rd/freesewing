@@ -48,7 +48,7 @@
 
 # @freesewing/daisy
 
-A dart bodice block
+Daisy dart bodice block design
 
 
 

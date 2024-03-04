@@ -48,7 +48,7 @@
 
 # @freesewing/shirtcollar
 
-Shirt collar design to be used in other designs
+Shirt Collar design to be used in other designs
 
 
 

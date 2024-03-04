@@ -48,7 +48,7 @@
 
 # @freesewing/terry
 
-A T-shirt pattern
+Terry t-shirt design
 
 
 

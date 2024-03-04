@@ -48,7 +48,7 @@
 
 # @freesewing/theobald
 
-A timeless trouser pattern
+Theobald timeless trouser design
 
 
 

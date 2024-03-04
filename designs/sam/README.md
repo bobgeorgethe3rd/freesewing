@@ -48,7 +48,7 @@
 
 # @freesewing/sam
 
-Strapless Sweetheart Special Occasions Dress design
+Sam strapless Sseetheart special occasions dress design
 
 
 

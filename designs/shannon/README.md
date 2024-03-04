@@ -48,7 +48,7 @@
 
 # @freesewing/shannon
 
-Simple Summer Dress design
+Shannon simple summer dress design
 
 
 

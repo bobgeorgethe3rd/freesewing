@@ -48,7 +48,7 @@
 
 # @freesewing/jackson
 
-A Jean pattern
+Jackon jean design
 
 
 

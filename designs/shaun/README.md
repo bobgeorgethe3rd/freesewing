@@ -48,7 +48,7 @@
 
 # @freesewing/shaun
 
-A Shirt pattern
+Shaun sharp shirt design
 
 
 

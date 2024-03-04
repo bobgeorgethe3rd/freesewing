@@ -48,7 +48,7 @@
 
 # @freesewing/sammie
 
-A Strapless Bodice design for independent use and extension into other desgins
+Sammie strapless bodice design for independent use and extension into other desgins
 
 
 

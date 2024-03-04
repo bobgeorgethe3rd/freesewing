@@ -48,7 +48,7 @@
 
 # @freesewing/scarlett
 
-A Split Skirt based off of Wanda
+Scarlett split skirt design based off of Wanda
 
 
 

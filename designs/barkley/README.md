@@ -48,7 +48,7 @@
 
 # @freesewing/barkley
 
-Baker&#39;s Boy Cap design
+Barkley baker&#39;s boy cap design
 
 
 

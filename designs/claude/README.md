@@ -48,7 +48,7 @@
 
 # @freesewing/claude
 
-A Cricle Skirt design for independent use and extension into other desgins
+Claude cricle skirt design for independent use and extension into other desgins
 
 
 

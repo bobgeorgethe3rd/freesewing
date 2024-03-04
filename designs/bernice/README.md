@@ -48,7 +48,7 @@
 
 # @freesewing/bernice
 
-Billowy Slip Dress Design
+Bernice billowy slip dress design
 
 
 

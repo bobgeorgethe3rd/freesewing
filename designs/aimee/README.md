@@ -48,7 +48,7 @@
 
 # @freesewing/aimee
 
-An all in one block variant of Daisy
+Aimee all in one block design based of the Daisy block design
 
 
 

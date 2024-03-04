@@ -48,7 +48,7 @@
 
 # @freesewing/nathaniel
 
-Newspaper Boy Cap design
+Nathaniel newspaper boy cap design
 
 
 

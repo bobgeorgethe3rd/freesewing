@@ -48,7 +48,7 @@
 
 # @freesewing/fallon
 
-1895 Keystone Jacket and Dress Cutter Full Dress Skirt
+Fallon 1895 Keystone Jacket and Dress Cutter Full Dress Skirt design
 
 
 

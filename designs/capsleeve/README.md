@@ -48,7 +48,7 @@
 
 # @freesewing/capsleeve
 
-Cap sleeves to be used in other designs
+Cap Sleeve design to be used in other designs
 
 
 

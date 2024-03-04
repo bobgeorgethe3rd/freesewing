@@ -48,7 +48,7 @@
 
 # @freesewing/basicraglansleeve
 
-Basic raglan sleeve that can be used in other designs
+Basic Raglan Sleeve design to be used in other designs
 
 
 

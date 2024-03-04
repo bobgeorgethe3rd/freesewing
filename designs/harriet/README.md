@@ -48,7 +48,7 @@
 
 # @freesewing/harriet
 
-A High - Low circle skirt design for independent use and extension into other desgins
+Harriet high - low circle skirt design for independent use and extension into other desgins
 
 
 

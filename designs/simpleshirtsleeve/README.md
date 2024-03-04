@@ -48,7 +48,7 @@
 
 # @freesewing/simpleshirtsleeve
 
-Simple shirt sleeves to be used in other designs
+Simple Shirt Sleeve design to be used in other designs
 
 
 

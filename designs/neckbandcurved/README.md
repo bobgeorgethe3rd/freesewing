@@ -48,7 +48,7 @@
 
 # @freesewing/neckbandcurved
 
-Curved neckband design to be used in other designs
+Curved Neckband design to be used in other designs
 
 
 

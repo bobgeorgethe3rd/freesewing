@@ -48,7 +48,7 @@
 
 # @freesewing/simpleraglanshirtsleeve
 
-Simple raglan shirt sleeves to be used in other designs
+Simple Raglan Shirt Sleeve designto be used in other designs
 
 
 

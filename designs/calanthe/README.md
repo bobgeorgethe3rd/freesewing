@@ -48,7 +48,7 @@
 
 # @freesewing/calanthe
 
-Corset design
+Calanthe 1880s corset design
 
 
 

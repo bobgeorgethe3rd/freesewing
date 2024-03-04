@@ -48,7 +48,7 @@
 
 # @freesewing/minerva
 
-A Mystical Hat Design
+Minerva mystical hat design
 
 
 

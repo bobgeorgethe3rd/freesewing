@@ -48,7 +48,7 @@
 
 # @freesewing/wanda
 
-1895 Keystone Jacket and Dress Cutter Walking Skirt
+Wanda 1895 Keystone Jacket and Dress Cutter Walking Skirt design
 
 
 

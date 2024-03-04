@@ -48,7 +48,7 @@
 
 # @freesewing/camden
 
-A Camisole pattern
+Camden camisole design
 
 
 

@@ -48,7 +48,7 @@
 
 # @freesewing/spreadsleeve
 
-Spread sleeve of the Basic sleeve
+Spread Sleeve design based of the Basic Sleeve design to be used in other designs
 
 
 
