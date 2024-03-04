@@ -15,7 +15,7 @@ export const frontBase = {
     fitWaistFront: { bool: true, menu: 'style' }, //Altered For Jackson
     //Pockets
     frontPocketsBool: { bool: true, menu: 'pockets' },
-    frontPocketWidth: { pct: 40, min: 30, max: 60, menu: 'pockets.frontPockets' },
+    frontPocketWidth: { pct: 50, min: 30, max: 60, menu: 'pockets.frontPockets' },
     frontPocketOpeningWidth: { pct: 50, min: 45, max: 60, menu: 'pockets.frontPockets' },
     frontPocketOpeningDepth: { pct: 16.6, min: 12, max: 20, menu: 'pockets.frontPockets' },
     frontPocketOpeningCurve: { pct: 66.7, min: 50, max: 100, menu: 'pockets.frontPockets' },
