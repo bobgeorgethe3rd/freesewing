@@ -281,7 +281,7 @@ export const backPanel = {
             .shiftTowards(points.drawSaWaistEnd, cbSa)
             .rotate(90, points.drawHemBaseStart),
           drawHemBase().offset(hemSa).start(),
-          drawHemBase().offset(sa).shiftFractionAlong(0.005)
+          drawHemBase().offset(hemSa).shiftFractionAlong(0.005)
         )
 
         if (options.skirtHemFacings) {
