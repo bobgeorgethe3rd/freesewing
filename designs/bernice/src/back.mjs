@@ -92,12 +92,13 @@ export const back = {
     points.bottomLeft = new Point(points.topLeft.x, points.cbBottom.y)
 
     //paths
-    paths.saLeft = new Path()
+    paths.skirtRight = new Path()
       .move(points.sideBottom)
       .line(points.sideSeat)
       .curve(points.sideSeatCp2, points.sideWaistCp1, points.sideWaist)
-      .line(points.armholeDrop)
       .hide()
+
+    paths.saRight = paths.skirtRight.clone().line(points.armholeDrop).hide()
 
     paths.saNeckRight = new Path()
       .move(points.armholeDrop)
@@ -113,7 +114,7 @@ export const back = {
     paths.seam = new Path()
       .move(points.bottomLeft)
       .line(points.sideBottom)
-      .join(paths.saLeft)
+      .join(paths.saRight)
       .join(paths.saNeckRight)
       .join(paths.saNeckLeft)
       .line(points.bottomLeft)
@@ -137,12 +138,8 @@ export const back = {
       //notches
       if (options.pocketsBool) {
         const pocketOpening = store.get('pocketOpening')
-        points.pocketOpeningTop = paths.saLeft
-          .split(points.sideWaist)[0]
-          .reverse()
-          .shiftAlong(pocketOpening)
-        points.pocketOpeningBottom = paths.saLeft
-          .split(points.sideWaist)[0]
+        points.pocketOpeningTop = paths.skirtRight.reverse().shiftAlong(pocketOpening)
+        points.pocketOpeningBottom = paths.skirtRight
           .reverse()
           .shiftAlong(pocketOpening + store.get('pocketOpeningLength'))
         macro('sprinkle', {
@@ -234,7 +231,7 @@ export const back = {
         paths.sa = new Path()
           .move(points.saBottomLeft)
           .line(points.saSideBottom)
-          .join(paths.saLeft.offset(sideSeamSa))
+          .join(paths.saRight.offset(sideSeamSa))
           .line(points.saArmholeDrop)
           .join(paths.saNeckRight.offset(neckSa))
           .line(points.saShoulderPitch)

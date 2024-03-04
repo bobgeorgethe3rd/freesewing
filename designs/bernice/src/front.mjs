@@ -40,13 +40,14 @@ export const front = {
     //Pockets
     pocketsBool: { bool: true, menu: 'pockets' },
     pocketOpening: { pct: 6.4, min: 5, max: 10, menu: 'pockets' },
+    pocketOpeningLength: { pct: 100, min: 40, max: 100, menu: 'pockets' },
     pocketLength: { pct: 53.8, min: 50, max: 60, menu: 'pockets' },
     pearPocketDepth: { pct: 32.5, min: 25, max: 40, menu: 'pockets.pearPockets' },
     //Construction
     sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     neckSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
   },
-  measurements: ['hips', 'seat', 'waistToHips', 'waistToSeat', 'waistToFloor'],
+  measurements: ['hips', 'seat', 'wrist', 'waistToHips', 'waistToSeat', 'waistToFloor'],
   draft: ({
     store,
     sa,
@@ -225,12 +226,12 @@ export const front = {
       options.frontNeckCurveDepth
     )
     //paths
-    paths.skirtLeft = new Path()
+    paths.skirtRight = new Path()
       .move(points.sideBottom)
       .line(points.sideSeat)
       .curve(points.sideSeatCp2, points.sideWaistCp1, points.sideWaist)
       .hide()
-    paths.seamLeft = paths.skirtLeft.clone().line(points.bustDartBottom).hide()
+    paths.seamRight = paths.skirtRight.clone().line(points.bustDartBottom).hide()
 
     paths.seamNeckRight = new Path()
       .move(points.armholeDrop)
@@ -245,7 +246,7 @@ export const front = {
     paths.seamBase = new Path()
       .move(points.cfBottom)
       .line(points.sideBottom)
-      .join(paths.seamLeft)
+      .join(paths.seamRight)
       .line(points.bustDartTip)
       .line(points.bustDartTop)
       .line(points.armholeDrop)
@@ -273,7 +274,7 @@ export const front = {
     store.set('toSeat', points.sideSeat.y - points.sideWaist.y)
     store.set('armholeDrop', points.armhole.dist(points.armholeDrop))
     store.set('ruffleWidth', (skirtLength / (1 - options.ruffleWidth)) * options.ruffleWidth)
-    store.set('insertSeamLength', paths.skirtLeft.length())
+    store.set('insertSeamLength', paths.skirtRight.length())
     store.set('anchorSeamLength', points.sideWaist.x)
     if (complete) {
       //grainline
@@ -287,10 +288,9 @@ export const front = {
       //notches
       if (options.pocketsBool) {
         const pocketOpening = measurements.waistToFloor * options.pocketOpening
-        const pocketOpeningLength =
-          paths.skirtLeft.length() * options.pearPocketDepth * options.pocketOpeningLength
-        points.pocketOpeningTop = paths.skirtLeft.reverse().shiftAlong(pocketOpening)
-        points.pocketOpeningBottom = paths.skirtLeft
+        const pocketOpeningLength = measurements.wrist * options.pocketOpeningLength
+        points.pocketOpeningTop = paths.skirtRight.reverse().shiftAlong(pocketOpening)
+        points.pocketOpeningBottom = paths.skirtRight
           .reverse()
           .shiftAlong(pocketOpening + pocketOpeningLength)
         const flipPocket = ['pocketOpeningTop', 'pocketOpeningBottom']
@@ -384,9 +384,9 @@ export const front = {
             .rotate(90, points.armhole)
         )
 
-        paths.saLeft = paths.seamLeft.offset(sideSeamSa).hide()
+        paths.saRight = paths.seamRight.offset(sideSeamSa).hide()
 
-        const saLeftIntersect = utils.lineIntersectsCurve(
+        const saRightIntersect = utils.lineIntersectsCurve(
           points.saBustDartEdge,
           points.saBustDartBottom.shiftFractionTowards(points.saBustDartBottom, 10),
           points.sideSeat.shift(0, sideSeamSa),
@@ -399,10 +399,10 @@ export const front = {
             .rotate(90, points.sideWaist)
         )
 
-        if (saLeftIntersect) {
-          points.saLeftSplit = saLeftIntersect
+        if (saRightIntersect) {
+          points.saRightSplit = saRightIntersect
         } else {
-          points.saLeftSplit = utils.beamsIntersect(
+          points.saRightSplit = utils.beamsIntersect(
             points.saBustDartEdge,
             points.saBustDartBottom.shiftFractionTowards(points.saBustDartBottom, 10),
             points.sideWaistCp1
@@ -415,7 +415,7 @@ export const front = {
         }
 
         if (points.bustDartMid.y > points.bust.y) {
-          paths.saLeft = paths.saLeft.split(points.saLeftSplit)[0].hide()
+          paths.saRight = paths.saRight.split(points.saRightSplit)[0].hide()
         }
 
         points.saArmholeDrop = utils.beamsIntersect(
@@ -485,7 +485,7 @@ export const front = {
         paths.saBase = new Path()
           .move(points.saCfBottom)
           .line(points.saSideBottom)
-          .join(paths.saLeft)
+          .join(paths.saRight)
           .line(points.saBustDartBottom)
           .line(points.saBustDartEdge)
           .line(points.saBustDartTop)
