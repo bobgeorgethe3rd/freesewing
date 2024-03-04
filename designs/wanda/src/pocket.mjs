@@ -13,6 +13,7 @@ export const pocket = {
 
     //Pockets
     pocketsBool: { bool: true, menu: 'pockets' },
+    pocketOpeningLength: { pct: 100, min: 40, max: 100, menu: 'pockets' }, //Altered for Wanda
     pocketStyle: { dflt: 'inseam', list: ['inseam', 'boxPleat', 'pear'], menu: 'pockets' },
     inseamPocketAngle: { deg: 0, min: 0, max: 15, menu: 'pockets.inseamPockets' }, //Altered for Wanda
     inseamPocketCurveLeft: { pct: 0, min: 0, max: 100, menu: 'pockets.inseamPockets' }, //Altered for Wanda
@@ -32,24 +33,6 @@ export const pocket = {
       part.hide()
       return part
     }
-
-    //stores
-    if (options.pocketStyle == 'inseam') {
-      store.set('pocketOpening', points.topLeft.dist(points.openingTop))
-      store.set('pocketOpeningLength', points.topLeft.dist(points.openingBottom))
-    }
-
-    if (options.pocketStyle == 'boxPleat') {
-      store.set(
-        'pocketOpeningLength',
-        store.get('pocketOpening') + points.openingTop.dist(points.openingBottom)
-      )
-    }
-
-    if (options.pocketStyle == 'pear') {
-      store.set('pocketOpeningLength', points.slitTop.dist(points.slitBottom))
-    }
-
     if (complete) {
       //title
       macro('title', {

@@ -125,7 +125,9 @@ export const pocket = {
       .line(points.pocketTopLeft)
       .line(points.curveBLStart)
       .close()
-
+    //stores
+    store.set('pocketOpening', points.topLeft.dist(points.openingTop))
+    store.set('pocketOpeningLength', points.topLeft.dist(points.openingBottom))
     if (complete) {
       //grainline
       points.grainlineFrom = points.pocketTopLeft.shiftFractionTowards(points.pocketTopRight, 0.5)

@@ -6,8 +6,8 @@ export const pocket = {
     //Constants
     useVoidStores: true,
     scalePockets: true,
+    pocketOpening: 0.064,
     //Pockets
-    pocketOpening: { pct: 6.4, min: 5, max: 15, menu: 'pockets' },
     boxPleatPocketWidth: {
       pct: (11 / 18) * 100,
       min: 60,
@@ -87,7 +87,10 @@ export const pocket = {
 
     //stores
     store.set('pocketOpening', store.get('insertSeamLength') * options.pocketOpening)
-
+    store.set(
+      'pocketOpeningLength',
+      store.get('pocketOpening') + points.openingTop.dist(points.openingBottom)
+    )
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.topLeft

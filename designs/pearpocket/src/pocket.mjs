@@ -101,7 +101,10 @@ export const pocket = {
       options.pocketOpeningLength
     )
     store.set('pocketOpening', pocketOpening)
-    store.set('pocketOpeningLength', points.slitTop.dist(points.slitBottom))
+    store.set(
+      'pocketOpeningLength',
+      store.get('pocketOpening') + points.slitTop.dist(points.slitBottom)
+    )
     if (complete) {
       //grainline
       points.grainlineFrom = points.curveMid
