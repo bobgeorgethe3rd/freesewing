@@ -19,6 +19,7 @@ export const sleeveBase = {
     sleevesBool: { bool: true, menu: 'sleeves' },
     sleeveBands: { bool: true, menu: 'sleeves' },
   },
+  measurements: [...spreadSleeveBase.measurements],
   draft: (sh) => {
     //draft
     const {

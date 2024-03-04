@@ -21,6 +21,7 @@ export const sleeveBase = {
     //Construction
     sleeveHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Rose
   },
+  measurements: [...spreadSleeveBase.measurements],
   draft: (sh) => {
     //draft
     const {
