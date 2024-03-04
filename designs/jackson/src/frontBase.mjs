@@ -44,6 +44,8 @@ export const frontBase = {
     Snippet,
     absoluteOptions,
   }) => {
+    //deleting snippets
+    delete snippets.crotchSeamCurveStart
     //removing macros not required from Dalton
     macro('title', false)
     //measurements

@@ -321,7 +321,7 @@ export const frontBase = {
         to: points.grainlineTo,
       })
       //notches
-      snippets.notch = new Snippet('notch', points.crotchSeamCurveStart)
+      snippets.crotchSeamCurveStart = new Snippet('notch', points.crotchSeamCurveStart)
       //title
       points.title = new Point(points.knee.x, points.knee.y * 0.5)
       macro('title', {

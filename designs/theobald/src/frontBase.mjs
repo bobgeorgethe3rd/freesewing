@@ -49,7 +49,7 @@ export const frontBase = {
     }
     delete paths.seam
     delete paths.sa
-    delete snippets.notch
+    delete snippets.crotchSeamCurveStart
     //removing macros not required from Dalton
     macro('title', false)
     //measurements

@@ -24,8 +24,6 @@ export const front = {
     Snippet,
     absoluteOptions,
   }) => {
-    //deleting snippets
-    for (let i in snippets) delete snippets[i]
     //measures
     const flyShieldEx = store.get('flyShieldEx')
     //paths
@@ -47,20 +45,6 @@ export const front = {
         snippet: 'notch',
         on: ['flyCrotch', 'flyShieldCrotch'],
       })
-
-      if (options.fitGuides) {
-        if (measurements.waistToHips * options.waistHeight - waistbandWidth > 0) {
-          macro('sprinkle', {
-            snippet: 'notch',
-            on: ['hipsGuideIn', 'hipsGuideOut'],
-          })
-        }
-
-        macro('sprinkle', {
-          snippet: 'notch',
-          on: ['seatGuideIn', 'seatGuideOut', 'kneeGuideIn', 'kneeGuideOut'],
-        })
-      }
       //detail paths
       paths.flyShieldExDetail = paths.flyShieldEx
         .split(points.flyShieldExWaist)[0]
