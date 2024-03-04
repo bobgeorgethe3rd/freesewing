@@ -1,3 +1,5 @@
+import { pluginBandStraight } from '@freesewing/plugin-bandstraight'
+import { pluginBandCurved } from '@freesewing/plugin-bandcurved'
 import { backBase } from './backBase.mjs'
 import { skirtBase } from './skirtBase.mjs'
 import { waistband as waistbandClaude } from '@freesewing/claude'
@@ -16,6 +18,7 @@ export const waistband = {
     waistbandFolded: false, //Altered for Scott
     waistbandOverlap: 0, //Altered for Scott
   },
+  plugins: [pluginBandStraight, pluginBandCurved],
   draft: (sh) => {
     //draft
     const {
@@ -45,7 +48,7 @@ export const waistband = {
       waistbandClaude.draft(sh)
     }
 
-    if (complete) {
+    /*   if (complete) {
       //buttonhole
       if (options.placketStyle != 'none' && options.closurePosition == 'back') {
         points.buttonholePlacket = points.buttonPlacket.flipX()
@@ -68,7 +71,7 @@ export const waistband = {
         title: 'Waistband',
         scale: 1 / 3,
       })
-    }
+    } */
 
     return part
   },

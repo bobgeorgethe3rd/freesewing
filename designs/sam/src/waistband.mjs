@@ -1,3 +1,5 @@
+import { pluginBandStraight } from '@freesewing/plugin-bandstraight'
+import { pluginBandCurved } from '@freesewing/plugin-bandcurved'
 import { waistband as waistbandClaude } from '@freesewing/claude'
 import { skirtFront } from './skirtFront.mjs'
 
@@ -12,6 +14,7 @@ export const waistband = {
     waistbandOverlapSide: 'left', //Altered for Scott
     waistbandOverlap: 0, //Altered for Scott
   },
+  plugins: [pluginBandStraight, pluginBandCurved],
   draft: (sh) => {
     //draft
     const {
