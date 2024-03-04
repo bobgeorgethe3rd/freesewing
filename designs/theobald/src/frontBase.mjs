@@ -1,9 +1,9 @@
-import { frontBase as daltonFrontBase } from '@freesewing/dalton'
+import { front as daltonFront } from '@freesewing/dalton'
 import { back } from './back.mjs'
 
 export const frontBase = {
   name: 'theobald.frontBase',
-  from: daltonFrontBase,
+  from: daltonFront,
   after: back,
   hide: {
     from: true,

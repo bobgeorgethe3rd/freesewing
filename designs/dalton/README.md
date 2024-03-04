@@ -48,7 +48,7 @@
 
 # @freesewing/dalton
 
-A dart version of Titan
+A dart trouser block
 
 
 

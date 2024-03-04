@@ -1,9 +1,9 @@
-import { backBase as daltonBackBase } from '@freesewing/dalton'
+import { back as daltonBack } from '@freesewing/dalton'
 import { pctBasedOn } from '@freesewing/core'
 
 export const backBase = {
   name: 'jackson.backBase',
-  from: daltonBackBase,
+  from: daltonBack,
   hide: {
     from: true,
   },

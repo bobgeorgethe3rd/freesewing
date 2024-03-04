@@ -93,9 +93,6 @@ core:
 daisy:
   peer:
     '@freesewing/bella': *freesewing
-dalton:
-  peer:
-    '@freesewing/titan': *freesewing
 diana:
   peer:
     '@freesewing/brian': *freesewing
