@@ -15,7 +15,7 @@ export const front = {
     //Pockets
     pocketsBool: { bool: true, menu: 'pockets' },
     patchPocketWidth: { pct: 46.6, min: 30, max: 60, menu: 'pockets.patchPockets' },
-    patchPocketDepth: { pct: 91.6, min: 70, max: 110, menu: 'pockets.patchPockets' },
+    patchPocketDepth: { pct: 95, min: 70, max: 110, menu: 'pockets.patchPockets' },
   },
   plugins: [pluginLogoRG],
   draft: ({
