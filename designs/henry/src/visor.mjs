@@ -6,7 +6,7 @@ export const visor = {
   after: crown,
   options: {
     visorAngle: { deg: 60, min: 10, max: 90, menu: 'style' },
-    visorWidth: { pct: 9.1, min: 1, max: 17, snap: 5, ...pctBasedOn('head'), menu: 'style' },
+    visorWidth: { pct: 9.4, min: 1, max: 17, snap: 5, ...pctBasedOn('head'), menu: 'style' },
     //Advanced
     visorLength: { pct: 114.2, min: 80, max: 150, menu: 'advanced' },
   },
