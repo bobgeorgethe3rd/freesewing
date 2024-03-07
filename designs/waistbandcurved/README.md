@@ -48,7 +48,7 @@
 
 # @freesewing/waistbandcurved
 
-Curved Waistband to be used in other designs
+Curved Waistband design to be used in other designs
 
 
 

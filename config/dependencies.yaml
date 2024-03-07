@@ -112,6 +112,9 @@ fallon:
     '@freesewing/inseampocket': *freesewing
     '@freesewing/boxpleatpocket': *freesewing
     '@freesewing/pearpocket': *freesewing
+flyfront:
+  peer:
+    '@freesewing/dalton': *freesewing
 fullshirtsleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing
@@ -148,6 +151,7 @@ jackson:
     '@freesewing/beltloops': *freesewing
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/flyfront': *freesewing
     '@freesewing/plugin-mirror': *freesewing
 jaeger:
   peer:
@@ -350,6 +354,7 @@ theobald:
     '@freesewing/beltloops': *freesewing
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/flyfront': *freesewing
     '@freesewing/plugin-mirror': *freesewing
 titan:
   peer:

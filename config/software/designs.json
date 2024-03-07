@@ -381,15 +381,22 @@
       "difficulty": 1,
       "tags": ["beltloop"]
     },
+    "flyfront": {
+      "description": "Fly Front design to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["fly"]
+    },
     "waistbandcurved": {
-      "description": "Curved Waistband to be used in other designs",
+      "description": "Curved Waistband design to be used in other designs",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
       "tags": ["waistbands"]
     },
     "waistbandstraight": {
-      "description": "Straight Waistband to be used in other designs",
+      "description": "Straight Waistband design to be used in other designs",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,

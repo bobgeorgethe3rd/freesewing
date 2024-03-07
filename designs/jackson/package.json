@@ -54,6 +54,7 @@
     "@freesewing/beltloops": "3.0.0-alpha.8",
     "@freesewing/waistbandcurved": "3.0.0-alpha.8",
     "@freesewing/waistbandstraight": "3.0.0-alpha.8",
+    "@freesewing/flyfront": "3.0.0-alpha.8",
     "@freesewing/plugin-mirror": "3.0.0-alpha.8"
   },
   "dependencies": {},

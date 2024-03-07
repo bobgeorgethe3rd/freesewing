@@ -1,13 +1,13 @@
 ![FreeSewing](https://static.freesewing.org/banner.png)
 <p align='center'><a
-  href="https://www.npmjs.com/package/@freesewing/waistbandstraight"
-  title="@freesewing/waistbandstraight on NPM"
-  ><img src="https://img.shields.io/npm/v/@freesewing/waistbandstraight.svg"
-  alt="@freesewing/waistbandstraight on NPM"/>
+  href="https://www.npmjs.com/package/@freesewing/flyfront"
+  title="@freesewing/flyfront on NPM"
+  ><img src="https://img.shields.io/npm/v/@freesewing/flyfront.svg"
+  alt="@freesewing/flyfront on NPM"/>
   </a><a
   href="https://opensource.org/licenses/MIT"
   title="License: MIT"
-  ><img src="https://img.shields.io/npm/l/@freesewing/waistbandstraight.svg?label=License"
+  ><img src="https://img.shields.io/npm/l/@freesewing/flyfront.svg?label=License"
   alt="License: MIT"/>
   </a><a
   href="https://deepscan.io/dashboard#view=project&tid=2114&pid=2993&bid=23256"
@@ -15,10 +15,10 @@
   ><img src="https://deepscan.io/api/teams/2114/projects/2993/branches/23256/badge/grade.svg"
   alt="Code quality on DeepScan"/>
   </a><a
-  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Awaistbandstraight"
-  title="Open issues tagged pkg:waistbandstraight"
-  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:waistbandstraight.svg?label=Issues"
-  alt="Open issues tagged pkg:waistbandstraight"/>
+  href="https://github.com/freesewing/freesewing/issues?q=is%3Aissue+is%3Aopen+label%3Apkg%3Aflyfront"
+  title="Open issues tagged pkg:flyfront"
+  ><img src="https://img.shields.io/github/issues/freesewing/freesewing/pkg:flyfront.svg?label=Issues"
+  alt="Open issues tagged pkg:flyfront"/>
   </a><a
   href="#contributors-"
   title="All Contributors"
@@ -46,9 +46,9 @@
   alt="Follow @freesewing_org on Twitter"/>
   </a></p>
 
-# @freesewing/waistbandstraight
+# @freesewing/flyfront
 
-Straight Waistband design to be used in other designs
+Fly Front design to be used in other designs
 
 
 
@@ -65,7 +65,7 @@ Straight Waistband design to be used in other designs
 
 This repository is our *monorepo* holding all our NPM designs, plugins, other NPM packages, and (web)sites.
 
-This folder holds: @freesewing/waistbandstraight
+This folder holds: @freesewing/flyfront
 
 If you're not entirely sure what to do or how to start, type this command:
 
