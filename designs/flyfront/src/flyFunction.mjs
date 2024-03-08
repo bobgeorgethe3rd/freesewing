@@ -92,7 +92,7 @@ export const flyFunction = (
     .curve(points.flyCurveStartCp2, points.flyCurveEndCp1, points.flyCurveEnd)
     .hide()
 
-  paths.flyFrontShieldEx = paths.crotchSeam
+  paths.flyShieldEx = paths.crotchSeam
     .split(points.flyShieldCrotch)[0]
     .line(points.flyShieldExCrotch)
     .join(
@@ -114,7 +114,7 @@ export const flyFunction = (
       on: ['flyCrotch', 'flyShieldCrotch'],
     })
     //detail paths
-    paths.flyFrontShieldExDetail = paths.flyFrontShieldEx
+    paths.flyShieldExDetail = paths.flyShieldEx
       .split(points.flyShieldExWaist)[0]
       .attr('class', 'fabric hidden')
       .attr('data-text', 'Right Leg Exstention')
