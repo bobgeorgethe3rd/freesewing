@@ -28,7 +28,7 @@ export const pocketInner = {
       return part
     }
     //keep certain paths
-    let keepThese = 'saBase'
+    const keepThese = 'saBase'
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }

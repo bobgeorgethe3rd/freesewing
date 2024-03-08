@@ -34,7 +34,7 @@ export const bodiceFrontFacing = {
       return part
     }
     //removing paths and snippets not required from Bella
-    let keepThese = 'daisyGuide'
+    const keepThese = 'daisyGuide'
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }

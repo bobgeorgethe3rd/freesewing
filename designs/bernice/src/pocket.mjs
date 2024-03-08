@@ -25,7 +25,7 @@ export const pocket = {
       return part
     }
     //keep certain paths
-    let keepThese = 'opening'
+    const keepThese = 'opening'
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }

@@ -36,7 +36,7 @@ export const back = {
     log,
   }) => {
     //removing paths and snippets not required from Daisy
-    let keepThese = 'seam'
+    const keepThese = 'seam'
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }

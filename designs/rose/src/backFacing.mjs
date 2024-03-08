@@ -30,7 +30,7 @@ export const backFacing = {
       return part
     }
     //removing paths and snippets not required from Daisy
-    let keepThese = ['daisyGuide', 'cbNeck']
+    const keepThese = ['daisyGuide', 'cbNeck']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
