@@ -6,6 +6,7 @@ export const buttonholePlacket = {
   options: {
     //Plackets
     flyFrontButtonholePlacket: { bool: true, menu: 'plackets' },
+    flyFrontButtonholeNumber: { count: 3, min: 1, max: 5, menu: 'plackets' },
   },
   draft: ({
     store,
@@ -63,12 +64,13 @@ export const buttonholePlacket = {
         points.flyWaist.dist(points.waistIn) * 0.5
       )
       points.buttonholeTopAnchor = points.flyWaist.shiftFractionTowards(points.waistIn, 0.5)
-      for (let i = 0; i < 6; i++) {
+      const buttonholeNum = options.flyFrontButtonholeNumber * 2
+      for (let i = 0; i < buttonholeNum; i++) {
         if (i % 2 > 0) {
         } else {
           points['buttonhole' + i] = points.buttonholeBottomAnchor.shiftFractionTowards(
             points.buttonholeTopAnchor,
-            (i + 1) / 6
+            (i + 1) / buttonholeNum
           )
           snippets['buttonhole' + i] = new Snippet('buttonhole', points['buttonhole' + i])
             .attr('data-rotate', 180 - points.flyCurveStart.angle(points.flyWaist))
