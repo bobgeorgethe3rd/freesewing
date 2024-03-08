@@ -1,23 +1,35 @@
-import { flyShield as flyShieldJackson } from '@freesewing/jackson'
+import { flyShield as flyShieldFlyFront } from '@freesewing/flyfront'
 import { frontBase } from './frontBase.mjs'
 
 export const flyShield = {
   name: 'theobald.flyShield',
   from: frontBase,
+  hide: {
+    from: true,
+  },
   options: {
     //Imported
-    ...flyShieldJackson.options,
-    //Plackets
-    flyShieldCurved: { bool: true, menu: 'plackets' }, //ALtered for Theobald
+    ...flyShieldFlyFront.options,
   },
   draft: (sh) => {
-    const { macro, paths, Path, points, snippets, Snippet, sa, store, options, complete, part } = sh
-    //set Render Draft
+    const { points, paths, options, complete, macro, part } = sh
+    //dalton guide
     if (options.daltonGuides) {
       paths.seam = paths.daltonGuide
     }
-    flyShieldJackson.draft(sh)
+    //draft
+    flyShieldFlyFront.draft(sh)
 
+    if (complete) {
+      //title
+      macro('title', {
+        at: points.title,
+        nr: 10,
+        title: 'Fly Shield',
+        scale: 0.25,
+        rotation: 90 - points.flyShieldCorner.angle(points.flyShieldWaist),
+      })
+    }
     return part
   },
 }

@@ -1,20 +1,35 @@
-import { buttonholePlacket as buttonholePlacketJackson } from '@freesewing/jackson'
+import { buttonholePlacket as buttonholePlacketFlyFront } from '@freesewing/flyfront'
 import { frontBase } from './frontBase.mjs'
 
 export const buttonholePlacket = {
   name: 'theobald.buttonholePlacket',
   from: frontBase,
+  hide: {
+    from: true,
+  },
   options: {
     //Imported
-    ...buttonholePlacketJackson.options,
+    ...buttonholePlacketFlyFront.options,
   },
   draft: (sh) => {
-    const { macro, points, paths, options, complete, part } = sh
-    //set Render Draft
+    const { points, paths, options, complete, macro, part } = sh
+    //daltonGuides
     if (options.daltonGuides) {
       paths.seam = paths.daltonGuide
     }
-    buttonholePlacketJackson.draft(sh)
+    //draft
+    buttonholePlacketFlyFront.draft(sh)
+
+    if (complete) {
+      //title
+      macro('title', {
+        at: points.title,
+        nr: 9,
+        title: 'Buttonhole Placket',
+        scale: 0.25,
+        rotation: 90 - points.flyCurveStart.angle(points.flyWaist),
+      })
+    }
 
     return part
   },

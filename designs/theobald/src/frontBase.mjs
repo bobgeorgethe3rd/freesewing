@@ -1,16 +1,18 @@
-import { front as daltonFront } from '@freesewing/dalton'
+import { flyFunction } from '@freesewing/flyfront'
+import { flyBase } from '@freesewing/flyfront'
+import { front as frontDalton } from '@freesewing/dalton'
 import { back } from './back.mjs'
 
 export const frontBase = {
   name: 'theobald.frontBase',
-  from: daltonFront,
+  from: frontDalton,
   after: back,
   hide: {
     from: true,
   },
   options: {
-    //Constants
-    cpFraction: 0.55191502449,
+    //Imported
+    ...flyBase.options,
     //Style
     frontPleats: { bool: false, menu: 'style' },
     frontPleatWidth: { pct: 3.8, min: 3, max: 5, menu: 'style' },
@@ -19,9 +21,6 @@ export const frontBase = {
     frontPocketOpeningWidth: { pct: 20.6, min: 20, max: 30, menu: 'pockets.frontPockets' },
     frontPocketOpeningTopDepth: { pct: 11.7, min: 10, max: 20, menu: 'pockets.frontPockets' },
     frontPocketOpeningDepth: { pct: 43.7, min: 40, max: 50, menu: 'pockets.frontPockets' },
-    // Plackets
-    flyLength: { pct: 70.2, min: 70, max: 80, menu: 'plackets' },
-    flyWidth: { pct: 5.1, min: 5, max: 6, menu: 'plackets' },
     //Construction
     crotchSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
   },
@@ -55,12 +54,13 @@ export const frontBase = {
     //measurements
     const waistbandWidth = store.get('waistbandWidth')
     const styleWaistFront = store.get('styleWaistFront') * 0.5
-    const flyWidth = measurements.waist * options.flyWidth
-    const flyLength = (measurements.crossSeamFront - measurements.waistToHips) * options.flyLength
-    const flyShieldEx = 10 //(1 - options.flyWidth) * 10.537407797681770284510010537408
+    const flyFrontWidth = measurements.waist * options.flyFrontWidth
+    const flyFrontLength =
+      (measurements.crossSeamFront - measurements.waistToHips) * options.flyFrontLength
+    const flyFrontShieldEx = 10 //(1 - options.flyFrontWidth) * 10.537407797681770284510010537408
     //let's begin
     //plackets
-    points.flyWaist = points.waistIn.shiftTowards(points.waistOut, flyWidth)
+    points.flyWaist = points.waistIn.shiftTowards(points.waistOut, flyFrontWidth)
     //front pleats
     const frontPleatWidth = measurements.waist * options.frontPleatWidth
     //path guides
@@ -248,115 +248,9 @@ export const frontBase = {
       paths.waist = new Path().move(points.waistIn).line(points.waistOut).hide()
     }
     //plackets
-    points.flyCrotch = paths.crotchSeam
-      .reverse()
-      .shiftAlong(measurements.waistToHips * options.waistHeight + flyLength - waistbandWidth)
-    points.flyShieldCrotch = utils.lineIntersectsCurve(
-      points.flyCrotch.shift(points.waistIn.angle(points.crotchSeamCurveEnd), flyShieldEx),
-      points.flyCrotch
-        .shift(points.waistIn.angle(points.crotchSeamCurveEnd), flyShieldEx)
-        .shift(
-          points.waistIn.angle(points.crotchSeamCurveEnd) + 90,
-          points.waistOut.dist(points.waistIn)
-        ),
-      points.upperLegIn,
-      points.upperLegInCp2,
-      points.crotchSeamCurveEndCp1,
-      points.crotchSeamCurveEnd
-    )
-    points.flyShieldExWaist = utils.beamsIntersect(
-      points.crotchSeamCurveEnd
-        .shiftTowards(points.waistIn, flyShieldEx)
-        .rotate(-90, points.crotchSeamCurveEnd),
-      points.waistIn
-        .shiftTowards(points.crotchSeamCurveEnd, flyShieldEx)
-        .rotate(+90, points.waistIn),
-      points.flyWaist,
-      points.waistIn
-    )
-    points.flyCurveEnd = utils.beamsIntersect(
-      points.waistIn,
-      points.crotchSeamCurveEnd,
-      points.flyCrotch,
-      points.flyCrotch.shift(points.crotchSeamCurveEnd.angle(points.waistIn) - 90, 1)
-    )
-    points.flyCpTarget = utils.beamsIntersect(
-      points.flyWaist,
-      points.flyWaist.shift(points.waistIn.angle(points.crotchSeamCurveEnd), 1),
-      points.flyCrotch,
-      points.flyCurveEnd
-    )
-    points.flyCurveStart = points.flyCurveEnd.rotate(90, points.flyCpTarget)
-    points.flyCurveStartCp2 = points.flyCurveStart.shiftFractionTowards(
-      points.flyCpTarget,
-      options.cpFraction
-    )
-    points.flyCurveEndCp1 = points.flyCurveEnd.shiftFractionTowards(
-      points.flyCpTarget,
-      options.cpFraction
-    )
-    points.flyShieldExCrotch = utils.beamsIntersect(
-      paths.crotchSeam.split(points.flyShieldCrotch)[1].offset(flyShieldEx).start(),
-      paths.crotchSeam
-        .split(points.flyShieldCrotch)[1]
-        .offset(flyShieldEx)
-        .shiftFractionAlong(0.01),
-      points.flyShieldCrotch,
-      points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveEnd) - 90, 1)
-    )
-    paths.placketCurve = new Path()
-      .move(points.flyWaist)
-      .line(points.flyCurveStart)
-      .curve(points.flyCurveStartCp2, points.flyCurveEndCp1, points.flyCurveEnd)
-      .hide()
+    flyFunction(part, waistbandWidth, flyFrontWidth, flyFrontLength, flyFrontShieldEx)
     //stores
-    store.set('flyWidth', flyWidth)
-    store.set('flyShieldEx', flyShieldEx)
-    store.set('waistbandPlacketWidth', flyWidth + flyShieldEx)
     store.set('frontPleatWidth', frontPleatWidth)
-    if (complete) {
-      if (sa) {
-        const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
-
-        points.saFlyWaist = utils.beamsIntersect(
-          points.flyWaist.shiftTowards(points.flyCurveStart, sa).rotate(-90, points.flyWaist),
-          points.flyCurveStart.shiftTowards(points.flyWaist, sa).rotate(90, points.flyCurveStart),
-          points.saWaistOut,
-          points.saWaistIn
-        )
-        points.saWaistInExCorner = utils.beamsIntersect(
-          points.saWaistOut,
-          points.saWaistIn,
-          points.crotchSeamCurveEnd
-            .shiftTowards(points.waistIn, flyShieldEx + crotchSeamSa)
-            .rotate(-90, points.crotchSeamCurveEnd),
-          points.waistIn
-            .shiftTowards(points.crotchSeamCurveEnd, flyShieldEx + crotchSeamSa)
-            .rotate(90, points.waistIn)
-        )
-        points.saWaistInEx = utils.beamsIntersect(
-          points.saWaistInExCorner,
-          points.saWaistInExCorner.shift(points.waistIn.angle(points.crotchSeamCurveEnd), 1),
-          points.waistOut,
-          points.waistIn
-        )
-
-        points.saFlyShieldExCrotch = utils.beamsIntersect(
-          paths.crotchSeam
-            .split(points.flyShieldCrotch)[1]
-            .offset(flyShieldEx + crotchSeamSa)
-            .start(),
-          paths.crotchSeam
-            .split(points.flyShieldCrotch)[1]
-            .offset(flyShieldEx + crotchSeamSa)
-            .shiftFractionAlong(0.001),
-          points.flyShieldCrotch.shift(points.waistIn.angle(points.crotchSeamCurveEnd), sa),
-          points.flyShieldCrotch
-            .shift(points.waistIn.angle(points.crotchSeamCurveEnd), sa)
-            .shift(points.waistIn.angle(points.crotchSeamCurveEnd) + 90, 1)
-        )
-      }
-    }
     //if pockets
     if (options.frontPocketsBool) {
       //measures
