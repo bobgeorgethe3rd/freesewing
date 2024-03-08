@@ -46,6 +46,7 @@ export const frontPocketBag = {
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
+    for (let i in snippets) delete snippets[i]
     //measurements
     const waistbandWidth = store.get('waistbandWidth')
     //path guides
