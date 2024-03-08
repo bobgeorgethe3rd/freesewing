@@ -46,7 +46,7 @@ export const flyFunction = (
     points.crotchSeamCurveEndCp1,
     points.crotchSeamCurveEnd
   )
-  points.flyFrontShieldExWaist = utils.beamsIntersect(
+  points.flyShieldExWaist = utils.beamsIntersect(
     points.crotchSeamCurveEnd
       .shiftTowards(points.waistIn, flyFrontShieldEx)
       .rotate(-90, points.crotchSeamCurveEnd),
@@ -77,7 +77,7 @@ export const flyFunction = (
     points.flyCpTarget,
     options.cpFraction
   )
-  points.flyFrontShieldExCrotch = utils.beamsIntersect(
+  points.flyShieldExCrotch = utils.beamsIntersect(
     paths.crotchSeam.split(points.flyShieldCrotch)[1].offset(flyFrontShieldEx).start(),
     paths.crotchSeam
       .split(points.flyShieldCrotch)[1]
@@ -94,14 +94,14 @@ export const flyFunction = (
 
   paths.flyFrontShieldEx = paths.crotchSeam
     .split(points.flyShieldCrotch)[0]
-    .line(points.flyFrontShieldExCrotch)
+    .line(points.flyShieldExCrotch)
     .join(
       paths.crotchSeam
         .split(points.flyShieldCrotch)[1]
         .split(points.crotchSeamCurveEnd)[0]
         .offset(flyFrontShieldEx)
     )
-    .line(points.flyFrontShieldExWaist)
+    .line(points.flyShieldExWaist)
     .line(points.waistIn)
   //stores
   store.set('flyFrontWidth', flyFrontWidth)
@@ -115,7 +115,7 @@ export const flyFunction = (
     })
     //detail paths
     paths.flyFrontShieldExDetail = paths.flyFrontShieldEx
-      .split(points.flyFrontShieldExWaist)[0]
+      .split(points.flyShieldExWaist)[0]
       .attr('class', 'fabric hidden')
       .attr('data-text', 'Right Leg Exstention')
       .attr('data-text-class', 'right')

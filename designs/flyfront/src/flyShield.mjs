@@ -38,14 +38,14 @@ export const flyShield = {
     //measures
     const flyFrontShieldEx = store.get('flyFrontShieldEx')
     //let's begin
-    points.flyShieldWaist = points.flyFrontShieldExWaist.shiftTowards(
+    points.flyShieldWaist = points.flyShieldExWaist.shiftTowards(
       points.flyWaist,
       store.get('flyFrontWidth')
     )
     points.flyShieldCorner = utils.beamsIntersect(
       points.flyShieldWaist,
       points.flyShieldWaist.shift(points.waistIn.angle(points.crotchSeamCurveEnd), 1),
-      points.flyFrontShieldExCrotch,
+      points.flyShieldExCrotch,
       points.flyShieldCrotch
     )
 
@@ -63,20 +63,17 @@ export const flyShield = {
       paths.bottom = new Path()
         .move(points.flyShieldCurveStart)
         .curve(points.flyShieldCurveStartCp2, points.flyShieldCrotchCp1, points.flyShieldCrotch)
-        .line(points.flyFrontShieldExCrotch)
+        .line(points.flyShieldExCrotch)
         .hide()
     } else {
-      paths.bottom = new Path()
-        .move(points.flyShieldCorner)
-        .line(points.flyFrontShieldExCrotch)
-        .hide()
+      paths.bottom = new Path().move(points.flyShieldCorner).line(points.flyShieldExCrotch).hide()
     }
 
     //paths
     paths.seam = paths.bottom
       .clone()
       .join(paths.crotchSeam.split(points.flyShieldCrotch)[1].offset(flyFrontShieldEx))
-      .line(points.flyFrontShieldExWaist)
+      .line(points.flyShieldExWaist)
       .line(points.flyShieldWaist)
       .line(points.flyShieldCurveStart)
       .line(paths.bottom.start())
@@ -101,7 +98,7 @@ export const flyShield = {
       }
       //title
       points.title = points.flyShieldWaist
-        .shiftFractionTowards(points.flyFrontShieldExWaist, 0.5)
+        .shiftFractionTowards(points.flyShieldExWaist, 0.5)
         .shift(
           points.flyShieldWaist.angle(points.flyShieldCorner),
           points.flyShieldWaist.dist(points.flyShieldCorner) * 0.5
