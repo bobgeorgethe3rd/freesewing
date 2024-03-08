@@ -5,7 +5,7 @@ export const flyShield = {
   from: flyBase,
   options: {
     //Plackets
-    flyShieldCurved: { bool: false, menu: 'plackets' },
+    flyFrontShieldCurved: { bool: false, menu: 'plackets' },
   },
   draft: ({
     store,
@@ -59,7 +59,7 @@ export const flyShield = {
       options.cpFraction
     )
 
-    if (options.flyShieldCurved) {
+    if (options.flyFrontShieldCurved) {
       paths.bottom = new Path()
         .move(points.flyShieldCurveStart)
         .curve(points.flyShieldCurveStartCp2, points.flyShieldCrotchCp1, points.flyShieldCrotch)
@@ -82,7 +82,7 @@ export const flyShield = {
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.flyShieldWaist
-      if (options.flyShieldCurved) {
+      if (options.flyFrontShieldCurved) {
         points.cutOnFoldTo = points.flyShieldCurveStart
       } else {
         points.cutOnFoldTo = points.flyShieldCorner
@@ -93,7 +93,7 @@ export const flyShield = {
       })
       //notches
       snippets.flyShieldCrotch = new Snippet('notch', points.flyShieldCrotch)
-      if (options.flyShieldCurved) {
+      if (options.flyFrontShieldCurved) {
         snippets.flyShieldCurveStart = new Snippet('notch', points.flyShieldCurveStart)
       }
       //title
