@@ -70,13 +70,13 @@ export const back = {
     )
     store.set('storedWaist', (store.get('waistFront') + store.get('waistBack')) / 2)
 
-    if (options.style == 'dart') {
+    if (options.bodiceStyle == 'dart') {
       backDaisy.draft(sh)
     } else {
       backArmholePitch.draft(sh)
     }
 
-    if (options.style == 'dart' && options.daisyGuides) {
+    if (options.bodiceStyle == 'dart' && options.daisyGuides) {
       paths.daisyGuide = paths.seam.clone().attr('class', 'various lashed')
     }
 

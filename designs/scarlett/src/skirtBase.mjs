@@ -13,7 +13,7 @@ export const skirtBase = {
     umbrellaExtenstion: 1 / 16, //Locked for Scarlett
     //Style
     crotchDrop: { pct: 2, min: 0, max: 15, menu: 'style' },
-    style: { dflt: 'straight', list: ['straight', 'bell', 'umbrella'], menu: 'style' },
+    skirtStyle: { dflt: 'straight', list: ['straight', 'bell', 'umbrella'], menu: 'style' },
     swingPanelStyle: { dflt: 'connected', list: ['connected', 'separate', 'none'], menu: 'style' },
     waistbandWidth: {
       pct: 3.75,

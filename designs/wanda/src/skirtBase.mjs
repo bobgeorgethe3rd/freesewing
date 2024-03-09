@@ -17,7 +17,7 @@ export const skirtBase = {
     pleatNumber: { count: 3, min: 1, max: 10, menu: 'style' },
     pleats: { bool: true, menu: 'style' },
     skirtLengthBonus: { pct: -2, min: -30, max: 10, menu: 'style' },
-    style: { dflt: 'bell', list: ['straight', 'bell', 'umbrella'], menu: 'style' },
+    skirtStyle: { dflt: 'bell', list: ['straight', 'bell', 'umbrella'], menu: 'style' },
     umbrellaExtenstion: { pct: (1 / 16) * 100, min: 6, max: 10, menu: 'style' },
     umbrellaFullness: { pct: (5 / 12) * 100, min: 40, max: 50, menu: 'style' },
     waistbandStyle: {

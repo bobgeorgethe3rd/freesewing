@@ -10,7 +10,7 @@ export const skirtBase = {
     fullDress: true, //Altered for Fallon
     frontDart: 'dart', //Locked for Fallon
     sideDart: 'dart', //Locked for Fallon
-    style: 'straight', //Locked for Fallon
+    skirtStyle: 'straight', //Locked for Fallon
     umbrellaFullness: 0,
     umbrellaExtenstion: 0,
     //Style

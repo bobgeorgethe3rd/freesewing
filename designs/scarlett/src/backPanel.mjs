@@ -25,7 +25,7 @@ export const backPanel = {
     log,
   }) => {
     //render
-    if (options.style == 'straight') {
+    if (options.skirtStyle == 'straight') {
       part.hide()
       return part
     }
@@ -40,7 +40,7 @@ export const backPanel = {
     }
     //let's begin
     const drawHemBase = () => {
-      if (options.style == 'bell') {
+      if (options.skirtStyle == 'bell') {
         return new Path()
           .move(points.crossHemB)
           .line(points.hemLB)
@@ -54,7 +54,7 @@ export const backPanel = {
     }
 
     const drawSaWaist = () => {
-      if (options.style == 'bell') {
+      if (options.skirtStyle == 'bell') {
         return new Path()
           .move(points.waist6B)
           .curve(points.waist6Cp2B, points.waistEndCp2B, points.waistEndB)
@@ -67,7 +67,7 @@ export const backPanel = {
     }
 
     const drawCross = () => {
-      if (options.style == 'bell') {
+      if (options.skirtStyle == 'bell') {
         return new Path()
           .move(points.waistL)
           .curve(points.waistLCp2, points.crossBCp1, points.crossB)
@@ -110,7 +110,7 @@ export const backPanel = {
       //facings
       const skirtHemFacingWidth = store.get('skirtHemFacingWidth')
       const drawHemFacing = () => {
-        if (options.style == 'bell') {
+        if (options.skirtStyle == 'bell') {
           return new Path()
             .move(points.crossFacingB)
             .line(points.hemFacingL)
@@ -164,7 +164,7 @@ export const backPanel = {
         const pleatLengthUmbrella = store.get('pleatLengthUmbrella')
 
         for (let i = 0; i < options.pleatNumber; i++) {
-          if (options.style == 'bell') {
+          if (options.skirtStyle == 'bell') {
             if (
               pleatKeep + (pleatKeep + pleatLengthBell) * i >
               new Path()
@@ -194,7 +194,7 @@ export const backPanel = {
                 .attr('data-text-class', 'center')
             }
           }
-          if (options.style == 'umbrella') {
+          if (options.skirtStyle == 'umbrella') {
             if (
               pleatKeep + (pleatKeep + pleatLengthUmbrella) * i >
               new Path()

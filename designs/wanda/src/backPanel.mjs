@@ -26,7 +26,7 @@ export const backPanel = {
     log,
   }) => {
     //set Render
-    if (options.style == 'straight') {
+    if (options.skirtStyle == 'straight') {
       part.hide()
       return part
     }
@@ -41,7 +41,7 @@ export const backPanel = {
     }
     //let's begin
     const drawHemBase = () => {
-      if (options.style == 'bell') {
+      if (options.skirtStyle == 'bell') {
         return new Path().move(points.hemL).curve(points.hemLCp2, points.hemKCp1B, points.hemK)
       } else {
         return new Path().move(points.hemN).curve(points.hemNCp2, points.hemKCp1U, points.hemK)
@@ -49,7 +49,7 @@ export const backPanel = {
     }
 
     const drawSaWaist = () => {
-      if (options.style == 'bell') {
+      if (options.skirtStyle == 'bell') {
         return new Path()
           .move(points.waist6B)
           .curve(points.waist6Cp2B, points.waistEndCp2B, points.waistEndB)
@@ -72,7 +72,7 @@ export const backPanel = {
     if (complete) {
       //grainline
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
-        if (options.style == 'bell') {
+        if (options.skirtStyle == 'bell') {
           points.cutOnFoldFrom = points.waistL
           points.cutOnFoldTo = points.hemL
         } else {
@@ -108,7 +108,7 @@ export const backPanel = {
       let hemFacingEnd
       let hemFacingCp2
       let hemFacingCp1
-      if (options.style == 'bell') {
+      if (options.skirtStyle == 'bell') {
         lineFrom = points.hemL
         lineTo = points.waistL
         if (options.skirtHemFacings) {
@@ -171,7 +171,7 @@ export const backPanel = {
         const pleatLengthUmbrella = store.get('pleatLengthUmbrella')
 
         for (let i = 0; i < options.pleatNumber; i++) {
-          if (options.style == 'bell') {
+          if (options.skirtStyle == 'bell') {
             if (
               pleatKeep + (pleatKeep + pleatLengthBell) * i >
               new Path()
@@ -201,7 +201,7 @@ export const backPanel = {
                 .attr('data-text-class', 'center')
             }
           }
-          if (options.style == 'umbrella') {
+          if (options.skirtStyle == 'umbrella') {
             if (
               pleatKeep + (pleatKeep + pleatLengthUmbrella) * i >
               new Path()

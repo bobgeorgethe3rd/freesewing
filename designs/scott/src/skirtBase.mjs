@@ -29,7 +29,7 @@ export const skirtBase = {
     //Fit
     waistEase: { pct: 5, min: 0, max: 20, menu: 'fit' }, //Altered for Scott
     //Style
-    skirtStyle: { dflt: 'harriet', list: ['claude', 'harriet', 'none'], menu: 'style' },
+    skirtType: { dflt: 'harriet', list: ['claude', 'harriet', 'none'], menu: 'style' },
     waistbandStyle: { dflt: 'none', list: ['none', 'straight', 'curved'], menu: 'style' }, //Altered for Scott
     skirtGatheringMethod: { dflt: 'increase', list: ['increase', 'spread'], menu: 'style' }, //Altered for Scott
     skirtGathering: { pct: 100, min: 0, max: 300, menu: 'style' }, //Altered for Scott
@@ -71,8 +71,8 @@ export const skirtBase = {
       log,
     } = sh
     //draft
-    if (options.skirtStyle != 'none') {
-      if (options.skirtStyle == 'harriet') {
+    if (options.skirtType != 'none') {
+      if (options.skirtType == 'harriet') {
         options.highLow = true
         skirtBaseHarriet.draft(sh)
       } else {

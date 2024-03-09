@@ -16,7 +16,7 @@ export const front = {
     //Fit
     daisyGuides: { bool: false, menu: 'fit' },
     //Style
-    style: { dflt: 'dart', list: ['dart', 'seam'], menu: 'style' },
+    bodiceStyle: { dflt: 'dart', list: ['dart', 'seam'], menu: 'style' },
     frontNeckDepth: { pct: 14.1, min: -6, max: 45, menu: 'style' },
     shoulderWidth: { pct: 50, min: (1 / 3) * 100, max: (2 / 3) * 100, menu: 'style' }, //37.6
     frontNeckCurve: { pct: 100, min: 0, max: 100, menu: 'style' },
@@ -89,13 +89,13 @@ export const front = {
       (store.get('sideWaistFront') + points.waistDartLeft.dist(points.cfWaist)) * 4
     )
 
-    if (options.style == 'dart') {
+    if (options.bodiceStyle == 'dart') {
       frontDaisy.draft(sh)
     } else {
       frontArmholePitch.draft(sh)
     }
 
-    if (options.style == 'dart' && options.daisyGuides) {
+    if (options.bodiceStyle == 'dart' && options.daisyGuides) {
       paths.daisyGuide = paths.seam.clone().attr('class', 'various lashed')
     }
     //let's begin

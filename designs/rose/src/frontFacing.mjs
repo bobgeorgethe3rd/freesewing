@@ -44,7 +44,7 @@ export const frontFacing = {
     const facingWidth = points.shoulder.dist(points.shoulderTop)
     const bustDartAngle = store.get('bustDartAngle')
     //rotate
-    if (options.style == 'seam' || options.bustDartPlacement == 'armholePitch') {
+    if (options.bodiceStyle == 'seam' || options.bustDartPlacement == 'armholePitch') {
       const rot = ['armhole', 'armholeCp2', 'armholePitchCp1']
       for (const p of rot) points[p] = points[p].rotate(bustDartAngle, points.bust)
     }
@@ -106,7 +106,7 @@ export const frontFacing = {
       if (sa) {
         const bodiceFacingHem = sa * options.bodiceFacingHemWidth * 100
 
-        if (options.style == 'seam' || options.bustDartPlacement == 'armholePitch') {
+        if (options.bodiceStyle == 'seam' || options.bustDartPlacement == 'armholePitch') {
           const rot = ['saArmholeCorner', 'saArmhole', 'saArmholeCp2', 'saArmholePitchCp1']
           for (const p of rot) points[p] = points[p].rotate(bustDartAngle, points.bust)
         }

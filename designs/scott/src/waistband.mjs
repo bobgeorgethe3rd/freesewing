@@ -41,7 +41,7 @@ export const waistband = {
       log,
     } = sh
     //draft
-    if (options.skirtStyle == 'none' || options.waistbandStyle == 'none') {
+    if (options.skirtType == 'none' || options.waistbandStyle == 'none') {
       part.hide()
       return part
     } else {

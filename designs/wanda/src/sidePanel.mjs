@@ -50,11 +50,11 @@ export const sidePanel = {
 
     let waist3Left
     let waist3LeftCp1
-    if (options.style == 'straight') {
+    if (options.skirtStyle == 'straight') {
       waist3Left = points.waist3LeftS
       waist3LeftCp1 = points.waist3LeftCp1
     } else {
-      if (options.style == 'umbrella') {
+      if (options.skirtStyle == 'umbrella') {
         waist3Left = points.waist6
         waist3LeftCp1 = points.waist3LeftCp1U
       } else {
@@ -98,7 +98,7 @@ export const sidePanel = {
       if (
         options.closurePosition != 'back' &&
         options.cbSaWidth == 0 &&
-        options.style == 'straight' &&
+        options.skirtStyle == 'straight' &&
         options.sideDart == 'dart'
       ) {
         points.cutOnFoldFrom = points.waist3LeftS
@@ -140,12 +140,12 @@ export const sidePanel = {
           .line(points.waist3Right)
           .attr('class', 'fabric help')
 
-        if (options.style == 'straight') {
+        if (options.skirtStyle == 'straight') {
           titleName = 'Back Panel'
         } else titleName = 'Side Panel'
       } else {
         titleNum = '2a'
-        if (options.style == 'straight') {
+        if (options.skirtStyle == 'straight') {
           titleName = 'Back Panel A'
         } else titleName = 'Side Panel A'
       }
@@ -210,7 +210,7 @@ export const sidePanel = {
           .hide()
 
         for (let i = 0; i < options.pleatNumber; i++) {
-          if (options.style == 'straight') {
+          if (options.skirtStyle == 'straight') {
             paths['pleatFromS' + i] = new Path()
               .move(points['pleatFromTopS' + i])
               .line(points['pleatFromBottomS' + i])
@@ -225,7 +225,7 @@ export const sidePanel = {
               .attr('data-text', 'Pleat. Fold - To')
               .attr('data-text-class', 'center')
           }
-          if (options.style == 'bell') {
+          if (options.skirtStyle == 'bell') {
             if (pleatKeep + (pleatKeep + pleatLengthBell) * i < paths.pleatLine.length()) {
               paths['pleatFromB' + i] = new Path()
                 .move(points['pleatFromTopB' + i])
@@ -243,7 +243,7 @@ export const sidePanel = {
                 .attr('data-text-class', 'center')
             }
           }
-          if (options.style == 'umbrella') {
+          if (options.skirtStyle == 'umbrella') {
             if (pleatKeep + (pleatKeep + pleatLengthUmbrella) * i < paths.pleatLine.length()) {
               paths['pleatFromU' + i] = new Path()
                 .move(points['pleatFromTopU' + i])
@@ -267,10 +267,10 @@ export const sidePanel = {
       if (sa) {
         const closureSa = sa * options.closureSaWidth * 100
         let cbSa
-        if (options.closurePosition == 'back' && options.style == 'straight') {
+        if (options.closurePosition == 'back' && options.skirtStyle == 'straight') {
           cbSa = closureSa
         } else {
-          if (options.style == 'straight') {
+          if (options.skirtStyle == 'straight') {
             cbSa = sa * options.cbSaWidth * 100
           } else {
             cbSa = sa

@@ -41,11 +41,11 @@ export const sidePanelB = {
     //let's begin
     let waist3Left
     let waist3LeftCp1
-    if (options.style == 'straight') {
+    if (options.skirtStyle == 'straight') {
       waist3Left = points.waist3LeftS
       waist3LeftCp1 = points.waist3LeftCp1
     } else {
-      if (options.style == 'umbrella') {
+      if (options.skirtStyle == 'umbrella') {
         waist3Left = points.waist6
         waist3LeftCp1 = points.waist3LeftCp1U
       } else {
@@ -55,7 +55,7 @@ export const sidePanelB = {
     }
 
     const drawHemBase = () => {
-      if (options.style == 'straight') {
+      if (options.skirtStyle == 'straight') {
         return new Path()
           .move(points.crossHemS)
           .line(points.hemKS)
@@ -76,7 +76,7 @@ export const sidePanelB = {
       .hide()
 
     const drawSeamRight = () => {
-      if (options.style == 'straight') {
+      if (options.skirtStyle == 'straight') {
         return new Path()
           .move(points.waist3Right)
           .curve(points.waist3RightCp2, points.waist3LeftCp1, points.waist3LeftS)
@@ -102,13 +102,13 @@ export const sidePanelB = {
         to: points.hemF.rotate(-90, points.grainlineTo),
       })
       //notches
-      if (options.style == 'straight') {
+      if (options.skirtStyle == 'straight') {
         points.crossNotch = paths.cross.shiftFractionAlong(0.4)
         snippets.crossNotch = new Snippet('bnotch', points.crossNotch)
       }
       //title
       let titleName
-      if (options.style == 'straight') {
+      if (options.skirtStyle == 'straight') {
         titleName = 'Back Panel B'
       } else {
         titleName = 'Side Panel B'
@@ -126,7 +126,7 @@ export const sidePanelB = {
       })
       //facings
       const drawHemFacing = () => {
-        if (options.style == 'straight') {
+        if (options.skirtStyle == 'straight') {
           return new Path()
             .move(points.crossHemFacingS)
             .line(points.hemFacingKS)
@@ -157,7 +157,7 @@ export const sidePanelB = {
           .hide()
 
         for (let i = 0; i < options.pleatNumber; i++) {
-          if (options.style == 'straight') {
+          if (options.skirtStyle == 'straight') {
             paths['pleatFromS' + i] = new Path()
               .move(points['pleatFromTopS' + i])
               .line(points['pleatFromBottomS' + i])
@@ -172,7 +172,7 @@ export const sidePanelB = {
               .attr('data-text', 'Pleat. Fold - To')
               .attr('data-text-class', 'center')
           }
-          if (options.style == 'bell') {
+          if (options.skirtStyle == 'bell') {
             if (pleatKeep + (pleatKeep + pleatLengthBell) * i < paths.pleatLine.length()) {
               paths['pleatFromB' + i] = new Path()
                 .move(points['pleatFromTopB' + i])
@@ -190,7 +190,7 @@ export const sidePanelB = {
                 .attr('data-text-class', 'center')
             }
           }
-          if (options.style == 'umbrella') {
+          if (options.skirtStyle == 'umbrella') {
             if (pleatKeep + (pleatKeep + pleatLengthUmbrella) * i < paths.pleatLine.length()) {
               paths['pleatFromU' + i] = new Path()
                 .move(points['pleatFromTopU' + i])
@@ -232,7 +232,7 @@ export const sidePanelB = {
         }
 
         const drawSaBase = () => {
-          if (options.style == 'straight') {
+          if (options.skirtStyle == 'straight') {
             return new Path()
               .move(points.hemF)
               .line(points.dartTipF)

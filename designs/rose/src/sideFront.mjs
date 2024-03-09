@@ -33,7 +33,7 @@ export const sideFront = {
       log,
     } = sh
 
-    if (options.style == 'seam') {
+    if (options.bodiceStyle == 'seam') {
       sideFrontArmholePitch.draft(sh)
     } else {
       part.hide()

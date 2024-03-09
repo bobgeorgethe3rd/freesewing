@@ -38,8 +38,8 @@ export const skirtFront = {
       log,
     } = sh
     //draft
-    if (options.skirtStyle != 'none') {
-      if (options.skirtStyle == 'harriet') {
+    if (options.skirtType != 'none') {
+      if (options.skirtType == 'harriet') {
         skirtFrontDaisy.draft(sh)
       } else {
         skirtFrontClaude.draft(sh)

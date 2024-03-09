@@ -45,7 +45,7 @@ export const placket = {
     }
     const backPlacketLength = store.get('backPlacketLength')
     let length = backPlacketLength
-    if (options.waistbandStyle == 'none' && options.skirtStyle != 'none') {
+    if (options.waistbandStyle == 'none' && options.skirtType != 'none') {
       length = length + store.get('skirtLength')
     }
     //let's begin
@@ -72,7 +72,7 @@ export const placket = {
         to: points.grainlineTo,
       })
       //notches
-      if (options.waistbandStyle == 'none' && options.skirtStyle != 'none') {
+      if (options.waistbandStyle == 'none' && options.skirtType != 'none') {
         points.waistLeftNotch = points.topLeft.shift(-90, backPlacketLength)
         points.waistRightNotch = new Point(points.topRight.x, points.waistLeftNotch.y)
         macro('sprinkle', {
@@ -112,7 +112,7 @@ export const placket = {
           -absoluteOptions.placketWidth * 0.5,
           buttonholeStart
         )
-        if (options.waistbandStyle == 'none' && options.skirtStyle != 'none') {
+        if (options.waistbandStyle == 'none' && options.skirtType != 'none') {
           points.bodiceButtonholeEnd = points.bodiceButtonholeStart.shift(
             -90,
             backPlacketLength - buttonholeStart

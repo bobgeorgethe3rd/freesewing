@@ -39,11 +39,11 @@ export const sidePanel = {
     //let's begin
     let waist3Left
     let waist3LeftCp1
-    if (options.style == 'straight') {
+    if (options.skirtStyle == 'straight') {
       waist3Left = points.waist3LeftS
       waist3LeftCp1 = points.waist3LeftCp1
     } else {
-      if (options.style == 'umbrella') {
+      if (options.skirtStyle == 'umbrella') {
         waist3Left = points.waist6
         waist3LeftCp1 = points.waist3LeftCp1U
       } else {
@@ -54,7 +54,7 @@ export const sidePanel = {
 
     const drawHemBase = () => {
       if (options.sideDart == 'dart') {
-        if (options.style == 'straight') {
+        if (options.skirtStyle == 'straight') {
           return new Path()
             .move(points.crossHemS)
             .line(points.hemKS)
@@ -105,7 +105,7 @@ export const sidePanel = {
 
     const drawSeamLeft = () => {
       if (options.sideDart == 'dart') {
-        if (options.style == 'straight') {
+        if (options.skirtStyle == 'straight') {
           return paths.dartLeft.join(paths.saWaistLeft).join(paths.cross).line(points.crossHemS)
         } else {
           return paths.dartLeft.join(paths.saWaistLeft).line(points.hemK)
@@ -144,7 +144,7 @@ export const sidePanel = {
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],
         })
       }
-      if (options.style == 'straight') {
+      if (options.skirtStyle == 'straight') {
         points.crossNotch = paths.cross.shiftFractionAlong(0.5)
         snippets.crossNotch = new Snippet('bnotch', points.crossNotch)
       }
@@ -160,12 +160,12 @@ export const sidePanel = {
           .line(points.waist3Right)
           .attr('class', 'fabric help')
 
-        if (options.style == 'straight') {
+        if (options.skirtStyle == 'straight') {
           titleName = 'Back Panel'
         } else titleName = 'Side Panel'
       } else {
         titleNum = '4a'
-        if (options.style == 'straight') {
+        if (options.skirtStyle == 'straight') {
           titleName = 'Back Panel A'
         } else titleName = 'Side Panel A'
       }
@@ -185,7 +185,7 @@ export const sidePanel = {
       //facings
       const drawHemFacing = () => {
         if (options.sideDart == 'dart') {
-          if (options.style == 'straight') {
+          if (options.skirtStyle == 'straight') {
             return new Path()
               .move(points.crossHemFacingS)
               .line(points.hemFacingKS)
@@ -238,7 +238,7 @@ export const sidePanel = {
           .hide()
 
         for (let i = 0; i < options.pleatNumber; i++) {
-          if (options.style == 'straight') {
+          if (options.skirtStyle == 'straight') {
             paths['pleatFromS' + i] = new Path()
               .move(points['pleatFromTopS' + i])
               .line(points['pleatFromBottomS' + i])
@@ -253,7 +253,7 @@ export const sidePanel = {
               .attr('data-text', 'Pleat. Fold - To')
               .attr('data-text-class', 'center')
           }
-          if (options.style == 'bell') {
+          if (options.skirtStyle == 'bell') {
             if (pleatKeep + (pleatKeep + pleatLengthBell) * i < paths.pleatLine.length()) {
               paths['pleatFromB' + i] = new Path()
                 .move(points['pleatFromTopB' + i])
@@ -271,7 +271,7 @@ export const sidePanel = {
                 .attr('data-text-class', 'center')
             }
           }
-          if (options.style == 'umbrella') {
+          if (options.skirtStyle == 'umbrella') {
             if (pleatKeep + (pleatKeep + pleatLengthUmbrella) * i < paths.pleatLine.length()) {
               paths['pleatFromU' + i] = new Path()
                 .move(points['pleatFromTopU' + i])
@@ -295,7 +295,7 @@ export const sidePanel = {
       if (sa) {
         let crossSeamSa = sa
         let inseamSa = sa
-        if (options.style == 'straight') {
+        if (options.skirtStyle == 'straight') {
           crossSeamSa = sa * options.crossSeamSaWidth * 100
           inseamSa = sa * options.inseamSaWidth * 100
         }
@@ -375,7 +375,7 @@ export const sidePanel = {
 
         const drawSaBase = () => {
           if (options.sideDart == 'dart') {
-            if (options.style == 'straight') {
+            if (options.skirtStyle == 'straight') {
               return new Path()
                 .move(paths.saWaistRight.offset(sa).end())
                 .line(points.saDartTopF)

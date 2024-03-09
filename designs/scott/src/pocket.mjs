@@ -35,7 +35,7 @@ export const pocket = {
       log,
     } = sh
     //draft
-    if (options.skirtStyle == 'none' || !options.pocketsBool) {
+    if (options.skirtType == 'none' || !options.pocketsBool) {
       part.hide()
       return part
     } else {
