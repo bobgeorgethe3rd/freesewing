@@ -9,7 +9,8 @@ export const frontPocketBag = {
   },
   options: {
     //Pockets
-    frontPocketDepth: { pct: 11.5, min: 0, max: 15, menu: 'pockets.frontPockets' },
+    frontPocketBottomPlateau: { pct: 25, min: 0, max: 50, menu: 'pockets.frontPockets' },
+    frontPocketDepth: { pct: 35, min: 0, max: 50, menu: 'pockets.frontPockets' }, //11.5
     //Construction
     frontPocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
@@ -67,9 +68,13 @@ export const frontPocketBag = {
       points.frontPocketBottomAnchor,
       0.15
     )
-    points.frontPocketBottomMidCp1 = points.frontPocketBottomMid.shift(
+    points.frontPocketBottomCurveEnd = points.frontPocketBottomMid.shift(
       points.waistIn.angle(points.waistOut),
-      points.frontPocketBottomAnchor.dist(points.frontPocketOutCp2)
+      points.frontPocketBottomAnchor.dist(points.frontPocketOut) * options.frontPocketBottomPlateau
+    )
+    points.frontPocketBottomCurveEndCp1 = points.frontPocketBottomMid.shift(
+      points.waistIn.angle(points.waistOut),
+      points.frontPocketBottomAnchor.dist(points.frontPocketOut)
     )
     //draw guides
     const drawOutseam = () => {
@@ -104,7 +109,12 @@ export const frontPocketBag = {
 
     paths.bottom = new Path()
       .move(points.frontPocketOut)
-      .curve(points.frontPocketOutCp2, points.frontPocketBottomMidCp1, points.frontPocketBottomMid)
+      .curve(
+        points.frontPocketOutCp2,
+        points.frontPocketBottomCurveEndCp1,
+        points.frontPocketBottomCurveEnd
+      )
+      .line(points.frontPocketBottomMid)
       .hide()
 
     macro('mirror', {
@@ -175,27 +185,47 @@ export const frontPocketBag = {
       const sideSeamSa = sa * options.sideSeamSaWidth * 100
       const frontPocketBagSa = sa * options.frontPocketBagSaWidth * 100
 
-      points.saFrontPocketOut = utils.beamsIntersect(
-        paths.outSeam.offset(sideSeamSa).end(),
-        paths.outSeam.offset(sideSeamSa).shiftFractionAlong(0.99),
-        points.frontPocketOut
-          .shiftTowards(points.frontPocketOutCp2, frontPocketBagSa)
-          .rotate(-90, points.frontPocketOut),
-        points.frontPocketOutCp2
-          .shiftTowards(points.frontPocketOut, frontPocketBagSa)
-          .rotate(90, points.frontPocketOutCp2)
+      ;(points.saFrontPocketOut = paths.outSeam.offset(sideSeamSa).end()),
+        (points.saFrontPocketOut = points.frontPocketOut
+          .shift(points.waistIn.angle(points.waistOut), frontPocketBagSa)
+          .shift(points.waistIn.angle(points.waistOut) + 90, frontPocketBagSa))
+
+      points.saFrontPocketOutCp2 = points.frontPocketOutCp2
+        .shift(points.waistIn.angle(points.waistOut), frontPocketBagSa)
+        .shift(points.waistIn.angle(points.waistOut) + 90, frontPocketBagSa)
+
+      points.saFrontPocketBottomCurveEndCp1 = points.frontPocketBottomCurveEndCp1
+        .shift(points.waistIn.angle(points.waistOut), frontPocketBagSa)
+        .shift(points.waistIn.angle(points.waistOut) + 90, frontPocketBagSa)
+
+      points.saFrontPocketBottomCurveEnd = points.frontPocketBottomCurveEnd.shift(
+        points.waistIn.angle(points.waistOut) + 90,
+        frontPocketBagSa
       )
+
+      points.saFrontPocketBottomMid = points.frontPocketBottomMid.shift(
+        points.waistIn.angle(points.waistOut) + 90,
+        frontPocketBagSa
+      )
+
+      paths.saBottom = new Path()
+        .move(points.saFrontPocketOut)
+        .curve(
+          points.saFrontPocketOutCp2,
+          points.saFrontPocketBottomCurveEndCp1,
+          points.saFrontPocketBottomCurveEnd
+        )
+        .hide()
 
       macro('mirror', {
         mirror: [points.frontPocketWaist, points.frontPocketBottomAnchor],
-        points: ['saFrontPocketOut', 'saWaistOut'],
+        points: ['saWaistOut'],
+        paths: ['saBottom'],
         prefix: 'm',
       })
 
-      paths.sa = paths.bottom
-        .join(paths.mBottom.reverse())
-        .offset(frontPocketBagSa)
-        .line(points.mSaFrontPocketOut)
+      paths.sa = paths.saBottom
+        .join(paths.mSaBottom.reverse())
         .join(paths.mOutSeamM.reverse().offset(sideSeamSa))
         .line(points.mSaWaistOut)
         .line(points.saFrontPocketOpeningWaist)
