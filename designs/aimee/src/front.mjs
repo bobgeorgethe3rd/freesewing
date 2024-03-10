@@ -333,7 +333,7 @@ export const front = {
         snippets.bodiceSleeveBottomMin = new Snippet('notch', points.bodiceSleeveBottomMin)
       }
       //title
-      points.title = new Point(points.armhole.x * 0.4, points.title.y)
+      points.title = new Point(points.armhole.x * 0.35, points.title.y)
       macro('title', {
         at: points.title,
         nr: '1',
@@ -341,7 +341,7 @@ export const front = {
         scale: 2 / 3,
       })
       //scalebox
-      points.scalebox = new Point(points.title.x * 1.05, (points.bust.y * 3) / 4)
+      points.scalebox = new Point(points.title.x * 1.15, (points.bust.y * 3) / 4)
       macro('scalebox', {
         at: points.scalebox,
       })
