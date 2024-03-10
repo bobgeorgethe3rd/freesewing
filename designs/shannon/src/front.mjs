@@ -340,7 +340,7 @@ export const front = {
 
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.hps.x * 0.75, points.cfNeck.y)
+      points.grainlineFrom = new Point(points.hps.x * 0.5, points.cfNeck.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
       macro('grainline', {
         from: points.grainlineFrom,
@@ -362,14 +362,7 @@ export const front = {
       )
       macro('sprinkle', {
         snippet: 'notch',
-        on: [
-          'cfNeckOpening',
-          'cfChest',
-          'bust',
-          'underArmCurveStart',
-          'neckTieTop0',
-          'neckTieTop1',
-        ],
+        on: ['cfNeckOpening', 'cfChest', 'underArmCurveStart', 'neckTieTop0', 'neckTieTop1'],
       })
       macro('sprinkle', {
         snippet: 'bnotch',
@@ -401,7 +394,7 @@ export const front = {
         at: points.title,
         nr: '1',
         title: 'Front',
-        scale: 2 / 3,
+        scale: 0.5,
       })
       //logo
       points.logo = points.scalebox
@@ -410,10 +403,7 @@ export const front = {
         scale: 0.5,
       })
       //scalebox
-      points.scalebox = new Point(
-        points.waistDartRight.x,
-        (points.cfChest.y + points.cfWaist.y) / 2
-      )
+      points.scalebox = new Point(points.scalebox.x, (points.cfChest.y + points.cfWaist.y) / 2)
       macro('scalebox', {
         at: points.scalebox,
       })

@@ -184,7 +184,7 @@ export const back = {
     }
     if (complete) {
       //grainline
-      points.grainlineFrom = new Point(points.hps.x * 0.75, points.cbNeck.y)
+      points.grainlineFrom = new Point(points.hps.x * 0.5, points.cbNeck.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.cbHem.y)
       macro('grainline', {
         from: points.grainlineFrom,
@@ -205,7 +205,7 @@ export const back = {
         at: points.title,
         nr: '2',
         title: 'Back',
-        scale: 2 / 3,
+        scale: 0.5,
       })
       if (sa) {
         const hemSa = sa * options.skirtHemWidth * 100
