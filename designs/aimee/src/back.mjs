@@ -56,7 +56,7 @@ export const back = {
     let underArmDelta
     do {
       points.bodiceSleeveBottomMax = points.bodiceSleeveTopMax.shift(
-        points.shoulderRise.angle(points.hps) * underArmTweak,
+        (points.shoulderRise.angle(points.hps) + 90) * underArmTweak,
         store.get('wrist') / 2
       )
       underArmDelta =
