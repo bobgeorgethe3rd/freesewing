@@ -184,10 +184,21 @@ export const spreadSleeveCap = ({
       points.bottomLeft,
       points.bottomLeftCp2Target
     )
-    points.bottomRightCp1 = points.bottomLeftCp2.flipX(points.bottomAnchor)
+    points.bottomRightCp1Target = utils.beamsIntersect(
+      points.bottomRight,
+      points.bottomRight.shift(points.sleeveCapRight.angle(points.capQ1Cp1), 1),
+      points.topAnchor,
+      points.bottomAnchor.rotate(spreadAngle / 5, points.topAnchor)
+    )
+    points.bottomRightCp1 = utils.beamsIntersect(
+      points.bottomMid,
+      points.bottomMid.shift(0, 1),
+      points.bottomRight,
+      points.bottomRightCp1Target
+    )
   }
   points.bottomMidCp1 = points.bottomMid.shiftFractionTowards(points.bottomLeftCp2, 0.1)
-  points.bottomMidCp2 = points.bottomMidCp1.flipX(points.bottomAnchor)
+  points.bottomMidCp2 = points.bottomMid.shiftFractionTowards(points.bottomRightCp1, 0.1)
 
   if (utils.pointOnLine(points.sleeveCapLeft, points.bottomLeft, points.capQ4BottomR)) {
     paths.hemBaseLeft = new Path()
