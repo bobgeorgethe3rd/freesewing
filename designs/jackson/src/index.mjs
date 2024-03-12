@@ -10,6 +10,7 @@ import { yokeBack } from './yokeBack.mjs'
 import { frontBase } from './frontBase.mjs'
 import { front } from './front.mjs'
 import { frontPocketFacing } from './frontPocketFacing.mjs'
+import { frontPocketFacingB } from './frontPocketFacingB.mjs'
 import { coinPocket } from './coinPocket.mjs'
 import { frontPocketBag } from './frontPocketBag.mjs'
 import { fly } from './fly.mjs'
@@ -30,6 +31,7 @@ const Jackson = new Design({
     frontBase,
     front,
     frontPocketFacing,
+    frontPocketFacingB,
     coinPocket,
     frontPocketBag,
     fly,
@@ -50,6 +52,7 @@ export {
   frontBase,
   front,
   frontPocketFacing,
+  frontPocketFacingB,
   coinPocket,
   frontPocketBag,
   fly,
