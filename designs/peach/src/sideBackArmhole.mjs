@@ -56,16 +56,16 @@ export const sideBackArmhole = {
       }
     }
 
-    points.dartBottomRightCp = points.dartTip
+    points.dartBottomRightCp1 = points.dartTip
 
     let tweak = 1
     let delta
     do {
-      points.armholeSplitCp = points.armholeSplit.shiftFractionTowards(points.dartTip, tweak)
+      points.armholeSplitCp2 = points.armholeSplit.shiftFractionTowards(points.dartTip, tweak)
 
       paths.princessSeam = new Path()
         .move(points.armholeSplit)
-        .curve(points.armholeSplitCp, points.dartBottomRightCp, points.dartBottomRight)
+        .curve(points.armholeSplitCp2, points.dartBottomRightCp1, points.dartBottomRight)
         .hide()
 
       delta = paths.princessSeam.length() - store.get('princessSeamBackLengthA')
@@ -114,6 +114,7 @@ export const sideBackArmhole = {
       })
       if (sa) {
         const princessSa = sa * options.princessSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
 
         points.saDartBottomRight = utils.beamsIntersect(
           points.dartBottomRight
@@ -128,39 +129,35 @@ export const sideBackArmhole = {
           points.sideWaist.shiftTowards(points.dartBottomRight, sa).rotate(90, points.sideWaist)
         )
 
-        paths.saArmhole = new Path()
-          .move(points.saArmhole)
-          .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-          .curve_(points.saArmholePitchCp2, points.saShoulder)
-          .line(points.saShoulderCorner)
-          .hide()
-
-        points.saArmholeSplit = paths.saArmhole.shiftFractionAlong(1 - options.bustDartFraction)
-
-        if (options.bustDartFraction > 0.01 && options.bustDartFraction < 0.996) {
-          paths.saArmhole = paths.saArmhole.split(points.saArmholeSplit)[0].hide()
+        if (options.bustDartFraction < 0.997) {
+          paths.saArmhole = paths.armhole.offset(armholeSa).hide()
         } else {
-          if (options.bustDartFraction >= 0.996) {
-            points.saArmholeSplit = points.saArmholeCorner
-            paths.saArmhole = new Path().move(points.saArmhole).line(points.saArmholeSplit).hide()
-          }
+          paths.saArmhole = new Path()
+            .move(points.saArmholeCorner)
+            .line(points.saArmholeCorner)
+            .hide()
         }
 
-        points.saPrincessSeamStart = paths.princessSeam.offset(princessSa).start()
-        points.saPrincessSeamStartCorner = points.saPrincessSeamStart
-          .shiftTowards(points.armholeSplit, sa)
-          .rotate(90, points.saPrincessSeamStart)
-
-        if (points.saPrincessSeamStartCorner.x > points.saArmholeSplit.x) {
-          points.saPrincessSeamStartCorner = points.saArmholeSplit
-        }
+        points.saPrincessSeamStart = paths.princessSeam
+          .offset(princessSa)
+          .start()
+          .shift(
+            points.armholeSplitCp2.angle(points.armholeSplit),
+            sa * (1 - options.bustDartFraction)
+          )
+        points.saArmholeSplit = paths.saArmhole
+          .end()
+          .shift(
+            points.armholeSplit.angle(paths.saArmhole.end()) + 90,
+            sa * (1 - options.bustDartFraction)
+          )
 
         paths.sa = new Path()
           .move(points.saDartBottomRight)
           .line(points.saSideWaist)
           .line(points.saArmholeCorner)
           .join(paths.saArmhole)
-          .line(points.saPrincessSeamStartCorner)
+          .line(points.saArmholeSplit)
           .line(points.saPrincessSeamStart)
           .join(paths.princessSeam.offset(princessSa))
           .line(points.saDartBottomRight)

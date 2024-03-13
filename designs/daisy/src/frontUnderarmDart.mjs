@@ -207,8 +207,8 @@ export const frontUnderarmDart = ({
       )
 
       points.saArmholeCorner = utils.beamsIntersect(
-        points.saArmholeCp2,
-        points.saArmhole,
+        points.armhole.shiftTowards(points.armholeCp2, armholeSa).rotate(-90, points.armhole),
+        points.armholeCp2.shiftTowards(points.armhole, armholeSa).rotate(90, points.armholeCp2),
         points.armhole.shiftTowards(points.sideWaistInitial, sideSeamSa).rotate(90, points.armhole),
         points.sideWaistInitial
           .shiftTowards(points.armhole, sideSeamSa)
@@ -241,9 +241,7 @@ export const frontUnderarmDart = ({
         .line(points.saBustDartEdge)
         .line(points.saBustDartTop)
         .line(points.saArmholeCorner)
-        .line(points.saArmhole)
-        .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-        .curve_(points.saArmholePitchCp2, points.saShoulder)
+        .join(paths.armhole.offset(armholeSa))
         .line(points.saShoulderCorner)
         .line(points.saHps)
         .line(paths.cfNeck.offset(neckSa).start())

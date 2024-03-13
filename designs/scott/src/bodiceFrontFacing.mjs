@@ -161,18 +161,8 @@ export const bodiceFrontFacing = {
         scale: 1 / 3,
       })
       if (sa) {
-        const rot = [
-          'saArmhole',
-          'saArmholeCp2',
-          'saArmholePitchCp1',
-          'saArmholePitch',
-          'saArmholePitchCp2',
-          'saShoulder',
-          'saShoulderCorner',
-        ]
-        for (const p of rot) points[p] = points[p].rotate(bustDartAngle, points.bust)
-
         const bodiceFacingHemSa = sa * options.bodiceFacingHemSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
 
         let cfSa
         if (options.closurePosition == 'front') {
@@ -181,6 +171,8 @@ export const bodiceFrontFacing = {
           cfSa = sa * options.cfSaWidth * 100
         }
         points.saFacingCorner = points.facingCorner.translate(bodiceFacingHemSa, bodiceFacingHemSa)
+
+        points.saShoulderCorner = points.saShoulderCorner.rotate(bustDartAngle, points.bust)
 
         points.saShoulderFacing = utils.beamIntersectsX(
           points.saShoulderCorner,
@@ -208,8 +200,8 @@ export const bodiceFrontFacing = {
         points.saArmholeCorner = utils.beamsIntersect(
           points.saSideFacing,
           points.saSideFacing.shift(points.sideFacing.angle(points.armhole), 1),
-          points.saArmholeCp2,
-          points.saArmhole
+          points.armhole.shiftTowards(points.armholeCp2, armholeSa).rotate(-90, points.armhole),
+          points.armholeCp2.shiftTowards(points.armhole, armholeSa).rotate(90, points.armholeCp2)
         )
 
         points.saCfTop = points.cfTop.shift(180, cfSa)
@@ -226,9 +218,13 @@ export const bodiceFrontFacing = {
               .offset(bodiceFacingHemSa)
               .line(points.saSideFacing)
               .line(points.saArmholeCorner)
-              .line(points.saArmhole)
-              .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-              ._curve(points.saArmholePitchCp2, points.saShoulder)
+              .join(
+                new Path()
+                  .move(points.armhole)
+                  .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+                  .curve_(points.armholePitchCp2, points.shoulder)
+                  .offset(armholeSa)
+              )
               .line(points.saShoulderCorner)
           }
         }

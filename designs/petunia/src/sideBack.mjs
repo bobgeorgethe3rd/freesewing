@@ -50,6 +50,12 @@ export const sideBack = {
       .curve(points.sideWaist, points.sideWaist, points.armhole)
       .hide()
 
+    paths.armhole = new Path()
+      .move(points.armhole)
+      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+      .curve_(points.armholePitchCp2, points.shoulder)
+      .hide()
+
     paths.saLeft = new Path()
       .move(points.shoulderMid)
       ._curve(points.dartTipCp1, points.dartTip)
@@ -60,8 +66,7 @@ export const sideBack = {
     paths.seam = paths.hemBase
       .clone()
       .join(paths.sideSeam)
-      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-      .curve_(points.armholePitchCp2, points.shoulder)
+      .join(paths.armhole)
       .line(points.shoulderMid)
       .join(paths.saLeft)
       .close()
@@ -146,9 +151,7 @@ export const sideBack = {
           .line(points.saSideHemRight)
           .join(paths.sideSeam.offset(sideSeamSa))
           .line(points.saArmholeCorner)
-          .line(points.saArmhole)
-          .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-          .curve_(points.saArmholePitchCp2, points.saShoulder)
+          .join(paths.armhole.offset(sa * options.armholeSaWidth * 100))
           .line(points.saShoulderCorner)
           .line(points.saShoulderMid)
           .join(paths.saLeft.offset(sa))

@@ -41,16 +41,16 @@ export const sideBackArmholePitch = {
         .attr('class', 'various lashed')
     }
     //let's begin
-    points.dartBottomRightCp = points.dartTip
+    points.dartBottomRightCp1 = points.dartTip
 
     let tweak = 1
     let delta
     do {
-      points.armholePitchCp3 = points.armholePitch.shiftFractionTowards(points.dartTip, tweak)
+      points.armholePitchCp2 = points.armholePitch.shiftFractionTowards(points.dartTip, tweak)
 
       paths.princessSeam = new Path()
         .move(points.armholePitch)
-        .curve(points.armholePitchCp3, points.dartBottomRightCp, points.dartBottomRight)
+        .curve(points.armholePitchCp2, points.dartBottomRightCp1, points.dartBottomRight)
         .hide()
 
       delta = paths.princessSeam.length() - store.get('princessSeamBackLengthAP')
@@ -118,10 +118,13 @@ export const sideBackArmholePitch = {
           points.sideWaist.shiftTowards(points.dartBottomRight, sa).rotate(90, points.sideWaist)
         )
 
-        points.saArmholeBottomEnd = points.saArmholePitchCp1.shiftOutwards(
-          points.saArmholePitch,
-          sa
-        )
+        points.saArmholeBottomEnd = points.armholePitch
+          .shift(points.armholePitchCp1.angle(points.armholePitch), sa)
+          .shift(
+            points.armholePitchCp1.angle(points.armholePitch) - 90,
+            sa * options.armholeSaWidth * 100
+          )
+
         points.saPrincessSeamStart = paths.princessSeam.offset(princessSa).start()
 
         points.saPrincessSeamStartCorner = points.saPrincessSeamStart
@@ -132,8 +135,7 @@ export const sideBackArmholePitch = {
           .move(points.saDartBottomRight)
           .line(points.saSideWaist)
           .line(points.saArmholeCorner)
-          .line(points.saArmhole)
-          .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
+          .join(paths.armhole.offset(sa * options.armholeSaWidth * 100))
           .line(points.saArmholeBottomEnd)
           .line(points.saPrincessSeamStartCorner)
           .line(points.saPrincessSeamStart)

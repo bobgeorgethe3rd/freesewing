@@ -42,15 +42,15 @@ export const backShoulder = {
       points.shoulder,
       options.bustDartFraction
     )
-    points.dartBottomLeftCp = points.dartTip
-    points.shoulderSplitCp = points.dartTip
+    points.dartBottomLeftCp2 = points.dartTip
+    points.shoulderSplitCp1 = points.dartTip
 
     //paths
     paths.waist = new Path().move(points.cbWaist).line(points.dartBottomLeft).hide()
 
     paths.princessSeam = new Path()
       .move(points.dartBottomLeft)
-      .curve(points.dartBottomLeftCp, points.shoulderSplitCp, points.shoulderSplit)
+      .curve(points.dartBottomLeftCp2, points.shoulderSplitCp1, points.shoulderSplit)
       .hide()
 
     paths.shoulder = new Path().move(points.shoulderSplit).line(points.hps).hide()

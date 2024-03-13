@@ -38,15 +38,15 @@ export const backArmholePitch = {
         .attr('class', 'various lashed')
     }
     //let's begin
-    points.dartBottomLeftCp = points.dartTip
-    points.armholePitchCp3 = points.dartTip
+    points.dartBottomLeftCp2 = points.dartTip
+    points.armholePitchCp1 = points.dartTip
 
     //paths
     paths.waist = new Path().move(points.cbWaist).line(points.dartBottomLeft).hide()
 
     paths.princessSeam = new Path()
       .move(points.dartBottomLeft)
-      .curve(points.dartBottomLeftCp, points.armholePitchCp3, points.armholePitch)
+      .curve(points.dartBottomLeftCp2, points.armholePitchCp1, points.armholePitch)
       .hide()
 
     paths.armhole = new Path()
@@ -121,8 +121,7 @@ export const backArmholePitch = {
           .line(points.saDartBottomLeft)
           .line(paths.princessSeam.offset(princessSa).start())
           .join(paths.princessSeam.offset(princessSa))
-          .line(points.saArmholePitch)
-          .curve_(points.saArmholePitchCp2, points.saShoulder)
+          .join(paths.armhole.offset(sa * options.armholeSaWidth * 100))
           .line(points.saShoulderCorner)
           .line(points.saHps)
           .line(paths.cbNeck.offset(neckSa).start())

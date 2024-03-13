@@ -55,15 +55,15 @@ export const backArmhole = {
       }
     }
 
-    points.dartBottomLeftCp = points.dartTip
-    points.armholeSplitCp = points.dartTip
+    points.dartBottomLeftCp2 = points.dartTip
+    points.armholeSplitCpCp1 = points.dartTip
 
     //paths
     paths.waist = new Path().move(points.cbWaist).line(points.dartBottomLeft).hide()
 
     paths.princessSeam = new Path()
       .move(points.dartBottomLeft)
-      .curve(points.dartBottomLeftCp, points.armholeSplitCp, points.armholeSplit)
+      .curve(points.dartBottomLeftCp2, points.armholeSplitCpCp1, points.armholeSplit)
       .hide()
 
     paths.shoulder = new Path().move(points.shoulder).line(points.hps).hide()
@@ -118,6 +118,7 @@ export const backArmhole = {
       if (sa) {
         const princessSa = sa * options.princessSaWidth * 100
         const neckSa = sa * options.neckSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
 
         points.saDartBottomLeft = utils.beamsIntersect(
           points.cbWaist.shiftTowards(points.dartBottomLeft, sa).rotate(-90, points.cbWaist),
@@ -128,17 +129,8 @@ export const backArmhole = {
           points.dartTip.shiftTowards(points.dartBottomLeft, princessSa).rotate(90, points.dartTip)
         )
 
-        paths.saArmhole = new Path()
-          .move(points.saArmhole)
-          .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-          .curve_(points.saArmholePitchCp2, points.saShoulder)
-          .line(points.saShoulderCorner)
-          .hide()
-
-        points.saArmholeSplit = paths.saArmhole.shiftFractionAlong(1 - options.bustDartFraction)
-
-        if (options.bustDartFraction > 0.01 && options.bustDartFraction < 0.997) {
-          paths.saArmhole = paths.saArmhole.split(points.saArmholeSplit)[1].hide()
+        if (options.bustDartFraction > 0.01) {
+          paths.saArmhole = paths.armhole.offset(armholeSa).hide()
         } else {
           if (options.bustDartFraction <= 0.01) {
             paths.saArmhole = new Path()

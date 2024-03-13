@@ -1,5 +1,5 @@
 import { back as backDaisy } from '@freesewing/daisy'
-import { front } from './front.mjs'
+import { back } from './back.mjs'
 import { sideBackArmholePitch } from './sideBackArmholePitch.mjs'
 import { sideBackArmhole } from './sideBackArmhole.mjs'
 import { sideBackShoulder } from './sideBackShoulder.mjs'
@@ -8,7 +8,7 @@ import { sideBackBustShoulder } from './sideBackBustShoulder.mjs'
 export const sideBack = {
   name: 'peach.sideBack',
   from: backDaisy,
-  after: front,
+  after: back,
   hide: {
     from: true,
   },

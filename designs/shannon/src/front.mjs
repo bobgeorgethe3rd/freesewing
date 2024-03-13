@@ -463,10 +463,13 @@ export const front = {
               points.hps.shiftTowards(points.shoulder, shoulderSa).rotate(90, points.hps)
             )
             return new Path()
-              .move(points.saRightEnd)
-              .line(points.saArmholeCorner)
-              .line(points.saArmhole)
-              .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitchR)
+              .move(points.saArmholeCorner)
+              .join(
+                new Path()
+                  .move(points.armhole)
+                  .curve(points.armholeCp2, points.armholePitchCp1, points.bustDartBottom)
+                  .offset(armholeSa)
+              )
               .line(points.saBustDartBottom)
               .line(points.saBustDartEdge)
               .join(

@@ -190,9 +190,13 @@ export const backFacing = {
             return new Path()
               .line(points.saSideFacing)
               .line(points.saArmholeCorner)
-              .line(points.saArmhole)
-              .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-              .curve_(points.saArmholePitchCp2, points.saShoulder)
+              .join(
+                new Path()
+                  .move(points.armhole)
+                  .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+                  .curve_(points.armholePitchCp2, points.shoulder)
+                  .offset(sa * options.armholeSaWidth * 100)
+              )
               .line(points.saShoulderCorner)
           }
         }

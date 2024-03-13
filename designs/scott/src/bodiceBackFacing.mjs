@@ -134,6 +134,7 @@ export const bodiceBackFacing = {
       })
       if (sa) {
         const bodiceFacingHemSa = sa * options.bodiceFacingHemSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
 
         let backSa
         if (options.placketStyle == 'none') {
@@ -180,8 +181,8 @@ export const bodiceBackFacing = {
         points.saArmholeCorner = utils.beamsIntersect(
           points.saSideFacing,
           points.saSideFacing.shift(points.sideFacing.angle(points.armhole), 1),
-          points.saArmholeCp2,
-          points.saArmhole
+          points.armhole.shiftTowards(points.armholeCp2, armholeSa).rotate(-90, points.armhole),
+          points.armholeCp2.shiftTowards(points.armhole, armholeSa).rotate(90, points.armholeCp2)
         )
 
         points.saNeckBackCorner = points.neckBackCorner.translate(-sa, -sa)
@@ -200,9 +201,13 @@ export const bodiceBackFacing = {
               .offset(bodiceFacingHemSa)
               .line(points.saSideFacing)
               .line(points.saArmholeCorner)
-              .line(points.saArmhole)
-              .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-              ._curve(points.saArmholePitchCp2, points.saShoulder)
+              .join(
+                new Path()
+                  .move(points.armhole)
+                  .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+                  .curve_(points.armholePitchCp2, points.shoulder)
+                  .offset(sa * options.armholeSaWidth * 100)
+              )
               .line(points.saShoulderCorner)
           }
         }

@@ -235,33 +235,33 @@ export const frontBase = {
         .length()
     )
 
-    if (complete && sa) {
-      const armholeSa = sa * options.armholeSaWidth * 100
-      points.saArmholeCp2 = new Point(
-        points.armholeCp2.shift(45, armholeSa).x,
-        points.armholeCp2.y - armholeSa
-      )
-      points.saArmhole = utils.beamsIntersect(
-        points.bustDartTop,
-        points.armhole,
-        points.saArmholeCp2,
-        points.saArmholeCp2.shift(0, 1)
-      )
-      points.saArmholePitch = points.armholePitch.shift(0, armholeSa)
-      points.saArmholePitchCp1 = utils.beamsIntersect(
-        points.saArmholePitch,
-        points.armholePitch.rotate(-90, points.saArmholePitch),
-        points.armholePitchCp1,
-        points.armholePitchCp1.shift(45, 1)
-      )
-      points.saArmholePitchCp2 = utils.beamsIntersect(
-        points.armholePitchCp2,
-        points.shoulder.rotate(-90, points.armholePitchCp2),
-        points.saArmholePitchCp1,
-        points.saArmholePitch
-      )
-      points.saShoulder = points.hps.shiftOutwards(points.shoulder, armholeSa)
-    }
+    // if (complete && sa) {
+    // const armholeSa = sa * options.armholeSaWidth * 100
+    // points.saArmholeCp2 = new Point(
+    // points.armholeCp2.shift(45, armholeSa).x,
+    // points.armholeCp2.y - armholeSa
+    // )
+    // points.saArmhole = utils.beamsIntersect(
+    // points.bustDartTop,
+    // points.armhole,
+    // points.saArmholeCp2,
+    // points.saArmholeCp2.shift(0, 1)
+    // )
+    // points.saArmholePitch = points.armholePitch.shift(0, armholeSa)
+    // points.saArmholePitchCp1 = utils.beamsIntersect(
+    // points.saArmholePitch,
+    // points.armholePitch.rotate(-90, points.saArmholePitch),
+    // points.armholePitchCp1,
+    // points.armholePitchCp1.shift(45, 1)
+    // )
+    // points.saArmholePitchCp2 = utils.beamsIntersect(
+    // points.armholePitchCp2,
+    // points.shoulder.rotate(-90, points.armholePitchCp2),
+    // points.saArmholePitchCp1,
+    // points.saArmholePitch
+    // )
+    // points.saShoulder = points.hps.shiftOutwards(points.shoulder, armholeSa)
+    // }
 
     return part
   },

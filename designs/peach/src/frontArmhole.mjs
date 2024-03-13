@@ -143,6 +143,7 @@ export const frontArmhole = {
       if (sa) {
         const princessSa = sa * options.princessSaWidth * 100
         const neckSa = sa * options.neckSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
         points.saWaistDartLeft = utils.beamsIntersect(
           points.cfWaist.shiftTowards(points.waistDartLeft, sa).rotate(-90, points.cfWaist),
           points.waistDartLeft.shiftTowards(points.cfWaist, sa).rotate(90, points.waistDartLeft),
@@ -152,17 +153,12 @@ export const frontArmhole = {
           points.bust.shiftTowards(points.waistDartLeft, princessSa).rotate(90, points.bust)
         )
 
-        points.princessEnd = paths.princessSeam.offset(princessSa).end()
+        points.saShoulderCorner = points.shoulder
+          .shift(points.armholePitchCp2.angle(points.shoulder), sa * options.shoulderSaWidth * 100)
+          .shift(points.hps.angle(points.shoulder), armholeSa)
 
-        paths.saArmhole = new Path()
-          .move(points.saArmhole)
-          .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-          .curve_(points.saArmholePitchCp2, points.saShoulder)
-          .line(points.saShoulderCorner)
-          .hide()
-
-        if (options.bustDartFraction > 0.01 && options.bustDartFraction < 0.997) {
-          paths.saArmhole = paths.saArmhole.split(points.saArmholeTopSplit)[1].hide()
+        if (options.bustDartFraction > 0.01) {
+          paths.saArmhole = paths.armhole.offset(armholeSa).hide()
         } else {
           if (options.bustDartFraction <= 0.01) {
             paths.saArmhole = new Path()
@@ -172,13 +168,32 @@ export const frontArmhole = {
           }
         }
 
+        points.saArmholeTop = paths.saArmhole
+          .shiftFractionAlong(0.001)
+          .shiftOutwards(paths.saArmhole.start(), sa)
+        points.saPrincessSeamEnd = paths.princessSeam.offset(princessSa).end()
+
+        if (
+          points.saArmholeTop.y > points.saPrincessSeamEnd.y ||
+          options.bustDartFraction <= 0.01
+        ) {
+          points.saArmholeTop = points.saPrincessSeamEnd
+        }
+        points.saArmholeBottom = utils.beamsIntersect(
+          points.saArmholeTop,
+          points.saArmholeTop.shift(-90, 1),
+          paths.princessSeam.offset(princessSa).shiftFractionAlong(0.999),
+          points.saPrincessSeamEnd
+        )
+
         paths.sa = new Path()
           .move(points.saCfWaist)
           .line(points.saWaistDartLeft)
-          .line(paths.princessSeam.offset(princessSa).start())
           .join(paths.princessSeam.offset(princessSa))
-          .line(points.saArmholeTopSplit)
+          .line(points.saArmholeBottom)
+          .line(points.saArmholeTop)
           .join(paths.saArmhole)
+          .line(points.saShoulderCorner)
           .line(points.saHps)
           .line(paths.cfNeck.offset(neckSa).start())
           .join(paths.cfNeck.offset(neckSa))

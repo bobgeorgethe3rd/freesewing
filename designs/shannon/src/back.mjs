@@ -257,9 +257,7 @@ export const back = {
             return new Path()
               .move(points.saRightEnd)
               .line(points.saArmholeCorner)
-              .line(points.saArmhole)
-              .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-              .curve_(points.saArmholePitchCp2, points.saShoulder)
+              .join(drawArm().offset(armholeSa))
               .line(points.saShoulderCorner)
           }
         }

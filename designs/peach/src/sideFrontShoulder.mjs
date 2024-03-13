@@ -54,11 +54,11 @@ export const sideFrontShoulder = {
     let tweak = 1
     let delta
     do {
-      points.bustDartBottomCp = points.bustDartBottom.shiftFractionTowards(points.bust, tweak)
+      points.bustDartBottomCp2 = points.bustDartBottom.shiftFractionTowards(points.bust, tweak)
 
       paths.princessSeam = new Path()
         .move(points.bustDartBottom)
-        .curve(points.bustDartBottomCp, points.bust, points.waistDartRight)
+        .curve(points.bustDartBottomCp2, points.bust, points.waistDartRight)
         .hide()
 
       delta = paths.princessSeam.length() - store.get('princessSeamFrontLengthS')
@@ -123,7 +123,7 @@ export const sideFrontShoulder = {
 
         points.saBustDartBottom = utils.beamsIntersect(
           points.saShoulderCorner,
-          points.saShoulderCorner.shift(points.saShoulder.angle(points.shoulder), 1),
+          points.saShoulderCorner.shift(points.armholePitchCp2.angle(points.shoulder) + 90, 1),
           points.saPrincessSeamStart,
           points.bustDartBottom.rotate(90, points.saPrincessSeamStart)
         )
@@ -142,9 +142,7 @@ export const sideFrontShoulder = {
           .line(points.saWaistDartRight)
           .line(points.saSideWaist)
           .line(points.saArmholeCorner)
-          .line(points.saArmhole)
-          .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-          .curve_(points.saArmholePitchCp2, points.saShoulder)
+          .join(paths.armhole.offset(sa * options.armholeSaWidth * 100))
           .line(points.saShoulderCorner)
           .line(points.saBustDartBottom)
           .line(points.saPrincessSeamStart)
