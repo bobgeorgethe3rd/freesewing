@@ -44,7 +44,7 @@ export const sideBack = {
       macro('title', {
         at: points.title,
         nr: '8',
-        title: 'Side Front',
+        title: 'Side Back',
         scale: 0.5,
       })
     }
