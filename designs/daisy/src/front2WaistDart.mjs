@@ -19,8 +19,8 @@ export const front2WaistDart = ({
   //measures
   const bustDartAngle = store.get('bustDartAngle')
   //let's begin
-  points.bustDartBottom = points.waistDartRight.shiftFractionTowards(
-    points.sideWaist,
+  points.bustDartBottom = points.sideWaist.shiftFractionTowards(
+    points.waistDartRight,
     options.bustDartFraction
   )
   points.bustDartTop = points.bustDartBottom.rotate(bustDartAngle, points.bust)
