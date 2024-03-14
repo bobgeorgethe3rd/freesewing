@@ -117,7 +117,7 @@ export const bodiceBackFacing = {
         })
       }
       //notches
-      snippets.neckBackCorner = new Snippet('notch', points.neckBackCorner)
+      snippets.neckBackCorner = new Snippet('bnotch', points.neckBackCorner)
       if (!options.sleevesBool) {
         snippets.armholePitch = new Snippet('bnotch', points.armholePitch)
       }
