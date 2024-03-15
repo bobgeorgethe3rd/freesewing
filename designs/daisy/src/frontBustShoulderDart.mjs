@@ -197,7 +197,7 @@ export const frontBustShoulderDart = ({
       )
       points.saShoulderCorner = points.shoulder
         .shift(points.armholePitchCp2.angle(points.shoulder), shoulderSa)
-        .shift(points.armholePitchCp2.angle(points.shoulder) + 90, armholeSa)
+        .shift(points.armholePitchCp2.angle(points.shoulder) - 90, armholeSa)
 
       points.saBustDartBottom = utils.beamsIntersect(
         points.bustDartTip,
