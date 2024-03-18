@@ -89,7 +89,7 @@ export const skirtFront = {
           }
           macro('title', {
             at: points.title,
-            nr: '8a',
+            nr: '7a',
             title: 'Skirt A' + ' (Front)',
             scale: 0.15,
             prefix: 'title',
