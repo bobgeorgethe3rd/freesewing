@@ -44,6 +44,7 @@ export const placket = {
       width = width * 2
     }
     const backPlacketLength = store.get('backPlacketLength')
+    const skirtLength = store.get('skirtLength')
     let length = backPlacketLength
     if (options.waistbandStyle == 'none' && options.skirtType != 'none') {
       length = length + store.get('skirtLength')
@@ -137,9 +138,7 @@ export const placket = {
         const buttonholeDist = points.bodiceButtonhole1.y - points.bodiceButtonhole0.y
         store.set('buttonholeDist', buttonholeDist)
         if (points.bodiceButtonholeEnd.y == backPlacketLength) {
-          const skirtButtonholeNum = Math.floor(
-            (points.bottomRight.y - backPlacketLength) / buttonholeDist
-          )
+          const skirtButtonholeNum = Math.floor(skirtLength / buttonholeDist)
           points.skirtButtonholeEnd = points.bodiceButtonholeEnd.shift(
             -90,
             buttonholeDist * skirtButtonholeNum
