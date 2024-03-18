@@ -136,7 +136,7 @@ export const placket = {
         const buttonholeDist = points.bodiceButtonhole1.y - points.bodiceButtonhole0.y
         store.set('buttonholeDist', buttonholeDist)
         if (points.bodiceButtonholeEnd.y == backPlacketLength) {
-          const skirtButtonholeNum = Math.floor(skirtLength / buttonholeDist)
+          const skirtButtonholeNum = Math.floor((skirtLength - buttonholeStart) / buttonholeDist)
           points.skirtButtonholeEnd = points.bodiceButtonholeEnd.shift(
             -90,
             buttonholeDist * skirtButtonholeNum

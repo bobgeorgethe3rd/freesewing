@@ -39,7 +39,7 @@ export const skirtPlacket = {
       width = width * 2
     }
     const length = store.get('skirtLength')
-
+    const buttonholeStart = absoluteOptions.buttonholeStart
     //let's begin
     points.topRight = new Point(0, 0)
     points.topLeft = points.topRight.shift(180, width)
@@ -86,12 +86,10 @@ export const skirtPlacket = {
       if (options.placketStyle == 'separate') {
         points.buttonholeStart = points.topRight.translate(
           -absoluteOptions.placketWidth * 0.5,
-          absoluteOptions.buttonholeStart
+          buttonholeStart
         )
         const buttonholeDist = store.get('buttonholeDist')
-        const skirtButtonholeNum = Math.floor(
-          (points.bottomRight.y - points.buttonholeStart.y) / buttonholeDist
-        )
+        const skirtButtonholeNum = Math.floor((length - buttonholeStart * 2) / buttonholeDist)
         points.buttonholeEnd = points.buttonholeStart.shift(
           -90,
           buttonholeDist * skirtButtonholeNum
