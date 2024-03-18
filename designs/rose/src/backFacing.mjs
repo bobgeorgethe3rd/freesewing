@@ -40,14 +40,27 @@ export const backFacing = {
     //measures
     const facingWidth = store.get('bodiceFacingWidth')
     //let's begin
-    points.cbFacing = points.cbNeck.shift(-90, facingWidth)
+    if (options.closurePosition == 'back' && options.placketStyle != 'none') {
+      points.neckFacing = points.bodicePlacketNeckRight
+    } else {
+      points.neckFacing = points.cbNeck
+    }
+
+    points.bottomLeftFacing = points.neckFacing.shift(-90, facingWidth)
     points.sideFacing = points.armhole.shiftTowards(points.sideWaist, facingWidth)
-    points.cbFacingCp2 = new Point(points.dartTip.x, points.cbFacing.y)
+    points.bottomLeftFacingCp2 = new Point(points.dartTip.x, points.bottomLeftFacing.y)
     points.sideFacingCp1 = new Point(points.dartTip.x, points.sideFacing.y)
     //paths
+    const drawNeck = () => {
+      if (options.closurePosition == 'back' && options.placketStyle != 'none') {
+        return paths.cbNeck.split(points.bodicePlacketNeckRight)[0]
+      } else {
+        return paths.cbNeck
+      }
+    }
     paths.hemBase = new Path()
-      .move(points.cbFacing)
-      .curve(points.cbFacingCp2, points.sideFacingCp1, points.sideFacing)
+      .move(points.bottomLeftFacing)
+      .curve(points.bottomLeftFacingCp2, points.sideFacingCp1, points.sideFacing)
       .hide()
 
     paths.armhole = new Path()
@@ -61,22 +74,25 @@ export const backFacing = {
       .line(points.armhole)
       .join(paths.armhole)
       .line(points.shoulderTop)
-      .join(paths.cbNeck)
-      .line(points.cbFacing)
+      .join(drawNeck())
+      .line(points.bottomLeftFacing)
 
     if (complete) {
       //grainline
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
-        points.cutOnFoldFrom = points.cbNeck.shiftFractionTowards(points.cbFacing, 0.1)
-        points.cutOnFoldTo = points.cbFacing.shiftFractionTowards(points.cbNeck, 0.1)
+        points.cutOnFoldFrom = points.neckFacing.shiftFractionTowards(points.bottomLeftFacing, 0.1)
+        points.cutOnFoldTo = points.bottomLeftFacing.shiftFractionTowards(points.neckFacing, 0.1)
         macro('cutonfold', {
           from: points.cutOnFoldFrom,
           to: points.cutOnFoldTo,
           grainline: true,
         })
       } else {
-        points.grainlineTo = points.cbFacing.shiftFractionTowards(points.cbFacingCp2, 0.15)
-        points.grainlineFrom = new Point(points.grainlineTo.x, points.cbNeck.y)
+        points.grainlineTo = points.bottomLeftFacing.shiftFractionTowards(
+          points.bottomLeftFacingCp2,
+          0.15
+        )
+        points.grainlineFrom = new Point(points.grainlineTo.x, points.neckFacing.y)
         macro('grainline', {
           from: points.grainlineFrom,
           to: points.grainlineTo,
@@ -85,7 +101,10 @@ export const backFacing = {
       //notches
       snippets.notch = new Snippet('bnotch', points.armholePitch)
       //title
-      points.title = new Point(points.cbNeckCp1.x * 0.95, (points.cbNeck.y + points.cbFacing.y) / 2)
+      points.title = new Point(
+        points.cbNeckCp1.x * 0.95,
+        (points.neckFacing.y + points.bottomLeftFacing.y) / 2
+      )
       macro('title', {
         at: points.title,
         nr: '13',
@@ -94,13 +113,33 @@ export const backFacing = {
       })
       if (sa) {
         const bodiceFacingHem = sa * options.bodiceFacingHemWidth * 100
+        const neckSa = sa * options.neckSaWidth * 100
+
+        let cbSa
+        if (options.closurePosition == 'back') {
+          if (options.placketStyle == 'none') {
+            cbSa = sa * options.closureSaWidth * 100
+          } else {
+            cbSa = sa
+          }
+        } else {
+          cbSa = sa * options.cbSaWidth * 100
+        }
+
         points.saSideFacing = utils.beamIntersectsY(
           points.saArmholeCorner,
           points.saArmholeCorner.shift(points.armhole.angle(points.sideWaist), 1),
           points.sideFacing.shift(-90, bodiceFacingHem).y
         )
 
-        points.saCbFacing = new Point(points.saCbWaist.x, points.cbFacing.y + bodiceFacingHem)
+        points.saNeckFacing = new Point(
+          points.neckFacing.x - cbSa,
+          drawNeck().offset(neckSa).end().y
+        )
+        points.saBottomLeftFacing = new Point(
+          points.bottomLeftFacing.x - cbSa,
+          points.bottomLeftFacing.y + bodiceFacingHem
+        )
 
         paths.sa = paths.hemBase
           .offset(bodiceFacingHem)
@@ -109,9 +148,9 @@ export const backFacing = {
           .join(paths.armhole.offset(sa * options.armholeSaWidth * 100))
           .line(points.saShoulderCorner)
           .line(points.saShoulderTop)
-          .join(paths.cbNeck.offset(sa * options.neckSaWidth * 100))
-          .line(points.saCbNeck)
-          .line(points.saCbFacing)
+          .join(drawNeck().offset(neckSa))
+          .line(points.saNeckFacing)
+          .line(points.saBottomLeftFacing)
           .close()
           .attr('class', 'fabric sa')
       }

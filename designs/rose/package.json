@@ -52,8 +52,10 @@
     "@freesewing/daisy": "3.0.0-alpha.8",
     "@freesewing/peach": "3.0.0-alpha.8",
     "@freesewing/claude": "3.0.0-alpha.8",
+    "@freesewing/scott": "3.0.0-alpha.8",
     "@freesewing/capsleeve": "3.0.0-alpha.8",
-    "@freesewing/inseampocket": "3.0.0-alpha.8"
+    "@freesewing/inseampocket": "3.0.0-alpha.8",
+    "@freesewing/plugin-mirror": "3.0.0-alpha.8"
   },
   "dependencies": {},
   "devDependencies": {

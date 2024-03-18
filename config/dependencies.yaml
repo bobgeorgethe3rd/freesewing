@@ -262,8 +262,10 @@ rose:
     '@freesewing/daisy': *freesewing
     '@freesewing/peach': *freesewing
     '@freesewing/claude': *freesewing
+    '@freesewing/scott': *freesewing
     '@freesewing/capsleeve': *freesewing
     '@freesewing/inseampocket': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 rufflebutterflysleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing

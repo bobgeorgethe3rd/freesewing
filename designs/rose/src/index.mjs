@@ -15,6 +15,8 @@ import { skirtBack } from './skirtBack.mjs'
 import { waistband } from './waistband.mjs'
 import { frontFacing } from './frontFacing.mjs'
 import { backFacing } from './backFacing.mjs'
+import { placket } from './placket.mjs'
+import { skirtPlacket } from './skirtPlacket.mjs'
 
 // Create new design
 const Rose = new Design({
@@ -32,6 +34,8 @@ const Rose = new Design({
     waistband,
     frontFacing,
     backFacing,
+    placket,
+    skirtPlacket,
   ],
 })
 
@@ -49,5 +53,7 @@ export {
   waistband,
   frontFacing,
   backFacing,
+  placket,
+  skirtPlacket,
   Rose,
 }
