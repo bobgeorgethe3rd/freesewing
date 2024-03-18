@@ -33,27 +33,24 @@ export const sideBack = {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
     //let's begin
-    paths.waist = new Path().move(points.dartBottomRight).line(points.sideWaist).hide()
-
-    paths.sideSeam = new Path().move(points.sideWaist).line(points.armhole).hide()
-
     paths.armhole = new Path()
       .move(points.armhole)
       .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
       .hide()
 
-    paths.neck = new Path().move(points.shoulderTop).line(points.neckBackCorner).hide()
-
     paths.styleLine = new Path()
       .move(points.neckBackCorner)
       .curve(points.neckBackCornerCp, points.dartBottomRightCp1, points.dartBottomRight)
       .hide()
 
-    paths.seam = paths.waist
-      .join(paths.sideSeam)
+    paths.seam = new Path()
+      .move(points.dartBottomRight)
+      .line(points.sideWaist)
+      .line(points.armhole)
       .join(paths.armhole)
-      .join(paths.neck)
+      .line(points.shoulderTop)
+      .line(points.neckBackCorner)
       .join(paths.styleLine)
       .close()
 
@@ -114,14 +111,18 @@ export const sideBack = {
           points.sideWaist.shiftTowards(points.dartBottomRight, sa).rotate(90, points.sideWaist)
         )
 
-        paths.sa = paths.waist
-          .offset(sa)
+        points.saNeckBackCorner = points.neckBackCorner
+          .shiftTowards(points.shoulderTop, sa)
+          .rotate(90, points.neckBackCorner)
+
+        paths.sa = new Path()
+          .move(points.saDartBottomRight)
           .line(points.saSideWaist)
           .line(points.saArmholeCorner)
           .join(paths.armhole.offset(sa * options.armholeSaWidth * 100))
           .line(points.saShoulderCorner)
           .line(points.saShoulderTop)
-          .join(paths.neck.offset(sa))
+          .line(points.saNeckBackCorner)
           .join(paths.styleLine.offset(styleLineSa))
           .line(points.saDartBottomRight)
           .close()

@@ -38,28 +38,24 @@ export const sideFront = {
     }
     //let's begin
     //paths
-    paths.waist = new Path().move(points.waistDartRight).line(points.sideWaist).hide()
-
-    paths.sideSeam = new Path().move(points.sideWaist).line(points.armhole).hide()
-
     paths.armhole = new Path()
       .move(points.armhole)
       .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
       .hide()
 
-    paths.neck = new Path().move(points.bustDartBottom).line(points.sideNeckFront).hide()
-
     paths.styleLine = new Path()
       .move(points.sideNeckFront)
       .curve(points.sideNeckFrontCp2, points.waistDartRightCp1, points.waistDartRight)
       .hide()
 
-    paths.seam = paths.waist
-      .clone()
-      .join(paths.sideSeam)
+    paths.seam = new Path()
+      .move(points.waistDartRight)
+      .line(points.sideWaist)
+      .line(points.armhole)
       .join(paths.armhole)
-      .join(paths.neck)
+      .line(points.bustDartBottom)
+      .line(points.sideNeckFront)
       .join(paths.styleLine)
       .close()
 
@@ -98,7 +94,6 @@ export const sideFront = {
         at: points.scalebox,
       })
       if (sa) {
-        const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const styleLineSa = sa * options.styleLineSaWidth * 100
 
         points.saBustDartBottom = utils.beamsIntersect(
@@ -124,16 +119,18 @@ export const sideFront = {
             .rotate(-90, points.waistDartRight),
           points.sideWaist.shiftTowards(points.waistDartRight, sa).rotate(90, points.sideWaist)
         )
+        points.saSideNeckFront = points.sideNeckFront
+          .shiftTowards(points.bustDartBottom, sa)
+          .rotate(90, points.sideNeckFront)
 
-        paths.sa = paths.waist
-          .offset(sa)
+        paths.sa = new Path()
+          .move(points.saWaistDartRight)
           .line(points.saSideWaist)
-          .join(paths.sideSeam.offset(sideSeamSa))
           .line(points.saArmholeCorner)
           .join(paths.armhole.offset(sa * options.armholeSaWidth * 100))
           .line(points.saShoulderCorner)
           .line(points.saBustDartBottom)
-          .join(paths.neck.offset(sa))
+          .line(points.saSideNeckFront)
           .join(paths.styleLine.offset(styleLineSa))
           .line(points.saWaistDartRight)
           .close()

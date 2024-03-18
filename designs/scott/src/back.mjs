@@ -52,14 +52,14 @@ export const back = {
     const placketWidth = store.get('placketWidth')
     //let's begin
     //paths
-    paths.waist = new Path().move(points.waistLeft).line(points.dartBottomLeft).hide()
-
     paths.styleLine = new Path()
       .move(points.dartBottomLeft)
       .curve(points.dartBottomLeftCp2, points.neckBackCornerCp, points.neckBackCorner)
       .hide()
 
-    paths.seam = paths.waist
+    paths.seam = new Path()
+      .move(points.waistLeft)
+      .line(points.dartBottomLeft)
       .join(paths.styleLine)
       .line(points.neckBack)
       .line(points.waistLeft)
@@ -82,14 +82,14 @@ export const back = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
-        //notches
-        points.backNotch = points.waistLeft.shiftFractionTowards(points.neckBack, 0.5)
-        points.styleNotch = paths.styleLine.shiftFractionAlong(0.5)
-        macro('sprinkle', {
-          snippet: 'bnotch',
-          on: ['backNotch', 'styleNotch', 'neckBackCorner'],
-        })
       }
+      //notches
+      points.backNotch = points.waistLeft.shiftFractionTowards(points.neckBack, 0.5)
+      points.styleNotch = paths.styleLine.shiftFractionAlong(0.5)
+      macro('sprinkle', {
+        snippet: 'bnotch',
+        on: ['backNotch', 'styleNotch', 'neckBackCorner'],
+      })
       //title
       points.title = new Point(
         points.dartBottomLeft.x * 0.5,
@@ -159,8 +159,8 @@ export const back = {
         points.saNeckBack = points.neckBack.translate(-backSa, -sa)
         points.saWaistLeft = points.waistLeft.translate(-backSa, sa)
 
-        paths.sa = paths.waist
-          .offset(sa)
+        paths.sa = new Path()
+          .move(points.saWaistLeft)
           .line(points.saDartBottomLeft)
           .join(paths.styleLine.offset(styleLineSa))
           .line(points.saNeckBackCorner)

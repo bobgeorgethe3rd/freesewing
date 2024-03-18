@@ -37,8 +37,6 @@ export const front = {
     }
     //let's begin
     //paths
-    paths.waist = new Path().move(points.cfWaist).line(points.waistDartLeft).hide()
-
     paths.styleLine = new Path()
       .move(points.waistDartLeft)
       .curve(points.waistDartLeftCp2, points.neckFrontCp1, points.neckFront)
@@ -50,8 +48,9 @@ export const front = {
       .curve_(points.heartPeakCp2, points.cfTop)
       .hide()
 
-    paths.seam = paths.waist
-      .clone()
+    paths.seam = new Path()
+      .move(points.cfWaist)
+      .line(points.waistDartLeft)
       .join(paths.styleLine)
       .join(paths.neck)
       .line(points.cfWaist)
@@ -113,8 +112,8 @@ export const front = {
         points.saWaistDartLeft = points.waistDartLeft.translate(styleLineSa, sa)
         points.saCfTop = points.cfTop.shift(180, cfSa)
 
-        paths.sa = paths.waist
-          .offset(sa)
+        paths.sa = new Path()
+          .move(points.saCfWaist)
           .line(points.saWaistDartLeft)
           .join(paths.styleLine.offset(styleLineSa))
           .join(paths.neck.offset(sa))
