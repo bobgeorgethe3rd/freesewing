@@ -50,6 +50,8 @@ export const skirtBack = {
     }
     //macro removal
     macro('title', false)
+    //measurements
+    const buttonholeStart = absoluteOptions.buttonholeStart
     //let's begin
     if (options.placketStyle != 'none' && options.closurePosition == 'back') {
       const placketWidth = store.get('placketWidth')
@@ -111,13 +113,10 @@ export const skirtBack = {
               .attr('data-text', 'Stitching - Line')
               .attr('data-text-class', 'center')
 
-            points.buttonholeStart = points.cbWaist.translate(
-              placketWidth * -0.5,
-              absoluteOptions.buttonholeStart
-            )
+            points.buttonholeStart = points.cbWaist.translate(placketWidth * -0.5, buttonholeStart)
             const buttonholeDist = store.get('buttonholeDist')
             const skirtButtonholeNum = Math.floor(
-              (points.cbHem.y - points.buttonholeStart.y) / buttonholeDist
+              (store.get('skirtLength') - buttonholeStart * 2) / buttonholeDist
             )
             points.buttonholeEnd = points.buttonholeStart.shift(
               -90,
