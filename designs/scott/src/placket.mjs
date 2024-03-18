@@ -7,8 +7,6 @@ export const placket = {
   options: {
     //Style
     placketFolded: { bool: true, menu: 'style' },
-    //Plackets
-    skirtButtonholeNum: { count: 20, min: 3, max: 25, menu: 'plackets' },
   },
   draft: ({
     store,
