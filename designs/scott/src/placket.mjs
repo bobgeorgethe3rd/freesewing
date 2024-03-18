@@ -5,8 +5,8 @@ export const placket = {
   name: 'scott.placket',
   after: [back, skirtBase],
   options: {
-    //Style
-    placketFolded: { bool: true, menu: 'style' },
+    //Plackets
+    placketFolded: { bool: true, menu: 'plackets' },
   },
   draft: ({
     store,
@@ -94,19 +94,19 @@ export const placket = {
         scale: 0.15,
       })
       //foldline
-      if (options.placketFolded && options.placketStyle == 'separate') {
-        points.foldlineFrom = points.topLeft.shiftFractionTowards(points.topRight, 0.5)
-        points.foldlineTo = new Point(points.foldlineFrom.x, points.bottomLeft.y)
-        paths.foldLine = new Path()
-          .move(points.foldlineFrom)
-          .line(points.foldlineTo)
-          .attr('class', 'mark')
-          .attr('data-text', 'Fold - Line')
-          .attr('data-text-class', 'center')
-      }
-      //buttonhole
-      const buttonholeStart = absoluteOptions.buttonholeStart
       if (options.placketStyle == 'separate') {
+        if (options.placketFolded) {
+          points.foldlineFrom = points.topLeft.shiftFractionTowards(points.topRight, 0.5)
+          points.foldlineTo = new Point(points.foldlineFrom.x, points.bottomLeft.y)
+          paths.foldLine = new Path()
+            .move(points.foldlineFrom)
+            .line(points.foldlineTo)
+            .attr('class', 'mark')
+            .attr('data-text', 'Fold - Line')
+            .attr('data-text-class', 'center')
+        }
+        //buttonhole
+        const buttonholeStart = absoluteOptions.buttonholeStart
         points.bodiceButtonholeStart = points.topRight.translate(
           -absoluteOptions.placketWidth * 0.5,
           buttonholeStart
