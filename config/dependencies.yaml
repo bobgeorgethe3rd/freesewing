@@ -316,6 +316,7 @@ simeon:
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/flyfront': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 simon:
   peer:
     '@freesewing/brian': *freesewing
