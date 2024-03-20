@@ -120,7 +120,10 @@ export const back = {
     const legBandWidth = absoluteOptions.legBandWidth
     const toHips = measurements.waistToHips * (1 - options.waistHeight)
     const toFloor = measurements.waistToFloor * (1 + options.legLengthBonus) - legBandWidth
-    const waistbandWidth = absoluteOptions.waistbandWidth
+    let waistbandWidth = absoluteOptions.waistbandWidth
+    if (options.waistbandStyle == 'none') {
+      waistbandWidth = 0
+    }
 
     const legRatio = crossSeamBack / measurements.crossSeam
 
