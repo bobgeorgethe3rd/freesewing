@@ -60,6 +60,13 @@
       "difficulty": 2,
       "tags": ["bottoms"]
     },
+    "simeon": {
+      "description": "Simeon simple trouser design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["bottoms", "trousers"]
+    },
     "theobald": {
       "description": "Theobald timeless trouser design",
       "code": "bobgeorgethe3rd",
