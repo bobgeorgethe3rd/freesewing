@@ -21,6 +21,7 @@ export const back = {
     patchPocketDepth: { pct: 13.1, min: 10, max: 25, menu: 'pockets.backPockets' }, //Altered for Jackson
     patchPocketBottomWidth: { pct: 82.4, min: 80, max: 100, menu: 'pockets.backPockets' }, //Altered for Jackson
     patchPocketPeak: { pct: 49.2, min: 0, max: 50, menu: 'pockets.backPockets' }, //Altered for Jackson
+    patchPocketPeakDepth: { pct: 50, min: 0, max: 100, menu: 'pockets.backPockets' }, //Moved for Jackson
     //Construction
     yokeSeamSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
