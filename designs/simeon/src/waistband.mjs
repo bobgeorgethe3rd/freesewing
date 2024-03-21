@@ -10,6 +10,8 @@ export const waistband = {
     ...waistbandCurved.options,
     //Constants
     closurePosition: 'front', //Locked for Simeon
+    waistbandOverlap: 0, //Locked for Simeon
+    waistbandOverlapSide: 'left', //Locked for Simeon
     //Style
     waistbandFolded: { bool: true, menu: 'style' }, //Altered for Simeon
   },
