@@ -202,7 +202,12 @@ paco:
     '@freesewing/snapseries': *freesewing
 patchpocket:
   peer:
-    'freesewing/plugin-mirror': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
+paul:
+  peer:
+    '@freesewing/dalton': *freesewing
+    '@freesewing/flyfront': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 peach:
   peer:
     '@freesewing/daisy': *freesewing
