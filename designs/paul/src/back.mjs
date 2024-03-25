@@ -166,6 +166,11 @@ export const back = {
     }
 
     if (complete) {
+      //notches
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['waistIn', 'waistOut'],
+      })
       //logo
       points.logo = points.knee
       macro('logorg', { at: points.logo, scale: 0.5 })
