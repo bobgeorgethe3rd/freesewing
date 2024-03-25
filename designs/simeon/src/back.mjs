@@ -1,5 +1,4 @@
 import { back as backDalton } from '@freesewing/dalton'
-import { pctBasedOn } from '@freesewing/core'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 import { front } from './front.mjs'
 
