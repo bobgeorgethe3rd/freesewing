@@ -22,8 +22,13 @@ export const beltLoops = {
   },
   draft: (sh) => {
     //draft
-    const { macro, points, absoluteOptions, store, complete, part } = sh
-    store.set('beltLoopLength', absoluteOptions.waistbandWidth * 2)
+    const { macro, points, options, absoluteOptions, sa, store, complete, part } = sh
+
+    let beltLoopSa = sa
+    if (sa == 0) {
+      beltLoopSa = 10
+    }
+    store.set('beltLoopLength', absoluteOptions.waistbandWidth * 2 + beltLoopSa)
     store.set('beltLoopWidth', absoluteOptions.beltLoopWidth)
 
     draftBeltLoops.draft(sh)
