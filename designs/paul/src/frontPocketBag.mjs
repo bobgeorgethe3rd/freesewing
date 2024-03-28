@@ -10,7 +10,7 @@ export const frontPocketBag = {
     daltonGuides: { bool: false, menu: 'fit' },
     //Pockets
     frontPocketWidth: { pct: 75, min: 30, max: 80, menu: 'pockets.frontPockets' },
-    frontPocketDepth: { pct: 51.4, min: 10, max: 100, menu: 'pockets.frontPockets' },
+    frontPocketDepth: { pct: 52.5, min: 10, max: 100, menu: 'pockets.frontPockets' },
     frontPocketCurve: { pct: 100, min: 0, max: 100, menu: 'pockets.frontPockets' },
     frontPocketFacingWidth: { pct: 75, min: 50, max: 100, menu: 'pockets.frontPockets' },
   },
