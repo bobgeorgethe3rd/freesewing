@@ -18,7 +18,7 @@ export const leg8 = {
     menu: 'style',
     waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' },
     waistbandWidth: {
-      pct: 3.1,
+      pct: 3.3,
       min: 1,
       max: 9,
       snap: 5,
