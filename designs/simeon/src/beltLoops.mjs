@@ -12,7 +12,7 @@ export const beltLoops = {
     beltLoopNumber: { count: 7, min: 1, max: 10, menu: 'style' },
     beltLoops: { bool: true, menu: 'style' },
     beltLoopWidth: {
-      pct: 1.1,
+      pct: 1.3,
       min: 1,
       max: 2,
       snap: 5,
