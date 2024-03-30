@@ -43,8 +43,24 @@ export const waistband = {
     } else {
       waistbandClaude.draft(sh)
     }
+    delete snippets.waistbandButtonholePlacket
 
     if (complete) {
+      //buttonhole
+      if (options.placketStyle != 'none' && options.closurePosition == 'back') {
+        points.waistbandButtonholePlacket = points.waistbandButtonPlacket.flipX()
+        if (options.waistbandOverlapSide == 'right') {
+          snippets.buttonholePlacket = new Snippet(
+            'buttonhole',
+            points.waistbandButtonholePlacket
+          ).attr('data-rotate', 180 - points.waistbandBottomRight.angle(points.waistbandTopRight))
+        } else {
+          snippets.buttonholePlacket = new Snippet(
+            'buttonhole',
+            points.waistbandButtonholePlacket
+          ).attr('data-rotate', 180 - points.waistbandBottomLeft.angle(points.waistbandTopLeft))
+        }
+      }
       //title
       macro('title', {
         at: points.title,

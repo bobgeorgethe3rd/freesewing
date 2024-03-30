@@ -230,6 +230,8 @@ export const back = {
     }
     store.set('storedWaist', (store.get('waistFront') + store.get('waistBack')) / 2)
     store.set('placketWidth', placketWidth)
+    store.set('waistbandPlacketWidth', placketWidth)
+    store.set('waistbandOverlap', placketWidth)
     if (complete) {
       //grainline
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
