@@ -50,8 +50,6 @@ export const leatherPatch = {
       .line(points.topRight)
       .line(points.topLeft)
       .close()
-      .attr('data-text', 'No Seam Allowance Needed')
-      .attr('data-text-class', 'text-sm')
 
     if (complete) {
       //grainline
@@ -78,6 +76,8 @@ export const leatherPatch = {
         at: points.origin,
         scale: logoScale,
       })
+      //paths
+      paths.seam.attr('data-text', 'No Seam Allowance Needed').attr('data-text-class', 'text-sm')
     }
 
     return part

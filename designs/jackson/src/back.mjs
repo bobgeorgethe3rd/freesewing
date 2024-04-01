@@ -191,22 +191,24 @@ export const back = {
         points.backPocketBottomMid,
         backPocketPeak
       )
-      paths.backPocket = new Path()
-        .move(points.backPocketTopIn)
-        .line(points.backPocketBottomLeft)
-        .line(points.patchPocketPeak)
-        .line(points.backPocketBottomRight)
-        .line(points.backPocketTopOut)
-        .attr('class', 'interfacing lashed')
-        .attr('data-text', 'Back Pocket')
-        .attr('data-text-class', 'right')
-      macro('sprinkle', {
-        snippet: 'notch',
-        on: ['backPocketTopIn', 'backPocketTopOut'],
-      })
       //stores
       store.set('patchPocketWidth', patchPocketWidth)
       store.set('patchPocketDepth', patchPocketDepth)
+      if (complete) {
+        paths.backPocket = new Path()
+          .move(points.backPocketTopIn)
+          .line(points.backPocketBottomLeft)
+          .line(points.patchPocketPeak)
+          .line(points.backPocketBottomRight)
+          .line(points.backPocketTopOut)
+          .attr('class', 'interfacing lashed')
+          .attr('data-text', 'Back Pocket')
+          .attr('data-text-class', 'right')
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['backPocketTopIn', 'backPocketTopOut'],
+        })
+      }
     }
 
     if (complete) {
