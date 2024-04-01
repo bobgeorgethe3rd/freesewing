@@ -22,6 +22,7 @@ export const front = {
       snap: 5,
       ...pctBasedOn('waistToFloor'),
     }, //locked for Simeon
+    legBandsBool: false, //Locked for Simeon
     calculateLegBandDiff: false, //Locked for Simeon
     useHeel: true, //Locked for Simeon
     //Fit

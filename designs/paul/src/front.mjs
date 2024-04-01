@@ -23,6 +23,7 @@ export const front = {
       snap: 5,
       ...pctBasedOn('waistToFloor'),
     }, //locked for Paul
+    legBandsBool: false, //Locked for Paul
     calculateLegBandDiff: false, //Locked for Paul
     useHeel: true, //Locked for Paul
     fitKnee: false, //Locked for Paul

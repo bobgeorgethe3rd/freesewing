@@ -12,6 +12,7 @@ export const back = {
     inseamSaWidth: 0.01,
     sideSeamSaWidth: 0.01,
     fitWaistBack: false,
+    legBandsBool: true,
     //Fit
     waistEase: { pct: 3.2, min: 0, max: 20, menu: 'fit' },
     hipsEase: { pct: 3, min: 0, max: 20, menu: 'fit' },
@@ -117,7 +118,10 @@ export const back = {
     const waistBack = store.get('waistBack')
     const toUpperLeg = measurements.waistToUpperLeg * (1 + options.crotchDrop)
     const knee = measurements.knee * (1 + options.kneeEase)
-    const legBandWidth = absoluteOptions.legBandWidth
+    let legBandWidth = absoluteOptions.legBandWidth
+    if (!options.legBandsBool) {
+      legBandWidth = 0
+    }
     const toHips = measurements.waistToHips * (1 - options.waistHeight)
     const toFloor = measurements.waistToFloor * (1 + options.legLengthBonus) - legBandWidth
     let waistbandWidth = absoluteOptions.waistbandWidth

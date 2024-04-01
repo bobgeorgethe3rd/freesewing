@@ -19,6 +19,7 @@ export const backBase = {
       snap: 5,
       ...pctBasedOn('waistToFloor'),
     }, //locked for Jackson
+    legBandsBool: false, //Locked for Jackson
     calculateLegBandDiff: false, //Locked for Jackson
     //Fit
     waistEase: { pct: 6.4, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson

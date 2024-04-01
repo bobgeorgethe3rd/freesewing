@@ -19,6 +19,7 @@ export const backBase = {
       snap: 5,
       ...pctBasedOn('waistToFloor'),
     }, //locked for Theobald
+    legBandsBool: false, //Locked for Theobald
     calculateLegBandDiff: false, //Locked for Theobald
     // waistbandFishtailAngle: 99.93963012477667,
     //Fit
