@@ -13,7 +13,7 @@ export const back = {
     //Dalton
     //Constants
     useVoidStores: false, //Locked for Caleb
-    fitWaist: true, //Locked for Caleb
+    fitWaist: false, //Locked for Caleb
     legBandWidth: {
       pct: 0,
       min: 0,
@@ -53,14 +53,19 @@ export const back = {
       menu: 'style',
     }, //Altered for Caleb
     legBandStyle: { dflt: 'cuffed', list: ['cuffed', 'band', 'turnover'], menu: 'style' },
+    fitWaistBack: { bool: true, menu: 'style' }, //Altered For Caleb
     //Darts
     backDartWidth: { pct: 3.2, min: 1, max: 6, menu: 'darts' }, //Altered for Caleb
     backDartDepth: { pct: 95, min: 75, max: 100, menu: 'darts' }, //Altered for Darts
     //Pockets
     backPocketsBool: { bool: true, menu: 'pockets' },
+    sidePocketsBool: { bool: true, menu: 'pockets' },
     backPocketPlacement: { pct: 62.5, min: 50, max: 100, menu: 'pockets.backPockets' },
     backPocketBalance: { pct: 50, min: 40, max: 70, menu: 'pockets.backPockets' },
     patchPocketWidth: { pct: (2 / 3) * 100, min: 40, max: 70, menu: 'pockets.backPockets' }, //Altered for Caleb
+    sidePocketPlacement: { pct: 2.4, min: 0, max: 5, menu: 'pockets.sidePockets' },
+    sidePocketBalance: { pct: 50, min: 40, max: 70, menu: 'pockets.sidePockets' },
+    sidePocketWidth: { pct: 85.8, min: 40, max: 90, menu: 'pockets.sidePockets' },
     //Construction
     crossSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Caleb
     inseamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Caleb
@@ -84,6 +89,7 @@ export const back = {
     measurements,
     part,
     snippets,
+    Snippet,
     log,
     absoluteOptions,
   }) => {
@@ -309,7 +315,8 @@ export const back = {
       .join(paths.crossSeam)
       .join(drawSeamLeft())
       .close()
-
+    //stores
+    store.set('legBandWidth', legBandWidth)
     if (complete) {
       //grainline
       points.grainlineTo = points.split.shift(0, points.split.dx(points.crossSeamCurveStart) * 0.75)
@@ -376,8 +383,36 @@ export const back = {
             .attr('data-text-class', 'center')
         }
       }
+      if (sa) {
+        const inseamSa = sa * options.inseamSaWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+
+        points.saHemIn = utils.beamIntersectsY(
+          drawSeamLeft().offset(inseamSa).shiftFractionAlong(0.995),
+          drawSeamLeft().offset(inseamSa).end(),
+          points.hemIn.y + sa
+        )
+        points.saHemOut = utils.beamIntersectsY(
+          drawSeamRight().offset(sideSeamSa).start(),
+          drawSeamRight().offset(sideSeamSa).shiftFractionAlong(0.005),
+          points.hemOut.y + sa
+        )
+
+        paths.sa = new Path()
+          .move(points.saHemIn)
+          .line(points.saHemOut)
+          .join(drawSeamRight().offset(sideSeamSa))
+          .line(points.saWaistOut)
+          .line(points.saWaistIn)
+          .join(paths.crossSeam.offset(sa * options.crossSeamSaWidth * 100))
+          .line(points.saUpperLegIn)
+          .join(drawSeamLeft().offset(inseamSa))
+          .line(points.saHemIn)
+          .close()
+          .attr('class', 'fabric sa')
+      }
     }
-    //backPocket
+    //backPockets
     if (options.backPocketsBool) {
       const backPocketWidth =
         (points.waistIn.dist(points.dartIn) + points.dartOut.dist(points.waistOut)) *
@@ -417,6 +452,43 @@ export const back = {
           .line(points.backPocketOut)
           .attr('class', 'fabric help')
           .attr('data-text', 'Back Pocket-Line')
+      }
+    }
+    //sidePockets
+    if (options.sidePocketsBool) {
+      const sidePocketWidth =
+        (points.waistIn.dist(points.dartIn) + points.dartOut.dist(points.waistOut)) *
+        options.sidePocketWidth
+      points.sidePocketSplit = points.knee.shift(90, legBandWidth)
+      points.sidePocketSplitOn = drawOutseam().intersects(
+        new Path()
+          .move(points.sidePocketSplit)
+          .line(points.sidePocketSplit.shift(0, measurements.waistToFloor * 10))
+      )[0]
+      points.sidePocketOut = drawOutseam()
+        .split(points.sidePocketSplitOn)[1]
+        .shiftAlong(measurements.waistToFloor * options.sidePocketPlacement)
+      //stores
+      store.set('sidePocketPlacement', drawOutseam().split(points.sidePocketOut)[1].length())
+      store.set('sidePocketWidth', sidePocketWidth)
+      if (complete && points.split.y >= points.sidePocketOut.y) {
+        points.sidePocketOutAnchor = drawOutseam()
+          .split(points.sidePocketOut)[1]
+          .shiftFractionAlong(0.005)
+        points.sidePocketIn = points.sidePocketOut
+          .shiftTowards(
+            points.sidePocketOutAnchor,
+            sidePocketWidth * (1 - options.sidePocketBalance)
+          )
+          .rotate(90, points.sidePocketOut)
+        //notches
+        snippets.sidePocketIn = new Snippet('notch', points.sidePocketIn)
+        //paths
+        paths.sidePocketLine = new Path()
+          .move(points.sidePocketIn)
+          .line(points.sidePocketOut)
+          .attr('class', 'fabric help')
+          .attr('data-text', 'Side Pocket-Line')
       }
     }
 
