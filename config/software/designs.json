@@ -46,6 +46,13 @@
     }
   },
   "bottoms": {
+    "caleb": {
+      "description": "Caleb cargo shorts design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["bottoms", "shorts"]
+    },
     "jackson": {
       "description": "Jackon jean design",
       "code": "bobgeorgethe3rd",

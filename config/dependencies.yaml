@@ -44,6 +44,15 @@ brian:
   peer:
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/plugin-bust': *freesewing
+caleb:
+  peer:
+    '@freesewing/dalton': *freesewing
+    '@freesewing/patchpocket': *freesewing
+    '@freesewing/beltloops': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/flyfront': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 capsleeve:
   peer:
     # '@freesewing/basicsleeve': *freesewing
