@@ -111,7 +111,6 @@ export const pocket = {
     points.peakRightEndCp1 = points.peakLeftStartCp2.flipX(points.peak)
 
     //paths
-
     let peakFrom
     let peakTo
     if (options.patchPocketPeakPlateau) {
