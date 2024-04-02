@@ -73,15 +73,15 @@ export const pocketFlap = {
       independent: options.independentPatchPocketFlap,
     })
 
-    /* if (complete) {
-	//title
+    if (complete) {
+      //title
       macro('title', {
         nr: 2,
         title: 'Patch Pocket Flap',
-        at: points.patchPocketFlaptitle,
+        at: points.patchPocketFlapTitle,
         scale: 1 / 3,
       })
-} */
+    }
     return part
   },
 }
