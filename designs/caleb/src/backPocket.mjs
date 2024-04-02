@@ -20,6 +20,8 @@ export const backPocket = {
     patchPocketPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets.backPockets' }, //Moved for Caleb
     patchPocketPeakDepth: { pct: 50, min: 0, max: 100, menu: 'pockets.backPockets' }, //Moved for Caleb
     patchPocketPeakPlateau: { bool: false, menu: 'pockets.backPockets' }, //Altered for Caleb
+    //Construction
+    patchPocketTopSaWidth: { pct: 3.3, min: 1, max: 4, menu: 'construction' }, //Altered for Caleb
   },
   plugins: [pluginMirror],
   draft: (sh) => {
