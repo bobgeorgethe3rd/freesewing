@@ -117,6 +117,7 @@ export const back = {
     macro('scalebox', false)
     //measures
     const legBandWidth = absoluteOptions.legBandWidth
+    //let's begin
     //draw paths
     const drawOutseam = () => {
       if (options.fitKnee) {
@@ -174,7 +175,7 @@ export const back = {
     )[0]
 
     if (options.legLength < 1) {
-      if (options.legLength == 0.5 && options.fitKnee && !options.fitFloor) {
+      if (options.legLength == 0.5 && options.fitKnee) {
         points.bottomIn = points.kneeIn
         points.bottomOut = points.kneeOut
       } else {
@@ -332,7 +333,7 @@ export const back = {
       )
       macro('title', {
         nr: 1,
-        title: 'back',
+        title: 'Back',
         at: points.title,
         scale: 0.5,
       })

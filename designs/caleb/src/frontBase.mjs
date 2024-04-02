@@ -17,12 +17,15 @@ export const frontBase = {
     fitWaistFront: { bool: true, menu: 'style' }, //Altered For Caleb
     //Pockets
     frontPocketsBool: { bool: true, menu: 'pockets' },
-    frontPocketOpeningDepth: { pct: 34.4, min: 25, max: 50, menu: 'pockets.frontPockets' },
+    frontPocketOpeningOutDepth: { pct: 34.4, min: 30, max: 40, menu: 'pockets.frontPockets' },
     frontPocketOpeningWidth: { pct: 18.7, min: 15, max: 25, menu: 'pockets.frontPockets' },
     frontPocketOpeningCorner: { pct: 2.4, min: 1, max: 5, menu: 'pockets.frontPockets' },
+    frontPocketOpeningTopDepth: { pct: 13.6, min: 10, max: 20, menu: 'pockets.frontPockets' },
+    frontPocketOpeningDepth: { pct: 91, min: 90, max: 110, menu: 'pockets.frontPockets' },
     //Construction
     crotchSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
   },
+  measurements: ['wrist'],
   draft: ({
     store,
     sa,
@@ -69,10 +72,7 @@ export const frontBase = {
     const flyFrontLength =
       (measurements.crossSeamFront - measurements.waistToHips) * options.flyFrontLength
     const flyFrontShieldEx = 10 //(1 - options.flyFrontWidth) * 10.537407797681770284510010537408
-    //let's begin
-    //plackets
-    flyFunction(part, waistbandWidth, flyFrontWidth, flyFrontLength, flyFrontShieldEx)
-    //paths
+    //draw paths
     const drawOutseam = () => {
       if (options.fitKnee) {
         if (points.seatOutAnchor.x < points.seatOut.x)
@@ -98,15 +98,20 @@ export const frontBase = {
             .curve(points.seatOutCp2, points.floorOutCp1, points.floorOut)
       }
     }
-    paths.outseam = drawOutseam().hide()
+    //let's begin
+    //plackets
+    flyFunction(part, waistbandWidth, flyFrontWidth, flyFrontLength, flyFrontShieldEx)
     //if pockets
     if (options.frontPocketsBool) {
       //measures
       const pocketMaxDepth = measurements.waistToKnee - measurements.waistToHips - waistbandWidth
+      const frontPocketOpeningTopDepth = pocketMaxDepth * options.frontPocketOpeningTopDepth
+      const frontPocketOpeningDepth = measurements.wrist * options.frontPocketOpeningDepth
 
       points.frontPocketOpeningOut = drawOutseam().shiftAlong(
-        pocketMaxDepth * options.frontPocketOpeningDepth
+        pocketMaxDepth * options.frontPocketOpeningOutDepth
       )
+
       points.frontPocketOpeningWaist = points.waistOut.shiftFractionTowards(
         points.waistIn,
         options.frontPocketOpeningWidth
@@ -114,6 +119,11 @@ export const frontBase = {
       points.frontPocketOpeningCorner = points.frontPocketOpeningOut.shift(
         points.waistOut.angle(points.waistIn),
         points.waistIn.dist(points.waistOut) * options.frontPocketOpeningCorner
+      )
+
+      points.frontPocketOpeningTopOut = drawOutseam().shiftAlong(frontPocketOpeningTopDepth)
+      points.frontPocketOpeningBottomOut = drawOutseam().shiftAlong(
+        frontPocketOpeningTopDepth + frontPocketOpeningDepth
       )
 
       paths.frontPocketOpening = new Path()
@@ -149,16 +159,17 @@ export const frontBase = {
         points.saFrontPocketOpeningOut = utils.beamsIntersect(
           points.saFrontPocketOpeningCorner,
           points.saFrontPocketOpeningCorner.shift(points.waistOut.angle(points.waistIn), 1),
-          paths.outseam
+          drawOutseam()
             .split(points.frontPocketOpeningOut)[1]
             .offset(sideSeamSa)
             .shiftFractionAlong(0.005),
-          paths.outseam.split(points.frontPocketOpeningOut)[1].offset(sideSeamSa).start()
+          drawOutseam().split(points.frontPocketOpeningOut)[1].offset(sideSeamSa).start()
         )
         paths.saFrontPocketOpening = new Path()
           .move(points.saFrontPocketOpeningWaist)
           .line(points.saFrontPocketOpeningCorner)
           .line(points.saFrontPocketOpeningOut)
+          .attr('class', 'fabric sa')
       }
     }
     return part
