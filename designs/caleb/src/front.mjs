@@ -257,7 +257,7 @@ export const front = {
 
     if (complete) {
       //grainline
-      points.grainlineTo = points.bottom.shiftFractionTowards(points.bottomOut, 0.75)
+      points.grainlineTo = points.bottom.shiftFractionTowards(points.bottomIn, 2 / 3)
       points.grainlineFrom = new Point(points.grainlineTo.x, points.crotchSeamCurveEnd.y)
       macro('grainline', {
         from: points.grainlineFrom,
