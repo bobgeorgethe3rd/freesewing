@@ -155,9 +155,6 @@ export const pocket = {
 
     paths.seam = drawSeamBase().join(drawSeamTop()).close()
 
-    //stores
-    store.set('patchPocketSideAngle', points.topLeft.angle(points.bottomLeft))
-
     if (complete) {
       //grainline
       let grainlineFrom
