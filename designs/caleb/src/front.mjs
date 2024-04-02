@@ -220,7 +220,7 @@ export const front = {
 
     paths.saLeft = drawSeamLeft().hide()
 
-    if (options.frontPocketOpeningStyle == 'slanted') {
+    if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool) {
       paths.saLeft = paths.saLeft.split(points.frontPocketOpeningOut)[1].hide()
     }
 
@@ -239,7 +239,7 @@ export const front = {
     points.hemIn = drawSeamRight().start()
     //paths
     const drawWaist = () =>
-      options.frontPocketOpeningStyle == 'slanted'
+      options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool
         ? new Path()
             .move(points.waistIn)
             .line(points.frontPocketOpeningWaist)
@@ -264,7 +264,7 @@ export const front = {
         to: points.grainlineTo,
       })
       //notches
-      if (options.frontPocketOpeningStyle == 'slanted') {
+      if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool) {
         snippets.frontPocketOpeningCorner = new Snippet('notch', points.frontPocketOpeningCorner)
       } else {
         macro('sprinkle', {
@@ -334,7 +334,7 @@ export const front = {
         )
 
         const drawSaWaist = () =>
-          options.frontPocketOpeningStyle == 'slanted'
+          options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool
             ? new Path()
                 .move(points.saWaistIn)
                 .line(points.saFrontPocketOpeningWaist)
