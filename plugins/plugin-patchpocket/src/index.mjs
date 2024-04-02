@@ -25,7 +25,7 @@ export const plugin = {
     ) {
       //Example shorthand, you may wish to add other elements like utils
       const defaults = {
-        patchPocketBottomWidth: 1,
+        bottomWidth: 1,
         peakDepth: 0.5,
         peakCurve: 1,
         peakPlateau: true,
