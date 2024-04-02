@@ -17,11 +17,10 @@ export const back = {
     backPocketBalance: { pct: 45.9, min: 40, max: 70, menu: 'pockets.backPockets' },
     // backPocketPlacement: {pct: 3, min: 2.5, max: 5, menu:'pockets.backPockets'},
     backPocketPlacement: { pct: 140.3, min: 70, max: 150, menu: 'pockets.backPockets' }, //Altered for Jackson
-    patchPocketWidth: { pct: 22.2, min: 15, max: 30, menu: 'pockets.backPockets' }, //Altered for Jackson
-    patchPocketDepth: { pct: 13.1, min: 10, max: 25, menu: 'pockets.backPockets' }, //Altered for Jackson
-    patchPocketBottomWidth: { pct: 82.4, min: 80, max: 100, menu: 'pockets.backPockets' }, //Altered for Jackson
-    patchPocketPeak: { pct: 49.2, min: 0, max: 50, menu: 'pockets.backPockets' }, //Altered for Jackson
-    patchPocketPeakDepth: { pct: 50, min: 0, max: 100, menu: 'pockets.backPockets' }, //Moved for Jackson
+    backPocketWidth: { pct: 22.2, min: 15, max: 30, menu: 'pockets.backPockets' }, //Altered for Jackson
+    backPocketDepth: { pct: 13.1, min: 10, max: 25, menu: 'pockets.backPockets' }, //Altered for Jackson
+    backPocketBottomWidth: { pct: 82.4, min: 80, max: 100, menu: 'pockets.backPockets' }, //Altered for Jackson
+    backPocketPeakDepth: { pct: 49.2, min: 0, max: 50, menu: 'pockets.backPockets' }, //Altered for Jackson
     //Construction
     yokeSeamSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
@@ -157,48 +156,48 @@ export const back = {
     if (options.backPocketsBool) {
       const backPocketPlacement =
         points.dartTip.dist(points.seatDart) * (1 - options.backPocketPlacement)
-      const patchPocketDepth = measurements.waistToFloor * options.patchPocketDepth
-      const patchPocketWidth = measurements.waist * options.patchPocketWidth
-      const patchPocketBottomWidth = patchPocketWidth * options.patchPocketBottomWidth
-      const backPocketPeak = patchPocketBottomWidth * options.patchPocketPeak * 0.5
+      const backPocketDepth = measurements.waistToFloor * options.backPocketDepth
+      const backPocketWidth = measurements.waist * options.backPocketWidth
+      const backPocketBottomWidth = backPocketWidth * options.backPocketBottomWidth
+      const backPocketPeakDepth = backPocketBottomWidth * options.backPocketPeakDepth * 0.5
       points.seatMid = points.seatIn.shiftFractionTowards(points.seatOut, 0.5)
       points.backPocketTopAnchor = points.seatMid
         .shiftTowards(points.seatOut, backPocketPlacement)
         .rotate(90, points.seatMid)
       points.backPocketTopIn = points.backPocketTopAnchor.shift(
         points.waistOut.angle(points.waistIn),
-        patchPocketWidth * options.backPocketBalance
+        backPocketWidth * options.backPocketBalance
       )
       points.backPocketTopOut = points.backPocketTopAnchor.shift(
         points.waistIn.angle(points.waistOut),
-        patchPocketWidth * (1 - options.backPocketBalance)
+        backPocketWidth * (1 - options.backPocketBalance)
       )
       points.backPocketTopMid = points.backPocketTopIn.shiftFractionTowards(
         points.backPocketTopOut,
         0.5
       )
       points.backPocketBottomMid = points.backPocketTopMid
-        .shiftTowards(points.backPocketTopIn, patchPocketDepth)
+        .shiftTowards(points.backPocketTopIn, backPocketDepth)
         .rotate(90, points.backPocketTopMid)
       points.backPocketBottomLeft = points.backPocketBottomMid
-        .shiftTowards(points.backPocketTopMid, patchPocketBottomWidth / 2)
+        .shiftTowards(points.backPocketTopMid, backPocketBottomWidth / 2)
         .rotate(90, points.backPocketBottomMid)
       points.backPocketBottomRight = points.backPocketBottomLeft.rotate(
         180,
         points.backPocketBottomMid
       )
-      points.patchPocketPeak = points.backPocketTopMid.shiftOutwards(
+      points.backPocketPeakDepth = points.backPocketTopMid.shiftOutwards(
         points.backPocketBottomMid,
-        backPocketPeak
+        backPocketPeakDepth
       )
       //stores
-      store.set('patchPocketWidth', patchPocketWidth)
-      store.set('patchPocketDepth', patchPocketDepth)
+      store.set('backPocketWidth', backPocketWidth)
+      store.set('backPocketDepth', backPocketDepth)
       if (complete) {
         paths.backPocket = new Path()
           .move(points.backPocketTopIn)
           .line(points.backPocketBottomLeft)
-          .line(points.patchPocketPeak)
+          .line(points.backPocketPeakDepth)
           .line(points.backPocketBottomRight)
           .line(points.backPocketTopOut)
           .attr('class', 'interfacing lashed')

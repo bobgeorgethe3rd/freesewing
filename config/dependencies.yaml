@@ -47,12 +47,12 @@ brian:
 caleb:
   peer:
     '@freesewing/dalton': *freesewing
-    '@freesewing/patchpocket': *freesewing
     '@freesewing/beltloops': *freesewing
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/flyfront': *freesewing
     '@freesewing/plugin-mirror': *freesewing
+    '@freesewing/plugin-patchpocket': *freesewing
 capsleeve:
   peer:
     # '@freesewing/basicsleeve': *freesewing
@@ -156,11 +156,11 @@ i18n:
 jackson:
   peer:
     '@freesewing/dalton': *freesewing
-    '@freesewing/patchpocket': *freesewing
     '@freesewing/beltloops': *freesewing
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/flyfront': *freesewing
+    '@freesewing/plugin-patchpocket': *freesewing
     '@freesewing/plugin-mirror': *freesewing
 jaeger:
   peer:
@@ -211,6 +211,7 @@ paco:
     '@freesewing/snapseries': *freesewing
 patchpocket:
   peer:
+    '@freesewing/plugin-patchpocket': *freesewing
     '@freesewing/plugin-mirror': *freesewing
 paul:
   peer:

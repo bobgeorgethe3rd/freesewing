@@ -50,12 +50,12 @@
     "@freesewing/plugin-bundle": "3.0.0-alpha.8",
     "@freesewing/plugin-logorg": "3.0.0-alpha.8",
     "@freesewing/dalton": "3.0.0-alpha.8",
-    "@freesewing/patchpocket": "3.0.0-alpha.8",
     "@freesewing/beltloops": "3.0.0-alpha.8",
     "@freesewing/waistbandcurved": "3.0.0-alpha.8",
     "@freesewing/waistbandstraight": "3.0.0-alpha.8",
     "@freesewing/flyfront": "3.0.0-alpha.8",
-    "@freesewing/plugin-mirror": "3.0.0-alpha.8"
+    "@freesewing/plugin-mirror": "3.0.0-alpha.8",
+    "@freesewing/plugin-patchpocket": "3.0.0-alpha.8"
   },
   "dependencies": {},
   "devDependencies": {

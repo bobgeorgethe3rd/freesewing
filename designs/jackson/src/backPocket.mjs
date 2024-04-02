@@ -1,56 +1,99 @@
-import { pocket } from '@freesewing/patchpocket'
 import { pluginMirror } from '@freesewing/plugin-mirror'
+import { pluginPatchPocket } from '@freesewing/plugin-patchpocket'
 import { back } from './back.mjs'
 
 export const backPocket = {
   name: 'jackson.backPocket',
   after: back,
   options: {
-    //Imported
-    ...pocket.options,
     //Constants
-    patchPocketPeakPlateau: false, //Locked for Jackson
-    patchPocketPeakCurve: 1, //Locked for Jackson
-    patchPocketStyle: 'straight', //Locked for Jackson
-    patchPocketFolded: false, //Locked for Jackson
-    patchPocketGrainlineBias: false, //Locked for Jackson
+    backPocketPeakPlateau: false, //Locked for Jackson
+    backPocketPeakCurve: 1, //Locked for Jackson
+    backPocketStyle: 'straight', //Locked for Jackson
+    backPocketFolded: false, //Locked for Jackson
+    backPocketGrainlineBias: false, //Locked for Jackson
     backPocketPleatWidth: 0.143,
     backPocketPleatPlacement: 0.25,
     //Pockets
     backPocketPleat: { bool: true, menu: 'pockets.backPockets' },
+    //Construction
+    backPocketTopSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
-  plugins: [pluginMirror],
-  draft: (sh) => {
+  plugins: [pluginMirror, pluginPatchPocket],
+  draft: ({
+    store,
+    sa,
+    Point,
+    points,
+    Path,
+    paths,
+    options,
+    complete,
+    paperless,
+    macro,
+    utils,
+    measurements,
+    part,
+    snippets,
+    Snippet,
+    log,
+    absoluteOptions,
+  }) => {
     //draft
-    const { store, sa, Point, points, Path, paths, options, complete, macro, utils, part } = sh
-    if (options.backPocketsBool) {
-      pocket.draft(sh)
-    } else {
+    if (!options.backPocketsBool) {
       part.hide()
       return part
     }
-    // keep paths
-    let keepThese
-    if (sa) {
-      keepThese = ['grainline', 'seamTop', 'foldline']
-    } else {
-      keepThese = ['grainline']
-    }
-
-    for (const name in paths) {
-      if (keepThese.indexOf(name) === -1) delete paths[name]
-    }
     //measures
-    const backPocketPleatWidth = store.get('patchPocketDepth') * options.backPocketPleatWidth
+    const backPocketDepth = store.get('backPocketDepth')
+    //macro
+    macro('patchpocket', {
+      width: store.get('backPocketWidth'),
+      depth: backPocketDepth,
+      bottomWidth: options.backPocketBottomWidth,
+      peakDepth: options.backPocketPeakDepth,
+      peakCurve: options.backPocketPeakCurve,
+      peakPlateau: options.backPocketPeakPlateau,
+      style: options.backPocketStyle,
+      folded: options.backPocketFolded,
+      grainlineBias: options.backPocketGrainlineBias,
+      topSaWidth: options.backPocketTopSaWidth,
+      prefix: 'backPocket',
+    })
+
+    const prefixFunction = (string) =>
+      'backPocketPatchPocket' + string.charAt(0).toUpperCase() + string.slice(1)
+
+    if (complete) {
+      //title
+      macro('title', {
+        nr: 2,
+        title: 'Back Pocket',
+        at: points[prefixFunction('title')],
+        scale: 0.5,
+      })
+    }
 
     if (options.backPocketPleat) {
-      points.pleatMid = points.bottomMid.shiftFractionTowards(
-        points.topMid,
+      // keep paths
+      let keepThese
+      if (sa) {
+        keepThese = ['grainline', prefixFunction('seamTop'), prefixFunction('foldline')]
+      } else {
+        keepThese = ['grainline']
+      }
+      for (const name in paths) {
+        if (keepThese.indexOf(name) === -1) delete paths[name]
+      }
+      //measures
+      const backPocketPleatWidth = backPocketDepth * options.backPocketPleatWidth
+      points.pleatMid = points[prefixFunction('bottomMid')].shiftFractionTowards(
+        points[prefixFunction('topMid')],
         options.backPocketPleatPlacement
       )
       points.pleatLeft0 = utils.beamsIntersect(
-        points.topLeft,
-        points.bottomLeft,
+        points[prefixFunction('topLeft')],
+        points[prefixFunction('bottomLeft')],
         points.pleatMid,
         points.pleatMid.shift(180, 1)
       )
@@ -58,43 +101,30 @@ export const backPocket = {
       points.pleatLeft2 = points.pleatLeft0.shift(-90, backPocketPleatWidth)
       points.pleatRight2 = points.pleatLeft2.flipX(points.pleatMid)
 
-      const shift = ['peakLeftStart', 'peak', 'peakRightEnd']
+      const shift = [
+        prefixFunction('peakLeftStart'),
+        prefixFunction('peak'),
+        prefixFunction('peakRightEnd'),
+      ]
       for (const p of shift) points[p] = points[p].shift(-90, backPocketPleatWidth)
 
       paths.saBase = new Path()
-        .move(points.topLeft)
+        .move(points[prefixFunction('topLeft')])
         .line(points.pleatLeft0)
         .line(points.pleatLeft2)
-        .line(points.peakLeftStart)
-        .line(points.peak)
-        .line(points.peakRightEnd)
+        .line(points[prefixFunction('peakLeftStart')])
+        .line(points[prefixFunction('peak')])
+        .line(points[prefixFunction('peakRightEnd')])
         .line(points.pleatRight2)
         .line(points.pleatRight0)
-        .line(points.topRight)
+        .line(points[prefixFunction('topRight')])
         .hide()
-    } else {
-      paths.saBase = new Path()
-        .move(points.topLeft)
-        .line(points.peakLeftStart)
-        .line(points.peak)
-        .line(points.peakRightEnd)
-        .line(points.topRight)
-        .hide()
-    }
 
-    //paths
-    paths.seam = paths.saBase.clone().line(points.topLeft).close().unhide()
+      //paths
+      paths.seam = paths.saBase.clone().line(points[prefixFunction('topLeft')]).close().unhide()
 
-    if (complete) {
-      //title
-      macro('title', {
-        nr: 2,
-        title: 'Back Pocket',
-        at: points.title,
-        scale: 0.5,
-      })
-      //pleat lines
-      if (options.backPocketPleat) {
+      if (complete) {
+        //pleat lines
         points.pleatLeft1 = points.pleatLeft0.shiftFractionTowards(points.pleatLeft2, 0.5)
         points.pleatRight1 = points.pleatLeft1.flipX(points.pleatMid)
 
@@ -106,65 +136,73 @@ export const backPocket = {
             .attr('data-text', 'Stitch Line')
         }
         paths.pleat1.attr('class', 'interfacing', true).attr('data-text', 'Fold-line', true)
-      }
-
-      if (sa) {
-        if (options.backPocketPleat) {
-          if (options.patchPocketPeakDepth > 0) {
-            let shiftSa = ['saPeakLeftStart', 'saPeakLeftEnd']
+        //fold line back to top
+        paths.foldline = paths[prefixFunction('foldline')]
+        delete paths[prefixFunction('foldline')]
+        if (sa) {
+          if (options.backPocketPeakDepth > 0) {
+            let shiftSa = [prefixFunction('saPeakLeftStart'), prefixFunction('saPeakLeftEnd')]
             for (const p of shiftSa) points[p] = points[p].shift(-90, backPocketPleatWidth)
           }
 
-          points.saBottomLeft = points.saBottomLeft.shift(-90, backPocketPleatWidth)
+          points[prefixFunction('saBottomLeft')] = points[prefixFunction('saBottomLeft')].shift(
+            -90,
+            backPocketPleatWidth
+          )
 
           points.saPleatLeft0 = utils.beamIntersectsY(
-            points.saLeft,
-            points.saLeft.shift(points.topLeft.angle(points.pleatLeft0), 1),
+            points[prefixFunction('saLeft')],
+            points[prefixFunction('saLeft')].shift(
+              points[prefixFunction('topLeft')].angle(points.pleatLeft0),
+              1
+            ),
             points.pleatLeft0.y
           )
           points.saPleatLeft2 = utils.beamIntersectsY(
-            points.peakLeftStart
+            points[prefixFunction('peakLeftStart')]
               .shiftTowards(points.pleatLeft2, sa)
-              .rotate(-90, points.peakLeftStart),
-            points.pleatLeft2.shiftTowards(points.peakLeftStart, sa).rotate(-90, points.pleatLeft2),
+              .rotate(-90, points[prefixFunction('peakLeftStart')]),
+            points.pleatLeft2
+              .shiftTowards(points[prefixFunction('peakLeftStart')], sa)
+              .rotate(-90, points.pleatLeft2),
             points.pleatLeft2.y
           )
           paths.saLeft = new Path()
-            .move(points.saLeft)
+            .move(points[prefixFunction('saLeft')])
             .line(points.saPleatLeft0)
             .line(points.saPleatLeft2)
             .hide()
-        } else {
-          paths.saLeft = new Path().move(points.saLeft).hide()
+
+          if (options.backPocketPeakDepth == 0) {
+            paths.saLeft = paths.saLeft.line(points[prefixFunction('saBottomLeft')]).hide()
+          } else {
+            paths.saLeft = paths.saLeft
+              .line(points[prefixFunction('saPeakLeftStart')])
+              .line(points[prefixFunction('saPeakLeftEnd')])
+              .hide()
+          }
+
+          paths.sa = new Path()
+            .move(points[prefixFunction('saTopLeftCorner')])
+            .line(points[prefixFunction('saTopLeft')])
+            .line(points[prefixFunction('saLeft')])
+            .join(paths.saLeft)
+            .hide()
+
+          macro('mirror', {
+            mirror: [points[prefixFunction('topMid')], points[prefixFunction('peak')]],
+            paths: ['sa'],
+            prefix: 'm',
+          })
+
+          paths.sa = paths.sa
+            .join(paths.mSa.reverse())
+            .line(points[prefixFunction('saTopLeftCorner')])
+            .close()
+            .attr('class', 'fabric sa')
         }
-
-        if (options.patchPocketPeakDepth == 0) {
-          paths.saLeft = paths.saLeft.line(points.saBottomLeft).hide()
-        } else {
-          paths.saLeft = paths.saLeft.line(points.saPeakLeftStart).line(points.saPeakLeftEnd).hide()
-        }
-
-        paths.sa = new Path()
-          .move(points.saTopLeftCorner)
-          .line(points.saTopLeft)
-          .line(points.saLeft)
-          .join(paths.saLeft)
-          .hide()
-
-        macro('mirror', {
-          mirror: [points.topMid, points.peak],
-          paths: ['sa'],
-          prefix: 'm',
-        })
-
-        paths.sa = paths.sa
-          .join(paths.mSa.reverse())
-          .line(points.saTopLeftCorner)
-          .close()
-          .attr('class', 'fabric sa')
       }
     }
-
     return part
   },
 }

@@ -11,6 +11,7 @@
   "plugin-logorg": "A plugin for Robert George Patterns Logo",
   "plugin-measurements": "A FreeSewing plugin that adds additional measurements that can be calculated from existing ones",
   "plugin-mirror": "A FreeSewing plugin to mirror points or paths",
+  "plugin-patchpocket": "A plugin that creates patch pockets",
   "plugin-round": "A FreeSewing plugin to round corners",
   "plugin-sprinkle": "A FreeSewing plugin to bulk-add snippets to your pattern",
   "plugin-svgattr": "A FreeSewing plugin to set SVG attributes",

@@ -62,7 +62,7 @@ export const back = {
     sidePocketsBool: { bool: true, menu: 'pockets' },
     backPocketPlacement: { pct: 62.5, min: 50, max: 100, menu: 'pockets.backPockets' },
     backPocketBalance: { pct: 50, min: 40, max: 70, menu: 'pockets.backPockets' },
-    patchPocketWidth: { pct: (2 / 3) * 100, min: 40, max: 70, menu: 'pockets.backPockets' }, //Altered for Caleb
+    backPocketWidth: { pct: (2 / 3) * 100, min: 40, max: 70, menu: 'pockets.backPockets' }, //Altered for Caleb
     sidePocketPlacement: { pct: 2.4, min: 0, max: 5, menu: 'pockets.sidePockets' },
     sidePocketBalance: { pct: 50, min: 40, max: 70, menu: 'pockets.sidePockets' },
     sidePocketWidth: { pct: 85.8, min: 40, max: 90, menu: 'pockets.sidePockets' },
@@ -417,7 +417,7 @@ export const back = {
     if (options.backPocketsBool) {
       const backPocketWidth =
         (points.waistIn.dist(points.dartIn) + points.dartOut.dist(points.waistOut)) *
-        options.patchPocketWidth
+        options.backPocketWidth
       points.dartPocket = points.dartMid.shiftFractionTowards(
         points.dartTip,
         options.backPocketPlacement
@@ -438,7 +438,7 @@ export const back = {
         backPocketWidth * options.backPocketBalance
       )
       //stores
-      store.set('patchPocketWidth', backPocketWidth)
+      store.set('backPocketWidth', backPocketWidth)
       if (complete) {
         //notches
         macro('sprinkle', {
