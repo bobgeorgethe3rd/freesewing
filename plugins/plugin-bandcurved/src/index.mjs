@@ -62,6 +62,11 @@ export const plugin = {
         for (const pathName in paths) {
           if (pathName.match('bandCurved')) delete paths[pathName]
           if (pathName.match('BandCurved')) delete paths[pathName]
+
+          for (const snippetName in paths) {
+            if (snippetName.match('bandStraight')) delete paths[snippetName]
+            if (snippetName.match('BandStraight')) delete paths[snippetName]
+          }
         }
         return true
       }
