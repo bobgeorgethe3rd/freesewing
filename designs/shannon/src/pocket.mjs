@@ -10,10 +10,11 @@ export const pocket = {
     //Constant
     patchPocketGrainlineBias: false, //Locked for Shannon
   },
+  plugins: [...patchPocket.plugins],
   draft: (sh) => {
     //draft
     const { points, options, complete, macro, store, part } = sh
-    if (!options.frontPocketsBool || store.get('patchPocketRadius') > store.get('skirtRadius')) {
+    if (!options.patchPocketsBool || store.get('patchPocketRadius') > store.get('skirtRadius')) {
       part.hide()
       return part
     }
@@ -25,7 +26,7 @@ export const pocket = {
       macro('title', {
         nr: 11,
         title: 'Pocket',
-        at: points.title,
+        at: points.patchPocketTitle,
         scale: 1 / 3,
       })
     }

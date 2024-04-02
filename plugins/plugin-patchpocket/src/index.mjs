@@ -329,7 +329,7 @@ export const plugin = {
                   .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], sa)
                   .rotate(90, points[prefixFunction('patchPocketPeakLeftEnd')])
               )
-              if (so.peakCurve == 1 && so.peakDepth == 1) {
+              if (so.peakCurve == 1 && so.peakDepth == 1 && so.peakDepth < 1) {
                 points[prefixFunction('patchPocketSaPeakLeftEnd')] = utils.beamIntersectsX(
                   points[prefixFunction('patchPocketPeakLeftStart')]
                     .shiftTowards(points[prefixFunction('patchPocketPeakLeftEnd')], sa)

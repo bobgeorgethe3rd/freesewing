@@ -20,6 +20,7 @@ export const pocket = {
     //Construction
     patchPocketFolded: { bool: true, menu: 'construction' }, //Altered for Terry
   },
+  plugins: [...patchPocket.plugins],
   draft: (sh) => {
     //draft
     const { points, options, complete, macro, part } = sh
@@ -35,7 +36,7 @@ export const pocket = {
       macro('title', {
         nr: 5,
         title: 'Pocket',
-        at: points.title,
+        at: points.patchPocketTitle,
         scale: 1 / 3,
       })
     }

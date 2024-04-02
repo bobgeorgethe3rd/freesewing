@@ -53,6 +53,7 @@ caleb:
     '@freesewing/flyfront': *freesewing
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/plugin-patchpocket': *freesewing
+    '@freesewing/plugin-patchpocketflap': *freesewing
 capsleeve:
   peer:
     # '@freesewing/basicsleeve': *freesewing
@@ -212,6 +213,7 @@ paco:
 patchpocket:
   peer:
     '@freesewing/plugin-patchpocket': *freesewing
+    '@freesewing/plugin-patchpocketflap': *freesewing
     '@freesewing/plugin-mirror': *freesewing
 paul:
   peer:

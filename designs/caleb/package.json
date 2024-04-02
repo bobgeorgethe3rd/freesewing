@@ -55,7 +55,8 @@
     "@freesewing/waistbandstraight": "3.0.0-alpha.8",
     "@freesewing/flyfront": "3.0.0-alpha.8",
     "@freesewing/plugin-mirror": "3.0.0-alpha.8",
-    "@freesewing/plugin-patchpocket": "3.0.0-alpha.8"
+    "@freesewing/plugin-patchpocket": "3.0.0-alpha.8",
+    "@freesewing/plugin-patchpocketflap": "3.0.0-alpha.8"
   },
   "dependencies": {},
   "devDependencies": {

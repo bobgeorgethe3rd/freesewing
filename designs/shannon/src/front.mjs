@@ -44,9 +44,9 @@ export const front = {
     neckOpeningLength: { pct: 85, min: 75, max: 100, menu: 'plackets' },
     neckOpeningWidth: { pct: 2.4, min: 1, max: 3, menu: 'plackets' },
     //Pockets
-    frontPocketsBool: { bool: true, menu: 'pockets' },
-    frontPocketAngle: { pct: 50, min: 30, max: 70, menu: 'pockets' },
-    frontPocketPlacement: { pct: 7, min: 0, max: 10, menu: 'pockets' },
+    patchPocketsBool: { bool: true, menu: 'pockets' },
+    patchPocketAngle: { pct: 50, min: 30, max: 70, menu: 'pockets' },
+    patchPocketPlacement: { pct: 7, min: 0, max: 10, menu: 'pockets' },
     patchPocketWidth: { pct: 70, min: 10, max: 75, menu: 'pockets.patchPockets' }, //Altered for Shannon
     patchPocketPeakDepth: { pct: 100, min: 0, max: 100, menu: 'pockets.patchPockets' }, //Altered for Shannon
     patchPocketDepth: { pct: 39.3, min: 10, max: 60, menu: 'pockets.patchPockets' }, //Altered for Shannon
@@ -280,36 +280,36 @@ export const front = {
       .join(paths.saLeft)
       .close()
     //front pockets
-    if (options.frontPocketsBool) {
-      points.frontPocketAnchor = utils.lineIntersectsCurve(
+    if (options.patchPocketsBool) {
+      points.patchPocketAnchor = utils.lineIntersectsCurve(
         points.skirtOrigin,
-        points.cfHem.rotate(skirtAngle * options.frontPocketAngle, points.skirtOrigin),
+        points.cfHem.rotate(skirtAngle * options.patchPocketAngle, points.skirtOrigin),
         points.cfWaist,
         points.waistDartRight,
         points.waistDartRight,
         points.sideWaist
       )
-      points.frontPocketMid = points.skirtOrigin.shiftOutwards(
-        points.frontPocketAnchor,
-        measurements.waistToFloor * options.frontPocketPlacement
+      points.patchPocketMid = points.skirtOrigin.shiftOutwards(
+        points.patchPocketAnchor,
+        measurements.waistToFloor * options.patchPocketPlacement
       )
-      points.frontPocketLeft = points.frontPocketMid.shift(
-        points.skirtOrigin.angle(points.cfHem) + skirtAngle * options.frontPocketAngle - 90,
+      points.patchPocketLeft = points.patchPocketMid.shift(
+        points.skirtOrigin.angle(points.cfHem) + skirtAngle * options.patchPocketAngle - 90,
         measurements.waist * 0.125 * options.patchPocketWidth
       )
-      points.frontPocketRight = points.frontPocketLeft.rotate(180, points.frontPocketMid)
-      points.frontPocketBottom = points.frontPocketMid.shift(
-        points.frontPocketRight.angle(points.frontPocketLeft) + 90,
+      points.patchPocketRight = points.patchPocketLeft.rotate(180, points.patchPocketMid)
+      points.patchPocketBottom = points.patchPocketMid.shift(
+        points.patchPocketRight.angle(points.patchPocketLeft) + 90,
         measurements.waist * 0.25 * options.patchPocketDepth +
-          points.frontPocketMid.dist(points.frontPocketLeft) * options.patchPocketPeak
+          points.patchPocketMid.dist(points.patchPocketLeft) * options.patchPocketPeak
       )
-      store.set('patchPocketWidth', points.frontPocketLeft.dist(points.frontPocketRight))
+      store.set('patchPocketWidth', points.patchPocketLeft.dist(points.patchPocketRight))
       store.set(
         'patchPocketDepth',
-        points.frontPocketMid.dist(points.frontPocketBottom) -
-          points.frontPocketMid.dist(points.frontPocketLeft) * options.patchPocketPeak
+        points.patchPocketMid.dist(points.patchPocketBottom) -
+          points.patchPocketMid.dist(points.patchPocketLeft) * options.patchPocketPeak
       )
-      store.set('patchPocketRadius', points.skirtOrigin.dist(points.frontPocketBottom))
+      store.set('patchPocketRadius', points.skirtOrigin.dist(points.patchPocketBottom))
     }
     //stores
     store.set('skirtLength', skirtLength)
@@ -375,16 +375,16 @@ export const front = {
         snippets.dolmanMid = new Snippet('notch', points.dolmanMid)
       }
       if (
-        options.frontPocketsBool &&
-        points.skirtOrigin.dist(points.frontPocketBottom) < points.skirtOrigin.dist(points.cfHem)
+        options.patchPocketsBool &&
+        points.skirtOrigin.dist(points.patchPocketBottom) < points.skirtOrigin.dist(points.cfHem)
       ) {
         macro('sprinkle', {
           snippet: 'notch',
-          on: ['frontPocketLeft', 'frontPocketRight'],
+          on: ['patchPocketLeft', 'patchPocketRight'],
         })
         paths.pocketLine = new Path()
-          .move(points.frontPocketLeft)
-          .line(points.frontPocketRight)
+          .move(points.patchPocketLeft)
+          .line(points.patchPocketRight)
           .attr('class', 'mark')
           .attr('data-text', 'Pocket line')
           .attr('data-text-class', 'center')

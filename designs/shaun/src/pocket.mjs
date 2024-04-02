@@ -18,6 +18,7 @@ export const pocket = {
       menu: 'pockets.patchPockets',
     }, //Altered for Shaun
   },
+  plugins: [...patchPocket.plugins],
   draft: (sh) => {
     //draft
     const { points, options, complete, macro, part } = sh
@@ -33,7 +34,7 @@ export const pocket = {
       macro('title', {
         nr: 2,
         title: 'Pocket',
-        at: points.title,
+        at: points.patchPocketTitle,
         scale: 1 / 3,
       })
     }

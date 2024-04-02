@@ -8,15 +8,16 @@ export const pocketFlap = {
     //Imported
     ...patchPocketFlap.options,
     //Pockets
-    frontPocketFlapsBool: { bool: true, menu: 'pockets' },
+    patchPocketFlapsBool: { bool: true, menu: 'pockets' },
     patchPocketFlapPeakDepth: { pct: 100, min: 0, max: 100, menu: 'pockets.patchPocketsFlaps' }, //Altered for Shannon
   },
+  plugins: [...patchPocketFlap.plugins],
   draft: (sh) => {
     //draft
     const { points, options, complete, macro, store, part } = sh
     if (
-      !options.frontPocketFlapsBool ||
-      !options.frontPocketsBool ||
+      !options.patchPocketFlapsBool ||
+      !options.patchPocketsBool ||
       store.get('patchPocketRadius') > store.get('skirtRadius')
     ) {
       part.hide()
@@ -30,7 +31,7 @@ export const pocketFlap = {
       macro('title', {
         nr: 12,
         title: 'Pocket Flap',
-        at: points.title,
+        at: points.patchPocketFlapTitle,
         scale: 1 / 3,
       })
     }
