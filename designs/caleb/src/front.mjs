@@ -278,7 +278,7 @@ export const front = {
         points.crotchSeamCurveEnd.y + points.crotchSeamCurveEnd.dy(points.split) * 0.5
       )
       macro('title', {
-        nr: 3,
+        nr: 5,
         title: 'Front',
         at: points.title,
         scale: 0.5,
