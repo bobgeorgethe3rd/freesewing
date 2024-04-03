@@ -180,61 +180,61 @@ export const frontPocketBag = {
         .attr('class', 'mark')
         .attr('data-text', 'Fold - Line')
         .attr('data-text-class', 'center')
-    }
-    if (sa) {
-      const sideSeamSa = sa * options.sideSeamSaWidth * 100
-      const frontPocketBagSa = sa * options.frontPocketBagSaWidth * 100
+      if (sa) {
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const frontPocketBagSa = sa * options.frontPocketBagSaWidth * 100
 
-      ;(points.saFrontPocketOut = paths.outSeam.offset(sideSeamSa).end()),
-        (points.saFrontPocketOut = points.frontPocketOut
+        ;(points.saFrontPocketOut = paths.outSeam.offset(sideSeamSa).end()),
+          (points.saFrontPocketOut = points.frontPocketOut
+            .shift(points.waistIn.angle(points.waistOut), frontPocketBagSa)
+            .shift(points.waistIn.angle(points.waistOut) + 90, frontPocketBagSa))
+
+        points.saFrontPocketOutCp2 = points.frontPocketOutCp2
           .shift(points.waistIn.angle(points.waistOut), frontPocketBagSa)
-          .shift(points.waistIn.angle(points.waistOut) + 90, frontPocketBagSa))
+          .shift(points.waistIn.angle(points.waistOut) + 90, frontPocketBagSa)
 
-      points.saFrontPocketOutCp2 = points.frontPocketOutCp2
-        .shift(points.waistIn.angle(points.waistOut), frontPocketBagSa)
-        .shift(points.waistIn.angle(points.waistOut) + 90, frontPocketBagSa)
+        points.saFrontPocketBottomCurveEndCp1 = points.frontPocketBottomCurveEndCp1
+          .shift(points.waistIn.angle(points.waistOut), frontPocketBagSa)
+          .shift(points.waistIn.angle(points.waistOut) + 90, frontPocketBagSa)
 
-      points.saFrontPocketBottomCurveEndCp1 = points.frontPocketBottomCurveEndCp1
-        .shift(points.waistIn.angle(points.waistOut), frontPocketBagSa)
-        .shift(points.waistIn.angle(points.waistOut) + 90, frontPocketBagSa)
-
-      points.saFrontPocketBottomCurveEnd = points.frontPocketBottomCurveEnd.shift(
-        points.waistIn.angle(points.waistOut) + 90,
-        frontPocketBagSa
-      )
-
-      points.saFrontPocketBottomMid = points.frontPocketBottomMid.shift(
-        points.waistIn.angle(points.waistOut) + 90,
-        frontPocketBagSa
-      )
-
-      paths.saBottom = new Path()
-        .move(points.saFrontPocketOut)
-        .curve(
-          points.saFrontPocketOutCp2,
-          points.saFrontPocketBottomCurveEndCp1,
-          points.saFrontPocketBottomCurveEnd
+        points.saFrontPocketBottomCurveEnd = points.frontPocketBottomCurveEnd.shift(
+          points.waistIn.angle(points.waistOut) + 90,
+          frontPocketBagSa
         )
-        .hide()
 
-      macro('mirror', {
-        mirror: [points.frontPocketWaist, points.frontPocketBottomAnchor],
-        points: ['saWaistOut'],
-        paths: ['saBottom'],
-        prefix: 'm',
-      })
+        points.saFrontPocketBottomMid = points.frontPocketBottomMid.shift(
+          points.waistIn.angle(points.waistOut) + 90,
+          frontPocketBagSa
+        )
 
-      paths.sa = paths.saBottom
-        .join(paths.mSaBottom.reverse())
-        .join(paths.mOutSeamM.reverse().offset(sideSeamSa))
-        .line(points.mSaWaistOut)
-        .line(points.saFrontPocketOpeningWaist)
-        .join(paths.pocketCurve.offset(sa))
-        .line(points.saFrontPocketOpeningOut)
-        .join(paths.outSeam.offset(sideSeamSa))
-        .line(points.saFrontPocketOut)
-        .close()
-        .attr('class', 'fabric sa')
+        paths.saBottom = new Path()
+          .move(points.saFrontPocketOut)
+          .curve(
+            points.saFrontPocketOutCp2,
+            points.saFrontPocketBottomCurveEndCp1,
+            points.saFrontPocketBottomCurveEnd
+          )
+          .hide()
+
+        macro('mirror', {
+          mirror: [points.frontPocketWaist, points.frontPocketBottomAnchor],
+          points: ['saWaistOut'],
+          paths: ['saBottom'],
+          prefix: 'm',
+        })
+
+        paths.sa = paths.saBottom
+          .join(paths.mSaBottom.reverse())
+          .join(paths.mOutSeamM.reverse().offset(sideSeamSa))
+          .line(points.mSaWaistOut)
+          .line(points.saFrontPocketOpeningWaist)
+          .join(paths.pocketCurve.offset(sa))
+          .line(points.saFrontPocketOpeningOut)
+          .join(paths.outSeam.offset(sideSeamSa))
+          .line(points.saFrontPocketOut)
+          .close()
+          .attr('class', 'fabric sa')
+      }
     }
 
     return part
