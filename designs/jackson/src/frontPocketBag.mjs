@@ -184,10 +184,11 @@ export const frontPocketBag = {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const frontPocketBagSa = sa * options.frontPocketBagSaWidth * 100
 
-        ;(points.saFrontPocketOut = paths.outSeam.offset(sideSeamSa).end()),
-          (points.saFrontPocketOut = points.frontPocketOut
-            .shift(points.waistIn.angle(points.waistOut), frontPocketBagSa)
-            .shift(points.waistIn.angle(points.waistOut) + 90, frontPocketBagSa))
+        points.saFrontPocketOut = paths.outSeam.offset(sideSeamSa).end()
+
+        points.saFrontPocketOut = points.frontPocketOut
+          .shift(points.waistIn.angle(points.waistOut), frontPocketBagSa)
+          .shift(points.waistIn.angle(points.waistOut) + 90, frontPocketBagSa)
 
         points.saFrontPocketOutCp2 = points.frontPocketOutCp2
           .shift(points.waistIn.angle(points.waistOut), frontPocketBagSa)
