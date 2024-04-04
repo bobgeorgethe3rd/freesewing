@@ -32,7 +32,7 @@ export const plugin = {
         style: 'curved',
         folded: false,
         grainlineBias: false,
-        patchPocketTopSaWidth: 0.02,
+        topSaWidth: 0.02,
       }
       so = { ...defaults, ...so }
       const prefix = so.prefix || ''
@@ -285,7 +285,7 @@ export const plugin = {
               points[prefixFunction('patchPocketPeakLeftStart')]
                 .shiftTowards(points[prefixFunction('patchPocketTopLeft')], sa)
                 .rotate(90, points[prefixFunction('patchPocketPeakLeftStart')]),
-              points[prefixFunction('patchPocketTopLeft')].y + sa * so.patchPocketTopSaWidth * 100
+              points[prefixFunction('patchPocketTopLeft')].y + sa * so.topSaWidth * 100
             )
             .flipY(points[prefixFunction('patchPocketTopLeft')])
 
