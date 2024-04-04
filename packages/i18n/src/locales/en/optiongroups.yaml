@@ -13,8 +13,11 @@ sleevecap: Sleevecap
 sleeves: Sleeves
 style: Style
 backPockets: Back pockets
+backPocketsFlaps: Back pockets flaps
 frontPockets: Front pockets
+frontPocketsFlaps: Front pockets flaps
 sidePockets: Side pockets
+sidePocketsFlaps: Side pockets flaps
 coinPockets: Coin pockets
 waistband: Waistband
 fly: Fly
