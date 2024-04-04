@@ -1,3 +1,4 @@
+import { pluginMirror } from '@freesewing/plugin-mirror'
 import { frontBase } from './frontBase.mjs'
 
 export const front = {
@@ -13,6 +14,7 @@ export const front = {
       menu: 'pockets.frontPockets',
     },
   },
+  plugins: [pluginMirror],
   draft: ({
     store,
     sa,
@@ -85,20 +87,7 @@ export const front = {
             .move(points.floorIn)
             .curve(points.floorInCp2, points.upperLegInCp1, points.upperLegIn)
     //let's begin
-    points.bottomMin = points.upperLeg.shiftFractionTowards(points.knee, 0.1)
-    if (points.upperLeg.dist(points.bottomMin) < legBandWidth) {
-      points.bottomMin = points.upperLeg
-        .shiftTowards(points.knee, legBandWidth)
-        .shiftFractionTowards(points.knee, 0.1)
-    }
-    if (options.legLength < 0.5) {
-      points.bottom = points.bottomMin.shiftFractionTowards(points.knee, 2 * options.legLength)
-    } else {
-      points.bottom = points.knee.shiftFractionTowards(points.floor, 2 * options.legLength - 1)
-    }
-
     points.split = points.bottom.shiftTowards(points.upperLeg, legBandWidth)
-
     points.splitOut = drawOutseam().intersects(
       new Path().move(points.split).line(points.split.shift(180, measurements.waistToFloor * 10))
     )[0]
@@ -264,13 +253,16 @@ export const front = {
         to: points.grainlineTo,
       })
       //notches
-      if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool) {
-        snippets.frontPocketOpeningCorner = new Snippet('notch', points.frontPocketOpeningCorner)
-      } else {
-        macro('sprinkle', {
-          snippet: 'notch',
-          on: ['frontPocketOpeningTopOut', 'frontPocketOpeningBottomOut'],
-        })
+      if (options.frontPocketsBool) {
+        if (options.frontPocketOpeningStyle == 'slanted') {
+          snippets.frontPocketOpeningCorner = new Snippet('notch', points.frontPocketOpeningCorner)
+        } else {
+          macro('sprinkle', {
+            snippet: 'notch',
+            on: ['frontPocketOpeningTopOut', 'frontPocketOpeningBottomOut'],
+          })
+        }
+        snippets.frontPocketOut = new Snippet('notch', points.frontPocketOut)
       }
       //title
       points.title = new Point(
