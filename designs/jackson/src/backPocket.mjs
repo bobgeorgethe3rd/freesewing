@@ -7,11 +7,6 @@ export const backPocket = {
   after: back,
   options: {
     //Constants
-    backPocketPeakPlateau: false, //Locked for Jackson
-    backPocketPeakCurve: 1, //Locked for Jackson
-    backPocketStyle: 'straight', //Locked for Jackson
-    backPocketFolded: false, //Locked for Jackson
-    backPocketGrainlineBias: false, //Locked for Jackson
     backPocketPleatWidth: 0.143,
     backPocketPleatPlacement: 0.25,
     //Pockets
@@ -52,11 +47,8 @@ export const backPocket = {
       depth: backPocketDepth,
       bottomWidth: options.backPocketBottomWidth,
       peakDepth: options.backPocketPeakDepth,
-      peakCurve: options.backPocketPeakCurve,
-      peakPlateau: options.backPocketPeakPlateau,
-      style: options.backPocketStyle,
-      folded: options.backPocketFolded,
-      grainlineBias: options.backPocketGrainlineBias,
+      peakPlateau: false,
+      style: 'straight',
       topSaWidth: options.backPocketTopSaWidth,
       prefix: 'backPocket',
     })
