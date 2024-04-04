@@ -10,6 +10,9 @@ import { front } from './front.mjs'
 import { frontPocketBag } from './frontPocketBag.mjs'
 import { frontPocketFacing } from './frontPocketFacing.mjs'
 import { frontPocketFacingB } from './frontPocketFacingB.mjs'
+import { fly } from './fly.mjs'
+import { buttonholePlacket } from './buttonholePlacket.mjs'
+import { flyShield } from './flyShield.mjs'
 
 // Create new design
 const Caleb = new Design({
@@ -22,6 +25,9 @@ const Caleb = new Design({
     frontPocketBag,
     frontPocketFacing,
     frontPocketFacingB,
+    fly,
+    buttonholePlacket,
+    flyShield,
   ],
 })
 
@@ -34,5 +40,8 @@ export {
   frontPocketBag,
   frontPocketFacing,
   frontPocketFacingB,
+  fly,
+  buttonholePlacket,
+  flyShield,
   Caleb,
 }
