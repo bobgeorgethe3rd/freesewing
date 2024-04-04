@@ -15,6 +15,8 @@ import { buttonholePlacket } from './buttonholePlacket.mjs'
 import { flyShield } from './flyShield.mjs'
 import { sidePocket } from './sidePocket.mjs'
 import { sidePocketFlap } from './sidePocketFlap.mjs'
+import { beltLoops } from './beltLoops.mjs'
+import { waistband } from './waistband.mjs'
 
 // Create new design
 const Caleb = new Design({
@@ -32,6 +34,8 @@ const Caleb = new Design({
     flyShield,
     sidePocket,
     sidePocketFlap,
+    beltLoops,
+    waistband,
   ],
 })
 
@@ -49,5 +53,7 @@ export {
   flyShield,
   sidePocket,
   sidePocketFlap,
+  beltLoops,
+  waistband,
   Caleb,
 }
