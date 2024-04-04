@@ -13,6 +13,8 @@ import { frontPocketFacingB } from './frontPocketFacingB.mjs'
 import { fly } from './fly.mjs'
 import { buttonholePlacket } from './buttonholePlacket.mjs'
 import { flyShield } from './flyShield.mjs'
+import { sidePocket } from './sidePocket.mjs'
+import { sidePocketFlap } from './sidePocketFlap.mjs'
 
 // Create new design
 const Caleb = new Design({
@@ -28,6 +30,8 @@ const Caleb = new Design({
     fly,
     buttonholePlacket,
     flyShield,
+    sidePocket,
+    sidePocketFlap,
   ],
 })
 
@@ -43,5 +47,7 @@ export {
   fly,
   buttonholePlacket,
   flyShield,
+  sidePocket,
+  sidePocketFlap,
   Caleb,
 }

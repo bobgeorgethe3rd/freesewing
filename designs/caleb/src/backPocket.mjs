@@ -7,19 +7,19 @@ export const backPocket = {
   after: back,
   options: {
     //Pockets
-    backPocketDepth: { pct: 12.6, min: 10, max: 20, menu: 'pockets.backPockets' }, //Altered for Caleb
+    backPocketDepth: { pct: 12.6, min: 10, max: 20, menu: 'pockets.backPockets' },
     backPocketStyle: {
       dflt: 'straight',
       list: ['straight', 'curved'],
       menu: 'pockets.backPockets',
-    }, //Altered for Caleb
-    backPocketPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets.backPockets' }, //Moved for Caleb
-    backPocketPeakDepth: { pct: 50, min: 0, max: 100, menu: 'pockets.backPockets' }, //Moved for Caleb
-    backPocketPeakPlateau: { bool: false, menu: 'pockets.backPockets' }, //Altered for Caleb
+    },
+    backPocketPeakCurve: { pct: 100, min: 0, max: 100, menu: 'pockets.backPockets' },
+    backPocketPeakDepth: { pct: 50, min: 0, max: 100, menu: 'pockets.backPockets' },
+    backPocketPeakPlateau: { bool: false, menu: 'pockets.backPockets' },
     //Construction
-    backPocketFolded: { bool: false, menu: 'construction' }, //Altered for Caleb
-    backPocketGrainlineBias: { bool: false, menu: 'construction' }, //Altered for Caleb
-    backPocketTopSaWidth: { pct: 3.3, min: 1, max: 4, menu: 'construction' }, //Altered for Caleb
+    backPocketFolded: { bool: false, menu: 'construction' },
+    backPocketGrainlineBias: { bool: false, menu: 'construction' },
+    backPocketTopSaWidth: { pct: 3.3, min: 1, max: 4, menu: 'construction' },
   },
   plugins: [pluginMirror, pluginPatchPocket],
   draft: ({
