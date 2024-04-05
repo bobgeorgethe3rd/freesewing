@@ -10,6 +10,8 @@ export const flyShield = {
   options: {
     //Imported
     ...flyShieldFlyFront.options,
+    //Plackets
+    flyFrontShieldCurved: { bool: true, menu: 'plackets' }, //Altered for Caleb
   },
   draft: (sh) => {
     const { points, complete, macro, part } = sh
