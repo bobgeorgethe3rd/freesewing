@@ -16,6 +16,7 @@ export const front = {
     useVoidStores: false, //Locked for Paul
     waistbandStyle: 'none', //Locked for Paul
     fitWaist: false, //Locked for Paul
+    calculateWaistbandDiff: false, //Locked for Paul
     legBandWidth: {
       pct: 0,
       min: 0,
