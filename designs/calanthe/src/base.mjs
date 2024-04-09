@@ -46,6 +46,7 @@ export const base = {
     'hips',
     'hpsToBust',
     'hpsToWaistFront',
+    'hpsToWaistBack',
     'waistToUnderbust',
     'waistToHips',
     'bustSpan',
