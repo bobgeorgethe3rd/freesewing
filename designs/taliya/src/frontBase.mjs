@@ -1,9 +1,11 @@
 import { pctBasedOn } from '@freesewing/core'
 import { front as frontDaisy } from '@freesewing/daisy'
+import { backBase } from './backBase.mjs'
 
 export const frontBase = {
   name: 'taliya.frontBase',
   from: frontDaisy,
+  after: backBase,
   hide: {
     from: true,
     inherited: true,
@@ -14,23 +16,9 @@ export const frontBase = {
     bustDartLength: 1, //Locked for Taliya
     waistDartLength: 1, //Locked for Taliya
     bustDartFraction: 0.5, //Locked for Taliya
-    closurePosition: 'none', //Locked for Taliya
-    //Fit
-    daisyGuides: { bool: false, menu: 'fit' },
     //Style
-    neckbandWidth: {
-      pct: 3.6,
-      min: 3,
-      max: 5,
-      snap: 3.175,
-      ...pctBasedOn('waist'),
-      menu: 'style',
-    },
     neckbandEnd: { pct: 21.1, min: 0, max: 25, menu: 'style' },
     frontNeckDepth: { pct: 22.5, min: 20, max: 75, menu: 'style' },
-    shoulderWidth: { pct: 50, min: 25, max: 75, menu: 'style' },
-    //Sleeves
-    raglanArmholeDepth: { pct: 50, min: 40, max: 60, menu: 'sleeves' },
   },
   draft: ({
     store,
@@ -67,15 +55,11 @@ export const frontBase = {
     //measures
     const neckbandWidth = absoluteOptions.neckbandWidth
     //let's begin
-    points.cfNeckBandEnd = points.cfWaist.shiftFractionTowards(points.cfChest, options.neckbandEnd)
-    points.neckbandEnd = points.cfNeckBandEnd.shift(0, neckbandWidth / 2)
+    points.cfNeckbandEnd = points.cfWaist.shiftFractionTowards(points.cfChest, options.neckbandEnd)
+    points.neckbandEnd = points.cfNeckbandEnd.shift(0, neckbandWidth / 2)
     points.neckbandArmhole = new Point(points.neckbandEnd.x, points.cArmhole.y)
 
-    points.shoulderTopMax = points.hps.shiftTowards(points.shoulder, neckbandWidth)
-    points.shoulderTop = points.shoulder.shiftFractionTowards(
-      points.shoulderTopMax,
-      options.shoulderWidth
-    )
+    points.shoulderTop = points.shoulder.shiftTowards(points.hps, store.get('shoulderWidth'))
     points.shoulderTopCp2 = points.shoulderTop.shift(
       points.shoulder.angle(points.armholePitchCp2),
       points.shoulder.dist(points.armholePitchCp2)
@@ -84,38 +68,34 @@ export const frontBase = {
       90,
       points.cArmhole.dist(points.cfNeck) * (1 - options.frontNeckDepth)
     )
-
-    paths.neckBandGuide = new Path()
+    //sleeves
+    paths.cfNeck = new Path()
       .move(points.shoulderTop)
       .curve(points.shoulderTopCp2, points.neckbandArmholeCp1, points.neckbandArmhole)
-      .line(points.neckbandEnd)
+      .hide()
 
-    paths.neckBandCheck = paths.neckBandGuide
+    points.raglanNeckSplit = paths.cfNeck.shiftAlong(store.get('raglanNeckWidth'))
+    points.armholeRaglanCp2 = points.armhole.shiftFractionTowards(
+      new Point(points.armholePitch.x, points.armhole.y),
+      2 / 3
+    )
+    points.raglanCurveEnd = utils.beamIntersectsX(
+      points.raglanNeckSplit,
+      points.armholeRaglanCp2,
+      points.armholePitch.x
+    )
+
+    points.gatherNeckSplit = paths.cfNeck.split(points.raglanNeckSplit)[1].shiftFractionAlong(3 / 4)
+    //guides
+    paths.cfNeckCheck = paths.cfNeck
       .clone()
       .offset(neckbandWidth)
       .line(points.cfNeck.shiftFractionTowards(points.cfChest, 0.376))
 
-    //sleeves
-    points.raglanSplit = utils.curveIntersectsY(
-      points.armhole,
-      points.armholeCp2,
-      points.armholePitchCp1,
-      points.armholePitch,
-      points.cArmhole.shiftFractionTowards(points.cArmholePitch, options.raglanArmholeDepth).y
-    )
-    // points.raglanSplit = paths.armhole.split(points.armholePitch)[0].shiftFractionAlong(options.raglanArmholeDepth)
-    points.raglanSplitAnchor = paths.armhole.split(points.raglanSplit)[0].shiftFractionAlong(0.995)
-
-    points.neckbandSplit = utils.lineIntersectsCurve(
-      points.raglanSplit,
-      points.raglanSplitAnchor.shiftOutwards(points.raglanSplit, measurements.chest * 100),
-      points.shoulderTop,
-      points.shoulderTopCp2,
-      points.neckbandArmholeCp1,
-      points.neckbandArmhole
-    )
-
-    paths.raglanArm = paths.armhole.split(points.raglanSplit)[0].line(points.neckbandSplit)
+    paths.raglan = new Path()
+      .move(points.armhole)
+      .curve_(points.armholeRaglanCp2, points.raglanCurveEnd)
+      .line(points.raglanNeckSplit)
 
     //stores
     store.set('neckbandWidth', neckbandWidth)
