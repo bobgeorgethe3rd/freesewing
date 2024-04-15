@@ -11,7 +11,7 @@ export const back = {
   options: {
     //Constants
     useChestFront: false, //Locked for Terry
-    closurePosition: 'sideLeft', //Locked for Terry
+    closurePosition: 'none', //Locked for Terry
     //Fit
     byronGuides: { bool: false, menu: 'fit' },
     chestEase: { pct: 17.1, min: 0, max: 20, menu: 'fit' }, //Altered for Terry
@@ -31,6 +31,7 @@ export const back = {
     bodyLength: { pct: 100, min: 0, max: 100, menu: 'style' },
     bodyLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
     //Construction
+    cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Terry
     hemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Terry
     //Advanced
     fitSide: { bool: false, menu: 'advanced' }, //Altered for Terry
@@ -151,13 +152,22 @@ export const back = {
 
     if (complete) {
       //grainline
-      points.cutOnFoldFrom = points.cbTop
-      points.cutOnFoldTo = points.cbHem
-      macro('cutonfold', {
-        from: points.cutOnFoldFrom,
-        to: points.cutOnFoldTo,
-        grainline: true,
-      })
+      if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
+        points.cutOnFoldFrom = points.cbTop
+        points.cutOnFoldTo = points.cbHem
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 0.25)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cbHem.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+      }
       //notches
       if (options.bodyLength > 0) {
         snippets.sideWaist = new Snippet('notch', points.sideWaist)

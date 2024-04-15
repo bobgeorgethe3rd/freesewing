@@ -16,6 +16,8 @@ export const front = {
     pocketsBool: { bool: true, menu: 'pockets' },
     patchPocketWidth: { pct: 46.6, min: 30, max: 60, menu: 'pockets.patchPockets' },
     patchPocketDepth: { pct: 95, min: 70, max: 110, menu: 'pockets.patchPockets' },
+    //Construction
+    cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Terry
   },
   plugins: [pluginLogoRG],
   draft: ({
@@ -116,13 +118,22 @@ export const front = {
     )
     if (complete) {
       //grainline
-      points.cutOnFoldFrom = points.cfTop
-      points.cutOnFoldTo = points.cfHem
-      macro('cutonfold', {
-        from: points.cutOnFoldFrom,
-        to: points.cutOnFoldTo,
-        grainline: true,
-      })
+      if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
+        points.cutOnFoldFrom = points.cfTop
+        points.cutOnFoldTo = points.cfHem
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.cfNeck.shiftFractionTowards(points.cfNeckCp1, 1 / 3)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+      }
       //notches
       if (options.bodyLength > 0) {
         snippets.sideWaist = new Snippet('notch', points.sideWaist)

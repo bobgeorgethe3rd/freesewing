@@ -10,7 +10,7 @@ export const neckband = {
     neckbandOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'style' },
     neckbandOverlap: { pct: 0, min: 0, max: 15, menu: 'style' },
     //Construction
-    closurePosition: {
+    neckbandClosurePosition: {
       dflt: 'sideLeft',
       list: ['back', 'sideLeft', 'sideRight', 'front'],
       menu: 'construction',
@@ -57,7 +57,7 @@ export const neckband = {
       placketWidth: store.get('neckbandPlacketWidth'),
       overlap: store.get('neckbandOverlap'),
       overlapSide: options.neckbandOverlapSide,
-      closurePosition: options.closurePosition,
+      closurePosition: options.neckbandClosurePosition,
       sideSa: store.get('neckbandSideSa'),
       prefix: 'neckband',
     })
