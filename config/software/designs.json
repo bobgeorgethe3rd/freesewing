@@ -386,6 +386,13 @@
       "difficulty": 1,
       "tags": ["tops", "shirts"]
     },
+    "taliya": {
+      "description": "Taliya tunic design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["tops", "tunics"]
+    },
     "terry": {
       "description": "Terry t-shirt design",
       "code": "bobgeorgethe3rd",

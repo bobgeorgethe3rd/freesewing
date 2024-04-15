@@ -359,6 +359,10 @@ sven:
   peer:
     '@freesewing/brian': *freesewing
     '@freesewing/plugin-bust': *freesewing
+taliya:
+  peer:
+    '@freesewing/daisy': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 tamiko:
   peer:
     '@freesewing/plugin-bust': *freesewing
