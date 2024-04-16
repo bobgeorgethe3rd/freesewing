@@ -13,7 +13,6 @@ export const frontBase = {
   options: {
     //Constant
     bustDartPlacement: 'bustSide', //Locked for Taliya
-    bustDartLength: 1, //Locked for Taliya
     waistDartLength: 1, //Locked for Taliya
     bustDartFraction: 0.5, //Locked for Taliya
     //Style

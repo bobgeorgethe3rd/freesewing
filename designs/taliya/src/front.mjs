@@ -10,7 +10,6 @@ export const front = {
   options: {
     //Constant
     bustDartPlacement: 'bustSide', //Locked for Taliya
-    bustDartLength: 1, //Locked for Taliya
     waistDartLength: 1, //Locked for Taliya
     bustDartFraction: 0.5, //Locked for Taliya
     //Style
@@ -49,7 +48,7 @@ export const front = {
     let j
     for (let i = 0; i <= 2; i++) {
       j = i + 1
-      points['neckSpit' + i] = paths.cfNeck
+      points['neckSplit' + i] = paths.cfNeck
         .split(points.raglanNeckSplit)[1]
         .split(points.gatherNeckSplit)[0]
         .shiftFractionAlong(j / 4)
@@ -77,7 +76,7 @@ export const front = {
       'shoulderTopCp2',
       'neckbandArmholeCp1',
       'neckbandArmhole',
-      'neckSpit0',
+      'neckSplit0',
     ]
     for (const p of rot2) points[p + 'R2'] = points[p].rotate((-bustDartAngle * 2) / 3, points.bust)
 
@@ -86,20 +85,49 @@ export const front = {
       'shoulderTopCp2',
       'neckbandArmholeCp1',
       'neckbandArmhole',
-      'neckSpit1',
+      'neckSplit1',
     ]
     for (const p of rot3) points[p + 'R3'] = points[p].rotate((-bustDartAngle * 1) / 3, points.bust)
 
     //this is important these splits should only be rotated after
-    points.neckSpit0 = points.neckSpit0.rotate(-bustDartAngle, points.bust)
-    points.neckSpit1 = points.neckSpit1.rotate((-bustDartAngle * 2) / 3, points.bust)
-    points.neckSpit2R4 = points.neckSpit2
-    points.neckSpit2 = points.neckSpit2.rotate((-bustDartAngle * 1) / 3, points.bust)
+    points.neckSplit0 = points.neckSplit0.rotate(-bustDartAngle, points.bust)
+    points.neckSplit1 = points.neckSplit1.rotate((-bustDartAngle * 2) / 3, points.bust)
+    points.neckSplit2R4 = points.neckSplit2
+    points.neckSplit2 = points.neckSplit2.rotate((-bustDartAngle * 1) / 3, points.bust)
 
     paths.cfNeckR1 = new Path()
       .move(points.shoulderTopR1)
       .curve(points.shoulderTopCp2R1, points.neckbandArmholeCp1R1, points.neckbandArmholeR1)
       .hide()
+    paths.cfNeckR2 = new Path()
+      .move(points.shoulderTopR2)
+      .curve(points.shoulderTopCp2R2, points.neckbandArmholeCp1R2, points.neckbandArmholeR2)
+      .hide()
+    paths.cfNeckR3 = new Path()
+      .move(points.shoulderTopR3)
+      .curve(points.shoulderTopCp2R3, points.neckbandArmholeCp1R3, points.neckbandArmholeR3)
+      .hide()
+    paths.cfNeckR4 = paths.cfNeck.clone()
+    let k
+    for (let i = 0; i <= 2; i++) {
+      k = i + 2
+      points['bustDartMid' + i] = points['neckSplit' + i].shiftFractionTowards(
+        points['neckSplit' + i + 'R' + k],
+        0.5
+      )
+      points['bustDartTip' + i] = points['bustDartMid' + i].shiftFractionTowards(
+        points.bust,
+        options.bustDartLength
+      )
+
+      points['bustDartEdge' + i] = utils.beamsIntersect(
+        points['bustDartTip' + i],
+        points['bustDartMid' + i],
+        points['neckSplit' + i + 'R' + k],
+        paths['cfNeckR' + k].split(points['neckSplit' + i + 'R' + k])[1].shiftFractionAlong(0.005)
+      )
+    }
+
     if (options.daisyGuides) {
       points.bustDartBottom = points.hps.rotate(-bustDartAngle, points.bust)
       paths.daisyGuide = new Path()
@@ -120,28 +148,21 @@ export const front = {
 
       paths.cfNeck.attr('class', 'interfacing dashed').unhide()
       paths.cfNeckR1.attr('class', 'interfacing dashed').unhide()
-      paths.cfNeckR2 = new Path()
-        .move(points.shoulderTopR2)
-        .curve(points.shoulderTopCp2R2, points.neckbandArmholeCp1R2, points.neckbandArmholeR2)
-        .attr('class', 'interfacing dashed')
-
-      paths.cfNeckR3 = new Path()
-        .move(points.shoulderTopR3)
-        .curve(points.shoulderTopCp2R3, points.neckbandArmholeCp1R3, points.neckbandArmholeR3)
-        .attr('class', 'interfacing dashed')
+      paths.cfNeckR2.attr('class', 'interfacing dashed').unhide()
+      paths.cfNeckR3.attr('class', 'interfacing dashed').unhide()
 
       paths.neckGuide = paths.cfNeckR1
         .clone()
-        .split(points.neckSpit0)[0]
+        .split(points.neckSplit0)[0]
         .line(points.bust)
-        .line(points.neckSpit0R2)
-        .join(paths.cfNeckR2.split(points.neckSpit0R2)[1].split(points.neckSpit1)[0])
+        .line(points.neckSplit0R2)
+        .join(paths.cfNeckR2.split(points.neckSplit0R2)[1].split(points.neckSplit1)[0])
         .line(points.bust)
-        .line(points.neckSpit1R3)
-        .join(paths.cfNeckR3.split(points.neckSpit1R3)[1].split(points.neckSpit2)[0])
+        .line(points.neckSplit1R3)
+        .join(paths.cfNeckR3.split(points.neckSplit1R3)[1].split(points.neckSplit2)[0])
         .line(points.bust)
-        .line(points.neckSpit2R4)
-        .join(paths.cfNeck.split(points.neckSpit2R4)[1])
+        .line(points.neckSplit2R4)
+        .join(paths.cfNeck.split(points.neckSplit2R4)[1])
         .attr('class', 'interfacing')
     }
 
@@ -149,13 +170,13 @@ export const front = {
       paths.cfNeck.split(points.gatherNeckSplit)[1].shiftFractionAlong(0.005),
       points.gatherNeckSplit,
       points.bust,
-      points.neckSpit2
+      points.neckSplit2
     )
     points.raglanNeckSplitCp2 = utils.beamsIntersect(
       paths.cfNeckR1.split(points.raglanNeckSplit)[0].shiftFractionAlong(0.995),
       points.raglanNeckSplit,
       points.bust,
-      points.neckSpit0R2
+      points.neckSplit0R2
     )
 
     //paths
@@ -171,11 +192,39 @@ export const front = {
       .curve_(points.armholePitchCp2, points.shoulder)
       .hide()
 
-    paths.neckLine = paths.cfNeckR1
-      .split(points.raglanNeckSplit)[0]
-      .curve(points.raglanNeckSplitCp2, points.gatherNeckSplitCp1, points.gatherNeckSplit)
-      .join(paths.cfNeck.split(points.gatherNeckSplit)[1])
-      .hide()
+    const drawNeck = () => {
+      if (options.shapingStyle == 'gathers') {
+        return paths.cfNeckR1
+          .split(points.raglanNeckSplit)[0]
+          .curve(points.raglanNeckSplitCp2, points.gatherNeckSplitCp1, points.gatherNeckSplit)
+          .join(paths.cfNeck.split(points.gatherNeckSplit)[1])
+      }
+      if (options.shapingStyle == 'pleats') {
+        return paths.cfNeckR1
+          .split(points.neckSplit0)[0]
+          .line(points.neckSplit0R2)
+          .join(paths.cfNeckR2.split(points.neckSplit0R2)[1].split(points.neckSplit1)[0])
+          .line(points.neckSplit1R3)
+          .join(paths.cfNeckR3.split(points.neckSplit1R3)[1].split(points.neckSplit2)[0])
+          .line(points.neckSplit2R4)
+          .join(paths.cfNeck.split(points.neckSplit2R4)[1])
+      }
+      if (options.shapingStyle == 'darts') {
+        return paths.cfNeckR1
+          .split(points.neckSplit0)[0]
+          .line(points.bustDartTip0)
+          .line(points.neckSplit0R2)
+          .join(paths.cfNeckR2.split(points.neckSplit0R2)[1].split(points.neckSplit1)[0])
+          .line(points.bustDartTip1)
+          .line(points.neckSplit1R3)
+          .join(paths.cfNeckR3.split(points.neckSplit1R3)[1].split(points.neckSplit2)[0])
+          .line(points.bustDartTip2)
+          .line(points.neckSplit2R4)
+          .join(paths.cfNeck.split(points.neckSplit2R4)[1])
+      }
+    }
+
+    paths.neckLine = drawNeck()
 
     if (options.raglanSleeves) {
       paths.neckLine = paths.neckLine.split(points.raglanNeckSplit)[1].hide()
@@ -200,11 +249,65 @@ export const front = {
       if (!options.raglanSleeves) {
         snippets.raglanNeckSplit = new Snippet('bnotch', points.raglanNeckSplit)
         snippets.armholePitch = new Snippet('notch', points.armholePitch)
+      } else {
+        snippets.raglanCurveEnd = new Snippet('notch', points.raglanCurveEnd)
       }
       macro('sprinkle', {
         snippet: 'notch',
         on: ['neckbandEnd', 'neckbandArmhole'],
       })
+      //gather lines
+      if (options.shapingStyle == 'gathers') {
+        paths.gatheringLine = drawNeck()
+          .split(points.raglanNeckSplit)[1]
+          .split(points.gatherNeckSplit)[0]
+          .attr('class', 'fabric hidden')
+
+        macro('banner', {
+          path: paths.gatheringLine,
+          text: 'Gather',
+          spaces: 8,
+        })
+      }
+      //pleats
+      let k
+      for (let i = 0; i <= 2; i++) {
+        k = i + 2
+        if (options.shapingStyle == 'pleats') {
+          paths['pleatFrom' + i] = new Path()
+            .move(points['neckSplit' + i])
+            .line(
+              points['neckSplit' + i]
+                .shiftFractionTowards(points['neckSplit' + i + 'R' + k], 3)
+                .rotate(90, points['neckSplit' + i])
+            )
+            .attr('class', 'fabric help')
+          paths['pleatMid' + i] = new Path()
+            .move(points['bustDartMid' + i])
+            .line(
+              points['bustDartMid' + i]
+                .shiftFractionTowards(points['neckSplit' + i + 'R' + k], 6)
+                .rotate(90, points['bustDartMid' + i])
+            )
+            .attr('data-text', 'Pleat')
+            .attr('data-text-class', 'center')
+          paths['pleatTo' + i] = new Path()
+            .move(points['neckSplit' + i + 'R' + k])
+            .line(
+              points['neckSplit' + i + 'R' + k]
+                .shiftFractionTowards(points['neckSplit' + i], 3)
+                .rotate(-90, points['neckSplit' + i + 'R' + k])
+            )
+            .attr('class', 'fabric help')
+        }
+        if (options.shapingStyle == 'darts') {
+          paths['dartEdge' + i] = new Path()
+            .move(points['neckSplit' + i])
+            .line(points['bustDartEdge' + i])
+            .line(points['neckSplit' + i + 'R' + k])
+            .attr('class', 'fabric help')
+        }
+      }
     }
 
     return part
