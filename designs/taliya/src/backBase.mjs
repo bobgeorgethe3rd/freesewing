@@ -26,6 +26,9 @@ export const backBase = {
     // backNeckDepth: {pct: 100, min: 50, max: 100, menu: 'style'},
     //Sleeves
     raglanNeckWidth: { pct: (1 / 3) * 100, min: 20, max: 50, menu: 'sleeves' },
+    sleeveStyle: { dflt: 'raglan', list: ['raglan', 'inset', 'none'], menu: 'sleeves' },
+    //Construction
+    armholeSaWidth: { pct: 1, min: 0, max: 3, menu: 'construction' },
   },
   draft: ({
     store,
@@ -61,7 +64,9 @@ export const backBase = {
     macro('scalebox', false)
     //measures
     const neckbandWidth = absoluteOptions.neckbandWidth
-
+    if (options.sleeveStyle != 'none' && options.armholeSaWidth < 0.01) {
+      options.armholeSaWidth = 0.01
+    }
     //let's begin
     points.shoulderTopMax = points.hps.shiftTowards(points.shoulder, neckbandWidth)
     points.shoulderTop = points.shoulder.shiftFractionTowards(

@@ -5,8 +5,8 @@ import { data } from '../data.mjs'
 // Parts
 import { backBase } from './backBase.mjs'
 import { frontBase } from './frontBase.mjs'
-import { back } from './back.mjs'
 import { front } from './front.mjs'
+import { back } from './back.mjs'
 import { sleeveBack } from './sleeveBack.mjs'
 import { sleeveFront } from './sleeveFront.mjs'
 import { neckbandBack } from './neckbandBack.mjs'
@@ -22,8 +22,8 @@ const Taliya = new Design({
 export {
   backBase,
   frontBase,
-  back,
   front,
+  back,
   sleeveBack,
   sleeveFront,
   neckbandBack,

@@ -211,11 +211,11 @@ export const back = {
 
     paths.neckLine = drawNeck()
 
-    if (options.raglanSleeves) {
+    if (options.sleeveStyle == 'raglan') {
       paths.neckLine = paths.neckLine.split(points.raglanNeckSplit)[1].hide()
     }
 
-    const drawArmhole = () => (options.raglanSleeves ? paths.raglan : paths.armhole)
+    const drawArmhole = () => (options.sleeveStyle == 'raglan' ? paths.raglan : paths.armhole)
 
     paths.seam = new Path()
       .move(points.sideWaist)
@@ -229,7 +229,7 @@ export const back = {
       //grainline
 
       //notches
-      if (!options.raglanSleeves) {
+      if (options.sleeveStyle != 'raglan') {
         macro('sprinkle', {
           snippet: 'bnotch',
           on: ['raglanNeckSplit', 'armholePitch'],

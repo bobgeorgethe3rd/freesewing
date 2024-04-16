@@ -1,3 +1,4 @@
+import { pluginLogoRG } from '@freesewing/plugin-logorg'
 import { frontBase } from './frontBase.mjs'
 
 export const front = {
@@ -15,9 +16,20 @@ export const front = {
     //Style
     neckbandEnd: { pct: 21.1, min: 0, max: 25, menu: 'style' },
     frontNeckDepth: { pct: 22.5, min: 20, max: 75, menu: 'style' },
-    //Sleeves
-    raglanSleeves: { bool: true, menu: 'sleeves' },
+    //Construction
+    cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
+    hemWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
   },
+  measurements: [
+    'hips',
+    'seat',
+    'waistToHips',
+    'waistToSeat',
+    'waistToUpperLeg',
+    'waistToKnee',
+    'waistToFloor',
+  ],
+  plugins: [pluginLogoRG],
   draft: ({
     store,
     sa,
@@ -44,6 +56,7 @@ export const front = {
     }
     //measures
     const bustDartAngle = store.get('bustDartAngle')
+
     //let's begin
     let j
     for (let i = 0; i <= 2; i++) {
@@ -178,8 +191,14 @@ export const front = {
       points.bust,
       points.neckSplit0R2
     )
-
     //paths
+    paths.hemBase = new Path().move(points.cfHem).curve_(points.cfHemCp2, points.sideHem).hide()
+
+    paths.sideSeam = new Path()
+      .move(points.sideHem)
+      .curve(points.sideHemCp2, points.armholeCp1, points.armhole)
+      .hide()
+
     paths.raglan = new Path()
       .move(points.armhole)
       .curve_(points.armholeRaglanCp2, points.raglanCurveEnd)
@@ -226,27 +245,50 @@ export const front = {
 
     paths.neckLine = drawNeck()
 
-    if (options.raglanSleeves) {
+    if (options.sleeveStyle == 'raglan') {
       paths.neckLine = paths.neckLine.split(points.raglanNeckSplit)[1].hide()
     }
 
-    const drawArmhole = () => (options.raglanSleeves ? paths.raglan : paths.armhole)
+    const drawArmhole = () => (options.sleeveStyle == 'raglan' ? paths.raglan : paths.armhole)
 
-    paths.seam = new Path()
-      .move(points.sideWaist)
-      .line(points.armhole)
+    paths.seam = paths.hemBase
+      .clone()
+      .join(paths.sideSeam)
       .join(drawArmhole())
       .line(paths.neckLine.start())
       .join(paths.neckLine)
       .line(points.neckbandEnd)
       .line(points.cfNeckbandEnd)
+      .line(points.cfHem)
+      .close()
 
     if (complete) {
       //grainline
-
+      if (options.cfSaWidth == 0) {
+        points.cutOnFoldFrom = points.cfNeckbandEnd.shiftFractionTowards(points.cfHem, 0.15)
+        points.cutOnFoldTo = points.cfHem.shiftFractionTowards(points.cfNeckbandEnd, 0.15)
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.neckbandEnd.shiftFractionTowards(
+          new Point(points.neckbandEnd.x, points.cfHem.y),
+          0.15
+        )
+        points.grainlineTo = new Point(points.neckbandEnd.x, points.cfHem.y).shiftFractionTowards(
+          points.neckbandEnd,
+          0.15
+        )
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+      }
       //notches
       snippets.gatherNeckSplit = new Snippet('bnotch', points.gatherNeckSplit)
-      if (!options.raglanSleeves) {
+      if (options.sleeveStyle != 'raglan') {
         snippets.raglanNeckSplit = new Snippet('bnotch', points.raglanNeckSplit)
         snippets.armholePitch = new Snippet('notch', points.armholePitch)
       } else {
@@ -255,6 +297,25 @@ export const front = {
       macro('sprinkle', {
         snippet: 'notch',
         on: ['neckbandEnd', 'neckbandArmhole'],
+      })
+      //title
+      points.title = points.bust.shiftFractionTowards(points.cfChest, 0.45)
+      macro('title', {
+        at: points.title,
+        nr: '1',
+        title: 'Front',
+        scale: 0.5,
+      })
+      //logo
+      points.logo = points.bust.shift(0, points.bust.dist(points.armhole) * 0.45)
+      macro('logorg', {
+        at: points.logo,
+        scale: 0.5,
+      })
+      //scalebox
+      points.scalebox = points.bust.shift(-90, points.cfChest.dist(points.cfWaist) * 0.45)
+      macro('scalebox', {
+        at: points.scalebox,
       })
       //gather lines
       if (options.shapingStyle == 'gathers') {
@@ -307,6 +368,105 @@ export const front = {
             .line(points['neckSplit' + i + 'R' + k])
             .attr('class', 'fabric help')
         }
+      }
+      if (sa) {
+        const hemSa = sa * options.hemWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
+        const neckbandWidth = store.get('neckbandWidth')
+        let bandSa = sa
+        if (sa > neckbandWidth / 2) {
+          bandSa = neckbandWidth / 4
+          paths.bandSa = new Path()
+            .move(points.neckbandArmhole)
+            .line(points.neckbandEnd)
+            .attr('class', 'fabric hidden')
+            .attr('data-text', utils.units(bandSa) + ' Seam Allowance')
+            .attr('data-text-class', 'center')
+            .unhide()
+        }
+
+        points.saSideHem = utils.beamsIntersect(
+          paths.hemBase.offset(hemSa).shiftFractionAlong(0.995),
+          paths.hemBase.offset(hemSa).end(),
+          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.005),
+          paths.sideSeam.offset(sideSeamSa).start()
+        )
+
+        points.saArmholeCorner = utils.beamsIntersect(
+          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.995),
+          paths.sideSeam.offset(sideSeamSa).end(),
+          drawArmhole().offset(armholeSa).shiftFractionAlong(0.005),
+          drawArmhole().offset(armholeSa).start()
+        )
+
+        const drawSaNeck = () => {
+          if (options.shapingStyle == 'gathers') {
+            return paths.neckLine.offset(bandSa)
+          }
+          if (options.shapingStyle == 'pleats') {
+            if (options.sleeveStyle == 'raglan') {
+              paths.cfNeckR1 = paths.cfNeckR1.split(points.raglanNeckSplit)[1].hide()
+            }
+            return paths.cfNeckR1
+              .split(points.neckSplit0)[0]
+              .offset(bandSa)
+              .join(
+                paths.cfNeckR2
+                  .split(points.neckSplit0R2)[1]
+                  .split(points.neckSplit1)[0]
+                  .offset(bandSa)
+              )
+              .join(
+                paths.cfNeckR3
+                  .split(points.neckSplit1R3)[1]
+                  .split(points.neckSplit2)[0]
+                  .offset(bandSa)
+              )
+              .join(paths.cfNeck.split(points.neckSplit2R4)[1].offset(bandSa))
+          }
+          if (options.shapingStyle == 'darts') {
+            if (options.sleeveStyle == 'raglan') {
+              paths.cfNeckR1 = paths.cfNeckR1.split(points.raglanNeckSplit)[1].hide()
+            }
+            return paths.cfNeckR1
+              .split(points.neckSplit0)[0]
+              .line(points.bustDartEdge0)
+              .offset(bandSa)
+              .join(
+                new Path()
+                  .move(points.bustDartEdge0)
+                  .line(points.neckSplit0R2)
+                  .join(paths.cfNeckR2.split(points.neckSplit0R2)[1].split(points.neckSplit1)[0])
+                  .line(points.bustDartEdge1)
+                  .line(points.neckSplit1R3)
+                  .join(paths.cfNeckR3.split(points.neckSplit1R3)[1].split(points.neckSplit2)[0])
+                  .line(points.bustDartEdge2)
+                  .line(points.neckSplit2R4)
+                  .join(paths.cfNeck.split(points.neckSplit2R4)[1])
+                  .offset(bandSa)
+                  .trim()
+              )
+          }
+        }
+
+        points.saNeckbandEnd = points.neckbandEnd.translate(-bandSa, -sa)
+        points.saCfNeckbandEnd = new Point(points.saCfNeck.x, points.saNeckbandEnd.y)
+        points.saCfHem = new Point(points.saCfNeck.x, points.cfHem.y + hemSa)
+
+        paths.sa = paths.hemBase
+          .clone()
+          .offset(hemSa)
+          .line(points.saSideHem)
+          .join(paths.sideSeam.offset(sideSeamSa))
+          .line(points.saArmholeCorner)
+          .join(drawArmhole().offset(armholeSa))
+          .join(drawSaNeck())
+          .line(points.saNeckbandEnd)
+          .line(points.saCfNeckbandEnd)
+          .line(points.saCfHem)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 

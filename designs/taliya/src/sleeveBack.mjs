@@ -32,7 +32,7 @@ export const sleeveBack = {
     log,
   }) => {
     //set render
-    if (!options.raglanSleeves) {
+    if (options.sleeveStyle != 'raglan') {
       part.hide()
       return part
     }
@@ -122,7 +122,8 @@ export const sleeveBack = {
         rotation: 360 - points.mArmhole.angle(points.raglanBottom),
       })
       if (sa) {
-        const sleeveHemWidth = sa * options.sleeveHemWidth * 100
+        const hemSa = sa * options.sleeveHemWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
         let bandSa = sa
         if (sa > neckbandWidth / 2) {
           bandSa = neckbandWidth / 4
@@ -137,17 +138,17 @@ export const sleeveBack = {
           options.sleeveVents
             ? paths.shoulder
                 .split(points.shoulderSplit)[0]
-                .offset(sleeveHemWidth)
+                .offset(hemSa)
                 .join(paths.shoulder.split(points.shoulderSplit)[1].offset(sa))
             : paths.shoulder.offset(sa)
 
         points.saMArmhole = points.mArmhole
           .shift(points.raglanBottom.angle(points.mArmhole), sa)
-          .shift(points.raglanBottom.angle(points.mArmhole) + 90, sleeveHemWidth)
+          .shift(points.raglanBottom.angle(points.mArmhole) + 90, hemSa)
 
         points.saRaglanBottom = drawSaShoulder()
           .start()
-          .shift(points.raglanBottom.angle(points.mArmhole) + 90, sleeveHemWidth)
+          .shift(points.raglanBottom.angle(points.mArmhole) + 90, hemSa)
 
         points.saShoulderTop = drawSaShoulder()
           .end()
@@ -157,16 +158,16 @@ export const sleeveBack = {
           paths.cbNeck.offset(bandSa).shiftFractionAlong(0.995),
           paths.cbNeck.offset(bandSa).end(),
           points.raglanNeckSplit
-            .shiftTowards(points.raglanCurveEnd, sa)
+            .shiftTowards(points.raglanCurveEnd, armholeSa)
             .rotate(-90, points.raglanNeckSplit),
           points.raglanCurveEnd
-            .shiftTowards(points.raglanNeckSplit, sa)
+            .shiftTowards(points.raglanNeckSplit, armholeSa)
             .rotate(90, points.raglanCurveEnd)
         )
 
         points.saMArmholeTop = points.mArmhole
           .shift(points.raglanBottom.angle(points.mArmhole), sa)
-          .shift(points.raglanBottom.angle(points.mArmhole) - 90, sa)
+          .shift(points.raglanBottom.angle(points.mArmhole) - 90, armholeSa)
 
         paths.sa = new Path()
           .move(points.saMArmhole)
@@ -175,7 +176,7 @@ export const sleeveBack = {
           .line(points.saShoulderTop)
           .join(paths.cbNeck.offset(bandSa))
           .line(points.saRaglanNeckSplit)
-          .join(paths.raglan.offset(sa))
+          .join(paths.raglan.offset(armholeSa))
           .line(points.saMArmholeTop)
           .line(points.saMArmhole)
           .close()
