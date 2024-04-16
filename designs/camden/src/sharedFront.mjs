@@ -163,7 +163,7 @@ export const sharedFront = {
       utils.rad2deg(Math.atan((midWidth - waistFront) / measurements.waistToHips))
 
     points.sideHem = points.sideWaist.shift(270 + sideAngle, length)
-    points.sideHemCp1 = utils.beamsIntersect(
+    points.cfHemCp2 = utils.beamsIntersect(
       points.sideHem,
       points.sideHem.shift(180 + sideAngle, 1),
       new Point(points.sideHem.x / 2, points.sideHem.y),
@@ -172,12 +172,12 @@ export const sharedFront = {
     points.cfHem = utils.beamsIntersect(
       points.cfTop,
       points.cfWaist,
-      points.sideHemCp1,
-      points.sideHemCp1.shift(180, 1)
+      points.cfHemCp2,
+      points.cfHemCp2.shift(180, 1)
     )
     if (points.cfHem.y < points.cfWaist.y) {
       points.cfHem = points.cfWaist
-      points.sideHemCp1 = new Point(points.sideHemCp1.x, points.cfWaist.y)
+      points.cfHemCp2 = new Point(points.cfHemCp2.x, points.cfWaist.y)
     }
     //sideSeam
     points.sideHemCp2 = points.sideHem.shiftFractionTowards(
@@ -192,7 +192,7 @@ export const sharedFront = {
     //guides
     paths.guide = new Path()
       .move(points.cfHem)
-      .curve_(points.sideHemCp1, points.sideHem)
+      .curve_(points.cfHemCp2, points.sideHem)
       .curve(points.sideHemCp2, points.bustDartBottomCp1, points.bustDartBottom)
       .line(points.bust)
       .line(points.bustDartTop)

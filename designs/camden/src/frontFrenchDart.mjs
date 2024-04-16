@@ -57,7 +57,7 @@ export const frontFrenchDart = ({
   }
 
   //paths
-  paths.hemBase = new Path().move(points.cfHem).curve_(points.sideHemCp1, points.sideHem).hide()
+  paths.hemBase = new Path().move(points.cfHem).curve_(points.cfHemCp2, points.sideHem).hide()
 
   if (options.length > 0) {
     paths.sideSeamBottom = new Path()
@@ -185,8 +185,8 @@ export const frontFrenchDart = ({
           .rotate(-90, points.sideHemCp2)
 
         points.saSideHem = utils.beamsIntersect(
-          points.sideHemCp1.shiftTowards(points.sideHem, hemSa).rotate(-90, points.sideHemCp1),
-          points.sideHem.shiftTowards(points.sideHemCp1, hemSa).rotate(90, points.sideHem),
+          points.cfHemCp2.shiftTowards(points.sideHem, hemSa).rotate(-90, points.cfHemCp2),
+          points.sideHem.shiftTowards(points.cfHemCp2, hemSa).rotate(90, points.sideHem),
           points.sideHem
             .shiftTowards(points.bustDartBottomI, sideSeamSa)
             .rotate(-90, points.sideHem),
@@ -203,8 +203,8 @@ export const frontFrenchDart = ({
           .rotate(90, points.sideHemCp2)
 
         points.saSideHem = utils.beamsIntersect(
-          points.sideHemCp1.shiftTowards(points.sideHem, hemSa).rotate(-90, points.sideHemCp1),
-          points.sideHem.shiftTowards(points.sideHemCp1, hemSa).rotate(90, points.sideHem),
+          points.cfHemCp2.shiftTowards(points.sideHem, hemSa).rotate(-90, points.cfHemCp2),
+          points.sideHem.shiftTowards(points.cfHemCp2, hemSa).rotate(90, points.sideHem),
           points.sideHem.shiftTowards(points.sideHemCp2, sideSeamSa).rotate(-90, points.sideHem),
           points.sideHemCp2.shiftTowards(points.sideHem, sideSeamSa).rotate(90, points.sideHemCp2)
         )
