@@ -114,7 +114,7 @@ export const back = {
     )
     //hem
     points.sideHem = points.sideWaist.shift(270 + sideAngle, length)
-    points.cfHemCp2 = utils.beamsIntersect(
+    points.cbHemCp2 = utils.beamsIntersect(
       points.sideHem,
       points.sideHem.shift(180 + sideAngle, 1),
       new Point(points.sideHem.x / 2, points.sideHem.y),
@@ -123,12 +123,12 @@ export const back = {
     points.cbHem = utils.beamsIntersect(
       points.cbTop,
       points.cbWaist,
-      points.cfHemCp2,
-      points.cfHemCp2.shift(180, 1)
+      points.cbHemCp2,
+      points.cbHemCp2.shift(180, 1)
     )
     if (points.cbHem.y < points.cbWaist.y) {
       points.cbHem = points.cbWaist
-      points.cfHemCp2 = new Point(points.cfHemCp2.x, points.cbWaist.y)
+      points.cbHemCp2 = new Point(points.cbHemCp2.x, points.cbWaist.y)
     }
 
     //sideseam
@@ -146,7 +146,7 @@ export const back = {
     )
 
     //paths
-    paths.hemBase = new Path().move(points.cbHem).curve_(points.cfHemCp2, points.sideHem).hide()
+    paths.hemBase = new Path().move(points.cbHem).curve_(points.cbHemCp2, points.sideHem).hide()
 
     paths.sideSeam = new Path()
       .move(points.sideHem)
@@ -228,8 +228,8 @@ export const back = {
 
         if (options.length == 0) {
           points.saSideHem = utils.beamsIntersect(
-            points.cfHemCp2.shiftTowards(points.sideHem, hemSa).rotate(-90, points.cfHemCp2),
-            points.sideHem.shiftTowards(points.cfHemCp2, hemSa).rotate(90, points.sideHem),
+            points.cbHemCp2.shiftTowards(points.sideHem, hemSa).rotate(-90, points.cbHemCp2),
+            points.sideHem.shiftTowards(points.cbHemCp2, hemSa).rotate(90, points.sideHem),
             points.sideHem.shiftTowards(points.armholeDrop, sideSeamSa).rotate(-90, points.sideHem),
             points.armholeDrop
               .shiftTowards(points.sideHem, sideSeamSa)
@@ -237,8 +237,8 @@ export const back = {
           )
         } else {
           points.saSideHem = utils.beamsIntersect(
-            points.cfHemCp2.shiftTowards(points.sideHem, hemSa).rotate(-90, points.cfHemCp2),
-            points.sideHem.shiftTowards(points.cfHemCp2, hemSa).rotate(90, points.sideHem),
+            points.cbHemCp2.shiftTowards(points.sideHem, hemSa).rotate(-90, points.cbHemCp2),
+            points.sideHem.shiftTowards(points.cbHemCp2, hemSa).rotate(90, points.sideHem),
             points.sideHem.shiftTowards(points.sideHemCp2, sideSeamSa).rotate(-90, points.sideHem),
             points.sideHemCp2.shiftTowards(points.sideHem, sideSeamSa).rotate(90, points.sideHemCp2)
           )
