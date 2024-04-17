@@ -19,6 +19,7 @@ export const front = {
     //Construction
     cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
     hemWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
+    shoulderSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
   },
   measurements: [
     'hips',
@@ -100,7 +101,7 @@ export const front = {
       'neckbandArmhole',
       'neckSplit1',
     ]
-    for (const p of rot3) points[p + 'R3'] = points[p].rotate((-bustDartAngle * 1) / 3, points.bust)
+    for (const p of rot3) points[p + 'R3'] = points[p].rotate(bustDartAngle / 3, points.bust)
 
     //this is important these splits should only be rotated after
     points.neckSplit0 = points.neckSplit0.rotate(-bustDartAngle, points.bust)
@@ -143,6 +144,9 @@ export const front = {
 
     if (options.daisyGuides) {
       points.bustDartBottom = points.hps.rotate(-bustDartAngle, points.bust)
+      points.bustDartTip = points.bustDartBottom
+        .shiftFractionTowards(points.hps, 0.5)
+        .shiftFractionTowards(points.bust, options.bustDartLength)
       paths.daisyGuide = new Path()
         .move(points.cfWaist)
         .line(points.waistDartLeft)
@@ -261,7 +265,8 @@ export const front = {
       .line(points.cfNeckbandEnd)
       .line(points.cfHem)
       .close()
-
+    //stores
+    store.set('sideSeamLength', paths.sideSeam.length())
     if (complete) {
       //grainline
       if (options.cfSaWidth == 0) {
@@ -288,6 +293,8 @@ export const front = {
       }
       //notches
       snippets.gatherNeckSplit = new Snippet('bnotch', points.gatherNeckSplit)
+      points.sideBottomNotch = paths.sideSeam.shiftFractionAlong(0.25)
+      points.sideTopNotch = paths.sideSeam.shiftFractionAlong(0.75)
       if (options.sleeveStyle != 'raglan') {
         snippets.raglanNeckSplit = new Snippet('bnotch', points.raglanNeckSplit)
         snippets.armholePitch = new Snippet('notch', points.armholePitch)
@@ -296,7 +303,7 @@ export const front = {
       }
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['neckbandEnd', 'neckbandArmhole'],
+        on: ['sideBottomNotch', 'sideTopNotch', 'neckbandEnd', 'neckbandArmhole'],
       })
       //title
       points.title = points.bust.shiftFractionTowards(points.cfChest, 0.45)
@@ -373,6 +380,7 @@ export const front = {
         const hemSa = sa * options.hemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const armholeSa = sa * options.armholeSaWidth * 100
+        const shoulderSa = sa * options.shoulderSaWidth * 100
         const neckbandWidth = store.get('neckbandWidth')
         let bandSa = sa
         if (sa > neckbandWidth / 2) {
@@ -399,6 +407,49 @@ export const front = {
           drawArmhole().offset(armholeSa).shiftFractionAlong(0.005),
           drawArmhole().offset(armholeSa).start()
         )
+
+        points.saRaglanNeckSplit = utils.beamsIntersect(
+          points.raglanCurveEnd
+            .shiftTowards(points.raglanNeckSplit, armholeSa)
+            .rotate(-90, points.raglanCurveEnd),
+          points.raglanNeckSplit
+            .shiftTowards(points.raglanCurveEnd, armholeSa)
+            .rotate(90, points.raglanNeckSplit),
+          paths.cfNeckR1.split(points.raglanNeckSplit)[1].offset(bandSa).shiftFractionAlong(0.005),
+          paths.cfNeckR1.split(points.raglanNeckSplit)[1].offset(bandSa).start()
+        )
+        points.saShoulderCorner = utils.beamsIntersect(
+          points.armholePitchCp2
+            .shiftTowards(points.shoulder, armholeSa)
+            .rotate(-90, points.armholePitchCp2),
+          points.shoulder
+            .shiftTowards(points.armholePitchCp2, armholeSa)
+            .rotate(90, points.shoulder),
+          points.shoulder
+            .shiftTowards(points.shoulderTopR1, shoulderSa)
+            .rotate(-90, points.shoulder),
+          points.shoulderTopR1
+            .shiftTowards(points.shoulder, shoulderSa)
+            .rotate(90, points.shoulderTopR1)
+        )
+        points.saShoulderTop = utils.beamsIntersect(
+          points.saShoulderCorner,
+          points.saShoulderCorner.shift(points.shoulder.angle(points.shoulderTopR1), 1),
+          points.shoulderTopR1
+            .shiftTowards(points.shoulderTopCp2R1, bandSa)
+            .rotate(-90, points.shoulderTopR1),
+          points.shoulderTopCp2R1
+            .shiftTowards(points.shoulderTopR1, bandSa)
+            .rotate(90, points.shoulderTopCp2R1)
+        )
+
+        const drawSaShoulder = () => {
+          if (options.sleeveStyle == 'raglan') {
+            return new Path().move(points.saRaglanNeckSplit)
+          } else {
+            return new Path().move(points.saShoulderCorner).line(points.saShoulderTop)
+          }
+        }
 
         const drawSaNeck = () => {
           if (options.shapingStyle == 'gathers') {
@@ -432,21 +483,16 @@ export const front = {
             return paths.cfNeckR1
               .split(points.neckSplit0)[0]
               .line(points.bustDartEdge0)
+              .line(points.neckSplit0R2)
+              .join(paths.cfNeckR2.split(points.neckSplit0R2)[1].split(points.neckSplit1)[0])
+              .line(points.bustDartEdge1)
+              .line(points.neckSplit1R3)
+              .join(paths.cfNeckR3.split(points.neckSplit1R3)[1].split(points.neckSplit2)[0])
+              .line(points.bustDartEdge2)
+              .line(points.neckSplit2R4)
+              .join(paths.cfNeck.split(points.neckSplit2R4)[1])
               .offset(bandSa)
-              .join(
-                new Path()
-                  .move(points.bustDartEdge0)
-                  .line(points.neckSplit0R2)
-                  .join(paths.cfNeckR2.split(points.neckSplit0R2)[1].split(points.neckSplit1)[0])
-                  .line(points.bustDartEdge1)
-                  .line(points.neckSplit1R3)
-                  .join(paths.cfNeckR3.split(points.neckSplit1R3)[1].split(points.neckSplit2)[0])
-                  .line(points.bustDartEdge2)
-                  .line(points.neckSplit2R4)
-                  .join(paths.cfNeck.split(points.neckSplit2R4)[1])
-                  .offset(bandSa)
-                  .trim()
-              )
+              .trim()
           }
         }
 
@@ -461,6 +507,7 @@ export const front = {
           .join(paths.sideSeam.offset(sideSeamSa))
           .line(points.saArmholeCorner)
           .join(drawArmhole().offset(armholeSa))
+          .join(drawSaShoulder())
           .join(drawSaNeck())
           .line(points.saNeckbandEnd)
           .line(points.saCfNeckbandEnd)

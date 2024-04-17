@@ -124,6 +124,7 @@ export const sleeveBack = {
       if (sa) {
         const hemSa = sa * options.sleeveHemWidth * 100
         const armholeSa = sa * options.armholeSaWidth * 100
+        const shoulderSa = sa * options.shoulderSaWidth * 100
         let bandSa = sa
         if (sa > neckbandWidth / 2) {
           bandSa = neckbandWidth / 4
@@ -139,8 +140,8 @@ export const sleeveBack = {
             ? paths.shoulder
                 .split(points.shoulderSplit)[0]
                 .offset(hemSa)
-                .join(paths.shoulder.split(points.shoulderSplit)[1].offset(sa))
-            : paths.shoulder.offset(sa)
+                .join(paths.shoulder.split(points.shoulderSplit)[1].offset(shoulderSa))
+            : paths.shoulder.offset(shoulderSa)
 
         points.saMArmhole = points.mArmhole
           .shift(points.raglanBottom.angle(points.mArmhole), sa)

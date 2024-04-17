@@ -185,6 +185,8 @@ export const frontBase = {
     //stores
     store.set('neckbandWidth', neckbandWidth)
     store.set('shoulderWidth', points.shoulder.dist(points.shoulderTop))
+    store.set('bodyLength', bodyLength)
+    store.set('sideAngle', sideAngle)
 
     return part
   },

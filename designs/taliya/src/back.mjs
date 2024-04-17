@@ -1,14 +1,19 @@
 import { backBase } from './backBase.mjs'
+import { front } from './front.mjs'
 
 export const back = {
   name: 'taliya.back',
   from: backBase,
+  after: front,
   hide: {
     from: true,
     inherited: true,
   },
   options: {
+    //Darts
     shapingStyle: { dflt: 'gathers', list: ['gathers', 'pleats', 'darts'], menu: 'darts' },
+    //Construction
+    cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
   },
   draft: ({
     store,
@@ -37,6 +42,7 @@ export const back = {
     //measures
     const waistDartAngle =
       points.dartTip.angle(points.dartBottomRight) - points.dartTip.angle(points.dartBottomLeft)
+    const sideAngle = store.get('sideAngle')
     //let's begin
     let j
     for (let i = 0; i <= 2; i++) {
@@ -70,8 +76,7 @@ export const back = {
       points[p + 'R2'] = points[p].rotate((-waistDartAngle * 2) / 3, points.dartTip)
 
     const rot3 = ['shoulderTop', 'shoulderTopCp2', 'cbNeckCp1', 'cbNeck', 'neckSplit1']
-    for (const p of rot3)
-      points[p + 'R3'] = points[p].rotate((-waistDartAngle * 1) / 3, points.dartTip)
+    for (const p of rot3) points[p + 'R3'] = points[p].rotate(-waistDartAngle / 3, points.dartTip)
 
     //this is important these splits should only be rotated after
     points.neckSplit0 = points.neckSplit0.rotate(-waistDartAngle, points.dartTip)
@@ -160,8 +165,44 @@ export const back = {
       points.dartTip,
       points.neckSplit0R2
     )
+    //skirt
+    points.sideWaist = points.sideWaist.rotate(waistDartAngle, points.armhole)
+    let tweak = 1
+    let delta
+    do {
+      points.sideHem = points.sideWaist.shift(270 + sideAngle, store.get('bodyLength') * tweak)
+      points.sideHemCp2 = points.sideHem.shiftFractionTowards(points.sideWaist, (2 / 3) * tweak)
+      points.armholeCp1 = points.armhole.shiftFractionTowards(points.sideWaist, (2 / 3) * tweak)
+
+      paths.sideSeam = new Path()
+        .move(points.sideHem)
+        .curve(points.sideHemCp2, points.armholeCp1, points.armhole)
+        .hide()
+
+      delta = paths.sideSeam.length() - store.get('sideSeamLength')
+      if (delta > 0) tweak = tweak * 0.99
+      else tweak = tweak * 1.01
+    } while (Math.abs(delta) > 1)
+
+    points.cbHemCp2 = utils.beamsIntersect(
+      points.sideHem,
+      points.sideHem.shift(180 + sideAngle, 1),
+      new Point(points.sideHem.x / 2, points.sideHem.y),
+      new Point(points.sideHem.x / 2, points.sideHem.y * 1.1)
+    )
+    points.cbHem = utils.beamIntersectsX(
+      points.cbHemCp2,
+      points.cbHemCp2.shift(180, 1),
+      points.cbWaist.x
+    )
+    if (points.cbHem.y < points.cbWaist.y) {
+      points.cbHem = points.cbWaist
+      points.cbHemCp2 = new Point(points.cbHemCp2.x, points.cbWaist.y)
+    }
 
     //paths
+    paths.hemBase = new Path().move(points.cbHem).curve_(points.cbHemCp2, points.sideHem).hide()
+
     paths.raglan = new Path()
       .move(points.armhole)
       .curve_(points.armholeRaglanCp2, points.raglanCurveEnd)
@@ -217,26 +258,56 @@ export const back = {
 
     const drawArmhole = () => (options.sleeveStyle == 'raglan' ? paths.raglan : paths.armhole)
 
-    paths.seam = new Path()
-      .move(points.sideWaist)
-      .line(points.armhole)
+    paths.seam = paths.hemBase
+      .clone()
+      .join(paths.sideSeam)
       .join(drawArmhole())
       .line(paths.neckLine.start())
       .join(paths.neckLine)
-      .line(points.cbWaist)
+      .line(points.cbHem)
+      .close()
 
     if (complete) {
       //grainline
-
+      if (options.cbSaWidth == 0) {
+        points.cutOnFoldFrom = points.cbNeck
+        points.cutOnFoldTo = points.cbHem
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 0.15)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cbHem.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+      }
       //notches
+      points.sideBottomNotch = paths.sideSeam.shiftFractionAlong(0.25)
+      points.sideTopNotch = paths.sideSeam.shiftFractionAlong(0.75)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['sideBottomNotch', 'sideTopNotch'],
+      })
       if (options.sleeveStyle != 'raglan') {
         macro('sprinkle', {
           snippet: 'bnotch',
           on: ['raglanNeckSplit', 'armholePitch'],
         })
       } else {
-        snippets.raglanCurveEnd = new Snippet('backnotch', points.raglanCurveEnd)
+        snippets.raglanCurveEnd = new Snippet('bnotch', points.raglanCurveEnd)
       }
+      //title
+      points.title = points.cArmhole.shiftFractionTowards(points.dartTip, 0.5)
+      macro('title', {
+        at: points.title,
+        nr: '2',
+        title: 'Back',
+        scale: 0.5,
+      })
       //gather lines
       if (options.shapingStyle == 'gathers') {
         paths.gatheringLine = drawNeck()
@@ -287,6 +358,136 @@ export const back = {
             .line(points['neckSplit' + i + 'R' + k])
             .attr('class', 'fabric help')
         }
+      }
+      if (sa) {
+        const hemSa = sa * options.hemWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
+        const shoulderSa = sa * options.shoulderSaWidth * 100
+        const neckbandWidth = store.get('neckbandWidth')
+        let bandSa = sa
+        if (sa > neckbandWidth / 2) {
+          bandSa = neckbandWidth / 4
+        }
+
+        points.saSideHem = utils.beamsIntersect(
+          paths.hemBase.offset(hemSa).shiftFractionAlong(0.995),
+          paths.hemBase.offset(hemSa).end(),
+          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.005),
+          paths.sideSeam.offset(sideSeamSa).start()
+        )
+
+        points.saArmholeCorner = utils.beamsIntersect(
+          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.995),
+          paths.sideSeam.offset(sideSeamSa).end(),
+          drawArmhole().offset(armholeSa).shiftFractionAlong(0.005),
+          drawArmhole().offset(armholeSa).start()
+        )
+
+        points.saRaglanNeckSplit = utils.beamsIntersect(
+          points.raglanCurveEnd
+            .shiftTowards(points.raglanNeckSplit, armholeSa)
+            .rotate(-90, points.raglanCurveEnd),
+          points.raglanNeckSplit
+            .shiftTowards(points.raglanCurveEnd, armholeSa)
+            .rotate(90, points.raglanNeckSplit),
+          paths.cbNeckR1.split(points.raglanNeckSplit)[1].offset(bandSa).shiftFractionAlong(0.005),
+          paths.cbNeckR1.split(points.raglanNeckSplit)[1].offset(bandSa).start()
+        )
+        points.saShoulderCorner = utils.beamsIntersect(
+          points.armholePitchCp2
+            .shiftTowards(points.shoulder, armholeSa)
+            .rotate(-90, points.armholePitchCp2),
+          points.shoulder
+            .shiftTowards(points.armholePitchCp2, armholeSa)
+            .rotate(90, points.shoulder),
+          points.shoulder
+            .shiftTowards(points.shoulderTopR1, shoulderSa)
+            .rotate(-90, points.shoulder),
+          points.shoulderTopR1
+            .shiftTowards(points.shoulder, shoulderSa)
+            .rotate(90, points.shoulderTopR1)
+        )
+        points.saShoulderTop = utils.beamsIntersect(
+          points.saShoulderCorner,
+          points.saShoulderCorner.shift(points.shoulder.angle(points.shoulderTopR1), 1),
+          points.shoulderTopR1
+            .shiftTowards(points.shoulderTopCp2R1, bandSa)
+            .rotate(-90, points.shoulderTopR1),
+          points.shoulderTopCp2R1
+            .shiftTowards(points.shoulderTopR1, bandSa)
+            .rotate(90, points.shoulderTopCp2R1)
+        )
+
+        const drawSaShoulder = () => {
+          if (options.sleeveStyle == 'raglan') {
+            return new Path().move(points.saRaglanNeckSplit)
+          } else {
+            return new Path().move(points.saShoulderCorner).line(points.saShoulderTop)
+          }
+        }
+
+        const drawSaNeck = () => {
+          if (options.shapingStyle == 'gathers') {
+            return paths.neckLine.offset(bandSa)
+          }
+          if (options.shapingStyle == 'pleats') {
+            if (options.sleeveStyle == 'raglan') {
+              paths.cbNeckR1 = paths.cbNeckR1.split(points.raglanNeckSplit)[1].hide()
+            }
+            return paths.cbNeckR1
+              .split(points.neckSplit0)[0]
+              .offset(bandSa)
+              .join(
+                paths.cbNeckR2
+                  .split(points.neckSplit0R2)[1]
+                  .split(points.neckSplit1)[0]
+                  .offset(bandSa)
+              )
+              .join(
+                paths.cbNeckR3
+                  .split(points.neckSplit1R3)[1]
+                  .split(points.neckSplit2)[0]
+                  .offset(bandSa)
+              )
+              .join(paths.cbNeck.split(points.neckSplit2R4)[1].offset(bandSa))
+          }
+          if (options.shapingStyle == 'darts') {
+            if (options.sleeveStyle == 'raglan') {
+              paths.cbNeckR1 = paths.cbNeckR1.split(points.raglanNeckSplit)[1].hide()
+            }
+            return paths.cbNeckR1
+              .split(points.neckSplit0)[0]
+              .line(points.dartBottomEdge0)
+              .line(points.neckSplit0R2)
+              .join(paths.cbNeckR2.split(points.neckSplit0R2)[1].split(points.neckSplit1)[0])
+              .line(points.dartBottomEdge1)
+              .line(points.neckSplit1R3)
+              .join(paths.cbNeckR3.split(points.neckSplit1R3)[1].split(points.neckSplit2)[0])
+              .line(points.dartBottomEdge2)
+              .line(points.neckSplit2R4)
+              .join(paths.cbNeck.split(points.neckSplit2R4)[1])
+              .offset(bandSa)
+              .trim()
+          }
+        }
+
+        points.saCbNeck = new Point(points.saCbNeck.x, points.cbNeck.y - bandSa)
+        points.saCbHem = new Point(points.saCbNeck.x, points.cbHem.y + hemSa)
+
+        paths.sa = paths.hemBase
+          .clone()
+          .offset(hemSa)
+          .line(points.saSideHem)
+          .join(paths.sideSeam.offset(sideSeamSa))
+          .line(points.saArmholeCorner)
+          .join(drawArmhole().offset(armholeSa))
+          .join(drawSaShoulder())
+          .join(drawSaNeck())
+          .line(points.saCbNeck)
+          .line(points.saCbHem)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 

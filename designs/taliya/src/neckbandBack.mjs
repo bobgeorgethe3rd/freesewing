@@ -90,8 +90,8 @@ export const neckbandBack = {
           .shift(points.shoulderTop.angle(points.shoulderNeckband), sa)
           .shift(points.shoulderTop.angle(points.shoulderNeckband) - 90, sa)
 
-        points.saCbNeckband = new Point(points.saCbNeck.x, points.cbNeckband.y - sa)
-        points.saCbNeck = new Point(points.saCbNeck.x, points.cbNeck.y + bandSa)
+        points.saCbNeckband = points.cbNeckband.shift(90, sa)
+        points.saCbNeck = points.cbNeck.shift(-90, bandSa)
 
         paths.sa = paths.saBottom
           .offset(bandSa)
