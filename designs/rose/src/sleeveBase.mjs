@@ -15,6 +15,8 @@ export const sleeveBase = {
     useVoidStores: false, //Locked for Rose
     sleeveFlounces: 'none', //Locked for Rose
     sleeveBands: false, //Locked for Rose
+    sleeveLength: 0, //Locked for Rose
+    sleeveLengthBonus: 0, //Locked for Rose
     //Sleeves
     sleevesBool: { bool: true, menu: 'sleeves' },
     spread: { pct: 0, min: 0, max: 120, menu: 'sleeves' }, //Altered for Rose
