@@ -101,7 +101,7 @@ export const front = {
       'neckbandArmhole',
       'neckSplit1',
     ]
-    for (const p of rot3) points[p + 'R3'] = points[p].rotate(bustDartAngle / 3, points.bust)
+    for (const p of rot3) points[p + 'R3'] = points[p].rotate(-bustDartAngle / 3, points.bust)
 
     //this is important these splits should only be rotated after
     points.neckSplit0 = points.neckSplit0.rotate(-bustDartAngle, points.bust)

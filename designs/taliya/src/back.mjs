@@ -82,7 +82,7 @@ export const back = {
     points.neckSplit0 = points.neckSplit0.rotate(-waistDartAngle, points.dartTip)
     points.neckSplit1 = points.neckSplit1.rotate((-waistDartAngle * 2) / 3, points.dartTip)
     points.neckSplit2R4 = points.neckSplit2
-    points.neckSplit2 = points.neckSplit2.rotate((-waistDartAngle * 1) / 3, points.dartTip)
+    points.neckSplit2 = points.neckSplit2.rotate(-waistDartAngle / 3, points.dartTip)
     paths.cbNeckR1 = new Path()
       .move(points.shoulderTopR1)
       .curve(points.shoulderTopCp2R1, points.cbNeckCp1R1, points.cbNeckR1)
