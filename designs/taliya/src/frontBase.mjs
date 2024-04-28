@@ -17,6 +17,7 @@ export const frontBase = {
     bustDartFraction: 0.5, //Locked for Taliya
     //Fit
     bodyWidth: { pct: 25, min: 12.5, max: 50, menu: 'fit' },
+    bodyEase: { pct: 5, min: 0, max: 20, menu: 'fit' },
     //Style
     neckbandEnd: { pct: 21.1, min: 0, max: 25, menu: 'style' },
     frontNeckDepth: { pct: 22.5, min: 20, max: 75, menu: 'style' },
@@ -65,12 +66,12 @@ export const frontBase = {
     let maxBodyWidth
     if ((measurements.seat / 4 || measurements.hips / 4) > waistFront) {
       if (measurements.seat > measurements.hips) {
-        midBodyWidth = measurements.hips * (1 + options.waistEase) * 0.25
-        maxBodyWidth = measurements.seat * (1 + options.waistEase) * 0.25
+        midBodyWidth = measurements.hips * (1 + options.bodyEase) * 0.25
+        maxBodyWidth = measurements.seat * (1 + options.bodyEase) * 0.25
         log.warning('measurements.seat is being used to draft bodyWidth, options.bodyWidth locked.')
       } else {
-        midBodyWidth = measurements.hips * (1 + options.waistEase) * 0.25
-        maxBodyWidth = measurements.hips * (1 + options.waistEase) * 0.375
+        midBodyWidth = measurements.hips * (1 + options.bodyEase) * 0.25
+        maxBodyWidth = measurements.hips * (1 + options.bodyEase) * 0.375
         log.warning('measurements.hips is being used to draft bodyWidth, options.bodyWidth locked.')
       }
     } else {

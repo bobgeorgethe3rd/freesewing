@@ -10,8 +10,11 @@ export const sharedFront = {
     inherited: true,
   },
   options: {
+    //Constants
+    closurePosition: 'none', //Locked for Camden
     //Fit
     width: { pct: 25, min: 12.5, max: 50, menu: 'fit' },
+    bodyEase: { pct: 5, min: 0, max: 20, menu: 'fit' },
     //Style
     armholeDrop: { pct: 25, min: 0, max: 75, menu: 'style' },
     shoulderPitch: { pct: 50, min: 30, max: 60, menu: 'style' },
@@ -128,12 +131,12 @@ export const sharedFront = {
     let maxWidth
     if ((measurements.seat / 4 || measurements.hips / 4) > waistFront) {
       if (measurements.seat > measurements.hips) {
-        midWidth = measurements.hips * (1 + options.waistEase) * 0.25
-        maxWidth = measurements.seat * (1 + options.waistEase) * 0.25
+        midWidth = measurements.hips * (1 + options.bodyEase) * 0.25
+        maxWidth = measurements.seat * (1 + options.bodyEase) * 0.25
         log.warning('measurements.seat is being used to draft width, options.width locked.')
       } else {
-        midWidth = measurements.hips * (1 + options.waistEase) * 0.25
-        maxWidth = measurements.hips * (1 + options.waistEase) * 0.375
+        midWidth = measurements.hips * (1 + options.bodyEase) * 0.25
+        maxWidth = measurements.hips * (1 + options.bodyEase) * 0.375
         log.warning('measurements.hips is being used to draft width, options.width locked.')
       }
     } else {
