@@ -372,6 +372,13 @@
   },
   "swimwear": {},
   "tops": {
+    "bunny": {
+      "description": "Bunny button back blouse design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 2,
+      "tags": ["tops", "blouses"]
+    },
     "riley": {
       "description": "Riley raglan tee design ",
       "code": "bobgeorgethe3rd",

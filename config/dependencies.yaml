@@ -44,6 +44,10 @@ brian:
   peer:
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/plugin-bust': *freesewing
+bunny:
+  peer:
+    '@freesewing/daisy': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 caleb:
   peer:
     '@freesewing/dalton': *freesewing
