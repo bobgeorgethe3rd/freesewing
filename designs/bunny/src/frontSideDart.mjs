@@ -51,14 +51,12 @@ export const frontSideDart = ({
       .line(points.waistDartRight)
       .line(points.sideWaist)
       .line(
-        points.armholeDrop
+        points.armhole
           .shiftFractionTowards(points.sideWaistInitial, options.bustDartFraction)
           .rotate(-bustDartAngle, points.bust)
       )
       .line(points.bust)
-      .line(
-        points.armholeDrop.shiftFractionTowards(points.sideWaistInitial, options.bustDartFraction)
-      )
+      .line(points.armhole.shiftFractionTowards(points.sideWaistInitial, options.bustDartFraction))
       .line(points.armhole)
       .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)

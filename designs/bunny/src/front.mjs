@@ -1,17 +1,20 @@
+import { pluginBundle } from '@freesewing/plugin-bundle'
+import { pluginLogoRG } from '@freesewing/plugin-logorg'
 import { sharedFront } from './sharedFront.mjs'
 import { frontFrenchDart } from './frontFrenchDart.mjs'
 import { frontSideDart } from './frontSideDart.mjs'
 import { frontBustSideDart } from './frontBustSideDart.mjs'
 import { frontUnderarmDart } from './frontUnderarmDart.mjs'
-// import { armhole } from './frontArmholeDart.mjs'
-// import { armholePitch } from './frontArmholePitchDart.mjs'
+import { frontArmholeDart } from './frontArmholeDart.mjs'
+import { frontArmholePitchDart } from './frontArmholePitchDart.mjs'
+import { frontShoulderDart } from './frontShoulderDart.mjs'
 
 const bunnyFront = (params) => {
   switch (params.options.bustDartPlacement) {
-    case 'french':
-      return frontFrenchDart(params)
     case 'side':
       return frontSideDart(params)
+    case 'bustside':
+      return frontBustSideDart(params)
     case 'underarm':
       return frontUnderarmDart(params)
     case 'armhole':
@@ -21,7 +24,7 @@ const bunnyFront = (params) => {
     case 'shoulder':
       return frontShoulderDart(params)
     default:
-      return frontBustSideDart(params)
+      return frontFrenchDart(params)
   }
 }
 
@@ -37,7 +40,7 @@ export const front = {
     daisyGuide: { bool: false, menu: 'fit' },
     //Darts
     bustDartPlacement: {
-      dflt: 'bustside',
+      dflt: 'french',
       list: ['french', 'side', 'bustside', 'underarm', 'armhole', 'armholePitch', 'shoulder'],
       menu: 'darts',
     },
@@ -45,9 +48,11 @@ export const front = {
     bustDartFraction: { pct: 50, min: 0, max: 100, menu: 'darts' },
     //Construction
     cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
+    armholeSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
     necklineSaWidth: { pct: 0, min: 0, max: 2.5, menu: 'construction' },
     sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     hemWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
   },
+  plugins: [pluginBundle, pluginLogoRG],
   draft: bunnyFront,
 }

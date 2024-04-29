@@ -1,6 +1,5 @@
 import { frontBase } from '@freesewing/daisy'
 import { pctBasedOn } from '@freesewing/core'
-import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const sharedFront = {
   name: 'bunny.sharedFront',
@@ -24,10 +23,11 @@ export const sharedFront = {
     shoulderWidth: { pct: 50, min: (1 / 3) * 100, max: (2 / 3) * 100, menu: 'style' }, //37.6
     frontNeckCurve: { pct: 100, min: 0, max: 100, menu: 'style' },
     frontNeckCurveDepth: { pct: 100, min: 0, max: 100, menu: 'style' },
+    //Construction
+    bodiceFacings: { bool: false, menu: 'construction' },
   },
   measurements: ['waistToHips', 'waistToSeat', 'waistToUpperLeg', 'waistToKnee', 'waistToFloor'],
   optionalMeasurements: ['hips', 'seat'],
-  plugins: [pluginLogoRG],
   draft: ({
     store,
     sa,
@@ -174,6 +174,18 @@ export const sharedFront = {
     store.set('sideAngle', sideAngle)
     store.set('bodyLength', bodyLength)
 
+    if (complete) {
+      if (sa) {
+        if (options.bodiceFacings) {
+          if (options.armholeSaWidth < 0.01) {
+            options.armholeSaWidth = 0.01
+          }
+          if (options.necklineSaWidth < 0.01) {
+            options.necklineSaWidth = 0.01
+          }
+        }
+      }
+    }
     return part
   },
 }

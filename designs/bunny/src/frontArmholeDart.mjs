@@ -1,4 +1,4 @@
-export const frontUnderarmDart = ({
+export const frontArmholeDart = ({
   store,
   sa,
   points,
@@ -19,19 +19,39 @@ export const frontUnderarmDart = ({
   for (const name in paths) {
     if (keepPaths.indexOf(name) === -1) delete paths[name]
   }
+  //measures
+  const bustDartAngle = store.get('bustDartAngle')
   //let's begin
-  points.bustDartTop = points.armhole
   points.bustDartClosed = points.bustDartBottom
-  points.bustDartBottom = points.bustDartTop.rotate(-store.get('bustDartAngle'), points.bust)
+
+  const rot = [
+    'shoulder',
+    'armholePitchCp2',
+    'armholePitch',
+    'armholePitchCp1',
+    'armholeCp2',
+    'armhole',
+  ]
+  for (const p of rot) points[p + 'R'] = points[p].rotate(-bustDartAngle, points.bust)
+
+  points.bustDartTop = paths.armhole.shiftFractionAlong(1 - options.bustDartFraction)
+  points.bustDartBottom = points.bustDartTop.rotate(-bustDartAngle, points.bust)
   points.bustDartMid = points.bustDartBottom.shiftFractionTowards(points.bustDartTop, 0.5)
 
   points.bustDartTip = points.bustDartMid.shiftFractionTowards(points.bust, options.bustDartLength)
-  points.bustDartEdge = utils.beamsIntersect(
-    points.sideWaist,
-    points.bustDartBottom,
-    points.bust,
-    points.bustDartMid
-  )
+
+  paths.armholeR = new Path()
+    .move(points.armholeR)
+    .curve(points.armholeCp2R, points.armholePitchCp1R, points.armholePitchR)
+    .curve_(points.armholePitchCp2R, points.shoulderR)
+    .hide()
+
+  if (options.bustDartFraction < 0.995) {
+    paths.armholeR = paths.armholeR.split(points.bustDartBottom)[0].hide()
+  } else {
+    paths.armholeR = new Path().move(points.armholeR).line(points.bustDartBottom).hide()
+  }
+
   //daisy guide
   if (options.daisyGuide) {
     paths.daisyGuide = new Path()
@@ -40,30 +60,30 @@ export const frontUnderarmDart = ({
       .line(points.bust)
       .line(points.waistDartRight)
       .line(points.sideWaist)
-      .line(points.bustDartBottom)
+      .line(points.armholeR)
+      .join(paths.armholeR)
       .line(points.bust)
-      .line(points.armhole)
-      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-      .curve_(points.armholePitchCp2, points.shoulder)
+      .line(points.bustDartTop)
+      .join(paths.armhole.split(points.bustDartTop)[1])
       .line(points.hps)
       .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .line(points.cfWaist)
       .attr('class', 'various lashed')
   }
-
   //paths
   paths.sideSeam = new Path()
     .move(points.sideHem)
     .curve(points.sideHemCp2, points.bustDartBottomCp1, points.bustDartClosed)
-    .line(points.bustDartBottom)
+    .line(points.armholeR)
     .hide()
 
   paths.seam = paths.hemBase
     .clone()
     .join(paths.sideSeam)
+    .join(paths.armholeR)
     .line(points.bustDartTip)
     .line(points.bustDartTop)
-    .join(paths.armhole)
+    .join(paths.armhole.split(points.bustDartTop)[1])
     .line(points.shoulderTop)
     .join(paths.cfNeck)
     .line(points.cfHem)
