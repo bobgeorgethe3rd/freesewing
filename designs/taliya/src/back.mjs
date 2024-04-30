@@ -190,11 +190,7 @@ export const back = {
       new Point(points.sideHem.x / 2, points.sideHem.y),
       new Point(points.sideHem.x / 2, points.sideHem.y * 1.1)
     )
-    points.cbHem = utils.beamIntersectsX(
-      points.cbHemCp2,
-      points.cbHemCp2.shift(180, 1),
-      points.cbWaist.x
-    )
+    points.cbHem = new Point(points.cbWaist.x, points.cbHemCp2.y)
     if (points.cbHem.y < points.cbWaist.y) {
       points.cbHem = points.cbWaist
       points.cbHemCp2 = new Point(points.cbHemCp2.x, points.cbWaist.y)

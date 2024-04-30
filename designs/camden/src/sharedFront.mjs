@@ -172,12 +172,7 @@ export const sharedFront = {
       new Point(points.sideHem.x / 2, points.sideHem.y),
       new Point(points.sideHem.x / 2, points.sideHem.y * 1.1)
     )
-    points.cfHem = utils.beamsIntersect(
-      points.cfTop,
-      points.cfWaist,
-      points.cfHemCp2,
-      points.cfHemCp2.shift(180, 1)
-    )
+    points.cfHem = new Point(points.cfWaist.x, points.cfHemCp2.y)
     if (points.cfHem.y < points.cfWaist.y) {
       points.cfHem = points.cfWaist
       points.cfHemCp2 = new Point(points.cfHemCp2.x, points.cfWaist.y)
