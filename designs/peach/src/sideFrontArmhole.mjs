@@ -165,6 +165,12 @@ export const sideFrontArmhole = {
           )
           .shift(points.armholePitchCp2R.angle(points.shoulderR) - 90, armholeSa)
 
+        points.saPrincessSeamStart = paths.princessSeam
+          .offset(princessSa)
+          .start()
+          .shiftTowards(points.bustDartBottom, sa * (1 - options.bustDartFraction))
+          .rotate(90, paths.princessSeam.offset(princessSa).start())
+
         if (options.bustDartFraction < 0.997) {
           paths.saArmhole = paths.armhole.offset(armholeSa).hide()
         } else {
@@ -172,20 +178,19 @@ export const sideFrontArmhole = {
             .move(points.saArmholeCorner)
             .line(points.saArmholeCorner)
             .hide()
+          points.saBustDartBottom = utils.beamsIntersect(
+            points.saSideWaist,
+            points.saSideWaist.shift(points.sideWaist.angle(points.armholeR), 1),
+            points.saPrincessSeamStart,
+            points.armholeR.rotate(90, points.saPrincessSeamStart)
+          )
         }
-
-        points.saPrincessSeamStart = paths.princessSeam.offset(princessSa).start()
-
-        points.saBustDartBottom = points.saPrincessSeamStart
-          .shiftTowards(points.bustDartBottom, sa * (1 - options.bustDartFraction))
-          .rotate(90, points.saPrincessSeamStart)
 
         paths.sa = new Path()
           .move(points.saWaistDartRight)
           .line(points.saSideWaist)
           .line(points.saArmholeCorner)
           .join(paths.saArmhole)
-          .line(points.saArmholeBottom)
           .line(points.saBustDartBottom)
           .line(points.saPrincessSeamStart)
           .join(paths.princessSeam.offset(princessSa))
