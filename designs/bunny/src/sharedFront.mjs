@@ -167,9 +167,17 @@ export const sharedFront = {
       .curve(points.sideHemCp2, points.bustDartBottomCp1, points.bustDartBottom)
 
     //stores
+    store.set('sideBustLength', points.armhole.dist(points.bustDartTop))
     store.set(
       'sideLength',
       points.armhole.dist(points.bustDartTop) + points.bustDartBottom.dist(points.sideWaist)
+    )
+    store.set(
+      'sideSeamLength',
+      new Path()
+        .move(points.sideHem)
+        .curve(points.sideHemCp2, points.bustDartBottomCp1, points.bustDartBottom)
+        .length() + store.get('sideBustLength')
     )
     store.set('sideAngle', sideAngle)
     store.set('bodyLength', bodyLength)

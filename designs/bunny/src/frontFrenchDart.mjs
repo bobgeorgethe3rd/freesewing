@@ -60,7 +60,7 @@ export const frontFrenchDart = ({
   }
 
   //paths
-  if (options.bodyLength > 0) {
+  if (options.bodyLength > 0.005) {
     paths.sideSeamBottom = new Path()
       .move(points.sideHem)
       .curve(points.sideHemCp2, points.bustDartBottomCp1, points.bustDartBottomI)
@@ -148,24 +148,21 @@ export const frontFrenchDart = ({
       const cfSa = sa * options.cfSaWidth * 100
 
       points.saSideHem = points.sideHem
-        .shift(points.sideHemCp2.angle(points.sideHem), hemSa)
+        .shift(points.cfHemCp2.angle(points.sideHem) - 90, hemSa)
         .shift(points.cfHemCp2.angle(points.sideHem), sideSeamSa)
 
-      points.saBustDartBottom = paths.sideSeamBottom
-        .offset(sideSeamSa)
-        .intersects(
-          new Path()
-            .move(
-              points.bustDartBottom
-                .shiftTowards(points.bustDartEdge, sideSeamSa)
-                .rotate(-90, points.bustDartBottom)
-            )
-            .line(
-              points.bustDartEdge
-                .shiftTowards(points.bustDartBottom, sideSeamSa)
-                .rotate(90, points.bustDartEdge)
-            )
-        )[0]
+      paths.saSideSeamBottom = paths.sideSeamBottom.offset(sideSeamSa).hide()
+
+      points.saBustDartBottom = utils.beamsIntersect(
+        points.bustDartTip,
+        points.bustDartBottom,
+        points.bustDartBottom
+          .shiftTowards(points.bustDartEdge, sideSeamSa)
+          .rotate(-90, points.bustDartBottom),
+        points.bustDartEdge
+          .shiftTowards(points.bustDartBottom, sideSeamSa)
+          .rotate(90, points.bustDartEdge)
+      )
 
       points.saBustDartEdge = utils.beamsIntersect(
         points.bustDartBottom
@@ -181,6 +178,34 @@ export const frontFrenchDart = ({
           .shiftTowards(points.bustDartEdge, sideSeamSa)
           .rotate(90, points.bustDartTop)
       )
+
+      const bustDartBottomI = paths.sideSeamBottom
+        .offset(sideSeamSa)
+        .intersects(
+          new Path()
+            .move(
+              points.bustDartBottom
+                .shiftTowards(points.bustDartEdge, sideSeamSa)
+                .rotate(-90, points.bustDartBottom)
+            )
+            .line(
+              points.bustDartEdge
+                .shiftTowards(points.bustDartBottom, sideSeamSa)
+                .rotate(90, points.bustDartEdge)
+            )
+        )[0]
+      if (bustDartBottomI) {
+        points.saBustDartBottom = bustDartBottomI
+        paths.saSideSeamBottom = paths.saSideSeamBottom.split(points.saBustDartBottom)[0].hide()
+      } else {
+        points.saBustDartBottom = utils.beamsIntersect(
+          points.saBustDartEdge,
+          points.saBustDartBottom,
+          points.saSideHem,
+          points.saSideHem.shift(points.cfHemCp2.angle(points.sideHem) + 90, 1)
+        )
+        paths.saSideSeamBottom = new Path().move(points.saBustDartBottom).hide()
+      }
 
       points.saBustDartTop = points.bustDartTop
         .shiftTowards(points.bustDartEdge, sideSeamSa)
@@ -233,7 +258,7 @@ export const frontFrenchDart = ({
         .clone()
         .offset(hemSa)
         .line(points.saSideHem)
-        .join(paths.sideSeamBottom.offset(sideSeamSa).split(points.saBustDartBottom)[0])
+        .join(paths.saSideSeamBottom)
         .line(points.saBustDartEdge)
         .line(points.saBustDartTop)
         .join(paths.sideSeamTop.offset(sideSeamSa))

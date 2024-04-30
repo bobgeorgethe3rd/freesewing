@@ -125,7 +125,7 @@ export const frontUnderarmDart = ({
       const cfSa = sa * options.cfSaWidth * 100
 
       points.saSideHem = points.sideHem
-        .shift(points.sideHemCp2.angle(points.sideHem), hemSa)
+        .shift(points.cfHemCp2.angle(points.sideHem) - 90, hemSa)
         .shift(points.cfHemCp2.angle(points.sideHem), sideSeamSa)
 
       points.saBustDartEdge = utils.beamsIntersect(
