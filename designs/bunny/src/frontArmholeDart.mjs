@@ -170,7 +170,7 @@ export const frontArmholeDart = ({
         .shiftTowards(points.bustDartClosed, sideSeamSa)
         .rotate(90, points.armholeR)
 
-      points.saArmhole = utils.beamsIntersect(
+      points.saArmholeR = utils.beamsIntersect(
         points.bustDartClosed
           .shiftTowards(points.armholeR, sideSeamSa)
           .rotate(-90, points.bustDartClosed),
@@ -179,8 +179,8 @@ export const frontArmholeDart = ({
         points.armholeCp2R.shiftTowards(points.armholeR, armholeSa).rotate(90, points.armholeCp2R)
       )
 
-      if (points.saArmhole.y > points.sideSeamEnd.y) {
-        points.saArmhole = paths.armholeR.offset(armholeSa).start()
+      if (points.saArmholeR.y > points.sideSeamEnd.y) {
+        points.saArmholeR = paths.armholeR.offset(armholeSa).start()
       }
 
       points.saBustDartBottom = utils.beamsIntersect(
@@ -214,19 +214,46 @@ export const frontArmholeDart = ({
         points.bustDartTop.shiftTowards(points.bustDartEdge, dartSa).rotate(90, points.bustDartTop)
       )
 
+      if (options.bustDartFraction > 0.995) {
+        points.saArmholeR = points.saBustDartBottom
+        paths.saArmholeR = new Path().move(points.saArmholeR).hide()
+      } else {
+        paths.saArmholeR = new Path()
+          .move(points.saArmholeR)
+          .join(paths.armholeR.offset(armholeSa).hide())
+          .hide()
+
+        const saArmholeRI = paths.saArmholeR.intersects(
+          new Path().move(points.saBustDartBottom).line(points.saBustDartEdge)
+        )[0]
+        if (saArmholeRI) {
+          paths.saArmholeR = paths.saArmholeR.split(saArmholeRI)[0].hide()
+          points.saBustDartBottom = saArmholeRI
+        } else {
+          points.saBustDartBottom = utils.beamsIntersect(
+            paths.saArmholeR.shiftFractionAlong(0.995),
+            paths.saArmholeR.end(),
+            points.saBustDartEdge,
+            points.saBustDartBottom
+          )
+        }
+      }
+
       points.saShoulder = points.shoulder
         .shift(points.hps.angle(points.shoulder), armholeSa)
         .shift(points.hps.angle(points.shoulder) + 90, shoulderSa)
 
-      points.saShoulderR = points.saShoulder.rotate(-bustDartAngle, points.bust)
+      // points.saShoulderR = points.saShoulder.rotate(-bustDartAngle, points.bust)
 
       paths.sa = paths.hemBase
         .clone()
         .offset(hemSa)
         .line(points.saSideHem)
         .join(paths.sideSeam.offset(sideSeamSa))
-        .line(points.saArmhole)
-        .join(paths.armholeR.offset(armholeSa))
+        .line(points.saArmholeR)
+        .join(paths.saArmholeR)
+        .line(points.saBustDartBottom)
+        .line(points.saBustDartEdge)
     }
   }
 
