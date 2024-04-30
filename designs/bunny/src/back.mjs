@@ -1,3 +1,4 @@
+import { pctBasedOn } from '@freesewing/core'
 import { back as backDaisy } from '@freesewing/daisy'
 import { sharedFront } from './sharedFront.mjs'
 
@@ -14,6 +15,15 @@ export const back = {
     backNeckDepth: { pct: 65, min: 0, max: 100, menu: 'style' },
     backNeckCurve: { pct: 50, min: 0, max: 100, menu: 'style' },
     backNeckCurveDepth: { pct: (2 / 3) * 100, min: 0, max: 100, menu: 'style' },
+    //Plackets
+    placketWidth: {
+      pct: 3.7,
+      min: 1,
+      max: 6,
+      snap: 5,
+      ...pctBasedOn('waist'),
+      menu: 'plackets',
+    },
     //Construction
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
   },
@@ -48,30 +58,46 @@ export const back = {
     for (let i in snippets) delete snippets[i]
     //macros
     macro('title', false)
+    //measures
+    const sideAngle = store.get('sideAngle')
+    const placketWidth = absoluteOptions.placketWidth
     //let's begin
     points.sideCurveEnd = points.armhole.shiftTowards(points.sideWaist, store.get('sideBustLength'))
 
     let tweak = 1
     let delta
     do {
-      points.sideHem = points.sideWaist.shift(
-        270 + store.get('sideAngle'),
-        store.get('bodyLength') * tweak
-      )
+      points.sideHem = points.sideWaist.shift(270 + sideAngle, store.get('bodyLength') * tweak)
       points.sideHemCp2 = points.sideHem.shiftFractionTowards(points.sideWaist, (2 / 3) * tweak)
 
       paths.sideSeam = new Path()
         .move(points.sideHem)
         .curve(points.sideHemCp2, points.sideWaist, points.sideCurveEnd)
         .line(points.armhole)
-      // .hide()
+        .hide()
 
       delta = paths.sideSeam.length() - store.get('sideSeamLength')
       if (delta > 0) tweak = tweak * 0.99
       else tweak = tweak * 1.01
     } while (Math.abs(delta) > 1)
 
+    points.hemPlacketCp2 = utils.beamsIntersect(
+      points.sideHem,
+      points.sideHem.shift(180 + sideAngle, 1),
+      new Point((points.sideHem.x + placketWidth * 0.5) / 2, points.sideHem.y),
+      new Point((points.sideHem.x + placketWidth * 0.5) / 2, points.sideHem.y * 1.1)
+    )
+    points.cbHem = new Point(points.cbWaist.x, points.hemPlacketCp2.y)
+
+    if (points.cbHem.y < points.cbWaist.y) {
+      points.cbHem = points.cbWaist
+      points.hemPlacketCp2 = new Point(points.hemPlacketCp2.x, points.cbWaist.y)
+    }
+
     //paths
+    paths.hemBase = new Path().move(points.cbHem).line(points.sideHem).hide()
+
+    paths.seam = paths.hemBase.clone().join(paths.sideSeam).join(paths.armhole)
 
     if (complete) {
       //grainline
