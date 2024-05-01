@@ -18,7 +18,7 @@ export const sharedFront = {
     // armholeDrop: { pct: 25, min: 0, max: 75, menu: 'style' },
     bodyLength: { pct: 100, min: 0, max: 250, menu: 'style' },
     bodyLengthBonus: { pct: 0, min: -20, max: 10, menu: 'style' },
-    sideCurve: { pct: 100, min: 25, max: 100, menu: 'style' },
+    sideCurve: { pct: (2 / 3) * 100, min: 25, max: 100, menu: 'style' },
     frontNeckDepth: { pct: 14.1, min: -6, max: 45, menu: 'style' },
     shoulderWidth: { pct: 50, min: (1 / 3) * 100, max: (2 / 3) * 100, menu: 'style' }, //37.6
     frontNeckCurve: { pct: 100, min: 0, max: 100, menu: 'style' },
