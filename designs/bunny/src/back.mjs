@@ -216,45 +216,55 @@ export const back = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
-      //notches & buttonhole
+      //notches
+      points.backNotch = new Point(drawNeck().end().x, points.cArmhole.y)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['backNotch', 'armholePitch'],
+      })
+      snippets.sideSeamCurveEnd = new Snippet('notch', points.sideSeamCurveEnd)
+      //title
+      points.title = new Point(points.dartTip.x * 0.55, points.armhole.y)
+      macro('title', {
+        at: points.title,
+        nr: '2',
+        title: 'Back',
+        scale: 2 / 3,
+      })
+      //buttonhole
       points.buttonholeStart = points.cbNeck.shift(-90, absoluteOptions.buttonholeStart)
       points.buttonholeWaist = points.cbWaist
       if (points.cbHem.y < points.cbWaist.y) {
         points.buttonholeWaist = points.cbWaist.shift(90, absoluteOptions.buttonholeStart)
       }
-      if (options.placketStyle == 'inbuilt' || options.placketStyle == 'facing') {
-        paths.stitchingLine = new Path()
-          .move(points.neckPlacket)
-          .line(points.hemPlacket)
-          .attr('class', 'mark')
-          .attr('data-text', 'Stitching - Line')
-          .attr('data-text-class', 'center')
-        for (let i = 0; i < options.buttonholeNum; i++) {
-          points['buttonhole' + i] = points.buttonholeStart.shiftFractionTowards(
-            points.buttonholeWaist,
-            i / (options.buttonholeNum - 1)
-          )
+      for (let i = 0; i < options.buttonholeNum; i++) {
+        points['buttonhole' + i] = points.buttonholeStart.shiftFractionTowards(
+          points.buttonholeWaist,
+          i / (options.buttonholeNum - 1)
+        )
+        if (options.placketStyle == 'inbuilt' || options.placketStyle == 'facing') {
           snippets['buttonhole' + i] = new Snippet('buttonhole', points['buttonhole' + i]).attr(
             'data-rotate',
             90
           )
           snippets['button' + i] = new Snippet('button', points['buttonhole' + i])
         }
-        const buttonholeDist = points.buttonhole1.y - points.buttonhole0.y
-        const skirtButtonholeNum = Math.floor(
-          (points.buttonholeWaist.dy(points.cbHem) - absoluteOptions.buttonholeStart) /
-            buttonholeDist
+      }
+      const buttonholeDist = points.buttonhole1.y - points.buttonhole0.y
+      const skirtButtonholeNum = Math.floor(
+        (points.buttonholeWaist.dy(points.cbHem) - absoluteOptions.buttonholeStart) / buttonholeDist
+      )
+      if (skirtButtonholeNum > 0) {
+        points.buttonholeEnd = points.buttonholeWaist.shift(
+          -90,
+          buttonholeDist * skirtButtonholeNum
         )
-        if (skirtButtonholeNum > 0) {
-          points.buttonholeEnd = points.buttonholeWaist.shift(
-            -90,
-            buttonholeDist * skirtButtonholeNum
+        for (let i = 0; i < skirtButtonholeNum; i++) {
+          points['skirtButtonhole' + i] = points.buttonholeWaist.shiftFractionTowards(
+            points.buttonholeEnd,
+            (i + 1) / skirtButtonholeNum
           )
-          for (let i = 0; i < skirtButtonholeNum; i++) {
-            points['skirtButtonhole' + i] = points.buttonholeWaist.shiftFractionTowards(
-              points.buttonholeEnd,
-              (i + 1) / skirtButtonholeNum
-            )
+          if (options.placketStyle == 'inbuilt' || options.placketStyle == 'facing') {
             snippets['skirtButtonhole' + i] = new Snippet(
               'buttonhole',
               points['skirtButtonhole' + i]
@@ -262,6 +272,15 @@ export const back = {
             snippets['skirtButton' + i] = new Snippet('button', points['skirtButtonhole' + i])
           }
         }
+      }
+      //lines
+      if (options.placketStyle == 'inbuilt' || options.placketStyle == 'facing') {
+        paths.stitchingLine = new Path()
+          .move(points.neckPlacket)
+          .line(points.hemPlacket)
+          .attr('class', 'mark')
+          .attr('data-text', 'Stitching - Line')
+          .attr('data-text-class', 'center')
       }
       if (options.placketStyle == 'inbuilt') {
         paths.foldLine = new Path()
@@ -271,14 +290,6 @@ export const back = {
           .attr('data-text', 'Fold - Line')
           .attr('data-text-class', 'center')
       }
-      //title
-      points.title = new Point(points.dartTip.x * 0.55, points.armhole.y)
-      macro('title', {
-        at: points.title,
-        nr: '2',
-        title: 'Back',
-        scale: 2 / 3,
-      })
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
