@@ -254,6 +254,7 @@ export const back = {
       const skirtButtonholeNum = Math.floor(
         (points.buttonholeWaist.dy(points.cbHem) - absoluteOptions.buttonholeStart) / buttonholeDist
       )
+      store.set('skirtButtonholeNum', skirtButtonholeNum)
       if (skirtButtonholeNum > 0) {
         points.buttonholeEnd = points.buttonholeWaist.shift(
           -90,
