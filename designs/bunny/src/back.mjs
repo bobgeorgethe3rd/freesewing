@@ -219,7 +219,7 @@ export const back = {
       //notches
       points.backNotch = new Point(drawNeck().end().x, points.cArmhole.y)
       macro('sprinkle', {
-        snippet: 'notch',
+        snippet: 'bnotch',
         on: ['backNotch', 'armholePitch'],
       })
       snippets.sideSeamCurveEnd = new Snippet('notch', points.sideSeamCurveEnd)
