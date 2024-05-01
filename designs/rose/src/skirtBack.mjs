@@ -155,6 +155,22 @@ export const skirtBack = {
           points.saWaistTop = points.waistTop.translate(-sa, -sa)
           points.saWaistBottom = points.waistBottom.translate(-sa, hemSa)
 
+          if (hemSa < sa && options.placketStyle != 'separate') {
+            points.saWaistBottom = points.waistBottom.translate(-sa, sa)
+          }
+          points.saCbHem = new Point(points.cbHem.x, points.saWaistBottom.y)
+
+          const drawHemSa = () => {
+            if (options.placketStyle == 'separate') {
+              return paths.hemBase.offset(hemSa)
+            } else {
+              return new Path()
+                .move(points.saWaistBottom)
+                .line(points.saCbHem)
+                .join(paths.hemBase.split(points.cbHem)[1].offset(hemSa))
+            }
+          }
+
           if (options.skirtFacings) {
             points.saHemFacingTop = points.hemFacingTop.translate(-sa, -sa)
 
@@ -170,8 +186,7 @@ export const skirtBack = {
               .attr('class', 'interhemFacing sa')
           }
 
-          paths.sa = paths.hemBase
-            .offset(hemSa)
+          paths.sa = drawHemSa()
             .line(points.saSideBackHem)
             .join(paths.sideSeam.offset(sideSeamSa))
             .line(points.saSideWaistBack)
