@@ -50,11 +50,11 @@ export const strap = {
     } else {
       strapFolds = options.strapFolds
     }
-    const width = strapWidth * (1 + strapFolds)
+    const bodyWidth = strapWidth * (1 + strapFolds)
 
     //let's begin
     points.topLeft = new Point(0, 0)
-    points.topRight = points.topLeft.shift(0, width)
+    points.topRight = points.topLeft.shift(0, bodyWidth)
     points.bottomRight = points.topRight.shift(-90, strapLength)
     points.bottomLeft = new Point(points.topLeft.x, points.bottomRight.y)
 

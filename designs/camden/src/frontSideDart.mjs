@@ -68,7 +68,7 @@ export const frontSideDart = ({
   //paths
   paths.hemBase = new Path().move(points.cfHem).curve_(points.cfHemCp2, points.sideHem).hide()
 
-  if (options.length == 0 && options.bustDartFraction > 0.994) {
+  if (options.bodyLength == 0 && options.bustDartFraction > 0.994) {
     paths.sideSeamBottom = new Path().move(points.sideHem).line(points.bustDartBottom).hide()
   } else {
     paths.sideSeamBottom = new Path()
@@ -221,7 +221,7 @@ export const frontSideDart = ({
         paths.saSideSeamTopSa = paths.sideSeamTop.offset(sideSeamSa).hide()
       }
 
-      if (options.length == 0) {
+      if (options.bodyLength == 0) {
         points.saSideHem = points.sideHem
           .shiftTowards(points.bustDartBottomI, sideSeamSa)
           .rotate(-90, points.sideHem)

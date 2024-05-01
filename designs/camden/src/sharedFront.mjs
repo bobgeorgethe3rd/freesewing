@@ -13,7 +13,7 @@ export const sharedFront = {
     //Constants
     closurePosition: 'none', //Locked for Camden
     //Fit
-    width: { pct: 25, min: 12.5, max: 50, menu: 'fit' },
+    bodyWidth: { pct: 25, min: 12.5, max: 50, menu: 'fit' },
     bodyEase: { pct: 5, min: 0, max: 20, menu: 'fit' },
     //Style
     armholeDrop: { pct: 25, min: 0, max: 75, menu: 'style' },
@@ -23,8 +23,8 @@ export const sharedFront = {
     frontNeckDepth: { pct: 60, min: 0, max: 100, menu: 'style' },
     frontNeckCurve: { pct: 50, min: 0, max: 100, menu: 'style' },
     frontNeckCurveDepth: { pct: (2 / 3) * 100, min: 0, max: 100, menu: 'style' },
-    length: { pct: 75, min: 0, max: 100, menu: 'style' },
-    lengthBonus: { pct: 0, min: -50, max: 150, menu: 'style' },
+    bodyLength: { pct: 75, min: 0, max: 250, menu: 'style' },
+    bodyLengthBonus: { pct: 0, min: -50, max: 150, menu: 'style' },
     sideCurve: { pct: 100, min: 25, max: 100, menu: 'style' },
     strapWidth: {
       pct: 4.7,
@@ -37,7 +37,7 @@ export const sharedFront = {
     //Construction
     bodiceFacings: { bool: true, menu: 'construction' },
   },
-  measurements: ['waistToHips', 'waistToSeat'],
+  measurements: ['waistToHips', 'waistToSeat', 'waistToUpperLeg', 'waistToKnee', 'waistToFloor'],
   optionalMeasurements: ['hips', 'seat'],
   plugins: [pluginLogoRG],
   draft: ({
@@ -127,45 +127,64 @@ export const sharedFront = {
     //hem
     const waistFront = points.sideWaist.x
 
-    let midWidth
-    let maxWidth
+    let midBodyWidth
+    let maxBodyWidth
     if ((measurements.seat / 4 || measurements.hips / 4) > waistFront) {
       if (measurements.seat > measurements.hips) {
-        midWidth = measurements.hips * (1 + options.bodyEase) * 0.25
-        maxWidth = measurements.seat * (1 + options.bodyEase) * 0.25
-        log.warning('measurements.seat is being used to draft width, options.width locked.')
+        midBodyWidth = measurements.hips * (1 + options.bodyEase) * 0.25
+        maxBodyWidth = measurements.seat * (1 + options.bodyEase) * 0.25
+        log.warning('measurements.seat is being used to draft bodyWidth, options.bodyWidth locked.')
       } else {
-        midWidth = measurements.hips * (1 + options.bodyEase) * 0.25
-        maxWidth = measurements.hips * (1 + options.bodyEase) * 0.375
-        log.warning('measurements.hips is being used to draft width, options.width locked.')
+        midBodyWidth = measurements.hips * (1 + options.bodyEase) * 0.25
+        maxBodyWidth = measurements.hips * (1 + options.bodyEase) * 0.375
+        log.warning('measurements.hips is being used to draft bodyWidth, options.bodyWidth locked.')
       }
     } else {
-      midWidth = waistFront * (1 + options.width * 0.5)
-      maxWidth = waistFront * (1 + options.width)
-      log.warning('waistFront is being used to draft width, options.width unlocked.')
+      midBodyWidth = waistFront * (1 + options.bodyWidth * 0.5)
+      maxBodyWidth = waistFront * (1 + options.bodyWidth)
+      log.warning('waistFront is being used to draft bodyWidth, options.bodyWidth unlocked.')
     }
 
-    let length
-    let width
-    if (options.length < 0.5) {
-      length = measurements.waistToHips * (2 * options.length) * (1 + options.lengthBonus)
-
-      width = waistFront * (1 - options.length * 2) + midWidth * options.length * 2
-    } else {
-      length =
-        (measurements.waistToHips +
-          (measurements.waistToSeat - measurements.waistToHips) * (2 * options.length - 1)) *
-        (1 + options.lengthBonus)
-
-      width = midWidth * (1 - (2 * options.length - 1)) + maxWidth * (2 * options.length - 1)
+    let bodyLength
+    let bodyWidth
+    if (options.bodyLength < 0.5) {
+      bodyLength = measurements.waistToHips * 2 * options.bodyLength
+      bodyWidth = waistFront * (1 - options.bodyLength * 2) + midBodyWidth * options.bodyLength * 2
     }
+    if (options.bodyLength >= 0.5 && options.bodyLength < 1) {
+      bodyLength =
+        measurements.waistToHips +
+        (measurements.waistToSeat - measurements.waistToHips) * (2 * options.bodyLength - 1)
+      bodyWidth =
+        midBodyWidth * (1 - (2 * options.bodyLength - 1)) +
+        maxBodyWidth * (2 * options.bodyLength - 1)
+    }
+    if (options.bodyLength >= 1 && options.bodyLength < 1.5) {
+      bodyLength =
+        measurements.waistToSeat +
+        (measurements.waistToUpperLeg - measurements.waistToSeat) * (2 * options.bodyLength - 2)
+      bodyWidth = maxBodyWidth * (1 + (options.bodyLength - 1) * 0.5)
+    }
+    if (options.bodyLength >= 1.5 && options.bodyLength < 2) {
+      bodyLength =
+        measurements.waistToUpperLeg +
+        (measurements.waistToKnee - measurements.waistToUpperLeg) * (2 * options.bodyLength - 3)
+      bodyWidth = maxBodyWidth * (1 + (options.bodyLength - 1) * 0.5)
+    }
+    if (options.bodyLength >= 2) {
+      bodyLength =
+        measurements.waistToKnee +
+        (measurements.waistToFloor - measurements.waistToKnee) * (2 * options.bodyLength - 4)
+      bodyWidth = maxBodyWidth * (1 + (options.bodyLength - 1) * 0.5)
+    }
+    bodyLength = bodyLength * (1 + options.bodyLengthBonus)
 
-    const widthDiff = width - waistFront
+    const wdthDiff = bodyWidth - waistFront
     const sideAngle =
-      utils.rad2deg(Math.atan(widthDiff / (length / (1 + options.lengthBonus)))) ||
-      utils.rad2deg(Math.atan((midWidth - waistFront) / measurements.waistToHips))
+      utils.rad2deg(Math.atan(wdthDiff / (bodyLength / (1 + options.bodyLengthBonus)))) ||
+      utils.rad2deg(Math.atan((midBodyWidth - waistFront) / measurements.waistToHips))
 
-    points.sideHem = points.sideWaist.shift(270 + sideAngle, length)
+    points.sideHem = points.sideWaist.shift(270 + sideAngle, bodyLength)
     points.cfHemCp2 = utils.beamsIntersect(
       points.sideHem,
       points.sideHem.shift(180 + sideAngle, 1),
@@ -178,13 +197,10 @@ export const sharedFront = {
       points.cfHemCp2 = new Point(points.cfHemCp2.x, points.cfWaist.y)
     }
     //sideSeam
-    points.sideHemCp2 = points.sideHem.shiftFractionTowards(
-      points.sideWaist,
-      options.length * options.sideCurve
-    )
+    points.sideHemCp2 = points.sideHem.shiftFractionTowards(points.sideWaist, options.sideCurve)
     points.bustDartBottomCp1 = points.bustDartBottom.shiftFractionTowards(
       points.sideWaist,
-      options.length * options.sideCurve
+      options.sideCurve
     )
 
     //guides
@@ -208,7 +224,14 @@ export const sharedFront = {
     store.set('strapFrontLength', points.strapMid.dist(points.shoulderPitch))
     store.set('armholeDrop', points.armhole.dist(points.armholeDrop))
     store.set('sideAngle', sideAngle)
-    store.set('length', length)
+    store.set('bodyLength', bodyLength)
+    store.set(
+      'sideSeamLength',
+      new Path()
+        .move(points.sideHem)
+        .curve(points.sideHemCp2, points.bustDartBottomCp1, points.bustDartBottom)
+        .length() + points.bustDartTop.dist(points.armholeDrop)
+    )
     store.set('bodiceFacingWidth', points.armholeDrop.dist(points.bustDartTop))
 
     return part

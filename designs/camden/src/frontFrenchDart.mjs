@@ -59,7 +59,7 @@ export const frontFrenchDart = ({
   //paths
   paths.hemBase = new Path().move(points.cfHem).curve_(points.cfHemCp2, points.sideHem).hide()
 
-  if (options.length > 0) {
+  if (options.bodyLength > 0) {
     paths.sideSeamBottom = new Path()
       .move(points.sideHem)
       .curve(points.sideHemCp2, points.bustDartBottomCp1, points.bustDartBottomI)
@@ -176,7 +176,7 @@ export const frontFrenchDart = ({
 
       paths.saSideSeamTopSa = paths.sideSeamTop.offset(sideSeamSa).hide()
 
-      if (options.length == 0) {
+      if (options.bodyLength == 0) {
         points.saSideHem = points.sideHem
           .shiftTowards(points.bustDartBottomI, sideSeamSa)
           .rotate(-90, points.sideHem)

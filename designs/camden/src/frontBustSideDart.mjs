@@ -143,7 +143,7 @@ export const frontBustSideDart = ({
         necklineSa = sa * options.necklineSaWidth * 100
       }
 
-      if (options.length == 0) {
+      if (options.bodyLength == 0) {
         points.saSideHem = utils.beamsIntersect(
           points.cfHemCp2.shiftTowards(points.sideHem, hemSa).rotate(-90, points.cfHemCp2),
           points.sideHem.shiftTowards(points.cfHemCp2, hemSa).rotate(90, points.sideHem),

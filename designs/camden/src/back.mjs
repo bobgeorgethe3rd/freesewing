@@ -62,7 +62,6 @@ export const back = {
     //measures
     const strapWidth = store.get('strapWidth')
     const sideAngle = store.get('sideAngle')
-    const length = store.get('length')
     //let's begin
     //strap placement
     points.shoulderPitch = points.hps.shiftFractionTowards(points.shoulder, options.shoulderPitch)
@@ -112,8 +111,28 @@ export const back = {
       points.armholeDropCp2Target,
       options.backArmholeDepth
     )
+    //sideseam
+    points.sideSeamCurveEnd = points.armholeDrop.shiftTowards(
+      points.sideWaist,
+      store.get('bodiceFacingWidth')
+    )
+    let tweak = 1
+    let delta
+    do {
+      points.sideHem = points.sideWaist.shift(270 + sideAngle, store.get('bodyLength') * tweak)
+      points.sideHemCp2 = points.sideHem.shiftFractionTowards(points.sideWaist, (2 / 3) * tweak)
+
+      paths.sideSeam = new Path()
+        .move(points.sideHem)
+        .curve(points.sideHemCp2, points.sideWaist, points.sideSeamCurveEnd)
+        .line(points.armholeDrop)
+        .hide()
+
+      delta = paths.sideSeam.length() - store.get('sideSeamLength')
+      if (delta > 0) tweak = tweak * 0.99
+      else tweak = tweak * 1.01
+    } while (Math.abs(delta) > 1)
     //hem
-    points.sideHem = points.sideWaist.shift(270 + sideAngle, length)
     points.cbHemCp2 = utils.beamsIntersect(
       points.sideHem,
       points.sideHem.shift(180 + sideAngle, 1),
@@ -125,29 +144,8 @@ export const back = {
       points.cbHem = points.cbWaist
       points.cbHemCp2 = new Point(points.cbHemCp2.x, points.cbWaist.y)
     }
-
-    //sideseam
-    points.sideSeamCurveEnd = points.armholeDrop.shiftTowards(
-      points.sideWaist,
-      store.get('bodiceFacingWidth')
-    )
-    points.sideHemCp2 = points.sideHem.shiftFractionTowards(
-      points.sideWaist,
-      options.length * options.sideCurve
-    )
-    points.sideSeamCurveCp1 = points.sideSeamCurveEnd.shiftFractionTowards(
-      points.sideWaist,
-      options.length * options.sideCurve
-    )
-
     //paths
     paths.hemBase = new Path().move(points.cbHem).curve_(points.cbHemCp2, points.sideHem).hide()
-
-    paths.sideSeam = new Path()
-      .move(points.sideHem)
-      .curve(points.sideHemCp2, points.sideSeamCurveCp1, points.sideSeamCurveEnd)
-      .line(points.armholeDrop)
-      .hide()
 
     paths.necklineRight = new Path()
       .move(points.armholeDrop)
@@ -221,7 +219,7 @@ export const back = {
           necklineSa = sa * options.necklineSaWidth * 100
         }
 
-        if (options.length == 0) {
+        if (options.bodyLength == 0) {
           points.saSideHem = utils.beamsIntersect(
             points.cbHemCp2.shiftTowards(points.sideHem, hemSa).rotate(-90, points.cbHemCp2),
             points.sideHem.shiftTowards(points.cbHemCp2, hemSa).rotate(90, points.sideHem),
