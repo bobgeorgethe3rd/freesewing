@@ -90,7 +90,7 @@ export const frontUnderarmDart = ({
     //notches
     macro('sprinkle', {
       snippet: 'notch',
-      on: ['cfChest', 'bust', 'armholePitch'],
+      on: ['cfChest', 'bust', 'armholePitch', 'bustDartClosed'],
     })
     //title
     points.title = new Point(points.bust.x * 0.55, points.armhole.y)

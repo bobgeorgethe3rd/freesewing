@@ -1,6 +1,7 @@
 import { pctBasedOn } from '@freesewing/core'
 import { back as backDaisy } from '@freesewing/daisy'
 import { sharedFront } from './sharedFront.mjs'
+import { pluginMirror } from '@freesewing/plugin-mirror'
 
 export const back = {
   name: 'bunny.back',
@@ -16,6 +17,11 @@ export const back = {
     backNeckCurveDepth: { pct: 100, min: 0, max: 100, menu: 'style' },
     backNeckDepth: { pct: 100, min: 50, max: 100, menu: 'style' },
     //Plackets
+    placketStyle: {
+      dflt: 'inbuilt',
+      list: ['inbuilt', 'facing', 'separate'],
+      menu: 'plackets',
+    },
     placketWidth: {
       pct: 3.7,
       min: 1,
@@ -25,6 +31,7 @@ export const back = {
       menu: 'plackets',
     },
   },
+  plugins: [pluginMirror],
   draft: ({
     store,
     sa,
@@ -92,6 +99,8 @@ export const back = {
       points.hemPlacketCp2 = new Point(points.hemPlacketCp2.x, points.cbWaist.y)
     }
     points.hemPlacket = points.cbHem.shift(0, placketWidth * 0.5)
+
+    points.hemCorner = points.cbHem.shift(180, placketWidth * 0.5)
     //neck
     points.shoulderTop = points.shoulder.shiftFractionTowards(points.hps, options.shoulderWidth)
     points.cbNeck = points.cbNeck.shiftFractionTowards(
@@ -115,9 +124,13 @@ export const back = {
       ),
       options.backNeckCurveDepth
     )
+
+    points.neckCorner = new Point(points.hemCorner.x, points.cbNeck.y)
+
     paths.cbNeck = new Path()
       .move(points.shoulderTop)
       ._curve(points.cbNeckCp1, points.cbNeck)
+      .line(points.neckCorner)
       .hide()
 
     points.neckPlacket = utils.lineIntersectsCurve(
@@ -128,39 +141,91 @@ export const back = {
       points.cbNeck,
       points.cbNeck
     )
+
+    paths.placketNeck = paths.cbNeck.split(points.neckPlacket)[1].hide()
+
+    macro('mirror', {
+      mirror: [points.neckCorner, points.hemCorner],
+      paths: ['placketNeck'],
+      points: ['neckPlacket', 'hemPlacket'],
+      prefix: 'm',
+    })
+
     //paths
+    const drawNeck = () => {
+      if (options.placketStyle == 'inbuilt') {
+        return paths.cbNeck.join(paths.mPlacketNeck.reverse())
+      }
+      if (options.placketStyle == 'facing') {
+        return paths.cbNeck
+      }
+      if (options.placketStyle == 'separate') {
+        return paths.cbNeck.split(points.neckPlacket)[0]
+      }
+    }
+
     paths.hemBase = new Path()
       .move(points.hemPlacket)
       .curve_(points.hemPlacketCp2, points.sideHem)
       .hide()
 
-    paths.seam = paths.hemBase
-      .clone()
+    const drawHemBase = () => {
+      if (options.placketStyle == 'inbuilt') {
+        return new Path().move(points.mHemPlacket).line(points.hemPlacket).join(paths.hemBase)
+      }
+      if (options.placketStyle == 'facing') {
+        return new Path().move(points.hemCorner).line(points.hemPlacket).join(paths.hemBase)
+      }
+      if (options.placketStyle == 'separate') {
+        return paths.hemBase
+      }
+    }
+
+    paths.seam = drawHemBase()
       .join(paths.sideSeam)
       .join(paths.armhole)
       .line(points.shoulderTop)
-      .join(paths.cbNeck)
+      .join(drawNeck())
+      .line(drawHemBase().start())
+      .close()
 
     if (complete) {
       //grainline
-      // if (options.cbSaWidth > 0) {
-      // points.grainlineFrom = new Point(points.cbNeckCp1.x / 3, points.cbTop.y)
-      // points.grainlineTo = new Point(points.grainlineFrom.x, points.cbHem.y)
-      // macro('grainline', {
-      // from: points.grainlineFrom,
-      // to: points.grainlineTo,
-      // })
-      // } else {
-      // points.cutOnFoldFrom = points.cbTop
-      // points.cutOnFoldTo = points.cbHem
-      // macro('cutonfold', {
-      // from: points.cutOnFoldFrom,
-      // to: points.cutOnFoldTo,
-      // grainline: true,
-      // })
-      // }
+      points.grainlineFrom = new Point(points.cbNeckCp1.x / 3, points.cbNeck.y)
+      points.grainlineTo = new Point(points.grainlineFrom.x, points.cbHem.y)
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
       //notches
-
+      if (options.placketStyle == 'inbuilt' || options.placketStyle == 'facing') {
+        paths.stitchingLine = new Path()
+          .move(points.neckPlacket)
+          .line(points.hemPlacket)
+          .attr('class', 'mark')
+          .attr('data-text', 'Stitching - Line')
+          .attr('data-text-class', 'center')
+        // for (let i = 0; i < options.bodiceButtonholeNum; i++) {
+        // points['buttonhole' + i] = points.bodiceButtonholeStart.shiftFractionTowards(
+        // points.bodiceButtonholeEnd,
+        // i / (options.bodiceButtonholeNum - 1)
+        // )
+        // snippets['buttonhole' + i] = new Snippet('buttonhole', points['buttonhole' + i]).attr(
+        // 'data-rotate',
+        // 90
+        // )
+        // snippets['button' + i] = new Snippet('button', points['buttonhole' + i])
+        // }
+        // store.set('buttonholeDist', points.buttonhole1.y - points.buttonhole0.y)
+      }
+      if (options.placketStyle == 'inbuilt') {
+        paths.foldLine = new Path()
+          .move(points.neckCorner)
+          .line(points.hemCorner)
+          .attr('class', 'mark')
+          .attr('data-text', 'Fold - Line')
+          .attr('data-text-class', 'center')
+      }
       //title
       points.title = new Point(points.dartTip.x * 0.55, points.armhole.y)
       macro('title', {

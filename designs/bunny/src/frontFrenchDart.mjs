@@ -113,7 +113,7 @@ export const frontFrenchDart = ({
     //notches
     macro('sprinkle', {
       snippet: 'notch',
-      on: ['cfChest', 'bust', 'armholePitch'],
+      on: ['cfChest', 'bust', 'armholePitch', 'bustDartBottomR'],
     })
     //title
     points.title = new Point(points.bust.x * 0.55, points.armhole.y)

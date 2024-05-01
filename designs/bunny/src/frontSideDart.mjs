@@ -71,7 +71,7 @@ export const frontSideDart = ({
     .curve(points.sideHemCp2, points.bustDartBottomCp1, points.bustDartClosed)
     .line(points.armholeR)
 
-  if (options.bustDartFraction > 0.005 && options.bodyLength > 0) {
+  if (options.bustDartFraction > 0.005 || options.bodyLength > 0) {
     paths.sideSeam = paths.sideSeam.split(points.bustDartBottom)[0]
   } else {
     paths.sideSeam = new Path().move(points.sideHem).line(points.bustDartBottom).hide()
@@ -129,6 +129,11 @@ export const frontSideDart = ({
       snippet: 'notch',
       on: ['cfChest', 'bust', 'armholePitch'],
     })
+    if (points.bustDartTop.y > points.bustDartBottomR.y) {
+      snippets.bustDartBottomR = new Snippet('notch', points.bustDartBottomR)
+    } else {
+      snippets.bustDartClosed = new Snippet('notch', points.bustDartClosed)
+    }
     //title
     points.title = new Point(points.bust.x * 0.55, points.armhole.y)
     macro('title', {
@@ -193,32 +198,36 @@ export const frontSideDart = ({
           .rotate(90, points.bustDartTop)
       )
 
-      const bustDartBottomI = paths.sideSeam
-        .offset(sideSeamSa)
-        .intersects(
-          new Path()
-            .move(
-              points.bustDartBottom
-                .shiftTowards(points.bustDartEdge, sideSeamSa)
-                .rotate(-90, points.bustDartBottom)
-            )
-            .line(
-              points.bustDartEdge
-                .shiftTowards(points.bustDartBottom, sideSeamSa)
-                .rotate(90, points.bustDartEdge)
-            )
-        )[0]
-      if (bustDartBottomI) {
-        points.saBustDartBottom = bustDartBottomI
-        paths.saSideSeam = paths.saSideSeam.split(points.saBustDartBottom)[0].hide()
+      if (points.bustDartMid.y > points.bust.y) {
+        const bustDartBottomI = paths.sideSeam
+          .offset(sideSeamSa)
+          .intersects(
+            new Path()
+              .move(
+                points.bustDartBottom
+                  .shiftTowards(points.bustDartEdge, sideSeamSa)
+                  .rotate(-90, points.bustDartBottom)
+              )
+              .line(
+                points.bustDartEdge
+                  .shiftTowards(points.bustDartBottom, sideSeamSa)
+                  .rotate(90, points.bustDartEdge)
+              )
+          )[0]
+        if (bustDartBottomI) {
+          points.saBustDartBottom = bustDartBottomI
+          paths.saSideSeam = paths.saSideSeam.split(points.saBustDartBottom)[0].hide()
+        } else {
+          points.saBustDartBottom = utils.beamsIntersect(
+            points.saBustDartEdge,
+            points.saBustDartBottom,
+            points.saSideHem,
+            points.saSideHem.shift(points.cfHemCp2.angle(points.sideHem) + 90, 1)
+          )
+          paths.saSideSeam = new Path().move(points.saBustDartBottom).hide()
+        }
       } else {
-        points.saBustDartBottom = utils.beamsIntersect(
-          points.saBustDartEdge,
-          points.saBustDartBottom,
-          points.saSideHem,
-          points.saSideHem.shift(points.cfHemCp2.angle(points.sideHem) + 90, 1)
-        )
-        paths.saSideSeam = new Path().move(points.saBustDartBottom).hide()
+        paths.saSideSeam = paths.sideSeam.offset(sideSeamSa).hide()
       }
 
       points.saBustDartEdge = utils.beamsIntersect(

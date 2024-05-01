@@ -118,7 +118,7 @@ export const frontArmholeDart = ({
     //notches
     macro('sprinkle', {
       snippet: 'notch',
-      on: ['cfChest', 'bust'],
+      on: ['cfChest', 'bust', 'bustDartClosed'],
     })
     if (points.bustDartTop.y > points.armholePitch.y) {
       snippets.armholePitch = new Snippet('notch', points.armholePitch)
