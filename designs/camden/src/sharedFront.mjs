@@ -25,7 +25,7 @@ export const sharedFront = {
     frontNeckCurveDepth: { pct: (2 / 3) * 100, min: 0, max: 100, menu: 'style' },
     bodyLength: { pct: 75, min: 0, max: 250, menu: 'style' },
     bodyLengthBonus: { pct: 0, min: -50, max: 150, menu: 'style' },
-    sideCurve: { pct: 100, min: 25, max: 100, menu: 'style' },
+    sideCurve: { pct: (2 / 3) * 100, min: 25, max: 100, menu: 'style' },
     strapWidth: {
       pct: 4.7,
       min: 1,

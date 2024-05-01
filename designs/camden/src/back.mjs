@@ -120,7 +120,10 @@ export const back = {
     let delta
     do {
       points.sideHem = points.sideWaist.shift(270 + sideAngle, store.get('bodyLength') * tweak)
-      points.sideHemCp2 = points.sideHem.shiftFractionTowards(points.sideWaist, (2 / 3) * tweak)
+      points.sideHemCp2 = points.sideHem.shiftFractionTowards(
+        points.sideWaist,
+        options.sideCurve * tweak
+      )
 
       paths.sideSeam = new Path()
         .move(points.sideHem)
