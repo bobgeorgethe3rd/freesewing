@@ -76,7 +76,10 @@ export const back = {
     const sideAngle = store.get('sideAngle')
     const placketWidth = absoluteOptions.placketWidth
     //let's begin
-    points.sideCurveEnd = points.armhole.shiftTowards(points.sideWaist, store.get('sideBustLength'))
+    points.sideSeamCurveEnd = points.armhole.shiftTowards(
+      points.sideWaist,
+      store.get('sideBustLength')
+    )
 
     let tweak = 1
     let delta
@@ -86,14 +89,14 @@ export const back = {
         points.sideWaist,
         options.sideCurve * tweak
       )
-      points.sideCurveEndCp1 = points.sideCurveEnd.shiftFractionTowards(
+      points.sideSeamCurveEndCp1 = points.sideSeamCurveEnd.shiftFractionTowards(
         points.sideWaist,
         options.sideCurve * tweak
       )
 
       paths.sideSeam = new Path()
         .move(points.sideHem)
-        .curve(points.sideHemCp2, points.sideCurveEndCp1, points.sideCurveEnd)
+        .curve(points.sideHemCp2, points.sideSeamCurveEndCp1, points.sideSeamCurveEnd)
         .line(points.armhole)
         .hide()
 
