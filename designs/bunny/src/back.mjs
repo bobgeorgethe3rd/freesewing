@@ -12,9 +12,9 @@ export const back = {
   },
   options: {
     //Style
-    backNeckDepth: { pct: 65, min: 0, max: 100, menu: 'style' },
-    backNeckCurve: { pct: 50, min: 0, max: 100, menu: 'style' },
-    backNeckCurveDepth: { pct: (2 / 3) * 100, min: 0, max: 100, menu: 'style' },
+    backNeckCurve: { pct: 100, min: 0, max: 100, menu: 'style' },
+    backNeckCurveDepth: { pct: 100, min: 0, max: 100, menu: 'style' },
+    backNeckDepth: { pct: 100, min: 50, max: 100, menu: 'style' },
     //Plackets
     placketWidth: {
       pct: 3.7,
@@ -24,8 +24,6 @@ export const back = {
       ...pctBasedOn('waist'),
       menu: 'plackets',
     },
-    //Construction
-    cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
   },
   draft: ({
     store,
@@ -93,11 +91,55 @@ export const back = {
       points.cbHem = points.cbWaist
       points.hemPlacketCp2 = new Point(points.hemPlacketCp2.x, points.cbWaist.y)
     }
+    points.hemPlacket = points.cbHem.shift(0, placketWidth * 0.5)
+    //neck
+    points.shoulderTop = points.shoulder.shiftFractionTowards(points.hps, options.shoulderWidth)
+    points.cbNeck = points.cbNeck.shiftFractionTowards(
+      utils.beamIntersectsX(
+        points.shoulderTop,
+        points.shoulderTop.shift(points.hps.angle(points.cbNeck), 1),
+        points.cbNeck.x
+      ),
+      options.backNeckDepth
+    )
 
+    points.cbNeckCp1 = points.cbNeck.shiftFractionTowards(
+      utils.beamsIntersect(
+        points.cbNeck,
+        points.cbNeck.shift(
+          points.cbNeck.angle(points.shoulderTop) * (1 - options.backNeckCurve),
+          1
+        ),
+        points.shoulderTop,
+        points.hps.rotate(90, points.shoulderTop)
+      ),
+      options.backNeckCurveDepth
+    )
+    paths.cbNeck = new Path()
+      .move(points.shoulderTop)
+      ._curve(points.cbNeckCp1, points.cbNeck)
+      .hide()
+
+    points.neckPlacket = utils.lineIntersectsCurve(
+      points.hemPlacket,
+      new Point(points.hemPlacket.x, points.hps.y),
+      points.shoulderTop,
+      points.cbNeckCp1,
+      points.cbNeck,
+      points.cbNeck
+    )
     //paths
-    paths.hemBase = new Path().move(points.cbHem).line(points.sideHem).hide()
+    paths.hemBase = new Path()
+      .move(points.hemPlacket)
+      .curve_(points.hemPlacketCp2, points.sideHem)
+      .hide()
 
-    paths.seam = paths.hemBase.clone().join(paths.sideSeam).join(paths.armhole)
+    paths.seam = paths.hemBase
+      .clone()
+      .join(paths.sideSeam)
+      .join(paths.armhole)
+      .line(points.shoulderTop)
+      .join(paths.cbNeck)
 
     if (complete) {
       //grainline
