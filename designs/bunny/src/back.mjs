@@ -17,6 +17,15 @@ export const back = {
     backNeckCurveDepth: { pct: 100, min: 0, max: 100, menu: 'style' },
     backNeckDepth: { pct: 100, min: 50, max: 100, menu: 'style' },
     //Plackets
+    buttonholeStart: {
+      pct: 3.2,
+      min: 3,
+      max: 5,
+      snap: 3.175,
+      ...pctBasedOn('hpsToWaistBack'),
+      menu: 'plackets',
+    },
+    buttonholeNum: { count: 5, min: 3, max: 10, menu: 'plackets' },
     placketStyle: {
       dflt: 'inbuilt',
       list: ['inbuilt', 'facing', 'separate'],
@@ -197,7 +206,12 @@ export const back = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
-      //notches
+      //notches & buttonhole
+      points.buttonholeStart = points.cbNeck.shift(-90, absoluteOptions.buttonholeStart)
+      points.buttonholeWaist = points.cbWaist
+      if (points.cbHem.y < points.cbWaist.y) {
+        points.buttonholeWaist = points.cbWaist.shift(90, absoluteOptions.buttonholeStart)
+      }
       if (options.placketStyle == 'inbuilt' || options.placketStyle == 'facing') {
         paths.stitchingLine = new Path()
           .move(points.neckPlacket)
@@ -205,18 +219,39 @@ export const back = {
           .attr('class', 'mark')
           .attr('data-text', 'Stitching - Line')
           .attr('data-text-class', 'center')
-        // for (let i = 0; i < options.bodiceButtonholeNum; i++) {
-        // points['buttonhole' + i] = points.bodiceButtonholeStart.shiftFractionTowards(
-        // points.bodiceButtonholeEnd,
-        // i / (options.bodiceButtonholeNum - 1)
-        // )
-        // snippets['buttonhole' + i] = new Snippet('buttonhole', points['buttonhole' + i]).attr(
-        // 'data-rotate',
-        // 90
-        // )
-        // snippets['button' + i] = new Snippet('button', points['buttonhole' + i])
-        // }
-        // store.set('buttonholeDist', points.buttonhole1.y - points.buttonhole0.y)
+        for (let i = 0; i < options.buttonholeNum; i++) {
+          points['buttonhole' + i] = points.buttonholeStart.shiftFractionTowards(
+            points.buttonholeWaist,
+            i / (options.buttonholeNum - 1)
+          )
+          snippets['buttonhole' + i] = new Snippet('buttonhole', points['buttonhole' + i]).attr(
+            'data-rotate',
+            90
+          )
+          snippets['button' + i] = new Snippet('button', points['buttonhole' + i])
+        }
+        const buttonholeDist = points.buttonhole1.y - points.buttonhole0.y
+        const skirtButtonholeNum = Math.floor(
+          (points.buttonholeWaist.dy(points.cbHem) - absoluteOptions.buttonholeStart) /
+            buttonholeDist
+        )
+        if (skirtButtonholeNum > 0) {
+          points.buttonholeEnd = points.buttonholeWaist.shift(
+            -90,
+            buttonholeDist * skirtButtonholeNum
+          )
+          for (let i = 0; i < skirtButtonholeNum; i++) {
+            points['skirtButtonhole' + i] = points.buttonholeWaist.shiftFractionTowards(
+              points.buttonholeEnd,
+              (i + 1) / skirtButtonholeNum
+            )
+            snippets['skirtButtonhole' + i] = new Snippet(
+              'buttonhole',
+              points['skirtButtonhole' + i]
+            ).attr('data-rotate', 90)
+            snippets['skirtButton' + i] = new Snippet('button', points['skirtButtonhole' + i])
+          }
+        }
       }
       if (options.placketStyle == 'inbuilt') {
         paths.foldLine = new Path()
@@ -235,6 +270,84 @@ export const back = {
         scale: 2 / 3,
       })
       if (sa) {
+        const hemSa = sa * options.hemWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const neckSa = sa * options.necklineSaWidth * 100
+
+        points.saSideHem = points.sideHem
+          .shift(points.hemPlacketCp2.angle(points.sideHem) - 90, hemSa)
+          .shift(points.hemPlacketCp2.angle(points.sideHem), sideSeamSa)
+
+        points.saShoulderTop = utils.beamsIntersect(
+          points.saShoulderCorner,
+          points.saShoulderCorner.shift(points.shoulder.angle(points.shoulderTop), 1),
+          paths.cbNeck.offset(neckSa).start(),
+          paths.cbNeck
+            .offset(neckSa)
+            .start()
+            .shift(points.shoulderTop.angle(points.shoulder) + 90, 1)
+        )
+
+        points.saHemPlacket = points.hemPlacket.shift(-90, hemSa)
+
+        if (hemSa < sa) {
+          points.saHemPlacket = points.hemPlacket.shift(-90, sa)
+        }
+
+        points.saMHemPlacket = new Point(points.mHemPlacket.x, points.saHemPlacket.y)
+        points.saHemCorner = new Point(points.hemCorner.x, points.saHemPlacket.y)
+
+        const drawHemSa = () => {
+          if (options.placketStyle == 'inbuilt') {
+            return new Path()
+              .move(points.saMHemPlacket)
+              .line(points.saHemPlacket)
+              .join(paths.hemBase.offset(hemSa))
+          }
+          if (options.placketStyle == 'facing') {
+            return new Path()
+              .move(points.saHemCorner)
+              .line(points.saHemPlacket)
+              .join(paths.hemBase.offset(hemSa))
+          }
+          if (options.placketStyle == 'separate') {
+            return drawHemBase().offset(hemSa)
+          }
+        }
+
+        const drawNeckSa = () => {
+          if (options.placketStyle == 'inbuilt') {
+            return paths.cbNeck
+              .split(points.neckPlacket)[0]
+              .offset(neckSa)
+              .join(drawNeck().split(points.neckPlacket)[1].offset(sa))
+          }
+          if (options.placketStyle == 'facing') {
+            return paths.cbNeck
+              .split(points.neckPlacket)[0]
+              .offset(neckSa)
+              .join(drawNeck().split(points.neckPlacket)[1].offset(sa))
+          }
+          if (options.placketStyle == 'separate') {
+            return paths.cbNeck.split(points.neckPlacket)[0].offset(neckSa)
+          }
+        }
+
+        points.saNeckLeft = new Point(drawNeck().end().x - sa, drawNeckSa().end().y)
+        points.saHemLeft = new Point(points.saNeckLeft.x, drawHemSa().start().y)
+
+        paths.sa = drawHemSa()
+          .line(points.saSideHem)
+          .join(paths.sideSeam.offset(sideSeamSa))
+          .line(points.saArmholeCorner)
+          .join(paths.armhole.offset(sa * options.armholeSaWidth * 100))
+          .line(points.saShoulderCorner)
+          .line(points.saShoulderTop)
+          .join(drawNeckSa())
+          .line(points.saNeckLeft)
+          .line(points.saHemLeft)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 
