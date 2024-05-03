@@ -16,6 +16,7 @@ export const sharedFront = {
     bodyEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
     //Style
     // armholeDrop: { pct: 25, min: 0, max: 75, menu: 'style' },
+    bodyWidth: { pct: 25, min: 12.5, max: 50, menu: 'style' },
     bodyLength: { pct: 100, min: 0, max: 250, menu: 'style' },
     bodyLengthBonus: { pct: 0, min: -20, max: 10, menu: 'style' },
     sideCurve: { pct: (2 / 3) * 100, min: 25, max: 100, menu: 'style' },
