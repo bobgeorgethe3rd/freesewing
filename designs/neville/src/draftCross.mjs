@@ -232,7 +232,7 @@ export const draftCross = {
     }
 
     //guides
-    paths.cross = new Path()
+    paths.crossSeam = new Path()
       .move(points.waistCross)
       .line(points.crossSeamCurveStart)
       .curve(points.crossSeamCurveStartCp2, points.upperLegCrossCp1, points.upperLeg)
@@ -241,8 +241,11 @@ export const draftCross = {
       .hide()
 
     //stores
-    store.set('toUpperLeg', toUpperLeg)
+    store.set('crossSeamBack', crossSeamBack)
     store.set('toHips', toHips)
+    store.set('toUpperLeg', toUpperLeg)
+    store.set('seatBack', seatBack)
+    store.set('seatFront', seatFront)
     store.set('waistbandWidth', waistbandWidth)
 
     return part
