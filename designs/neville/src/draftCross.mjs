@@ -231,12 +231,19 @@ export const draftCross = {
       )
     }
 
-    paths.test = new Path()
+    //guides
+    paths.cross = new Path()
       .move(points.waistCross)
       .line(points.crossSeamCurveStart)
       .curve(points.crossSeamCurveStartCp2, points.upperLegCrossCp1, points.upperLeg)
       .curve(points.upperLegCrotchCp2, points.crotchSeamCurveEndCp1, points.crotchSeamCurveEnd)
       .line(points.waistCrotch)
+      .hide()
+
+    //stores
+    store.set('toUpperLeg', toUpperLeg)
+    store.set('toHips', toHips)
+    store.set('waistbandWidth', waistbandWidth)
 
     return part
   },
