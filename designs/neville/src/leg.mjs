@@ -11,8 +11,6 @@ export const leg = {
   options: {
     //Constants
     crossSeamSaWidth: 0.01,
-    crotchSeamSaWidth: 0.01,
-    inseamSaWidth: 0.01,
     sideSeamSaWidth: 0.01,
     fitWaistBack: false,
     fitWaistFront: false,
@@ -517,6 +515,62 @@ export const leg = {
         })
       }
       if (sa) {
+        const hemSa = sa * options.hemWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const crossSeamSa = sa * options.crossSeamSaWidth * 100
+
+        points.saFloorBack = points.floorBack.translate(sideSeamSa, hemSa)
+        points.saFloorFront = points.floorFront.translate(-sideSeamSa, hemSa)
+
+        points.saWaistBack = utils.beamsIntersect(
+          drawOutseamBack().offset(sideSeamSa).shiftFractionAlong(0.995),
+          drawOutseamBack().offset(sideSeamSa).end(),
+          points.waistBack.shiftTowards(points.waistCross, sa).rotate(-90, points.waistBack),
+          points.waistCross.shiftTowards(points.waistBack, sa).rotate(90, points.waistCross)
+        )
+
+        points.saWaistCross = utils.beamsIntersect(
+          points.waistBack.shiftTowards(points.waistCross, sa).rotate(-90, points.waistBack),
+          points.waistCross.shiftTowards(points.waistBack, sa).rotate(90, points.waistCross),
+          points.waistCross
+            .shiftTowards(points.crossSeamCurveStart, crossSeamSa)
+            .rotate(-90, points.waistCross),
+          points.crossSeamCurveStart
+            .shiftTowards(points.waistCross, crossSeamSa)
+            .rotate(90, points.crossSeamCurveStart)
+        )
+
+        points.saWaistCrotch = utils.beamsIntersect(
+          points.crotchSeamCurveEnd
+            .shiftTowards(points.waistCrotch, crossSeamSa)
+            .rotate(-90, points.crotchSeamCurveEnd),
+          points.waistCrotch
+            .shiftTowards(points.crotchSeamCurveEnd, crossSeamSa)
+            .rotate(90, points.waistCrotch),
+          points.waistCrotch.shiftTowards(points.waistFront, sa).rotate(-90, points.waistCrotch),
+          points.waistFront.shiftTowards(points.waistCrotch, sa).rotate(90, points.waistFront)
+        )
+
+        points.saWaistFront = utils.beamsIntersect(
+          points.waistCrotch.shiftTowards(points.waistFront, sa).rotate(-90, points.waistCrotch),
+          points.waistFront.shiftTowards(points.waistCrotch, sa).rotate(90, points.waistFront),
+          drawOutseamFront().offset(sideSeamSa).start(),
+          drawOutseamFront().offset(sideSeamSa).shiftFractionAlong(0.005)
+        )
+
+        paths.sa = new Path()
+          .move(points.saFloorFront)
+          .line(points.saFloorBack)
+          .join(drawOutseamBack().offset(sideSeamSa))
+          .line(points.saWaistBack)
+          .line(points.saWaistCross)
+          .join(paths.crossSeam.offset(crossSeamSa))
+          .line(points.saWaistCrotch)
+          .line(points.saWaistFront)
+          .join(drawOutseamFront().offset(sideSeamSa))
+          .line(points.saFloorFront)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 
