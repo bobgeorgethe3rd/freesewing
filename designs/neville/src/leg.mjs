@@ -329,7 +329,7 @@ export const leg = {
 
     const drawWaistBack = () =>
       options.backDartWidth == 0
-        ? new Path().move(points.waistOut).line(points.waistIn)
+        ? new Path().move(points.waistBack).line(points.waistCross)
         : new Path()
             .move(points.waistBack)
             .line(points.dartOut)
