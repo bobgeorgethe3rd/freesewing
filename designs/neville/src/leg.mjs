@@ -383,7 +383,10 @@ export const leg = {
       })
       //notches
       snippets.crossSeamCurveStart = new Snippet('bnotch', points.crossSeamCurveStart)
-      snippets.crotchSeamCurveEnd = new Snippet('notch', points.crotchSeamCurveEnd)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['crotchSeamCurveEnd', 'upperLeg'],
+      })
       //title
       points.title = points.knee.shiftFractionTowards(points.upperLegAnchor, 0.5)
       macro('title', {
