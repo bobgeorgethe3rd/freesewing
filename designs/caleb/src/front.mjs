@@ -200,7 +200,7 @@ export const front = {
         return paths.outSeam.join(paths.outSeam0).join(paths.mOutSeam0)
       }
       if (options.legBandStyle == 'band') {
-        return paths.outSeam.split(points.splitIn)[0]
+        return paths.outSeam.split(points.splitOut)[0]
       }
       if (options.legBandStyle == 'turnover') {
         return paths.outSeam.join(paths.outSeam0)
@@ -218,7 +218,7 @@ export const front = {
         return paths.mInseam1.join(paths.inseam1).join(paths.inseam)
       }
       if (options.legBandStyle == 'band') {
-        return paths.inseam.split(points.splitOut)[1]
+        return paths.inseam.split(points.splitIn)[1]
       }
       if (options.legBandStyle == 'turnover') {
         return paths.inseam1.join(paths.inseam)
@@ -246,7 +246,7 @@ export const front = {
 
     if (complete) {
       //grainline
-      points.grainlineTo = points.bottom.shiftFractionTowards(points.bottomIn, 2 / 3)
+      points.grainlineTo = points.split.shift(0, points.split.dx(points.crotchSeamCurveEnd) * 0.5)
       points.grainlineFrom = new Point(points.grainlineTo.x, points.crotchSeamCurveEnd.y)
       macro('grainline', {
         from: points.grainlineFrom,
