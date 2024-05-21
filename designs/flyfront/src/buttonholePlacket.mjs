@@ -32,11 +32,11 @@ export const buttonholePlacket = {
       return part
     }
     //removing paths and snippets not required from Dalton
-    const keepThese = ['seam', 'placketCurve']
+    const keepThese = ['seam', 'daltonGuide', 'placketCurve']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
-    if (options.daltonGuides) {
+    if (options.daltonGuides && !paths.daltonGuide) {
       paths.daltonGuide = paths.seam.clone().attr('class', 'various lashed')
     }
     delete paths.seam

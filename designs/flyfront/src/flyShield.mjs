@@ -26,11 +26,11 @@ export const flyShield = {
     absoluteOptions,
   }) => {
     //removing paths and snippets not required from Dalton
-    const keepThese = ['seam', 'crotchSeam']
+    const keepThese = ['seam', 'daltonGuide', 'crotchSeam']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
-    if (options.daltonGuides) {
+    if (options.daltonGuides && !paths.daltonGuide) {
       paths.daltonGuide = paths.seam.clone().attr('class', 'various lashed')
     }
     delete paths.seam
