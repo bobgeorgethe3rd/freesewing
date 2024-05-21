@@ -67,9 +67,9 @@ export const back = {
     sidePocketBalance: { pct: 50, min: 40, max: 70, menu: 'pockets.sidePockets' },
     sidePocketWidth: { pct: 85.8, min: 40, max: 90, menu: 'pockets.sidePockets' },
     //Construction
-    crossSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Caleb
-    inseamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Caleb
-    sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Caleb
+    crossSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Caleb
+    inseamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Caleb
+    sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Caleb
     //Advanced
     backDartMultiplier: { count: 1, min: 0, max: 2, menu: 'advanced' }, //Altered for Caleb
   },

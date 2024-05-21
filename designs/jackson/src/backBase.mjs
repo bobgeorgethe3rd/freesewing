@@ -44,8 +44,8 @@ export const backBase = {
     backDartWidth: { pct: 1.3, min: 1, max: 2, menu: 'darts' }, //Altered for Jackson
     backDartDepth: { pct: 78.3, min: 60, max: 100, menu: 'darts' }, //Altered for Jackson
     //Construction
-    crossSeamSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Jackson
-    inseamSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Jackson
+    crossSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Jackson
+    inseamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Jackson
     sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Jackson
     //Advanced
     backDartMultiplier: { count: 1, min: 0, max: 2, menu: 'advanced' }, //Altered for Jackson

@@ -22,7 +22,7 @@ export const back = {
     backPocketBottomWidth: { pct: 82.4, min: 80, max: 100, menu: 'pockets.backPockets' }, //Altered for Jackson
     backPocketPeakDepth: { pct: 49.2, min: 0, max: 50, menu: 'pockets.backPockets' }, //Altered for Jackson
     //Construction
-    yokeSeamSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    yokeSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
   },
   plugins: [pluginLogoRG],
   draft: ({
