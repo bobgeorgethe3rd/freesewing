@@ -26,6 +26,10 @@ export const gusset = {
     absoluteOptions,
     log,
   }) => {
+    if (!options.gusset) {
+      part.hide()
+      return part
+    }
     //let's begin
     points.origin = new Point(0, 0)
     points.top = points.origin.shift(
