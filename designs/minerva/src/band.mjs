@@ -37,6 +37,11 @@ export const band = {
     absoluteOptions,
     log,
   }) => {
+    //set render
+    if (!options.band) {
+      part.hide()
+      return part
+    }
     //measures
     void store.setIfUnset(
       'headCircumference',
