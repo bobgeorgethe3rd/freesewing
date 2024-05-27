@@ -298,7 +298,7 @@ export const leg = {
       }
     }
 
-    paths.waistRight = new Path()
+    paths.waistLeft = new Path()
       .move(points.waistCrotch)
       .curve(points.waistCrotchCp2, points.waistLeftMid, points.waistLeft)
       .hide()
@@ -335,9 +335,214 @@ export const leg = {
       .join(drawOutseamRight())
       .line(points.waistCross)
       .join(paths.crossSeam)
-      .join(paths.waistRight)
+      .join(paths.waistLeft)
       .join(drawOutseamLeft())
       .close()
+
+    if (complete) {
+      //grainline
+      points.grainlineTo = points.floor.shiftFractionTowards(points.floorLeft, 2 / 3)
+      points.grainlineFrom = new Point(points.grainlineTo.x, points.waistLeftMid.y)
+      macro('grainline', {
+        from: points.grainlineFrom,
+        to: points.grainlineTo,
+      })
+      //notches
+      snippets.crossSeamCurveStart = new Snippet('bnotch', points.crossSeamCurveStart)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['crotchSeamCurveEnd', 'upperLeg'],
+      })
+      //title
+      points.title = points.knee.shiftFractionTowards(points.upperLegAnchor, 0.5)
+      macro('title', {
+        nr: 1,
+        title: 'Leg',
+        at: points.title,
+        scale: 0.5,
+      })
+      //scalebox
+      points.scalebox = points.knee.shiftFractionTowards(points.floor, 0.5)
+      macro('scalebox', { at: points.scalebox })
+      //fitGuides
+      if (options.fitGuides) {
+        if (measurements.waistToHips * options.waistHeight - waistbandWidth > 0) {
+          points.hipsGuideCross = points.waistCross
+            .shiftTowards(
+              points.crossSeamCurveStart,
+              measurements.waistToHips * options.waistHeight - waistbandWidth
+            )
+            .shift(points.waistCross.angle(points.waistRight), waistBack * 0.05)
+          points.hipsGuideRight = points.hipsGuideCross.shift(
+            points.waistCross.angle(points.waistRight),
+            waistBack * 0.15
+          )
+
+          points.hipsGuideCrotch = points.waistCrotch
+            .shiftTowards(
+              points.crotchSeamCurveEnd,
+              measurements.waistToHips * options.waistHeight - waistbandWidth
+            )
+            .shift(points.waistCrotch.angle(points.waistLeftMid), waistFront * 0.05)
+          points.hipsGuideLeft = points.hipsGuideCrotch.shift(
+            points.waistCrotch.angle(points.waistLeftMid),
+            waistFront * 0.15
+          )
+
+          paths.hipsGuideRight = new Path()
+            .move(points.hipsGuideCross)
+            .line(points.hipsGuideRight)
+            .attr('class', 'various')
+            .attr('data-text', 'Hips Guide')
+            .attr('data-text-class', 'left')
+
+          paths.hipsGuideLeft = new Path()
+            .move(points.hipsGuideLeft)
+            .line(points.hipsGuideCrotch)
+            .attr('class', 'various')
+            .attr('data-text', 'Hips Guide')
+            .attr('data-text-class', 'left')
+
+          macro('sprinkle', {
+            snippet: 'notch',
+            on: ['hipsGuideCross', 'hipsGuideRight', 'hipsGuideCrotch', 'hipsGuideLeft'],
+          })
+        }
+        points.seatGuideCross = points.seatCross.shift(
+          points.waistCross.angle(points.waistRight),
+          waistBack * 0.05
+        )
+        points.seatGuideRight = points.seatGuideCross.shift(
+          points.waistCross.angle(points.waistRight),
+          waistBack * 0.15
+        )
+
+        points.seatGuideCrotch = points.seatCrotch.shift(
+          points.waistCrotch.angle(points.waistLeftMid),
+          waistFront * 0.05
+        )
+        points.seatGuideLeft = points.seatGuideCrotch.shift(
+          points.waistCrotch.angle(points.waistLeftMid),
+          waistFront * 0.15
+        )
+
+        paths.seatGuideRight = new Path()
+          .move(points.seatGuideCross)
+          .line(points.seatGuideRight)
+          .attr('class', 'various')
+          .attr('data-text', 'Seat Guide')
+          .attr('data-text-class', 'left')
+
+        paths.seatGuideLeft = new Path()
+          .move(points.seatGuideLeft)
+          .line(points.seatGuideCrotch)
+          .attr('class', 'various')
+          .attr('data-text', 'Seat Guide')
+          .attr('data-text-class', 'left')
+
+        if (options.fitKnee) {
+          points.kneeGuideRight = points.kneeRight
+        } else {
+          if (points.seatRightAnchor.x > points.seatRight.x) {
+            points.kneeGuideRight = utils.lineIntersectsCurve(
+              points.kneeLeft,
+              points.kneeLeft.shiftFractionTowards(points.kneeRight, 2),
+              points.floorRight,
+              points.floorRightCp2,
+              points.seatRight,
+              points.waistRight
+            )
+          } else {
+            points.kneeGuideRight = utils.lineIntersectsCurve(
+              points.kneeLeft,
+              points.kneeLeft.shiftFractionTowards(points.kneeRight, 2),
+              points.floorRight,
+              points.floorRightCp2,
+              points.seatRightCp1,
+              points.seatRight
+            )
+          }
+        }
+        points.kneeGuideCross = points.kneeGuideRight.shiftFractionTowards(points.kneeLeft, 0.25)
+        paths.kneeGuideRight = new Path()
+          .move(points.kneeGuideCross)
+          .line(points.kneeGuideRight)
+          .attr('class', 'various')
+          .attr('data-text', 'Knee Guide')
+          .attr('data-text-class', 'right')
+
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: [
+            'seatGuideCross',
+            'seatGuideRight',
+            'seatGuideCrotch',
+            'seatGuideLeft',
+            'kneeGuideCross',
+            'kneeGuideRight',
+          ],
+        })
+      }
+      if (sa) {
+        const hemSa = sa * options.hemWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const crossSeamSa = sa * options.crossSeamSaWidth * 100
+
+        points.saFloorRight = points.floorRight.translate(sideSeamSa, hemSa)
+        points.saFloorLeft = points.floorLeft.translate(-sideSeamSa, hemSa)
+
+        points.saWaistRight = utils.beamsIntersect(
+          drawOutseamRight().offset(sideSeamSa).shiftFractionAlong(0.995),
+          drawOutseamRight().offset(sideSeamSa).end(),
+          points.waistRight.shiftTowards(points.waistCross, sa).rotate(-90, points.waistRight),
+          points.waistCross.shiftTowards(points.waistRight, sa).rotate(90, points.waistCross)
+        )
+
+        points.saWaistCross = utils.beamsIntersect(
+          points.waistRight.shiftTowards(points.waistCross, sa).rotate(-90, points.waistRight),
+          points.waistCross.shiftTowards(points.waistRight, sa).rotate(90, points.waistCross),
+          points.waistCross
+            .shiftTowards(points.crossSeamCurveStart, crossSeamSa)
+            .rotate(-90, points.waistCross),
+          points.crossSeamCurveStart
+            .shiftTowards(points.waistCross, crossSeamSa)
+            .rotate(90, points.crossSeamCurveStart)
+        )
+
+        points.saWaistCrotch = utils.beamsIntersect(
+          points.crotchSeamCurveEnd
+            .shiftTowards(points.waistCrotch, crossSeamSa)
+            .rotate(-90, points.crotchSeamCurveEnd),
+          points.waistCrotch
+            .shiftTowards(points.crotchSeamCurveEnd, crossSeamSa)
+            .rotate(90, points.waistCrotch),
+          points.waistCrotch.shiftTowards(points.waistLeftMid, sa).rotate(-90, points.waistCrotch),
+          points.waistLeftMid.shiftTowards(points.waistCrotch, sa).rotate(90, points.waistLeftMid)
+        )
+
+        points.saWaistLeft = utils.beamsIntersect(
+          points.waistLeftMid.shiftTowards(points.waistLeft, sa).rotate(-90, points.waistLeftMid),
+          points.waistLeft.shiftTowards(points.waistLeftMid, sa).rotate(90, points.waistLeft),
+          drawOutseamLeft().offset(sideSeamSa).start(),
+          drawOutseamLeft().offset(sideSeamSa).shiftFractionAlong(0.005)
+        )
+
+        paths.sa = new Path()
+          .move(points.saFloorLeft)
+          .line(points.saFloorRight)
+          .join(drawOutseamRight().offset(sideSeamSa))
+          .line(points.saWaistRight)
+          .line(points.saWaistCross)
+          .join(paths.crossSeam.offset(crossSeamSa))
+          .line(points.saWaistCrotch)
+          .join(paths.waistLeft.offset(sa))
+          .line(points.saWaistLeft)
+          .join(drawOutseamLeft().offset(sideSeamSa))
+          .line(points.saFloorLeft)
+          .close()
+          .attr('class', 'fabric sa')
+      }
+    }
 
     return part
   },
