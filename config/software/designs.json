@@ -7,6 +7,13 @@
       "difficulty": 1,
       "tags": ["tops", "blocks"]
     },
+    "bertram": {
+      "description": "Bertram back seam trouser block design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["bottoms", "blocks"]
+    },
     "byron": {
       "description": "Byron basic body block design",
       "code": "bobgeorgethe3rd",

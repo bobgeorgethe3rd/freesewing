@@ -37,6 +37,9 @@ bernice:
   peer:
     '@freesewing/daisy': *freesewing
     '@freesewing/plugin-mirror': *freesewing
+bertram:
+  peer:
+    '@freesewing/neville': *freesewing
 breanna:
   peer:
     '@freesewing/brian': *freesewing
