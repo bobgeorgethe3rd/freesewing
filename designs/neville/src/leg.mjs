@@ -361,7 +361,6 @@ export const leg = {
       }
     }
 
-    //guide
     paths.hemBase = new Path().move(points.floorFront).line(points.floorBack).hide()
 
     paths.seam = paths.hemBase
