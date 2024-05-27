@@ -208,7 +208,7 @@ export const leg = {
     // points.waistCrotch.x,
     // points.upperLeg.y
     // )
-    points.upperLegAnchor = points.upperLeg.shift(180, knee * 0.25)
+    points.upperLegAnchor = points.upperLeg.shift(180, knee * (1 - options.backLegRatio) * 0.5)
     points.knee = points.upperLegAnchor.shift(-90, measurements.waistToKnee - toUpperLeg)
     points.kneeRight = points.knee.shift(0, knee * 0.5)
     points.kneeLeft = points.kneeRight.flipX(points.knee)
