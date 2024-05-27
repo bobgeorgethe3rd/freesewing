@@ -25,6 +25,7 @@ export const leg = {
     fitKnee: { bool: false, menu: 'style' },
     fitFloor: { bool: true, menu: 'style' },
     useHeel: { bool: true, menu: 'style' },
+    backLegRatio: { pct: 50, min: 25, max: 75, menu: 'style' },
     legLengthBonus: { pct: 2, min: -20, max: 20, menu: 'style' },
     //Construction
     hemWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
@@ -163,11 +164,11 @@ export const leg = {
     )
     points.waistRight = points.waistCross.shift(
       points.waistCross.angle(points.waistRightAnchor),
-      styleWaistBack / 4
+      styleWaistBack * options.backLegRatio * 0.5
     )
     points.seatRight = points.seatCross.shift(
       points.waistCross.angle(points.waistRightAnchor),
-      seatBack / 4
+      seatBack * options.backLegRatio * 0.5
     )
     //waistLeft
     points.upperLegLeftAnchor = points.upperLegCrotchAnchor.shift(180, seatFront / 2)
@@ -185,7 +186,7 @@ export const leg = {
     )
     points.waistLeft = points.waistLeftMid.shift(
       points.waistRight.angle(points.waistCross),
-      styleWaistBack / 4
+      styleWaistBack * (1 - options.backLegRatio) * 0.5
     )
     if (options.fitWaistBack || waistBack > seatBack) {
       points.seatLeft = points.waistLeft.shift(
@@ -195,18 +196,18 @@ export const leg = {
     } else {
       points.seatLeft = points.seatLeftMid.shift(
         points.seatRight.angle(points.seatCross),
-        seatBack / 4
+        seatBack * (1 - options.backLegRatio) * 0.5
       )
     }
     // points.waistCrotchCp2 = points.waistCrotch.shiftTowards(points.waistLeftMid, styleWaistBack / 4)
     points.waistCrotchCp2 = points.waistCrotch.shiftFractionTowards(points.waistLeftMid, 0.5)
     //leg
-    points.upperLegAnchor = new Point(
-      // (points.waistCross.x + points.waistLeft.x) / 2,
-      // (points.waistRight.x + points.waistLeft.x) / 2,
-      points.waistCrotch.x,
-      points.upperLeg.y
-    )
+    // points.upperLegAnchor = new Point(
+    // (points.waistCross.x + points.waistLeft.x) / 2,
+    // (points.waistRight.x + points.waistLeft.x) / 2,
+    // points.waistCrotch.x,
+    // points.upperLeg.y
+    // )
     points.upperLegAnchor = points.upperLeg.shift(180, knee * 0.25)
     points.knee = points.upperLegAnchor.shift(-90, measurements.waistToKnee - toUpperLeg)
     points.kneeRight = points.knee.shift(0, knee * 0.5)
@@ -375,7 +376,7 @@ export const leg = {
             .shift(points.waistCross.angle(points.waistRight), waistBack * 0.05)
           points.hipsGuideRight = points.hipsGuideCross.shift(
             points.waistCross.angle(points.waistRight),
-            waistBack * 0.15
+            waistBack * 0.15 * options.backLegRatio
           )
 
           points.hipsGuideCrotch = points.waistCrotch
@@ -414,7 +415,7 @@ export const leg = {
         )
         points.seatGuideRight = points.seatGuideCross.shift(
           points.waistCross.angle(points.waistRight),
-          waistBack * 0.15
+          waistBack * 0.15 * options.backLegRatio
         )
 
         points.seatGuideCrotch = points.seatCrotch.shift(
