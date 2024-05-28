@@ -217,9 +217,37 @@ export const leg = {
       90,
       (points.waistRight.y - points.seatRight.y) / -2
     )
-    points.seatRightCp1 = new Point(points.seatRight.x, (points.knee.y * 2) / 3)
     points.seatLeftCp1 = points.seatLeft.shift(90, (points.waistLeft.y - points.seatLeft.y) / -2)
-    points.seatLeftCp2 = new Point(points.seatLeft.x, (points.knee.y * 2) / 3)
+    if (options.fitKnee) {
+      points.seatRightCp1 = points.seatRight.shift(-90, points.seatRight.dy(points.knee) / 3)
+      points.seatLeftCp2 = points.seatLeft.shift(-90, points.seatLeft.dy(points.knee) / 3)
+    } else {
+      points.seatRightCp1 = new Point(points.seatRight.x, (points.knee.y * 2) / 3)
+      points.seatLeftCp2 = new Point(points.seatLeft.x, (points.knee.y * 2) / 3)
+    }
+
+    if (points.waistRight.x > points.seatRight.x) {
+      points.seatRightCp2 = points.seatRight.shift(
+        points.waistCross.angle(points.waistRight) + 90,
+        points.seatRight.dist(points.seatRightCp2)
+      )
+      points.seatRightCp1 = points.seatRight.shift(
+        points.waistCross.angle(points.waistRight) - 90,
+        points.seatRight.dist(points.seatRightCp1)
+      )
+    }
+
+    if (points.waistLeft.x < points.seatLeft.x) {
+      points.seatLeftCp1 = points.seatLeft.shift(
+        points.waistCrotch.angle(points.waistLeftMid) - 90,
+        points.seatLeft.dist(points.seatLeftCp1)
+      )
+      points.seatLeftCp2 = points.seatLeft.shift(
+        points.waistCrotch.angle(points.waistLeftMid) + 90,
+        points.seatLeft.dist(points.seatLeftCp2)
+      )
+    }
+
     points.floor = points.upperLegAnchor.shift(-90, toFloor - toUpperLeg)
     if (options.fitFloor) {
       points.floorRight = points.floor.shift(0, floor * 0.5)
