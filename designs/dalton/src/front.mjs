@@ -209,6 +209,18 @@ export const front = {
       points.seatOut,
       points.seatOut.dy(points.knee) / 3
     )
+
+    if (points.waistOut.x < points.seatOut.x) {
+      points.seatOutCp1 = points.seatOut.shift(
+        points.waistIn.angle(points.waistOut) - 90,
+        points.seatOut.dist(points.seatOutCp1)
+      )
+      points.seatOutCp2 = points.seatOut.shift(
+        points.waistIn.angle(points.waistOut) + 90,
+        points.seatOut.dist(points.seatOutCp2)
+      )
+    }
+
     points.upperLegInCp1 = points.upperLegIn.shift(
       points.upperLegIn.angle(points.upperLegInCp2) + 90,
       points.knee.y / 3
