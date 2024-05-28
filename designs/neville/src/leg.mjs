@@ -237,14 +237,39 @@ export const leg = {
     points.kneeFront = points.kneeBack.flipX(points.knee)
 
     points.seatBackCp2 = points.seatBack.shift(90, (points.waistBack.y - points.seatBack.y) / -2)
-    // points.seatBackCp1 = points.seatBack.shift(-90, points.seatBack.dy(points.knee) / 3)
-    points.seatBackCp1 = new Point(points.seatBack.x, (points.knee.y * 2) / 3)
     points.seatFrontCp1 = points.seatFront.shift(
       90,
       (points.waistFront.y - points.seatFront.y) / -2
     )
-    // points.seatFrontCp2 = points.seatFrontCp1.shiftOutwards(points.seatFront, points.seatFront.dy(points.knee) / 3)
-    points.seatFrontCp2 = new Point(points.seatFront.x, (points.knee.y * 2) / 3)
+    if (options.fitKnee) {
+      points.seatBackCp1 = points.seatBack.shift(-90, points.seatBack.dy(points.knee) / 3)
+      points.seatFrontCp2 = points.seatFront.shift(-90, points.seatFront.dy(points.knee) / 3)
+    } else {
+      points.seatBackCp1 = new Point(points.seatBack.x, (points.knee.y * 2) / 3)
+      points.seatFrontCp2 = new Point(points.seatFront.x, (points.knee.y * 2) / 3)
+    }
+
+    if (points.waistBack.x > points.seatBack.x) {
+      points.seatBackCp2 = points.seatBack.shift(
+        points.waistCross.angle(points.waistBack) + 90,
+        points.seatBack.dist(points.seatBackCp2)
+      )
+      points.seatBackCp1 = points.seatBack.shift(
+        points.waistCross.angle(points.waistBack) - 90,
+        points.seatBack.dist(points.seatBackCp1)
+      )
+    }
+
+    if (points.waistFront.x < points.seatFront.x) {
+      points.seatFrontCp1 = points.seatFront.shift(
+        points.waistCrotch.angle(points.waistFront) - 90,
+        points.seatFront.dist(points.seatFrontCp1)
+      )
+      points.seatFrontCp2 = points.seatFront.shift(
+        points.waistCrotch.angle(points.waistFront) + 90,
+        points.seatFront.dist(points.seatFrontCp2)
+      )
+    }
 
     points.floor = points.upperLegAnchor.shift(-90, toFloor - toUpperLeg)
     if (options.fitFloor) {
