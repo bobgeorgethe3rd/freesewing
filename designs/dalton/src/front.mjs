@@ -262,6 +262,17 @@ export const front = {
       )
     }
 
+    if (
+      points.waistOut.x < points.seatOut.x &&
+      points.seatOutAnchor.x > points.seatOut.x &&
+      !options.fitKnee
+    ) {
+      points.floorOutCp1 = points.floorOutCp1.shiftTowards(
+        points.floorOut,
+        points.seatOut.dist(points.seatOutCp2)
+      )
+    }
+
     const drawInseam = () =>
       options.fitKnee
         ? new Path()

@@ -382,6 +382,17 @@ export const back = {
       )
     }
 
+    if (
+      points.waistOut.x > points.seatOut.x &&
+      points.seatOutAnchor.x < points.seatOut.x &&
+      !options.fitKnee
+    ) {
+      points.floorOutCp2 = points.floorOutCp2.shiftTowards(
+        points.floorOut,
+        points.seatOut.dist(points.seatOutCp1)
+      )
+    }
+
     const drawOutseam = () => {
       if (options.fitKnee) {
         if (points.seatOutAnchor.x > points.seatOut.x)
