@@ -56,27 +56,57 @@ export const frontPocketBag = {
     //let's begin
     const drawOutseam = () => {
       if (options.fitKnee) {
-        if (points.seatOutAnchor.x < points.seatOut.x)
-          return new Path()
-            .move(points.waistOut)
-            .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
-            ._curve(points.floorOutCp1, points.floorOut)
-        else
-          return new Path()
-            .move(points.waistOut)
-            ._curve(points.seatOutCp1, points.seatOut)
-            .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
-            ._curve(points.floorOutCp1, points.floorOut)
+        if (options.fitCalf) {
+          if (points.seatOutAnchor.x < points.seatOut.x)
+            return new Path()
+              .move(points.waistOut)
+              .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.floorOutCp1, points.floorOut)
+          else
+            return new Path()
+              .move(points.waistOut)
+              ._curve(points.seatOutCp1, points.seatOut)
+              .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.floorOutCp1, points.floorOut)
+        } else {
+          if (points.seatOutAnchor.x < points.seatOut.x)
+            return new Path()
+              .move(points.waistOut)
+              .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.floorOutCp1, points.floorOut)
+          else
+            return new Path()
+              .move(points.waistOut)
+              ._curve(points.seatOutCp1, points.seatOut)
+              .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.floorOutCp1, points.floorOut)
+        }
       } else {
-        if (points.seatOutAnchor.x < points.seatOut.x)
-          return new Path()
-            .move(points.waistOut)
-            .curve(points.seatOut, points.floorOutCp1, points.floorOut)
-        else
-          return new Path()
-            .move(points.waistOut)
-            ._curve(points.seatOutCp1, points.seatOut)
-            .curve(points.seatOutCp2, points.floorOutCp1, points.floorOut)
+        if (options.fitCalf) {
+          if (points.seatOutAnchor.x < points.seatOut.x)
+            return new Path()
+              .move(points.waistOut)
+              .curve(points.seatOut, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.floorOutCp1, points.floorOut)
+          else
+            return new Path()
+              .move(points.waistOut)
+              ._curve(points.seatOutCp1, points.seatOut)
+              .curve(points.seatOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.floorOutCp1, points.floorOut)
+        } else {
+          if (points.seatOutAnchor.x < points.seatOut.x)
+            return new Path()
+              .move(points.waistOut)
+              .curve(points.seatOut, points.floorOutCp1, points.floorOut)
+          else
+            return new Path()
+              .move(points.waistOut)
+              ._curve(points.seatOutCp1, points.seatOut)
+              .curve(points.seatOutCp2, points.floorOutCp1, points.floorOut)
+        }
       }
     }
 

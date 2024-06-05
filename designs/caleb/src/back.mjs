@@ -29,6 +29,7 @@ export const back = {
     hipsEase: { pct: 5.9, min: 0, max: 20, menu: 'fit' }, //Altered for Caleb
     seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' }, //Altered for Caleb
     kneeEase: { pct: 19.8, min: 0, max: 25, menu: 'fit' }, //Altered for Caleb
+    calfEase: { pct: 20.4, min: 0, max: 25, menu: 'fit' }, //Altered for Caleb
     fitGuides: { bool: false, menu: 'fit' }, //Altered for Caleb
     daltonGuides: { bool: false, menu: 'fit' },
     //Style
@@ -121,38 +122,87 @@ export const back = {
     //draw paths
     const drawOutseam = () => {
       if (options.fitKnee) {
-        if (points.seatOutAnchor.x > points.seatOut.x)
-          return new Path()
-            .move(points.floorOut)
-            .curve_(points.floorOutCp2, points.kneeOut)
-            .curve(points.kneeOutCp2, points.seatOut, points.waistOut)
-        else
-          return new Path()
-            .move(points.floorOut)
-            .curve_(points.floorOutCp2, points.kneeOut)
-            .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
-            .curve_(points.seatOutCp2, points.waistOut)
+        if (options.fitCalf) {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.seatOut, points.waistOut)
+          else
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
+              .curve_(points.seatOutCp2, points.waistOut)
+        } else {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.seatOut, points.waistOut)
+          else
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
+              .curve_(points.seatOutCp2, points.waistOut)
+        }
       } else {
-        if (points.seatOutAnchor.x > points.seatOut.x)
-          return new Path()
-            .move(points.floorOut)
-            .curve(points.floorOutCp2, points.seatOut, points.waistOut)
-        else
-          return new Path()
-            .move(points.floorOut)
-            .curve(points.floorOutCp2, points.seatOutCp1, points.seatOut)
-            .curve_(points.seatOutCp2, points.waistOut)
+        if (options.fitCalf) {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.seatOut, points.waistOut)
+          else
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.seatOutCp1, points.seatOut)
+              .curve_(points.seatOutCp2, points.waistOut)
+        } else {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.seatOut, points.waistOut)
+          else
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.seatOutCp1, points.seatOut)
+              .curve_(points.seatOutCp2, points.waistOut)
+        }
       }
     }
-    const drawInseam = () =>
-      options.fitKnee
-        ? new Path()
+
+    const drawInseam = () => {
+      if (options.fitKnee) {
+        if (options.fitCalf) {
+          return new Path()
             .move(points.upperLegIn)
             .curve(points.upperLegInCp2, points.kneeInCp1, points.kneeIn)
-            ._curve(points.floorInCp1, points.floorIn)
-        : new Path()
+            .curve(points.kneeInCp2, points.calfInCp1, points.calfIn)
+            .curve(points.calfInCp2, points.floorInCp1, points.floorIn)
+        } else {
+          return new Path()
+            .move(points.upperLegIn)
+            .curve(points.upperLegInCp2, points.kneeInCp1, points.kneeIn)
+            .curve(points.kneeInCp2, points.floorInCp1, points.floorIn)
+        }
+      } else {
+        if (options.fitCalf) {
+          return new Path()
+            .move(points.upperLegIn)
+            .curve(points.upperLegInCp2, points.calfInCp1, points.calfIn)
+            .curve(points.calfInCp2, points.floorInCp1, points.floorIn)
+        } else {
+          return new Path()
             .move(points.upperLegIn)
             .curve(points.upperLegInCp2, points.floorInCp1, points.floorIn)
+        }
+      }
+    }
     //new legs
     points.bottomMin = points.upperLeg.shiftFractionTowards(points.knee, 0.1)
     if (points.upperLeg.dist(points.bottomMin) < legBandWidth) {
@@ -220,10 +270,18 @@ export const back = {
       'upperLegInCp2',
       'kneeInCp1',
       'kneeIn',
+      'kneeInCp2',
+      'calfInCp1',
+      'calfIn',
+      'calfInCp2',
       'floorInCp1',
       'floorIn',
       'floorOut',
       'floorOutCp2',
+      'calfOutCp1',
+      'calfOut',
+      'calfOutCp2',
+      'kneeOutCp1',
       'kneeOut',
       'kneeOutCp2',
       'seatOutCp1',
@@ -234,46 +292,98 @@ export const back = {
     for (const p of shift)
       points['s' + utils.capitalize(p)] = points[p].shift(-90, legBandWidth * 2)
 
-    const drawShiftInseam = () =>
-      options.fitKnee
-        ? new Path()
-            .move(points.sUpperLegIn)
-            .curve(points.sUpperLegInCp2, points.sKneeInCp1, points.sKneeIn)
-            ._curve(points.sFloorInCp1, points.sFloorIn)
-        : new Path()
-            .move(points.sUpperLegIn)
-            .curve(points.sUpperLegInCp2, points.sFloorInCp1, points.sFloorIn)
-
     const drawShiftOutseam = () => {
       if (options.fitKnee) {
-        if (points.seatOutAnchor.x > points.seatOut.x)
-          return new Path()
-            .move(points.sFloorOut)
-            .curve_(points.sFloorOutCp2, points.sKneeOut)
-            .curve(points.sKneeOutCp2, points.sSeatOut, points.sWaistOut)
-        else
-          return new Path()
-            .move(points.sFloorOut)
-            .curve_(points.sFloorOutCp2, points.sKneeOut)
-            .curve(points.sKneeOutCp2, points.sSeatOutCp1, points.sSeatOut)
-            .curve_(points.sSeatOutCp2, points.sWaistOut)
+        if (options.fitCalf) {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.sFloorOut)
+              .curve(points.sFloorOutCp2, points.sCalfOutCp1, points.sCalfOut)
+              .curve(points.sCalfOutCp2, points.sKneeOutCp1, points.sKneeOut)
+              .curve(points.sKneeOutCp2, points.sSeatOut, points.sWaistOut)
+          else
+            return new Path()
+              .move(points.sFloorOut)
+              .curve(points.sFloorOutCp2, points.sCalfOutCp1, points.sCalfOut)
+              .curve(points.sCalfOutCp2, points.sKneeOutCp1, points.sKneeOut)
+              .curve(points.sKneeOutCp2, points.sSeatOutCp1, points.sSeatOut)
+              .curve_(points.sSeatOutCp2, points.sWaistOut)
+        } else {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.sFloorOut)
+              .curve(points.sFloorOutCp2, points.sKneeOutCp1, points.sKneeOut)
+              .curve(points.sKneeOutCp2, points.sSeatOut, points.sWaistOut)
+          else
+            return new Path()
+              .move(points.sFloorOut)
+              .curve(points.sFloorOutCp2, points.sKneeOutCp1, points.sKneeOut)
+              .curve(points.sKneeOutCp2, points.sSeatOutCp1, points.sSeatOut)
+              .curve_(points.sSeatOutCp2, points.sWaistOut)
+        }
       } else {
-        if (points.seatOutAnchor.x > points.seatOut.x)
+        if (options.fitCalf) {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.sFloorOut)
+              .curve(points.sFloorOutCp2, points.sCalfOutCp1, points.sCalfOut)
+              .curve(points.sCalfOutCp2, points.sSeatOut, points.sWaistOut)
+          else
+            return new Path()
+              .move(points.sFloorOut)
+              .curve(points.sFloorOutCp2, points.sCalfOutCp1, points.sCalfOut)
+              .curve(points.sCalfOutCp2, points.sSeatOutCp1, points.sSeatOut)
+              .curve_(points.sSeatOutCp2, points.sWaistOut)
+        } else {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.sFloorOut)
+              .curve(points.sFloorOutCp2, points.sSeatOut, points.sWaistOut)
+          else
+            return new Path()
+              .move(points.sFloorOut)
+              .curve(points.sFloorOutCp2, points.sSeatOutCp1, points.sSeatOut)
+              .curve_(points.sSeatOutCp2, points.sWaistOut)
+        }
+      }
+    }
+
+    const drawShiftInseam = () => {
+      if (options.fitKnee) {
+        if (options.fitCalf) {
           return new Path()
-            .move(points.sFloorOut)
-            .curve(points.sFloorOutCp2, points.sSeatOut, points.sWaistOut)
-        else
+            .move(points.sUpperLegIn)
+            .curve(points.sUpperLegInCp2, points.sKneeInCp1, points.sKneeIn)
+            .curve(points.sKneeInCp2, points.sCalfInCp1, points.sCalfIn)
+            .curve(points.sCalfInCp2, points.sFloorInCp1, points.sFloorIn)
+        } else {
           return new Path()
-            .move(points.sFloorOut)
-            .curve(points.sFloorOutCp2, points.sSeatOutCp1, points.sSeatOut)
-            .curve_(points.sSeatOutCp2, points.sWaistOut)
+            .move(points.sUpperLegIn)
+            .curve(points.sUpperLegInCp2, points.sKneeInCp1, points.sKneeIn)
+            .curve(points.sKneeInCp2, points.sFloorInCp1, points.sFloorIn)
+        }
+      } else {
+        if (options.fitCalf) {
+          return new Path()
+            .move(points.sUpperLegIn)
+            .curve(points.sUpperLegInCp2, points.sCalfInCp1, points.sCalfIn)
+            .curve(points.sCalfInCp2, points.sFloorInCp1, points.sFloorIn)
+        } else {
+          return new Path()
+            .move(points.sUpperLegIn)
+            .curve(points.sUpperLegInCp2, points.sFloorInCp1, points.sFloorIn)
+        }
       }
     }
 
     points.mBottomIn = points.bottomIn.flipY(points.mSplitIn)
     points.mBottomOut = points.bottomOut.flipY(points.mSplitOut)
 
-    paths.mInseam0 = drawShiftInseam().split(points.mSplitIn)[1].split(points.mBottomIn)[0].hide()
+    if (options.legLength < 1) {
+      paths.mInseam0 = drawShiftInseam().split(points.mSplitIn)[1].split(points.mBottomIn)[0].hide()
+    } else {
+      paths.mInseam0 = drawShiftInseam().split(points.mSplitIn)[1].hide()
+    }
     paths.mOutSeam1 = drawShiftOutseam()
       .split(points.mBottomOut)[1]
       .split(points.mSplitOut)[0]

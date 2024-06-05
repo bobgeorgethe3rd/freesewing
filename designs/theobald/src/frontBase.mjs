@@ -64,80 +64,103 @@ export const frontBase = {
     //front pleats
     const frontPleatWidth = measurements.waist * options.frontPleatWidth
     //path guides
+    const drawInseam = () => {
+      if (options.fitKnee) {
+        if (options.fitCalf) {
+          return new Path()
+            .move(points.floorIn)
+            .curve(points.floorInCp2, points.calfInCp1, points.calfIn)
+            .curve(points.calfInCp2, points.kneeInCp1, points.kneeIn)
+            .curve(points.kneeInCp2, points.upperLegInCp1, points.upperLegIn)
+        } else {
+          return new Path()
+            .move(points.floorIn)
+            .curve(points.floorInCp2, points.kneeInCp1, points.kneeIn)
+            .curve(points.kneeInCp2, points.upperLegInCp1, points.upperLegIn)
+        }
+      } else {
+        if (options.fitCalf) {
+          return new Path()
+            .move(points.floorIn)
+            .curve(points.floorInCp2, points.calfInCp1, points.calfIn)
+            .curve(points.calfInCp2, points.upperLegInCp1, points.upperLegIn)
+        } else {
+          return new Path()
+            .move(points.floorIn)
+            .curve(points.floorInCp2, points.upperLegInCp1, points.upperLegIn)
+        }
+      }
+    }
     const drawOutseam = () => {
       if (options.fitKnee) {
-        if (points.seatOutAnchor.x < points.seatOut.x)
-          return new Path()
-            .move(points.waistOut)
-            .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
-            ._curve(points.floorOutCp1, points.floorOut)
-        else
-          return new Path()
-            .move(points.waistOut)
-            ._curve(points.seatOutCp1, points.seatOut)
-            .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
-            ._curve(points.floorOutCp1, points.floorOut)
+        if (options.fitCalf) {
+          if (points.seatOutAnchor.x < points.seatOut.x)
+            return new Path()
+              .move(points.waistOut)
+              .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.floorOutCp1, points.floorOut)
+          else
+            return new Path()
+              .move(points.waistOut)
+              ._curve(points.seatOutCp1, points.seatOut)
+              .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.floorOutCp1, points.floorOut)
+        } else {
+          if (points.seatOutAnchor.x < points.seatOut.x)
+            return new Path()
+              .move(points.waistOut)
+              .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.floorOutCp1, points.floorOut)
+          else
+            return new Path()
+              .move(points.waistOut)
+              ._curve(points.seatOutCp1, points.seatOut)
+              .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.floorOutCp1, points.floorOut)
+        }
       } else {
-        if (points.seatOutAnchor.x < points.seatOut.x)
-          return new Path()
-            .move(points.waistOut)
-            .curve(points.seatOut, points.floorOutCp1, points.floorOut)
-        else
-          return new Path()
-            .move(points.waistOut)
-            ._curve(points.seatOutCp1, points.seatOut)
-            .curve(points.seatOutCp2, points.floorOutCp1, points.floorOut)
+        if (options.fitCalf) {
+          if (points.seatOutAnchor.x < points.seatOut.x)
+            return new Path()
+              .move(points.waistOut)
+              .curve(points.seatOut, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.floorOutCp1, points.floorOut)
+          else
+            return new Path()
+              .move(points.waistOut)
+              ._curve(points.seatOutCp1, points.seatOut)
+              .curve(points.seatOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.floorOutCp1, points.floorOut)
+        } else {
+          if (points.seatOutAnchor.x < points.seatOut.x)
+            return new Path()
+              .move(points.waistOut)
+              .curve(points.seatOut, points.floorOutCp1, points.floorOut)
+          else
+            return new Path()
+              .move(points.waistOut)
+              ._curve(points.seatOutCp1, points.seatOut)
+              .curve(points.seatOutCp2, points.floorOutCp1, points.floorOut)
+        }
       }
     }
     if (options.frontPleats) {
       points.pivot = points.knee.shiftFractionTowards(points.floor, 0.5)
-
-      if (options.fitKnee) {
-        points.pivotIn = utils.lineIntersectsCurve(
-          points.pivot,
-          points.pivot.shift(0, points.pivot.dist(points.upperLegIn)),
-          points.floorIn,
-          points.floorInCp2,
-          points.kneeIn,
-          points.kneeIn
-        )
-        points.pivotOut = utils.lineIntersectsCurve(
-          points.pivot,
-          points.pivot.shift(180, points.pivot.dist(points.waistIn)),
-          points.kneeOut,
-          points.kneeOut,
-          points.floorOutCp1,
-          points.floorOut
-        )
-      } else {
-        points.pivotIn = utils.lineIntersectsCurve(
-          points.pivot,
-          points.pivot.shift(0, points.pivot.dist(points.upperLegIn)),
-          points.floorIn,
-          points.floorInCp2,
-          points.upperLegInCp1,
-          points.upperLegIn
-        )
-        if (points.seatOutAnchor.x < points.seatOut.x) {
-          points.pivotOut = utils.lineIntersectsCurve(
-            points.pivot,
-            points.pivot.shift(180, points.pivot.dist(points.waistIn)),
-            points.waistOut,
-            points.seatOut,
-            points.floorOutCp1,
-            points.floorOut
-          )
-        } else {
-          points.pivotOut = utils.lineIntersectsCurve(
-            points.pivot,
-            points.pivot.shift(180, points.pivot.dist(points.waistIn)),
-            points.seatOut,
-            points.seatOutCp2,
-            points.floorOutCp1,
-            points.floorOut
-          )
-        }
+      if (points.pivot.y < points.calf.y) {
+        points.pivot = points.calf.shiftFractionTowards(points.floor, 0.5)
       }
+
+      points.pivotIn = new Path()
+        .move(points.pivot)
+        .line(points.pivot.shift(0, points.pivot.dist(points.upperLegIn) * 10))
+        .intersects(drawInseam())[0]
+
+      points.pivotOut = new Path()
+        .move(points.pivot)
+        .line(points.pivot.shift(180, points.pivot.dist(points.waistOut) * 10))
+        .intersects(drawOutseam())[0]
 
       let wedgeAngle = 1
       let target = styleWaistFront + frontPleatWidth * (7 / 6)
@@ -176,6 +199,10 @@ export const frontBase = {
         'upperLegInCp1',
         'kneeInCp2',
         'kneeIn',
+        'kneeInCp1',
+        'calfInCp2',
+        'calfIn',
+        'calfInCp1',
       ]
       for (const p of rotIn) {
         points[p] = points[p].rotate(-wedgeAngle, points.pivotIn)
@@ -188,6 +215,10 @@ export const frontBase = {
         'seatOutCp2',
         'kneeOutCp1',
         'kneeOut',
+        'kneeOutCp2',
+        'calfOutCp1',
+        'calfOut',
+        'calfOutCp2',
       ]
       for (const p of rotOut) {
         points[p] = points[p].rotate(wedgeAngle, points.pivotOut)
@@ -204,32 +235,69 @@ export const frontBase = {
         .hide()
 
       paths.waist = paths.waist.line(points.waistOut).hide()
+
+      if (options.fitKnee || options.fitCalf) {
+        if (options.fitCalf) {
+          points.floorInCp2 = points.floorIn.shift(90, (points.floor.y - points.calfIn.y) / 2)
+        } else {
+          points.floorInCp2 = points.floorIn.shift(90, (points.floor.y - points.kneeIn.y) / 2)
+        }
+      } else {
+        points.floorInCp2 = new Point(points.floorIn.x, points.kneeIn.y)
+      }
+      points.floorOutCp1 = points.floorInCp2.flipX(points.floor)
+
       if (options.fitKnee) {
-        points.floorOutCp1 = utils.beamIntersectsX(
-          points.kneeOutCp1,
-          points.kneeOut,
-          points.floorOut.x
-        )
         points.seatOutAnchor = utils.lineIntersectsCurve(
           points.seatOutAnchor,
-          points.seatOutAnchor.shiftTowards(points.seatOut, paths.waist.length()),
+          points.seatOutAnchor.shift(
+            points.waistOutEnd.angle(points.waistOut),
+            paths.waist.length()
+          ),
           points.waistOut,
           points.seatOut,
           points.kneeOutCp1,
           points.kneeOut
         )
       } else {
-        points.floorOutCp1 = new Point(points.floorOut.x, points.kneeOut.y)
-        points.seatOutAnchor = utils.lineIntersectsCurve(
-          points.seatOutAnchor,
-          points.seatOutAnchor.shiftTowards(points.seatOut, paths.waist.length()),
-          points.waistOut,
-          points.seatOut,
-          points.floorOutCp1,
-          points.floorOut
+        if (options.fitCalf) {
+          points.seatOutAnchor = utils.lineIntersectsCurve(
+            points.seatOutAnchor,
+            points.seatOutAnchor.shift(
+              points.waistOutEnd.angle(points.waistOut),
+              paths.waist.length()
+            ),
+            points.waistOut,
+            points.seatOut,
+            points.calfOutCp1,
+            points.calfOut
+          )
+        } else {
+          points.seatOutAnchor = utils.lineIntersectsCurve(
+            points.seatOutAnchor,
+            points.seatOutAnchor.shift(
+              points.waistOutEnd.angle(points.waistOut),
+              paths.waist.length()
+            ),
+            points.waistOut,
+            points.seatOut,
+            points.floorOutCp1,
+            points.floorOut
+          )
+        }
+      }
+
+      if (
+        points.waistOut.x < points.seatOut.x &&
+        points.seatOutAnchor.x > points.seatOut.x &&
+        !options.fitKnee &&
+        !options.fitCalf
+      ) {
+        points.floorOutCp1 = points.floorOutCp1.shiftTowards(
+          points.floorOut,
+          points.seatOut.dist(points.seatOutCp2)
         )
       }
-      points.floorInCp2 = points.floorOutCp1.flipX(points.floor)
 
       if (complete && sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
@@ -255,32 +323,6 @@ export const frontBase = {
     if (options.frontPocketsBool) {
       //measures
       const pocketMaxDepth = measurements.waistToKnee - measurements.waistToHips - waistbandWidth
-
-      const drawOutseam = () => {
-        if (options.fitKnee) {
-          if (points.seatOutAnchor.x < points.seatOut.x)
-            return new Path()
-              .move(points.waistOut)
-              .curve(points.seatOut, points.kneeOutCp1, points.kneeOut)
-              ._curve(points.floorOutCp1, points.floorOut)
-          else
-            return new Path()
-              .move(points.waistOut)
-              ._curve(points.seatOutCp1, points.seatOut)
-              .curve(points.seatOutCp2, points.kneeOutCp1, points.kneeOut)
-              ._curve(points.floorOutCp1, points.floorOut)
-        } else {
-          if (points.seatOutAnchor.x < points.seatOut.x)
-            return new Path()
-              .move(points.waistOut)
-              .curve(points.seatOut, points.floorOutCp1, points.floorOut)
-          else
-            return new Path()
-              .move(points.waistOut)
-              ._curve(points.seatOutCp1, points.seatOut)
-              .curve(points.seatOutCp2, points.floorOutCp1, points.floorOut)
-        }
-      }
 
       points.frontPocketOpeningOut = drawOutseam().shiftAlong(
         pocketMaxDepth * options.frontPocketOpeningDepth

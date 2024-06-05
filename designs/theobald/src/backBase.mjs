@@ -27,6 +27,7 @@ export const backBase = {
     hipsEase: { pct: 5.9, min: 0, max: 20, menu: 'fit' }, //Altered for Theobald
     seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' }, //Altered for Theobald
     kneeEase: { pct: 13.2, min: 0, max: 20, menu: 'fit' }, //Altered for Theobald
+    calfEase: { pct: 13.6, min: 0, max: 20, menu: 'fit' }, //Altered for Theobald
     fitGuides: { bool: false, menu: 'fit' }, //Altered for Theobald
     //Style
     waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //Altered for Theobald

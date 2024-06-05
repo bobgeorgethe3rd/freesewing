@@ -44,38 +44,86 @@ export const back = {
     //draw guides
     const drawOutseam = () => {
       if (options.fitKnee) {
-        if (points.seatOutAnchor.x > points.seatOut.x)
-          return new Path()
-            .move(points.floorOut)
-            .curve_(points.floorOutCp2, points.kneeOut)
-            .curve(points.kneeOutCp2, points.seatOut, points.waistOut)
-        else
-          return new Path()
-            .move(points.floorOut)
-            .curve_(points.floorOutCp2, points.kneeOut)
-            .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
-            .curve_(points.seatOutCp2, points.waistOut)
+        if (options.fitCalf) {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.seatOut, points.waistOut)
+          else
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
+              .curve_(points.seatOutCp2, points.waistOut)
+        } else {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.seatOut, points.waistOut)
+          else
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.kneeOutCp1, points.kneeOut)
+              .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
+              .curve_(points.seatOutCp2, points.waistOut)
+        }
       } else {
-        if (points.seatOutAnchor.x > points.seatOut.x)
-          return new Path()
-            .move(points.floorOut)
-            .curve(points.floorOutCp2, points.seatOut, points.waistOut)
-        else
-          return new Path()
-            .move(points.floorOut)
-            .curve(points.floorOutCp2, points.seatOutCp1, points.seatOut)
-            .curve_(points.seatOutCp2, points.waistOut)
+        if (options.fitCalf) {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.seatOut, points.waistOut)
+          else
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.calfOutCp1, points.calfOut)
+              .curve(points.calfOutCp2, points.seatOutCp1, points.seatOut)
+              .curve_(points.seatOutCp2, points.waistOut)
+        } else {
+          if (points.seatOutAnchor.x > points.seatOut.x)
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.seatOut, points.waistOut)
+          else
+            return new Path()
+              .move(points.floorOut)
+              .curve(points.floorOutCp2, points.seatOutCp1, points.seatOut)
+              .curve_(points.seatOutCp2, points.waistOut)
+        }
       }
     }
-    const drawInseam = () =>
-      options.fitKnee
-        ? new Path()
+    const drawInseam = () => {
+      if (options.fitKnee) {
+        if (options.fitCalf) {
+          return new Path()
             .move(points.upperLegIn)
             .curve(points.upperLegInCp2, points.kneeInCp1, points.kneeIn)
-            ._curve(points.floorInCp1, points.floorIn)
-        : new Path()
+            .curve(points.kneeInCp2, points.calfInCp1, points.calfIn)
+            .curve(points.calfInCp2, points.floorInCp1, points.floorIn)
+        } else {
+          return new Path()
+            .move(points.upperLegIn)
+            .curve(points.upperLegInCp2, points.kneeInCp1, points.kneeIn)
+            .curve(points.kneeInCp2, points.floorInCp1, points.floorIn)
+        }
+      } else {
+        if (options.fitCalf) {
+          return new Path()
+            .move(points.upperLegIn)
+            .curve(points.upperLegInCp2, points.calfInCp1, points.calfIn)
+            .curve(points.calfInCp2, points.floorInCp1, points.floorIn)
+        } else {
+          return new Path()
             .move(points.upperLegIn)
             .curve(points.upperLegInCp2, points.floorInCp1, points.floorIn)
+        }
+      }
+    }
     //let's begin
     points.waistbandAnchor = points.waistOut
       .shiftFractionTowards(points.waistIn, 0.5)
@@ -125,31 +173,6 @@ export const back = {
     //pockets
     if (options.frontPocketsBool) {
       const frontPocketOpeningTopDepth = store.get('frontPocketOpeningTopDepth')
-      const drawOutseam = () => {
-        if (options.fitKnee) {
-          if (points.seatOutAnchor.x > points.seatOut.x)
-            return new Path()
-              .move(points.floorOut)
-              .curve_(points.floorOutCp2, points.kneeOut)
-              .curve(points.kneeOutCp2, points.seatOut, points.waistOut)
-          else
-            return new Path()
-              .move(points.floorOut)
-              .curve_(points.floorOutCp2, points.kneeOut)
-              .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
-              .curve_(points.seatOutCp2, points.waistOut)
-        } else {
-          if (points.seatOutAnchor.x > points.seatOut.x)
-            return new Path()
-              .move(points.floorOut)
-              .curve(points.floorOutCp2, points.seatOut, points.waistOut)
-          else
-            return new Path()
-              .move(points.floorOut)
-              .curve(points.floorOutCp2, points.seatOutCp1, points.seatOut)
-              .curve_(points.seatOutCp2, points.waistOut)
-        }
-      }
       points.frontPocketOpeningTopOut = drawOutseam()
         .reverse()
         .shiftAlong(frontPocketOpeningTopDepth)
