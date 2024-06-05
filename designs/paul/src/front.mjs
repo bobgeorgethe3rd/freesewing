@@ -44,6 +44,7 @@ export const front = {
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     }, //Altered for Paul
+    fitFloor: { bool: false, menu: 'style' }, //Altered for Paul
     //Pockets
     frontPocketsBool: { bool: true, menu: 'pockets' },
     frontPocketOpeningTopDepth: { pct: 13.6, min: 10, max: 20, menu: 'pockets.frontPockets' },
