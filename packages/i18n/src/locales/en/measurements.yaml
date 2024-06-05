@@ -3,15 +3,20 @@ biceps: Biceps circumference
 bustFront: Bust front
 bustPointToUnderbust: Bust point to underbust
 bustSpan: Bust span
+calf: Calf circumference
 chest: Chest circumference
+chestFront: Chest Front
 crossSeam: Cross seam
 crossSeamFront: Cross seam front
+elbow: Elbow circumference
 head: Head circumference
 heel: Heel circumference
 highBustFront: High bust front
 highBust: High bust
 hips: Hips circumference
+hipsBack: Hips back
 hpsToBust: HPS to bust
+hpsToShoulder: HPS to shoulder
 hpsToWaistBack: HPS to waist back
 hpsToWaistFront: HPS to waist front
 inseam: Inseam
@@ -29,6 +34,8 @@ upperLeg: Upper leg circumference
 waist: Waist circumference
 waistBack: Waist back
 waistToArmhole: Waist to armhole
+waistToArmpit: Waist to armpit
+waistToCalf: Waist to calf
 waistToFloor: Waist to floor
 waistToHips: Waist to hips
 waistToKnee: Waist to knee
