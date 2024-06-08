@@ -19,9 +19,11 @@ export const draftCross = {
       ...pctBasedOn('waistToFloor'),
       menu: 'advanced',
     },
+    crossSeamCurveAngle: { pct: 100, min: 0, max: 100, menu: 'advanced' },
     crossSeamCurveStart: { pct: 0, min: 0, max: 50, menu: 'advanced' },
     crossSeamCurveX: { pct: (1 / 3) * 100, min: 0, max: 50, menu: 'advanced' },
     crossSeamCurve: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
+    crotchSeamCurveAngle: { pct: 100, min: 0, max: 100, menu: 'advanced' },
     crotchSeamCurveEnd: { pct: 0, min: 0, max: 50, menu: 'advanced' },
     crotchSeamCurveX: { pct: (1 / 3) * 100, min: 0, max: 50, menu: 'advanced' },
     crotchSeamCurve: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
@@ -33,6 +35,7 @@ export const draftCross = {
     'seat',
     'seatBack',
     'waistToHips',
+    'waistToKnee',
     'waistToSeat',
     'waistToUpperLeg',
     'waistToFloor',
@@ -76,9 +79,12 @@ export const draftCross = {
     //let's begin
     //crotch
     points.upperLeg = new Point(0, 0)
+    let crossSeamCurveAngleMultiplier
     if (measurements.crossSeamFront > crossSeamBack) {
+      crossSeamCurveAngleMultiplier = 1
       points.upperLegCrossAnchor = points.upperLeg.shift(0, seatBack / 8)
     } else {
+      crossSeamCurveAngleMultiplier = 0.5
       points.upperLegCrossAnchor = points.upperLeg.shift(0, seatBack / 4)
     }
     points.crossSeamCurveStartMax = points.upperLegCrossAnchor.shift(
@@ -86,11 +92,37 @@ export const draftCross = {
       toUpperLeg - measurements.waistToSeat
     )
 
-    points.crossSeamCurveCpTarget = utils.beamIntersectsY(
+    points.crossSeamCurveCpTarget = utils.beamsIntersect(
+      points.upperLeg,
+      points.upperLeg.shift(
+        points.upperLeg.angle(
+          new Point(points.upperLegCrossAnchor.x, measurements.waistToKnee - toUpperLeg).rotate(
+            90,
+            points.upperLeg
+          )
+        ) *
+          options.crossSeamCurveAngle *
+          crossSeamCurveAngleMultiplier,
+        1
+      ),
       points.crossSeamCurveStartMax,
-      points.upperLegCrossAnchor.shiftFractionTowards(points.upperLeg, options.crossSeamCurveX),
-      points.upperLeg.y
+      points.upperLegCrossAnchor.shiftFractionTowards(points.upperLeg, options.crossSeamCurveX)
     )
+    const crossSeamCurveAngle = points.upperLeg.angle(points.crossSeamCurveCpTarget)
+    store.set('crossSeamCurveAngle', crossSeamCurveAngle)
+    points.upperLegCrossAnchor = points.upperLegCrossAnchor.rotate(
+      -crossSeamCurveAngle,
+      points.upperLeg
+    )
+    points.crossSeamCurveStartMax = points.crossSeamCurveStartMax.rotate(
+      -crossSeamCurveAngle,
+      points.upperLeg
+    )
+    points.crossSeamCurveCpTarget = points.crossSeamCurveCpTarget.rotate(
+      -crossSeamCurveAngle,
+      points.upperLeg
+    )
+
     points.crossSeamCurveStart = points.crossSeamCurveCpTarget.shiftFractionTowards(
       points.crossSeamCurveStartMax,
       1 + options.crossSeamCurveStart
@@ -147,9 +179,12 @@ export const draftCross = {
       )
     }
     //crotch
+    let crotchSeamCurveAngleMultiplier
     if (measurements.crossSeamFront < crossSeamBack) {
+      crotchSeamCurveAngleMultiplier = 1
       points.upperLegCrotchAnchor = points.upperLeg.shift(180, seatFront / 8)
     } else {
+      crotchSeamCurveAngleMultiplier = 0.5
       points.upperLegCrotchAnchor = points.upperLeg.shift(180, seatFront / 4)
     }
 
@@ -158,11 +193,39 @@ export const draftCross = {
       toUpperLeg - measurements.waistToSeat
     )
 
-    points.crotchSeamCurveCpTarget = utils.beamIntersectsY(
+    points.crotchSeamCurveCpTarget = utils.beamsIntersect(
+      points.upperLeg,
+      points.upperLeg.shift(
+        180 -
+          (180 -
+            points.upperLeg.angle(
+              new Point(
+                points.upperLegCrotchAnchor.x,
+                measurements.waistToKnee - toUpperLeg
+              ).rotate(-90, points.upperLeg)
+            )) *
+            options.crotchSeamCurveAngle *
+            crotchSeamCurveAngleMultiplier,
+        1
+      ),
       points.crotchSeamCurveEndMax,
-      points.upperLegCrotchAnchor.shiftFractionTowards(points.upperLeg, options.crotchSeamCurveX),
-      points.upperLeg.y
+      points.upperLegCrotchAnchor.shiftFractionTowards(points.upperLeg, options.crotchSeamCurveX)
     )
+    const crotchSeamCurveAngle = 180 - points.upperLeg.angle(points.crotchSeamCurveCpTarget)
+    store.set('crotchSeamCurveAngle', crotchSeamCurveAngle)
+    points.upperLegCrotchAnchor = points.upperLegCrotchAnchor.rotate(
+      crotchSeamCurveAngle,
+      points.upperLeg
+    )
+    points.crotchSeamCurveEndMax = points.crotchSeamCurveEndMax.rotate(
+      crotchSeamCurveAngle,
+      points.upperLeg
+    )
+    points.crotchSeamCurveCpTarget = points.crotchSeamCurveCpTarget.rotate(
+      crotchSeamCurveAngle,
+      points.upperLeg
+    )
+
     points.crotchSeamCurveEnd = points.crotchSeamCurveCpTarget.shiftFractionTowards(
       points.crotchSeamCurveEndMax,
       1 + options.crotchSeamCurveEnd

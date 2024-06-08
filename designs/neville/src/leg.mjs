@@ -105,8 +105,8 @@ export const leg = {
       legBandWidth = 0
     }
     const toFloor = measurements.waistToFloor * (1 + options.legLengthBonus) - legBandWidth
-    // const legRBackatio = crossSeamBack / measurements.crossSeam
-    // const legFrontatio = measurements.crossSeamFront / measurements.crossSeam
+    const legBackRatio = crossSeamBack / measurements.crossSeam
+    const legFrontRatio = measurements.crossSeamFront / measurements.crossSeam
 
     let floor = measurements.heel * (1 + options.heelEase)
     if (!options.useHeel) {
@@ -161,11 +161,10 @@ export const leg = {
     }
     const styleWaistFront = store.get('styleWaistFront')
     //waistBack
-    points.upperLegBackAnchor = points.upperLegCrossAnchor.shift(0, seatBack / 2)
-    points.waistBackAnchor = points.upperLegBackAnchor.shift(
-      90,
-      toUpperLeg - toHips - waistbandWidth
-    )
+    points.upperLegBack = points.upperLeg.shiftOutwards(points.upperLegCrossAnchor, seatBack / 2)
+    points.waistBackAnchor = points.upperLegBack
+      .shiftTowards(points.upperLeg, toUpperLeg - toHips - waistbandWidth)
+      .rotate(-90, points.upperLegBack)
     points.waistBack = points.waistCross.shift(
       points.waistCross.angle(points.waistBackAnchor),
       styleWaistBack / 2
@@ -214,11 +213,10 @@ export const leg = {
     points.dartOut = points.dartIn.rotate(180, points.dartMid)
     points.dartTip = points.dartMid.shiftTowards(points.seatDart, backDartDepth)
     //waistFront
-    points.upperLegFrontAnchor = points.upperLegCrotchAnchor.shift(180, seatFront / 2)
-    points.waistFrontAnchor = points.upperLegFrontAnchor.shift(
-      90,
-      toUpperLeg - toHips - waistbandWidth
-    )
+    points.upperLegFront = points.upperLeg.shiftOutwards(points.upperLegCrotchAnchor, seatFront / 2)
+    points.waistFrontAnchor = points.upperLegFront
+      .shiftTowards(points.upperLeg, toUpperLeg - toHips - waistbandWidth)
+      .rotate(90, points.upperLegFront)
     points.waistFront = points.waistCrotch.shift(
       points.waistCrotch.angle(points.waistFrontAnchor),
       styleWaistFront / 2
@@ -232,61 +230,180 @@ export const leg = {
       (points.waistBack.shiftTowards(points.waistCross, backDartWidth).x + points.waistFront.x) / 2,
       points.upperLeg.y
     )
-    points.knee = points.upperLegAnchor.shift(-90, measurements.waistToKnee - toUpperLeg)
-    points.kneeBack = points.knee.shift(0, knee * 0.5)
-    points.kneeFront = points.kneeBack.flipX(points.knee)
 
-    points.seatBackCp2 = points.seatBack.shift(90, (points.waistBack.y - points.seatBack.y) / -2)
-    points.seatFrontCp1 = points.seatFront.shift(
-      90,
-      (points.waistFront.y - points.seatFront.y) / -2
-    )
-    if (options.fitKnee) {
-      points.seatBackCp1 = points.seatBack.shift(-90, points.seatBack.dy(points.knee) / 3)
-      points.seatFrontCp2 = points.seatFront.shift(-90, points.seatFront.dy(points.knee) / 3)
+    if (measurements.crossSeamFront > crossSeamBack) {
+      points.upperLegBackAnchor = points.upperLegCrossAnchor.shiftFractionTowards(
+        points.upperLegBack,
+        0.5
+      )
+      points.upperLegFrontAnchor = points.upperLeg
+        .shiftFractionTowards(points.upperLegCrotchAnchor, 0.5)
+        .shiftFractionTowards(points.upperLegFront, 0.5)
     } else {
-      points.seatBackCp1 = new Point(points.seatBack.x, (points.knee.y * 2) / 3)
-      points.seatFrontCp2 = new Point(points.seatFront.x, (points.knee.y * 2) / 3)
+      points.upperLegBackAnchor = points.upperLeg
+        .shiftFractionTowards(points.upperLegCrossAnchor, 0.5)
+        .shiftFractionTowards(points.upperLegBack, 0.5)
+      points.upperLegFrontAnchor = points.upperLegCrotchAnchor.shiftFractionTowards(
+        points.upperLegFront,
+        0.5
+      )
     }
 
-    if (points.waistBack.x > points.seatBack.x) {
+    points.kneeBackAnchor = points.upperLegBackAnchor
+      .shiftTowards(points.upperLegBack, measurements.waistToKnee - toUpperLeg)
+      .rotate(-90, points.upperLegBackAnchor)
+    points.kneeFrontAnchor = points.upperLegFrontAnchor
+      .shiftTowards(points.upperLegFront, measurements.waistToKnee - toUpperLeg)
+      .rotate(90, points.upperLegFrontAnchor)
+    points.floorBackAnchor = points.upperLegBackAnchor.shiftTowards(
+      points.kneeBackAnchor,
+      toFloor - toUpperLeg
+    )
+    points.floorFrontAnchor = points.upperLegFrontAnchor.shiftTowards(
+      points.kneeFrontAnchor,
+      toFloor - toUpperLeg
+    )
+
+    points.kneeBack = points.kneeBackAnchor
+      .shiftTowards(points.upperLegBackAnchor, knee * legBackRatio * 0.5)
+      .rotate(-90, points.kneeBackAnchor)
+    points.kneeFront = points.kneeFrontAnchor
+      .shiftTowards(points.upperLegFrontAnchor, knee * legFrontRatio * 0.5)
+      .rotate(90, points.kneeFrontAnchor)
+
+    points.knee = points.kneeFront.shiftFractionTowards(points.kneeBack, 0.5)
+    points.kneeBack = points.knee.shiftTowards(points.kneeBack, knee * 0.5)
+    points.kneeFront = points.knee.shiftTowards(points.kneeFront, knee * 0.5)
+
+    points.floor = points.knee
+      .shiftTowards(points.kneeFront, toFloor - measurements.waistToKnee)
+      .rotate(90, points.knee)
+    if (options.fitFloor) {
+      points.floorBack = points.floor
+        .shiftTowards(points.knee, floor * 0.5)
+        .rotate(-90, points.floor)
+      points.floorFront = points.floor
+        .shiftTowards(points.knee, floor * 0.5)
+        .rotate(90, points.floor)
+    } else {
+      points.floorBack = points.kneeBack
+        .shiftTowards(points.knee, points.knee.dist(points.floor))
+        .rotate(90, points.kneeBack)
+      points.floorFront = points.kneeFront
+        .shiftTowards(points.knee, points.knee.dist(points.floor))
+        .rotate(-90, points.kneeFront)
+    }
+
+    points.waistBackI = utils.beamsIntersect(
+      points.waistCross,
+      points.waistBack,
+      points.seatBack,
+      points.seatBack.shift(points.upperLegBack.angle(points.waistBackAnchor), 1)
+    )
+    points.waistFrontI = utils.beamsIntersect(
+      points.waistCrotch,
+      points.waistFront,
+      points.seatFront,
+      points.seatFront.shift(points.upperLegFront.angle(points.waistFrontAnchor), 1)
+    )
+
+    points.seatBackI = utils.beamsIntersect(
+      points.waistBack,
+      points.waistBack.shift(points.waistBackAnchor.angle(points.upperLegBack), 1),
+      points.seatBack,
+      points.seatBack.shift(points.upperLegBack.angle(points.waistBackAnchor) - 90, 1)
+    )
+    points.seatFrontI = utils.beamsIntersect(
+      points.waistFront,
+      points.waistFront.shift(points.waistFrontAnchor.angle(points.upperLegFront), 1),
+      points.seatFront,
+      points.seatFront.shift(points.upperLegFront.angle(points.waistFrontAnchor) + 90, 1)
+    )
+
+    points.seatBackCp2 = points.seatBack.shift(
+      points.upperLegBack.angle(points.waistBackAnchor),
+      points.seatBackI.dist(points.waistBack) / -2
+    )
+    points.seatFrontCp1 = points.seatFront.shift(
+      points.upperLegFront.angle(points.waistFrontAnchor),
+      points.seatFrontI.dist(points.waistFront) / 2
+    )
+
+    if (points.waistBack.x > points.waistBackI.x) {
       points.seatBackCp2 = points.seatBack.shift(
         points.waistCross.angle(points.waistBack) + 90,
         points.seatBack.dist(points.seatBackCp2)
       )
-      points.seatBackCp1 = points.seatBack.shift(
-        points.waistCross.angle(points.waistBack) - 90,
-        points.seatBack.dist(points.seatBackCp1)
-      )
     }
 
-    if (points.waistFront.x < points.seatFront.x) {
+    if (points.waistFront.x < points.waistFrontI.x) {
       points.seatFrontCp1 = points.seatFront.shift(
         points.waistCrotch.angle(points.waistFront) - 90,
         points.seatFront.dist(points.seatFrontCp1)
       )
-      points.seatFrontCp2 = points.seatFront.shift(
-        points.waistCrotch.angle(points.waistFront) + 90,
-        points.seatFront.dist(points.seatFrontCp2)
-      )
     }
 
-    points.floor = points.upperLegAnchor.shift(-90, toFloor - toUpperLeg)
-    if (options.fitFloor) {
-      points.floorBack = points.floor.shift(0, floor * 0.5)
-    } else {
-      points.floorBack = new Point(points.kneeBack.x, points.floor.y)
-    }
-    points.floorFront = points.floorBack.flipX(points.floor)
+    points.seatBackKneeAnchor = utils.beamsIntersect(
+      points.upperLegBackAnchor,
+      points.kneeBackAnchor,
+      points.seatBack,
+      points.seatBack.shift(points.upperLegBack.angle(points.waistBackAnchor) + 90, 1)
+    )
+    points.seatFrontKneeAnchor = utils.beamsIntersect(
+      points.upperLegFrontAnchor,
+      points.kneeFrontAnchor,
+      points.seatFront,
+      points.seatFront.shift(points.upperLegFront.angle(points.waistFrontAnchor) - 90, 1)
+    )
 
     if (options.fitKnee) {
-      points.floorBackCp2 = points.floorBack.shift(90, (points.floor.y - points.knee.y) / 2)
+      points.seatBackCp1 = points.seatBackCp2.shiftOutwards(
+        points.seatBack,
+        points.seatBackKneeAnchor.dist(points.kneeBackAnchor) / 3
+      )
+      points.seatFrontCp2 = points.seatFrontCp1.shiftOutwards(
+        points.seatFront,
+        points.seatFrontKneeAnchor.dist(points.kneeFrontAnchor) / 3
+      )
+      points.floorBackCp2 = points.floorBack
+        .shiftTowards(points.floor, points.floorBackAnchor.dist(points.kneeBackAnchor) / 2)
+        .rotate(-90, points.floorBack)
+      points.floorFrontCp1 = points.floorFront
+        .shiftTowards(points.floor, points.floorFrontAnchor.dist(points.kneeFrontAnchor) / 2)
+        .rotate(90, points.floorFront)
     } else {
-      points.floorBackCp2 = new Point(points.floorBack.x, points.knee.y)
+      points.seatBackCp1 = points.seatBackCp2.shiftOutwards(
+        points.seatBack,
+        points.seatBackKneeAnchor.dist(points.upperLegBackAnchor) +
+          (points.upperLegBackAnchor.dist(points.kneeBackAnchor) * 2) / 3
+      )
+      points.seatFrontCp2 = points.seatFrontCp1.shiftOutwards(
+        points.seatFront,
+        points.seatFrontKneeAnchor.dist(points.upperLegFrontAnchor) +
+          (points.upperLegFrontAnchor.dist(points.kneeFrontAnchor) * 2) / 3
+      )
+      points.floorBackCp2 = points.floorBack
+        .shiftTowards(points.floor, points.floorBackAnchor.dist(points.kneeBackAnchor))
+        .rotate(-90, points.floorBack)
+      points.floorFrontCp1 = points.floorFront
+        .shiftTowards(points.floor, points.floorFrontAnchor.dist(points.kneeFrontAnchor))
+        .rotate(90, points.floorFront)
     }
-    points.kneeBackCp2 = points.floorBackCp2.shiftOutwards(points.kneeBack, points.knee.y / 3)
-    points.floorFrontCp1 = points.floorBackCp2.flipX(points.floor)
-    points.kneeFrontCp1 = points.kneeBackCp2.flipX(points.floor)
+
+    points.kneeBackCp2 = points.kneeBack
+      .shiftTowards(points.knee, points.upperLegBackAnchor.dist(points.kneeBackAnchor) / 3)
+      .rotate(-90, points.kneeBack)
+    points.kneeFrontCp1 = points.kneeFront
+      .shiftTowards(points.knee, points.upperLegFrontAnchor.dist(points.kneeFrontAnchor) / 3)
+      .rotate(90, points.kneeFront)
+    points.kneeBackCp1 = points.kneeBackCp2.shiftOutwards(
+      points.kneeBack,
+      points.knee.dist(points.floor) / 3
+    )
+    points.kneeFrontCp2 = points.kneeFrontCp1.shiftOutwards(
+      points.kneeFront,
+      points.knee.dist(points.floor) / 3
+    )
 
     if (options.fitKnee) {
       points.seatBackAnchor = utils.lineIntersectsCurve(
@@ -323,18 +440,41 @@ export const leg = {
         points.floorFront
       )
     }
+
+    if (
+      points.waistBack.x > points.waistBackI.x &&
+      points.seatBackAnchor.x < points.seatBack.x &&
+      !options.fitKnee
+    ) {
+      points.floorBackCp2 = points.floorBackCp2.shiftTowards(
+        points.floorBack,
+        points.seatBackKneeAnchor.dist(points.kneeBackAnchor) / 3
+      )
+    }
+
+    if (
+      points.waistFront.x < points.waistFrontI.x &&
+      points.seatFrontAnchor.x > points.seatFront.x &&
+      !options.fitKnee
+    ) {
+      points.floorFrontCp1 = points.floorFrontCp1.shiftTowards(
+        points.floorFront,
+        points.seatFrontKneeAnchor.dist(points.kneeFrontAnchor) / 3
+      )
+    }
+
     //paths
     const drawOutseamBack = () => {
       if (options.fitKnee) {
         if (points.seatBackAnchor.x > points.seatBack.x)
           return new Path()
             .move(points.floorBack)
-            .curve_(points.floorBackCp2, points.kneeBack)
+            .curve(points.floorBackCp2, points.kneeBackCp1, points.kneeBack)
             .curve(points.kneeBackCp2, points.seatBack, points.waistBack)
         else
           return new Path()
             .move(points.floorBack)
-            .curve_(points.floorBackCp2, points.kneeBack)
+            .curve(points.floorBackCp2, points.kneeBackCp1, points.kneeBack)
             .curve(points.kneeBackCp2, points.seatBackCp1, points.seatBack)
             .curve_(points.seatBackCp2, points.waistBack)
       } else {
@@ -366,13 +506,13 @@ export const leg = {
           return new Path()
             .move(points.waistFront)
             .curve(points.seatFront, points.kneeFrontCp1, points.kneeFront)
-            ._curve(points.floorFrontCp1, points.floorFront)
+            .curve(points.kneeFrontCp2, points.floorFrontCp1, points.floorFront)
         else
           return new Path()
             .move(points.waistFront)
             ._curve(points.seatFrontCp1, points.seatFront)
             .curve(points.seatFrontCp2, points.kneeFrontCp1, points.kneeFront)
-            ._curve(points.floorFrontCp1, points.floorFront)
+            .curve(points.kneeFrontCp2, points.floorFrontCp1, points.floorFront)
       } else {
         if (points.seatFrontAnchor.x < points.seatFront.x)
           return new Path()
@@ -400,7 +540,10 @@ export const leg = {
     if (complete) {
       //grainline
       points.grainlineTo = points.floor.shiftFractionTowards(points.floorFront, 2 / 3)
-      points.grainlineFrom = new Point(points.grainlineTo.x, points.upperLeg.y)
+      points.grainlineFrom = points.grainlineTo.shift(
+        points.floor.angle(points.knee),
+        points.floor.y
+      )
       macro('grainline', {
         from: points.grainlineFrom,
         to: points.grainlineTo,
@@ -546,8 +689,26 @@ export const leg = {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const crossSeamSa = sa * options.crossSeamSaWidth * 100
 
-        points.saFloorBack = points.floorBack.translate(sideSeamSa, hemSa)
-        points.saFloorFront = points.floorFront.translate(-sideSeamSa, hemSa)
+        points.saFloorBack = utils.beamsIntersect(
+          points.floorFront.shiftTowards(points.floorBack, hemSa).rotate(-90, points.floorFront),
+          points.floorBack.shiftTowards(points.floorFront, hemSa).rotate(90, points.floorBack),
+          points.floorBack
+            .shiftTowards(points.floorBackCp2, sideSeamSa)
+            .rotate(-90, points.floorBack),
+          points.floorBackCp2
+            .shiftTowards(points.floorBack, sideSeamSa)
+            .rotate(90, points.floorBackCp2)
+        )
+        points.saFloorFront = utils.beamsIntersect(
+          points.floorFront.shiftTowards(points.floorBack, hemSa).rotate(-90, points.floorFront),
+          points.floorBack.shiftTowards(points.floorFront, hemSa).rotate(90, points.floorBack),
+          points.floorFront
+            .shiftTowards(points.floorFrontCp1, sideSeamSa)
+            .rotate(90, points.floorFront),
+          points.floorFrontCp1
+            .shiftTowards(points.floorFront, sideSeamSa)
+            .rotate(-90, points.floorFrontCp1)
+        )
 
         points.saWaistBack = utils.beamsIntersect(
           drawOutseamBack().offset(sideSeamSa).shiftFractionAlong(0.995),
