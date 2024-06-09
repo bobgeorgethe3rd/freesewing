@@ -686,8 +686,13 @@ export const leg = {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const crossSeamSa = sa * options.crossSeamSaWidth * 100
 
-        points.saFloorRight = points.floorRight.translate(sideSeamSa, hemSa)
-        points.saFloorLeft = points.floorLeft.translate(-sideSeamSa, hemSa)
+        points.saFloorLeft = points.floorLeft
+          .shift(points.floorRight.angle(points.floorLeft), sideSeamSa)
+          .shift(points.floorLeftCp1.angle(points.floorLeft), hemSa)
+
+        points.saFloorRight = points.floorRight
+          .shift(points.floorLeft.angle(points.floorRight), sideSeamSa)
+          .shift(points.floorRightCp2.angle(points.floorRight), hemSa)
 
         points.saWaistRight = utils.beamsIntersect(
           drawOutseamRight().offset(sideSeamSa).shiftFractionAlong(0.995),

@@ -686,26 +686,13 @@ export const leg = {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const crossSeamSa = sa * options.crossSeamSaWidth * 100
 
-        points.saFloorBack = utils.beamsIntersect(
-          points.floorFront.shiftTowards(points.floorBack, hemSa).rotate(-90, points.floorFront),
-          points.floorBack.shiftTowards(points.floorFront, hemSa).rotate(90, points.floorBack),
-          points.floorBack
-            .shiftTowards(points.floorBackCp2, sideSeamSa)
-            .rotate(-90, points.floorBack),
-          points.floorBackCp2
-            .shiftTowards(points.floorBack, sideSeamSa)
-            .rotate(90, points.floorBackCp2)
-        )
-        points.saFloorFront = utils.beamsIntersect(
-          points.floorFront.shiftTowards(points.floorBack, hemSa).rotate(-90, points.floorFront),
-          points.floorBack.shiftTowards(points.floorFront, hemSa).rotate(90, points.floorBack),
-          points.floorFront
-            .shiftTowards(points.floorFrontCp1, sideSeamSa)
-            .rotate(90, points.floorFront),
-          points.floorFrontCp1
-            .shiftTowards(points.floorFront, sideSeamSa)
-            .rotate(-90, points.floorFrontCp1)
-        )
+        points.saFloorFront = points.floorFront
+          .shift(points.floorBack.angle(points.floorFront), sideSeamSa)
+          .shift(points.floorFrontCp1.angle(points.floorFront), hemSa)
+
+        points.saFloorBack = points.floorBack
+          .shift(points.floorFront.angle(points.floorBack), sideSeamSa)
+          .shift(points.floorBackCp2.angle(points.floorBack), hemSa)
 
         points.saWaistBack = utils.beamsIntersect(
           drawOutseamBack().offset(sideSeamSa).shiftFractionAlong(0.995),
