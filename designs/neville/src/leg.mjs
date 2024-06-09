@@ -808,25 +808,9 @@ export const leg = {
         if (options.fitKnee) {
           points.kneeGuideBack = points.kneeBack
         } else {
-          if (points.seatBackAnchor.x > points.seatBack.x) {
-            points.kneeGuideBack = utils.lineIntersectsCurve(
-              points.kneeFront,
-              points.kneeFront.shiftFractionTowards(points.kneeBack, 2),
-              points.floorBack,
-              points.floorBackCp2,
-              points.seatBack,
-              points.waistBack
-            )
-          } else {
-            points.kneeGuideBack = utils.lineIntersectsCurve(
-              points.kneeFront,
-              points.kneeFront.shiftFractionTowards(points.kneeBack, 2),
-              points.floorBack,
-              points.floorBackCp2,
-              points.seatBackCp1,
-              points.seatBack
-            )
-          }
+          points.kneeGuideBack = drawOutseamBack().intersects(
+            new Path().move(points.knee).line(points.knee.shiftFractionTowards(points.kneeBack, 10))
+          )[0]
         }
         points.kneeGuideCross = points.kneeGuideBack.shiftFractionTowards(points.kneeFront, 0.25)
         paths.kneeGuideBack = new Path()
