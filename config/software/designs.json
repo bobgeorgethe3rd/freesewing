@@ -466,6 +466,13 @@
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
       "tags": ["undergarments", "tops"]
+    },
+    "francis": {
+      "description": "Francis 14th century braies design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 2,
+      "tags": ["undergarments", "bottoms", "historical", "medieval"]
     }
   },
   "utilities": {

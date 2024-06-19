@@ -132,6 +132,10 @@ fallon:
 flyfront:
   peer:
     '@freesewing/dalton': *freesewing
+francis:
+  peer:
+    '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
 fullshirtsleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing
