@@ -152,14 +152,6 @@ export const earFlap = {
         title: 'earFlap' + utils.capitalize(options.earFlapStyle),
         scale: 0.25,
       })
-      //scalebox
-      points.scalebox = new Point(
-        points.bottomRight.x * 0.6,
-        points.bottomRight.shiftFractionTowards(points.bottomRightCp2, 1 / 3).y
-      )
-      macro('miniscale', {
-        at: points.scalebox,
-      })
       //logo
       points.logo = new Point(
         points.bottomLeft.x * 0.6,
@@ -168,6 +160,14 @@ export const earFlap = {
       macro('logorg', {
         at: points.logo,
         scale: 0.25,
+      })
+      //scalebox
+      points.scalebox = new Point(
+        points.bottomRight.x * 0.6,
+        points.bottomRight.shiftFractionTowards(points.bottomRightCp2, 1 / 3).y
+      )
+      macro('miniscale', {
+        at: points.scalebox,
       })
       //buttonhole
       if (options.buttonholeEarFlap) {
