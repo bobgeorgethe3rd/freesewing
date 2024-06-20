@@ -44,17 +44,98 @@ export const waistband = {
       part.hide()
       return part
     } else {
-      if (options.waistbandStyle == 'straight') waistbandStraight.draft(sh)
-      else waistbandCurved.draft(sh)
+      const panelWidth = store.get('panelWidth')
+      const waistbandWidth = store.get('waistbandWidth')
+      if (options.waistbandStyle == 'straight') {
+        waistbandStraight.draft(sh)
+        if (complete) {
+          if (!options.beltLoops) {
+            points.eyelet1 = points.waistbandBottomMid
+              .translate(panelWidth / 3, -waistbandWidth / 2)
+              .attr('data-circle', 3.4)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
+          }
+          if (options.hoseEyelets) {
+            points.hoseEylet2 = points.waistbandBottomMid
+              .shiftTowards(points.waistbandBottomRightNotch, panelWidth / 2)
+              .shiftFractionTowards(points.waistbandBottomRightNotch, 0.5)
+              .translate(measurements.waist / -79.5, -waistbandWidth / 4)
+              .attr('data-circle', 2.5)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
+            points.hoseEylet3 = points.waistbandBottomMid
+              .shiftTowards(points.waistbandBottomRightNotch, panelWidth / 2)
+              .shiftFractionTowards(points.waistbandBottomRightNotch, 0.5)
+              .translate(measurements.waist / 79.5, -waistbandWidth / 4)
+              .attr('data-circle', 2.5)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
+          }
+        }
+      } else {
+        waistbandCurved.draft(sh)
+        if (complete) {
+          if (!options.beltLoops) {
+            points.eyelet1 = paths.waistbandBottomCurve
+              .split(points.waistbandBottomMid)[1]
+              .shiftAlong(panelWidth / 3)
+              .shiftTowards(points.waistbandOrigin, waistbandWidth / 2)
+              .attr('data-circle', 3.4)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
+          }
+          if (options.hoseEyelets) {
+            points.waistbandBottomSplit = paths.waistbandBottomCurve
+              .split(
+                paths.waistbandBottomCurve
+                  .split(points.waistbandBottomMid)[1]
+                  .shiftAlong(panelWidth / 2)
+              )[1]
+              .split(points.waistbandBottomRightNotch)[0]
+              .shiftFractionAlong(0.5)
+            points.hoseEylet2 = paths.waistbandBottomCurve
+              .split(points.waistbandBottomSplit)[0]
+              .reverse()
+              .shiftAlong(measurements.waist / 79.5)
+              .shiftTowards(points.waistbandOrigin, waistbandWidth / 4)
+              .attr('data-circle', 2.5)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
+            points.hoseEylet3 = paths.waistbandBottomCurve
+              .split(points.waistbandBottomSplit)[1]
+              .shiftAlong(measurements.waist / 79.5)
+              .shiftTowards(points.waistbandOrigin, waistbandWidth / 4)
+              .attr('data-circle', 2.5)
+              .attr('data-circle-class', 'mark dotted stroke-lg')
+          }
+        }
+      }
     }
 
     if (complete) {
+      //title
       macro('title', {
         nr: 4,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
         scale: 1 / 3,
       })
+      //eyelets
+      if (!options.beltLoops) {
+        points.eyelet0 = points.eyelet1
+          .flipX()
+          .attr('data-circle', 3.4)
+          .attr('data-circle-class', 'mark dotted stroke-lg')
+      }
+      if (options.hoseEyelets) {
+        points.hoseEylet0 = points.hoseEylet2
+          .flipX()
+          .attr('data-circle', 2.5)
+          .attr('data-circle-class', 'mark dotted stroke-lg')
+        points.hoseEylet1 = points.hoseEylet3
+          .flipX()
+          .attr('data-circle', 2.5)
+          .attr('data-circle-class', 'mark dotted stroke-lg')
+      }
+      //paths
+      paths.waistbandLeft.attr('data-text', 'side', true)
+      paths.waistbandRight.attr('data-text', 'side', true)
     }
     return part
   },

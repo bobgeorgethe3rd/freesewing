@@ -17,6 +17,7 @@ export const leg = {
       menu: 'style',
     },
     waistbandStyle: { dflt: 'straight', list: ['straight', 'curved', 'none'], menu: 'style' },
+    hoseEyelets: { bool: true, menu: 'style' },
     //Advanced
     legFullness: { pct: 100, min: 80, max: 120, menu: 'advanced' },
   },
@@ -47,6 +48,7 @@ export const leg = {
     }
     const waistbandDiff =
       (waistbandWidth * (measurements.hips - measurements.waist)) / measurements.waistToHips
+    const panelWidth = store.get('panelWidth')
     const panelLength =
       store.get('toUpperLeg') -
       measurements.waistToHips * (1 - options.waistHeight) -
@@ -76,7 +78,7 @@ export const leg = {
     //stores
     store.set('panelLength', panelLength)
     store.set('waistbandWidth', waistbandWidth)
-    store.set('waistbandLength', (store.get('panelWidth') + legWidth) * 2)
+    store.set('waistbandLength', (panelWidth + legWidth) * 2)
     store.set('waistbandLengthTop', store.get('waistbandLength') - waistbandDiff)
 
     if (complete) {
@@ -94,16 +96,31 @@ export const leg = {
         snippet: 'bnotch',
         on: ['leftNotch', 'rightNotch'],
       })
+      points.topMid = new Point(points.origin.x, points.topRight.y)
       if (options.waistbandStyle != 'none') {
-        points.topNotch = new Point(points.origin.x, points.topRight.y)
-        snippets.topNotch = new Snippet('notch', points.topNotch)
+        snippets.topNotch = new Snippet('notch', points.topMid)
+      } else {
+        if (options.hoseEyelets) {
+          points.hoseEyelet0 = points.topRight
+            .shift(180, panelWidth / 2)
+            .shiftFractionTowards(points.topMid, 0.5)
+            .translate(measurements.waist / -79.5, absoluteOptions.waistbandWidth / -4)
+            .attr('data-circle', 2.5)
+            .attr('data-circle-class', 'mark dotted stroke-lg')
+          points.hoseEyelet1 = points.topRight
+            .shift(180, panelWidth / 2)
+            .shiftFractionTowards(points.topMid, 0.5)
+            .translate(measurements.waist / 79.5, absoluteOptions.waistbandWidth / -4)
+            .attr('data-circle', 2.5)
+            .attr('data-circle-class', 'mark dotted stroke-lg')
+        }
       }
       //title
       points.title = new Point(points.origin.x, points.topRight.y / 2)
       macro('title', {
         at: points.title,
         nr: '2',
-        title: 'leg',
+        title: 'Leg',
         scale: 0.5,
       })
       //logo

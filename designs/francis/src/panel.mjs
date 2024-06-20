@@ -4,8 +4,8 @@ export const panel = {
   name: 'francis.panel',
   after: [leg],
   options: {
-    //Construction
-    beltLoops: { bool: true, menu: 'construction' },
+    //Style
+    beltLoops: { bool: false, menu: 'style' },
   },
   draft: ({
     store,
@@ -77,7 +77,7 @@ export const panel = {
       macro('title', {
         at: points.title,
         nr: '3',
-        title: 'panel',
+        title: 'Panel',
         scale: 0.5,
       })
       if (sa) {
