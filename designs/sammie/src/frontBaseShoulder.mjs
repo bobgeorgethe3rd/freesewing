@@ -53,27 +53,44 @@ export const frontBaseShoulder = {
     const contourWidth = absoluteOptions.frontContour
     //let's begin
     //neckline
-    points.neckFrontCfAnchor = points.cfNeck.shiftFractionTowards(points.cArmhole, options.neckDrop)
+    // points.neckFrontCfAnchor = points.cfNeck.shiftFractionTowards(points.cArmhole, options.neckDrop)
 
-    points.neckFrontDartAnchor = utils.beamsIntersect(
-      points.neckFrontCfAnchor,
-      points.neckFrontCfAnchor.shift(0, 1),
-      points.bust,
-      points.bustDartTop
+    // points.neckFrontDartAnchor = utils.beamsIntersect(
+    // points.neckFrontCfAnchor,
+    // points.neckFrontCfAnchor.shift(0, 1),
+    // points.bust,
+    // points.bustDartTop
+    // )
+    // points.neckFront = points.neckFrontDartAnchor.shift(180 - options.frontAngle, contourWidth / 2)
+
+    // const contourAngle =
+    // points.bust.angle(points.neckFront) - points.bust.angle(points.neckFrontDartAnchor)
+
+    // points.neckSideFront = points.neckFront.rotate(-bustDartAngle - contourAngle * 2, points.bust)
+
+    // points.cfTopAnchor = utils.beamsIntersect(
+    // points.neckFront,
+    // points.neckFrontCfAnchor.rotate(options.frontAngle * -1, points.neckFront),
+    // points.cfNeck,
+    // points.cfWaist
+    // )
+
+    points.cfTopAnchor = points.cfNeck.shiftFractionTowards(points.cArmhole, options.neckDrop)
+
+    points.neckFront = utils.beamIntersectsY(
+      points.bustDartTop,
+      points.bustDartTop.shift(points.bustDartMid.angle(points.bust), 1),
+      points.cfTopAnchor.y
     )
-    points.neckFront = points.neckFrontDartAnchor.shift(180 - options.frontAngle, contourWidth / 2)
+
+    points.neckSideFront = points.bustDartBottom.shift(
+      points.bustDartMid.angle(points.bust),
+      points.bustDartTop.dist(points.neckFront)
+    )
 
     const contourAngle =
-      points.bust.angle(points.neckFront) - points.bust.angle(points.neckFrontDartAnchor)
+      points.bust.angle(points.neckFront) - points.bust.angle(points.neckSideFront)
 
-    points.neckSideFront = points.neckFront.rotate(-bustDartAngle - contourAngle * 2, points.bust)
-
-    points.cfTopAnchor = utils.beamsIntersect(
-      points.neckFront,
-      points.neckFrontCfAnchor.rotate(options.frontAngle * -1, points.neckFront),
-      points.cfNeck,
-      points.cfWaist
-    )
     points.neckFrontCp = points.neckFront.shiftFractionTowards(
       points.cfTopAnchor,
       options.frontCurve
@@ -98,10 +115,7 @@ export const frontBaseShoulder = {
         points.waistDartRight.dist(points.sideWaist) * armholeDropCpFraction
       )
       .rotate(store.get('backSideAngle') - 180, points.armholeDrop)
-    points.neckSideFrontCpAnchor = points.cfTopAnchor.rotate(
-      -bustDartAngle - contourAngle * 2,
-      points.bust
-    )
+    points.neckSideFrontCpAnchor = points.cfTopAnchor.rotate(-contourAngle, points.bust)
 
     let neckSideFrontCpFraction = options.sideFrontCurve * (1 - options.bustDartFraction)
     if (neckSideFrontCpFraction < 1 / 3 && options.guaranteeSideFrontCurve) {
@@ -147,7 +161,7 @@ export const frontBaseShoulder = {
       .curve(points.bustCp1, points.waistDartRightCp, points.waistDartRight)
 
     //stores
-    store.set('contourAngle', contourAngle * 2)
+    store.set('contourAngle', contourAngle)
     store.set(
       'waistFront',
       (points.cfWaist.dist(points.waistDartLeft) + points.waistDartRight.dist(points.sideWaist)) * 4

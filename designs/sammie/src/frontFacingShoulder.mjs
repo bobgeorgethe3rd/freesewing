@@ -46,7 +46,7 @@ export const frontFacingShoulder = {
     // .line(points.cfWaist)
     // .attr('class', 'various lashed')
     //measures
-    const angle = store.get('bustDartAngle') + store.get('contourAngle')
+    const angle = /* store.get('bustDartAngle') + */ store.get('contourAngle')
     //let's begin
     points.neckFrontFacing = points.neckFront.shiftFractionTowards(
       points.bust,
