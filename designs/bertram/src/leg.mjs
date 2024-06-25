@@ -722,13 +722,13 @@ export const leg = {
             return new Path()
               .move(points.waistLeft)
               .curve(points.seatLeft, points.calfLeftCp1, points.calfLeft)
-              .curve(points.calfLeft, points.floorLeftCp1, points.floorLeft)
+              .curve(points.calfLeftCp2, points.floorLeftCp1, points.floorLeft)
           else
             return new Path()
               .move(points.waistLeft)
               ._curve(points.seatLeftCp1, points.seatLeft)
               .curve(points.seatLeftCp2, points.calfLeftCp1, points.calfLeft)
-              .curve(points.calfLeft, points.floorLeftCp1, points.floorLeft)
+              .curve(points.calfLeftCp2, points.floorLeftCp1, points.floorLeft)
         } else {
           if (points.seatLeftAnchor.x < points.seatLeft.x)
             return new Path()
