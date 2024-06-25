@@ -346,7 +346,7 @@ export const leg = {
 
     points.seatBackCp2 = points.seatBack.shift(
       points.upperLegBack.angle(points.waistBackAnchor),
-      points.seatBackI.dist(points.waistBack) / -2
+      points.seatBackI.dist(points.waistBack) / 2
     )
     points.seatFrontCp1 = points.seatFront.shift(
       points.upperLegFront.angle(points.waistFrontAnchor),
