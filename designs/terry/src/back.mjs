@@ -14,14 +14,14 @@ export const back = {
     closurePosition: 'none', //Locked for Terry
     //Fit
     byronGuides: { bool: false, menu: 'fit' },
-    chestEase: { pct: 17.1, min: 0, max: 20, menu: 'fit' }, //Altered for Terry
+    chestEase: { pct: 12.9, min: 0, max: 20, menu: 'fit' }, //Altered for Terry
     waistEase: { pct: 25, min: 0, max: 35, menu: 'fit' }, //Altered for Terry
     hipsEase: { pct: 20, min: 0, max: 25, menu: 'fit' },
     seatEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
     neckbandEase: { pct: -10, min: -15, max: 0, menu: 'fit' },
     //Style
     neckbandWidth: {
-      pct: 4.3,
+      pct: 3.3,
       min: 1,
       max: 6,
       snap: 2.5,
@@ -29,7 +29,7 @@ export const back = {
       menu: 'style',
     },
     bodyLength: { pct: 100, min: 0, max: 100, menu: 'style' },
-    bodyLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
+    bodyLengthBonus: { pct: 23.1, min: -20, max: 50, menu: 'style' },
     //Construction
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Terry
     hemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Terry

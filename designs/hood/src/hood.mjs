@@ -7,11 +7,12 @@ export const hood = {
     useVoidStores: true,
     neckSaWidth: 0.01,
     //Style
-    hoodFrontNeckDrop: { pct: 95.2, min: 70, max: 100, menu: 'style.hoods' },
+    hoodFrontNeckDrop: { pct: 97.9, min: 70, max: 100, menu: 'style.hoods' },
     hoodDepth: { pct: 72.7, min: 60, max: 100, menu: 'style.hoods' },
     hoodWidth: { pct: 25, min: 0, max: 100, menu: 'style.hoods' },
+    hoodFrontWidth: { pct: 100, min: 85, max: 100, menu: 'style.hoods' },
     hoodBackDepth: { pct: 60, min: 40, max: 70, menu: 'style.hoods' },
-    hoodOverlap: { pct: 107.3, min: 0, max: 150, menu: 'style.hoods' },
+    hoodOverlap: { pct: 106.3, min: 0, max: 150, menu: 'style.hoods' },
     hoodFrontAngle: { deg: 7.5, min: 0, max: 20, menu: 'style.hoods' },
   },
   measurements: ['head'],
@@ -37,12 +38,12 @@ export const hood = {
   }) => {
     //voidStores
     if (options.useVoidStores) {
-      void store.setIfUnset('neckBack', 107)
-      void store.setIfUnset('neckFront', 165)
-      void store.setIfUnset('neckBackAngle', 40)
-      void store.setIfUnset('neckBackDepth', 32.6)
-      void store.setIfUnset('neckBackWidth', 99)
-      void store.setIfUnset('neckFrontDepth', 111)
+      void store.setIfUnset('neckBack', 100.8) //107
+      void store.setIfUnset('neckFront', 158.9) //165
+      void store.setIfUnset('neckBackAngle', 228) //40
+      void store.setIfUnset('neckBackDepth', 29.5) //32.6
+      void store.setIfUnset('neckBackWidth', 94) //99
+      void store.setIfUnset('neckFrontDepth', 108) //111
     }
     //measurements
     const neckBack = store.get('neckBack')
@@ -102,9 +103,12 @@ export const hood = {
     points.cfTopRight = points.cf.shift(90, hoodDepth)
     points.topLeft = new Point(points.cb.x, points.cfTopRight.y)
 
-    points.right = points.cf.shiftFractionTowards(points.cfTopRight, 0.5)
-    points.rightCp1 = points.cf.shiftFractionTowards(points.right, 0.5)
-    points.rightCp2 = points.right.shiftFractionTowards(points.cfTopRight, 0.5)
+    points.right = new Point(
+      points.cf.x * options.hoodFrontWidth,
+      points.cf.shiftFractionTowards(points.cfTopRight, 0.5).y
+    )
+    points.rightCp1 = points.right.shift(-90, points.cf.dist(points.right) * 0.5)
+    points.rightCp2 = points.right.shift(90, points.right.dist(points.cfTopRight) * 0.5)
 
     points.topRight = points.cfTopRight
       .rotate(-options.hoodFrontAngle, points.right)
