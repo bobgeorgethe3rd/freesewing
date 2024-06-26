@@ -17,7 +17,7 @@ export const back = {
     chestEase: { pct: 12.9, min: 0, max: 20, menu: 'fit' }, //Altered for Terry
     waistEase: { pct: 25, min: 0, max: 35, menu: 'fit' }, //Altered for Terry
     hipsEase: { pct: 20, min: 0, max: 25, menu: 'fit' },
-    seatEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
+    seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' },
     neckbandEase: { pct: -10, min: -15, max: 0, menu: 'fit' },
     //Style
     neckbandWidth: {
