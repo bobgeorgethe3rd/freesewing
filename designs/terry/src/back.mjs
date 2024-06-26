@@ -87,7 +87,7 @@ export const back = {
       bodyWidth =
         (hips / 4) * (-2 * options.bodyLength + 2) + (seat / 4) * (2 * options.bodyLength - 1)
     }
-    bodyLength = bodyLength * (1 + options.lengthBonus)
+    bodyLength = bodyLength * (1 + options.bodyLengthBonus)
 
     //let's begin
     //neck
