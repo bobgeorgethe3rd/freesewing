@@ -116,15 +116,13 @@ export const hood = {
 
     points.topMid = points.topLeft.shiftFractionTowards(points.cfTopRight, 0.5)
 
-    let topIntersect = utils.beamsIntersect(
-      points.topRight,
-      points.rightCp2.rotate(-90, points.topRight),
-      points.topMid,
-      points.cfTopRight
-    )
-
-    if (topIntersect) {
-      points.topRightCp2 = topIntersect
+    if (points.topRight.y > points.topMid.y) {
+      points.topRightCp2 = utils.beamsIntersect(
+        points.topRight,
+        points.rightCp2.rotate(-90, points.topRight),
+        points.topMid,
+        points.cfTopRight
+      )
     } else {
       points.topRightCp2 = points.topMid.shiftFractionTowards(points.cfTopRight, 0.5)
     }
