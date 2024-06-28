@@ -146,6 +146,9 @@ harriet:
     '@freesewing/inseampocket': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/waistbandcurved': *freesewing
+heleanor:
+  _:
+    '@freesewing/neville': *freesewing
 henry:
   _:
     '@freesewing/plugin-gore': *freesewing
