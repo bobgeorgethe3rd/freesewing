@@ -25,10 +25,10 @@ export const leg = {
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     },
-    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'] },
+    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'style' },
     legLength: { pct: 0, min: 0, max: 100, menu: 'style' },
     legLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
-    legBandType: { dflt: 'band', list: ['band', 'tube', 'none'], menu: 'style' },
+    legBandStyle: { dflt: 'band', list: ['band', 'tube', 'none'], menu: 'style' },
     legBandWidth: {
       pct: 4.7,
       min: 1,
@@ -46,13 +46,15 @@ export const leg = {
     crotchGussetWidth: { pct: 100, min: 100, max: 200, menu: 'style' },
     crotchGussetTopWidth: { pct: 50, min: 50, max: 75, menu: 'style' },
     //Construction
-    hemWidth: { pct: 2, min: 0, max: 5, menu: 'style' },
+    hemWidth: { pct: 2, min: 0, max: 5, menu: 'construction' },
     //Advanced
     legFullness: { pct: 100, min: 80, max: 120, menu: 'advanced' },
     crossSeamCurveStart: { pct: 0, min: 0, max: 50, menu: 'advanced' },
     crossSeamCurve: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
     crotchSeamCurveEnd: { pct: 0, min: 0, max: 50, menu: 'advanced' },
     crotchSeamCurve: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
+    calculateWaistbandDiff: { bool: true, menu: 'advanced' },
+    calculateLegBandDiff: { bool: true, menu: 'advanced' },
   },
   measurements: [
     'crossSeam',
@@ -66,26 +68,25 @@ export const leg = {
     'waistToFloor',
   ],
   plugins: [pluginBundle, pluginLogoRG],
-  draft: (sh) => {
-    //draft
-    const {
-      store,
-      sa,
-      Point,
-      points,
-      Path,
-      paths,
-      options,
-      complete,
-      paperless,
-      macro,
-      utils,
-      measurements,
-      part,
-      snippets,
-      Snippet,
-      absoluteOptions,
-    } = sh
+  draft: ({
+    store,
+    sa,
+    Point,
+    points,
+    Path,
+    paths,
+    options,
+    complete,
+    paperless,
+    macro,
+    utils,
+    measurements,
+    part,
+    snippets,
+    Snippet,
+    absoluteOptions,
+    log,
+  }) => {
     //measurements
     const seat = measurements.seat * (1 + options.seatEase)
 
@@ -123,8 +124,8 @@ export const leg = {
       measurements.waistToFloor * (1 + options.legLengthBonus) - toUpperLeg - legLength
 
     let legBandWidth = absoluteOptions.legBandWidth
-    if (options.legBandType != 'band') {
-      if (legTubeWidth < absoluteOptions.legBandWidth && options.legBandType == 'tube') {
+    if (options.legBandStyle != 'band') {
+      if (legTubeWidth < absoluteOptions.legBandWidth && options.legBandStyle == 'tube') {
         legBandWidth = absoluteOptions.legBandWidth - legTubeWidth
       } else {
         legBandWidth = 0
@@ -237,17 +238,33 @@ export const leg = {
     const calf = measurements.calf * (1 + options.calfEase)
     const heel = measurements.heel * (1 + options.heelEase)
 
-    let waistLength
-    if (options.fitWaist) {
-      waistLength = waist * options.waistHeight + measurements.hips * (1 - options.waistHeight)
+    let waistbandDiff
+    if (options.calculateWaistbandDiff || options.waistbandStyle == 'curved') {
+      waistbandDiff = (waistbandWidth * (hips - waist)) / measurements.waistToHips
     } else {
-      if (measurements.waist > (measurements.hips && measurements.seat)) waistLength = waist
-      if (measurements.hips > (measurements.waist && measurements.seat)) waistLength = hips
-      if (measurements.seat > (measurements.waist && measurements.hips)) waistLength = seat
+      waistbandDiff = 0
+    }
+
+    let waistbandLength
+    if (options.fitWaist) {
+      waistbandLength = waist * options.waistHeight + measurements.hips * (1 - options.waistHeight)
+      waistbandLength = waistbandLength + waistbandDiff
+    } else {
+      if (measurements.waist > (measurements.hips && measurements.seat)) waistbandLength = waist
+      if (measurements.hips > (measurements.waist && measurements.seat)) waistbandLength = hips
+      if (measurements.seat > (measurements.waist && measurements.hips)) waistbandLength = seat
+    }
+
+    let legBandDiff
+    if (options.calculateLegBandDiff) {
+      legBandDiff =
+        (legBandWidth * (calf - heel)) / (measurements.waistToFloor - measurements.waistToCalf)
+    } else {
+      legBandDiff = 0
     }
 
     let legBandLength
-    if (options.legBandType == 'tube') {
+    if (options.legBandStyle == 'tube') {
       if (measurements.knee > (measurements.calf && measurements.heel)) legBandLength = knee
       if (measurements.calf > (measurements.knee && measurements.heel)) legBandLength = calf
       if (measurements.heel > (measurements.knee && measurements.calf)) legBandLength = heel
@@ -264,6 +281,10 @@ export const leg = {
           legBandLength = heel
       }
     }
+    legBandLength = legBandLength + legBandDiff
+    store.set('waistbandWidth', waistbandWidth)
+    store.set('waistbandLength', waistbandLength)
+    store.set('waistbandLengthTop', waistbandLength - waistbandDiff)
     store.set('legBandWidth', legBandWidth)
     store.set('legBandLength', legBandLength)
     store.set('crossSeamLength', paths.crossSeam.length())
@@ -274,7 +295,11 @@ export const leg = {
       'crotchGussetBottomWidth',
       store.get('crotchGussetWidth') * options.crotchGussetTopWidth
     )
-    store.set('seatGussetTopWidth', seatGussetWidth * 2 + store.get('crotchGussetWidth'))
+    store.set('crotchNotchWidth', paths.crossSeam.split(points.upperLeg)[0].length())
+    store.set(
+      'seatGussetTopWidth',
+      (seatGussetWidth * 2 + store.get('crotchGussetWidth')) * options.seatGussetTopWidth
+    )
 
     if (complete) {
       //grainline
@@ -309,7 +334,9 @@ export const leg = {
       const waistPleatNumber = Math.ceil(legWidth * 0.01)
       if (options.waistPleats) {
         const waistPleatTo =
-          (waistLength - store.get('seatGussetTopWidth') - store.get('crotchGussetBottomWidth')) *
+          (waistbandLength -
+            store.get('seatGussetTopWidth') -
+            store.get('crotchGussetBottomWidth')) *
           0.5
         const waistPleatKeep = waistPleatTo / waistPleatNumber
         points.waistPleatStart = points.waistCross.shift(0, waistPleatKeep)
@@ -369,7 +396,7 @@ export const leg = {
       }
       if (sa) {
         let hemSa = sa
-        if (options.legBandType == 'none') hemSa = sa * options.hemWidth * 100
+        if (options.legBandStyle == 'none') hemSa = sa * options.hemWidth * 100
 
         points.saBottomLeft = points.bottomLeft.translate(-sa, hemSa)
         points.saBottomRight = points.bottomRight.translate(sa, hemSa)
