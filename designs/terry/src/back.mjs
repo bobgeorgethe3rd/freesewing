@@ -14,7 +14,7 @@ export const back = {
     closurePosition: 'none', //Locked for Terry
     //Fit
     byronGuides: { bool: false, menu: 'fit' },
-    chestEase: { pct: 8.6, min: 0, max: 20, menu: 'fit' }, //Altered for Terry
+    chestEase: { pct: 10.2, min: 0, max: 20, menu: 'fit' }, //Altered for Terry
     waistEase: { pct: 25, min: 0, max: 35, menu: 'fit' }, //Altered for Terry
     hipsEase: { pct: 20, min: 0, max: 25, menu: 'fit' },
     seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' },
