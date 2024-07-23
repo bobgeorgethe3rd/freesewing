@@ -7,13 +7,13 @@ import { gusset } from './gusset.mjs'
 import { leg } from './leg.mjs'
 import { panel } from './panel.mjs'
 import { waistband } from './waistband.mjs'
-import { beltLoop } from './beltLoop.mjs'
+import { beltLoops } from './beltLoops.mjs'
 
 // Create new design
 const Francis = new Design({
   data,
-  parts: [gusset, leg, panel, waistband, beltLoop],
+  parts: [gusset, leg, panel, waistband, beltLoops],
 })
 
 // Named exports
-export { gusset, leg, panel, waistband, beltLoop, Francis }
+export { gusset, leg, panel, waistband, beltLoops, Francis }

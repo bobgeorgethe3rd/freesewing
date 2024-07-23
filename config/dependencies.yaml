@@ -138,6 +138,7 @@ francis:
   peer:
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/beltloops': *freesewing
 fullshirtsleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing

@@ -49,7 +49,7 @@ export const waistband = {
       if (options.waistbandStyle == 'straight') {
         waistbandStraight.draft(sh)
         if (complete) {
-          if (!options.beltLoops) {
+          if (options.beltLoopType == 'none') {
             points.eyelet1 = points.waistbandBottomMid
               .translate(panelWidth / 3, -waistbandWidth / 2)
               .attr('data-circle', 3.4)
@@ -73,7 +73,7 @@ export const waistband = {
       } else {
         waistbandCurved.draft(sh)
         if (complete) {
-          if (!options.beltLoops) {
+          if (options.beltLoopType == 'none') {
             points.eyelet1 = paths.waistbandBottomCurve
               .split(points.waistbandBottomMid)[1]
               .shiftAlong(panelWidth / 3)
@@ -117,7 +117,7 @@ export const waistband = {
         scale: 1 / 3,
       })
       //eyelets
-      if (!options.beltLoops) {
+      if (options.beltLoopType == 'none') {
         points.eyelet0 = points.eyelet1
           .flipX()
           .attr('data-circle', 3.4)

@@ -5,7 +5,7 @@ export const panel = {
   after: [leg],
   options: {
     //Style
-    beltLoops: { bool: false, menu: 'style' },
+    beltLoopType: { dflt: 'none', list: ['trouser', 'default', 'none'], menu: 'style' },
   },
   draft: ({
     store,
@@ -56,7 +56,7 @@ export const panel = {
         on: ['bottomLeft', 'bottomRight'],
       })
       if (options.waistbandStyle == 'none') {
-        if (!options.beltLoops) {
+        if (options.beltLoopType == 'none') {
           points.eyelet0 = new Point(
             (points.topLeft.x * 2) / 3,
             points.topLeft.y + absoluteOptions.waistbandWidth / 2
