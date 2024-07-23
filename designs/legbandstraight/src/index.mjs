@@ -3,13 +3,13 @@
 import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
-import { box } from './box.mjs'
+import { legBand } from './legBand.mjs'
 
 // Create new design
 const Legbandstraight = new Design({
   data,
-  parts: [box],
+  parts: [legBand],
 })
 
 // Named exports
-export { box, Legbandstraight }
+export { legBand, Legbandstraight }

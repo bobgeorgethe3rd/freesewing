@@ -214,8 +214,8 @@ export const plugin = {
       let leftName
       let rightName
       let exName
-      if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
-        if (options.closurePosition == 'sideRight') {
+      if (so.closurePosition == 'sideLeft' || so.closurePosition == 'sideRight') {
+        if (so.closurePosition == 'sideRight') {
           points[prefixFunction('bottomMidNotch')] = paths[prefixFunction('bottomCurve')]
             .reverse()
             .shiftAlong(so.lengthBack)
@@ -243,14 +243,14 @@ export const plugin = {
         centreName = 'Side Seam'
         exName = centreName
       } else {
-        if (options.closurePosition == 'back') {
+        if (so.closurePosition == 'back') {
           points[prefixFunction('bottomLeftNotch')] = paths[
             prefixFunction('bottomCurve')
           ].shiftAlong(so.lengthBack / 2)
           centreName = 'Centre Front'
           exName = 'Centre Back'
         }
-        if (options.closurePosition == 'front') {
+        if (so.closurePosition == 'front') {
           points[prefixFunction('bottomLeftNotch')] = paths[
             prefixFunction('bottomCurve')
           ].shiftAlong((so.length - so.lengthBack) / 2)
