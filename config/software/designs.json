@@ -444,6 +444,20 @@
       "difficulty": 1,
       "tags": ["fly"]
     },
+    "legbandcurved": {
+      "description": "Curved leg band design to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["legbands"]
+    },
+    "legbandstraight": {
+      "description": "Straight leg band design to be used in other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["legbands"]
+    },
     "waistbandcurved": {
       "description": "Curved Waistband design to be used in other designs",
       "code": "bobgeorgethe3rd",

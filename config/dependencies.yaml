@@ -58,6 +58,8 @@ caleb:
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/flyfront': *freesewing
+    '@freesewing/legbandcurved': *freesewing
+    '@freesewing/legbandstraight': *freesewing
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/plugin-patchpocket': *freesewing
     '@freesewing/plugin-patchpocketflap': *freesewing
@@ -148,7 +150,9 @@ harriet:
     '@freesewing/waistbandcurved': *freesewing
 heleanor:
   _:
-    '@freesewing/neville': *freesewing
+    '@freesewing/legbandcurved': *freesewing
+    '@freesewing/legbandstraight': *freesewing
+    '@freesewing/beltloops': *freesewing
 henry:
   _:
     '@freesewing/plugin-gore': *freesewing

@@ -1,7 +1,7 @@
 {
-  "name": "@freesewing/heleanor",
+  "name": "@freesewing/legbandcurved",
   "version": "3.0.0-alpha.8",
-  "description": "Heleanor Haithabu Hedeby trouser design",
+  "description": "Curved leg band design to be used in other designs",
   "author": "bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)",
   "homepage": "https://freesewing.org/",
   "repository": "github:freesewing/freesewing",
@@ -50,11 +50,7 @@
     "@freesewing/plugin-bundle": "3.0.0-alpha.8",
     "@freesewing/plugin-logorg": "3.0.0-alpha.8"
   },
-  "dependencies": {
-    "@freesewing/legbandcurved": "3.0.0-alpha.8",
-    "@freesewing/legbandstraight": "3.0.0-alpha.8",
-    "@freesewing/beltloops": "3.0.0-alpha.8"
-  },
+  "dependencies": {},
   "devDependencies": {
     "mocha": "10.2.0",
     "chai": "4.2.0"

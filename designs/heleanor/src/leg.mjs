@@ -28,7 +28,11 @@ export const leg = {
     waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'style' },
     legLength: { pct: 0, min: 0, max: 100, menu: 'style' },
     legLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
-    legBandStyle: { dflt: 'band', list: ['band', 'tube', 'none'], menu: 'style' },
+    legBandStyle: {
+      dflt: 'straight',
+      list: ['straight', 'curved', 'straightTube', 'curvedTube', 'none'],
+      menu: 'style',
+    },
     legBandWidth: {
       pct: 4.7,
       min: 1,
@@ -124,8 +128,11 @@ export const leg = {
       measurements.waistToFloor * (1 + options.legLengthBonus) - toUpperLeg - legLength
 
     let legBandWidth = absoluteOptions.legBandWidth
-    if (options.legBandStyle != 'band') {
-      if (legTubeWidth < absoluteOptions.legBandWidth && options.legBandStyle == 'tube') {
+    if (options.legBandStyle != 'straight' && options.legBandStyle != 'curved') {
+      if (
+        legTubeWidth < absoluteOptions.legBandWidth &&
+        (options.legBandStyle == 'straightTube' || options.legBandStyle == 'curvedTube')
+      ) {
         legBandWidth = absoluteOptions.legBandWidth - legTubeWidth
       } else {
         legBandWidth = 0
@@ -256,7 +263,11 @@ export const leg = {
     }
 
     let legBandDiff
-    if (options.calculateLegBandDiff) {
+    if (
+      options.calculateLegBandDiff ||
+      options.legBandStyle == 'curved' ||
+      options.legBandStyle == 'curvedTube'
+    ) {
       legBandDiff =
         (legBandWidth * (calf - heel)) / (measurements.waistToFloor - measurements.waistToCalf)
     } else {
@@ -264,7 +275,7 @@ export const leg = {
     }
 
     let legBandLength
-    if (options.legBandStyle == 'tube') {
+    if (options.legBandStyle == 'straightTube' || options.legBandStyle == 'curvedTube') {
       if (measurements.knee > (measurements.calf && measurements.heel)) legBandLength = knee
       if (measurements.calf > (measurements.knee && measurements.heel)) legBandLength = calf
       if (measurements.heel > (measurements.knee && measurements.calf)) legBandLength = heel
@@ -286,7 +297,12 @@ export const leg = {
     store.set('waistbandLength', waistbandLength)
     store.set('waistbandLengthTop', waistbandLength - waistbandDiff)
     store.set('legBandWidth', legBandWidth)
-    store.set('legBandLength', legBandLength)
+    store.set('legBandLengthTop', legBandLength)
+    if (options.legBandStyle == 'straightTube' || options.legBandStyle == 'curvedTube') {
+      store.set('legBandLength', legBandLength - legBandDiff)
+    } else {
+      store.set('legBandLength', legBandLength)
+    }
     store.set('crossSeamLength', paths.crossSeam.length())
     store.set('seatGussetWidth', seatGussetWidth)
     store.set('seatGussetLength', paths.crossSeam.split(points.crossSeamSplit)[0].length())
