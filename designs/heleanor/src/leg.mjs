@@ -268,8 +268,14 @@ export const leg = {
       options.legBandStyle == 'curved' ||
       options.legBandStyle == 'curvedTube'
     ) {
-      legBandDiff =
-        (legBandWidth * (calf - heel)) / (measurements.waistToFloor - measurements.waistToCalf)
+      if (legBandWidth > 0) {
+        legBandDiff =
+          (legBandWidth * (calf - heel)) / (measurements.waistToFloor - measurements.waistToCalf)
+      } else {
+        legBandDiff =
+          (absoluteOptions.legBandWidth * (calf - heel)) /
+          (measurements.waistToFloor - measurements.waistToCalf)
+      }
     } else {
       legBandDiff = 0
     }
@@ -296,9 +302,14 @@ export const leg = {
     store.set('waistbandWidth', waistbandWidth)
     store.set('waistbandLength', waistbandLength)
     store.set('waistbandLengthTop', waistbandLength - waistbandDiff)
-    store.set('legBandWidth', legBandWidth)
+
+    if (options.legBandStyle == 'straight' || options.legBandStyle == 'curved') {
+      store.set('legBandWidth', absoluteOptions.legBandWidth)
+    } else {
+      store.set('legBandWidth', legTubeWidth)
+    }
     store.set('legBandLengthTop', legBandLength)
-    if (options.legBandStyle == 'straightTube' || options.legBandStyle == 'curvedTube') {
+    if (options.legBandStyle == 'curved' || options.legBandStyle == 'curvedTube') {
       store.set('legBandLength', legBandLength - legBandDiff)
     } else {
       store.set('legBandLength', legBandLength)
