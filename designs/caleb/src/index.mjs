@@ -17,6 +17,7 @@ import { sidePocket } from './sidePocket.mjs'
 import { sidePocketFlap } from './sidePocketFlap.mjs'
 import { beltLoops } from './beltLoops.mjs'
 import { waistband } from './waistband.mjs'
+import { legBand } from './legBand.mjs'
 
 // Create new design
 const Caleb = new Design({
@@ -36,6 +37,7 @@ const Caleb = new Design({
     sidePocketFlap,
     beltLoops,
     waistband,
+    legBand,
   ],
 })
 
@@ -55,5 +57,6 @@ export {
   sidePocketFlap,
   beltLoops,
   waistband,
+  legBand,
   Caleb,
 }

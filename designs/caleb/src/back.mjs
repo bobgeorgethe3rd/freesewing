@@ -53,7 +53,11 @@ export const back = {
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     }, //Altered for Caleb
-    legBandStyle: { dflt: 'cuffed', list: ['cuffed', 'band', 'turnover'], menu: 'style' },
+    legBandStyle: {
+      dflt: 'cuffed',
+      list: ['cuffed', 'bandStraight', 'bandCurved', 'turnover'],
+      menu: 'style',
+    },
     fitWaistBack: { bool: true, menu: 'style' }, //Altered For Caleb
     //Darts
     backDartWidth: { pct: 3.2, min: 1, max: 6, menu: 'darts' }, //Altered for Caleb
@@ -393,7 +397,7 @@ export const back = {
       if (options.legBandStyle == 'cuffed') {
         return paths.inseam.join(paths.inseam0).join(paths.mInseam0)
       }
-      if (options.legBandStyle == 'band') {
+      if (options.legBandStyle == 'bandStraight' || options.legBandStyle == 'bandCurved') {
         return paths.inseam.split(points.splitIn)[0]
       }
       if (options.legBandStyle == 'turnover') {
@@ -405,7 +409,7 @@ export const back = {
       if (options.legBandStyle == 'cuffed') {
         return paths.mOutSeam1.join(paths.outSeam1).join(paths.outSeam)
       }
-      if (options.legBandStyle == 'band') {
+      if (options.legBandStyle == 'bandStraight' || options.legBandStyle == 'bandCurved') {
         return paths.outSeam.split(points.splitOut)[1]
       }
       if (options.legBandStyle == 'turnover') {
@@ -462,8 +466,11 @@ export const back = {
       //fit guides
       if (
         options.fitGuides &&
-        ((points.bottom.y > points.knee.y && options.legBandStyle != 'band') ||
-          (points.split.y > points.knee.y && options.legBandStyle == 'band'))
+        ((points.bottom.y > points.knee.y &&
+          options.legBandStyle != 'bandStraight' &&
+          options.legBandStyle != 'bandCurved') ||
+          (points.split.y > points.knee.y && options.legBandStyle == 'bandStraight') ||
+          options.legBandStyle == 'bandCurved')
       ) {
         paths.kneeGuide = new Path()
           .move(points.kneeGuideIn)
@@ -478,7 +485,7 @@ export const back = {
         })
       }
       //paths
-      if (options.legBandStyle != 'band') {
+      if (options.legBandStyle != 'bandStraight' && options.legBandStyle != 'bandCurved') {
         paths.hemFold = new Path()
           .move(points.bottomIn)
           .line(points.bottomOut)
@@ -549,6 +556,12 @@ export const back = {
       )
       //stores
       store.set('backPocketWidth', backPocketWidth)
+      if (options.legBandStyle == 'bandStraight') {
+        store.set('legBandBack', points.splitIn.dist(points.splitOut))
+      } else {
+        store.set('legBandBack', points.bottomIn.dist(points.bottomOut))
+      }
+      store.set('legBandBackTop', points.splitIn.dist(points.splitOut))
       if (complete) {
         //notches
         macro('sprinkle', {

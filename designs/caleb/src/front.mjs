@@ -307,7 +307,7 @@ export const front = {
       if (options.legBandStyle == 'cuffed') {
         return paths.outSeam.join(paths.outSeam0).join(paths.mOutSeam0)
       }
-      if (options.legBandStyle == 'band') {
+      if (options.legBandStyle == 'bandStraight' || options.legBandStyle == 'bandCurved') {
         return paths.outSeam.split(points.splitOut)[0]
       }
       if (options.legBandStyle == 'turnover') {
@@ -325,7 +325,7 @@ export const front = {
       if (options.legBandStyle == 'cuffed') {
         return paths.mInseam1.join(paths.inseam1).join(paths.inseam)
       }
-      if (options.legBandStyle == 'band') {
+      if (options.legBandStyle == 'bandStraight' || options.legBandStyle == 'bandCurved') {
         return paths.inseam.split(points.splitIn)[1]
       }
       if (options.legBandStyle == 'turnover') {
@@ -351,7 +351,16 @@ export const front = {
       .join(paths.crotchSeam)
       .join(drawWaist())
       .join(paths.saLeft)
-
+    //stores
+    if (options.legBandStyle == 'straight') {
+      store.set('legBandLength', store.get('legBandBack') + points.splitIn.dist(points.splitOut))
+    } else {
+      store.set('legBandLength', store.get('legBandBack') + points.bottomIn.dist(points.bottomOut))
+    }
+    store.set(
+      'legBandLengthTop',
+      store.get('legBandBackTop') + points.splitIn.dist(points.splitOut)
+    )
     if (complete) {
       //grainline
       points.grainlineTo = points.split.shift(0, points.split.dx(points.crotchSeamCurveEnd) * 0.5)
@@ -386,8 +395,11 @@ export const front = {
       //fit guides
       if (
         options.fitGuides &&
-        ((points.bottom.y > points.knee.y && options.legBandStyle != 'band') ||
-          (points.split.y > points.knee.y && options.legBandStyle == 'band'))
+        ((points.bottom.y > points.knee.y &&
+          options.legBandStyle != 'bandStraight' &&
+          options.legBandStyle != 'bandCurved') ||
+          (points.split.y > points.knee.y && options.legBandStyle == 'bandStraight') ||
+          options.legBandStyle == 'bandCurved')
       ) {
         paths.kneeGuide = new Path()
           .move(points.kneeGuideOut)
@@ -402,7 +414,7 @@ export const front = {
         })
       }
       //paths
-      if (options.legBandStyle != 'band') {
+      if (options.legBandStyle != 'bandStraight' && options.legBandStyle != 'bandCurved') {
         paths.hemFold = new Path()
           .move(points.bottomOut)
           .line(points.bottomIn)
