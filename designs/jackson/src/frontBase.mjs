@@ -21,7 +21,7 @@ export const frontBase = {
     frontPocketOpeningWidth: { pct: 50, min: 45, max: 60, menu: 'pockets.frontPockets' },
     frontPocketOpeningDepth: { pct: 16.6, min: 12, max: 20, menu: 'pockets.frontPockets' },
     frontPocketOpeningCurve: { pct: 66.7, min: 50, max: 100, menu: 'pockets.frontPockets' },
-    frontPocketOutSeamDepth: { pct: 46, min: 30, max: 75, menu: 'pockets.frontPockets' }, //71.5
+    frontPocketOutSeamDepth: { pct: 61, min: 30, max: 75, menu: 'pockets.frontPockets' }, //71.5
     //Construction
     crotchSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
   },

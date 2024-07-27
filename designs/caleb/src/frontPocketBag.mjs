@@ -10,7 +10,7 @@ export const frontPocketBag = {
   options: {
     //Pockets
     frontPocketDepth: { pct: 9.1, min: 0, max: 20, menu: 'pockets.frontPockets' },
-    frontPocketWidth: { pct: (2 / 3) * 100, min: 30, max: 80, menu: 'pockets.frontPockets' },
+    frontPocketWidth: { pct: 69.5, min: 30, max: 80, menu: 'pockets.frontPockets' },
     frontPocketBottomPlateau: { pct: 15, min: 0, max: 50, menu: 'pockets.frontPockets' },
     //Construction
     frontPocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
