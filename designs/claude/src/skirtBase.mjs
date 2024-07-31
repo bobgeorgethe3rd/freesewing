@@ -54,6 +54,11 @@ export const skirtBase = {
     //Construction
     sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
+    closurePosition: {
+      dflt: 'back',
+      list: ['back', 'sideLeft', 'sideRight', 'front'],
+      menu: 'construction',
+    },
     //Advanced
     calculateWaistbandDiff: { bool: false, menu: 'advanced.fit' },
     useBackMeasures: { bool: false, menu: 'advanced.fit' },
