@@ -14,6 +14,7 @@ export const pocket = {
     inseamPocketWidth: { pct: 75, min: 40, max: 90, menu: 'pockets.inseamPockets' },
     inseamPocketDepth: { pct: 15, min: 15, max: 40, menu: 'pockets.inseamPockets' },
   },
+  measurements: [...inseamPocket.measurements],
   draft: (sh) => {
     const { macro, points, options, store, complete, part, log } = sh
     //set Render stroke Draft
