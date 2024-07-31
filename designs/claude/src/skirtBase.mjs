@@ -24,8 +24,10 @@ export const skirtBase = {
     //Constants
     useVoidStores: true,
     highLow: false,
+    culottes: false,
     skirtHighLength: 'toSeat',
     skirtHighLengthBonus: 0,
+    crotchDrop: 0.02,
     //Fit
     waistEase: { pct: 1, min: -10, max: 20, menu: 'fit' },
     hipsEase: { pct: 1, min: -10, max: 20, menu: 'fit' },
@@ -318,12 +320,30 @@ export const skirtBase = {
 
     let skirtLength
     let skirtHighLength
-    if (skirtLengthTarget - skirtHighLengthTarget <= 0 && options.highLow) {
+    if (
+      (skirtLengthTarget - skirtHighLengthTarget <= 0 && options.highLow) ||
+      ((skirtLengthTarget || skirtHighLengthTarget) -
+        measurements.waistToUpperLeg * (1 + options.crotchDrop) <=
+        0 &&
+        options.culottes)
+    ) {
       skirtLength = measurements.waistToFloor - rise
       skirtHighLength = measurements.waistToKnee - rise
-      log.warning(
-        'The choices for options.skirtHighLength,  options.skirtLength,  options.skirtHighLengthBonus and options.skirtLengthBonus are incompatible to create a High - Low so the values skirtHighLength and skirtLength have been set to waistToKnee and waistToFloor respectively.'
-      )
+      if (skirtLengthTarget - skirtHighLengthTarget <= 0 && options.highLow) {
+        log.warning(
+          'The choices for options.skirtHighLength,  options.skirtLength,  options.skirtHighLengthBonus and options.skirtLengthBonus are incompatible to create a High - Low so the values skirtHighLength and skirtLength have been set to waistToKnee and waistToFloor respectively.'
+        )
+      }
+      if (
+        (skirtLengthTarget || skirtHighLengthTarget) -
+          measurements.waistToUpperLeg * (1 + options.crotchDrop) <=
+          0 &&
+        options.culottes
+      ) {
+        log.warning(
+          'The choices for options.skirtHighLength,  options.skirtLength,  options.skirtHighLengthBonus and options.skirtLengthBonus are incompatible to create a Culottes so the values skirtHighLength and skirtLength have been set to waistToKnee and waistToFloor respectively.'
+        )
+      }
     } else {
       skirtLength = skirtLengthTarget - rise
       skirtHighLength = skirtHighLengthTarget - rise
