@@ -897,6 +897,8 @@ export const skirtBase = {
 
     store.set('waistbandSideSa', sa * options.closureSaWidth * 100)
 
+    void store.setIfUnset('waistSa', sa)
+
     let sideSeamSa
     if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
       store.set('insertSeamSa', sa * options.closureSaWidth * 100)

@@ -551,7 +551,6 @@ export const skirtFront = {
         }
       }
       if (sa) {
-        void store.setIfUnset('waistSa', sa)
         let waistSa = sa
         if (options.waistbandStyle == 'none') waistSa = store.get('waistSa')
         const closureSa = sa * options.closureSaWidth * 100

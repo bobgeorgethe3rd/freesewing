@@ -108,6 +108,8 @@ export const placket = {
       })
 
       if (sa) {
+        let waistSa = sa
+        if (options.waistbandStyle == 'none') waistSa = store.get('waistSa')
         let sideSeamSa
         if (
           (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') &&
@@ -118,8 +120,8 @@ export const placket = {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
         }
         points.saBottomRight = points.bottomRight.translate(sideSeamSa, sa)
-        points.saTopRight = points.topRight.translate(sideSeamSa, -sa)
-        points.saTopLeft = points.topLeft.translate(-sa, -sa)
+        points.saTopRight = points.topRight.translate(sideSeamSa, -waistSa)
+        points.saTopLeft = points.topLeft.translate(-sa, -waistSa)
         points.saBottomCurveStart = points.bottomCurveStart.shift(180, sa)
 
         paths.sa = paths.saBottom
