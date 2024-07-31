@@ -180,7 +180,7 @@ export const skirtBack = {
             rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
           })
 
-          if (options.skirtFacings) {
+          if (options.skirtFacings && options.skirtBandStyle == 'none') {
             points['titleFacing' + i] = points['backHemPanel' + i]
               .shiftTowards(points['waistBackPanel' + i], skirtFacingWidth / 2)
               .shift(
@@ -234,7 +234,7 @@ export const skirtBack = {
           rotation: 90 - points.backHemMid.angle(points.waistBackMid),
         })
 
-        if (options.skirtFacings) {
+        if (options.skirtFacings && options.skirtBandStyle == 'none') {
           points.titleFacing = points.backHemMid.shiftTowards(
             points.waistBackMid,
             skirtFacingWidth / 2
@@ -250,7 +250,7 @@ export const skirtBack = {
         }
       }
       //facing
-      if (options.skirtFacings) {
+      if (options.skirtFacings && options.skirtBandStyle == 'none') {
         points.cbHemFacing = points.cbHem.shiftTowards(points.cbWaist, skirtFacingWidth)
         points.backHemFacingMid = points.backHemMid.shiftTowards(
           points.waistBackMid,
@@ -320,7 +320,11 @@ export const skirtBack = {
         const closureSa = sa * options.closureSaWidth * 100
 
         let hemSa
-        if (options.skirtFacings) hemSa = sa
+        if (
+          (options.skirtFacings && options.skirtBandStyle == 'none') ||
+          options.skirtBandStyle != 'none'
+        )
+          hemSa = sa
         else {
           hemSa = sa * options.skirtHemWidth * 100
         }
@@ -366,7 +370,7 @@ export const skirtBack = {
         points.saCbWaist = points.cbWaist.translate(-cbSa, -sa)
         points.saCbHem = points.cbHem.translate(-cbSa, hemSa)
 
-        if (options.skirtFacings) {
+        if (options.skirtFacings && options.skirtBandStyle == 'none') {
           points.saSideBackHemFacing = utils.beamsIntersect(
             paths.sideSeam.split(paths.facing.end())[0].offset(sideSeamSa).end(),
             paths.sideSeam.split(paths.facing.end())[0].offset(sideSeamSa).shiftFractionAlong(0.99),

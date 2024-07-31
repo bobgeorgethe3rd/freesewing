@@ -25,6 +25,8 @@ export const skirtBase = {
     useVoidStores: true,
     highLow: false,
     culottes: false,
+    skirtBandStyle: 'none',
+    skirtBandWidth: 0,
     skirtHighLength: 'toSeat',
     skirtHighLengthBonus: 0,
     crotchDrop: 0.02,
@@ -146,6 +148,7 @@ export const skirtBase = {
     }
 
     void store.setIfUnset('waistHeigthDist', measurements.waistToHips)
+    void store.setIfUnset('skirtBandWidth', absoluteOptions.skirtBandWidth)
 
     const waistHeightDist = store.get('waistHeigthDist')
 
@@ -301,21 +304,27 @@ export const skirtBase = {
 
     const rise = store.get('waistHeigthDist') * (1 - waistHeight) + waistbandWidth
 
+    let skirtBandWidth = 0
+    if (options.skirtBandStyle != 'none') skirtBandWidth = store.get('skirtBandWidth')
+
     let skirtHighLengthTarget
     if (measurements['waist' + utils.capitalize(options.skirtHighLength)]) {
       skirtHighLengthTarget =
         measurements['waist' + utils.capitalize(options.skirtHighLength)] *
-        (1 + options.skirtHighLengthBonus)
+          (1 + options.skirtHighLengthBonus) -
+        skirtBandWidth
     } else {
-      skirtHighLengthTarget = measurements.waistToKnee * (1 + options.skirtHighLengthBonus)
+      skirtHighLengthTarget =
+        measurements.waistToKnee * (1 + options.skirtHighLengthBonus) - skirtBandWidth
     }
     let skirtLengthTarget
     if (measurements['waist' + utils.capitalize(options.skirtLength)]) {
       skirtLengthTarget =
         measurements['waist' + utils.capitalize(options.skirtLength)] *
-        (1 + options.skirtLengthBonus)
+          (1 + options.skirtLengthBonus) -
+        skirtBandWidth
     } else {
-      skirtLengthTarget = measurements.waistToKnee * (1 + options.skirtLengthBonus)
+      skirtLengthTarget = measurements.waistToKnee * (1 + options.skirtLengthBonus) - skirtBandWidth
     }
 
     let skirtLength
