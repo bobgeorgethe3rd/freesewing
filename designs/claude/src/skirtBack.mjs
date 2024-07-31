@@ -317,8 +317,9 @@ export const skirtBack = {
         }
       }
       if (sa) {
+        let waistSa = sa
+        if (options.waistbandStyle == 'none') waistSa = store.get('waistSa')
         const closureSa = sa * options.closureSaWidth * 100
-
         let hemSa
         if (
           (options.skirtFacings && options.skirtBandStyle == 'none') ||
@@ -360,14 +361,14 @@ export const skirtBack = {
           paths.sideSeam.offset(sideSeamSa).end(),
           paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.998),
           points.sideWaistBack
-            .shiftTowards(points.sideWaistBackCp2, sa)
+            .shiftTowards(points.sideWaistBackCp2, waistSa)
             .rotate(-90, points.sideWaistBack),
           points.sideWaistBackCp2
-            .shiftTowards(points.sideWaistBack, sa)
+            .shiftTowards(points.sideWaistBack, waistSa)
             .rotate(90, points.sideWaistBackCp2)
         )
 
-        points.saCbWaist = points.cbWaist.translate(-cbSa, -sa)
+        points.saCbWaist = points.cbWaist.translate(-cbSa, -waistSa)
         points.saCbHem = points.cbHem.translate(-cbSa, hemSa)
 
         if (options.skirtFacings && options.skirtBandStyle == 'none') {
@@ -401,7 +402,7 @@ export const skirtBack = {
           .line(points.saSideBackHem)
           .join(paths.sideSeam.offset(sideSeamSa))
           .line(points.saSideWaistBack)
-          .join(paths.waist.offset(sa))
+          .join(paths.waist.offset(waistSa))
           .line(points.saCbWaist)
           .line(points.saCbHem)
           .close()

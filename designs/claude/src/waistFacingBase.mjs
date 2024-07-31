@@ -44,10 +44,10 @@ export const waistFacingBase = {
     }
 
     let waistFacingWidth
-    if (store.get('waistbandWidth') > skirtLengthCheck) {
+    if (absoluteOptions.waistbandWidth > skirtLengthCheck) {
       waistFacingWidth = skirtLengthCheck / 4
     } else {
-      waistFacingWidth = store.get('waistbandWidth')
+      waistFacingWidth = absoluteOptions.waistbandWidth
     }
     //let's begin
     points.origin = new Point(0, 0)

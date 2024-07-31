@@ -362,6 +362,9 @@ export const skirtFront = {
           .unhide()
       }
       if (sa) {
+        void store.setIfUnset('waistSa', sa)
+        let waistSa = sa
+        if (options.waistbandStyle == 'none') waistSa = store.get('waistSa')
         const closureSa = sa * options.closureSaWidth * 100
 
         let hemSa
@@ -405,14 +408,14 @@ export const skirtFront = {
           paths.sideSeam.offset(sideSeamSa).end(),
           paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.998),
           points.sideWaistFront
-            .shiftTowards(points.sideWaistFrontCp2, sa)
+            .shiftTowards(points.sideWaistFrontCp2, waistSa)
             .rotate(-90, points.sideWaistFront),
           points.sideWaistFrontCp2
-            .shiftTowards(points.sideWaistFront, sa)
+            .shiftTowards(points.sideWaistFront, waistSa)
             .rotate(90, points.sideWaistFrontCp2)
         )
 
-        points.saCfWaist = points.cfWaist.translate(-cfSa, -sa)
+        points.saCfWaist = points.cfWaist.translate(-cfSa, -waistSa)
         points.saCfHem = points.cfHem.translate(-cfSa, hemSa)
 
         if (options.skirtFacings && options.skirtBandStyle == 'none') {
@@ -446,7 +449,7 @@ export const skirtFront = {
           .line(points.saSideFrontHem)
           .join(paths.sideSeam.offset(sideSeamSa))
           .line(points.saSideWaistFront)
-          .join(paths.waist.offset(sa))
+          .join(paths.waist.offset(waistSa))
           .line(points.saCfWaist)
           .line(points.saCfHem)
           .close()

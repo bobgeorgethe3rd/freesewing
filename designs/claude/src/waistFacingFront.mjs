@@ -120,6 +120,7 @@ export const waistFacingFront = {
           .unhide()
       }
       if (sa) {
+        const waistSa = store.get('waistSa')
         const closureSa = sa * options.sideSeamSaWidth * 100
 
         let cfSa
@@ -153,14 +154,14 @@ export const waistFacingFront = {
           paths.sideSeam.offset(sideSeamSa).end(),
           paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.998),
           points.sideWaistFront
-            .shiftTowards(points.sideWaistFrontCp2, sa)
+            .shiftTowards(points.sideWaistFrontCp2, waistSa)
             .rotate(-90, points.sideWaistFront),
           points.sideWaistFrontCp2
-            .shiftTowards(points.sideWaistFront, sa)
+            .shiftTowards(points.sideWaistFront, waistSa)
             .rotate(90, points.sideWaistFrontCp2)
         )
 
-        points.saCfWaist = points.cfWaist.translate(-cfSa, -sa)
+        points.saCfWaist = points.cfWaist.translate(-cfSa, -waistSa)
         points.saCfWaistFacing = points.cfWaistFacing.translate(-cfSa, sa)
 
         paths.sa = paths.cfWaistFacing
@@ -169,7 +170,7 @@ export const waistFacingFront = {
           .line(points.saSideWaistFrontFacing)
           .join(paths.sideSeam.offset(sideSeamSa))
           .line(points.saSideWaistFront)
-          .join(paths.waist.offset(sa))
+          .join(paths.waist.offset(waistSa))
           .line(points.saCfWaist)
           .line(points.saCfWaistFacing)
           .close()
