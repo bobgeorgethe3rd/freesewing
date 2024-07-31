@@ -43,10 +43,7 @@ export const legBack = {
       return part
     }
     //removing paths from base
-    const keepThese = ['hemBase', 'sideSeam', 'waist']
-    for (const name in paths) {
-      if (keepThese.indexOf(name) === -1) delete paths[name]
-    }
+    for (let i in paths) delete paths[i]
     //remove macros
     macro('title', false)
     //measurements
@@ -136,6 +133,7 @@ export const legBack = {
         to: points.grainlineTo,
       })
       //notches
+      snippets.cbSeat = new Snippet('notch', points.cbSeat)
       if (store.get('pocketLength') < skirtLength) {
         points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
         points.pocketOpeningBottom = paths.sideSeam

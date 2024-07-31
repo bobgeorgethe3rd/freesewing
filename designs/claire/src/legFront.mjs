@@ -37,6 +37,11 @@ export const legFront = {
     crotchSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     crossSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     inseamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    closurePosition: {
+      dflt: 'front',
+      list: ['back', 'sideLeft', 'sideRight', 'front'],
+      menu: 'construction',
+    },
     //Advanced
     crossSeamCurve: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
     crotchSeamCurve: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
@@ -64,10 +69,7 @@ export const legFront = {
     log,
   }) => {
     //removing paths from base
-    const keepThese = ['hemBase', 'sideSeam', 'waist']
-    for (const name in paths) {
-      if (keepThese.indexOf(name) === -1) delete paths[name]
-    }
+    for (let i in paths) delete paths[i]
     //remove macros
     macro('title', false)
     macro('scalebox', false)
@@ -162,6 +164,7 @@ export const legFront = {
         to: points.grainlineTo,
       })
       //notches
+      snippets.cfSeat = new Snippet('notch', points.cfSeat)
       if (store.get('pocketLength') < skirtLength) {
         points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
         points.pocketOpeningBottom = paths.sideSeam
@@ -403,7 +406,6 @@ export const legFront = {
         }
       }
       if (sa) {
-        void store.setIfUnset('waistSa', sa)
         let waistSa = sa
         if (options.waistbandStyle == 'none') waistSa = store.get('waistSa')
         const closureSa = sa * options.closureSaWidth * 100

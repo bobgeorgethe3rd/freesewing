@@ -5,6 +5,7 @@ import { data } from '../data.mjs'
 // Parts
 import { legFront } from './legFront.mjs'
 import { legBack } from './legBack.mjs'
+import { placket } from './placket.mjs'
 import { waistband } from './waistband.mjs'
 //Inherited Parts
 import { pocket } from '@freesewing/claude'
@@ -22,6 +23,7 @@ const Claire = new Design({
 export {
   legFront,
   legBack,
+  placket,
   waistband,
   pocket,
   waistFacingFront,
