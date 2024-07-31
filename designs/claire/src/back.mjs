@@ -1,9 +1,11 @@
 import { skirtBase } from '@freesewing/claude'
+import { front } from './front.mjs'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const back = {
   name: 'claire.back',
   from: skirtBase,
+  after: front,
   hide: {
     from: true,
   },
