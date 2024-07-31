@@ -2,8 +2,8 @@ import { skirtBase } from '@freesewing/claude'
 import { pocket } from '@freesewing/claude'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
-export const front = {
-  name: 'claire.front',
+export const legFront = {
+  name: 'claire.legFront',
   from: skirtBase,
   after: pocket,
   hide: {

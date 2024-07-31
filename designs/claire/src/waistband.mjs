@@ -1,5 +1,5 @@
 import { waistband as claudeWaistband } from '@freesewing/waistbandstraight'
-import { front } from './front.mjs'
+import { legFront } from './legFront.mjs'
 // import { placket } from './placket.mjs'
 
 export const waistband = {
@@ -10,7 +10,7 @@ export const waistband = {
     //Style
     waistbandOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'style' }, //Altered for Claire
   },
-  after: [front /* placket */],
+  after: [legFront /* placket */],
   plugins: [...claudeWaistband.plugins],
   draft: (sh) => {
     const { macro, points, utils, options, measurements, complete, part } = sh
