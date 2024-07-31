@@ -236,7 +236,7 @@ export const front = {
           macro('title', {
             at: points['title' + i],
             nr: '1' + j,
-            title: 'Skirt ' + k + titleFront,
+            title: 'Leg ' + k + titleFront,
             prefix: 'title ' + i,
             scale: 0.15,
             rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
@@ -253,7 +253,7 @@ export const front = {
             macro('title', {
               at: points['titleFacing' + i],
               nr: '5' + j,
-              title: 'Skirt Facing ' + k + titleFront,
+              title: 'Leg Facing ' + k + titleFront,
               prefix: 'titleFacing ' + i,
               scale: 0.15,
               rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
@@ -264,7 +264,7 @@ export const front = {
             macro('title', {
               at: points.titleFacing,
               nr: '5a',
-              title: 'Skirt Facing A' + titleFront,
+              title: 'Leg Facing A' + titleFront,
               prefix: 'titleFacing',
               scale: 0.15,
             })
@@ -275,7 +275,7 @@ export const front = {
           macro('title', {
             at: points.title,
             nr: '1a',
-            title: 'Skirt A' + titleFront,
+            title: 'Leg A' + titleFront,
             scale: 0.15,
             prefix: 'title',
           })
@@ -288,7 +288,7 @@ export const front = {
         macro('title', {
           at: points.title,
           nr: '1',
-          title: 'Skirt' + titleFront,
+          title: 'Leg' + titleFront,
           scale: 0.5,
           prefix: 'title',
           rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
@@ -302,7 +302,7 @@ export const front = {
           macro('title', {
             at: points.titleFacing,
             nr: '5',
-            title: 'Skirt Facing' + titleFront,
+            title: 'Leg Facing' + titleFront,
             scale: 0.5,
             prefix: 'titleFacing',
             rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),

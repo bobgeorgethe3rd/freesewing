@@ -198,7 +198,7 @@ export const back = {
           macro('title', {
             at: points['title' + i],
             nr: '6' + j,
-            title: 'Skirt Back ' + k + ' (Back)',
+            title: 'Leg Back ' + k + ' (Back)',
             prefix: 'title ' + i,
             scale: 0.15,
             rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
@@ -215,7 +215,7 @@ export const back = {
             macro('title', {
               at: points['titleFacing' + i],
               nr: '6' + j,
-              title: 'Skirt Facing ' + k + ' (Back)',
+              title: 'Leg Facing ' + k + ' (Back)',
               prefix: 'titleFacing ' + i,
               scale: 0.15,
               rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
@@ -227,7 +227,7 @@ export const back = {
             macro('title', {
               at: points.titleFacing,
               nr: '7a',
-              title: 'Skirt Facing A (Back)',
+              title: 'Leg Facing A (Back)',
               prefix: 'titleFacing',
               scale: 0.15,
             })
@@ -240,7 +240,7 @@ export const back = {
         macro('title', {
           at: points.title,
           nr: '6a',
-          title: 'Skirt A (Back)',
+          title: 'Leg A (Back)',
           scale: 0.15,
           prefix: 'title',
         })
@@ -252,7 +252,7 @@ export const back = {
         macro('title', {
           at: points.title,
           nr: '6',
-          title: 'Skirt (Back)',
+          title: 'Leg (Back)',
           scale: 0.5,
           prefix: 'title',
           rotation: 90 - points.backHemMid.angle(points.waistBackMid),
@@ -266,7 +266,7 @@ export const back = {
           macro('title', {
             at: points.titleFacing,
             nr: '7',
-            title: 'Skirt Facing (Back)',
+            title: 'Leg Facing (Back)',
             scale: 0.5,
             prefix: 'titleFacing',
             rotation: 90 - points.backHemMid.angle(points.waistBackMid),
