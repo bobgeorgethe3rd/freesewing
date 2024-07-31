@@ -55,7 +55,7 @@ async function addDesign() {
       {
         title: 'Bottoms',
         value: 'bottoms',
-        description: 'For bottom that are not define by skirt designs',
+        description: 'For bottom designs that are not define by skirt designs',
       },
       {
         title: 'Collars',
@@ -115,7 +115,7 @@ async function addDesign() {
       {
         title: 'Waistbands',
         value: 'waistbands',
-        description: 'For waistband desings',
+        description: 'For waistband designs',
       },
       {
         title: 'Undergarments',
