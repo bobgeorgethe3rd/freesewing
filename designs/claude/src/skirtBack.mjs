@@ -10,19 +10,6 @@ export const skirtBack = {
   hide: {
     from: true,
   },
-  options: {
-    //Style
-    skirtPanels: { count: 1, min: 1, max: 20, menu: 'style' },
-    //Construction
-    skirtHemWidth: { pct: 2, min: 0, max: 5, menu: 'construction' },
-    skirtFacings: { bool: true, menu: 'construction' },
-    skirtFacingWidth: {
-      pct: 25,
-      min: 10,
-      max: 50,
-      menu: 'construction',
-    },
-  },
   draft: ({
     store,
     sa,

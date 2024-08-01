@@ -46,6 +46,7 @@ export const legFront = {
     crossSeamCurve: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
     crotchSeamCurve: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
     useCrossSeamFront: { bool: false, menu: 'advanced.fit' },
+    separateBack: { bool: false, menu: 'advanced.style' },
   },
   measurements: ['waistToUpperLeg', 'crossSeam'],
   optionalMeasurements: ['crossSeamFront'],

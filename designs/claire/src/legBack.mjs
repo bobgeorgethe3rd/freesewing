@@ -8,9 +8,6 @@ export const legBack = {
   hide: {
     from: true,
   },
-  options: {
-    separateBack: { bool: false, menu: 'advanced.style' },
-  },
   draft: ({
     store,
     sa,
