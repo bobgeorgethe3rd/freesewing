@@ -43,7 +43,7 @@ export const skirtBack = {
     for (let i in paths) delete paths[i]
     //measures
     const skirtLength = store.get('skirtLength')
-    const skirtFacingWidth = skirtLength * options.skirtFacingWidth
+    const skirtFacingWidth = store.get('skirtFacingWidth')
 
     //let's begin
     if (points.sideBackExtension) {
