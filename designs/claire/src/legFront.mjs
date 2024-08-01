@@ -70,10 +70,6 @@ export const legFront = {
   }) => {
     //removing paths from base
     for (let i in paths) delete paths[i]
-    //remove macros
-    macro('title', false)
-    macro('scalebox', false)
-    macro('logorg', false)
     //measurements
     const rise = store.get('rise')
     const crotchDrop = measurements.waistToUpperLeg * (1 + options.crotchDrop) - rise

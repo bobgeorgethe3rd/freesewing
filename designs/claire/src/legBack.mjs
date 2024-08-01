@@ -1,6 +1,5 @@
 import { skirtBase } from '@freesewing/claude'
 import { legFront } from './legFront.mjs'
-import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const legBack = {
   name: 'claire.legBack',
@@ -44,8 +43,6 @@ export const legBack = {
     }
     //removing paths from base
     for (let i in paths) delete paths[i]
-    //remove macros
-    macro('title', false)
     //measurements
     const rise = store.get('rise')
     const crotchDrop = store.get('crotchDrop')
