@@ -318,6 +318,13 @@
       "difficulty": 2,
       "tags": ["skirts", "circle"]
     },
+    "harvey": {
+      "description": "Harvey handkerchief square skirt design for independent use and extension into other designs",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 2,
+      "tags": ["skirts", "handkerchief", "circle"]
+    },
     "scarlett": {
       "description": "Scarlett split skirt design based off of Wanda",
       "code": "bobgeorgethe3rd",

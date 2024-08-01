@@ -155,6 +155,12 @@ harriet:
     '@freesewing/inseampocket': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/waistbandcurved': *freesewing
+harvey:
+  _:
+    '@freesewing/claude': *freesewing
+    '@freesewing/inseampocket': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
 heleanor:
   _:
     '@freesewing/legbandcurved': *freesewing
