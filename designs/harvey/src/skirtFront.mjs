@@ -533,8 +533,10 @@ export const skirtFront = {
             )
           }
 
-          paths.facingSa = paths.hemBase
-            .offset(hemSa)
+          paths.facingSa = new Path()
+            .move(points.saCfHem)
+            .line(points.saHandkerchiefFrontHemLeft)
+            .line(points.saHandkerchiefFrontHemRight)
             .line(points.saSideFrontHem)
             .join(paths.sideSeam.split(paths.facing.end())[0].offset(sideSeamSa))
             .line(points.saSideFrontHemFacing)
