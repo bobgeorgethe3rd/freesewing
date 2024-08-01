@@ -77,9 +77,6 @@ export const skirtBack = {
 
     //paths
     paths.seam = paths.hemBase.join(paths.sideSeam).join(paths.waist).join(paths.cb).close()
-
-    //stores
-    store.set('skirtFacingWidth', skirtFacingWidth)
     if (complete) {
       //grainline
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
