@@ -1,11 +1,12 @@
 import { skirtBase } from '@freesewing/claude'
 import { pocket } from '@freesewing/claude'
+import { waistband } from '@freesewing/claude'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const skirtFront = {
   name: 'harvey.skirtFront',
   from: skirtBase,
-  after: pocket,
+  after: [pocket, waistband],
   hide: {
     from: true,
   },
@@ -105,6 +106,8 @@ export const skirtFront = {
       .line(points.cfHem)
       .close()
 
+    //stores
+    store.set('skirtFacingWidth', skirtFacingWidth)
     if (complete) {
       //grainline
       if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
