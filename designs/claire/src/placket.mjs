@@ -57,7 +57,9 @@ export const placket = {
         const cSeat = points.cfSeat || points.cbSeat
 
         points.waistRight = crossSeam.start().shift(0, measurements.waist * options.placketWidth)
-        points.crossSplit = crossSeam.split(cSeat)[1].shiftFractionAlong(options.placketLength)
+        points.crossSplit = crossSeam
+          .split(cSeat)[1]
+          .shiftFractionAlong(options.placketLength * 2.65)
         points.bottomLeft = new Point(cSeat.x, points.crossSplit.y)
         points.bottomCorner = new Point(points.waistRight.x, points.bottomLeft.y)
         points.bottomLeftCp2 = points.bottomLeft.shiftFractionTowards(

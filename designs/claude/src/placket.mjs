@@ -8,7 +8,7 @@ export const placket = {
     cpFraction: 0.55191502449,
     //Plackets
     placket: { bool: true, menu: 'plackets' },
-    placketWidth: { pct: 5.9, min: 5, max: 8, menu: 'plackets' },
+    placketWidth: { pct: 5.2, min: 5, max: 8, menu: 'plackets' },
     placketLength: { pct: 18.9, min: 10, max: 25, menu: 'plackets' },
   },
   draft: ({
