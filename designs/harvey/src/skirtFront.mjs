@@ -1,12 +1,11 @@
 import { skirtBase } from '@freesewing/claude'
 import { pocket } from '@freesewing/claude'
-import { waistband } from '@freesewing/claude'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const skirtFront = {
   name: 'harvey.skirtFront',
   from: skirtBase,
-  after: [pocket, waistband],
+  after: [pocket],
   hide: {
     from: true,
   },
