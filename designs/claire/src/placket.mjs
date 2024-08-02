@@ -105,41 +105,41 @@ export const placket = {
         } else {
           snippets.cSeat = new Snippet('bnotch', cSeat)
         }
-      }
-      //title
-      points.title = new Point(
-        points.waistRight.x / 2.5,
-        (points.waistRight.y + points.crossSplit.y) / 2
-      )
-      macro('title', {
-        at: points.title,
-        nr: '4',
-        title: 'Placket',
-        scale: 1 / 3,
-      })
-      if (sa) {
-        let waistSa = sa
-        if (options.waistbandStyle == 'none') waistSa = store.get('waistSa')
-        const closureSa = sa * options.closureSaWidth * 100
-
-        points.saWaistRight = points.waistRight.translate(sa, -waistSa)
-        points.saCWaist = paths.crossSeam.start().translate(-closureSa, -waistSa)
-
-        points.saCrotchSplit = utils.beamIntersectsY(
-          paths.crossSeam.offset(closureSa).shiftFractionAlong(0.995),
-          paths.crossSeam.offset(closureSa).end(),
-          points.bottomLeft.y + sa
+        //title
+        points.title = new Point(
+          points.waistRight.x / 2.5,
+          (points.waistRight.y + points.crossSplit.y) / 2
         )
+        macro('title', {
+          at: points.title,
+          nr: '4',
+          title: 'Placket',
+          scale: 1 / 3,
+        })
+        if (sa) {
+          let waistSa = sa
+          if (options.waistbandStyle == 'none') waistSa = store.get('waistSa')
+          const closureSa = sa * options.closureSaWidth * 100
 
-        paths.sa = paths.placketCurve
-          .clone()
-          .offset(sa)
-          .line(points.saWaistRight)
-          .line(points.saCWaist)
-          .join(paths.crossSeam.offset(closureSa))
-          .line(points.saCrotchSplit)
-          .close()
-          .attr('class', 'fabric sa')
+          points.saWaistRight = points.waistRight.translate(sa, -waistSa)
+          points.saCWaist = paths.crossSeam.start().translate(-closureSa, -waistSa)
+
+          points.saCrotchSplit = utils.beamIntersectsY(
+            paths.crossSeam.offset(closureSa).shiftFractionAlong(0.995),
+            paths.crossSeam.offset(closureSa).end(),
+            points.bottomLeft.y + sa
+          )
+
+          paths.sa = paths.placketCurve
+            .clone()
+            .offset(sa)
+            .line(points.saWaistRight)
+            .line(points.saCWaist)
+            .join(paths.crossSeam.offset(closureSa))
+            .line(points.saCrotchSplit)
+            .close()
+            .attr('class', 'fabric sa')
+        }
       }
     }
 
