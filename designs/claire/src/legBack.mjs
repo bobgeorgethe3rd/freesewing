@@ -56,7 +56,8 @@ export const legBack = {
     const skirtFacingWidth = store.get('skirtFacingWidth')
     //let's begin
     points.cbUpperLeg = points.cbWaist.shift(-90, crotchDrop)
-
+    if (!points.cbSeat)
+      points.cbSeat = points.cbWaist.shiftTowards(points.cbHem, store.get('toSeat'))
     let crossTweak = 1
     let crossDelta
     do {

@@ -85,7 +85,8 @@ export const legFront = {
     const skirtFacingWidth = (skirtLength - crotchDrop) * options.skirtFacingWidth
     //let's begin
     points.cfUpperLeg = points.cfWaist.shift(-90, crotchDrop)
-
+    if (!points.cfSeat)
+      points.cfSeat = points.cfWaist.shiftTowards(points.cfHem, store.get('toSeat'))
     let crotchTweak = 1
     let crotchDelta
     do {
