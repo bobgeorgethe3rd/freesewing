@@ -59,7 +59,7 @@ export const placket = {
         points.waistRight = crossSeam.start().shift(0, measurements.waist * options.placketWidth)
         points.crossSplit = crossSeam
           .split(cSeat)[1]
-          .shiftFractionAlong(options.placketLength * 2.65)
+          .shiftFractionAlong(options.placketLength * 2.32)
         points.bottomLeft = new Point(cSeat.x, points.crossSplit.y)
         points.bottomCorner = new Point(points.waistRight.x, points.bottomLeft.y)
         points.bottomLeftCp2 = points.bottomLeft.shiftFractionTowards(
@@ -126,10 +126,9 @@ export const placket = {
           points.saWaistRight = points.waistRight.translate(sa, -waistSa)
           points.saCWaist = paths.crossSeam.start().translate(-closureSa, -waistSa)
 
-          points.saCrotchSplit = utils.beamIntersectsY(
-            paths.crossSeam.offset(closureSa).shiftFractionAlong(0.995),
-            paths.crossSeam.offset(closureSa).end(),
-            points.bottomLeft.y + sa
+          points.saCrotchSplit = new Point(
+            paths.crossSeam.offset(closureSa).end().x,
+            points.crossSplit.y + sa
           )
 
           paths.sa = paths.placketCurve
