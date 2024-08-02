@@ -19,6 +19,9 @@ export const skirtFront = {
     waistbandElastic: false, //Locked for Rose
     waistHeight: 1, //Locked for Rose
     separateBack: false, //Locked for Rose
+    fitWaist: true, //Altered for Rose
+    fitWaistBack: true, //Locked for Rose
+    fitWaistFront: true, //Locked for Rose
     //Fit
     waistEase: { pct: 5, min: 0, max: 20, menu: 'fit' }, //Altered for Rose
     //Style

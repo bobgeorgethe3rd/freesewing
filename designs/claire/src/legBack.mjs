@@ -33,6 +33,8 @@ export const legBack = {
       !options.useBackMeasures &&
       !options.independentSkirtFullness &&
       !options.independentSkirtGathering &&
+      (options.fitWaistFront == options.fitWaistBack ||
+        (options.fitWaistFront != options.fitWaistBack && options.waistbandElastic)) &&
       !options.useCrossSeamFront
     ) {
       part.hide()

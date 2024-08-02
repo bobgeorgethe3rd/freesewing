@@ -25,6 +25,7 @@ export const skirtBase = {
     useVoidStores: true,
     highLow: false,
     culottes: false,
+    fitWaist: false,
     skirtBandStyle: 'none',
     skirtBandWidth: 0,
     skirtHighLength: 'toSeat',
@@ -66,6 +67,8 @@ export const skirtBase = {
     //Advanced
     calculateWaistbandDiff: { bool: false, menu: 'advanced.fit' },
     useBackMeasures: { bool: false, menu: 'advanced.fit' },
+    fitWaistBack: { bool: true, menu: 'advanced.fit' },
+    fitWaistFront: { bool: true, menu: 'advanced.fit' },
     fitHips: { bool: true, menu: 'advanced.fit' },
     fitSeat: { bool: true, menu: 'advanced.fit' },
     independentSkirtFullness: { bool: false, menu: 'advanced.style' },
@@ -225,27 +228,51 @@ export const skirtBase = {
       waistbandBackDiff = 0
     }
 
+    if (options.fitWaist) {
+      options.fitWaistFront = true
+      options.fitWaistBack = true
+    }
+
     let frontTopCircumference
-    let backTopCircumference
-    if (options.waistbandElastic /*  && options.waistbandStyle != 'none' */) {
+    if (
+      options.waistbandElastic ||
+      !options.fitWaistFront /*  && options.waistbandStyle != 'none' */
+    ) {
       if (waist > (hips && seat)) {
         frontTopCircumference = waistFront * (1 / skirtFrontFullness)
-        backTopCircumference = waistBack * (1 / skirtBackFullness)
         log.debug('Waist measure has been used to calculate elastic waistband')
       }
       if (hips > (waist && seat)) {
         frontTopCircumference = hipsFront * (1 / skirtFrontFullness)
-        backTopCircumference = hipsBack * (1 / skirtBackFullness)
         log.debug('Hips measure has been used to calculate elastic waistband')
       }
       if (seat > (waist && hips)) {
         frontTopCircumference = seatFront * (1 / skirtFrontFullness)
-        backTopCircumference = seatBack * (1 / skirtBackFullness)
         log.debug('Seat measure has been used to calculate elastic waistband')
       }
     } else {
       frontTopCircumference =
         (waistFront * waistHeight + hipsFront * (1 - waistHeight)) * (1 / skirtFrontFullness)
+    }
+
+    let backTopCircumference
+    if (
+      options.waistbandElastic ||
+      !options.fitWaistBack /*  && options.waistbandStyle != 'none' */
+    ) {
+      if (waist > (hips && seat)) {
+        backTopCircumference = waistBack * (1 / skirtBackFullness)
+        log.debug('Waist measure has been used to calculate elastic waistband')
+      }
+      if (hips > (waist && seat)) {
+        backTopCircumference = hipsBack * (1 / skirtBackFullness)
+        log.debug('Hips measure has been used to calculate elastic waistband')
+      }
+      if (seat > (waist && hips)) {
+        backTopCircumference = seatBack * (1 / skirtBackFullness)
+        log.debug('Seat measure has been used to calculate elastic waistband')
+      }
+    } else {
       backTopCircumference =
         (waistBack * waistHeight + hipsBack * (1 - waistHeight)) * (1 / skirtBackFullness)
     }

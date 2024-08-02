@@ -178,7 +178,9 @@ export const legFront = {
         !options.separateBack &&
         !options.useBackMeasures &&
         !options.independentSkirtFullness &&
-        !options.independentSkirtGathering
+        !options.independentSkirtGathering &&
+        (options.fitWaistFront == options.fitWaistBack ||
+          (options.fitWaistFront != options.fitWaistBack && options.waistbandElastic))
       ) {
         titleFront = ''
       } else {
@@ -422,6 +424,8 @@ export const legFront = {
           !options.useBackMeasures &&
           !options.independentSkirtFullness &&
           !options.independentSkirtGathering &&
+          (options.fitWaistFront == options.fitWaistBack ||
+            (options.fitWaistFront != options.fitWaistBack && options.waistbandElastic)) &&
           !options.useCrossSeamFront &&
           !measurements.crossSeamFront
         )

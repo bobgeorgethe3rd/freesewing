@@ -47,15 +47,16 @@ export const placket = {
           legBack.from.draft(sh)
           legBack.draft(sh)
         }
-
+        //remove paths & snippets
         const keepThese = ['crossSeam', 'crotchSeam']
         for (const name in paths) {
           if (keepThese.indexOf(name) === -1) delete paths[name]
         }
-
+        for (let i in snippets) delete snippets[i]
+        //measures
         const crossSeam = paths.crotchSeam || paths.crossSeam
         const cSeat = points.cfSeat || points.cbSeat
-
+        //let's begin
         points.waistRight = crossSeam.start().shift(0, measurements.waist * options.placketWidth)
         points.crossSplit = crossSeam
           .split(cSeat)[1]

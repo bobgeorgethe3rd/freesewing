@@ -26,6 +26,9 @@ export const skirtBase = {
     useBackMeasures: true, //Locked for Scott
     separateBack: true, //Locked for Scott
     highLow: false, //Locked for Scott
+    fitWaist: true, //Altered for Scott
+    fitWaistBack: true, //Locked for Scott
+    fitWaistFront: true, //Locked for Scott
     //Fit
     waistEase: { pct: 5, min: 0, max: 20, menu: 'fit' }, //Altered for Scott
     //Style

@@ -89,7 +89,9 @@ export const skirtFront = {
       !options.separateBack &&
       !options.useBackMeasures &&
       !options.independentSkirtFullness &&
-      !options.independentSkirtGathering
+      !options.independentSkirtGathering &&
+      (options.fitWaistFront == options.fitWaistBack ||
+        (options.fitWaistFront != options.fitWaistBack && options.waistbandElastic))
 
     if (includeBack) {
       paths.cb = new Path().move(points.cfHem).line(points.cbHem).hide()

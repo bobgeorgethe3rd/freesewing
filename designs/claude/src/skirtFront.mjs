@@ -123,7 +123,9 @@ export const skirtFront = {
         !options.separateBack &&
         !options.useBackMeasures &&
         !options.independentSkirtFullness &&
-        !options.independentSkirtGathering
+        !options.independentSkirtGathering &&
+        (options.fitWaistFront == options.fitWaistBack ||
+          (options.fitWaistFront != options.fitWaistBack && options.waistbandElastic))
       ) {
         titleFront = ''
       } else {
@@ -351,6 +353,8 @@ export const skirtFront = {
         !options.useBackMeasures &&
         !options.independentSkirtFullness &&
         !options.independentSkirtGathering &&
+        (options.fitWaistFront == options.fitWaistBack ||
+          (options.fitWaistFront != options.fitWaistBack && options.waistbandElastic)) &&
         (options.closurePosition == 'front' ||
           options.closurePosition == 'back' ||
           options.cbSaWidth > 0)

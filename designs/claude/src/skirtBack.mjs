@@ -33,7 +33,9 @@ export const skirtBack = {
       !options.separateBack &&
       !options.useBackMeasures &&
       !options.independentSkirtFullness &&
-      !options.independentSkirtGathering
+      !options.independentSkirtGathering &&
+      (options.fitWaistFront == options.fitWaistBack ||
+        (options.fitWaistFront != options.fitWaistBack && options.waistbandElastic))
     ) {
       part.hide()
       return part
