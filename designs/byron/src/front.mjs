@@ -35,9 +35,7 @@ export const front = {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     //measures
-    const chestFront = store.get('chest') / 4
     // const hipsFront = store.get('hipsFront')
-    const neck = store.get('neck')
     // const seatFront = store.get('seatFront')
     // const shoulderToShoulder = store.get('shoulderToShoulder')
     const waistDiff = store.get('waistDiff')
@@ -83,13 +81,13 @@ export const front = {
     // }
     // }
     //cfNeck
-    points.cfNeck = points.origin.shift(-90, neck / 4)
+    points.cfNeck = points.origin.shift(-90, store.get('neck') / 4)
     points.cfNeckCorner = new Point(points.hps.x, points.cfNeck.y)
     points.hpsCp2 = points.hps.shiftFractionTowards(points.cfNeckCorner, options.cfNeck)
     points.cfNeckCp1 = points.cfNeck.shiftFractionTowards(points.cfNeckCorner, options.cfNeck)
 
     //armhole
-    points.armhole = points.cArmhole.shift(0, chestFront)
+    points.armhole = points.cArmhole.shift(0, store.get('chest') / 4)
     // points.armholePitch = points.cArmholePitch.shift(
     // 0,
     // (shoulderToShoulder * options.frontArmholePitchWidth) / 2

@@ -14,8 +14,10 @@ export const back = {
     neckSaWidth: 0.01,
     closureSaWidth: 0.01,
     cbSaWidth: 0,
+    //Fit
+    chestEase: { pct: 4.6, min: 0, max: 20, menu: 'fit' },
+    waistEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
     //Armhole
-    // backArmholePitchWidth: { pct: 98.4, min: 97, max: 98.5, menu: 'armhole' },
     backArmholePitchWidth: { pct: 97, min: 95, max: 98.5, menu: 'armhole' },
     backArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },
     //Construction
@@ -23,8 +25,18 @@ export const back = {
     closurePosition: { dflt: 'back', list: ['front', 'side', 'back'], menu: 'construction' },
     //Advanced
     fitWaist: { bool: true, menu: 'advanced' },
-    // forceSide: { bool: false, menu: 'advanced' },
+    draftForHighBust: { bool: false, menu: 'advanced' },
   },
+  measurements: [
+    'neck',
+    'chest',
+    'hpsToWaistBack',
+    'shoulderSlope',
+    'hpsToShoulder',
+    'waist',
+    'waistToArmpit',
+  ],
+  optionalMeasurements: ['highBust'],
   draft: ({
     store,
     sa,
@@ -47,11 +59,15 @@ export const back = {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     //measures
-    const chestBack = store.get('chest') / 4
+    if (options.draftForHighBust && measurements.highBust) {
+      measurements.chest = measurements.highBust
+    }
+    const chest = measurements.chest * (1 + options.chestEase)
+    const waist = measurements.waist * (1 + options.waistEase)
+    const waistDiff = (chest - waist) / 4
     // const hipsBack = store.get('hipsBack')
     // const seatBack = store.get('seatBack')
     // const shoulderToShoulder = store.get('shoulderToShoulder')
-    const waistDiff = store.get('waistDiff')
     // const waistbandWidth = absoluteOptions.waistbandWidth
 
     // let hemLengthTarget
@@ -102,7 +118,7 @@ export const back = {
     )
 
     //armhole
-    points.armhole = points.cArmhole.shift(0, chestBack)
+    points.armhole = points.cArmhole.shift(0, chest / 4)
     // points.armholePitch = points.cArmholePitch.shift(
     // 0,
     // (shoulderToShoulder * options.backArmholePitchWidth) / 2
@@ -189,6 +205,9 @@ export const back = {
       .close()
 
     //stores
+    store.set('chest', chest)
+    store.set('waist', waist)
+    store.set('waistDiff', waistDiff)
     store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
     store.set(
       'scyeBackDepth',
