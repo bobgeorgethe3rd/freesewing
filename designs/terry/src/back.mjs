@@ -34,7 +34,8 @@ export const back = {
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Terry
     hemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Terry
     //Advanced
-    fitSide: { bool: false, menu: 'advanced' }, //Altered for Terry
+    fitWaist: { bool: false, menu: 'advanced' }, //Altered for Terry
+    fitHem: { bool: false, menu: 'advanced' }, //Altered for Terry
   },
   measurements: ['hips', 'seat', 'waistToHips', 'waistToSeat'],
   draft: ({
@@ -107,7 +108,7 @@ export const back = {
     )
     //hem
     points.cbHem = points.cWaist.shift(-90, bodyLength)
-    if (options.fitSide || measurements.seat / 4 > points.armhole.x) {
+    if (options.fitHem || measurements.seat / 4 > points.armhole.x) {
       points.sideHem = points.cbHem.shift(0, bodyWidth)
     } else {
       points.sideHem = new Point(points.armhole.x, points.cbHem.y)

@@ -10,11 +10,11 @@ export const backBase = {
   options: {
     //Constants
     useVoidStores: false, //Altered for Shaun
-    waistDiffDivider: 8, //Altered for Shaun
+    // waistDiffDivider: 8, //Altered for Shaun
     closurePosition: 'front', //Locked for Shaun
     //Fit
     chestEase: { pct: 10, min: 0, max: 20, menu: 'fit' }, //Altered for Shaun
-    waistEase: { pct: 9.5, min: 0, max: 25, menu: 'fit' }, //Altered for Shaun
+    waistEase: { pct: 19.8, min: 0, max: 25, menu: 'fit' }, //Altered for Shaun
     hipsEase: { pct: 10, min: 0, max: 20, menu: 'fit' },
     seatEase: { pct: 8.9, min: 0, max: 20, menu: 'fit' },
     //Style

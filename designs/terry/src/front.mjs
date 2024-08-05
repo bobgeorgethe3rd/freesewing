@@ -67,7 +67,7 @@ export const front = {
     points.cfTopCp1 = points.cfTop.shiftFractionTowards(points.cfTopCorner, options.cfNeck)
     //hem
     points.cfHem = points.cWaist.shift(-90, store.get('bodyLength'))
-    if (options.fitSide || measurements.seat / 4 > points.armhole.x) {
+    if (options.fitHem || measurements.seat / 4 > points.armhole.x) {
       points.sideHem = points.cfHem.shift(0, store.get('bodyWidth'))
     } else {
       points.sideHem = new Point(points.armhole.x, points.cfHem.y)

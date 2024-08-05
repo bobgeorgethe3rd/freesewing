@@ -7,7 +7,7 @@ export const sharedBase = {
     //Constants
     cbNeck: 0.044,
     neckEase: 0, //.064,
-    waistDiffDivider: 4,
+    //waistDiffDivider: 4,
     //Fit
     chestEase: { pct: 4.6, min: 0, max: 20, menu: 'fit' },
     shoulderToShoulderEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
@@ -16,12 +16,12 @@ export const sharedBase = {
     // seatEase: { pct: 4.7, min: 0, max: 20, menu: 'fit' },
     //Style
     // bodyLength: { pct: 75, min: 0, max: 100, menu: 'style' },
-    lengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
+    waistLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
     //Armhole
     scyeDepth: { pct: 18.2, min: 15, max: 30, menu: 'armhole' },
     armholePitchDepth: { pct: 50, min: 45, max: 60, menu: 'armhole' },
     //Advanced
-    useChestFront: { bool: false, menu: 'advanced' },
+    // useChestFront: { bool: false, menu: 'advanced' },
     draftForHighBust: { bool: false, menu: 'advanced' },
     // waistbandWidth: {
     // pct: 0,
@@ -48,9 +48,9 @@ export const sharedBase = {
     // 'waistToSeat',
   ],
   optionalMeasurements: [
-    'chestFront',
+    // 'chestFront',
     'highBust',
-    'highBustFront',
+    // 'highBustFront',
     // 'waistBack',
     // 'hipsBack',
     // 'seatBack',
@@ -79,39 +79,39 @@ export const sharedBase = {
     // let bodyLength
     // if (options.bodyLength < 0.5) {
     // bodyLength =
-    // 2 * measurements.waistToHips * options.bodyLength * (1 + options.lengthBonus) -
+    // 2 * measurements.waistToHips * options.bodyLength * (1 + options.waistLengthBonus) -
     // absoluteOptions.waistbandWidth
     // } else {
     // bodyLength =
     // measurements.waistToHips +
     // (measurements.waistToSeat - measurements.waistToHips) *
     // (2 * options.bodyLength - 1) *
-    // (1 + options.lengthBonus) -
+    // (1 + options.waistLengthBonus) -
     // absoluteOptions.waistbandWidth
     // }
     if (options.draftForHighBust && measurements.highBust && measurements.highBustFront) {
       measurements.chest = measurements.highBust
-      measurements.chestFront = measurements.highBustFront
+      // measurements.chestFront = measurements.highBustFront
     }
 
     const cbNeck = measurements.hpsToWaistBack * options.cbNeck
 
     const chest = measurements.chest * (1 + options.chestEase)
 
-    let chestBack
-    let chestFront
-    if (options.useChestFront && measurements.chestFront) {
-      chestFront = (measurements.chestFront * (1 + options.chestEase)) / 2
-      chestBack = (chest - chestFront * 2) / 2
-    } else {
-      chestFront = chest / 4
-      chestBack = chest / 4
-      if (options.useChestFront)
-        if (options.useChestFront)
-          log.warning(
-            'chestFront measurements not available please add for separate chest measures'
-          )
-    }
+    // let chestBack
+    // let chestFront
+    // if (options.useChestFront && measurements.chestFront) {
+    // chestFront = (measurements.chestFront * (1 + options.chestEase)) / 2
+    // chestBack = (chest - chestFront * 2) / 2
+    // } else {
+    // chestFront = chest / 4
+    // chestBack = chest / 4
+    // if (options.useChestFront)
+    // if (options.useChestFront)
+    // log.warning(
+    // 'chestFront measurements not available please add for separate chest measures'
+    // )
+    // }
 
     const neck = measurements.neck * (1 + options.neckEase)
     // const shoulderToShoulder =
@@ -119,12 +119,13 @@ export const sharedBase = {
 
     const waist = measurements.waist * (1 + options.waistEase)
 
-    let waistDiff = chest - waist
-    if (waistDiff > 0) {
-      waistDiff = waistDiff / options.waistDiffDivider
-    } else {
-      waistDiff = waistDiff / 4
-    }
+    // let waistDiff = chest - waist
+    // if (waistDiff > 0) {
+    // waistDiff = waistDiff / options.waistDiffDivider
+    // } else {
+    // waistDiff = waistDiff / 4
+    // }
+    const waistDiff = (chest - waist) / 4
     // const hips = measurements.hips * (1 + options.hipsEase)
 
     // let hipsFront
@@ -164,7 +165,7 @@ export const sharedBase = {
     // points.cChest = points.origin.shift(-90, measurements.hpsToChestBack)
     points.cWaist = points.origin.shift(
       -90,
-      measurements.hpsToWaistBack * (1 + options.lengthBonus)
+      measurements.hpsToWaistBack * (1 + options.waistLengthBonus)
     )
     points.cArmhole = points.origin.shift(
       -90,
@@ -201,8 +202,8 @@ export const sharedBase = {
     // paths.shoulder = new Path().move(points.shoulder).line(points.hps)
 
     //Stores
-    store.set('chestBack', chestBack)
-    store.set('chestFront', chestFront)
+    // store.set('chestBack', chestBack)
+    // store.set('chestFront', chestFront)
     store.set('chest', chest)
     store.set('waist', waist)
     // store.set('hipsBack', hipsBack)

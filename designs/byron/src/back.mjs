@@ -22,7 +22,7 @@ export const back = {
     hemWidth: { pct: 3, min: 1, max: 5, menu: 'construction' },
     closurePosition: { dflt: 'back', list: ['front', 'side', 'back'], menu: 'construction' },
     //Advanced
-    fitSide: { bool: true, menu: 'advanced' },
+    fitWaist: { bool: true, menu: 'advanced' },
     // forceSide: { bool: false, menu: 'advanced' },
   },
   draft: ({
@@ -47,7 +47,7 @@ export const back = {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     //measures
-    const chestBack = store.get('chestBack')
+    const chestBack = store.get('chest') / 4
     // const hipsBack = store.get('hipsBack')
     // const seatBack = store.get('seatBack')
     // const shoulderToShoulder = store.get('shoulderToShoulder')
@@ -77,7 +77,7 @@ export const back = {
     // }
 
     // let hemLength
-    // if (options.fitSide) {
+    // if (options.fitWaist) {
     // hemLength = hemLengthTarget
     // } else {
     // if (hemLengthTarget > chestBack) {
@@ -130,10 +130,10 @@ export const back = {
     //body
     // points.sideChest = points.cChest.shift(0, chestBack)
     points.sideWaistAnchor = new Point(points.armhole.x, points.cWaist.y)
-    if (options.fitSide || waistDiff <= 0) {
+    if (options.fitWaist || waistDiff <= 0) {
       points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff)
       if (waistDiff <= 0) {
-        log.warning('waist is >= chest so options.fitSide is locked on')
+        log.warning('waist is >= chest so options.fitWaist is locked on')
       }
     } else {
       points.sideWaist = points.sideWaistAnchor

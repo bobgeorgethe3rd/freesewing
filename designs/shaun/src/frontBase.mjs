@@ -87,7 +87,7 @@ export const frontBase = {
     //hem
     points.cHemAnchor = points.cWaist.shift(-90, shirtLength)
     points.sideHemAnchor = new Point(points.armhole.x, points.cHemAnchor.y)
-    if (options.fitSide || hemDiff <= 0) {
+    if (options.fitWaist || hemDiff <= 0) {
       points.sideHem = points.sideHemAnchor.shift(180, hemDiff)
     } else {
       points.sideHem = points.sideHemAnchor

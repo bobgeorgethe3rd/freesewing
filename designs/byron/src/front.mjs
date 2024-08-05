@@ -35,7 +35,7 @@ export const front = {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     //measures
-    const chestFront = store.get('chestFront')
+    const chestFront = store.get('chest') / 4
     // const hipsFront = store.get('hipsFront')
     const neck = store.get('neck')
     // const seatFront = store.get('seatFront')
@@ -67,7 +67,7 @@ export const front = {
     // }
 
     // let hemLength
-    // if (options.fitSide) {
+    // if (options.fitWaist) {
     // hemLength = hemLengthTarget
     // } else {
     // if (hemLengthTarget > chestFront) {
@@ -118,10 +118,10 @@ export const front = {
     //body
     // points.sideChest = points.cChest.shift(0, chestFront)
     points.sideWaistAnchor = new Point(points.armhole.x, points.cWaist.y)
-    if (options.fitSide || waistDiff < 0) {
+    if (options.fitWaist || waistDiff < 0) {
       points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff)
       if (waistDiff < 0) {
-        log.warning('waist is > chest so options.fitSide is locked on')
+        log.warning('waist is > chest so options.fitWaist is locked on')
       }
     } else {
       points.sideWaist = points.sideWaistAnchor
