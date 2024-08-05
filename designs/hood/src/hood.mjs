@@ -7,6 +7,7 @@ export const hood = {
     useVoidStores: true,
     neckSaWidth: 0.01,
     //Style
+    hoodGuides: { bool: false, menu: 'style.hoods' },
     hoodFrontNeckDrop: { pct: 97.9, min: 70, max: 100, menu: 'style.hoods' },
     hoodDepth: { pct: 72.7, min: 60, max: 100, menu: 'style.hoods' },
     hoodWidth: { pct: 25, min: 0, max: 100, menu: 'style.hoods' },
@@ -136,7 +137,9 @@ export const hood = {
     points.cbCp1 = new Point(points.cb.x, points.left.y * 0.75)
 
     //paths
-    if (options.byronGuides || options.daisyGuides) {
+    if (options.byronGuides) options.hoodGuides = options.byronGuides
+    if (options.daisyGuides) options.hoodGuides = options.daisyGuides
+    if (options.hoodGuides) {
       paths.scaffold = new Path()
         .move(points.cf)
         .line(points.cfTopRight)

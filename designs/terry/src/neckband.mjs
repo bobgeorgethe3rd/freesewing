@@ -11,9 +11,10 @@ export const neckband = {
     ...neckbandCurved.options,
     ...hood.options,
     //Constants
-    useVoidStores: false, //Altered for Laura
-    neckbandOverlapSide: 'left', //Locked for Laura
-    neckbandOverlap: 0, //Locked for Laura
+    useVoidStores: false, //Altered for Terry
+    neckbandOverlapSide: 'left', //Locked for Terry
+    neckbandOverlap: 0, //Locked for Terry
+    hoodGuides: false, //Locked for Terry
     //Style
     neckbandStyle: { dflt: 'straight', list: ['straight', 'curved', 'hood'], menu: 'style' },
   },
