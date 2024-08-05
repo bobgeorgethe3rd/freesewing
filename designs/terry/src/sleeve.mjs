@@ -22,7 +22,7 @@ export const sleeve = {
       snap: 5,
       ...pctBasedOn('shoulderToWrist'),
       menu: 'sleeves',
-    }, //Altered for terry
+    }, //Altered for Terry
   },
   measurements: ssSleeve.measurements,
   draft: (sh) => {
