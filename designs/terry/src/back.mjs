@@ -16,7 +16,7 @@ export const back = {
     byronGuides: { bool: false, menu: 'fit' },
     chestEase: { pct: 10.2, min: 0, max: 20, menu: 'fit' }, //Altered for Terry
     waistEase: { pct: 25, min: 0, max: 35, menu: 'fit' }, //Altered for Terry
-    hipsEase: { pct: 20, min: 0, max: 25, menu: 'fit' },
+    hipsEase: { pct: 5.9, min: 0, max: 25, menu: 'fit' },
     seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' },
     neckbandEase: { pct: -10, min: -15, max: 0, menu: 'fit' },
     //Style
@@ -108,10 +108,13 @@ export const back = {
     )
     //hem
     points.cbHem = points.cWaist.shift(-90, bodyLength)
-    if (options.fitHem || measurements.seat / 4 > points.armhole.x) {
+    if (
+      (options.fitHem || (measurements.seat / 4 || measurements.hips / 4) > points.sideWaist.x) &&
+      bodyWidth > points.sideWaist.x
+    ) {
       points.sideHem = points.cbHem.shift(0, bodyWidth)
     } else {
-      points.sideHem = new Point(points.armhole.x, points.cbHem.y)
+      points.sideHem = new Point(points.sideWaist.x, points.cbHem.y)
     }
     //sideHem
     points.sideHemCp2 = new Point(points.sideHem.x, (points.sideWaist.y + points.sideHem.y) / 2)

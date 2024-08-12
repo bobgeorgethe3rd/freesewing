@@ -56,6 +56,7 @@ export const front = {
     macro('title', false)
     //measurements
     const neckbandWidth = store.get('neckbandWidth')
+    const bodyWidth = store.get('bodyWidth')
     //let's begin
     points.shoulderTop = points.hps.shiftTowards(points.shoulder, store.get('neckShoulder'))
     points.cfTop = points.cfNeck.shift(-90, store.get('neckbandWidth'))
@@ -67,10 +68,13 @@ export const front = {
     points.cfTopCp1 = points.cfTop.shiftFractionTowards(points.cfTopCorner, options.cfNeck)
     //hem
     points.cfHem = points.cWaist.shift(-90, store.get('bodyLength'))
-    if (options.fitHem || measurements.seat / 4 > points.armhole.x) {
-      points.sideHem = points.cfHem.shift(0, store.get('bodyWidth'))
+    if (
+      (options.fitHem || (measurements.seat / 4 || measurements.hips / 4) > points.sideWaist.x) &&
+      bodyWidth > points.sideWaist.x
+    ) {
+      points.sideHem = points.cfHem.shift(0, bodyWidth)
     } else {
-      points.sideHem = new Point(points.armhole.x, points.cfHem.y)
+      points.sideHem = new Point(points.sideWaist.x, points.cfHem.y)
     }
     //sideHem
     points.sideHemCp2 = new Point(points.sideHem.x, (points.sideWaist.y + points.sideHem.y) / 2)
