@@ -177,18 +177,12 @@ export const frontRight = {
         paths.hemBase.offset(hemSa).start().y
       )
 
-      paths.saArmhole = new Path()
-        .move(points.saArmhole)
-        .curve(points.saArmholeCp2, points.saArmholePitchCp1, points.saArmholePitch)
-        .curve_(points.saArmholePitchCp2, points.saShoulder)
-        .hide()
-
       paths.sa = paths.hemBase
         .offset(hemSa)
         .line(points.saSideHem)
         .join(paths.sideSeam.offset(sa * options.sideSeamSaWidth * 100))
         .line(points.saArmholeCorner)
-        .join(paths.saArmhole)
+        .join(paths.armhole.offset(sa * options.armholeSaWidth * 100))
         .line(points.saShoulderCorner)
         .line(points.saHps)
         .join(drawNeck().offset(neckSa))
