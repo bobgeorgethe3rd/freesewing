@@ -1,45 +1,24 @@
-import { pctBasedOn } from '@freesewing/core'
-import { back as byronBack } from '@freesewing/byron'
+import { pluginLogoRG } from '@freesewing/plugin-logorg'
+import { front as byronFront } from '@freesewing/byron'
+import { back } from './back.mjs'
 
-export const back = {
-  name: 'vincenzo.back',
-  from: byronBack,
+export const front = {
+  name: 'vincenzo.front',
+  from: byronFront,
+  after: back,
   hide: {
     from: true,
     inherited: true,
   },
   options: {
-    //Constants
-    closurePosition: 'none', //Locked for Vincenzo
-    //Fit
-    byronGuides: { bool: false, menu: 'fit' },
-    chestEase: { pct: 5.5, min: 0, max: 20, menu: 'fit' }, //Altered for Vincenzo
-    waistEase: { pct: 12.8, min: 0, max: 35, menu: 'fit' }, //Altered for Vincenzo
-    hipsEase: { pct: 5.9, min: 0, max: 25, menu: 'fit' },
-    seatEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
-    //Style
-    armholeDrop: { pct: 0, min: 0, max: 25, menu: 'style' },
-    bodyLength: { pct: 50, min: 0, max: 100, menu: 'style' },
-    bodyLengthBonus: { pct: 38.1, min: -20, max: 50, menu: 'style' },
-    shoulderPitch: { pct: 60, min: 25, max: 75, menu: 'style' },
-    shoulderWidth: {
-      pct: 38,
-      min: 20,
-      max: 45,
-      snap: 2.5,
-      ...pctBasedOn('hpsToShoulder'),
-      menu: 'style',
-    },
+    //Pockets
+    pocketsBool: { bool: true, menu: 'pockets' },
+    patchPocketWidth: { pct: 46.6, min: 30, max: 60, menu: 'pockets.patchPockets' },
+    patchPocketDepth: { pct: 95, min: 70, max: 110, menu: 'pockets.patchPockets' },
     //Construction
-    armholeSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Vincenzo
-    cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Vincenzo
-    neckSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Vincenzo
-    hemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Vincenzo
-    //Advanced
-    fitWaist: { bool: false, menu: 'advanced' }, //Altered for Vincenzo
-    fitHem: { bool: false, menu: 'advanced' }, //Altered for Vincenzo
+    cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Vincenzo
   },
-  measurements: ['hips', 'seat', 'waistToHips', 'waistToSeat'],
+  plugins: [pluginLogoRG],
   draft: ({
     store,
     sa,
@@ -71,27 +50,10 @@ export const back = {
     delete snippets.armholePitch
     //remove macros
     macro('title', false)
-    macro('scalebox', false)
     //measurements
-    const hips = measurements.hips * (1 + options.hipsEase)
-    const seat = measurements.seat * (1 + options.seatEase)
-    const shoulderWidth = absoluteOptions.shoulderWidth
-
-    let bodyLength
-    let bodyWidth
-    if (options.bodyLength < 0.5) {
-      bodyLength = measurements.waistToHips * 2 * options.bodyLength
-      bodyWidth =
-        points.sideWaist.x * (1 - 2 * options.bodyLength) + (hips / 4) * (2 * options.bodyLength)
-    } else {
-      bodyLength =
-        measurements.waistToHips * (-2 * options.bodyLength + 2) +
-        measurements.waistToSeat * (2 * options.bodyLength - 1)
-      bodyWidth =
-        (hips / 4) * (-2 * options.bodyLength + 2) + (seat / 4) * (2 * options.bodyLength - 1)
-    }
-    bodyLength = bodyLength * (1 + options.bodyLengthBonus)
-
+    const shoulderWidth = store.get('shoulderWidth')
+    const bodyWidth = store.get('bodyWidth')
+    const patchPocketWidth = points.shoulder.x * options.patchPocketWidth
     //let's begin
     //neck & armhole
     points.shoulderPitch = points.shoulder.shiftFractionTowards(points.hps, options.shoulderPitch)
@@ -100,7 +62,7 @@ export const back = {
     points.armhole = paths.sideSeam.reverse().shiftFractionAlong(options.armholeDrop)
     points.armholePitch = points.cArmholePitch.shift(
       0,
-      points.shoulder.x * options.backArmholePitchWidth
+      points.shoulder.x * options.frontArmholePitchWidth
     )
     points.armholePitchCp2 = utils.beamsIntersect(
       points.armholePitch,
@@ -110,34 +72,32 @@ export const back = {
     )
     points.armholePitchCp1 = points.armholePitch.shiftFractionTowards(
       new Point(points.armholePitch.x, points.armhole.y),
-      options.backArmholeDepth
+      options.frontArmholeDepth
     )
+
     points.armholeCp2 = points.armhole.shiftFractionTowards(
       new Point(points.armholePitch.x, points.armhole.y),
-      options.backArmholeDepth
+      options.frontArmholeDepth
+    )
+    points.cfTop = utils.beamIntersectsX(
+      points.hpsTop,
+      points.hpsTop.shift(points.hps.angle(points.cfNeck), 1),
+      points.cfNeck.x
     )
 
-    points.cbTop = utils.beamIntersectsX(
-      points.hpsTop,
-      points.hpsTop.shift(points.hps.angle(points.cbNeck), 1),
-      points.cbNeck.x
-    )
-
-    points.cbTopCp1 = utils.beamIntersectsY(
-      points.hpsTop,
-      points.hpsTop.shift(points.hps.angle(points.cbNeckCp1), 1),
-      points.cbTop.y
-    )
+    points.cfTopCorner = new Point(points.hpsTop.x, points.cfTop.y)
+    points.hpsTopCp2 = points.hpsTop.shiftFractionTowards(points.cfTopCorner, options.cfNeck)
+    points.cfTopCp1 = points.cfTop.shiftFractionTowards(points.cfTopCorner, options.cfNeck)
 
     //hem
-    points.cbHem = points.cWaist.shift(-90, bodyLength)
+    points.cfHem = points.cWaist.shift(-90, store.get('bodyLength'))
     if (
       (options.fitHem || (measurements.seat / 4 || measurements.hips / 4) > points.sideWaist.x) &&
       bodyWidth > points.sideWaist.x
     ) {
-      points.sideHem = points.cbHem.shift(0, bodyWidth)
+      points.sideHem = points.cfHem.shift(0, bodyWidth)
     } else {
-      points.sideHem = new Point(points.sideWaist.x, points.cbHem.y)
+      points.sideHem = new Point(points.sideWaist.x, points.cfHem.y)
     }
     //sideHem
     points.sideHemCp2 = new Point(points.sideHem.x, (points.sideWaist.y + points.sideHem.y) / 2)
@@ -146,7 +106,7 @@ export const back = {
     paths.sideSeam = new Path()
       .move(points.sideHem)
       .curve(points.sideHemCp2, points.sideWaistCp1, points.sideWaist)
-      .join(paths.sideSeam)
+      .curve_(points.sideWaistCp2, points.armhole)
       .hide()
 
     if (!points.armhole.sitsRoughlyOn(paths.sideSeam.end())) {
@@ -159,38 +119,44 @@ export const back = {
       .curve_(points.armholePitchCp2, points.shoulder)
       .hide()
 
-    paths.cbNeck = new Path().move(points.hpsTop)._curve(points.cbTopCp1, points.cbTop).hide()
+    paths.cfNeck = new Path()
+      .move(points.hpsTop)
+      .curve(points.hpsTopCp2, points.cfTopCp1, points.cfTop)
+      .hide()
 
     paths.seam = new Path()
-      .move(points.cbHem)
+      .move(points.cfHem)
       .line(points.sideHem)
       .join(paths.sideSeam)
       .join(paths.armhole)
       .line(points.hpsTop)
-      .join(paths.cbNeck)
-      .line(points.cbHem)
+      .join(paths.cfNeck)
       .close()
 
-    //stores
-    store.set('bodyLength', bodyLength)
-    store.set('bodyWidth', bodyWidth)
-    store.set('shoulderWidth', shoulderWidth)
-    store.set('neckBack', paths.cbNeck.length())
-    store.set('armholeBack', paths.armhole.length())
+    //pocket
+    points.pocketMid = new Point(
+      points.armholePitch.x / 2,
+      points.cArmholePitch.shiftFractionTowards(points.cArmhole, 2 / 3).y
+    )
+    points.pocketLeft = points.pocketMid.shift(180, patchPocketWidth / 2)
+    points.pocketRight = points.pocketLeft.flipX(points.pocketMid)
 
+    //stores
+    store.set('patchPocketWidth', patchPocketWidth)
+    store.set('patchPocketDepth', patchPocketWidth * options.patchPocketDepth)
     if (complete) {
       //grainline
-      if (options.cbSaWidth == 0) {
-        points.cutOnFoldFrom = points.cbTop
-        points.cutOnFoldTo = points.cbHem
+      if (options.cfSaWidth == 0) {
+        points.cutOnFoldFrom = points.cfTop
+        points.cutOnFoldTo = points.cfHem
         macro('cutonfold', {
           from: points.cutOnFoldFrom,
           to: points.cutOnFoldTo,
           grainline: true,
         })
       } else {
-        points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 0.25)
-        points.grainlineTo = new Point(points.grainlineFrom.x, points.cbHem.y)
+        points.grainlineFrom = points.cfNeck.shiftFractionTowards(points.cfNeckCp1, 1 / 3)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
         macro('grainline', {
           from: points.grainlineFrom,
           to: points.grainlineTo,
@@ -200,26 +166,60 @@ export const back = {
       if (options.bodyLength > 0) {
         snippets.sideWaist = new Snippet('notch', points.sideWaist)
       }
-      snippets.armholePitch = new Snippet('bnotch', points.armholePitch)
+      snippets.armholePitch = new Snippet('notch', points.armholePitch)
       //title
       points.title = new Point(
         points.shoulder.x * 0.45,
-        points.armholePitch.y + (points.sideHem.y - points.armholePitch.y) * 0.25
+        points.armhole.y + (points.sideHem.y - points.armhole.y) * 0.1
       )
       macro('title', {
         at: points.title,
-        nr: '1',
-        title: 'Back',
+        nr: '2',
+        title: 'Front',
         scale: 0.5,
       })
+      //logo
+      points.logo = new Point(
+        points.shoulder.x * 0.5,
+        points.armhole.y + (points.sideHem.y - points.armhole.y) * 0.4
+      )
+      macro('logorg', { at: points.logo, scale: 0.5 })
+      //scalebox
+      points.scalebox = new Point(
+        points.shoulder.x * 0.5,
+        points.armhole.y + (points.sideHem.y - points.armhole.y) * 0.8
+      )
+      macro('scalebox', { at: points.scalebox })
+      //pockets
+      if (options.pocketsBool) {
+        paths.pocketline = new Path()
+          .move(points.pocketLeft)
+          .line(points.pocketRight)
+          .attr('class', 'mark')
+          .attr('data-text', 'Pocket line')
+          .attr('data-text-class', 'center')
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketLeft', 'pocketRight'],
+        })
+      }
+      //binding info
+      points.neckBinding = new Point(points.armholePitch.x, points.sideHem.y * 0.85).attr(
+        'data-text',
+        'Neck Binding Length: ' + utils.units((paths.cfNeck.length() + store.get('neckBack')) * 2)
+      )
+      points.armholeBinding = new Point(points.armholePitch.x, points.sideHem.y * 0.9).attr(
+        'data-text',
+        'Armhole Binding Length: ' + utils.units(paths.armhole.length() + store.get('armholeBack'))
+      )
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const armholeSa = sa * options.armholeSaWidth * 100
         const neckSa = sa * options.neckSaWidth * 100
-        const cbSa = sa * options.cbSaWidth * 100
+        const cfSa = sa * options.cfSaWidth * 100
 
-        points.saCbHem = points.cbHem.translate(-cbSa, hemSa)
+        points.saCfHem = points.cfHem.translate(-cfSa, hemSa)
         points.saSideHem = points.sideHem.translate(sideSeamSa, hemSa)
 
         points.saArmholeCorner = utils.beamIntersectsY(
@@ -240,31 +240,32 @@ export const back = {
         )
 
         points.saShoulderTop = utils.beamsIntersect(
-          paths.cbNeck.offset(neckSa).start(),
-          paths.cbNeck
+          paths.cfNeck.offset(neckSa).start(),
+          paths.cfNeck
             .offset(neckSa)
             .start()
             .shift(points.hps.angle(points.shoulder) + 90, 1),
           points.saShoulderCorner,
           points.saHps
         )
-        points.saCbTop = points.cbTop.translate(-cbSa, -neckSa)
+        points.saCfTop = points.cfTop.translate(-cfSa, -neckSa)
 
         paths.sa = new Path()
-          .move(points.saCbHem)
+          .move(points.saCfHem)
           .line(points.saSideHem)
           .join(paths.sideSeam.offset(sideSeamSa))
           .line(points.saArmholeCorner)
           .join(paths.armhole.offset(armholeSa))
           .line(points.saShoulderCorner)
           .line(points.saShoulderTop)
-          .join(paths.cbNeck.offset(neckSa))
-          .line(points.saCbTop)
-          .line(points.saCbHem)
+          .join(paths.cfNeck.offset(neckSa))
+          .line(points.saCfTop)
+          .line(points.saCfHem)
           .close()
           .attr('class', 'fabric sa')
       }
     }
+
     return part
   },
 }
