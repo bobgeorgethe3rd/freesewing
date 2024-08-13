@@ -441,6 +441,13 @@
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
       "tags": ["tops", "shirts", "t-shirts"]
+    },
+    "vincenzo": {
+      "description": "Vincenzo vest design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "vests"]
     }
   },
   "waistbands": {

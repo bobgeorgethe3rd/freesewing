@@ -424,6 +424,9 @@ titan:
 trayvon:
   peer:
     '@freesewing/snapseries': *freesewing
+vincenzo:
+  peer:
+    '@freesewing/byron': *freesewing
 wanda:
   peer:
     '@freesewing/waistbandstraight': *freesewing
