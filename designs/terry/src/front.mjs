@@ -1,4 +1,3 @@
-import { pctBasedOn } from '@freesewing/core'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 import { front as byronFront } from '@freesewing/byron'
 import { back } from './back.mjs'
