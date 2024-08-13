@@ -427,6 +427,7 @@ trayvon:
 vincenzo:
   peer:
     '@freesewing/byron': *freesewing
+    '@freesewing/patchpocket': *freesewing
 wanda:
   peer:
     '@freesewing/waistbandstraight': *freesewing
