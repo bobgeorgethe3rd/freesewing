@@ -10,7 +10,7 @@ export const back = {
   },
   options: {
     //Constants
-    useChestFront: false, //Locked for Terry
+    // useChestFront: false, //Locked for Terry
     closurePosition: 'none', //Locked for Terry
     //Fit
     byronGuides: { bool: false, menu: 'fit' },
