@@ -58,8 +58,8 @@ export const back = {
     points.sideWaistCp1 = utils.beamIntersectsY(points.armhole, points.sideWaist, points.cbHips.y)
     points.armholeDrop = points.armhole.shiftTowards(points.sideWaist, store.get('armholeDrop'))
 
-    points.shoulderPitchMin = points.hps.shiftFractionTowards(
-      points.shoulder,
+    points.shoulderPitchMin = points.shoulder.shiftFractionTowards(
+      points.hps,
       options.shoulderPitch
     )
     points.shoulderPitchMax = new Point(

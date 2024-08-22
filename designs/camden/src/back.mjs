@@ -64,7 +64,7 @@ export const back = {
     const sideAngle = store.get('sideAngle')
     //let's begin
     //strap placement
-    points.shoulderPitch = points.hps.shiftFractionTowards(points.shoulder, options.shoulderPitch)
+    points.shoulderPitch = points.shoulder.shiftFractionTowards(points.hps, options.shoulderPitch)
     points.shoulderPitchMax = new Point(points.shoulderPitch.x, points.armholePitch.y)
     points.strapMid = points.shoulderPitch.shiftFractionTowards(
       points.shoulderPitchMax,

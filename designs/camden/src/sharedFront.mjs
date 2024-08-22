@@ -17,7 +17,7 @@ export const sharedFront = {
     bodyEase: { pct: 5, min: 0, max: 20, menu: 'fit' },
     //Style
     armholeDrop: { pct: 25, min: 0, max: 75, menu: 'style' },
-    shoulderPitch: { pct: 50, min: 30, max: 60, menu: 'style' },
+    shoulderPitch: { pct: 50, min: 40, max: 70, menu: 'style' },
     frontShoulderDepth: { pct: 80, min: 0, max: 100, menu: 'style' },
     backShoulderDepth: { pct: 80, min: 0, max: 100, menu: 'style' },
     frontNeckDepth: { pct: 60, min: 0, max: 100, menu: 'style' },
@@ -64,7 +64,7 @@ export const sharedFront = {
     //let's begin
     paths.daisyGuide = paths.guide
     //strap placement
-    points.shoulderPitch = points.hps.shiftFractionTowards(points.shoulder, options.shoulderPitch)
+    points.shoulderPitch = points.shoulder.shiftFractionTowards(points.hps, options.shoulderPitch)
     points.shoulderPitchMax = new Point(points.shoulderPitch.x, points.armholePitch.y)
     points.strapMid = points.shoulderPitch.shiftFractionTowards(
       points.shoulderPitchMax,

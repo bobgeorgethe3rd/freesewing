@@ -26,7 +26,7 @@ export const front = {
     armholeDrop: { pct: 50, min: 0, max: 100, menu: 'style' },
     lengthBonus: { pct: -2, min: -20, max: 50, menu: 'style' },
     ruffleWidth: { pct: 25.1, min: 20, max: 30, menu: 'style' },
-    shoulderPitch: { pct: 58.3, min: 30, max: 60, menu: 'style' },
+    shoulderPitch: { pct: 41.7, min: 40, max: 70, menu: 'style' },
     frontShoulderDepth: { pct: 100, min: 0, max: 100, menu: 'style' },
     frontNeckDepth: { pct: 50, min: 0, max: 100, menu: 'style' },
     frontNeckCurve: { pct: 50, min: 0, max: 100, menu: 'style' },
@@ -179,8 +179,8 @@ export const front = {
       }
     }
 
-    points.shoulderPitchMin = points.hps.shiftFractionTowards(
-      points.shoulder,
+    points.shoulderPitchMin = points.shoulder.shiftFractionTowards(
+      points.hps,
       options.shoulderPitch
     )
     points.shoulderPitchMax = new Point(points.shoulderPitchMin.x, points.armholePitch.y)
