@@ -53,27 +53,27 @@ export const sleeveFront = {
       prefix: 'm',
     })
 
-    let tweak = 0.5
-    let delta
-    do {
-      points.raglanCp = points.shoulderTop.shiftFractionTowards(points.shoulder, 1 + tweak)
+    // let tweak = 0.5
+    // let delta
+    // do {
+    points.raglanCp = points.shoulderTop.shiftFractionTowards(points.shoulder, 2 /* * tweak */)
 
-      points.raglanBottom = utils.beamsIntersect(
-        points.mArmhole,
-        points.armholeRaglanCp2,
-        points.raglanCp,
-        points.raglanCp.shift(points.armholeRaglanCp2.angle(points.mArmhole) + 90, 1)
-      )
+    points.raglanBottom = utils.beamsIntersect(
+      points.mArmhole,
+      points.armholeRaglanCp2,
+      points.raglanCp,
+      points.raglanCp.shift(points.armholeRaglanCp2.angle(points.mArmhole) + 90, 1)
+    )
 
-      paths.shoulder = new Path()
-        .move(points.raglanBottom)
-        .curve(points.raglanCp, points.raglanCp, points.shoulderTop)
-        .hide()
+    paths.shoulder = new Path()
+      .move(points.raglanBottom)
+      .curve(points.raglanCp, points.raglanCp, points.shoulderTop)
+      .hide()
 
-      delta = paths.shoulder.length() - store.get('shoulderRaglanLength')
-      if (delta > 0) tweak = tweak * 0.99
-      else tweak = tweak * 1.01
-    } while (Math.abs(delta) > 1)
+    // delta = paths.shoulder.length() - store.get('shoulderRaglanLength')
+    // if (delta > 0) tweak = tweak * 0.99
+    // else tweak = tweak * 1.01
+    // } while (Math.abs(delta) > 1)
 
     points.shoulderSplit = paths.shoulder
       .reverse()

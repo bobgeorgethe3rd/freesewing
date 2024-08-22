@@ -87,7 +87,7 @@ export const sleeveBack = {
       .close()
 
     //stores
-    store.set('shoulderRaglanLength', paths.shoulder.length())
+    // store.set('shoulderRaglanLength', paths.shoulder.length())
 
     if (complete) {
       //grainline
