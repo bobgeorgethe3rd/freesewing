@@ -1,19 +1,26 @@
 import { sleeve as spreadSleeve } from '@freesewing/spreadsleeve'
-import { sleeveBase } from './sleeveBase.mjs'
+// import { sleeveBase } from './sleeveBase.mjs'
 import { backBase } from './backBase.mjs'
 import { frontBase } from './frontBase.mjs'
 
 export const sleeve = {
   name: 'scott.sleeve',
-  from: sleeveBase,
+  // from: sleeveBase,
   after: [backBase, frontBase],
-  hide: {
-    from: true,
-    inherited: true,
-  },
+  // hide: {
+  // from: true,
+  // inherited: true,
+  // },
   options: {
     //Imported
+    ...spreadSleeve.from.options,
     ...spreadSleeve.options,
+    //Constants
+    useVoidStores: false, //Altered for Scott
+    sleeveFlounces: 'none', //Locked for Scott
+    //Sleeves
+    sleevesBool: { bool: true, menu: 'sleeves' },
+    sleeveBands: { bool: true, menu: 'sleeves' },
   },
   draft: (sh) => {
     //draft
@@ -38,6 +45,7 @@ export const sleeve = {
     } = sh
     //draft
     if (options.sleevesBool) {
+      spreadSleeve.from.draft(sh)
       spreadSleeve.draft(sh)
     } else {
       part.hide()

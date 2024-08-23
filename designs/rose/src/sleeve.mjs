@@ -1,16 +1,17 @@
 import { sleeve as capSleeve } from '@freesewing/capsleeve'
-import { sleeveBase } from './sleeveBase.mjs'
+// import { sleeveBase } from './sleeveBase.mjs'
 import { back } from './back.mjs'
 
 export const sleeve = {
   name: 'rose.sleeve',
-  from: sleeveBase,
+  // from: sleeveBase,
   after: back,
-  hide: {
-    from: true,
-  },
+  // hide: {
+  // from: true,
+  // },
   options: {
     //Imported
+    ...capSleeve.from.options,
     ...capSleeve.options,
   },
   draft: (sh) => {
@@ -36,6 +37,7 @@ export const sleeve = {
     } = sh
     //draft
     if (options.sleevesBool) {
+      capSleeve.from.draft(sh)
       capSleeve.draft(sh)
     } else {
       part.hide()

@@ -9,7 +9,7 @@ import { front } from './front.mjs'
 import { sideFront } from './sideFront.mjs'
 import { back } from './back.mjs'
 import { sideBack } from './sideBack.mjs'
-import { sleeveBase } from './sleeveBase.mjs'
+// import { sleeveBase } from './sleeveBase.mjs'
 import { sleeve } from './sleeve.mjs'
 import { sleeveBand } from './sleeveBand.mjs'
 import { skirtBase } from './skirtBase.mjs'
@@ -32,7 +32,7 @@ const Scott = new Design({
     sideFront,
     back,
     sideBack,
-    sleeveBase,
+    // sleeveBase,
     sleeve,
     sleeveBand,
     skirtBase,
@@ -55,7 +55,7 @@ export {
   sideFront,
   back,
   sideBack,
-  sleeveBase,
+  // sleeveBase,
   sleeve,
   sleeveBand,
   skirtBase,
