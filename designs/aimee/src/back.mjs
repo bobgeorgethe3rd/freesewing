@@ -45,7 +45,7 @@ export const back = {
       points.shoulder,
       store.get('shoulderRise')
     )
-    points.armholeDrop = points.armhole.shiftTowards(points.sideWaist, store.get('armholeDrop'))
+    points.armholeDrop = points.armhole.shiftFractionTowards(points.sideWaist, options.armholeDrop)
 
     points.bodiceSleeveTopMax = points.shoulderRise.shift(
       points.hps.angle(points.shoulderRise),

@@ -33,7 +33,7 @@ export const front = {
     fitSleeveWidth: { bool: true, menu: 'sleeves' },
     sleeveLength: { pct: 100, min: 0, max: 100, menu: 'sleeves' },
     sleeveLengthBonus: { pct: 0, min: -10, max: 20, menu: 'sleeves' },
-    armholeDrop: { pct: 29, min: 0, max: 35, menu: 'sleeves' },
+    armholeDrop: { pct: 22.6, min: 0, max: 35, menu: 'sleeves' }, //29
     underArmSleeveLength: { pct: 6.6, min: 6, max: 8, menu: 'sleeves' },
     //Construction
     cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Aimee
@@ -76,13 +76,13 @@ export const front = {
     const shoulderToElbow = measurements.shoulderToElbow * (1 + options.sleeveLengthBonus)
     const shoulderToWrist = measurements.shoulderToWrist * (1 + options.sleeveLengthBonus)
     const wrist = measurements.wrist * (1 + options.wristEase)
-    const armholeDrop = measurements.waistToArmpit * options.armholeDrop
+    // const armholeDrop = measurements.waistToArmpit * options.armholeDrop
     const underArmSleeveLength = measurements.shoulderToWrist * options.underArmSleeveLength
 
     //let's begin
     //armhole scaffolding
     points.shoulderRise = points.armholePitchCp2.shiftOutwards(points.shoulder, shoulderRise)
-    points.armholeDrop = points.armhole.shiftTowards(points.sideWaist, armholeDrop)
+    points.armholeDrop = points.armhole.shiftFractionTowards(points.sideWaist, options.armholeDrop)
 
     points.bodiceSleeveTopMin = utils.beamsIntersect(
       points.hps,
@@ -281,7 +281,7 @@ export const front = {
       .close()
 
     //stores
-    store.set('armholeDrop', armholeDrop)
+    // store.set('armholeDrop', armholeDrop)
     store.set('shoulderRise', shoulderRise)
     store.set('underArmSleeveLength', underArmSleeveLength)
     store.set('sleeveLengthMin', points.hps.dist(points.bodiceSleeveTopMin))
