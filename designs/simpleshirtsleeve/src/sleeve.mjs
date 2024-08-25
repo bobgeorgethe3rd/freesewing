@@ -12,6 +12,7 @@ export const sleeve = {
     //Constants
     sleeveFlounces: 'none', //Locked for Simpleshirtsleeve
     sleeveBands: false, //Locked for Simpleshirtsleeve
+    sleeveHemWidth: 0, //Locked for Simpleshirtsleeve
     //Sleeves
     sleeveHemStyle: { dflt: 'cuffed', list: ['cuffed', 'band', 'turnover'], menu: 'sleeves' },
     sleeveLength: { pct: 25, min: 10, max: 100, menu: 'sleeves' },
