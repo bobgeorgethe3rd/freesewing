@@ -59,9 +59,6 @@ export const back = {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     //measures
-    if (options.draftForHighBust && measurements.highBust) {
-      measurements.chest = measurements.highBust
-    }
     // const hipsBack = store.get('hipsBack')
     // const seatBack = store.get('seatBack')
     // const shoulderToShoulder = store.get('shoulderToShoulder')

@@ -104,6 +104,9 @@ export const sharedBase = {
     // 'chestFront measurements not available please add for separate chest measures'
     // )
     // }
+    if (options.draftForHighBust && measurements.highBust) {
+      measurements.chest = measurements.highBust
+    }
     const neck = measurements.neck * (1 + options.neckEase)
     const chest = measurements.chest * (1 + options.chestEase)
     const waist = measurements.waist * (1 + options.waistEase)
