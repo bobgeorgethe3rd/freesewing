@@ -62,9 +62,6 @@ export const back = {
     if (options.draftForHighBust && measurements.highBust) {
       measurements.chest = measurements.highBust
     }
-    const chest = measurements.chest * (1 + options.chestEase)
-    const waist = measurements.waist * (1 + options.waistEase)
-    const waistDiff = (chest - waist) / 4
     // const hipsBack = store.get('hipsBack')
     // const seatBack = store.get('seatBack')
     // const shoulderToShoulder = store.get('shoulderToShoulder')
@@ -118,7 +115,6 @@ export const back = {
     )
 
     //armhole
-    points.armhole = points.cArmhole.shift(0, chest / 4)
     // points.armholePitch = points.cArmholePitch.shift(
     // 0,
     // (shoulderToShoulder * options.backArmholePitchWidth) / 2
@@ -142,22 +138,6 @@ export const back = {
       new Point(points.armholePitch.x, points.armhole.y),
       options.backArmholeDepth
     )
-
-    //body
-    // points.sideChest = points.cChest.shift(0, chestBack)
-    points.sideWaistAnchor = new Point(points.armhole.x, points.cWaist.y)
-    if (options.fitWaist || waistDiff <= 0) {
-      points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff)
-      if (waistDiff <= 0) {
-        log.warning('waist is >= chest so options.fitWaist is locked on')
-      }
-    } else {
-      points.sideWaist = points.sideWaistAnchor
-    }
-    // points.sideHips = points.cHips.shift(0, hipsBack)
-    // points.sideSeat = points.cSeat.shift(0, seatBack)
-    // points.sideHem = points.cHem.shift(0, hemLength)
-    points.sideWaistCp2 = new Point(points.sideWaist.x, (points.armhole.y + points.sideWaist.y) / 2)
 
     //guides
     // paths.cbNeck = new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck)
@@ -205,9 +185,9 @@ export const back = {
       .close()
 
     //stores
-    store.set('chest', chest)
-    store.set('waist', waist)
-    store.set('waistDiff', waistDiff)
+    // store.set('chest', chest)
+    // store.set('waist', waist)
+    // store.set('waistDiff', waistDiff)
     store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
     store.set(
       'scyeBackDepth',

@@ -104,8 +104,10 @@ export const sharedBase = {
     // 'chestFront measurements not available please add for separate chest measures'
     // )
     // }
-
     const neck = measurements.neck * (1 + options.neckEase)
+    const chest = measurements.chest * (1 + options.chestEase)
+    const waist = measurements.waist * (1 + options.waistEase)
+    const waistDiff = (chest - waist) / 4
     // const shoulderToShoulder =
     // measurements.shoulderToShoulder * (1 + options.shoulderToShoulderEase)
     // let waistDiff = chest - waist
@@ -183,6 +185,21 @@ export const sharedBase = {
       measurements.hpsToShoulder * (1 + options.shoulderToShoulderEase)
     )
 
+    //body
+    points.armhole = points.cArmhole.shift(0, chest / 4)
+    points.sideWaistAnchor = new Point(points.armhole.x, points.cWaist.y)
+    if (options.fitWaist || waistDiff <= 0) {
+      points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff)
+      if (waistDiff <= 0) {
+        log.warning('waist is >= chest so options.fitWaist is locked on')
+      }
+    } else {
+      points.sideWaist = points.sideWaistAnchor
+    }
+    // points.sideHips = points.cHips.shift(0, hipsBack)
+    // points.sideSeat = points.cSeat.shift(0, seatBack)
+    // points.sideHem = points.cHem.shift(0, hemLength)
+    points.sideWaistCp2 = new Point(points.sideWaist.x, (points.armhole.y + points.sideWaist.y) / 2)
     //guides Uncomment to see/for helping when making changes
 
     // paths.centre = new Path().move(points.origin).line(points.cbNeck).line(points.cSeat)
@@ -197,6 +214,9 @@ export const sharedBase = {
     // store.set('hipsBack', hipsBack)
     // store.set('hipsFront', hipsFront)
     store.set('neck', neck)
+    store.set('chest', chest)
+    store.set('waist', waist)
+    store.set('waistDiff', waistDiff)
     // store.set('seatBack', seatBack)
     // store.set('seatFront', seatFront)
     // store.set('shoulderToShoulder', shoulderToShoulder)

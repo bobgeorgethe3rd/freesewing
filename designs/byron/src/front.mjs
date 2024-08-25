@@ -38,7 +38,7 @@ export const front = {
     // const hipsFront = store.get('hipsFront')
     // const seatFront = store.get('seatFront')
     // const shoulderToShoulder = store.get('shoulderToShoulder')
-    const waistDiff = store.get('waistDiff')
+    // const waistDiff = store.get('waistDiff')
 
     // let hemLengthTarget
     // if (options.bodyLength < 0.5) {
@@ -87,7 +87,7 @@ export const front = {
     points.cfNeckCp1 = points.cfNeck.shiftFractionTowards(points.cfNeckCorner, options.cfNeck)
 
     //armhole
-    points.armhole = points.cArmhole.shift(0, store.get('chest') / 4)
+    // points.armhole = points.cArmhole.shift(0, store.get('chest') / 4)
     // points.armholePitch = points.cArmholePitch.shift(
     // 0,
     // (shoulderToShoulder * options.frontArmholePitchWidth) / 2
@@ -114,7 +114,7 @@ export const front = {
     )
 
     //body
-    // points.sideChest = points.cChest.shift(0, chestFront)
+    /* // points.sideChest = points.cChest.shift(0, chestFront)
     points.sideWaistAnchor = new Point(points.armhole.x, points.cWaist.y)
     if (options.fitWaist || waistDiff < 0) {
       points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff)
@@ -127,7 +127,7 @@ export const front = {
     // points.sideHips = points.cHips.shift(0, hipsFront)
     // points.sideSeat = points.cSeat.shift(0, seatFront)
     // points.sideHem = points.cHem.shift(0, hemLength)
-    points.sideWaistCp2 = new Point(points.sideWaist.x, (points.armhole.y + points.sideWaist.y) / 2)
+    points.sideWaistCp2 = new Point(points.sideWaist.x, (points.armhole.y + points.sideWaist.y) / 2) */
 
     //guides
     // paths.cfNeck = new Path()
