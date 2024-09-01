@@ -50,6 +50,11 @@ export const backFacing = {
     points.sideFacing = points.armhole.shiftTowards(points.sideWaist, facingWidth)
     points.bottomLeftFacingCp2 = new Point(points.dartTip.x, points.bottomLeftFacing.y)
     points.sideFacingCp1 = new Point(points.dartTip.x, points.sideFacing.y)
+    if (options.bodiceStyle == 'seam')
+      points.armholePitchCp1 = points.armholePitch.shiftFractionTowards(
+        /* points.armholeCpMax, // */ new Point(points.armholePitch.x, points.armhole.y),
+        options.backArmholeDepth
+      )
     //paths
     const drawNeck = () => {
       if (options.closurePosition == 'back' && options.placketStyle != 'none') {

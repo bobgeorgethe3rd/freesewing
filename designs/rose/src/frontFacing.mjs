@@ -107,8 +107,9 @@ export const frontFacing = {
         const bodiceFacingHem = sa * options.bodiceFacingHemWidth * 100
 
         if (options.bodiceStyle == 'seam' || options.bustDartPlacement == 'armholePitch') {
-          const rot = ['saArmholeCorner', 'saArmhole', 'saArmholeCp2', 'saArmholePitchCp1']
-          for (const p of rot) points[p] = points[p].rotate(bustDartAngle, points.bust)
+          // const rot = ['saArmholeCorner', 'saArmhole', 'saArmholeCp2', 'saArmholePitchCp1']
+          // for (const p of rot) points[p] = points[p].rotate(bustDartAngle, points.bust)
+          points.saArmholeCorner = points.saArmholeCorner.rotate(bustDartAngle, points.bust)
         }
         points.saSideFacing = utils.beamIntersectsY(
           points.saArmholeCorner,
