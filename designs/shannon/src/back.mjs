@@ -12,6 +12,10 @@ export const back = {
   options: {
     //Imported
     ...backAimee.options,
+    //Armhole
+    backArmholePitchWidth: { pct: 97, min: 95, max: 98.5, menu: 'armhole' }, //Unlocked for Shannon
+    backArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' }, //Unlocked for Shannon
+    backArmholePitchDepth: { pct: 50, min: 45, max: 65, menu: 'armhole' }, //Unlocked for Shannon
     //Construction
     cbSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Shannon
   },

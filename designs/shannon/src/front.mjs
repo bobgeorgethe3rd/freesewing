@@ -36,6 +36,10 @@ export const front = {
     skirtLength: { pct: 150, min: 0, max: 200, menu: 'style' },
     skirtLengthBonus: { pct: 0, min: -50, max: 50, menu: 'style' },
     neckTieWidth: { pct: 6.5, min: 5, max: 8, snap: 3.175, ...pctBasedOn('hpsToWaistBack') },
+    //Armhole
+    frontArmholePitchDepth: { pct: 50, min: 45, max: 65, menu: 'armhole' }, //Unlocked for Shannon
+    frontArmholePitchWidth: { pct: 91.1, min: 90, max: 95, menu: 'armhole' }, //Unlocked for Shannon
+    frontArmholeDepth: { pct: /* 44.8 */ 55.2, min: 40, max: 65, menu: 'armhole' }, //Unlocked for Shannon
     //Darts
     bustDartLength: { pct: 70, min: 60, max: 100, menu: 'darts' }, //Unlocked for Shannon
     //Plackets
