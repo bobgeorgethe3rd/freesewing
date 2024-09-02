@@ -58,6 +58,10 @@ export const neckband = {
       folded: options.neckbandFolded,
       closurePosition: options.neckbandClosurePosition,
       sideSa: store.get('neckbandSideSa'),
+      north: 'Centre Front',
+      east: 'Shoulder Seam',
+      south: 'Centre Back',
+      west: 'Shoulder Seam',
       prefix: 'neckband',
     })
 

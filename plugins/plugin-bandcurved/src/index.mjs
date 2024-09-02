@@ -33,6 +33,10 @@ export const plugin = {
         overlap: 0,
         overlapSide: 'left',
         closurePosition: 'back',
+        north: 'North',
+        east: 'East',
+        south: 'South',
+        west: 'West',
         sideSa: sa,
       }
       so = { ...defaults, ...so }
@@ -225,8 +229,10 @@ export const plugin = {
           points[prefixFunction('bottomRightNotch')] = paths[prefixFunction('bottomCurve')]
             .reverse()
             .shiftAlong(so.lengthBack / 2)
-          leftName = 'Centre Front'
-          rightName = 'Centre Back'
+          leftName = so.north
+          rightName = so.south
+          centreName = so.west
+          exName = so.east
         } else {
           points[prefixFunction('bottomMidNotch')] = paths[
             prefixFunction('bottomCurve')
@@ -237,32 +243,34 @@ export const plugin = {
           points[prefixFunction('bottomRightNotch')] = paths[prefixFunction('bottomCurve')]
             .reverse()
             .shiftAlong((so.length - so.lengthBack) / 2)
-          leftName = 'Centre Back'
-          rightName = 'Centre Front'
+          leftName = so.south
+          rightName = so.north
+          centreName = so.east
+          exName = so.west
         }
-        centreName = 'Side Seam'
-        exName = centreName
       } else {
         if (so.closurePosition == 'back') {
           points[prefixFunction('bottomLeftNotch')] = paths[
             prefixFunction('bottomCurve')
           ].shiftAlong(so.lengthBack / 2)
-          centreName = 'Centre Front'
-          exName = 'Centre Back'
+          centreName = so.north
+          exName = so.south
+          leftName = so.east
+          rightName = so.west
         }
         if (so.closurePosition == 'front') {
           points[prefixFunction('bottomLeftNotch')] = paths[
             prefixFunction('bottomCurve')
           ].shiftAlong((so.length - so.lengthBack) / 2)
-          centreName = 'Centre Back'
-          exName = 'Centre Front'
+          centreName = so.south
+          exName = so.north
+          leftName = so.west
+          rightName = so.east
         }
         points[prefixFunction('bottomRightNotch')] = points[
           prefixFunction('bottomLeftNotch')
         ].flipX(points[prefixFunction('bottomMid')])
         points[prefixFunction('bottomMidNotch')] = points[prefixFunction('bottomMid')]
-        leftName = 'Side Seam'
-        rightName = 'Side Seam'
       }
       points[prefixFunction('topLeftNotch')] = points[
         prefixFunction('bottomLeftNotch')

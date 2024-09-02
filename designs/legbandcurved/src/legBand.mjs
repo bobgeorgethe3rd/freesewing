@@ -59,6 +59,11 @@ export const legBand = {
       overlapSide: options.legBandOverlapSide,
       closurePosition: options.legBandClosurePosition,
       sideSa: store.get('legBandSideSa'),
+      north: 'Centre Front',
+      east: 'Insean',
+      south: 'Centre Back',
+      west: 'Side Seam',
+      prefix: 'legBand',
       prefix: 'legBand',
     })
 
@@ -70,19 +75,19 @@ export const legBand = {
         title: 'Neckband',
         scale: 1 / 3,
       })
-      if (options.legBandClosurePosition == 'back') {
-        paths.legBandLeft.attr('data-text', 'Inseam', true)
-      }
-      if (options.legBandClosurePosition == 'sideLeft') {
-        paths.legBandMid.attr('data-text', 'Inseam', true)
-      }
-      if (options.legBandClosurePosition == 'sideRight') {
-        if (paths.legBandLeftEx) paths.legBandLeftEx.attr('data-text', 'Inseam', true)
-        if (paths.legBandRightEx) paths.legBandRightEx.attr('data-text', 'Inseam', true)
-      }
-      if (options.legBandClosurePosition == 'front') {
-        paths.legBandRight.attr('data-text', 'Inseam', true)
-      }
+      // if (options.legBandClosurePosition == 'back') {
+      // paths.legBandLeft.attr('data-text', 'Inseam', true)
+      // }
+      // if (options.legBandClosurePosition == 'sideLeft') {
+      // paths.legBandMid.attr('data-text', 'Inseam', true)
+      // }
+      // if (options.legBandClosurePosition == 'sideRight') {
+      // if (paths.legBandLeftEx) paths.legBandLeftEx.attr('data-text', 'Inseam', true)
+      // if (paths.legBandRightEx) paths.legBandRightEx.attr('data-text', 'Inseam', true)
+      // }
+      // if (options.legBandClosurePosition == 'front') {
+      // paths.legBandRight.attr('data-text', 'Inseam', true)
+      // }
     }
 
     return part

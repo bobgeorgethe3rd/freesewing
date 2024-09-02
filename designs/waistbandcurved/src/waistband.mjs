@@ -63,6 +63,10 @@ export const waistband = {
       closurePosition: options.closurePosition,
       maxButtons: store.get('waistbandMaxButtons'),
       sideSa: store.get('waistbandSideSa'),
+      north: 'Centre Front',
+      east: 'Side Seam',
+      south: 'Centre Back',
+      west: 'Side Seam',
       prefix: 'waistband',
     })
 
