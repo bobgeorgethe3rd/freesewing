@@ -41,7 +41,7 @@ export const sidePocketFlap = {
     absoluteOptions,
   }) => {
     //draft
-    if (!options.sidePocketsBool || !options.sidePocketFlapsBool) {
+    if (!store.get('sidePocketsBool') || !options.sidePocketFlapsBool) {
       part.hide()
       return part
     }

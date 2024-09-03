@@ -35,7 +35,7 @@ export const sidePocket = {
     absoluteOptions,
   }) => {
     //draft
-    if (!options.sidePocketsBool) {
+    if (!store.get('sidePocketsBool')) {
       part.hide()
       return part
     }

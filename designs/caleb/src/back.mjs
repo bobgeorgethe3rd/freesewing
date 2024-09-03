@@ -595,24 +595,29 @@ export const back = {
       //stores
       store.set('sidePocketPlacement', drawOutseam().split(points.sidePocketOut)[1].length())
       store.set('sidePocketWidth', sidePocketWidth)
-      if (complete && points.split.y >= points.sidePocketOut.y) {
-        points.sidePocketOutAnchor = drawOutseam()
-          .split(points.sidePocketOut)[1]
-          .shiftFractionAlong(0.005)
-        points.sidePocketIn = points.sidePocketOut
-          .shiftTowards(
-            points.sidePocketOutAnchor,
-            sidePocketWidth * (1 - options.sidePocketBalance)
-          )
-          .rotate(90, points.sidePocketOut)
-        //notches
-        snippets.sidePocketIn = new Snippet('notch', points.sidePocketIn)
-        //paths
-        paths.sidePocketLine = new Path()
-          .move(points.sidePocketIn)
-          .line(points.sidePocketOut)
-          .attr('class', 'fabric help')
-          .attr('data-text', 'Side Pocket-Line')
+      if (points.split.y >= points.sidePocketOut.y) {
+        store.set('sidePocketsBool', true)
+        if (complete) {
+          points.sidePocketOutAnchor = drawOutseam()
+            .split(points.sidePocketOut)[1]
+            .shiftFractionAlong(0.005)
+          points.sidePocketIn = points.sidePocketOut
+            .shiftTowards(
+              points.sidePocketOutAnchor,
+              sidePocketWidth * (1 - options.sidePocketBalance)
+            )
+            .rotate(90, points.sidePocketOut)
+          //notches
+          snippets.sidePocketIn = new Snippet('notch', points.sidePocketIn)
+          //paths
+          paths.sidePocketLine = new Path()
+            .move(points.sidePocketIn)
+            .line(points.sidePocketOut)
+            .attr('class', 'fabric help')
+            .attr('data-text', 'Side Pocket-Line')
+        }
+      } else {
+        store.set('sidePocketsBool', false)
       }
     }
 

@@ -468,9 +468,9 @@ export const front = {
           .attr('class', 'fabric sa')
       }
     }
-    if (options.sidePocketsBool) {
+    if (store.get('sidePocketsBool')) {
       points.sidePocketOut = drawOutseam().shiftAlong(store.get('sidePocketPlacement'))
-      if (complete && points.split.y >= points.sidePocketOut.y) {
+      if (complete /*  && points.split.y >= points.sidePocketOut.y */) {
         points.sidePocketOutAnchor = drawOutseam()
           .split(points.sidePocketOut)[0]
           .shiftFractionAlong(0.995)
