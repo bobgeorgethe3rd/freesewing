@@ -72,7 +72,12 @@ export const flyShield = {
     //paths
     paths.seam = paths.bottom
       .clone()
-      .join(paths.crotchSeam.split(points.flyShieldCrotch)[1].offset(flyFrontShieldEx))
+      .join(
+        paths.crotchSeam
+          .split(points.flyShieldCrotch)[1]
+          .offset(flyFrontShieldEx)
+          .split(points.flyShieldExWaist)[0]
+      )
       .line(points.flyShieldExWaist)
       .line(points.flyShieldWaist)
       .line(points.flyShieldCurveStart)
