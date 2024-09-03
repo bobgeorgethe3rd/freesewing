@@ -14,7 +14,7 @@ export const leg8 = {
     ankleEase: { pct: -10, min: -20, max: 0, menu: 'fit' },
     considerCalf: { bool: false, menu: 'fit' },
     //Style
-    lengthBonus: { pct: -10, min: -20, max: 10 },
+    lengthBonus: { pct: -10, min: -20, max: 10, menu: 'style' },
     menu: 'style',
     waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' },
     waistbandWidth: {
