@@ -112,7 +112,7 @@ export const frontPocketFacingB = {
       //notches
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['frontPocketOpeningOut', 'frontPocketOut'],
+        on: ['frontPocketOpeningCorner', 'frontPocketOut'],
       })
       //title
       macro('title', {
