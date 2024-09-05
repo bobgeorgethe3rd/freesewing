@@ -515,6 +515,13 @@
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
       "tags": ["undergarments", "bottoms", "historical", "medieval"]
+    },
+    "stefan": {
+      "description": "Stefan 16th century shirt desgin",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 2,
+      "tags": ["undergarments", "tops", "historical", "medieval"]
     }
   },
   "utilities": {
