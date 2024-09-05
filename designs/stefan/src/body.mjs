@@ -21,10 +21,11 @@ export const body = {
     slitFrontDepth: { pct: 6.1, min: 0, max: 12.1, menu: 'style' },
     slitBackCurve: { pct: (2 / 3) * 100, min: 0, max: 100, menu: 'style' },
     slitFrontCurve: { pct: (2 / 3) * 100, min: 0, max: 100, menu: 'style' },
-    sleeveFullness: { pct: 0, min: 0, max: 150, nenu: 'style' },
-    taperedSleeves: { bool: false, menu: 'style' },
     //Armhole
     scyeDepth: { pct: 18.2, min: 15, max: 30, menu: 'armhole' },
+    //Sleeves
+    sleeveFullness: { pct: 0, min: 0, max: 150, menu: 'sleeves' },
+    taperedSleeves: { bool: false, menu: 'sleeves' },
     //Construction
     sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     topSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
@@ -110,6 +111,7 @@ export const body = {
     }
     yDist = toWaist + yDist * (1 + options.bodyLengthBonus)
 
+    //paths & points
     paths.seam = draftRectangle(part, xDist, yDist)
 
     //details that are always needed
@@ -195,6 +197,7 @@ export const body = {
     store.set('shoulderDrop', shoulderDrop)
     store.set('sleeveWidth', sleeveWidth)
     store.set('sleeveGussetWidth', sleeveGussetWidth)
+    store.set('wrist', wrist)
 
     if (complete) {
       //grainline
