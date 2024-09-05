@@ -8,16 +8,21 @@ export const body = {
     //Fit
     neckEase: { pct: 12.9, min: 0, max: 20, menu: 'fit' },
     bicepsEase: { pct: 17.3, min: 0, max: 20, menu: 'fit' },
+    wristEase: { pct: 15.4, min: 0, max: 35, menu: 'fit' },
     //Style
     bodyWidth: { pct: 25, min: 0, max: 100, menu: 'style' },
     bodyLength: { pct: 150, min: 0, max: 250, menu: 'style' },
     bodyLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
+    bodySideStyle: { dflt: 'vents', list: ['vents', 'gores', 'none'], menu: 'style' },
+    bodyVentLength: { pct: 43.8, menu: 25, max: 75, menu: 'style' },
     neckFullness: { pct: 100, min: 50, max: 150, menu: 'style' },
     slitLength: { pct: 72.6, min: 50, max: 100, menu: 'style' },
     slitBackDepth: { pct: 0, min: 0, max: 12.1, menu: 'style' },
     slitFrontDepth: { pct: 6.1, min: 0, max: 12.1, menu: 'style' },
     slitBackCurve: { pct: (2 / 3) * 100, min: 0, max: 100, menu: 'style' },
     slitFrontCurve: { pct: (2 / 3) * 100, min: 0, max: 100, menu: 'style' },
+    sleeveFullness: { pct: 0, min: 0, max: 150, nenu: 'style' },
+    taperedSleeves: { bool: false, menu: 'style' },
     //Armhole
     scyeDepth: { pct: 18.2, min: 15, max: 30, menu: 'armhole' },
     //Construction
@@ -39,6 +44,7 @@ export const body = {
     'waistToFloor',
     'biceps',
     'waistToArmpit',
+    'wrist',
   ],
   plugins: [pluginBundle, pluginLogoRG],
   draft: ({
@@ -61,14 +67,18 @@ export const body = {
     log,
   }) => {
     const neck = measurements.neck * (1 + options.neckEase)
+    const wrist = measurements.wrist * (1 + options.wristEase)
     const neckFullness = neck * options.neckFullness
     let toWaist = measurements.hpsToWaistBack
     if (measurements.hpsToWaistFront > measurements.hpsToWaistBack) {
       toWaist = measurements.hpsToWaistFront
     }
     const sleeveWidth = measurements.biceps * (1 + options.bicepsEase)
-    const sleeveGussetWidth =
+    let sleeveGussetWidth =
       toWaist - measurements.waistToArmpit * (1 - options.scyeDepth) - sleeveWidth * 0.5
+    if (options.taperedSleeves && options.sleeveFullness <= 0) {
+      sleeveGussetWidth = (sleeveWidth - wrist) * 0.5
+    }
     const shoulderDrop = measurements.shoulderToElbow * options.bodyWidth
 
     const xDist = neckFullness + (measurements.hpsToShoulder + shoulderDrop) * 2
@@ -158,6 +168,13 @@ export const body = {
     points.sleeveRight = points.sleeveLeft.flipX(points.origin)
     points.sleeveGussetRight = points.sleeveGussetLeft.flipX(points.origin)
 
+    if (options.bodySideStyle != 'none') {
+      const bodyVentLength = (yDist - toWaist) * options.bodyVentLength
+      points.ventLeft = points.bottomLeft.shift(90, bodyVentLength)
+      points.ventRight = points.ventLeft.flipX(points.origin)
+      store.set('bodyVentLength', bodyVentLength)
+    }
+
     macro('sprinkle', {
       snippet: 'notch',
       on: [
@@ -168,6 +185,8 @@ export const body = {
         'sleeveGussetLeft',
         'sleeveRight',
         'sleeveGussetRight',
+        'ventLeft',
+        'ventRight',
       ],
     })
 
@@ -211,6 +230,8 @@ export const body = {
 
       if (sa) {
         const bodyHemWidth = sa * options.bodyHemWidth * 100
+        if (options.bodySideStyle == 'vents' && options.sideSeamSaWidth < 0.015)
+          options.sideSeamSaWidth = 0.015
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const topSa = sa * options.topSaWidth * 100
 
