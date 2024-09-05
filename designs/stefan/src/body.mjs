@@ -165,7 +165,7 @@ export const body = {
       )
     }
 
-    points.sleeveLeft = points.topLeft.shift(-90, sleeveWidth)
+    points.sleeveLeft = points.topLeft.shift(-90, sleeveWidth * 0.5)
     points.sleeveGussetLeft = points.sleeveLeft.shift(-90, sleeveGussetWidth)
     points.sleeveRight = points.sleeveLeft.flipX(points.origin)
     points.sleeveGussetRight = points.sleeveGussetLeft.flipX(points.origin)
