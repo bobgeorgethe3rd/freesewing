@@ -216,6 +216,8 @@ export const body = {
           grainline: false,
         })
       }
+      //notches
+      snippets.neckBack = new Snippet('bnotch', points.neckBack)
       //title
       points.title = new Point(points.topLeft.x * 0.5, points.topRight.y * 0.5)
       macro('title', {
