@@ -8,7 +8,7 @@ export const body = {
     //Fit
     neckEase: { pct: 12.9, min: 0, max: 20, menu: 'fit' },
     bicepsEase: { pct: 17.3, min: 0, max: 20, menu: 'fit' },
-    wristEase: { pct: 15.4, min: 0, max: 35, menu: 'fit' },
+    wristEase: { pct: 15.4, min: 0, max: 40, menu: 'fit' },
     //Style
     bodyWidth: { pct: 25, min: 0, max: 100, menu: 'style' },
     bodyLength: { pct: 150, min: 0, max: 250, menu: 'style' },

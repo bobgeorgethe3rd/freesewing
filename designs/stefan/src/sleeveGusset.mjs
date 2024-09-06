@@ -23,6 +23,11 @@ export const sleeveGusset = {
     absoluteOptions,
     log,
   }) => {
+    if (options.taperedSleeves && options.sleeveFullness <= 0) {
+      part.hide()
+      return part
+    }
+
     const xDist = store.get('sleeveGussetWidth')
     const yDist = xDist
 

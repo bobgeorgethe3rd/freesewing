@@ -89,6 +89,9 @@ export const sleeve = {
       })
     }
 
+    //stores
+    store.set('sleeveBandWidth', sleeveBandWidth)
+
     if (complete) {
       //grainline
       points.grainlineFrom = new Point(points.topLeft.x * 0.5, points.topLeft.y)
