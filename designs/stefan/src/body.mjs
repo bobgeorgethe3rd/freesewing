@@ -170,11 +170,14 @@ export const body = {
     points.sleeveRight = points.sleeveLeft.flipX(points.origin)
     points.sleeveGussetRight = points.sleeveGussetLeft.flipX(points.origin)
 
-    if (options.bodySideStyle != 'none') {
+    if (options.bodySideStyle == 'vents') {
       const bodyVentLength = (yDist - toWaist) * options.bodyVentLength
       points.ventLeft = points.bottomLeft.shift(90, bodyVentLength)
       points.ventRight = points.ventLeft.flipX(points.origin)
-      store.set('bodyVentLength', bodyVentLength)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['ventLeft', 'ventRight'],
+      })
     }
 
     macro('sprinkle', {
@@ -187,8 +190,6 @@ export const body = {
         'sleeveGussetLeft',
         'sleeveRight',
         'sleeveGussetRight',
-        'ventLeft',
-        'ventRight',
       ],
     })
 
@@ -198,6 +199,7 @@ export const body = {
     store.set('sleeveWidth', sleeveWidth)
     store.set('sleeveGussetWidth', sleeveGussetWidth)
     store.set('wrist', wrist)
+    store.set('goreLength', points.sleeveGussetLeft.dist(points.bottomLeft))
 
     if (complete) {
       //grainline

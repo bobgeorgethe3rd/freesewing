@@ -10,11 +10,12 @@ import { sleeveBand } from './sleeveBand.mjs'
 import { sleeveBandRuffle } from './sleeveBandRuffle.mjs'
 import { neckband } from './neckband.mjs'
 import { neckbandRuffle } from './neckbandRuffle.mjs'
+import { gore } from './gore.mjs'
 
 // Create new design
 const Stefan = new Design({
   data,
-  parts: [body, sleeve, sleeveGusset, sleeveBand, sleeveBandRuffle, neckbandRuffle, neckband],
+  parts: [body, sleeve, sleeveGusset, sleeveBand, sleeveBandRuffle, neckbandRuffle, neckband, gore],
 })
 
 // Named exports
@@ -26,5 +27,6 @@ export {
   sleeveBandRuffle,
   neckband,
   neckbandRuffle,
+  gore,
   Stefan,
 }
