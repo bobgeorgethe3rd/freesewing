@@ -76,7 +76,7 @@ export const neckbandRuffle = {
         const neckbandRuffleHem = sa * options.neckbandRuffleHemWidth * 100
         paths.sa = draftRectangle(
           part,
-          xDist + sa * 2,
+          xDist + neckbandRuffleHem * 2,
           yDist + sa + neckbandRuffleHem,
           false,
           'sa',

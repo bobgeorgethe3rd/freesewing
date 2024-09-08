@@ -76,7 +76,7 @@ export const sleeveBandRuffle = {
         const sleeveBandRuffleHem = sa * options.sleeveBandRuffleHemWidth * 100
         paths.sa = draftRectangle(
           part,
-          xDist + sa * 2,
+          xDist + sleeveBandRuffleHem * 2,
           yDist + sa + sleeveBandRuffleHem,
           false,
           'sa',
