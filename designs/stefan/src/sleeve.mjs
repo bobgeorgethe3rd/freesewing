@@ -117,6 +117,7 @@ export const sleeve = {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         let sleeveHemWidth = sa * options.sleeveHemWidth * 100
         if (options.sleeveBands) sleeveHemWidth = sa
+        if (options.taperedSleeves && options.sleeveFullness <= 0) sleeveHemWidth = sideSeamSa
 
         paths.sa = draftRectangle(
           part,
@@ -127,6 +128,62 @@ export const sleeve = {
           0,
           sleeveHemWidth * 0.5 - sideSeamSa * 0.5
         ).attr('class', 'fabric sa')
+      }
+      if (paperless) {
+        let prefixFunction = (string) => string
+        if (sa) {
+          prefixFunction = (string) => 'sa' + string.charAt(0).toUpperCase() + string.slice(1)
+        }
+        //verticals
+        macro('vd', {
+          from: points[prefixFunction('bottomLeft')],
+          to: points[prefixFunction('topLeft')],
+          x: points[prefixFunction('topLeft')].x - 45,
+        })
+        //horizontals
+        macro('hd', {
+          from: points[prefixFunction('topLeft')],
+          to: points[prefixFunction('topRight')],
+          y: points[prefixFunction('topLeft')].y - 15,
+        })
+        //taperedSleeves
+        if (options.taperedSleeves && options.sleeveFullness <= 0) {
+          macro('vd', {
+            from: points.left,
+            to: points[prefixFunction('topLeft')],
+            x: points[prefixFunction('topLeft')].x - 30,
+          })
+          macro('vd', {
+            from: points[prefixFunction('bottomLeft')],
+            to: points.left,
+            x: points[prefixFunction('topLeft')].x - 30,
+          })
+          macro('vd', {
+            from: points.topLeftMid,
+            to: points[prefixFunction('topLeft')],
+            x: points[prefixFunction('topLeft')].x - 15,
+          })
+          macro('vd', {
+            from: points[prefixFunction('bottomLeft')],
+            to: points.bottomLeftMid,
+            x: points[prefixFunction('topLeft')].x - 15,
+          })
+          macro('hd', {
+            from: points[prefixFunction('bottomLeft')],
+            to: points.wristLeft,
+            y: points[prefixFunction('bottomLeft')].y + 15,
+          })
+          macro('hd', {
+            from: points.wristLeft,
+            to: points.wristRight,
+            y: points[prefixFunction('bottomLeft')].y + 15,
+          })
+          macro('hd', {
+            from: points.wristRight,
+            to: points[prefixFunction('bottomRight')],
+            y: points[prefixFunction('bottomLeft')].y + 15,
+          })
+        }
       }
     }
     return part

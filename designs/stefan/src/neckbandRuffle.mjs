@@ -84,6 +84,24 @@ export const neckbandRuffle = {
           neckbandRuffleHem * 0.5 - sa * 0.5
         ).attr('class', 'fabric sa')
       }
+      if (paperless) {
+        let prefixFunction = (string) => string
+        if (sa) {
+          prefixFunction = (string) => 'sa' + string.charAt(0).toUpperCase() + string.slice(1)
+        }
+        //verticals
+        macro('vd', {
+          from: points[prefixFunction('bottomLeft')],
+          to: points[prefixFunction('topLeft')],
+          x: points[prefixFunction('topLeft')].x - 15,
+        })
+        //horizontals
+        macro('hd', {
+          from: points[prefixFunction('topLeft')],
+          to: points[prefixFunction('topRight')],
+          y: points[prefixFunction('topLeft')].y - 15,
+        })
+      }
     }
 
     return part

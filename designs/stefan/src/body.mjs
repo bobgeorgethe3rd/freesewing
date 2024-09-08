@@ -252,6 +252,65 @@ export const body = {
           bodyHemWidth * 0.5 - topSa * 0.5
         ).attr('class', 'fabric sa')
       }
+      if (paperless) {
+        let prefixFunction = (string) => string
+        if (sa) {
+          prefixFunction = (string) => 'sa' + string.charAt(0).toUpperCase() + string.slice(1)
+        }
+        //verticals
+        macro('vd', {
+          from: points[prefixFunction('bottomLeft')],
+          to: points[prefixFunction('topLeft')],
+          x: points[prefixFunction('topLeft')].x - 30,
+        })
+        macro('vd', {
+          from: points.sleeveGussetLeft,
+          to: points.sleeveLeft,
+          x: points[prefixFunction('topLeft')].x - 15,
+        })
+        macro('vd', {
+          from: points.sleeveLeft,
+          to: points[prefixFunction('topLeft')],
+          x: points[prefixFunction('topLeft')].x - 15,
+        })
+        if (options.bodySideStyle == 'vents') {
+          macro('vd', {
+            from: points[prefixFunction('bottomLeft')],
+            to: points.ventLeft,
+            x: points[prefixFunction('topLeft')].x - 15,
+          })
+        }
+        macro('vd', {
+          from: points.slit,
+          to: points.neckFront,
+          x: points.slit.x - 30,
+        })
+        if (points.neckFront.y > points.top.y) {
+          macro('vd', {
+            from: points.neckFront,
+            to: points.top,
+            x: points.slit.x - 30,
+          })
+        }
+        if (points.neckBack.y > points.top.y) {
+          macro('vd', {
+            from: points.neckBack,
+            to: points.top,
+            x: points.slit.x - 15,
+          })
+        }
+        //horizontals
+        macro('hd', {
+          from: points[prefixFunction('topLeft')],
+          to: points[prefixFunction('topRight')],
+          y: points[prefixFunction('topLeft')].y - 30,
+        })
+        macro('hd', {
+          from: points.neckLeft,
+          to: points.neckRight,
+          y: points[prefixFunction('topLeft')].y - 15,
+        })
+      }
     }
 
     return part
