@@ -7,7 +7,7 @@ export const neckbandRuffle = {
   after: neckband,
   options: {
     //Sleeves
-    neckbandRuffleFullness: { pct: 350, min: 150, max: 900, menu: 'sleeves' },
+    neckbandRuffleFullness: { pct: 350, min: 150, max: 900, menu: 'style' },
     neckbandRuffleWidth: {
       pct: 11.1,
       min: 1,
