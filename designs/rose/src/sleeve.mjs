@@ -14,6 +14,7 @@ export const sleeve = {
     ...capSleeve.from.options,
     ...capSleeve.options,
   },
+  measurements: capSleeve.from.measurements,
   draft: (sh) => {
     //draft
     const {

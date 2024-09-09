@@ -22,6 +22,7 @@ export const sleeve = {
     sleevesBool: { bool: true, menu: 'sleeves' },
     sleeveBands: { bool: true, menu: 'sleeves' },
   },
+  measurements: spreadSleeve.from.measurements,
   draft: (sh) => {
     //draft
     const {
