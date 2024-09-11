@@ -17,6 +17,7 @@ export const sleeve = {
       ...pctBasedOn('shoulderToWrist'),
       menu: 'sleeves',
     },
+    sleeveVentDepth: { pct: 22.8, min: 15, max: 30, menu: 'sleeves' },
     //Construction
     sleeveHemWidth: { pct: 2, min: 0, max: 5, menu: 'construction' },
   },
@@ -52,6 +53,7 @@ export const sleeve = {
     paths.seam = draftRectangle(part, xDist, yDist)
 
     //details that are always needed
+    const sleeveVentDepth = yDist * options.sleeveVentDepth
     if (options.taperedSleeves && options.sleeveFullness <= 0) {
       points.wristLeft = points.bottom.shift(180, store.get('wrist') * 0.5)
       points.wristRight = points.wristLeft.flipX(points.origin)
@@ -70,6 +72,12 @@ export const sleeve = {
         .attr('data-text', 'Cut to create gore')
         .attr('data-text-class', 'center')
 
+      points.sleeveVentLeft = new Path()
+        .move(points.wristLeft)
+        .line(points.left)
+        .line(points.topLeft)
+        .shiftAlong(sleeveVentDepth)
+
       if (complete) {
         points.topLeftMid = new Point(points.topLeft.x, points.topLeft.y * 0.5)
         points.bottomLeftMid = new Point(points.topLeft.x, points.bottomLeft.y * 0.5)
@@ -83,12 +91,17 @@ export const sleeve = {
     } else {
       points.topLeftNotch = points.topLeft.shift(-90, store.get('sleeveGussetWidth'))
       points.topRightNotch = points.topLeftNotch.flipX(points.origin)
+      points.sleeveVentLeft = points.bottomLeft.shiftTowards(points.topLeft, sleeveVentDepth)
       macro('sprinkle', {
         snippet: 'notch',
         on: ['topLeftNotch', 'topRightNotch'],
       })
     }
-
+    points.sleeveVentRight = points.sleeveVentLeft.flipX(points.origin)
+    macro('sprinkle', {
+      snippet: 'notch',
+      on: ['sleeveVentLeft', 'sleeveVentRight'],
+    })
     //stores
     store.set('sleeveBandWidth', sleeveBandWidth)
 
