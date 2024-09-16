@@ -14,6 +14,8 @@ const base = {
   ankle: [245, 235],
   biceps: [270, 350],
   bustFront: [480, 560], // FIXME: Estimate
+  bustPointToSideCupEdge: [110, 70], // FIXME: Estimate
+  bustPointToSternum: [90, 50], // FIXME: Estimate
   bustPointToUnderbust: [100, 60], // FIXME: Estimate
   bustSpan: [160, 190], // FIXME: Estimate
   chest: [925, 1000],
@@ -62,6 +64,8 @@ const ratio = {
   // Arc measurements
   bustFront: a,
   bustBack: a,
+  bustPointToSideCupEdge: a,
+  bustPointToSternum: a,
   bustPointToUnderbust: a,
   bustSpan: a,
   highBustBack: a,

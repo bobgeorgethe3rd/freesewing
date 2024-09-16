@@ -2,6 +2,8 @@ measurements: Measurements
 ankle: Ankle circumference
 biceps: Biceps circumference
 bustFront: Bust front
+bustPointToSideCupeEdge: Bust point to side cup edge
+bustPointToSternum: Bust point to sternum
 bustPointToUnderbust: Bust point to underbust
 bustSpan: Bust span
 chest: Chest circumference

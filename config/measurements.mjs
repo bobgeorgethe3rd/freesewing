@@ -3,6 +3,8 @@ export const measurements = [
   'ankle',
   'biceps',
   'bustFront',
+  'bustPointToSideCupEdge',
+  'bustPointToSternum',
   'bustPointToUnderbust',
   'bustSpan',
   'chest',
