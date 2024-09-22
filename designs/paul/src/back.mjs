@@ -249,6 +249,11 @@ export const back = {
             .rotate(90, points.crossSeamCurveStart)
         )
 
+        paths.saCrossSeam = paths.crossSeam.offset(crossSeamSa).hide()
+
+        if (points.saWaistIn.y > paths.saCrossSeam.start().y)
+          paths.saCrossSeam = paths.saCrossSeam.split(points.saWaistIn)[1].hide()
+
         paths.sa = paths.hemBase
           .offset(sa * options.hemWidth * 100)
           .line(points.saFloorOut)
@@ -258,7 +263,7 @@ export const back = {
           .line(points.saMWaistbandOut)
           .line(points.saMWaistbandIn)
           .line(points.saWaistIn)
-          .join(paths.crossSeam.offset(crossSeamSa).split(points.saWaistIn)[1])
+          .join(paths.saCrossSeam)
           .line(points.saUpperLegIn)
           .join(drawInseam().offset(sa * options.inseamSaWidth * 100))
           .line(points.saFloorIn)
