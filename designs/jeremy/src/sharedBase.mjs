@@ -158,7 +158,7 @@ export const sharedBase = {
       options.frontArmholeDepth
     )
     points.armholeWaist = new Point(points.armhole.x, points.cbWaist.y)
-    //guides
+    //paths
     paths.jeremyGuide = new Path()
       .move(points.shoulderFront)
       .line(points.hpsFront)
