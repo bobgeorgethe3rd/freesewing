@@ -176,6 +176,62 @@ export const sharedBase = {
       .curve_(points.frontArmholePitchCp2, points.shoulderFront)
       .hide()
 
+    //stores
+    store.set('chest', chest)
+    store.set('scyeBackWidth', points.armhole.dist(points.shoulderBack))
+    store.set(
+      'scyeBackDepth',
+      points.armhole.dist(points.shoulderBack) *
+        Math.sin(
+          utils.deg2rad(
+            points.armhole.angle(points.shoulderBack) -
+              (points.shoulderBack.angle(points.hpsBack) + 90)
+          )
+        )
+    )
+    store.set(
+      'backArmholeLength',
+      new Path()
+        .move(points.shoulderBack)
+        ._curve(points.backArmholePitchCp1, points.backArmholePitch)
+        .curve(points.backArmholePitchCp2, points.armholeCp1, points.armhole)
+        .length()
+    )
+    store.set(
+      'backArmholeToArmholePitch',
+      new Path()
+        .move(points.shoulderBack)
+        ._curve(points.backArmholePitchCp1, points.backArmholePitch)
+        .length()
+    )
+
+    store.set('scyeFrontWidth', points.armhole.dist(points.shoulderFront))
+    store.set(
+      'scyeFrontDepth',
+      points.armhole.dist(points.shoulderFront) *
+        Math.sin(
+          utils.deg2rad(
+            points.armhole.angle(points.shoulderFront) -
+              (points.shoulderFront.angle(points.hpsFront) - 90)
+          )
+        )
+    )
+    store.set(
+      'frontArmholeLength',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp2, points.frontArmholePitchCp1, points.frontArmholePitch)
+        .curve_(points.frontArmholePitchCp2, points.shoulderFront)
+        .length()
+    )
+    store.set(
+      'frontArmholeToArmholePitch',
+      new Path()
+        .move(points.armhole)
+        .curve(points.armholeCp2, points.frontArmholePitchCp1, points.frontArmholePitch)
+        .length()
+    )
+
     return part
   },
 }
