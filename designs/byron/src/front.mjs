@@ -1,8 +1,10 @@
 import { sharedBase } from './sharedBase.mjs'
+import { back } from './back.mjs'
 
 export const front = {
   name: 'byron.front',
   from: sharedBase,
+  after: back,
   options: {
     //Constants
     cfNeck: 0.55191502449,
