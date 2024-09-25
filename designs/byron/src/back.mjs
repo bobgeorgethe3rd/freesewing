@@ -15,8 +15,8 @@ export const back = {
     closureSaWidth: 0.01,
     cbSaWidth: 0,
     //Fit
-    chestEase: { pct: 4.6, min: 0, max: 20, menu: 'fit' },
-    waistEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
+    // chestEase: { pct: 4.6, min: 0, max: 20, menu: 'fit' },
+    // waistEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
     //Armhole
     backArmholePitchWidth: { pct: 97, min: 95, max: 98.5, menu: 'armhole' },
     backArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },

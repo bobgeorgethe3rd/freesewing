@@ -9,9 +9,9 @@ export const sharedBase = {
     neckEase: 0, //.064,
     //waistDiffDivider: 4,
     //Fit
-    // chestEase: { pct: 4.6, min: 0, max: 20, menu: 'fit' },
+    chestEase: { pct: 4.6, min: 0, max: 20, menu: 'fit' },
     shoulderToShoulderEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
-    // waistEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
+    waistEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
     // hipsEase: { pct: 5.5, min: 0, max: 20, menu: 'fit' },
     // seatEase: { pct: 4.7, min: 0, max: 20, menu: 'fit' },
     //Style
