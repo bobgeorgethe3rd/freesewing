@@ -122,7 +122,7 @@ export const back = {
         points.saCbWaist = points.cbWaist.translate(cbSa, hemSa)
         points.saCbNeck = points.cbNeck.translate(cbSa, -neckSa)
 
-        points.saHps = utils.beamsIntersect(
+        points.saHpsBack = utils.beamsIntersect(
           paths.cbNeck.offset(neckSa).end(),
           paths.cbNeck
             .offset(neckSa)
@@ -134,7 +134,7 @@ export const back = {
             .rotate(90, points.shoulderBack)
         )
 
-        points.saShoulderCorner = points.shoulderBack
+        points.saShoulderBackCorner = points.shoulderBack
           .shift(points.hpsBack.angle(points.shoulderBack), armholeSa)
           .shift(points.hpsBack.angle(points.shoulderBack) - 90, shoulderSa)
 
@@ -145,8 +145,8 @@ export const back = {
           .line(points.saCbWaist)
           .line(points.saCbNeck)
           .join(paths.cbNeck.offset(neckSa))
-          .line(points.saHps)
-          .line(points.saShoulderCorner)
+          .line(points.saHpsBack)
+          .line(points.saShoulderBackCorner)
           .join(paths.armhole.offset(armholeSa))
           .line(points.saArmholeCorner)
           .line(points.saArmholeWaist)
