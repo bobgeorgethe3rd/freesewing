@@ -35,6 +35,13 @@
       "difficulty": 3,
       "tags": ["bottoms", "blocks"]
     },
+    "jeremy": {
+      "description": "Jeremy jacket block design",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "blocks"]
+    },
     "neville": {
       "description": "Neville no inseam trouser block design",
       "code": "bobgeorgethe3rd",
