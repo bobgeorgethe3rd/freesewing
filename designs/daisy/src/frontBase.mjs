@@ -208,7 +208,6 @@ export const frontBase = {
       .line(points.cfWaist)
 
     //stores
-    store.set('waistToArmhole', waistToArmhole)
     store.set('scyeFrontWidth', points.armhole.dist(points.shoulder))
     store.set(
       'scyeFrontDepth',
