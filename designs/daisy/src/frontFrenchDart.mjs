@@ -71,6 +71,7 @@ export const frontFrenchDart = ({
     .join(paths.shoulder)
     .join(paths.cfNeck)
     .line(points.cfWaist)
+    .close()
 
   if (complete) {
     //grainline

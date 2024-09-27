@@ -60,6 +60,7 @@ export const frontBustSideDart = ({
     .join(paths.shoulder)
     .join(paths.cfNeck)
     .line(points.cfWaist)
+    .close()
 
   if (complete) {
     //grainline

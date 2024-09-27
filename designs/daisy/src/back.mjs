@@ -139,6 +139,7 @@ export const back = {
       .join(paths.shoulder)
       .join(paths.cbNeck)
       .join(paths.cb)
+      .close()
 
     //stores
     store.set('scyeBackWidth', points.armhole.dist(points.shoulder))

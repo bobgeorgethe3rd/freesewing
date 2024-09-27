@@ -70,6 +70,7 @@ export const frontArmholePitchDart = ({
     .join(paths.shoulder)
     .join(paths.cfNeck)
     .line(points.cfWaist)
+    .close()
 
   if (complete) {
     //grainline
