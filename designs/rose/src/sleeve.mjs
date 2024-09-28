@@ -13,6 +13,8 @@ export const sleeve = {
     //Imported
     ...capSleeve.from.options,
     ...capSleeve.options,
+    //Sleeves
+    sleevesBool: { bool: true, menu: 'sleeves' },
   },
   measurements: capSleeve.from.measurements,
   draft: (sh) => {
