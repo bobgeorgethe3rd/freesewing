@@ -42,19 +42,21 @@ export const leg = {
       menu: 'style',
     },
     fitWaist: { bool: false, menu: 'style' },
-    // seatGussetWidth: { pct: 10, min: 5, max: 10, menu: 'style' },
+    seatGussetWidth: { pct: 10, min: 5, max: 10, menu: 'style' },
     seatGussetTopWidth: { pct: (2 / 3) * 100, min: 50, max: 75, menu: 'style' },
     waistPleats: { bool: true, menu: 'style' },
     matchPleatNumber: { bool: true, menu: 'style' },
     legPleats: { bool: true, menu: 'style' },
     crotchGussetWidth: { pct: 100, min: 100, max: 200, menu: 'style' },
-    crotchGussetBottomWidth: { pct: 50, min: 50, max: 75, menu: 'style' },
+    crotchGussetTopWidth: { pct: 50, min: 50, max: 75, menu: 'style' },
     //Construction
     hemWidth: { pct: 2, min: 0, max: 5, menu: 'construction' },
-    crossSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
-    sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
     //Advanced
     legFullness: { pct: 100, min: 80, max: 120, menu: 'advanced' },
+    crossSeamCurveStart: { pct: 0, min: 0, max: 50, menu: 'advanced' },
+    crossSeamCurve: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
+    crotchSeamCurveEnd: { pct: 0, min: 0, max: 50, menu: 'advanced' },
+    crotchSeamCurve: { pct: (2 / 3) * 100, min: 33.3, max: 100, menu: 'advanced' },
     calculateWaistbandDiff: { bool: true, menu: 'advanced' },
     calculateLegBandDiff: { bool: true, menu: 'advanced' },
   },
@@ -63,13 +65,10 @@ export const leg = {
     'waist',
     'hips',
     'seat',
-    'knee',
-    'calf',
-    'heel',
     'waistToHips',
-    'waistToUpperLeg',
     'waistToKnee',
-    'waistToCalf',
+    'waistToSeat',
+    'waistToUpperLeg',
     'waistToFloor',
   ],
   plugins: [pluginBundle, pluginLogoRG],
@@ -101,19 +100,19 @@ export const leg = {
     if (options.waistbandStyle == 'none') {
       waistbandWidth = 0
     }
-    // let legWidth = measurements.seat * options.legFullness
-    // if (
-    // measurements.hips / 2 > legWidth &&
-    // measurements.hips > (measurements.waist && measurements.seat)
-    // ) {
-    // legWidth = measurements.hips * options.legFullness
-    // }
-    // if (
-    // measurements.waist / 2 > legWidth &&
-    // measurements.waist > (measurements.seat && measurements.hips)
-    // ) {
-    const legWidth = measurements.waist * options.legFullness
-    // }
+    let legWidth = measurements.seat * options.legFullness
+    if (
+      measurements.hips / 2 > legWidth &&
+      measurements.hips > (measurements.waist && measurements.seat)
+    ) {
+      legWidth = measurements.hips * options.legFullness
+    }
+    if (
+      measurements.waist / 2 > legWidth &&
+      measurements.waist > (measurements.seat && measurements.hips)
+    ) {
+      legWidth = measurements.waist * options.legFullness
+    }
 
     let legLength =
       measurements.waistToKnee +
@@ -123,91 +122,108 @@ export const leg = {
         measurements.waistToCalf +
         (measurements.waistToFloor - measurements.waistToCalf) * (-1 + 2 * options.legLength)
     }
-    legLength = legLength * (1 + options.legLengthBonus) - measurements.waistToKnee
+    legLength = legLength * (1 + options.legLengthBonus) - toUpperLeg
 
     const legTubeWidth =
-      measurements.waistToFloor * (1 + options.legLengthBonus) -
-      legLength -
-      measurements.waistToKnee
+      measurements.waistToFloor * (1 + options.legLengthBonus) - toUpperLeg - legLength
 
     let legBandWidth = absoluteOptions.legBandWidth
-    if (
-      legTubeWidth > absoluteOptions.legBandWidth &&
-      (options.legBandStyle == 'straightTube' || options.legBandStyle == 'curvedTube')
-    ) {
-      legBandWidth = legTubeWidth
+    if (options.legBandStyle != 'straight' && options.legBandStyle != 'curved') {
+      if (
+        legTubeWidth < absoluteOptions.legBandWidth &&
+        (options.legBandStyle == 'straightTube' || options.legBandStyle == 'curvedTube')
+      ) {
+        legBandWidth = absoluteOptions.legBandWidth - legTubeWidth
+      } else {
+        legBandWidth = 0
+      }
     }
-    // legLength = legLength - legBandWidth
-    // const seatGussetWidth = seat * 0.5 * options.seatGussetWidth
+    legLength = legLength - legBandWidth
+    const crossRadius = (measurements.crossSeam - measurements.waistToSeat * 2) / Math.PI
+    const seatGussetWidth = seat * 0.5 * options.seatGussetWidth
     //let's begin
-    //cross
     points.upperLeg = new Point(0, 0)
-    points.crossSeamCurveStart = points.upperLeg.translate((seat * 3) / 32, (seat * -3) / 32)
+    points.crossSeamCurveStart = points.upperLeg.translate(crossRadius, -crossRadius)
     points.crossSeamCurveStartCp2 = points.crossSeamCurveStart.shift(
-      90,
-      points.crossSeamCurveStart.y * options.cpFraction
+      -90,
+      crossRadius * options.cpFraction
     )
-    points.upperLegCp1 = points.upperLeg.shift(0, points.crossSeamCurveStart.x * options.cpFraction)
-    points.crossSeamCurveOrigin = new Point(points.upperLeg.x, points.crossSeamCurveStart.y)
+    points.upperLegCp1 = points.upperLeg.shift(0, crossRadius * options.cpFraction)
+    points.waistCross = points.crossSeamCurveStart.shift(
+      90,
+      measurements.waistToSeat - toHips - waistbandWidth
+    )
 
-    paths.crossCurve = new Path()
-      .move(points.crossSeamCurveStart)
+    points.bottomAnchor = points.upperLeg.shift(-90, legLength)
+
+    points.topRight = points.waistCross.shift(0, legWidth)
+    points.bottomRight = new Point(points.topRight.x, points.bottomAnchor.y)
+    points.crossOrigin = new Point(points.upperLeg.x, points.crossSeamCurveStart.y)
+
+    paths.crossSeam = new Path()
+      .move(points.waistCross)
+      .line(points.crossSeamCurveStart)
       .curve(points.crossSeamCurveStartCp2, points.upperLegCp1, points.upperLeg)
       .hide()
 
-    points.waistCross = points.crossSeamCurveStart.shift(
-      90,
-      measurements.crossSeam * 0.5 - paths.crossCurve.length() - toHips
-    )
-
-    const cpDist =
-      (4 / 3) *
-      points.crossSeamCurveStart.dist(points.crossSeamCurveOrigin) *
-      Math.tan(utils.deg2rad(45 / 4))
-    points.crotchSeamCurveEnd = points.upperLeg.rotate(-45, points.crossSeamCurveOrigin)
-    points.crotchSeamCurveEndCp1 = points.crotchSeamCurveEnd
-      .shiftTowards(points.crossSeamCurveOrigin, cpDist)
-      .rotate(-90, points.crotchSeamCurveEnd)
-    points.upperLegCp2 = points.upperLeg.shift(180, cpDist)
-
-    //leg
-    points.topRight = points.waistCross.shift(0, legWidth)
-    points.bottomLeftMin = points.upperLeg.shift(-90, measurements.waistToKnee - toUpperLeg)
-
-    let tweak = 0.005
+    let tweak = 1
     let delta
     do {
-      points.topLeft = points.crossSeamCurveOrigin.shiftOutwards(
-        points.crotchSeamCurveEnd,
-        seat * tweak
+      points.crotchSeamCurveEnd = points.upperLeg.rotate(-45 * tweak, points.crossOrigin)
+      points.topLeft = points.crossOrigin.shiftOutwards(points.crotchSeamCurveEnd, seatGussetWidth)
+
+      points.topLeftCp2 = points.topLeft.shift(
+        points.crotchSeamCurveEnd.angle(points.topLeft) + 90,
+        points.crotchSeamCurveEnd.dist(
+          utils.beamIntersectsY(
+            points.crotchSeamCurveEnd,
+            points.crossOrigin.rotate(-90, points.crotchSeamCurveEnd),
+            points.upperLeg.y
+          )
+        )
       )
-      points.topLeftCp2 = utils.beamIntersectsX(
+      points.crossSeamSplit = points.crotchSeamCurveEnd.flipX()
+
+      points.bottomLeft = points.bottomRight.shiftFractionTowards(points.bottomAnchor, tweak)
+      points.bottomLeftCp1 = points.bottomLeft.shift(
+        90,
+        (points.bottomAnchor.dist(points.upperLeg) * 2) / 3
+      )
+      points.bottomLeftCp1Anchor = utils.beamIntersectsX(
         points.topLeft,
-        points.crotchSeamCurveEnd.rotate(-90, points.topLeft),
-        points.upperLeg.x
+        points.topLeftCp2,
+        points.bottomLeft.x
       )
+      if (points.bottomLeftCp1.y < points.bottomLeftCp1Anchor.y) {
+        points.bottomLeftCp1 = points.bottomLeftCp1Anchor
+      }
 
       paths.saLeft = new Path()
         .move(points.topLeft)
-        .curve_(points.topLeftCp2, points.bottomLeftMin)
+        .curve(points.topLeftCp2, points.bottomLeftCp1, points.bottomLeft)
         .hide()
 
       delta =
         paths.saLeft.length() -
-        (points.waistCross.dy(points.bottomLeftMin) -
-          (paths.crossCurve.length() * 0.5 + points.waistCross.dist(points.crossSeamCurveStart)))
+        (points.topRight.dist(points.bottomRight) -
+          paths.crossSeam.split(points.crossSeamSplit)[0].length())
       if (delta > 0) tweak = tweak * 1.01
       else tweak = tweak * 0.99
     } while (Math.abs(delta) > 1)
 
-    points.bottomLeft = points.upperLeg.shiftOutwards(points.bottomLeftMin, legLength)
-    points.bottomRight = new Point(points.topRight.x, points.bottomLeft.y)
+    const crotchCpDist =
+      (4 / 3) *
+      crossRadius *
+      Math.tan(utils.deg2rad((270 - points.crossOrigin.angle(points.crotchSeamCurveEnd)) / 4))
+    points.upperLegCp2 = points.upperLeg
+      .shiftTowards(points.crossOrigin, crotchCpDist)
+      .rotate(90, points.upperLeg)
+    points.crotchSeamCurveEndCp1 = points.crotchSeamCurveEnd
+      .shiftTowards(points.crossOrigin, crotchCpDist)
+      .rotate(-90, points.crotchSeamCurveEnd)
 
     //paths
-    paths.crossSeam = new Path()
-      .move(points.waistCross)
-      .line(points.crossSeamCurveStart)
-      .join(paths.crossCurve)
+    paths.crossSeam = paths.crossSeam
       .curve(points.upperLegCp2, points.crotchSeamCurveEndCp1, points.crotchSeamCurveEnd)
       .hide()
 
@@ -219,6 +235,7 @@ export const leg = {
       .join(paths.crossSeam)
       .line(points.topLeft)
       .join(paths.saLeft)
+      .line(points.bottomLeft)
       .close()
 
     //stores
@@ -285,30 +302,31 @@ export const leg = {
     store.set('waistbandWidth', waistbandWidth)
     store.set('waistbandLength', waistbandLength)
     store.set('waistbandLengthTop', waistbandLength - waistbandDiff)
-    store.set('legBandWidth', legBandWidth)
+
+    if (options.legBandStyle == 'straight' || options.legBandStyle == 'curved') {
+      store.set('legBandWidth', absoluteOptions.legBandWidth)
+    } else {
+      store.set('legBandWidth', legTubeWidth)
+    }
     store.set('legBandLengthTop', legBandLength)
     if (options.legBandStyle == 'curved' || options.legBandStyle == 'curvedTube') {
       store.set('legBandLength', legBandLength - legBandDiff)
     } else {
       store.set('legBandLength', legBandLength)
     }
-    store.set('seatGussetWidth', points.crotchSeamCurveEnd.dist(points.topLeft))
-    store.set(
-      'seatGussetLength',
-      points.waistCross.dist(points.crossSeamCurveStart) + paths.crossCurve.length() * 0.5
-    )
-    store.set('crotchGussetWidth', store.get('seatGussetWidth') * options.crotchGussetWidth)
+    store.set('crossSeamLength', paths.crossSeam.length())
+    store.set('seatGussetWidth', seatGussetWidth)
+    store.set('seatGussetLength', paths.crossSeam.split(points.crossSeamSplit)[0].length())
+    store.set('crotchGussetWidth', seatGussetWidth * options.crotchGussetWidth)
     store.set(
       'crotchGussetBottomWidth',
-      store.get('crotchGussetWidth') * options.crotchGussetBottomWidth
+      store.get('crotchGussetWidth') * options.crotchGussetTopWidth
     )
+    store.set('crotchNotchWidth', paths.crossSeam.split(points.upperLeg)[0].length())
     store.set(
       'seatGussetTopWidth',
-      (store.get('seatGussetWidth') * 2 + store.get('crotchGussetWidth')) *
-        options.seatGussetTopWidth
+      (seatGussetWidth * 2 + store.get('crotchGussetWidth')) * options.seatGussetTopWidth
     )
-    store.set('crossSeamLength', paths.crossSeam.length())
-    store.set('crotchNotchWidth', paths.crossSeam.split(points.upperLeg)[0].length())
 
     if (complete) {
       //grainline
@@ -329,7 +347,7 @@ export const leg = {
       points.title = new Point(points.topRight.x / 2, points.topRight.y / 2)
       macro('title', {
         at: points.title,
-        nr: '1f',
+        nr: '1e',
         title: 'Leg',
         scale: 0.5,
       })
@@ -374,7 +392,7 @@ export const leg = {
           }
         }
       }
-      if (options.legPleats && options.legBandStyle != 'none') {
+      if (options.legPleats) {
         let legPleatNumber = Math.ceil(points.bottomLeft.dist(points.bottomRight) * 0.01)
         if (options.matchPleatNumber) legPleatNumber = waistPleatNumber
         const legPleatKeep = legBandLength / legPleatNumber
@@ -407,29 +425,26 @@ export const leg = {
         let hemSa = sa
         if (options.legBandStyle == 'none') hemSa = sa * options.hemWidth * 100
 
-        const crossSeamSa = sa * options.crossSeamSaWidth * 100
-        const sideSeamSa = sa * options.sideSeamSaWidth * 100
-
-        points.saBottomLeft = points.bottomLeft.translate(-sideSeamSa, hemSa)
-        points.saBottomRight = points.bottomRight.translate(sideSeamSa, hemSa)
-        points.saTopRight = points.topRight.translate(sideSeamSa, -sa)
-        points.saWaistCross = points.waistCross.translate(-crossSeamSa, -sa)
+        points.saBottomLeft = points.bottomLeft.translate(-sa, hemSa)
+        points.saBottomRight = points.bottomRight.translate(sa, hemSa)
+        points.saTopRight = points.topRight.translate(sa, -sa)
+        points.saWaistCross = points.waistCross.translate(-sa, -sa)
         points.saCrotchSeamCurveEnd = points.crotchSeamCurveEnd
-          .shift(points.crotchSeamCurveEndCp1.angle(points.crotchSeamCurveEnd), crossSeamSa)
-          .shift(points.topLeft.angle(points.crotchSeamCurveEnd), crossSeamSa)
+          .shift(points.crotchSeamCurveEndCp1.angle(points.crotchSeamCurveEnd), sa)
+          .shift(points.topLeft.angle(points.crotchSeamCurveEnd), sa)
         points.saTopLeft = points.topLeft
-          .shift(points.crotchSeamCurveEnd.angle(points.topLeft), sideSeamSa)
-          .shift(points.topLeftCp2.angle(points.topLeft), crossSeamSa)
+          .shift(points.crotchSeamCurveEnd.angle(points.topLeft), sa)
+          .shift(points.topLeftCp2.angle(points.topLeft), sa)
 
         paths.sa = new Path()
           .move(points.saBottomLeft)
           .line(points.saBottomRight)
           .line(points.saTopRight)
           .line(points.saWaistCross)
-          .join(paths.crossSeam.offset(crossSeamSa))
+          .join(paths.crossSeam.offset(sa))
           .line(points.saCrotchSeamCurveEnd)
           .line(points.saTopLeft)
-          .join(paths.saLeft.offset(sideSeamSa))
+          .join(paths.saLeft.offset(sa))
           .line(points.saBottomLeft)
           .close()
           .attr('class', 'fabric sa')

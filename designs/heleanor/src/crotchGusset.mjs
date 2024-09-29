@@ -75,15 +75,21 @@ export const crotchGusset = {
         scale: 0.25,
       })
       if (sa) {
+        const crossSeamSa = sa * options.crossSeamSaWidth * 100
+
         points.saBottomRight = utils.beamIntersectsY(
-          points.bottomRight.shiftTowards(points.topRight, sa).rotate(-90, points.bottomRight),
-          points.topRight.shiftTowards(points.bottomRight, sa).rotate(90, points.topRight),
+          points.bottomRight
+            .shiftTowards(points.topRight, crossSeamSa)
+            .rotate(-90, points.bottomRight),
+          points.topRight.shiftTowards(points.bottomRight, crossSeamSa).rotate(90, points.topRight),
           points.bottomLeft.y + sa
         )
         points.saTopRight = utils.beamIntersectsY(
-          points.bottomRight.shiftTowards(points.topRight, sa).rotate(-90, points.bottomRight),
-          points.topRight.shiftTowards(points.bottomRight, sa).rotate(90, points.topRight),
-          points.topLeft.y - sa
+          points.bottomRight
+            .shiftTowards(points.topRight, crossSeamSa)
+            .rotate(-90, points.bottomRight),
+          points.topRight.shiftTowards(points.bottomRight, crossSeamSa).rotate(90, points.topRight),
+          points.topLeft.y - crossSeamSa
         )
         points.saTopLeft = points.saTopRight.flipX()
         points.saBottomLeft = points.saBottomRight.flipX()
