@@ -77,6 +77,7 @@ export const frontPanel = {
         nr: 'F2',
         title: 'Front Panel',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
       //waist

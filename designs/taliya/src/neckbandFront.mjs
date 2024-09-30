@@ -86,6 +86,7 @@ export const neckbandFront = {
         at: points.title,
         nr: '6',
         title: 'Neckband Front',
+        cutNr: 4,
         scale: 0.25,
       })
       //buttons

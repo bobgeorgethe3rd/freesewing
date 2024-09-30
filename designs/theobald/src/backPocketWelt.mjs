@@ -24,6 +24,7 @@ export const backPocketWelt = {
         nr: 3,
         title: 'Back Pocket Welt',
         at: points.title,
+        cutNr: 4,
         scale: 0.25,
       })
     }

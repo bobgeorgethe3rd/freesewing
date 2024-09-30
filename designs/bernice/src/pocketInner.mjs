@@ -50,6 +50,7 @@ export const pocketInner = {
         nr: '3',
         title: 'Pocket Inner',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
       if (sa) {

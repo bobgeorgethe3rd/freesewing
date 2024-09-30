@@ -65,7 +65,8 @@ export const leatherPatch = {
         nr: 13,
         title: 'Leather Patch',
         at: points.title,
-        scale: 0.2,
+        cutNr: 1,
+        scale: 0.15,
       })
       //logo
       let logoScale = length / 150

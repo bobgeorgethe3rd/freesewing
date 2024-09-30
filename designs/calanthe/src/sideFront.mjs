@@ -76,6 +76,7 @@ export const sideFront = {
         nr: 'F3',
         title: 'Side Front',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
       //waist

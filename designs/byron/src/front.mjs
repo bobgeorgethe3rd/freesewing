@@ -209,6 +209,7 @@ export const front = {
     )
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
         points.cutOnFoldFrom = points.cfNeck
         points.cutOnFoldTo = points.cWaist
@@ -217,6 +218,7 @@ export const front = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.cfNeck.shiftFractionTowards(points.cfNeckCp1, 1 / 3)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cWaist.y)
@@ -224,6 +226,7 @@ export const front = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       snippets.armholePitch = new Snippet('notch', points.armholePitch)
@@ -233,6 +236,7 @@ export const front = {
         at: points.title,
         nr: '2',
         title: 'Front',
+        cutNr: titleCutNum,
       })
       if (sa) {
         const armholeSa = sa * options.armholeSaWidth * 100

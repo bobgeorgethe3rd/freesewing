@@ -209,6 +209,8 @@ export const skirtBack = {
     //For All
     if (complete) {
       //title
+      let titleCutNum = 2
+      if (options.closurePosition != 'back' && options.cbSaWidth == 0) titleCutNum = 1
       if (options.skirtPanels > 1) {
         let j
         let k
@@ -220,6 +222,8 @@ export const skirtBack = {
             nr: '8' + j,
             title: 'Skirt Back ' + k + ' (Back)',
             prefix: 'title ' + i,
+            cutNr: 2,
+            onFold: false,
             scale: 0.15,
             rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
           })
@@ -230,15 +234,10 @@ export const skirtBack = {
               nr: '11' + j,
               title: 'Skirt Facing ' + k + ' (Back)',
               prefix: 'titleFacing ' + i,
+              cutNr: 2,
+              onFold: false,
               scale: 0.15,
               rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
-            })
-            macro('title', {
-              at: points.titleFacing,
-              nr: '11a',
-              title: 'Skirt Facing A (Back)',
-              prefix: 'titleFacing',
-              scale: 0.15,
             })
           }
         }
@@ -247,14 +246,26 @@ export const skirtBack = {
           at: points.title,
           nr: '8a',
           title: 'Skirt A (Back)',
+          cutNr: titleCutNum,
           scale: 0.15,
           prefix: 'title',
         })
+        if (options.skirtFacings) {
+          macro('title', {
+            at: points.titleFacing,
+            nr: '10a',
+            title: 'Skirt Facing A' + ' (Front)',
+            prefix: 'titleFacing',
+            cutNr: titleCutNum,
+            scale: 0.15,
+          })
+        }
       } else {
         macro('title', {
           at: points.title,
           nr: '8',
           title: 'Skirt (Back)',
+          cutNr: titleCutNum,
           scale: 0.5,
           prefix: 'title',
           rotation: 90 - points.backHemMid.angle(points.waistBackMid),
@@ -264,6 +275,7 @@ export const skirtBack = {
             at: points.titleFacing,
             nr: '11',
             title: 'Skirt Facing (Back)',
+            cutNr: titleCutNum,
             scale: 0.5,
             prefix: 'titleFacing',
             rotation: 90 - points.backHemMid.angle(points.backHemFacingMid),

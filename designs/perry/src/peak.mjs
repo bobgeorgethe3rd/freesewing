@@ -152,11 +152,15 @@ export const peak = {
       //notches
       snippets.bottomInnerNotch = new Snippet('notch', points.bottomInner)
       //title
-      points.title = new Point(points.bottomInnerCp2.x * 0.75, points.bottomInner.y + peakWidth / 2)
+      points.title = new Point(
+        points.bottomInnerCp2.x * 0.75,
+        points.bottomInner.y + (peakWidth * 1) / 3
+      )
       macro('title', {
         at: points.title,
         nr: '3',
         title: 'Peak',
+        cutNr: 2,
         scale: 0.25,
       })
       //centre line

@@ -104,6 +104,7 @@ export const backPanel = {
         nr: 11,
         title: 'Back Panel',
         at: points.title,
+        cutNr: 2,
         rotation: 90 - points.hemK.angle(points.origin),
         scale: 0.5,
       })

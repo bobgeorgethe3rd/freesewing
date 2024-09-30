@@ -40,6 +40,7 @@ export const waistFacing = {
         nr: 8,
         title: 'Waist Facing',
         at: points.title,
+        cutNr: 4,
         scale: 0.25,
       })
     }

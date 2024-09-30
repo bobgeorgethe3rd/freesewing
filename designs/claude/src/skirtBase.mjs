@@ -28,6 +28,13 @@ export const skirtBase = {
     fitWaist: false,
     skirtBandStyle: 'none',
     skirtBandWidth: 0,
+    skirtBandWidth: {
+      pct: 0,
+      min: 0,
+      max: 0,
+      snap: 0,
+      ...pctBasedOn('waistToFloor'),
+    },
     skirtHighLength: 'toSeat',
     skirtHighLengthBonus: 0,
     crotchDrop: 0.02,

@@ -64,6 +64,7 @@ export const backTab = {
         nr: 11,
         title: 'Back Tab',
         at: points.title,
+        cutNr: 2,
         scale: 0.1,
       })
       //buttonhole

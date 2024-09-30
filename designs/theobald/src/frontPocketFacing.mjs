@@ -67,6 +67,7 @@ export const frontPocketFacing = {
       macro('title', {
         nr: '6',
         title: 'Front Pocket Facing',
+        cutNr: 2,
         at: points.title,
         scale: 0.2,
       })

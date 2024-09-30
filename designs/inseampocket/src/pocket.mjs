@@ -147,6 +147,7 @@ export const pocket = {
         at: points.title,
         nr: 1,
         title: 'Inseam Pocket',
+        cutNr: 4,
         scale: 0.75,
       })
 

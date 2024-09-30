@@ -269,6 +269,7 @@ export const front = {
     store.set('sideSeamLength', paths.sideSeam.length())
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.cfSaWidth == 0) {
         points.cutOnFoldFrom = points.cfNeckbandEnd.shiftFractionTowards(points.cfHem, 0.15)
         points.cutOnFoldTo = points.cfHem.shiftFractionTowards(points.cfNeckbandEnd, 0.15)
@@ -277,6 +278,7 @@ export const front = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.neckbandEnd.shiftFractionTowards(
           new Point(points.neckbandEnd.x, points.cfHem.y),
@@ -290,6 +292,7 @@ export const front = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       snippets.gatherNeckSplit = new Snippet('bnotch', points.gatherNeckSplit)
@@ -312,6 +315,7 @@ export const front = {
         nr: '1',
         title: 'Front',
         scale: 0.5,
+        cutNr: titleCutNum,
       })
       //logo
       points.logo = points.bust.shift(0, points.bust.dist(points.armhole) * 0.45)

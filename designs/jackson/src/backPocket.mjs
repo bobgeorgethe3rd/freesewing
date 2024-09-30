@@ -62,6 +62,7 @@ export const backPocket = {
         nr: 2,
         title: 'Back Pocket',
         at: points[prefixFunction('title')],
+        cutNr: 2,
         scale: 0.5,
       })
     }

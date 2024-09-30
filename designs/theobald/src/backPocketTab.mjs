@@ -24,6 +24,7 @@ export const backPocketTab = {
         nr: 4,
         title: 'Back Pocket Tab',
         at: points.title,
+        cutNr: 4,
         scale: 0.25,
       })
     }

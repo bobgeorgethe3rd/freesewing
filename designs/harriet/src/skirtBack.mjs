@@ -76,6 +76,7 @@ export const skirtBack = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
         points.cutOnFoldFrom = points.cbWaist
         points.cutOnFoldTo = points.cbHem
@@ -84,6 +85,7 @@ export const skirtBack = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.cbWaist.shiftFractionTowards(points.cbWaistCp1, 1 / 3)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cbHem.y)
@@ -91,6 +93,7 @@ export const skirtBack = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       if (store.get('pocketLength') < skirtLength) {
@@ -188,6 +191,8 @@ export const skirtBack = {
               nr: '7' + j,
               title: 'Skirt Facing ' + k + '(Back)',
               prefix: 'titleFacing ' + i,
+              cutNr: 2,
+              onFold: false,
               scale: 0.15,
               rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
             })
@@ -200,6 +205,7 @@ export const skirtBack = {
               nr: '7a',
               title: 'Skirt Facing A (Back)',
               prefix: 'titleFacing',
+              cutNr: titleCutNum,
               scale: 0.15,
             })
           }
@@ -241,6 +247,8 @@ export const skirtBack = {
             nr: '6' + j,
             title: 'Skirt ' + k + ' (Back)',
             prefix: 'title ' + i,
+            cutNr: 2,
+            onFold: false,
             scale: 0.15,
             rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
           })
@@ -252,6 +260,7 @@ export const skirtBack = {
             at: points.title,
             nr: '6a',
             title: 'Skirt Back A',
+            cutNr: titleCutNum,
             scale: 0.15,
             prefix: 'title',
           })
@@ -263,6 +272,7 @@ export const skirtBack = {
           nr: '6',
           title: 'Skirt (Back)',
           prefix: 'title',
+          cutNr: titleCutNum,
           scale: 0.5,
           rotation: 90 - points.backHemMid.angle(points.waistBackMid),
         })
@@ -273,6 +283,7 @@ export const skirtBack = {
             nr: '7',
             title: 'Skirt Facing (Back)',
             prefix: 'titleFacing',
+            cutNr: titleCutNum,
             scale: 0.5,
             rotation: 90 - points.backHemMid.angle(points.backHemFacingMid),
           })

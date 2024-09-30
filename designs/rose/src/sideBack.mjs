@@ -45,6 +45,7 @@ export const sideBack = {
         at: points.title,
         nr: '8',
         title: 'Side Back',
+        cutNr: 2,
         scale: 0.5,
       })
     }

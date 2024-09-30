@@ -24,6 +24,7 @@ export const backPocketBag = {
         nr: 2,
         title: 'Back Pocket Bag',
         at: points.title,
+        cutNr: 4,
         scale: 0.5,
       })
     }

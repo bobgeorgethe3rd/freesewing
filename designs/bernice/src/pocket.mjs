@@ -74,12 +74,14 @@ export const pocket = {
         nr: '4a',
         title: 'Pocket',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
       macro('title', {
         nr: '4b',
         title: 'Pocket Facing',
         at: points.titleFacing,
+        cutNr: 2,
         scale: 0.5,
         prefix: 'b',
       })

@@ -197,11 +197,14 @@ export const strap = {
       points.bottomNotch = points.bottomLeft.shiftFractionTowards(points.bottomRight, 0.5)
       snippets.bottomNotch = new Snippet('notch', points.bottomNotch)
 
+      let titleCutNum
       if (options.tieType == 'strap') {
         points.topNotch = points.topLeft.shiftFractionTowards(points.topRight, 0.5)
         snippets.topNotch = new Snippet('bnotch', points.topNotch)
+        titleCutNum = 2
       } else {
         snippets.bBottomNotch = new Snippet('bnotch', points.bottomNotch)
+        titleCutNum = 4
       }
 
       //title
@@ -210,7 +213,8 @@ export const strap = {
         at: points.title,
         nr: 5,
         title: 'Strap / Tie',
-        scale: 1 / 3,
+        cutNr: titleCutNum,
+        scale: 0.25,
       })
 
       if (sa) {

@@ -41,11 +41,13 @@ export const beltLoops = {
       return part
     }
 
+    let titleCutNum
     if (options.beltLoopType == 'trouser') {
       let beltLoopSa = sa
       if (sa == 0) {
         beltLoopSa = 10
       }
+      titleCutNum = 1
       store.set('beltLoopLength', absoluteOptions.waistbandWidth * 2 + beltLoopSa)
       store.set('beltLoopWidth', absoluteOptions.beltLoopWidth)
 
@@ -55,7 +57,7 @@ export const beltLoops = {
       const beltLoopWidth = absoluteOptions.waistbandWidth
       const beltLoopLength =
         (store.get('waistbandLength') - store.get('seatGussetTopWidth') * 4) * 0.25
-
+      titleCutNum = 4
       //let's begin
       points.origin = new Point(0, 0)
       points.bottomRight = new Point(beltLoopLength / 2, beltLoopWidth / 2)
@@ -104,6 +106,7 @@ export const beltLoops = {
         nr: 6,
         title: 'Belt Loops',
         at: points.title,
+        cutNr: titleCutNum,
         scale: 0.1,
       })
     }

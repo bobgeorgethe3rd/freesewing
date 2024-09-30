@@ -99,6 +99,7 @@ export const sideBack = {
         title: 'Side Back',
         at: points.title,
         rotation: 90 - points.hemE.angle(points.origin),
+        cutNr: 2,
         scale: 0.5,
       })
       //facings

@@ -58,6 +58,7 @@ export const sleeveTie = {
         at: points.title,
         nr: '4',
         title: 'Ruffle Butterfly Sleeve Tie',
+        cutNr: 4,
         scale: 0.12,
       })
       if (sa) {

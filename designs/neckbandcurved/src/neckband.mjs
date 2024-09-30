@@ -72,7 +72,8 @@ export const neckband = {
         at: points.title,
         nr: 1,
         title: 'Neckband',
-        scale: 1 / 3,
+        cutNr: 1,
+        scale: 0.25,
       })
     }
 

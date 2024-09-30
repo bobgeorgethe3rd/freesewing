@@ -365,6 +365,7 @@ export const leg8 = {
       at: points.title,
       nr: '1h',
       title: 'Leg',
+      cutNr: 2,
       scale: 0.5,
     })
     //logo

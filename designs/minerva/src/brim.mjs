@@ -142,6 +142,7 @@ export const brim = {
         at: points.title,
         nr: '2',
         title: 'Brim (Bubbled)',
+        cutNr: 2,
         scale: 0.25,
       })
       //scalebox

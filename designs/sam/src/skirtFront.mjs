@@ -77,11 +77,14 @@ export const skirtFront = {
 
     if (complete) {
       //title
+      let titleCutNum = 2
+      if (options.closurePosition != 'front' && options.cfSaWidth == 9) titleCutNum = 1
       if (options.skirtPanels <= 1) {
         macro('title', {
           at: points.title,
           nr: '7',
           title: 'Skirt (Front)',
+          cutNr: titleCutNum,
           scale: 0.5,
           prefix: 'title',
           rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
@@ -91,6 +94,7 @@ export const skirtFront = {
             at: points.titleFacing,
             nr: '11',
             title: 'Skirt Facing (Front)',
+            cutNr: titleCutNum,
             scale: 0.5,
             prefix: 'titleFacing',
             rotation: 90 - points.frontHemMid.angle(points.frontHemFacingMid),
@@ -101,6 +105,7 @@ export const skirtFront = {
           at: points.title,
           nr: '7a',
           title: 'Skirt A (Front)',
+          cutNr: titleCutNum,
           scale: 0.15,
           prefix: 'title',
         })
@@ -109,9 +114,40 @@ export const skirtFront = {
             at: points.titleFacing,
             nr: '11a',
             title: 'Skirt Facing A (Front)',
+            cutNr: titleCutNum,
             scale: 0.15,
             prefix: 'titleFacing',
           })
+        }
+        let j
+        let k
+        for (let i = 0; i < options.skirtPanels - 1; i++) {
+          j = String.fromCharCode(i + 98)
+          k = String.fromCharCode(i + 66)
+
+          macro('title', {
+            at: points['title' + i],
+            nr: '7' + j,
+            title: 'Skirt ' + k + ' (Front)',
+            prefix: 'title ' + i,
+            cutNr: 2,
+            onFold: false,
+            scale: 0.15,
+            rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
+          })
+
+          if (options.skirtFacings) {
+            macro('title', {
+              at: points['titleFacing' + i],
+              nr: '11' + j,
+              title: 'Skirt Facing ' + k + ' (Front)',
+              prefix: 'titleFacing ' + i,
+              cutNr: 2,
+              onFold: false,
+              scale: 0.15,
+              rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
+            })
+          }
         }
       }
     }

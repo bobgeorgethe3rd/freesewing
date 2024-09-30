@@ -234,6 +234,7 @@ export const back = {
     store.set('waistbandOverlap', placketWidth)
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
         points.cutOnFoldFrom = points.cbNeck
         points.cutOnFoldTo = points.cbWaist
@@ -242,6 +243,7 @@ export const back = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.bodicePlacketNeckRight.shift(
           0,
@@ -252,6 +254,7 @@ export const back = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       if (options.closurePosition == 'back' && options.placketStyle != 'none') {
@@ -277,6 +280,7 @@ export const back = {
         at: points.title,
         nr: '2',
         title: 'Back',
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       //lines and buttonholes

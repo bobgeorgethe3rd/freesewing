@@ -21,6 +21,7 @@ export const backBustShoulder = {
     for (let i in snippets) delete snippets[i]
     //removing macros not required from Daisy
     macro('title', false)
+    macro('cutonfold', false)
     //guides
     if (options.daisyGuides) {
       paths.daisyGuide = new Path()
@@ -97,6 +98,7 @@ export const backBustShoulder = {
         at: points.title,
         nr: '3',
         title: 'Back',
+        cutNr: 2,
         scale: 0.75,
       })
       if (sa) {

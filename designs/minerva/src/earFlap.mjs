@@ -63,6 +63,7 @@ export const earFlap = {
         at: points.title,
         nr: 3,
         title: 'earFlap' + utils.capitalize(options.earFlapStyle),
+        cutNr: 4,
         scale: 0.25,
       })
     }

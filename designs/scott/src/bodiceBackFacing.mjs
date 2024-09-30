@@ -96,6 +96,7 @@ export const bodiceBackFacing = {
       .close()
 
     if (complete) {
+      let titleCutNum
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
         //grainline
         points.cutOnFoldFrom = points.neckFacing.shiftFractionTowards(points.facingLeft, 0.1)
@@ -105,6 +106,7 @@ export const bodiceBackFacing = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineTo = points.facingLeft.shift(
           0,
@@ -115,6 +117,7 @@ export const bodiceBackFacing = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       snippets.neckBackCorner = new Snippet('bnotch', points.neckBackCorner)
@@ -130,7 +133,8 @@ export const bodiceBackFacing = {
         at: points.title,
         nr: '15',
         title: 'Bodice Facing (Back)',
-        scale: 1 / 3,
+        cutNr: titleCutNum,
+        scale: 0.25,
       })
       if (sa) {
         const bodiceFacingHemSa = sa * options.bodiceFacingHemSaWidth * 100

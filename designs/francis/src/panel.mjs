@@ -78,6 +78,7 @@ export const panel = {
         at: points.title,
         nr: '3',
         title: 'Panel',
+        cutNr: 2,
         scale: 0.5,
       })
       if (sa) {

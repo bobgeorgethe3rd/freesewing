@@ -112,7 +112,6 @@ export const legFront = {
     } while (Math.abs(crotchDelta) > 1)
 
     points.hemFront = new Point(points.upperLegFront.x, points.cfHem.y)
-
     //paths
     if (points.sideFrontExtension) {
       paths.sideSeam = new Path()
@@ -175,6 +174,7 @@ export const legFront = {
       }
       //panels & title
       let titleFront
+      let titleCutNum
       if (
         !options.separateBack &&
         !options.useBackMeasures &&
@@ -184,8 +184,10 @@ export const legFront = {
           (options.fitWaistFront != options.fitWaistBack && options.waistbandElastic))
       ) {
         titleFront = ''
+        titleCutNum = 4
       } else {
         titleFront = ' (Front)'
+        titleCutNum = 2
       }
 
       if (options.skirtPanels > 1) {
@@ -241,6 +243,7 @@ export const legFront = {
             nr: '1' + j,
             title: 'Leg ' + k + titleFront,
             prefix: 'title ' + i,
+            cutNr: titleCutNum,
             scale: 0.15,
             rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
           })
@@ -258,6 +261,7 @@ export const legFront = {
               nr: '5' + j,
               title: 'Leg Facing ' + k + titleFront,
               prefix: 'titleFacing ' + i,
+              cutNr: titleCutNum,
               scale: 0.15,
               rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
             })
@@ -268,6 +272,7 @@ export const legFront = {
               at: points.titleFacing,
               nr: '5a',
               title: 'Leg Facing A' + titleFront,
+              cutNr: titleCutNum,
               prefix: 'titleFacing',
               scale: 0.15,
             })
@@ -279,6 +284,7 @@ export const legFront = {
             at: points.title,
             nr: '1a',
             title: 'Leg A' + titleFront,
+            cutNr: titleCutNum,
             scale: 0.15,
             prefix: 'title',
           })
@@ -293,6 +299,7 @@ export const legFront = {
           nr: '1',
           title: 'Leg' + titleFront,
           scale: 0.5,
+          cutNr: titleCutNum,
           prefix: 'title',
           rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
         })
@@ -307,6 +314,7 @@ export const legFront = {
             nr: '5',
             title: 'Leg Facing' + titleFront,
             scale: 0.5,
+            cutNr: titleCutNum,
             prefix: 'titleFacing',
             rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
           })
@@ -315,7 +323,7 @@ export const legFront = {
       //logo
       points.logo = points.frontHemMid
         .shiftTowards(points.waistFrontMid, skirtFacingWidth)
-        .shiftFractionTowards(points.waistFrontMid, 2 / 3)
+        .shiftFractionTowards(points.waistFrontMid, 0.75)
       macro('logorg', {
         at: points.logo,
         scale: 0.5,
@@ -324,7 +332,7 @@ export const legFront = {
       //scalebox
       points.scalebox = points.frontHemMid
         .shiftTowards(points.waistFrontMid, skirtFacingWidth)
-        .shiftFractionTowards(points.waistFrontMid, 1 / 3)
+        .shiftFractionTowards(points.waistFrontMid, 0.25)
       macro('scalebox', {
         at: points.scalebox,
         scale: 0.25,

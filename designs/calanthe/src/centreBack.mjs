@@ -71,12 +71,13 @@ export const centreBack = {
         nr: 'B1',
         title: 'Centre Back',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
       //scalebox
       points.scalebox = new Point(
         points.waist5Left.x * 1.1,
-        (points.cbUnderbust.y + points.cbWaist.y) / 2
+        points.cbUnderbust.y + ((points.cbWaist.y - points.cbUnderbust.y) * 2) / 3
       )
       macro('miniscale', {
         at: points.scalebox,

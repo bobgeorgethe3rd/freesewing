@@ -53,6 +53,7 @@ export const sleeveGusset = {
         at: points.title,
         nr: '3',
         title: 'Sleeve Gusset',
+        cutNr: 2,
         scale: 0.25,
       })
       if (sa) {

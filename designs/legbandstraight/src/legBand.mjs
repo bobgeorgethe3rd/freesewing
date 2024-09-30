@@ -66,11 +66,14 @@ export const legBand = {
     })
 
     if (complete) {
+      let titleCutNum = 2
+      if (options.legBandFolded) titleCutNum = 1
       macro('title', {
         at: points.title,
         nr: 1,
         title: 'Leg band',
-        scale: 1 / 3,
+        cutNr: titleCutNum,
+        scale: 0.25,
       })
       // if (options.legBandClosurePosition == 'back') {
       // paths.legBandLeft.attr('data-text', 'Inseam', true)

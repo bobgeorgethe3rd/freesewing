@@ -24,6 +24,7 @@ export const sleeveTie = {
         nr: 12,
         title: 'Sleeve Tie',
         at: points.title,
+        cutNr: 4,
         scale: 0.1,
       })
     }

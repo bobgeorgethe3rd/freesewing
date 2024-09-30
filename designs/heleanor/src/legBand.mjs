@@ -29,11 +29,14 @@ export const legBand = {
     }
 
     if (complete) {
+      let titleCutNum = 2
+      if (options.legBandFolded || options.legBandStyle == 'curved') titleCutNum = 1
       macro('title', {
         nr: 5,
         title: 'Leg band ' + utils.capitalize(options.legBandStyle),
         at: points.title,
-        scale: 1 / 3,
+        cutNr: titleCutNum,
+        scale: 0.25,
       })
       if (paths.legBandLeftEx) paths.legBandLeftEx.attr('data-text', 'Seam - line', true)
       paths.legBandLeft.attr('data-text', '1 / 4 Mark', true)

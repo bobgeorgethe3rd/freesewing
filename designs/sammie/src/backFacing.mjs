@@ -82,6 +82,7 @@ export const backFacing = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition == 'back' || options.cbSaWidth > 0) {
         points.grainlineFrom = points.cbTop.shiftFractionTowards(points.dartTopLeftCp, 0.25)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cbFacing.y)
@@ -89,6 +90,7 @@ export const backFacing = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       } else {
         points.cutOnFoldFrom = points.cbTop
         points.cutOnFoldTo = points.cbFacing
@@ -97,6 +99,7 @@ export const backFacing = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       }
       //title
       points.title = points.dartTopLeft.shift(
@@ -107,6 +110,7 @@ export const backFacing = {
         at: points.title,
         nr: '6',
         title: 'Back Facing',
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       if (sa) {

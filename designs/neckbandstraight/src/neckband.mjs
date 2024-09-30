@@ -66,11 +66,14 @@ export const neckband = {
     })
 
     if (complete) {
+      let titleCutNum = 2
+      if (options.neckbandFolded) titleCutNum = 1
       macro('title', {
         at: points.title,
         nr: 1,
         title: 'Neckband',
-        scale: 1 / 3,
+        cutNr: titleCutNum,
+        scale: 0.25,
       })
     }
 

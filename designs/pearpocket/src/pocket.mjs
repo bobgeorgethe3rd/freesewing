@@ -124,6 +124,7 @@ export const pocket = {
         at: points.title,
         nr: 1,
         title: 'Pear Shaped Pocket',
+        cutNr: 4,
         scale: 0.75,
       })
       //opening

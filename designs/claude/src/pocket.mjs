@@ -51,6 +51,7 @@ export const pocket = {
         nr: 3,
         title: 'Pocket',
         at: points.title,
+        cutNr: 4,
         scale: 0.75,
       })
     }

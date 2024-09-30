@@ -177,13 +177,14 @@ export const sleeve = {
       })
       //title
       points.title = new Point(
-        points.sleeveCapLeft.x * 0.25,
+        (points.sleeveCapLeft.x * 1) / 3,
         (points.sleeveTip.y + points.bottomAnchor.y) / 2
       )
       macro('title', {
         at: points.title,
         nr: 1,
         title: 'Dolman Sleeve',
+        cutNr: 2,
         scale: 0.5,
       })
       if (sa) {

@@ -124,6 +124,7 @@ export const sleeve = {
         at: points.title,
         nr: '2',
         title: 'Sleeve',
+        cutNr: 2,
         scale: 0.5,
       })
       if (sa) {

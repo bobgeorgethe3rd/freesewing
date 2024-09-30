@@ -122,6 +122,7 @@ export const coinPocket = {
         nr: 5,
         title: 'Coin Pocket',
         at: points.title,
+        cutNr: 1,
         scale: 0.25,
         // rotation: 90 - points.coinPocketBottomIn.angle(points.coinPocketIn),
       })

@@ -249,6 +249,7 @@ export const cats = {
           nr: 6,
           title: 'Cat (' + utils.units(catWidth) + ')',
           prefix: i,
+          cutNr: false,
           scale: (i + 1) * 0.075,
         })
 

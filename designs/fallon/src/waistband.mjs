@@ -53,10 +53,13 @@ export const waistband = {
 
     if (complete) {
       //title
+      let titleCutNum = 2
+      if (options.waistbandFolded || options.waistbandStyle == 'curved') titleCutNum = 1
       macro('title', {
         nr: 8,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
+        cutNr: titleCutNum,
         scale: 0.1,
       })
       //placement lines

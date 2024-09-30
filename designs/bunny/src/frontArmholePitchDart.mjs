@@ -85,6 +85,7 @@ export const frontArmholePitchDart = ({
 
   if (complete) {
     //grainline
+    let titleCutNum
     if (options.cfSaWidth > 0) {
       points.grainlineFrom = new Point(points.cfNeckCp1.x / 3, points.cfTop.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
@@ -92,6 +93,7 @@ export const frontArmholePitchDart = ({
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      titleCutNum = 2
     } else {
       points.cutOnFoldFrom = points.cfTop
       points.cutOnFoldTo = points.cfHem
@@ -100,6 +102,7 @@ export const frontArmholePitchDart = ({
         to: points.cutOnFoldTo,
         grainline: true,
       })
+      titleCutNum = 1
     }
     //notches
     macro('sprinkle', {
@@ -109,12 +112,13 @@ export const frontArmholePitchDart = ({
     //title
     points.title = new Point(
       points.bust.x * 0.55,
-      points.armhole.rotate(bustDartAngle, points.bust).y
+      points.armholePitchCp1.rotate(bustDartAngle, points.bust).y
     )
     macro('title', {
       at: points.title,
       nr: '1',
       title: 'Front',
+      cutNr: titleCutNum,
       scale: 2 / 3,
     })
     //logo

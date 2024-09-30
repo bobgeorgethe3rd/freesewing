@@ -69,6 +69,7 @@ export const skirtPlacket = {
         at: points.title,
         nr: '13',
         title: 'Placket (Skirt)',
+        cutNr: 2,
         scale: 0.15,
       })
       //foldline

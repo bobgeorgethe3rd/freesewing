@@ -81,6 +81,7 @@ export const belt = {
         at: points.title,
         nr: '6',
         title: 'Belt',
+        cutNr: 4,
         scale: 0.25,
       })
       if (sa) {

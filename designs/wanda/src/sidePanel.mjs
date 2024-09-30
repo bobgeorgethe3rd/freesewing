@@ -95,6 +95,7 @@ export const sidePanel = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (
         options.closurePosition != 'back' &&
         options.cbSaWidth == 0 &&
@@ -108,6 +109,7 @@ export const sidePanel = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.waistE.shiftFractionTowards(points.hemE, 0.025)
         points.grainlineTo = points.hemE.shiftFractionTowards(points.waistE, 0.025)
@@ -115,6 +117,7 @@ export const sidePanel = {
           from: points.waistE.rotate(90, points.grainlineFrom),
           to: points.hemE.rotate(-90, points.grainlineTo),
         })
+        titleCutNum = 2
       }
       //notches
       if (options.pocketsBool) {
@@ -160,6 +163,7 @@ export const sidePanel = {
         title: titleName,
         at: points.title,
         rotation: 90 - points.hemE.angle(points.origin),
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       //facings

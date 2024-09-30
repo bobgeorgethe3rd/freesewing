@@ -32,6 +32,7 @@ export const sideBack = {
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
+    macro('cutonfold', false)
     //let's begin
     paths.armhole = new Path()
       .move(points.armhole)
@@ -81,6 +82,7 @@ export const sideBack = {
         at: points.title,
         nr: '3',
         title: 'Side Back',
+        cutNr: 2,
         scale: 2 / 3,
       })
       if (sa) {

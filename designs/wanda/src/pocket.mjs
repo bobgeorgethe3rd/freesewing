@@ -35,10 +35,13 @@ export const pocket = {
     }
     if (complete) {
       //title
+      let titleCutNum = 4
+      if (options.pocketStyle == 'boxPleat') titleCutNum = 2
       macro('title', {
         nr: 4,
         title: utils.capitalize(options.pocketStyle) + ' Pocket',
         at: points.title,
+        cutNr: titleCutNum,
         scale: 0.5,
       })
     }

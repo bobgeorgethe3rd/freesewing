@@ -81,11 +81,14 @@ export const neckband = {
         on: ['top', 'bottom'],
       })
       //title
+      let titleCutNum = 2
+      if (options.neckbandFolded && !options.neckbandRuffles) titleCutNum = 1
       points.title = points.origin
       macro('title', {
         at: points.title,
         nr: '5',
         title: 'Sleeve Band',
+        cutNr: titleCutNum,
         scale: 0.25,
       })
       //foldline

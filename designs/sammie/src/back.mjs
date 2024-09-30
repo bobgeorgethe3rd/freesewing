@@ -64,6 +64,7 @@ export const back = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition == 'back' || options.cbSaWidth > 0) {
         points.grainlineFrom = new Point(
           points.dartBottomLeft.x * 0.85,
@@ -74,6 +75,7 @@ export const back = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       } else {
         points.cutOnFoldFrom = points.cbTop
         points.cutOnFoldTo = points.cbWaist
@@ -82,6 +84,7 @@ export const back = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       }
       //notches
       points.cbNotch = new Point(
@@ -114,6 +117,7 @@ export const back = {
         at: points.title,
         nr: '4',
         title: 'Back',
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       if (points.title.y < points.cbTop.y) {

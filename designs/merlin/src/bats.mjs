@@ -149,6 +149,7 @@ export const bats = {
           nr: 7,
           title: 'Bat (' + utils.units(batWidth) + ')',
           prefix: i,
+          cutNr: false,
           scale: (i + 1) * 0.05,
         })
         if (sa && options.appliqueSaWidth > 0) {

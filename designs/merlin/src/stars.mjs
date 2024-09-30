@@ -110,6 +110,7 @@ export const stars = {
           nr: 4,
           title: 'Star (' + utils.units(starWidth) + ')',
           prefix: i,
+          cutNr: false,
           scale: (i + 1) * 0.075,
         })
 

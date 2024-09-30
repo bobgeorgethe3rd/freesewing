@@ -69,6 +69,7 @@ export const placket = {
         nr: 6,
         title: 'Placket',
         at: points.title,
+        cutNr: 2,
         scale: 0.15,
       })
 

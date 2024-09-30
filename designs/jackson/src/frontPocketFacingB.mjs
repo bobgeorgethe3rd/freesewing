@@ -77,6 +77,7 @@ export const frontPocketFacingB = {
         nr: '14',
         title: 'Front Pocket Facing B',
         at: points.title,
+        cutNr: 2,
         scale: 0.25,
       })
       if (sa) {

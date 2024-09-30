@@ -278,6 +278,7 @@ export const sleeveFlounce = {
         at: points.title,
         nr: '2',
         title: 'Ruffle Butterfly Sleeve Flounce',
+        cutNr: 2,
         scale: 1 / 3,
       })
 

@@ -724,6 +724,7 @@ export const leg = {
         nr: 1,
         title: 'Leg',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
       //scalebox

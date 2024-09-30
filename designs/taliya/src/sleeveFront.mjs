@@ -125,6 +125,7 @@ export const sleeveFront = {
         at: points.title,
         nr: '4',
         title: 'Sleeve Front',
+        cutNr: 2,
         scale: 1 / 3,
         rotation: 360 - points.mArmhole.angle(points.raglanBottom),
       })

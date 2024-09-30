@@ -73,6 +73,7 @@ export const placket = {
         at: points.title,
         nr: '3',
         title: 'Placket',
+        cutNr: 2,
         scale: 0.1,
       })
       //buttonholes & lines

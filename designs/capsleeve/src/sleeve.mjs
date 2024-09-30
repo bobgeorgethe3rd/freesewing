@@ -105,7 +105,8 @@ export const sleeve = {
         at: points.title,
         nr: '1',
         title: 'Cap Sleeve (' + utils.capitalize(options.spreadType) + ' Spread)',
-        scale: 0.4,
+        cutNr: 2,
+        scale: 1 / 3,
       })
       if (sa) {
         const armholeSa = sa * options.armholeSaWidth * 100

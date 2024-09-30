@@ -77,6 +77,7 @@ export const sideBack = {
         nr: 'B3',
         title: 'Side Back',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
       // waist

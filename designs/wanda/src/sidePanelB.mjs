@@ -76,6 +76,7 @@ export const sidePanelB = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (
         options.closurePosition != 'back' &&
         options.cbSaWidth == 0 &&
@@ -88,6 +89,7 @@ export const sidePanelB = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.waistF.shiftFractionTowards(points.hemF, 0.025)
         points.grainlineTo = points.hemF.shiftFractionTowards(points.waistF, 0.025)
@@ -95,6 +97,7 @@ export const sidePanelB = {
           from: points.waistF.rotate(90, points.grainlineFrom),
           to: points.hemF.rotate(-90, points.grainlineTo),
         })
+        titleCutNum = 2
       }
       //title
       let titleName
@@ -107,6 +110,7 @@ export const sidePanelB = {
         title: titleName,
         at: points.title,
         rotation: 90 - points.hemF.angle(points.origin),
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       //facings

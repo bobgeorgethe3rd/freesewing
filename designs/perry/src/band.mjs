@@ -76,12 +76,13 @@ export const band = {
       //title
       points.title = points.topMid
         .shiftFractionTowards(points.topLeft, 1 / 3)
-        .shift(-90, bandWidth * 0.55)
+        .shift(-90, bandWidth * 0.4)
       macro('title', {
         at: points.title,
         nr: '2',
         title: 'Band',
-        scale: 0.25,
+        cutNr: 1,
+        scale: 0.2,
       })
     }
     //centre line

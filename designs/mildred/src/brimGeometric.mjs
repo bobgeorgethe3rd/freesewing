@@ -69,6 +69,7 @@ export const brimGeometric = ({
       at: points.title,
       nr: '2',
       title: 'Brim (Eye)',
+      cutNr: 2,
       scale: 0.25,
     })
     //scalebox

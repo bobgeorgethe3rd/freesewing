@@ -24,6 +24,7 @@ export const sleeveBand = {
         nr: 13,
         title: 'Sleeve Band',
         at: points.title,
+        cutNr: 2,
         scale: 0.1,
       })
     }

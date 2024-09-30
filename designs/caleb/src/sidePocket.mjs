@@ -168,6 +168,7 @@ export const sidePocket = {
         nr: 9,
         title: 'Side Pocket',
         at: points.sidePocketPatchPocketTitle,
+        cutNr: 2,
         scale: 0.5,
       })
     }

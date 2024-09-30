@@ -86,11 +86,14 @@ export const yokeBack = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.yokeBackOnBias) {
         if (options.yokeBackSaWidth == 0) {
           points.grainlineFrom = points.cbNeck.shift(180, points.cbNeck.dist(points.cbYoke) / 2)
+          titleCutNum = 1
         } else {
           points.grainlineFrom = points.cbNeck
+          titleCutNum = 2
         }
         points.grainlineTo = utils.beamsIntersect(
           points.grainlineFrom,
@@ -107,9 +110,11 @@ export const yokeBack = {
             to: points.cutOnFoldTo,
             grainline: true,
           })
+          titleCutNum = 1
         } else {
           points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 0.5)
           points.grainlineTo = new Point(points.grainlineFrom.x, points.cbYoke.y)
+          titleCutNum = 2
         }
       }
       if (points.grainlineFrom) {
@@ -136,6 +141,7 @@ export const yokeBack = {
         at: points.title,
         nr: '4',
         title: 'Yoke Back',
+        cutNr: titleCutNum,
         scale: 1 / 3,
       })
       if (sa) {

@@ -34,6 +34,7 @@ export const frontTop = {
     } else {
       for (let i in paths) delete paths[i]
     }
+    macro('cutonfold', false)
     //let's begin
     //paths
     paths.hemBase = new Path()
@@ -80,6 +81,7 @@ export const frontTop = {
         at: points.title,
         nr: 3,
         title: 'Front Top',
+        cutNr: 2,
         scale: 0.5,
       })
       //scalebox

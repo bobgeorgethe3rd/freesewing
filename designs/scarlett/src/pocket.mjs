@@ -30,11 +30,14 @@ export const pocket = {
     wandaPocket.draft(sh)
 
     if (complete) {
+      let titleCutNum = 4
+      if (options.pocketStyle == 'boxPleat') titleCutNum = 2
       //title
       macro('title', {
         nr: 5,
         title: 'Pocket',
         at: points.title,
+        cutNr: titleCutNum,
         scale: 0.5,
       })
     }

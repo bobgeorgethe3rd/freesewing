@@ -41,6 +41,7 @@ export const collarBand = {
         nr: 7,
         title: 'Collar Band',
         at: points.title,
+        cutNr: 2,
         scale: 0.25,
       })
     }

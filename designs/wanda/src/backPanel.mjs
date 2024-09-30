@@ -71,6 +71,7 @@ export const backPanel = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
         if (options.skirtStyle == 'bell') {
           points.cutOnFoldFrom = points.waistL
@@ -84,6 +85,7 @@ export const backPanel = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum == 1
       } else {
         points.grainlineFrom = points.waist6.shiftFractionTowards(points.hemK, 0.025)
         points.grainlineTo = points.hemK.shiftFractionTowards(points.waist6, 0.025)
@@ -91,6 +93,7 @@ export const backPanel = {
           from: points.waist6.rotate(90, points.grainlineFrom),
           to: points.hemK.rotate(-90, points.grainlineTo),
         })
+        titleCutNum = 2
       }
       //title
       points.title = points.waist6Cp2B.shiftFractionTowards(points.hemKCp1B, 0.5)
@@ -99,6 +102,7 @@ export const backPanel = {
         title: 'Back Panel',
         at: points.title,
         rotation: 90 - points.hemK.angle(points.origin),
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       //facings

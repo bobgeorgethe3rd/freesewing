@@ -97,11 +97,12 @@ export const collarBand = {
       //title
       points.title = points.bottomMid
         .shiftFractionTowards(points.fBottomMidCp2, 0.5)
-        .shift(90, collarBandWidth / 2)
+        .shift(90, collarBandWidth * 0.6)
       macro('title', {
         at: points.title,
         nr: '1',
         title: 'Collar Band',
+        cutNr: 2,
         scale: 0.25,
       })
       //cb

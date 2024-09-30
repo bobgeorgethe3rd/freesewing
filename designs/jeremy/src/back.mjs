@@ -62,6 +62,7 @@ export const back = {
     //stores
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
         points.cutOnFoldFrom = points.cbWaist
         points.cutOnFoldTo = points.cbNeck
@@ -70,6 +71,7 @@ export const back = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp2, 0.25)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cbWaist.y)
@@ -77,6 +79,7 @@ export const back = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       snippets.backArmholePitch = new Snippet('bnotch', points.backArmholePitch)
@@ -86,6 +89,7 @@ export const back = {
         at: points.title,
         nr: '1',
         title: 'Back',
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       //scalebox

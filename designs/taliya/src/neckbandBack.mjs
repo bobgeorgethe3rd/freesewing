@@ -70,6 +70,7 @@ export const neckbandBack = {
         at: points.title,
         nr: '5',
         title: 'Neckband back',
+        cutNr: 2,
         scale: 0.25,
       })
       if (sa) {

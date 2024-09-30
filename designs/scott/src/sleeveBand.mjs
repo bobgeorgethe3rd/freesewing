@@ -74,11 +74,14 @@ export const sleeveBand = {
         }
       }
       //title
+      let titleCutNum = 2
+      if (options.sleeveBandFolded) titleCutNum = 1
       points.title = new Point(points.topRight.x * 0.25, absoluteOptions.sleeveBandWidth * 0.5)
       macro('title', {
         at: points.title,
         nr: '6',
         title: 'Sleeve Band',
+        cutNr: titleCutNum,
         scale: 1 / 3,
       })
     }

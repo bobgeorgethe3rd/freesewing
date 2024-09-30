@@ -70,6 +70,7 @@ export const neckbandRuffle = {
         at: points.title,
         nr: '8',
         title: 'Neckband Ruffle',
+        cutNr: 1,
         scale: 0.25,
       })
       if (sa) {

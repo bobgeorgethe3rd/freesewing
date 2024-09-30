@@ -144,12 +144,13 @@ export const earFlap = {
       //title
       points.title = new Point(
         points.bottomLeft.x * 0.75,
-        points.bottomLeft.shiftFractionTowards(points.bottomLeftCp1, 2 / 3).y
+        points.bottomLeft.shiftFractionTowards(points.bottomLeftCp1, 0.75).y
       )
       macro('title', {
         at: points.title,
         nr: 2,
         title: 'earFlap' + utils.capitalize(options.earFlapStyle),
+        cutNr: 4,
         scale: 0.25,
       })
       //logo

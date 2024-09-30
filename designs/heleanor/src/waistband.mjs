@@ -72,11 +72,14 @@ export const waistband = {
         })
       }
       //title
+      let titleCutNum = 2
+      if (options.waistbandFolded || options.waistbandStyle == 'curved') titleCutNum = 1
       macro('title', {
         nr: 4,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
-        scale: 1 / 3,
+        cutNr: titleCutNum,
+        scale: 0.25,
       })
       if (paths.waistbandLeftEx) paths.waistbandLeftEx.attr('data-text', 'Seam - line', true)
       if (paths.waistbandRightEx) paths.waistbandRightEx.attr('data-text', 'Seam - line', true)

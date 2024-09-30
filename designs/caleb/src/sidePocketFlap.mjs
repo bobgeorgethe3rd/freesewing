@@ -71,6 +71,7 @@ export const sidePocketFlap = {
         nr: 10,
         title: 'Side Pocket Flap',
         at: points.sidePocketPatchPocketFlapTitle,
+        cutNr: 4,
         scale: 0.5,
       })
     }

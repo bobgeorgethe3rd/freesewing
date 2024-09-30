@@ -75,6 +75,7 @@ export const frontFacing = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.cfSaWidth > 0) {
         points.grainlineFrom = new Point(points.cfNeckCp1.x / 3, points.cfTop.y)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cfFacing.y)
@@ -82,6 +83,7 @@ export const frontFacing = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       } else {
         points.cutOnFoldFrom = points.cfTop
         points.cutOnFoldTo = points.cfFacing
@@ -90,6 +92,7 @@ export const frontFacing = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       }
       //notches
       points.cfNotch = points.cfFacing.shiftFractionTowards(points.cfTop, 0.5)
@@ -106,7 +109,8 @@ export const frontFacing = {
         at: points.title,
         nr: '3',
         title: 'Front Facing',
-        scale: 2 / 3,
+        cutNr: titleCutNum,
+        scale: 0.5,
       })
       if (sa) {
         const cfSa = sa * options.cfSaWidth * 100

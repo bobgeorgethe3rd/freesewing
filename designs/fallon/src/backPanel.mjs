@@ -59,6 +59,7 @@ export const backPanel = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
         points.cutOnFoldFrom = points.waist6B
         points.cutOnFoldTo = points.hemJ
@@ -67,6 +68,7 @@ export const backPanel = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.waistF.shiftFractionTowards(points.hemY, 0.025)
         points.grainlineTo = points.hemY.shiftFractionTowards(points.waistF, 0.025)
@@ -74,6 +76,7 @@ export const backPanel = {
           from: points.waistF.rotate(90, points.grainlineFrom),
           to: points.hemY.rotate(-90, points.grainlineTo),
         })
+        titleCutNum = 2
       }
       //notches
       if (options.pocketsBool && (options.seams == 'none' || options.seams == 'sideFront')) {
@@ -97,6 +100,7 @@ export const backPanel = {
         title: 'Back Panel',
         at: points.title,
         rotation: 90 - points.hemY.angle(points.origin),
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       //facings

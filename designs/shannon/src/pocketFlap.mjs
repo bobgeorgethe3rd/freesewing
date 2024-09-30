@@ -32,6 +32,7 @@ export const pocketFlap = {
         nr: 12,
         title: 'Pocket Flap',
         at: points.patchPocketFlapTitle,
+        cutNr: 4,
         scale: 1 / 3,
       })
     }

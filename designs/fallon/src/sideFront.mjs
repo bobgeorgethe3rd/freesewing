@@ -130,6 +130,7 @@ export const sideFront = {
         title: titleName,
         at: points.title,
         rotation: 90 - points.hemD.angle(points.origin),
+        cutNr: 2,
         scale: 0.5,
       })
       //facings

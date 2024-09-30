@@ -29,6 +29,7 @@ export const watchPocket = {
         nr: 5,
         title: 'Watch Pocket',
         at: points.title,
+        cutNr: 1,
         scale: 0.25,
       })
     }

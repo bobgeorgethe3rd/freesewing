@@ -160,13 +160,14 @@ export const sleeve = {
       })
       //title
       points.title = new Point(
-        points.raglanBackCp1.x,
+        (points.raglanBackCp1.x + points.raglanBack.x) / 2,
         (points.grainlineTo.y + points.sleeveTip.y) / 2
       )
       macro('title', {
         at: points.title,
         nr: '1',
         title: 'sleeve',
+        cutNr: 2,
         scale: 0.5,
       })
 

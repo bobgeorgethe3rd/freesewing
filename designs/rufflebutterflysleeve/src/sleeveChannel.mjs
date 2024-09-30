@@ -94,6 +94,7 @@ export const sleeveChannel = {
         at: points.title,
         nr: '3',
         title: 'Sleeve Channel',
+        cutNr: 2,
         scale: 0.12,
       })
 

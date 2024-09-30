@@ -80,6 +80,7 @@ export const waistFacingBack = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
         points.cutOnFoldFrom = points.cbWaist.shiftFractionTowards(points.cbWaistFacing, 0.1)
         points.cutOnFoldTo = points.cbWaistFacing.shiftFractionTowards(points.cbWaist, 0.1)
@@ -88,6 +89,7 @@ export const waistFacingBack = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.cbWaist.shiftFractionTowards(points.cbWaistCp1, 1 / 3)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cbWaistFacing.y)
@@ -95,6 +97,7 @@ export const waistFacingBack = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //title
       points.title = points.cbWaist
@@ -105,6 +108,7 @@ export const waistFacingBack = {
         at: points.title,
         nr: '10',
         title: 'Skirt Waist Facing Back',
+        cutNr: titleCutNum,
         scale: 0.25,
       })
       if (sa) {

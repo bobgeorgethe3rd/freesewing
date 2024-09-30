@@ -62,6 +62,7 @@ export const swingPanel = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.cfSaWidth == 0) {
         points.cutOnFoldFrom = points.cfHem
         points.cutOnFoldTo = points.cfWaist
@@ -70,6 +71,7 @@ export const swingPanel = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.cfWaist.shiftFractionTowards(points.cfWaistCp2, 0.9)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
@@ -77,6 +79,7 @@ export const swingPanel = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //title
       points.title = new Point(
@@ -87,6 +90,7 @@ export const swingPanel = {
         nr: 1,
         title: 'Swing Panel',
         at: points.title,
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       //facings

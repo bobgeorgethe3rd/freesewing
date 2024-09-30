@@ -176,6 +176,7 @@ export const brim = {
         at: points.title,
         nr: 2,
         title: 'Brim',
+        cutNr: options.brimNumber,
         scale: 1 / 3,
       })
 

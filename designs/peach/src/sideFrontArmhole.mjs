@@ -30,6 +30,7 @@ export const sideFrontArmhole = {
     //removing macros not required from Daisy
     macro('title', false)
     macro('scalebox', false)
+    macro('cutonfold', false)
     //guides
     if (options.daisyGuides) {
       paths.armhole = new Path()
@@ -131,11 +132,12 @@ export const sideFrontArmhole = {
         on: ['bustNotch', 'sideNotch'],
       })
       //title
-      points.title = new Point(points.armholePitchCp1R.x, points.bust.y * 1.05)
+      points.title = new Point(points.armholePitchCp1R.x, points.armholeR.y)
       macro('title', {
         at: points.title,
         nr: '2',
         title: 'Side Front',
+        cutNr: 2,
         scale: 1 / 3,
       })
 

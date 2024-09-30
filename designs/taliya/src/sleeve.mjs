@@ -50,6 +50,7 @@ export const sleeve = {
         at: points.title,
         nr: '3',
         title: 'Sleeve (' + utils.capitalize(options.spreadType) + ' Spread)',
+        cutNr: 2,
         scale: 0.4,
       })
     }

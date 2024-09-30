@@ -72,8 +72,9 @@ export const legBand = {
       macro('title', {
         at: points.title,
         nr: 1,
-        title: 'Neckband',
-        scale: 1 / 3,
+        title: 'Leg Band',
+        cutNr: 1,
+        scale: 0.25,
       })
       // if (options.legBandClosurePosition == 'back') {
       // paths.legBandLeft.attr('data-text', 'Inseam', true)

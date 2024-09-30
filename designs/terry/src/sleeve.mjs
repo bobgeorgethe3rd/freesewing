@@ -41,6 +41,7 @@ export const sleeve = {
         nr: 4,
         title: 'Sleeve',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
     }

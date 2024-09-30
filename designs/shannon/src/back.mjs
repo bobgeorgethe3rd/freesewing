@@ -209,6 +209,7 @@ export const back = {
         at: points.title,
         nr: '2',
         title: 'Back',
+        cutNr: 2,
         scale: 0.5,
       })
       if (sa) {

@@ -319,6 +319,7 @@ export const front = {
         nr: 1,
         title: 'Front',
         at: points.title,
+        cutNr: 1,
         scale: 0.5,
       })
       //logo

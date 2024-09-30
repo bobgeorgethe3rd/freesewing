@@ -105,7 +105,8 @@ export const collar = {
         at: points.title,
         nr: '5',
         title: 'Collar',
-        scale: 0.25,
+        cutNr: 2,
+        scale: 0.2,
       })
       //cb
       paths.cb = new Path()

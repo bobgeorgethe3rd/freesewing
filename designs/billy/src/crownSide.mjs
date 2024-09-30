@@ -252,6 +252,7 @@ export const crownSide = {
         at: points.title,
         nr: 2,
         title: 'Crown (Side)',
+        cutNr: options.crownSideNumber,
         scale: 1 / 3,
         rotation: 360 - angle / 4,
       })

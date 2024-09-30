@@ -118,6 +118,7 @@ export const band = {
         at: points.title,
         nr: 4,
         title: 'Band',
+        cutNr: 1,
         scale: 0.25,
         rotation: 360 - angle / 4,
       })

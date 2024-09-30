@@ -42,6 +42,7 @@ export const sideWaistFacing = {
         nr: 9,
         title: 'Side Waist Facing',
         at: points.title,
+        cutNr: 4,
         scale: 0.25,
         rotation: 90 - points.dartTipD.angle(points.waistD),
       })

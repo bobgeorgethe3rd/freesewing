@@ -64,6 +64,8 @@ export const waistbandFishtailRight = {
         to: points.grainlineTo,
       })
       //title
+      let titleCutNum = 2
+      if (options.waistbandFishtailEmbedded) titleCutNum = 1
       points.title = points.waistbandFDart
         .shiftFractionTowards(points.waistbandFOut, 0.5)
         .shift(
@@ -74,6 +76,7 @@ export const waistbandFishtailRight = {
         nr: 14,
         title: 'Waistband Fishtail Right',
         at: points.title,
+        cutNr: titleCutNum,
         scale: 0.25,
         rotation: 180 - points.waistOut.angle(points.dartOut),
       })

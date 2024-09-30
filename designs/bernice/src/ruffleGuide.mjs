@@ -49,6 +49,7 @@ export const ruffleGuide = {
         nr: 5,
         title: 'Ruffle Guide',
         at: points.title,
+        cutNr: false,
         scale: 0.25,
       })
       if (sa) {

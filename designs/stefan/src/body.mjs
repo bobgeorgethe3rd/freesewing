@@ -209,6 +209,7 @@ export const body = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      let titleCutNum = 2
       if (options.topSaWidth <= 0) {
         points.cutOnFoldFrom = points.topRight
         points.cutOnFoldTo = points.topLeft
@@ -217,6 +218,7 @@ export const body = {
           to: points.cutOnFoldTo,
           grainline: false,
         })
+        titleCutNum = 1
       }
       //notches
       snippets.neckBack = new Snippet('bnotch', points.neckBack)
@@ -226,6 +228,7 @@ export const body = {
         at: points.title,
         nr: '1',
         title: 'Body (Front & Back)',
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       //logo

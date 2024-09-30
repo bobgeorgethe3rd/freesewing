@@ -55,6 +55,7 @@ export const sleeve = {
         nr: 6,
         title: 'Sleeve (' + utils.capitalize(options.sleeveType) + ')',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
     }

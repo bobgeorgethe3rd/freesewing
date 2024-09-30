@@ -21,13 +21,17 @@ export const neckband = {
           nr: 4,
           title: 'Hood',
           at: points.title,
+          cutNr: 4,
           scale: 0.5,
         })
       } else {
+        let titleCutNum = 2
+        if (options.neckbandFolded || options.neckbandStyle == 'curved') titleCutNum = 1
         macro('title', {
           nr: 4,
           title: 'Neckband (' + utils.capitalize(options.neckbandStyle) + ')',
           at: points.title,
+          cutNr: titleCutNum,
           scale: 0.1,
         })
       }

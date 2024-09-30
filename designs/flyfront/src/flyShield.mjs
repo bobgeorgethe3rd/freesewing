@@ -115,6 +115,7 @@ export const flyShield = {
         at: points.title,
         nr: 3,
         title: 'Fly Shield',
+        cutNr: 1,
         scale: 0.25,
         rotation: 90 - points.flyShieldCorner.angle(points.flyShieldWaist),
       })

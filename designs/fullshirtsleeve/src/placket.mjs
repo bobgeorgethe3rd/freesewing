@@ -71,6 +71,7 @@ export const placket = {
         at: points.title,
         nr: '2',
         title: 'Placket (Sleeve)',
+        cutNr: 2,
         scale: 0.25,
       })
       //slit line

@@ -58,6 +58,7 @@ export const frontPocketFacing = {
         nr: 4,
         title: 'Front Pocket Facing',
         at: points.title,
+        cutNr: 4,
         scale: 1 / 3,
         rotation: 90 - points.frontPocketFacingBottom.angle(points.frontPocketFacingWaist),
       })

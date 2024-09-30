@@ -123,6 +123,8 @@ export const waistbandLeft = {
         to: points.grainlineTo,
       })
       //title
+      let titleCutNum = 2
+      if (options.neckbandFolded || options.neckbandStyle == 'curved') titleCutNum = 1
       points.title = paths.waistbandSeam
         .split(points.waistbandBottomMid)[0]
         .shiftFractionAlong(0.25)
@@ -131,7 +133,8 @@ export const waistbandLeft = {
         nr: 11,
         title: 'Waistband Left ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
-        scale: 1 / 3,
+        cutNr: titleCutNum,
+        scale: 0.25,
       })
       //foldline
       if (waistbandFolded) {

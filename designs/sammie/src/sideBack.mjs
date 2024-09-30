@@ -30,6 +30,7 @@ export const sideBack = {
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
+    macro('cutonfold', false)
     //guides
     if (!options.daisyGuides) {
       delete paths.daisyGuides
@@ -94,6 +95,7 @@ export const sideBack = {
         at: points.title,
         nr: '3',
         title: 'Side Back',
+        cutNr: 2,
         scale: 0.5,
       })
       if (sa) {

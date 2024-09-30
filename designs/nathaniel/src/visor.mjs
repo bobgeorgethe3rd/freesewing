@@ -38,6 +38,7 @@ export const visor = {
         nr: 3,
         title: 'Visor ' + utils.capitalize(options.visorStyle),
         at: points.title,
+        cutNr: 2,
         scale: 0.25,
       })
     }

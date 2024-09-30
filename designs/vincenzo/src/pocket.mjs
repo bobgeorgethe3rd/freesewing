@@ -37,6 +37,7 @@ export const pocket = {
         nr: 3,
         title: 'Pocket',
         at: points.patchPocketTitle,
+        cutNr: 1,
         scale: 1 / 3,
       })
     }

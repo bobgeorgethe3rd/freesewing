@@ -72,6 +72,7 @@ export const backPanel = {
         nr: 'B2',
         title: 'Back Panel',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
       // waist

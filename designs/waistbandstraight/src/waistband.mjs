@@ -70,11 +70,14 @@ export const waistband = {
     })
 
     if (complete) {
+      let titleCutNum = 2
+      if (options.waistbandFolded) titleCutNum = 1
       macro('title', {
         at: points.title,
         nr: 1,
         title: 'Waistband',
-        scale: 1 / 3,
+        cutNr: titleCutNum,
+        scale: 0.25,
       })
     }
 

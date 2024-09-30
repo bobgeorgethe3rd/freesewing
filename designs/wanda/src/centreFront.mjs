@@ -79,6 +79,7 @@ export const centreFront = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
         points.cutOnFoldFrom = points.cfHem
         points.cutOnFoldTo = points.cfWaist
@@ -87,6 +88,7 @@ export const centreFront = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.cfWaist.shiftFractionTowards(points.cfWaistCp2, 0.9)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
@@ -94,6 +96,7 @@ export const centreFront = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches & dart
       let titleNum
@@ -129,6 +132,7 @@ export const centreFront = {
         nr: titleNum,
         title: 'Centre Front',
         at: points.title,
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       //logo

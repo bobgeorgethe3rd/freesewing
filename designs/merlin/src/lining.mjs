@@ -83,12 +83,13 @@ export const lining = {
       //title
       points.title = new Point(
         points.lining_p2.x * 0.75,
-        points.lining_p2.shiftFractionTowards(points.lining_Cp2, 2 / 3).y
+        points.lining_p2.shiftFractionTowards(points.lining_Cp2, 0.75).y
       )
       macro('title', {
         at: points.title,
         nr: 3,
         title: 'lining',
+        cutNr: options.liningNumber,
         scale: 0.25,
       })
       //scalebox

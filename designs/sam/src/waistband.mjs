@@ -50,7 +50,8 @@ export const waistband = {
         at: points.title,
         nr: '13',
         title: 'Waistband',
-        scale: 1 / 3,
+        cutNr: 2,
+        scale: 0.25,
       })
     }
 

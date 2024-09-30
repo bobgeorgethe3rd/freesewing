@@ -70,6 +70,7 @@ export const welt = {
         nr: 2,
         title: 'Welt Pocket Welt',
         at: points.title,
+        cutNr: 4,
         scale: 1 / 3,
       })
 

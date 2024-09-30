@@ -162,6 +162,7 @@ export const crownTop = {
         at: points.title,
         nr: 1,
         title: 'Crown (Top)',
+        cutNr: crownTopNumber,
         scale: 0.5 / crownTopNumber,
         rotation: 360 - points.origin.angle(points.right),
       })

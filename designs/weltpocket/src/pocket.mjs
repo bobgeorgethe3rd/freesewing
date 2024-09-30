@@ -133,6 +133,7 @@ export const pocket = {
         nr: 1,
         title: 'Welt Pocket Bag',
         at: points.title,
+        cutNr: 4,
         scale: 0.5,
       })
       //paths

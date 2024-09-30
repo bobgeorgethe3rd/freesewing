@@ -185,6 +185,7 @@ export const frontLeft = {
       //title
       let titleNum
       let titleName
+      let titleCutNum
       if (
         options.separateFronts ||
         store.get('buttonholePlacketWidth') != store.get('buttonPlacketWidth') ||
@@ -193,9 +194,11 @@ export const frontLeft = {
       ) {
         titleNum = '1a'
         titleName = 'Front Left'
+        titleCutNum = 1
       } else {
         titleNum = '1'
         titleName = 'Front'
+        titleCutNum = 2
       }
       points.title = new Point(
         points.hps.x + (points.shoulder.x - points.hps.x) * 0.4,
@@ -205,6 +208,7 @@ export const frontLeft = {
         at: points.title,
         nr: titleNum,
         title: titleName,
+        cutNr: titleCutNum,
         scale: 2 / 3,
       })
       //logo

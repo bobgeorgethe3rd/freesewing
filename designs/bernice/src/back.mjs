@@ -154,6 +154,7 @@ export const back = {
         nr: 2,
         title: 'Back',
         at: points.title,
+        cutNr: 1,
         scale: 0.5,
       })
       //cb

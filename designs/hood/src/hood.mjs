@@ -194,6 +194,7 @@ export const hood = {
         nr: 1,
         title: 'Hood',
         at: points.title,
+        cutNr: 4,
         scale: 0.5,
       })
       if (sa) {

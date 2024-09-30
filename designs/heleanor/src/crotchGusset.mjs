@@ -72,6 +72,7 @@ export const crotchGusset = {
         at: points.title,
         nr: '2',
         title: 'Crotch Gusset',
+        cutNr: 1,
         scale: 0.25,
       })
       if (sa) {

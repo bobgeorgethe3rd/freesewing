@@ -76,6 +76,7 @@ export const frontUnderarmDart = ({
 
   if (complete) {
     //grainline
+    let titleCutNum
     if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
       points.cutOnFoldFrom = points.cfNeck
       points.cutOnFoldTo = points.cfWaist
@@ -84,6 +85,7 @@ export const frontUnderarmDart = ({
         to: points.cutOnFoldTo,
         grainline: true,
       })
+      titleCutNum = 1
     } else {
       points.grainlineTo = points.cfWaist.shiftFractionTowards(points.waistDartLeft, 0.15)
       points.grainlineFrom = new Point(points.grainlineTo.x, points.cfNeck.y)
@@ -91,6 +93,7 @@ export const frontUnderarmDart = ({
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      titleCutNum = 2
     }
     //notches
     macro('sprinkle', {
@@ -103,10 +106,11 @@ export const frontUnderarmDart = ({
       at: points.title,
       nr: '1',
       title: 'Front',
+      cutNr: titleCutNum,
       scale: 2 / 3,
     })
     //scalebox
-    points.scalebox = new Point(points.hps.x * 1.25, points.armholePitchCp1.y)
+    points.scalebox = new Point(points.hps.x * 1.25, points.armholePitchCp1.y * 1.2)
     macro('scalebox', {
       at: points.scalebox,
     })

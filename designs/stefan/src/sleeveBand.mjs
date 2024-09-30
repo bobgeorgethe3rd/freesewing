@@ -77,11 +77,14 @@ export const sleeveBand = {
         on: ['top', 'bottom'],
       })
       //title
+      let titleCutNum = 4
+      if (options.sleeveBandFolded) titleCutNum = 2
       points.title = points.origin
       macro('title', {
         at: points.title,
         nr: '4',
         title: 'Sleeve Band',
+        cutNr: titleCutNum,
         scale: 0.25,
       })
       //foldline

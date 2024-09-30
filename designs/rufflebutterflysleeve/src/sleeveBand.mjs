@@ -91,6 +91,7 @@ export const sleeveBand = {
         at: points.title,
         nr: '5',
         title: 'Sleeve Bands',
+        cutNr: 2,
         scale: 0.25,
       })
       if (sa) {

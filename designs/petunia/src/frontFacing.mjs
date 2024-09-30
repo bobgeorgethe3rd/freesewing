@@ -92,6 +92,7 @@ export const frontFacing = {
         nr: 15,
         title: 'Front Facing',
         at: points.title,
+        cutNr: 2,
         scale: 0.15,
       })
       if (sa) {

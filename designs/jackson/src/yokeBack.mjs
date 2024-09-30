@@ -170,6 +170,7 @@ export const yokeBack = {
         at: points.title,
         nr: 3,
         title: 'Yoke Back',
+        cutNr: 2,
         scale: 0.25,
       })
       if (sa) {

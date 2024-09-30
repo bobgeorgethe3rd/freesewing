@@ -64,6 +64,7 @@ export const frontBustShoulder = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition == 'front' || options.cfSaWidth > 0) {
         points.grainlineFrom = new Point(points.cfNeckCp1.x * 0.25, points.cfTop.y)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cfWaist.y)
@@ -71,6 +72,7 @@ export const frontBustShoulder = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       } else {
         points.cutOnFoldFrom = points.cfTop
         points.cutOnFoldTo = points.cfWaist
@@ -79,6 +81,7 @@ export const frontBustShoulder = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       }
       ///notches
       if (!options.sweetheart || (options.sweetheart && options.heartDrop < 1)) {
@@ -89,7 +92,8 @@ export const frontBustShoulder = {
         at: points.title,
         nr: '1',
         title: 'Front',
-        scale: 2 / 3,
+        cutNr: titleCutNum,
+        scale: 0.5,
       })
       if (sa) {
         const styleLineSa = sa * options.styleLinesSaWidth * 100

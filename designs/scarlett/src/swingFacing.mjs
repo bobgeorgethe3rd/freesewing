@@ -108,6 +108,7 @@ export const swingFacing = {
         nr: 8,
         title: 'Swing Facing',
         at: points.title,
+        cutNr: 2,
         rotation: points.swingDLeft.angle(points.dartTipD) * -1 - 270,
         scale: 0.2,
       })

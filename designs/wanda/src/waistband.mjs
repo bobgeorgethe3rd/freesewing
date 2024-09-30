@@ -107,10 +107,13 @@ export const waistband = {
           .attr('data-text-class', 'center')
       }
       //title
+      let titleCutNum = 2
+      if (options.waistbandFolded || options.waistbandStyle == 'curved') titleCutNum = 1
       macro('title', {
         nr: 7,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
+        cutNr: titleCutNum,
         scale: 0.1,
       })
     }

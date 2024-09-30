@@ -119,6 +119,9 @@ export const skirtFront = {
 
     if (complete) {
       //grainline
+      let titleCutNum
+      let titleCutNumFront
+      let titleCutFold
       if (
         (options.closurePosition != 'front' || options.waistbandElastic) &&
         options.cfSaWidth == 0
@@ -130,6 +133,9 @@ export const skirtFront = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
+        titleCutNumFront = 1
+        titleCutFold = true
       } else {
         points.grainlineFrom = points.cfWaist.shiftFractionTowards(points.cfWaistCp1, 1 / 3)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
@@ -137,8 +143,13 @@ export const skirtFront = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
+        titleCutNumFront = 2
+        titleCutFold = false
       }
 
+      let titleCutNumBack
+      let titleCutFoldBack
       if (includeBack) {
         if (
           (options.closurePosition != 'back' || options.waistbandElastic) &&
@@ -164,6 +175,8 @@ export const skirtFront = {
               id: 'back',
             })
           }
+          titleCutNumBack = 1
+          titleCutFoldBack = true
         } else {
           points.grainlineBackFrom = points.cfHem.shiftFractionTowards(points.cfHemCp2, 0.1)
           points.grainlineBackTo = new Point(points.grainlineBackFrom.x, points.cbHem.y)
@@ -175,6 +188,8 @@ export const skirtFront = {
             .attr('data-text-class', 'fill-note center')
             .attr('marker-start', 'url(#grainlineFrom)')
             .attr('marker-end', 'url(#grainlineTo)')
+          titleCutNumBack = 2
+          titleCutFoldBack = false
         }
       }
       //notches
@@ -190,8 +205,11 @@ export const skirtFront = {
       }
       //panels && titles
       let titleFront
+      let titleCutPanelNum
       if (includeBack) {
         titleFront = ''
+        titleCutNum *= 2
+        titleCutPanelNum *= 2
       } else {
         titleFront = ' (Front)'
       }
@@ -280,6 +298,8 @@ export const skirtFront = {
               nr: '5' + j,
               title: 'Skirt Facing ' + k + ' (Front)',
               prefix: 'titleFacing' + i,
+              cutNr: 2,
+              onFold: false,
               scale: 0.15,
               rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
             })
@@ -292,6 +312,8 @@ export const skirtFront = {
               nr: '5a',
               title: 'Skirt Facing A (Front)',
               prefix: 'titleFacing',
+              cutNr: titleCutNumFront,
+              onFold: titleCutFold,
               scale: 0.15,
             })
           }
@@ -365,6 +387,8 @@ export const skirtFront = {
                 nr: '7' + j,
                 title: 'Skirt Facing ' + k + ' (Back)',
                 prefix: 'titleBackFacing' + i,
+                cutNr: 2,
+                onFold: false,
                 scale: 0.15,
                 rotation: 90 - points['backHemPanel' + i].angle(points['waistFrontPanel' + i]),
               })
@@ -376,6 +400,8 @@ export const skirtFront = {
                 at: points.titleBackFacing,
                 nr: '7a',
                 title: 'Skirt Facing A (Back)',
+                cutNr: titleCutNumBack,
+                onFold: titleCutFoldBack,
                 prefix: 'titleBackFacing',
                 scale: 0.15,
               })
@@ -422,6 +448,8 @@ export const skirtFront = {
             nr: '1' + j,
             title: 'Skirt ' + k + titleFront,
             prefix: 'title' + i,
+            cutNr: titleCutPanelNum,
+            onFold: false,
             scale: 0.15,
             rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
           })
@@ -433,6 +461,8 @@ export const skirtFront = {
             at: points.title,
             nr: '1a',
             title: 'Skirt A' + titleFront,
+            cutNr: titleCutNum,
+            onFold: titleCutFold,
             scale: 0.15,
             prefix: 'title',
           })
@@ -444,6 +474,8 @@ export const skirtFront = {
           nr: '1',
           title: 'Skirt' + titleFront,
           prefix: 'title',
+          cutNr: titleCutNum,
+          onFold: titleCutFold,
           scale: 0.5,
           rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
         })
@@ -457,6 +489,8 @@ export const skirtFront = {
             nr: '5',
             title: 'Skirt Facing (Front)',
             prefix: 'titleFacing',
+            cutNr: titleCutNumFront,
+            onFold: titleCutFold,
             scale: 0.5,
             rotation: 90 - points.frontHemMid.angle(points.frontHemFacingMid),
           })
@@ -470,6 +504,8 @@ export const skirtFront = {
               nr: '7',
               title: 'Skirt Facing (Back)',
               prefix: 'titleBackFacing',
+              cutNr: titleCutNumBack,
+              onFold: titleCutFoldBack,
               scale: 0.5,
               rotation: 90 - points.backHemMid.angle(points.backHemFacingMid),
             })

@@ -229,6 +229,7 @@ export const back = {
         at: points.title,
         nr: '2',
         title: 'Back',
+        cutNr: 2,
         scale: 2 / 3,
       })
       //buttonhole

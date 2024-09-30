@@ -71,6 +71,7 @@ export const backShoulder = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
         points.cutOnFoldFrom = points.cbNeck
         points.cutOnFoldTo = points.cbWaist
@@ -79,6 +80,7 @@ export const backShoulder = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 0.25)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cbWaist.y)
@@ -86,6 +88,7 @@ export const backShoulder = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       points.princessNotch0 = paths.princessSeam.shiftFractionAlong(0.25)
@@ -100,6 +103,7 @@ export const backShoulder = {
         at: points.title,
         nr: '3',
         title: 'Back',
+        cutNr: titleCutNum,
         scale: 0.75,
       })
       if (sa) {

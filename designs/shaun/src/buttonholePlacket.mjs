@@ -132,6 +132,7 @@ export const buttonholePlacket = {
       //title
       let titleNum
       let titleName
+      let titleCutNum
       if (
         options.separateFronts ||
         store.get('buttonholePlacketWidth') != store.get('buttonPlacketWidth') ||
@@ -140,15 +141,18 @@ export const buttonholePlacket = {
       ) {
         titleNum = '5a'
         titleName = 'Buttonhole Placket'
+        titleCutNum = 1
       } else {
         titleNum = '5'
         titleName = 'Button & Buttonhole Placket'
+        titleCutNum = 2
       }
       points.title = points.button2.shiftFractionTowards(points.button3, 0.5)
       macro('title', {
         at: points.title,
         nr: titleNum,
         title: titleName,
+        cutNr: titleCutNum,
         scale: 0.15,
       })
       //buttonholes

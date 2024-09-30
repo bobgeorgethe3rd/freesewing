@@ -110,8 +110,10 @@ export const neckTie = {
       points.topNotch = new Point(points.stitchlineTo.x, points.topLeft.y)
       snippets.topNotch = new Snippet('notch', points.topNotch)
       snippets.stitchlineTo = new Snippet('bnotch', points.stitchlineTo)
+      let titleCutNum = 4
       if (options.neckTieFolded) {
         snippets.stitchlineFrom = new Snippet('bnotch', points.stitchlineFrom)
+        titleCutNum *= 2
       }
       //title
       points.title = new Point(
@@ -122,6 +124,7 @@ export const neckTie = {
         at: points.title,
         nr: '4',
         title: 'Neck Tie',
+        cutNr: titleCutNum,
         scale: 0.15,
       })
       //foldline

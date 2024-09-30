@@ -71,11 +71,14 @@ export const swingWaistband = {
         on: ['bottomMid', 'topMid'],
       })
       //title
+      let titleCutNum = 2
+      if (options.waistbandFolded) titleCutNum = 1
       points.title = points.topLeft.shiftFractionTowards(points.topMid, 2 / 3).shift(-90, widthHalf)
       macro('title', {
         at: points.title,
         nr: 9,
         title: 'Swing  Waistband',
+        cutNr: titleCutNum,
         scale: 0.25,
       })
       //paths

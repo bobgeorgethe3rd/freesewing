@@ -266,6 +266,7 @@ export const spreadSleeveCap = ({
       at: points.title,
       nr: '1',
       title: 'Sleeve' + ' (' + utils.capitalize(options.spreadType) + ' Spread)',
+      cutNr: 2,
       scale: 0.5,
     })
     if (sa) {

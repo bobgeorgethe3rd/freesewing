@@ -121,6 +121,7 @@ export const front = {
     )
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
         points.cutOnFoldFrom = points.cfTop
         points.cutOnFoldTo = points.cfHem
@@ -129,6 +130,7 @@ export const front = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.cfNeck.shiftFractionTowards(points.cfNeckCp1, 1 / 3)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
@@ -136,6 +138,7 @@ export const front = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       if (options.bodyLength > 0) {
@@ -150,6 +153,7 @@ export const front = {
         at: points.title,
         nr: '2',
         title: 'Front',
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       //logo

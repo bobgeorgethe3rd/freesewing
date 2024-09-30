@@ -99,6 +99,7 @@ export const pocket = {
         at: points.title,
         nr: '1',
         title: 'Watch Pocket',
+        cutNr: 1,
         scale: 0.25,
       })
       if (sa) {

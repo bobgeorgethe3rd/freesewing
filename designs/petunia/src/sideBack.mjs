@@ -37,6 +37,7 @@ export const sideBack = {
     } else {
       for (let i in paths) delete paths[i]
     }
+    macro('cutonfold', false)
     //let's begin
     //paths
     paths.hemBase = new Path()
@@ -125,6 +126,7 @@ export const sideBack = {
         at: points.title,
         nr: 5,
         title: 'Back',
+        cutNr: 2,
         scale: 0.5,
       })
       if (sa) {

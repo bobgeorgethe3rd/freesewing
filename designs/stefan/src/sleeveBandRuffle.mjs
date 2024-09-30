@@ -70,6 +70,7 @@ export const sleeveBandRuffle = {
         at: points.title,
         nr: '6',
         title: 'Sleeve Band Ruffle',
+        cutNr: 1,
         scale: 0.25,
       })
       if (sa) {

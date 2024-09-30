@@ -121,6 +121,7 @@ export const bodiceFrontFacing = {
     store.set('bodiceFacingWidth', bodiceFacingWidth)
 
     if (complete) {
+      let titleCutNum
       if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
         //grainline
         points.cutOnFoldFrom = points.cfTop.shiftFractionTowards(points.cfFacing, 0.1)
@@ -130,6 +131,7 @@ export const bodiceFrontFacing = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineTo = points.cfFacing.shift(
           0,
@@ -140,6 +142,7 @@ export const bodiceFrontFacing = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       macro('sprinkle', {
@@ -158,7 +161,8 @@ export const bodiceFrontFacing = {
         at: points.title,
         nr: '14',
         title: 'Bodice Facing (Front)',
-        scale: 1 / 3,
+        cutNr: titleCutNum,
+        scale: 0.25,
       })
       if (sa) {
         const bodiceFacingHemSa = sa * options.bodiceFacingHemSaWidth * 100

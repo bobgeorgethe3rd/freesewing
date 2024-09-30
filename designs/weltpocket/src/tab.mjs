@@ -62,6 +62,7 @@ export const tab = {
         nr: 3,
         title: 'Welt Pocket Tab',
         at: points.title,
+        cutNr: 4,
         scale: 0.25,
       })
       //buttonhole

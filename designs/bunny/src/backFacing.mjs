@@ -74,6 +74,7 @@ export const backFacing = {
         at: points.title,
         nr: '5',
         title: 'Back Facing',
+        cutNr: 2,
         scale: 0.5,
       })
       if (sa) {

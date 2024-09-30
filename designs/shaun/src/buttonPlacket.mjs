@@ -136,6 +136,7 @@ export const buttonPlacket = {
         at: points.title,
         nr: '5b',
         title: 'Button Placket',
+        cutNr: 1,
         scale: 0.15,
       })
       //buttonholes

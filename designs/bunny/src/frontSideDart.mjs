@@ -108,6 +108,7 @@ export const frontSideDart = ({
   }
   if (complete) {
     //grainline
+    let titleCutNum
     if (options.cfSaWidth > 0) {
       points.grainlineFrom = new Point(points.cfNeckCp1.x / 3, points.cfTop.y)
       points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
@@ -115,6 +116,7 @@ export const frontSideDart = ({
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      titleCutNum = 2
     } else {
       points.cutOnFoldFrom = points.cfTop
       points.cutOnFoldTo = points.cfHem
@@ -123,6 +125,7 @@ export const frontSideDart = ({
         to: points.cutOnFoldTo,
         grainline: true,
       })
+      titleCutNum = 1
     }
     //notches
     macro('sprinkle', {
@@ -135,11 +138,12 @@ export const frontSideDart = ({
       snippets.bustDartClosed = new Snippet('notch', points.bustDartClosed)
     }
     //title
-    points.title = new Point(points.bust.x * 0.55, points.armhole.y)
+    points.title = new Point(points.bust.x * 0.55, points.armholePitchCp1.y)
     macro('title', {
       at: points.title,
       nr: '1',
       title: 'Front',
+      cutNr: titleCutNum,
       scale: 2 / 3,
     })
     //logo

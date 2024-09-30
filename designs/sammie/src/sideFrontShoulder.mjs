@@ -31,6 +31,7 @@ export const sideFrontShoulder = {
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
+    macro('cutonfold', false)
     //guides
     if (!options.daisyGuides) {
       delete paths.daisyGuides
@@ -71,14 +72,12 @@ export const sideFrontShoulder = {
       points.sideNotch = points.sideWaist.shiftFractionTowards(points.armholeDrop, 0.5)
       snippets.sideNotch = new Snippet('notch', points.sideNotch)
       //title
-      points.title = new Point(
-        points.scalebox.x * 0.8,
-        points.neckSideFront.y + (points.bust.y - points.neckSideFront.y) * 0.85
-      )
+      points.title = new Point(points.scalebox.x * 0.8, points.armholeCp2.y)
       macro('title', {
         at: points.title,
         nr: '2',
         title: 'Side Front',
+        cutNr: 2,
         scale: 0.5,
       })
       //logo

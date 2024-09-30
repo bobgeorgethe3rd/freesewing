@@ -68,6 +68,7 @@ export const centreFront = {
         nr: 'F1',
         title: 'Centre Front',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
       //waist

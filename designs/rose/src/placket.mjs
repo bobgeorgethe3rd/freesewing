@@ -107,6 +107,7 @@ export const placket = {
         at: points.title,
         nr: '14',
         title: 'Placket',
+        cutNr: 2,
         scale: 0.15,
       })
       //foldlines

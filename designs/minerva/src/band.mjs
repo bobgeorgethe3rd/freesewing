@@ -77,11 +77,14 @@ export const band = {
         to: points.grainlineTo,
       })
       //title
+      let titleCutNum = 1
+      if (options.bandFolds == 1) titleCutNum = 2
       points.title = new Point(points.topLeft.x * (1 / 3), points.bottomMid.y * 0.5)
       macro('title', {
         at: points.title,
         nr: 4,
         title: 'band',
+        cutNr: titleCutNum,
         scale: 0.25,
       })
       //foldline

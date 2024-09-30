@@ -113,6 +113,7 @@ export const frontFacingBustShoulder = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition == 'front' || options.cfSaWidth > 0) {
         points.grainlineFrom = new Point(points.cfNeckCp1.x * 0.25, points.cfTop.y)
         points.grainlineTo = new Point(
@@ -123,6 +124,7 @@ export const frontFacingBustShoulder = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       } else {
         points.cutOnFoldFrom = points.cfTop
         points.cutOnFoldTo = points.cfTop.shiftFractionTowards(points.cfFacing, 0.75)
@@ -131,6 +133,7 @@ export const frontFacingBustShoulder = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       }
       //title
       points.title = points.neckFront.shiftFractionTowards(points.neckFrontFacing, 0.55)
@@ -138,6 +141,7 @@ export const frontFacingBustShoulder = {
         at: points.title,
         nr: '5',
         title: 'Front Facing',
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       if (sa) {

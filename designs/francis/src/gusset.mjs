@@ -114,6 +114,7 @@ export const gusset = {
         at: points.title,
         nr: '1',
         title: 'Gusset',
+        cutNr: 1,
         scale: 0.5,
       })
       if (sa) {

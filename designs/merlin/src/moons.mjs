@@ -143,6 +143,7 @@ export const moons = {
           nr: 5,
           title: 'Moon (' + utils.units(moonWidth) + ')',
           prefix: i,
+          cutNr: false,
           scale: (i + 1) * 0.05,
         })
 

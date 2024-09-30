@@ -217,6 +217,7 @@ export const frontRight = {
         at: points.title,
         nr: '1b',
         title: 'Front Right',
+        cutNr: 1,
         scale: 2 / 3,
       })
       //button and buttonholes

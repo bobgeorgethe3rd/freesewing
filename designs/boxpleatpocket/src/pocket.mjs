@@ -110,6 +110,8 @@ export const pocket = {
       macro('title', {
         at: points.title,
         nr: '1',
+        cutNr: 2,
+        scale: 0.5,
         title: 'Box Pleat Pocket',
       })
       //facings

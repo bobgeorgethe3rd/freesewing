@@ -30,6 +30,7 @@ export const sideFrontArmholePitch = {
     //removing macros not required from Daisy
     macro('title', false)
     macro('scalebox', false)
+    macro('cutonfold', false)
     //guides
     if (options.daisyGuides) {
       paths.daisyGuide = new Path()
@@ -105,6 +106,7 @@ export const sideFrontArmholePitch = {
         at: points.title,
         nr: '2',
         title: 'Side Front',
+        cutNr: 2,
         scale: 0.5,
       })
 

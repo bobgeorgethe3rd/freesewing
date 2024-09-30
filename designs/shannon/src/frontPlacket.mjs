@@ -134,6 +134,7 @@ export const frontPlacket = {
         at: points.title,
         nr: '3',
         title: 'Front Placket',
+        cutNr: 1,
         scale: 1 / 3,
       })
       //stitchingGuide

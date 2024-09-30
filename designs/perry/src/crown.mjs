@@ -138,6 +138,7 @@ export const crown = {
         at: points.title,
         nr: '1a & b',
         title: 'Crown (Top & Bottom)',
+        cutNr: 2,
         scale: 0.25,
       })
       points.cutOutTitle = points.topInner

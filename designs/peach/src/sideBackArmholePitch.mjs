@@ -24,6 +24,7 @@ export const sideBackArmholePitch = {
     for (let i in snippets) delete snippets[i]
     //removing macros not required from Daisy
     macro('title', false)
+    macro('cutonfold', false)
     //guides
     if (options.daisyGuides) {
       paths.daisyGuide = new Path()
@@ -100,6 +101,7 @@ export const sideBackArmholePitch = {
         at: points.title,
         nr: '4',
         title: 'Side Back',
+        cutNr: 2,
         scale: 2 / 3,
       })
       if (sa) {

@@ -23,10 +23,13 @@ export const waistband = {
     else waistbandCurved.draft(sh)
 
     if (complete) {
+      let titleCutNum = 2
+      if (options.waistbandFolded || options.waistbandStyle == 'curved') titleCutNum = 1
       macro('title', {
         nr: 12,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
+        cutNr: titleCutNum,
         scale: 1 / 3,
       })
     }

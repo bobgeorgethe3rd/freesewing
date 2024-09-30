@@ -221,6 +221,7 @@ export const brim = {
         at: points.title,
         nr: 3,
         title: 'Brim',
+        cutNr: options.brimNumber,
         scale: 0.5 / options.brimNumber,
         rotation: 360 - points.origin.angle(points.innerQ2),
       })

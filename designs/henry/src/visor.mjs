@@ -98,6 +98,7 @@ export const visor = {
         at: points.title,
         nr: 3,
         title: 'visor',
+        cutNr: 4,
         scale: 0.25,
       })
       //centre line

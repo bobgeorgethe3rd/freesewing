@@ -142,6 +142,7 @@ export const sleeve = {
         at: points.title,
         nr: '1',
         title: 'Sleeve',
+        cutNr: 2,
         scale: 0.5,
       })
       //slit

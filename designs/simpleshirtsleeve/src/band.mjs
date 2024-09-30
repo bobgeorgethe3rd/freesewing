@@ -123,11 +123,14 @@ export const band = {
         to: points.grainlineTo,
       })
       //title
+      let titleCutNum = 2
+      if (options.sleeveBandFolded) titleCutNum = 1
       points.title = points.topLeft.translate(bandLength / 4, drawSaBottom().edge('bottom').y / 2)
       macro('title', {
         at: points.title,
         nr: '2',
         title: 'Band (Sleeve)',
+        cutNr: titleCutNum,
         scale: 0.25,
       })
 

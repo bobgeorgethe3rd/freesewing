@@ -195,6 +195,7 @@ export const legBack = {
             nr: '6' + j,
             title: 'Leg Back ' + k + ' (Back)',
             prefix: 'title ' + i,
+            cutNr: 2,
             scale: 0.15,
             rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
           })
@@ -212,6 +213,7 @@ export const legBack = {
               nr: '6' + j,
               title: 'Leg Facing ' + k + ' (Back)',
               prefix: 'titleFacing ' + i,
+              cutNr: 2,
               scale: 0.15,
               rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
             })
@@ -224,6 +226,7 @@ export const legBack = {
               nr: '7a',
               title: 'Leg Facing A (Back)',
               prefix: 'titleFacing',
+              cutNr: 2,
               scale: 0.15,
             })
           }
@@ -236,6 +239,7 @@ export const legBack = {
           at: points.title,
           nr: '6a',
           title: 'Leg A (Back)',
+          cutNr: 2,
           scale: 0.15,
           prefix: 'title',
         })
@@ -248,6 +252,7 @@ export const legBack = {
           at: points.title,
           nr: '6',
           title: 'Leg (Back)',
+          cutNr: 2,
           scale: 0.5,
           prefix: 'title',
           rotation: 90 - points.backHemMid.angle(points.waistBackMid),
@@ -262,6 +267,7 @@ export const legBack = {
             at: points.titleFacing,
             nr: '7',
             title: 'Leg Facing (Back)',
+            cutNr: 2,
             scale: 0.5,
             prefix: 'titleFacing',
             rotation: 90 - points.backHemMid.angle(points.waistBackMid),

@@ -24,6 +24,7 @@ export const sleeveFlounce = {
         nr: 10,
         title: 'Sleeve Flounce',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
     }

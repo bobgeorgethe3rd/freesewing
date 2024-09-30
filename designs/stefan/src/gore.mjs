@@ -66,6 +66,7 @@ export const gore = {
         at: points.title,
         nr: '9',
         title: 'Gore',
+        cutNr: 2,
         scale: 0.5,
       })
       if (sa) {

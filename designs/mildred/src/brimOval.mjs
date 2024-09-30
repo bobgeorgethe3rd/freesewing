@@ -70,6 +70,7 @@ export const brimOval = ({
       at: points.title,
       nr: '2',
       title: 'Brim (Oval)',
+      cutNr: 2,
       scale: 0.25,
     })
     //scalebox

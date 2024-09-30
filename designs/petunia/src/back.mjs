@@ -69,6 +69,7 @@ export const back = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.cbSaWidth == 0) {
         points.cutOnFoldFrom = points.cbNeck
         points.cutOnFoldTo = points.cbHem
@@ -77,6 +78,7 @@ export const back = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineTo = points.cbHem.shiftFractionTowards(points.cbHemCp2, 0.35)
         points.grainlineFrom = new Point(points.grainlineTo.x, points.cbNeck.y)
@@ -84,6 +86,7 @@ export const back = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       points.sideNotch = paths.saRight.split(points.dartTip)[0].shiftFractionAlong(0.5)
@@ -100,6 +103,7 @@ export const back = {
         at: points.title,
         nr: 4,
         title: 'Back',
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       if (sa) {

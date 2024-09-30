@@ -117,6 +117,7 @@ export const collar = {
         at: points.title,
         nr: '2',
         title: 'Collar',
+        cutNr: 2,
         scale: 0.25,
       })
       //cb

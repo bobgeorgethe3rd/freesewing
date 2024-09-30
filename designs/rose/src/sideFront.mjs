@@ -45,6 +45,7 @@ export const sideFront = {
         at: points.title,
         nr: '7',
         title: 'Side Front',
+        cutNr: 2,
         scale: 0.5,
       })
     }

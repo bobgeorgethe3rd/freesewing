@@ -588,6 +588,7 @@ export const back = {
         nr: 1,
         title: 'back',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
       //scalebox

@@ -73,6 +73,7 @@ export const backFacing = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.cbSaWidth > 0) {
         points.grainlineFrom = new Point(points.cbNeckCp1.x / 3, points.cbTop.y)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cbFacing.y)
@@ -80,6 +81,7 @@ export const backFacing = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       } else {
         points.cutOnFoldFrom = points.cbTop
         points.cutOnFoldTo = points.cbFacing
@@ -88,6 +90,7 @@ export const backFacing = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       }
       //notches
       points.cbNotch = points.cbFacing.shiftFractionTowards(points.cbTop, 0.5)
@@ -104,7 +107,8 @@ export const backFacing = {
         at: points.title,
         nr: '4',
         title: 'back Facing',
-        scale: 2 / 3,
+        cutNr: titleCutNum,
+        scale: 0.5,
       })
       if (sa) {
         const cbSa = sa * options.cbSaWidth * 100

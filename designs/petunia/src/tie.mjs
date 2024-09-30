@@ -143,6 +143,7 @@ export const tie = {
         nr: 8,
         title: 'Tie',
         at: points.title,
+        cutNr: 4,
         scale: 0.1,
       })
       //foldline

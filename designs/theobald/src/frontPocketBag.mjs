@@ -306,6 +306,7 @@ export const frontPocketBag = {
         nr: 5,
         title: 'Front Pocket Bag',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
         rotation: 90 - points.frontPocketBottomMid.angle(points.frontPocketWaist),
       })

@@ -38,6 +38,7 @@ export const beltLoops = {
         nr: 11,
         title: 'Belt Loops',
         at: points.title,
+        cutNr: 1,
         scale: 0.1,
       })
     }

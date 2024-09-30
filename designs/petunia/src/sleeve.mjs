@@ -29,6 +29,7 @@ export const sleeve = {
         nr: 9,
         title: 'Sleeve',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
     }

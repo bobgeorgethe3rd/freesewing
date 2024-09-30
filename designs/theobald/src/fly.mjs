@@ -26,6 +26,7 @@ export const fly = {
         at: points.title,
         nr: 8,
         title: 'Fly',
+        cutNr: 1,
         scale: 0.25,
         rotation: 90 - points.flyCurveStart.angle(points.flyWaist),
       })

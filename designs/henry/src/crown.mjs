@@ -97,6 +97,7 @@ export const crown = {
         at: points.title,
         nr: 1,
         title: 'crown',
+        cutNr: options.crownNumber,
         scale: 0.25,
       })
       //centre line

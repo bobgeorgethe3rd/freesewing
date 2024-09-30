@@ -44,6 +44,7 @@ export const skirtPlacket = {
         at: points.title,
         nr: '15',
         title: 'Placket (Skirt)',
+        cutNr: 2,
         scale: 0.15,
       })
     }

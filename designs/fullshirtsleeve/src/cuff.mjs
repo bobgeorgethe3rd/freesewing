@@ -126,11 +126,14 @@ export const cuff = {
       )
       snippets.topNotch = new Snippet('notch', points.topNotch)
       //title
+      let titleCutNum = 4
+      if (options.sleeveBandFolded) titleCutNum = 2
       points.title = points.topLeft.translate(cuffLength / 4, drawSaBottom().edge('bottom').y / 2)
       macro('title', {
         at: points.title,
         nr: '3',
         title: 'Cuff (Sleeve)',
+        cutNr: titleCutNum,
         scale: 0.25,
       })
       //buttons & buttonholes

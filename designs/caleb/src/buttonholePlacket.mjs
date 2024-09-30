@@ -22,6 +22,7 @@ export const buttonholePlacket = {
         at: points.title,
         nr: 7,
         title: 'Buttonhole Placket',
+        cutNr: 1,
         scale: 0.25,
         rotation: 90 - points.flyCurveStart.angle(points.flyWaist),
       })

@@ -90,6 +90,7 @@ export const skirtFront = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
         points.cutOnFoldFrom = points.cfWaist
         points.cutOnFoldTo = points.cfHem
@@ -98,6 +99,7 @@ export const skirtFront = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineFrom = points.cfWaist.shiftFractionTowards(points.cfWaistCp1, 1 / 3)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cfHem.y)
@@ -105,6 +107,7 @@ export const skirtFront = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       if (store.get('pocketLength') < skirtLength) {
@@ -119,6 +122,7 @@ export const skirtFront = {
       }
       //panels & title
       let titleFront
+      let titleCutPanelNum = 2
       if (
         !options.separateBack &&
         !options.useBackMeasures &&
@@ -128,6 +132,8 @@ export const skirtFront = {
           (options.fitWaistFront != options.fitWaistBack && options.waistbandElastic))
       ) {
         titleFront = ''
+        titleCutNum *= 2
+        titleCutPanelNum *= 2
       } else {
         titleFront = ' (Front)'
       }
@@ -185,6 +191,8 @@ export const skirtFront = {
             nr: '1' + j,
             title: 'Skirt ' + k + titleFront,
             prefix: 'title ' + i,
+            cutNr: titleCutPanelNum,
+            onFold: false,
             scale: 0.15,
             rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
           })
@@ -202,6 +210,8 @@ export const skirtFront = {
               nr: '5' + j,
               title: 'Skirt Facing ' + k + titleFront,
               prefix: 'titleFacing ' + i,
+              cutNr: titleCutPanelNum,
+              onFold: false,
               scale: 0.15,
               rotation: 90 - points['frontHemPanel' + i].angle(points['waistFrontPanel' + i]),
             })
@@ -212,6 +222,7 @@ export const skirtFront = {
               at: points.titleFacing,
               nr: '5a',
               title: 'Skirt Facing A' + titleFront,
+              cutNr: titleCutNum,
               prefix: 'titleFacing',
               scale: 0.15,
             })
@@ -223,6 +234,7 @@ export const skirtFront = {
             at: points.title,
             nr: '1a',
             title: 'Skirt A' + titleFront,
+            cutNr: titleCutNum,
             scale: 0.15,
             prefix: 'title',
           })
@@ -236,6 +248,7 @@ export const skirtFront = {
           at: points.title,
           nr: '1',
           title: 'Skirt' + titleFront,
+          cutNr: titleCutNum,
           scale: 0.5,
           prefix: 'title',
           rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
@@ -250,6 +263,7 @@ export const skirtFront = {
             at: points.titleFacing,
             nr: '5',
             title: 'Skirt Facing' + titleFront,
+            cutNr: titleCutNum,
             scale: 0.5,
             prefix: 'titleFacing',
             rotation: 90 - points.frontHemMid.angle(points.waistFrontMid),
@@ -259,7 +273,7 @@ export const skirtFront = {
       //logo
       points.logo = points.frontHemMid
         .shiftTowards(points.waistFrontMid, skirtFacingWidth)
-        .shiftFractionTowards(points.waistFrontMid, 2 / 3)
+        .shiftFractionTowards(points.waistFrontMid, 0.75)
       macro('logorg', {
         at: points.logo,
         scale: 0.5,
@@ -268,7 +282,7 @@ export const skirtFront = {
       //scalebox
       points.scalebox = points.frontHemMid
         .shiftTowards(points.waistFrontMid, skirtFacingWidth)
-        .shiftFractionTowards(points.waistFrontMid, 1 / 3)
+        .shiftFractionTowards(points.waistFrontMid, 0.25)
       macro('scalebox', {
         at: points.scalebox,
         scale: 0.25,

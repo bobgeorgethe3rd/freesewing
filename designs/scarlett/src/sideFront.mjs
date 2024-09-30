@@ -39,6 +39,7 @@ export const sideFront = {
         nr: '3',
         title: 'Side Front',
         at: points.title,
+        cutNr: 2,
         rotation: 90 - points.hemD.angle(points.origin),
         scale: 0.5,
       })

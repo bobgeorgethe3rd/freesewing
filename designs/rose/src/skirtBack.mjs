@@ -200,11 +200,14 @@ export const skirtBack = {
     }
     if (complete) {
       //title
+      let titleCutNum = 2
+      if (options.closurePosition != 'back' && options.cbSaWidth == 0) titleCutNum = 1
       if (options.skirtPanels <= 1) {
         macro('title', {
           at: points.title,
           nr: '5',
           title: 'Skirt (Back)',
+          cutNr: titleCutNum,
           scale: 0.5,
           prefix: 'title',
           rotation: 90 - points.backHemMid.angle(points.waistBackMid),
@@ -214,6 +217,7 @@ export const skirtBack = {
             at: points.titleFacing,
             nr: '11',
             title: 'Skirt Facing (Back)',
+            cutNr: titleCutNum,
             scale: 0.5,
             prefix: 'titleFacing',
             rotation: 90 - points.backHemMid.angle(points.backHemFacingMid),
@@ -224,6 +228,7 @@ export const skirtBack = {
           at: points.title,
           nr: '5a',
           title: 'Skirt A (Back)',
+          cutNr: titleCutNum,
           scale: 0.15,
           prefix: 'title',
         })
@@ -232,9 +237,39 @@ export const skirtBack = {
             at: points.titleFacing,
             nr: '11a',
             title: 'Skirt Facing A (Back)',
+            cutNr: titleCutNum,
             scale: 0.15,
             prefix: 'titleFacing',
           })
+        }
+        let j
+        let k
+        for (let i = 0; i < options.skirtPanels - 1; i++) {
+          j = String.fromCharCode(i + 98)
+          k = String.fromCharCode(i + 66)
+          macro('title', {
+            at: points['title' + i],
+            nr: '5' + j,
+            title: 'Skirt Back ' + k + ' (Back)',
+            prefix: 'title ' + i,
+            cutNr: 2,
+            onFold: false,
+            scale: 0.15,
+            rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
+          })
+
+          if (options.skirtFacings) {
+            macro('title', {
+              at: points['titleFacing' + i],
+              nr: '11' + j,
+              title: 'Skirt Facing ' + k + ' (Back)',
+              prefix: 'titleFacing ' + i,
+              cutNr: 2,
+              onFold: false,
+              scale: 0.15,
+              rotation: 90 - points['backHemPanel' + i].angle(points['waistBackPanel' + i]),
+            })
+          }
         }
       }
     }

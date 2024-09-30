@@ -439,6 +439,7 @@ export const front = {
         nr: 2,
         title: 'Front',
         at: points.title,
+        cutNr: 2,
         scale: 0.5,
       })
       //fitGuides

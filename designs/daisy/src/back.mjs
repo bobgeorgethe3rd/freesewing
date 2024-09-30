@@ -170,6 +170,7 @@ export const back = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
         points.cutOnFoldFrom = points.cbNeck
         points.cutOnFoldTo = points.cbWaist
@@ -178,6 +179,7 @@ export const back = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineTo = points.cbWaist.shiftFractionTowards(points.dartBottomLeft, 0.15)
         points.grainlineFrom = new Point(points.grainlineTo.x, points.cbNeck.y)
@@ -185,6 +187,7 @@ export const back = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //notches
       macro('sprinkle', {
@@ -197,6 +200,7 @@ export const back = {
         at: points.title,
         nr: '2',
         title: 'back',
+        cutNr: titleCutNum,
         scale: 0.5,
       })
 

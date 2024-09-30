@@ -121,6 +121,7 @@ export const sidePanelB = {
         nr: '4b',
         title: titleName,
         at: points.title,
+        cutNr: 2,
         rotation: 90 - points.hemF.angle(points.origin),
         scale: 0.5,
       })

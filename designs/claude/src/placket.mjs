@@ -104,6 +104,7 @@ export const placket = {
         at: points.title,
         nr: '4',
         title: 'Placket',
+        cutNr: 2,
         scale: 1 / 3,
       })
 

@@ -128,6 +128,7 @@ export const front = {
 
     if (complete) {
       //grainline
+      let titleCutNum
       if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
         points.cutOnFoldFrom = points.cfNeck
         points.cutOnFoldTo = points.cfWaist
@@ -136,6 +137,7 @@ export const front = {
           to: points.cutOnFoldTo,
           grainline: true,
         })
+        titleCutNum = 1
       } else {
         points.grainlineTo = points.cfWaist.shiftFractionTowards(points.waistDartLeft, 0.15)
         points.grainlineFrom = new Point(points.grainlineTo.x, points.cfNeck.y)
@@ -143,6 +145,7 @@ export const front = {
           from: points.grainlineFrom,
           to: points.grainlineTo,
         })
+        titleCutNum = 2
       }
       //title
       points.title = points.cfChest.shiftFractionTowards(points.bust, 0.5)
@@ -150,6 +153,7 @@ export const front = {
         at: points.title,
         nr: '1',
         title: 'Front',
+        cutNr: titleCutNum,
         scale: 0.5,
       })
       if (sa) {

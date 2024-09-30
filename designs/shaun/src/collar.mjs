@@ -48,6 +48,7 @@ export const collar = {
         nr: 8,
         title: 'Collar',
         at: points.title,
+        cutNr: 2,
         scale: 0.25,
       })
     }
