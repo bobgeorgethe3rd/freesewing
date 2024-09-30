@@ -50,7 +50,7 @@ export const frontBaseShoulder = {
       .attr('class', 'various lashed')
     //measures
     const bustDartAngle = store.get('bustDartAngle')
-    const contourWidth = absoluteOptions.frontContour
+    // const contourWidth = absoluteOptions.frontContour
     //let's begin
     //neckline
     // points.neckFrontCfAnchor = points.cfNeck.shiftFractionTowards(points.cArmhole, options.neckDrop)
