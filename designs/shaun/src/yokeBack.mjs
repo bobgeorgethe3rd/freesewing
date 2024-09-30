@@ -12,7 +12,7 @@ export const yokeBack = {
     //Style
     yokeBackOnBias: { bool: false, menu: 'style' },
     //Construction
-    yokeBackOnFold: { bool: true, menu: 'construction' },
+    yokeBackSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
   },
   draft: ({
     store,
@@ -55,9 +55,7 @@ export const yokeBack = {
 
     paths.cbNeck = new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck).hide()
 
-    paths.cb = new Path().move(points.cbNeck).line(points.cbYoke).hide()
-
-    if (options.yokeBackOnBias && options.yokeBackOnFold) {
+    if (options.yokeBackOnBias && options.yokeBackSaWidth == 0) {
       macro('mirror', {
         mirror: [points.cbNeck, points.cbYoke],
         paths: ['saBottom', 'armhole', 'shoulder', 'cbNeck'],
@@ -65,14 +63,14 @@ export const yokeBack = {
       })
     }
     const drawSeamLeft = () => {
-      if (options.yokeBackOnBias && options.yokeBackOnFold) {
+      if (options.yokeBackOnBias && options.yokeBackSaWidth == 0) {
         return paths.mCbNeck
           .reverse()
           .join(paths.mShoulder.reverse())
           .join(paths.mArmhole.reverse())
           .join(paths.mSaBottom.reverse())
       } else {
-        return paths.cb
+        return new Path().move(points.cbNeck).line(points.cbYoke)
       }
     }
 
@@ -88,7 +86,7 @@ export const yokeBack = {
       let cbSa
       if (options.yokeBackOnBias) {
         cbSa = sa
-        if (options.yokeBackOnFold) {
+        if (options.yokeBackSaWidth == 0) {
           points.grainlineFrom = points.cbNeck.shift(180, points.cbNeck.dist(points.cbYoke) / 2)
         } else {
           points.grainlineFrom = points.cbNeck
@@ -100,7 +98,7 @@ export const yokeBack = {
           points.yokeBack
         )
       } else {
-        if (options.yokeBackOnFold) {
+        if (options.yokeBackSaWidth == 0) {
           cbSa = 0
           points.cutOnFoldFrom = points.cbNeck
           points.cutOnFoldTo = points.cbYoke
@@ -125,7 +123,7 @@ export const yokeBack = {
       if (points.yokeBack.y > points.armholePitch.y) {
         snippets.armholePitch = new Snippet('notch', points.armholePitch)
       }
-      if (options.yokeBackOnBias && options.yokeBackOnFold) {
+      if (options.yokeBackOnBias && options.yokeBackSaWidth == 0) {
         snippets.cb = new Snippet('bnotch', points.cbYoke)
         snippets.fBackTopCurveEnd = new Snippet(
           'notch',
@@ -144,12 +142,16 @@ export const yokeBack = {
       if (sa) {
         const armholeSa = sa * options.armholeSaWidth * 100
         const neckSa = sa * options.neckSaWidth * 100
+        const yokeBackSa = sa * options.yokeBackSaWidth * 100
 
         points.saYokeBack = points.yokeBack.translate(armholeSa, sa)
         points.saFYokeBack = points.saYokeBack.flipX(points.cbYoke)
 
+        points.saCbNeck = points.cbNeck.translate(-yokeBackSa, -neckSa)
+        points.saCbYoke = new Point(points.saCbNeck.x, points.cbYoke.y + sa)
+
         const drawSALeft = () => {
-          if (options.yokeBackOnBias && options.yokeBackOnFold) {
+          if (options.yokeBackOnBias && options.yokeBackSaWidth == 0) {
             return paths.mCbNeck
               .reverse()
               .offset(neckSa)
@@ -159,7 +161,7 @@ export const yokeBack = {
               .line(points.saFYokeBack)
               .join(paths.mSaBottom.reverse().offset(sa))
           } else {
-            return paths.cb.offset(cbSa)
+            return new Path().move(points.saCbNeck).line(points.saCbYoke)
           }
         }
         paths.sa = paths.saBottom

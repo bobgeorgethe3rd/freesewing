@@ -23,7 +23,7 @@ export const back = {
     sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
     shoulderSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     hemWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Shaun
-    backOnFold: { bool: true, menu: 'construction' },
+    cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Shaun
     //Advanced
     backTopCurve: { pct: 54.8, min: 50, max: 60, menu: 'advanced.style' }, // 45.2, 40, 50
   },
@@ -215,9 +215,7 @@ export const back = {
 
     if (complete) {
       //grainline
-      let cbSa
-      if (options.backOnFold) {
-        cbSa = 0
+      if (options.cbSaWidth == 0) {
         points.cutOnFoldFrom = drawSeamLeft().start()
         points.cutOnFoldTo = drawSeamLeft().end()
         macro('cutonfold', {
@@ -226,7 +224,6 @@ export const back = {
           grainline: true,
         })
       } else {
-        cbSa = sa
         points.grainlineFrom = new Point(points.cbNeckCp1.x / 2, drawSeamLeft().start().y)
         points.grainlineTo = new Point(points.grainlineFrom.x, points.cHem.y)
         macro('grainline', {
@@ -278,6 +275,7 @@ export const back = {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const armholeSa = sa * options.armholeSaWidth * 100
 
+        points.saCHem = new Point(points.saCbNeck.x, points.cHem.y + hemSa)
         points.saSideHem = points.sideHem
           .shift(points.sideHemCp1.angle(points.sideHem), sideSeamSa)
           .shift(points.sideHemCp1.angle(points.sideHem) - 90, hemSa)
@@ -342,6 +340,7 @@ export const back = {
               )
           }
         }
+        points.saDrawSaTop = new Point(points.saCHem.x, drawSaTop().end().y)
 
         paths.sa = paths.hemBase
           .offset(hemSa)
@@ -350,9 +349,10 @@ export const back = {
           .line(points.saArmholeCorner)
           .join(drawSaArmhole())
           .join(drawSaTop())
-          .join(drawSeamLeft().offset(cbSa))
-          .attr('class', 'fabric sa')
+          .line(points.saDrawSaTop)
+          .line(points.saCHem)
           .close()
+          .attr('class', 'fabric sa')
       }
     }
     return part
