@@ -41,6 +41,9 @@ export const yokeBack = {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
+    macro('cutonfold', false)
+    delete points.grainlineFrom
+    delete points.grainlineTo
     //let's begin
     paths.saBottom = new Path().move(points.cbYoke).line(points.yokeBack).hide()
 
@@ -83,9 +86,7 @@ export const yokeBack = {
 
     if (complete) {
       //grainline
-      let cbSa
       if (options.yokeBackOnBias) {
-        cbSa = sa
         if (options.yokeBackSaWidth == 0) {
           points.grainlineFrom = points.cbNeck.shift(180, points.cbNeck.dist(points.cbYoke) / 2)
         } else {
@@ -99,7 +100,6 @@ export const yokeBack = {
         )
       } else {
         if (options.yokeBackSaWidth == 0) {
-          cbSa = 0
           points.cutOnFoldFrom = points.cbNeck
           points.cutOnFoldTo = points.cbYoke
           macro('cutonfold', {
@@ -108,7 +108,6 @@ export const yokeBack = {
             grainline: true,
           })
         } else {
-          cbSa = sa
           points.grainlineFrom = points.cbNeck.shiftFractionTowards(points.cbNeckCp1, 0.5)
           points.grainlineTo = new Point(points.grainlineFrom.x, points.cbYoke.y)
         }
