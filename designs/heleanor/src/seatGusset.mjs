@@ -64,7 +64,7 @@ export const seatGusset = {
       macro('title', {
         at: points.title,
         nr: '3',
-        title: 'seat Gusset',
+        title: 'Seat Gusset',
         scale: 0.25,
       })
       if (sa) {
