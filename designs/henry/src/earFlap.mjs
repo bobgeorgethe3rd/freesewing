@@ -18,7 +18,7 @@ export const earFlap = {
     earFlapWidthBonus: { pct: 6, min: -20, max: 50, menu: 'style' },
     buttonholeEarFlap: { bool: false, menu: 'style' },
     earFlapTieWidth: {
-      pct: 4.1,
+      pct: 4.2,
       min: 2,
       max: 8,
       snap: 5,
