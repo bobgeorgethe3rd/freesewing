@@ -1,8 +1,8 @@
 {
   "name": "@freesewing/jeremy",
   "version": "3.0.0-alpha.8",
-  "description": "A pattern that needs a description",
-  "author": "Joost De Cock <joost@joost.at> (https://github.com/joostdecock)",
+  "description": "Jeremy jacket block design",
+  "author": "bobgeorgethe3rd (https://github.com/bobgeorgethe3rd)",
   "homepage": "https://freesewing.org/",
   "repository": "github:freesewing/freesewing",
   "license": "MIT",

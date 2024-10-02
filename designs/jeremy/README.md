@@ -48,7 +48,7 @@
 
 # @freesewing/jeremy
 
-A pattern that needs a description
+Jeremy jacket block design
 
 
 
