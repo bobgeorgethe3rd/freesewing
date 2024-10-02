@@ -2,6 +2,7 @@
   "blocks": {
     "aimee": {
       "description": "Aimee all in one block design based of the Daisy block design",
+      "number": "0002",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -9,6 +10,7 @@
     },
     "bertram": {
       "description": "Bertram back seam trouser block design",
+      "number": "0040",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -16,6 +18,7 @@
     },
     "byron": {
       "description": "Byron basic body block design",
+      "number": "0005",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -23,6 +26,7 @@
     },
     "daisy": {
       "description": "Daisy dart bodice block design",
+      "number": "0001",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -30,6 +34,7 @@
     },
     "dalton": {
       "description": "Dalton dart trouser block design",
+      "number": "0004",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -37,6 +42,7 @@
     },
     "jeremy": {
       "description": "Jeremy jacket block design",
+      "number": "0047",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -44,6 +50,7 @@
     },
     "neville": {
       "description": "Neville no inseam trouser block design",
+      "number": "0039",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -51,6 +58,7 @@
     },
     "peach": {
       "description": "Peach princess seam design based of the Daisy block design",
+      "number": "0003",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -60,6 +68,7 @@
   "bodices": {
     "sammie": {
       "description": "Sammie strapless bodice design for independent use and extension into other desgins",
+      "number": "0016",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -69,6 +78,7 @@
   "bottoms": {
     "caleb": {
       "description": "Caleb cargo shorts design",
+      "number": "0036",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -76,6 +86,7 @@
     },
     "claire": {
       "description": "Claire culottes design",
+      "number": "0043",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -83,6 +94,7 @@
     },
     "heleanor": {
       "description": "Heleanor Haithabu Hedeby trouser design",
+      "number": "0042",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -90,6 +102,7 @@
     },
     "jackson": {
       "description": "Jackon jean design",
+      "number": "0006",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -97,6 +110,7 @@
     },
     "laura": {
       "description": "Laura leggings design",
+      "number": "0023",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -104,6 +118,7 @@
     },
     "paul": {
       "description": "Paul pyjama bottoms design",
+      "number": "0035",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -111,6 +126,7 @@
     },
     "simeon": {
       "description": "Simeon simple trouser design",
+      "number": "0034",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -118,6 +134,7 @@
     },
     "theobald": {
       "description": "Theobald timeless trouser design",
+      "number": "0010",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -158,6 +175,7 @@
   "dresses": {
     "bernice": {
       "description": "Bernice billowy slip dress design",
+      "number": "0027",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -165,6 +183,7 @@
     },
     "petunia": {
       "description": "Petunia pullover dress design",
+      "number": "0029",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -172,6 +191,7 @@
     },
     "rose": {
       "description": "Rose regatta dress design",
+      "number": "0028",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -179,6 +199,7 @@
     },
     "sam": {
       "description": "Sam strapless Sseetheart special occasions dress design",
+      "number": "0025",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -186,6 +207,7 @@
     },
     "scott": {
       "description": "Scott scallop heart dress design",
+      "number": "0024",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -193,6 +215,7 @@
     },
     "shannon": {
       "description": "Shannon simple summer dress design",
+      "number": "0026",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -202,6 +225,7 @@
   "hats": {
     "barkley": {
       "description": "Barkley baker's boy cap design",
+      "number": "0032",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -209,6 +233,7 @@
     },
     "billy": {
       "description": "Billy bucket hat design",
+      "number": "0012",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -216,6 +241,7 @@
     },
     "henry": {
       "description": "Henry Holmes deerstalker hat design",
+      "number": "0018",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -223,6 +249,7 @@
     },
     "merlin": {
       "description": "Merlin mage hat design",
+      "number": "0022",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -230,6 +257,7 @@
     },
     "mildred": {
       "description": "Mildred magical hat design",
+      "number": "0020",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -237,6 +265,7 @@
     },
     "minerva": {
       "description": "Minerva mystical hat design",
+      "number": "0021",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -244,6 +273,7 @@
     },
     "nathaniel": {
       "description": "Nathaniel newspaper boy cap design",
+      "number": "0033",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -251,6 +281,7 @@
     },
     "perry": {
       "description": "Perry plate cap design",
+      "number": "0019",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -306,6 +337,7 @@
   "skirts": {
     "claude": {
       "description": "Claude cricle skirt design for independent use and extension into other desgins",
+      "number": "0011",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -313,6 +345,7 @@
     },
     "fallon": {
       "description": "Fallon 1895 Keystone Jacket and Dress Cutter Full Dress Skirt design",
+      "number": "0013",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -320,6 +353,7 @@
     },
     "harriet": {
       "description": "Harriet high - low circle skirt design for independent use and extension into other desgins",
+      "number": "0015",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -327,6 +361,7 @@
     },
     "harvey": {
       "description": "Harvey handkerchief square skirt design for independent use and extension into other designs",
+      "number": "0044",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -334,6 +369,7 @@
     },
     "scarlett": {
       "description": "Scarlett split skirt design based off of Wanda",
+      "number": "0009",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 4,
@@ -341,6 +377,7 @@
     },
     "wanda": {
       "description": "Wanda 1895 Keystone Jacket and Dress Cutter Walking Skirt design",
+      "number": "0008",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -416,6 +453,7 @@
   "tops": {
     "bunny": {
       "description": "Bunny button back blouse design",
+      "number": "0038",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -423,6 +461,7 @@
     },
     "riley": {
       "description": "Riley raglan tee design ",
+      "number": "0031",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -430,6 +469,7 @@
     },
     "shaun": {
       "description": "Shaun sharp shirt design",
+      "number": "0017",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -437,6 +477,7 @@
     },
     "taliya": {
       "description": "Taliya tunic design",
+      "number": "0037",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
@@ -444,6 +485,7 @@
     },
     "terry": {
       "description": "Terry t-shirt design",
+      "number": "0030",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -451,6 +493,7 @@
     },
     "vincenzo": {
       "description": "Vincenzo vest design",
+      "number": "0045",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -504,6 +547,7 @@
   "undergarments": {
     "calanthe": {
       "description": "Calanthe 1880s corset design",
+      "number": "0007",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 5,
@@ -511,6 +555,7 @@
     },
     "camden": {
       "description": "Camden camisole design",
+      "number": "0014",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -518,6 +563,7 @@
     },
     "francis": {
       "description": "Francis 14th century braies design",
+      "number": "0041",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,
@@ -525,6 +571,7 @@
     },
     "stefan": {
       "description": "Stefan 16th century shirt desgin",
+      "number": "0046",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 2,

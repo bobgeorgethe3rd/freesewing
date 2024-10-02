@@ -323,6 +323,7 @@ function createDesign(name, type) {
   // Add to designs config file
   designs[type][name] = {
     description: description,
+    number: '0000',
     code: 'bobgeorgethe3rd',
     design: 'bobgeorgethe3rd',
     difficulty: 1,

@@ -87,7 +87,11 @@ for (const pkg of Object.values(software)) {
   if (pkg.type !== 'site') {
     fs.writeFileSync(
       path.join(cwd, pkg.folder, pkg.name, 'data.mjs'),
-      mustache.render(repo.templates.data, { name: fullName(pkg.name), version })
+      mustache.render(repo.templates.data, {
+        name: fullName(pkg.name),
+        number: pkg.number,
+        version,
+      })
     )
     fs.writeFileSync(path.join(cwd, pkg.folder, pkg.name, 'README.md'), readme(pkg))
     if (repo.exceptions.customBuild.indexOf(pkg.name) === -1) {
