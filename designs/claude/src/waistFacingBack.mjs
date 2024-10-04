@@ -134,17 +134,17 @@ export const waistFacingBack = {
 
         points.saSideWaistBackFacing = utils.beamsIntersect(
           points.sideWaistBackFacingCp1
-            .shiftTowards(points.sideWaistBackFacing, sa)
+            .shiftTowards(points.sideWaistBackFacing, waistSa)
             .rotate(-90, points.sideWaistBackFacingCp1),
           points.sideWaistBackFacing
-            .shiftTowards(points.sideWaistBackFacingCp1, sa)
+            .shiftTowards(points.sideWaistBackFacingCp1, waistSa)
             .rotate(90, points.sideWaistBackFacing),
           paths.sideSeam.offset(sideSeamSa).start(),
           paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.001)
         )
         points.saSideWaistBack = utils.beamsIntersect(
           paths.sideSeam.offset(sideSeamSa).end(),
-          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.998),
+          paths.sideSeam.offset(sideSeamSa).shiftFractionAlong(0.995),
           points.sideWaistBack
             .shiftTowards(points.sideWaistBackCp2, waistSa)
             .rotate(-90, points.sideWaistBack),
