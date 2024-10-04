@@ -16,7 +16,7 @@ export const back = {
     cbSaWidth: 0,
     //Construction
     hemWidth: { pct: 3, min: 1, max: 5, menu: 'construction' },
-    closurePosition: { dflt: 'back', list: ['front', 'side', 'back'], menu: 'construction' },
+    closurePosition: { dflt: 'front', list: ['front', 'side', 'back'], menu: 'construction' },
   },
   draft: ({
     store,
