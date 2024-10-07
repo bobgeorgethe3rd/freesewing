@@ -153,7 +153,6 @@ export const front = {
     // .curve_(points.sideWaistCp2, points.armhole)
 
     //seam paths
-    paths.hemBase = new Path().move(points.cWaist).line(points.sideWaist).hide()
     paths.sideSeam = new Path()
       .move(points.sideWaist)
       .curve_(points.sideWaistCp2, points.armhole)
@@ -165,18 +164,17 @@ export const front = {
       .curve_(points.armholePitchCp2, points.shoulder)
       .hide()
 
-    paths.shoulder = new Path().move(points.shoulder).line(points.hps).hide()
-
     paths.cfNeck = new Path()
       .move(points.hps)
       .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .hide()
 
-    paths.seam = paths.hemBase
-      .clone()
+    paths.seam = new Path()
+      .move(points.cWaist)
+      .line(points.sideWaist)
       .join(paths.sideSeam)
       .join(paths.armhole)
-      .join(paths.shoulder)
+      .line(points.hps)
       .join(paths.cfNeck)
       .line(points.cWaist)
       .close()
@@ -306,8 +304,8 @@ export const front = {
             .offset(neckSa)
             .start()
             .shift(points.hps.angle(points.shoulder) + 90, 1),
-          paths.shoulder.offset(shoulderSa).start(),
-          paths.shoulder.offset(shoulderSa).end()
+          points.saShoulderCorner,
+          points.saShoulderCorner.shift(points.shoulder.angle(points.hps), 1)
         )
         points.saCfNeck = points.cfNeck.translate(-cfSa, -neckSa)
         points.saCWaist = points.cWaist.translate(-cfSa, hemSa)
