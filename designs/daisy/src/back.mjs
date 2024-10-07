@@ -37,16 +37,16 @@ export const back = {
     //remove paths & snippets
     for (let i in paths) delete paths[i]
     //measures
-    const chestBack = (measurements.chest - measurements.bustFront) * (1 + options.chestEase)
-    const waistToArmhole = store.get('waistToArmhole')
-    const waistBack = measurements.waistBack * (1 + options.waistEase)
     //let's begin
     // points.cbArmhole = points.origin.shift(-90, measurements.hpsToWaistBack - waistToArmhole)
-    points.armhole = points.cArmhole.shift(0, chestBack / 2)
+    points.armhole = points.cArmhole.shift(
+      0,
+      (measurements.chest - measurements.bustFront) * (1 + options.chestEase) * 0.5
+    )
     points.cbWaist = points.origin.shift(-90, measurements.hpsToWaistBack)
     points.sideWaistAnchor = new Point(points.armhole.x, points.cbWaist.y)
     //dart
-    const waistDiff = points.armhole.x - waistBack / 2
+    const waistDiff = points.armhole.x - measurements.waistBack * (1 + options.waistEase) * 0.5
 
     if (waistDiff < 0) {
       points.sideWaist = points.sideWaistAnchor.shift(180, waistDiff * 2)
@@ -57,7 +57,7 @@ export const back = {
     } else {
       points.sideWaist = points.armhole.shiftTowards(
         points.sideWaistAnchor.shift(180, waistDiff / 3),
-        waistToArmhole
+        store.get('waistToArmhole')
       )
       points.dartTip = points.cArmhole.shift(0, points.sideWaist.x / 2)
       points.dartBottomMid = new Point(points.dartTip.x, points.cbWaist.y)

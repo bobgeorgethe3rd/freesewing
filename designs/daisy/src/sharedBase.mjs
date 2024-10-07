@@ -29,13 +29,12 @@ export const sharedBase = {
     snippets,
   }) => {
     //measures
-    const cbNeck = measurements.hpsToWaistBack * options.cbNeck
     const neck = measurements.neck * (1 + options.neckEase)
     const waistToArmhole = measurements.waistToArmpit * (1 - options.scyeDepth)
     //let's begin
     points.origin = new Point(0, 0)
 
-    points.cbNeck = points.origin.shift(-90, cbNeck)
+    points.cbNeck = points.origin.shift(-90, measurements.hpsToWaistBack * options.cbNeck)
 
     points.hps = points.origin.shift(0, neck / 5)
 

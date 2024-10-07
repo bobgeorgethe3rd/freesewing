@@ -57,16 +57,6 @@ export const frontArmholeDart = ({
     .hide()
 
   //paths
-  paths.waist = new Path()
-    .move(points.cfWaist)
-    .line(points.waistDartLeft)
-    .line(points.waistDartTip)
-    .line(points.waistDartRight)
-    .line(points.sideWaist)
-    .hide()
-
-  paths.sideSeam = new Path().move(points.sideWaist).line(points.armholeR).hide()
-
   if (options.bustDartFraction > 0.005 && options.bustDartFraction < 0.995) {
     paths.armholeTop = paths.armhole.split(points.bustDartTop)[1].hide()
     paths.armholeBottom = paths.armholeR.split(points.bustDartBottom)[0].hide()
@@ -81,26 +71,23 @@ export const frontArmholeDart = ({
     }
   }
 
-  paths.bustDart = new Path()
-    .move(points.bustDartBottom)
-    .line(points.bustDartTip)
-    .line(points.bustDartTop)
-    .hide()
-
-  paths.shoulder = new Path().move(points.shoulder).line(points.hps).hide()
-
   paths.cfNeck = new Path()
     .move(points.hps)
     .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
     .hide()
 
-  paths.seam = paths.waist
-    .clone()
-    .join(paths.sideSeam)
+  paths.seam = new Path()
+    .move(points.cfWaist)
+    .line(points.waistDartLeft)
+    .line(points.waistDartTip)
+    .line(points.waistDartRight)
+    .line(points.sideWaist)
+    .line(points.armholeR)
     .join(paths.armholeBottom)
-    .join(paths.bustDart)
+    .line(points.bustDartTip)
+    .line(points.bustDartTop)
     .join(paths.armholeTop)
-    .join(paths.shoulder)
+    .line(points.hps)
     .join(paths.cfNeck)
     .line(points.cfWaist)
     .close()

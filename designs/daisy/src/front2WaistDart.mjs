@@ -43,7 +43,18 @@ export const front2WaistDart = ({
   )
 
   //paths
-  paths.waist = new Path()
+  paths.armhole = new Path()
+    .move(points.armhole)
+    .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+    .curve_(points.armholePitchCp2, points.shoulder)
+    .hide()
+
+  paths.cfNeck = new Path()
+    .move(points.hps)
+    .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+    .hide()
+
+  paths.seam = new Path()
     .move(points.cfWaist)
     .line(points.waistDartLeft)
     .line(points.waistDartTip)
@@ -52,28 +63,9 @@ export const front2WaistDart = ({
     .line(points.bustDartTip)
     .line(points.bustDartTop)
     .line(points.sideWaist)
-    .hide()
-
-  paths.sideSeam = new Path().move(points.sideWaist).line(points.armhole).hide()
-
-  paths.armhole = new Path()
-    .move(points.armhole)
-    .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-    .curve_(points.armholePitchCp2, points.shoulder)
-    .hide()
-
-  paths.shoulder = new Path().move(points.shoulder).line(points.hps).hide()
-
-  paths.cfNeck = new Path()
-    .move(points.hps)
-    .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
-    .hide()
-
-  paths.seam = paths.waist
-    .clone()
-    .join(paths.sideSeam)
+    .line(points.armhole)
     .join(paths.armhole)
-    .join(paths.shoulder)
+    .line(points.hps)
     .join(paths.cfNeck)
     .line(points.cfWaist)
     .close()

@@ -16,11 +16,9 @@ export const frontUnderarmDart = ({
 }) => {
   //remove paths
   for (let i in paths) delete paths[i]
-  //measures
-  const bustDartAngle = store.get('bustDartAngle')
   //let's begin
   points.bustDartTop = points.armhole
-  points.bustDartBottom = points.bustDartTop.rotate(-bustDartAngle, points.bust)
+  points.bustDartBottom = points.bustDartTop.rotate(-store.get('bustDartAngle'), points.bust)
   points.bustDartMid = points.bustDartBottom.shiftFractionTowards(points.bustDartTop, 0.5)
   points.bustDartEdge = utils.beamsIntersect(
     points.sideWaist,
@@ -36,40 +34,29 @@ export const frontUnderarmDart = ({
   )
 
   //paths
-  paths.waist = new Path()
-    .move(points.cfWaist)
-    .line(points.waistDartLeft)
-    .line(points.waistDartTip)
-    .line(points.waistDartRight)
-    .line(points.sideWaist)
-    .hide()
-
-  paths.sideSeam = new Path()
-    .move(points.sideWaist)
-    .line(points.bustDartBottom)
-    .line(points.bustDartTip)
-    .line(points.bustDartTop)
-    .line(points.armhole)
-    .hide()
-
   paths.armhole = new Path()
     .move(points.armhole)
     .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
     .curve_(points.armholePitchCp2, points.shoulder)
     .hide()
 
-  paths.shoulder = new Path().move(points.shoulder).line(points.hps).hide()
-
   paths.cfNeck = new Path()
     .move(points.hps)
     .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
     .hide()
 
-  paths.seam = paths.waist
-    .clone()
-    .join(paths.sideSeam)
+  paths.seam = new Path()
+    .move(points.cfWaist)
+    .line(points.waistDartLeft)
+    .line(points.waistDartTip)
+    .line(points.waistDartRight)
+    .line(points.sideWaist)
+    .line(points.bustDartBottom)
+    .line(points.bustDartTip)
+    .line(points.bustDartTop)
+    .line(points.armhole)
     .join(paths.armhole)
-    .join(paths.shoulder)
+    .line(points.hps)
     .join(paths.cfNeck)
     .line(points.cfWaist)
     .close()
