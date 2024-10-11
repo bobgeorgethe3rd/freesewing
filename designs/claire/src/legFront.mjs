@@ -424,10 +424,13 @@ export const legFront = {
         )
           hemSa = sa
         let sideSeamSa = sa * options.sideSeamSaWidth * 100
-        if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight')
+        if (
+          (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') &&
+          !options.waistbandElastic
+        )
           sideSeamSa = closureSa
         let crotchSa = sa * options.crotchSaWidth * 100
-        if (options.closurePosition == 'front') crotchSa = closureSa
+        if (options.closurePosition == 'front' && !options.waistbandElastic) crotchSa = closureSa
         if (
           !options.separateBack &&
           !options.useBackMeasures &&

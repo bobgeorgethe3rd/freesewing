@@ -355,10 +355,13 @@ export const legBack = {
         )
           hemSa = sa
         let sideSeamSa = sa * options.sideSeamSaWidth * 100
-        if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight')
+        if (
+          (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') &&
+          !options.waistbandElastic
+        )
           sideSeamSa = closureSa
         let crossSa = sa * options.crossSaWidth * 100
-        if (options.closurePosition == 'back') crossSa = closureSa
+        if (options.closurePosition == 'back' && !options.waistbandElastic) crossSa = closureSa
 
         points.saSideBackHem = utils.beamsIntersect(
           points.sideBackHemCp1
