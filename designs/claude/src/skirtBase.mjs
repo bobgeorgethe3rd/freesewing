@@ -431,9 +431,9 @@ export const skirtBase = {
       points.origin.rotate(90, points.waistBackMidStatic)
     )
 
-    let waistFrontCpFraction =
+    const waistFrontCpFraction =
       waistFrontCpDistance / points.cfWaist.dist(points.waistFrontCpTargetStatic)
-    let waistBackCpFraction =
+    const waistBackCpFraction =
       waistBackCpDistance / points.cbWaist.dist(points.waistBackCpTargetStatic)
 
     points.cfHem = points.origin.shiftOutwards(points.cfWaist, skirtLength)
