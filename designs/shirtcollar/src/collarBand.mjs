@@ -54,7 +54,7 @@ export const collarBand = {
     }
     //let's begin
     points.bottomLeft = points.fBottomCp1.shiftOutwards(points.fBottom, leftEx)
-    points.fTopCp2 = points.fTopCp2.shiftOutwards(points.fTop, leftEx)
+    points.fTopCp1 = points.fTopCp2.shiftOutwards(points.fTop, leftEx)
     points.bottomRight = points.bottomCp1.shiftOutwards(points.bottom, rightEx)
     points.topCp1 = points.topCp2.shiftOutwards(points.top, rightEx)
 
@@ -72,7 +72,7 @@ export const collarBand = {
       ._curve(points.topCp1, points.top)
       .curve(points.topCp2, points.topMidCp1, points.topMid)
       .curve(points.fTopMidCp1, points.fTopCp2, points.fTop)
-      .curve_(points.fTopCp2, points.bottomLeft)
+      .curve_(points.fTopCp1, points.bottomLeft)
       .hide()
 
     paths.seam = paths.saBottom.clone().join(paths.saTop).close()
