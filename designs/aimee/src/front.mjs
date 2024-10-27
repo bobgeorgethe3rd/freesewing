@@ -241,14 +241,6 @@ export const front = {
         .attr('class', 'various lashed')
     }
     //paths
-    paths.waist = new Path()
-      .move(points.cfWaist)
-      .line(points.waistDartLeft)
-      .line(points.waistDartTip)
-      .line(points.waistDartRight)
-      .line(points.sideWaist)
-      .hide()
-
     paths.sideSeam = new Path()
       .move(points.sideWaist)
       .line(points.underArmCurveStart)
@@ -260,24 +252,22 @@ export const front = {
       .line(points.bodiceSleeveBottom)
       .hide()
 
-    paths.sleeveHem = new Path().move(points.bodiceSleeveBottom).line(points.bodiceSleeveTop).hide()
-
-    paths.shoulder = new Path().move(points.bodiceSleeveTop).line(points.hps).hide()
-
     paths.cfNeck = new Path()
       .move(points.hps)
       .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
       .hide()
 
-    paths.cf = new Path().move(points.cfNeck).line(points.cfWaist).hide()
-
-    paths.seam = paths.waist
-      .clone()
+    paths.seam = new Path()
+      .move(points.cfWaist)
+      .line(points.waistDartLeft)
+      .line(points.waistDartTip)
+      .line(points.waistDartRight)
+      .line(points.sideWaist)
       .join(paths.sideSeam)
-      .join(paths.sleeveHem)
-      .join(paths.shoulder)
+      .line(points.bodiceSleeveTop)
+      .line(points.hps)
       .join(paths.cfNeck)
-      .join(paths.cf)
+      .line(points.cfWaist)
       .close()
 
     //stores
