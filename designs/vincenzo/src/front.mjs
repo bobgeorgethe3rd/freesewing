@@ -210,11 +210,11 @@ export const front = {
       //binding info
       points.neckBinding = new Point(points.armholePitch.x, points.sideHem.y * 0.85).attr(
         'data-text',
-        'Neck Binding Length: ' + utils.units((paths.cfNeck.length() + store.get('neckBack')) * 2)
+        'Neck Length: ' + utils.units((paths.cfNeck.length() + store.get('neckBack')) * 2)
       )
       points.armholeBinding = new Point(points.armholePitch.x, points.sideHem.y * 0.9).attr(
         'data-text',
-        'Armhole Binding Length: ' + utils.units(paths.armhole.length() + store.get('armholeBack'))
+        'Armhole Length: ' + utils.units(paths.armhole.length() + store.get('armholeBack'))
       )
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
