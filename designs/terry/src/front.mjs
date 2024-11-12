@@ -11,6 +11,8 @@ export const front = {
     inherited: true,
   },
   options: {
+    //Fit
+    neckbandEase: { pct: -10, min: -20, max: -5, menu: 'fit' },
     //Pockets
     pocketsBool: { bool: true, menu: 'pockets' },
     patchPocketWidth: { pct: 46.6, min: 30, max: 60, menu: 'pockets.patchPockets' },
@@ -40,9 +42,10 @@ export const front = {
   }) => {
     //remove paths & snippets
     store.set(
-      'neckbandLengthTop',
-      store.get('neckbandBackTop') + paths.cfNeck.length() * 2 * (1 + options.neckbandEase)
+      'neckbandLength',
+      store.get('neckbandBack') + paths.cfNeck.length() * 2 * (1 + options.neckbandLengthBonus)
     )
+    store.set('neckbandLengthTop', store.get('neckbandLength') * (1 + options.neckbandEase))
     const keepThese = ['armhole', 'seam']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
@@ -115,10 +118,10 @@ export const front = {
     store.set('patchPocketDepth', patchPocketWidth * options.patchPocketDepth)
     store.set('neckFront', paths.cfNeck.length())
     store.set('neckFrontDepth', points.cfTop.y - points.shoulderTop.y)
-    store.set(
-      'neckbandLength',
-      (store.get('neckBack') + store.get('neckFront')) * 2 * (1 + options.neckbandEase)
-    )
+    // store.set(
+    // 'neckbandLength',
+    // (store.get('neckBack') + store.get('neckFront')) * 2 * (1 + options.neckbandEase)
+    // )
     if (complete) {
       //grainline
       let titleCutNum

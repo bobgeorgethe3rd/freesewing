@@ -18,7 +18,7 @@ export const back = {
     waistEase: { pct: 25, min: 0, max: 35, menu: 'fit' }, //Altered for Terry
     hipsEase: { pct: 5.9, min: 0, max: 25, menu: 'fit' },
     seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' },
-    neckbandEase: { pct: -10, min: -20, max: 0, menu: 'fit' },
+    // neckbandEase: { pct: -10, min: -20, max: 0, menu: 'fit' },
     //Style
     neckbandWidth: {
       pct: 3.3,
@@ -36,6 +36,7 @@ export const back = {
     //Advanced
     fitWaist: { bool: false, menu: 'advanced' }, //Altered for Terry
     fitHem: { bool: false, menu: 'advanced' }, //Altered for Terry
+    neckbandLengthBonus: { pct: 0, min: 0, max: 20, menu: 'advanced' },
   },
   measurements: ['hips', 'seat', 'waistToHips', 'waistToSeat'],
   draft: ({
@@ -58,7 +59,7 @@ export const back = {
     log,
   }) => {
     //remove paths & snippets
-    store.set('neckbandBackTop', paths.cbNeck.length() * 2 * (1 + options.neckbandEase))
+    store.set('neckbandBack', paths.cbNeck.length() * 2 * (1 + options.neckbandLengthBonus))
     const keepThese = ['armhole', 'seam']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
@@ -152,7 +153,7 @@ export const back = {
     store.set('neckBackDepth', points.cbTop.y - points.shoulderTop.y)
     store.set('neckBackWidth', points.shoulderTop.x)
     store.set('neckBackAngle', points.shoulderTop.angle(points.cbTopCp1))
-    store.set('neckbandBack', paths.cbNeck.length() * 2 * (1 + options.neckbandEase))
+    // store.set('neckbandBack', paths.cbNeck.length() * 2 * (1 + options.neckbandEase))
 
     if (complete) {
       //grainline
