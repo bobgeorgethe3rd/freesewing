@@ -95,7 +95,9 @@ export const sleeve = {
 
     //horizontal measures
     const fullSleeveLength =
-      sleeveCapDepth + measurements.shoulderToWrist * (1 + options.sleeveLengthBonus)
+      sleeveCapDepth +
+      measurements.shoulderToWrist * (1 + options.sleeveLengthBonus) -
+      sleeveBandWidth
     const minWidth = points.sleeveCapLeft.dist(points.sleeveCapRight)
     const biceps = measurements.biceps * (1 + options.bicepsEase)
     const elbow = measurements.elbow * (1 + options.elbowEase)
@@ -187,14 +189,14 @@ export const sleeve = {
           points.saTopLeft = points.sleeveCapLeft.shift(180, sideSeamSa)
           points.saBottomLeft = points.bottomLeft.shift(180, sideSeamSa)
         } else {
-          points.saTopLeft = utils.beamIntersectsY(
+          points.saTopLeft = utils.beamIntersectsX(
             points.sleeveCapLeft
               .shiftTowards(points.bottomLeft, sideSeamSa)
               .rotate(-90, points.sleeveCapLeft),
             points.bottomLeft
               .shiftTowards(points.sleeveCapLeft, sideSeamSa)
               .rotate(90, points.bottomLeft),
-            points.saSleeveCapLeft.y
+            points.saSleeveCapLeft.x
           )
           points.saBottomLeft = points.bottomLeft
             .shiftTowards(points.sleeveCapLeft, sideSeamSa)
