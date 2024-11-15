@@ -9,12 +9,14 @@ export const sleeve = {
     //Imported
     ...srsSleeve.options,
     //Constants
-    useVoidStores: false, //Locked for Terry
-    sleeveTurnoverDoubleFold: false, //Locked for Terry
+    useVoidStores: false, //Locked for Riley
+    sleeveTurnoverDoubleFold: false, //Locked for Riley
+    //Fit
+    bicepsEase: { pct: 8.7, min: 0, max: 25, menu: 'fit' }, //Altered for Riley
     //Sleeves
     sleevesBool: { bool: true, menu: 'sleeves' },
-    sleeveHemStyle: { dflt: 'turnover', list: ['cuffed', 'turnover'], menu: 'sleeves' }, //Altered for Terry
-    sleeveSideCurve: { pct: 0, min: 0, max: 100, menu: 'sleeves' }, //Altered for Terry
+    sleeveHemStyle: { dflt: 'turnover', list: ['cuffed', 'turnover'], menu: 'sleeves' }, //Altered for Riley
+    sleeveSideCurve: { pct: 0, min: 0, max: 100, menu: 'sleeves' }, //Altered for Riley
     sleeveBandWidth: {
       pct: 3.5,
       min: 1,
@@ -22,7 +24,7 @@ export const sleeve = {
       snap: 5,
       ...pctBasedOn('shoulderToWrist'),
       menu: 'sleeves',
-    }, //Altered for terry
+    }, //Altered for Riley
   },
   measurements: srsSleeve.measurements,
   draft: (sh) => {

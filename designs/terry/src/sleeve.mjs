@@ -11,6 +11,8 @@ export const sleeve = {
     //Constants
     useVoidStores: false, //Locked for Terry
     sleeveTurnoverDoubleFold: false, //Locked for Terry
+    //Fit
+    bicepsEase: { pct: 8.7, min: 0, max: 25, menu: 'fit' }, //Altered for Terry
     //Sleeves
     sleevesBool: { bool: true, menu: 'sleeves' },
     sleeveHemStyle: { dflt: 'turnover', list: ['cuffed', 'turnover'], menu: 'sleeves' }, //Altered for Terry
