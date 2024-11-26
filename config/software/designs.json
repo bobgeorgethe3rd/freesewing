@@ -124,6 +124,14 @@
       "difficulty": 2,
       "tags": ["bottoms", "pyjama"]
     },
+    "sawyer": {
+      "description": "Sawyer simple joggers design",
+      "number": "0048",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["bottoms", "joggers"]
+    },
     "simeon": {
       "description": "Simeon simple trouser design",
       "number": "0034",

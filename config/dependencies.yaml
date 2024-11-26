@@ -328,6 +328,11 @@ sammie:
 sandy:
   peer:
     '@freesewing/snapseries': *freesewing
+sawyer:
+  peer:
+    '@freesewing/dalton': *freesewing
+    '@freesewing/paul': *freesewing
+    '@freesewing/legbandstraight': *freesewing
 scarlett:
     peer:
     '@freesewing/wanda': *freesewing
