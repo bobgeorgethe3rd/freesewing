@@ -9,7 +9,7 @@ export const legBand = {
     ...legBandStraight.options,
     ...legBandCurved.options,
     //Constant
-    legBandClosurePosition: 'sideRight', //Loced for Heleanor
+    legBandClosurePosition: 'sideRight', //Locked for Heleanor
     //Style
     legBandOverlap: { pct: 0, min: 0, max: 50, menu: 'style' }, //Altered for Heleanor
     legBandFolded: { bool: true, menu: 'style' }, //Altered for Heleanor
@@ -29,8 +29,8 @@ export const legBand = {
     }
 
     if (complete) {
-      let titleCutNum = 2
-      if (options.legBandFolded || options.legBandStyle == 'curved') titleCutNum = 1
+      let titleCutNum = 4
+      if (options.legBandFolded && options.legBandStyle != 'curved') titleCutNum = 2
       macro('title', {
         nr: 5,
         title: 'Leg band ' + utils.capitalize(options.legBandStyle),
