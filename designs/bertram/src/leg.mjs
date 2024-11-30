@@ -18,7 +18,7 @@ export const leg = {
     hipsEase: { pct: 3, min: 0, max: 20, menu: 'fit' },
     kneeEase: { pct: 6.6, min: 0, max: 20, menu: 'fit' },
     calfEase: { pct: 6.8, min: 0, max: 20, menu: 'fit' },
-    heelEase: { pct: 7.4, min: 0, max: 20, menu: 'fit' },
+    heelEase: { pct: 7.6, min: 0, max: 20, menu: 'fit' },
     ankleEase: { pct: 10.8, min: 0, max: 20, menu: 'fit' },
     fitGuides: { bool: true, menu: 'fit' },
     //Style

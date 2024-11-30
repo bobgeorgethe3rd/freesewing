@@ -13,7 +13,7 @@ export const leg = {
     seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' },
     kneeEase: { pct: 13.2, min: 0, max: 20, menu: 'fit' },
     calfEase: { pct: 13.4, min: 0, max: 20, menu: 'fit' },
-    heelEase: { pct: 7.4, min: 0, max: 20, menu: 'fit' },
+    heelEase: { pct: 7.6, min: 0, max: 20, menu: 'fit' },
     //Style
     crotchDrop: { pct: 2, min: 0, max: 15, menu: 'style' },
     waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' },
