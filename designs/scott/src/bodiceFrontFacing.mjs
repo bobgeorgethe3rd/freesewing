@@ -72,12 +72,13 @@ export const bodiceFrontFacing = {
       points.sideWaist,
       points.shoulder.x - points.bustDartTop.x
     )
+    points.facingBust = new Point(points.bust.x, points.cfFacing.y)
+    points.facingBustCp2 = new Point((points.bust.x + points.sideFacing.x) * 0.5, points.cfFacing.y)
     points.sideFacingCp1 = utils.beamIntersectsX(
       points.sideFacing,
       points.armhole.rotate(90, points.sideFacing),
-      points.bust.x
+      points.facingBustCp2.x
     )
-    points.cfFacingCp2 = new Point(points.bust.x, points.cfFacing.y)
     //paths
     paths.neck = new Path()
       .move(points.bustDartTop)
@@ -95,7 +96,8 @@ export const bodiceFrontFacing = {
       } else {
         return new Path()
           .move(points.cfFacing)
-          .curve(points.cfFacingCp2, points.sideFacingCp1, points.sideFacing)
+          .line(points.facingBust)
+          .curve(points.facingBustCp2, points.sideFacingCp1, points.sideFacing)
       }
     }
     const drawSaBase = () => {

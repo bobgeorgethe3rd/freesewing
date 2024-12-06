@@ -52,15 +52,19 @@ export const bodiceBackFacing = {
     points.neckFacing = points.cbTop.shift(0, store.get('placketWidth') * 0.5)
     points.facingLeft = points.neckFacing.shift(-90, bodiceFacingWidth)
     points.facingCorner = new Point(points.shoulderFacing.x, points.facingLeft.y)
-    points.facingLeftCp2 = new Point(points.neckBackCorner.x, points.facingLeft.y)
     points.sideFacing = points.armhole.shiftTowards(
       points.sideWaist,
       points.shoulder.x - points.shoulderTop.x
     )
+    points.facingDartTip = new Point(points.dartTip.x, points.facingLeft.y)
+    points.facingDartTipCp2 = new Point(
+      (points.neckBackCorner.x + points.armhole.x) * 0.5,
+      points.facingLeft.y
+    )
     points.sideFacingCp1 = utils.beamIntersectsX(
       points.sideFacing,
       points.armhole.rotate(90, points.sideFacing),
-      points.neckBackCorner.x
+      points.facingDartTipCp2.x
     )
     //paths
     const drawHemBase = () => {
@@ -72,7 +76,8 @@ export const bodiceBackFacing = {
       } else {
         return new Path()
           .move(points.facingLeft)
-          .curve(points.facingLeftCp2, points.sideFacingCp1, points.sideFacing)
+          .line(points.facingDartTip)
+          .curve(points.facingDartTipCp2, points.sideFacingCp1, points.sideFacing)
       }
     }
     const drawSaBase = () => {
