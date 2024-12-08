@@ -78,7 +78,7 @@ export const sleeveBand = {
       })
       //title
       let titleCutNum = 4
-      if (options.sleeveBandFolded) titleCutNum = 2
+      if (options.sleeveBandFolded && !options.sleeveBandRuffles) titleCutNum = 2
       points.title = points.origin
       macro('title', {
         at: points.title,
