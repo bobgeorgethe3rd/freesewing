@@ -21,7 +21,7 @@ export const frontBase = {
     //Fit
     daisyGuides: { bool: false, menu: 'fit' },
     //Style
-    neckDrop: { pct: 81.2, min: 65, max: 85, menu: 'style' }, //70.3
+    neckDrop: { pct: 70.3, min: 65, max: 85, menu: 'style' }, //81.2
     heartPeak: { pct: 59, min: 45, max: 75, menu: 'style' },
     //Construction
     cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Unlocked for Scott
@@ -59,7 +59,7 @@ export const frontBase = {
       90,
       points.waistDartMid.dist(points.bust) * 0.5
     )
-    points.neckFrontCp1 = points.bust.shiftFractionTowards(points.waistDartMid, 0.25)
+    points.neckFrontCp1 = points.bust.shiftFractionTowards(points.waistDartMid, 0.5)
     //scallop
     points.cfTop = points.cfNeck.shiftFractionTowards(points.cfChest, options.neckDrop)
     points.neckFront = new Point(points.bust.x, points.cfTop.y)
@@ -74,7 +74,7 @@ export const frontBase = {
     points.waistDartRightCp1 = new Point(points.waistDartRight.x, points.waistDartLeftCp2.y)
     points.sideNeckFrontCp2 = points.bustDartBottom.shiftOutwards(
       points.bust,
-      points.waistDartMid.dist(points.bust) * 0.25
+      points.waistDartMid.dist(points.bust) * 0.5
     )
 
     //stores

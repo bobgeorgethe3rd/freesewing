@@ -70,9 +70,13 @@ export const backBase = {
     points.dartBottomRight = points.dartBottomRight.shift(180, dartShift)
     //seam shaping
     const dartHeight = points.dartBottomLeft.y - points.neckBackCorner.y
-    points.dartBottomLeftCp2 = points.dartBottomLeft.shift(90, dartHeight * 0.5)
+    points.dartBottomLeftCp2 = points.dartBottomLeft.shift(
+      90,
+      points.cArmhole.dist(points.cbWaist) * 0.5
+    )
     points.dartBottomRightCp1 = new Point(points.dartBottomRight.x, points.dartBottomLeftCp2.y)
-    points.neckBackCornerCp = points.neckBackCorner.shift(-90, dartHeight * 0.25)
+    // points.neckBackCornerCp = points.neckBackCorner.shift(-90, dartHeight * 2 / 3)
+    points.neckBackCornerCp = new Point(points.neckBackCorner.x, points.dartBottomLeftCp2.y)
     points.dartTip = points.dartTip.shift(180, dartShift)
     //placket
 
