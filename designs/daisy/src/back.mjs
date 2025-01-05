@@ -110,35 +110,25 @@ export const back = {
     )
 
     //paths
-    paths.waist = new Path()
-      .move(points.cbWaist)
-      .line(points.dartBottomLeft)
-      .line(points.dartTip)
-      .line(points.dartBottomRight)
-      .line(points.sideWaist)
-      .hide()
-
-    paths.sideSeam = new Path().move(points.sideWaist).line(points.armhole).hide()
-
     paths.armhole = new Path()
       .move(points.armhole)
       .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
       .curve_(points.armholePitchCp2, points.shoulder)
       .hide()
 
-    paths.shoulder = new Path().move(points.shoulder).line(points.hps).hide()
-
     paths.cbNeck = new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck).hide()
 
-    paths.cb = new Path().move(points.cbNeck).line(points.cbWaist).hide()
-
-    paths.seam = paths.waist
-      .clone()
-      .join(paths.sideSeam)
+    paths.seam = new Path()
+      .move(points.cbWaist)
+      .line(points.dartBottomLeft)
+      .line(points.dartTip)
+      .line(points.dartBottomRight)
+      .line(points.sideWaist)
+      .line(points.armhole)
       .join(paths.armhole)
-      .join(paths.shoulder)
+      .line(points.hps)
       .join(paths.cbNeck)
-      .join(paths.cb)
+      .line(points.cbWaist)
       .close()
 
     //stores
