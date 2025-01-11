@@ -63,76 +63,86 @@ export const sleeve = {
     } else sleeveBandWidth = 0
 
     //calculating sleeveLengthTarget
-    let sleeveLengthTarget
+    let sleeveLength
     if (options.sleeveLength < 0.5)
-      sleeveLengthTarget =
+      sleeveLength =
         (measurements.shoulderToElbow + sleeveCapDepth) *
-          options.sleeveLength *
-          2 *
-          (1 + options.sleeveLengthBonus) -
-        sleeveBandWidth
+        options.sleeveLength *
+        2 *
+        (1 + options.sleeveLengthBonus)
+    // -
+    //sleeveBandWidth
     else
-      sleeveLengthTarget =
+      sleeveLength =
         sleeveCapDepth +
         (measurements.shoulderToElbow +
           (measurements.shoulderToWrist - measurements.shoulderToElbow) *
             (2 * options.sleeveLength - 1)) *
-          (1 + options.sleeveLengthBonus) -
-        sleeveBandWidth
+          (1 + options.sleeveLengthBonus) // -
+    //sleeveBandWidth
 
     //calculating sleeveLength
-    let sleeveLength
-    if (sleeveLengthTarget < 0) {
-      sleeveLength = 0
-      log.warning(
-        'options.sleeveBands, options.sleeveBandWidth, options.sleeveLength & options.sleeveLengthBonus are incompatible so sleeveLength has been set to 0'
-      )
-    } else sleeveLength = sleeveLengthTarget
+    // let sleeveLength
+    // if (sleeveLengthTarget < 0) {
+    // sleeveLength = 0
+    // log.warning(
+    // 'options.sleeveBands, options.sleeveBandWidth, options.sleeveLength & options.sleeveLengthBonus are incompatible so sleeveLength has been set to 0'
+    // )
+    // } else sleeveLength = sleeveLengthTarget
 
     //horizontal measures
-    const fullSleeveLength =
-      sleeveCapDepth + measurements.shoulderToWrist * (1 + options.sleeveLengthBonus)
+    // const fullSleeveLength =
+    // sleeveCapDepth + measurements.shoulderToWrist * (1 + options.sleeveLengthBonus)
     const minWidth = points.sleeveCapLeft.dist(points.sleeveCapRight)
     const biceps = measurements.biceps * (1 + options.bicepsEase)
     const elbow = measurements.elbow * (1 + options.elbowEase)
     const wrist = measurements.wrist * (1 + options.wristEase)
-    const bandOffset25 =
-      (sleeveBandWidth * (minWidth - biceps)) /
-      (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
-    const bandOffset50 =
-      (sleeveBandWidth * (biceps - elbow)) /
-      (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
-    const bandOffset100 =
-      (sleeveBandWidth * (elbow - wrist)) /
-      (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
+    // const bandOffset25 =
+    // (sleeveBandWidth * (minWidth - biceps)) /
+    // (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
+    // const bandOffset50 =
+    // (sleeveBandWidth * (biceps - elbow)) /
+    // (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
+    // const bandOffset100 =
+    // (sleeveBandWidth * (elbow - wrist)) /
+    // (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
     //calculating bottomWidth
     let bottomWidth
     if (sleeveLength == 0 || !options.fitSleeveWidth) bottomWidth = minWidth
     else {
-      if (sleeveLength / fullSleeveLength < 0.5) {
-        if (sleeveLength / fullSleeveLength < 0.25) {
+      if (options.sleeveLength < 0.5) {
+        if (options.sleeveLength < 0.25) {
           bottomWidth =
-            minWidth * (1 + options.sleeveLength * -4) +
-            biceps * (4 * options.sleeveLength) +
-            bandOffset25
+            minWidth * (1 + options.sleeveLength * -4) + biceps * (4 * options.sleeveLength) // +
+          //bandOffset25
         } else {
           bottomWidth =
-            biceps * (2 - options.sleeveLength * 4) +
-            elbow * (4 * options.sleeveLength - 1) +
-            bandOffset50
+            biceps * (2 - options.sleeveLength * 4) + elbow * (4 * options.sleeveLength - 1) // +
+          //bandOffset50
         }
       } else
         bottomWidth =
-          elbow * (1 - (2 * options.sleeveLength - 1)) +
-          wrist * (2 * options.sleeveLength - 1) +
-          bandOffset100
+          elbow * (1 - (2 * options.sleeveLength - 1)) + wrist * (2 * options.sleeveLength - 1) // +
+      //bandOffset100
     }
 
     //creating the arm
     points.bottomAnchor = points.midAnchor.shift(-90, sleeveLength)
-    points.bottomRight = points.bottomAnchor.shift(0, bottomWidth / 2)
     points.bottomLeft = points.bottomAnchor.shift(180, bottomWidth / 2)
-
+    if (options.sleeveBands) {
+      points.bottomAnchor = points.bottomAnchor.shift(90, sleeveBandWidth)
+      if (points.bottomAnchor.y < points.midAnchor.y) {
+        points.bottomAnchor = points.midAnchor
+        points.bottomLeft = points.sleeveCapLeft
+      } else {
+        points.bottomLeft = utils.beamIntersectsY(
+          points.sleeveCapLeft,
+          points.bottomLeft,
+          points.bottomAnchor.y
+        )
+      }
+    }
+    points.bottomRight = points.bottomLeft.flipX(points.bottomAnchor)
     //paths
     paths.hemBase = new Path().move(points.bottomLeft).line(points.bottomRight).hide()
 
@@ -147,7 +157,7 @@ export const sleeve = {
     //setting up for extension not used for this design but is used in multiple extensions
     points.sleeveTipBottom = new Point(points.sleeveTip.x, points.bottomAnchor.y)
     //stores
-    store.set('sleeveLength', sleeveLength)
+    store.set('sleeveLength', points.midAnchor.dist(points.bottomAnchor))
     store.set('sleeveBandLength', points.bottomLeft.dist(points.bottomRight))
 
     if (complete) {
@@ -198,7 +208,7 @@ export const sleeve = {
           paths.neck.offset(neckSa).end()
         )
 
-        if (sleeveLength == 0 || !options.fitSleeveWidth) {
+        if (points.midAnchor.dist(points.bottomAnchor) <= 0 || !options.fitSleeveWidth) {
           points.saTopLeft = points.sleeveCapLeft.shift(180, sideSeamSa)
           points.saBottomLeft = points.bottomLeft.shift(180, sideSeamSa)
         } else {
