@@ -10,7 +10,7 @@ export const bodiceFrontFacing = {
   options: {
     bodiceFacings: { bool: false, menu: 'construction' },
     bodiceFacingWidth: { pct: 75, min: 50, max: 100, menu: 'construction' },
-    bodiceFacingHemSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
+    bodiceFacingHemSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' },
   },
   draft: ({
     store,
