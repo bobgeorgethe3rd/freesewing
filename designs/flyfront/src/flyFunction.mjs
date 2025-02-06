@@ -171,20 +171,33 @@ export const flyFunction = (
         .offset(crotchSeamSa)
         .intersects(
           new Path()
-            .move(
+            .move(points.flyShieldCrotch)
+            .line(
               points.flyShieldCrotch.shift(
-                points.waistIn.angle(points.crotchSeamCurveEnd),
-                flyFrontShieldEx
+                points.waistIn.angle(points.crotchSeamCurveEnd) + 90,
+                flyFrontShieldEx * 10
               )
             )
-            .line(points.saFlyShieldExCrotch)
         )[0]
+
+      points.saFlyShieldExCrotchCorner = utils.beamsIntersect(
+        paths.crotchSeam
+          .split(points.flyShieldCrotch)[1]
+          .offset(flyFrontShieldEx + crotchSeamSa)
+          .start(),
+        paths.crotchSeam
+          .split(points.flyShieldCrotch)[1]
+          .offset(flyFrontShieldEx + crotchSeamSa)
+          .shiftFractionAlong(0.001),
+        points.saFlyShieldCrotchSplit,
+        points.saFlyShieldCrotchSplit.shift(points.waistIn.angle(points.crotchSeamCurveEnd) + 90, 1)
+      )
 
       paths.saFlyShieldExDetail = paths.crotchSeam
         .clone()
         .offset(crotchSeamSa)
         .split(points.saFlyShieldCrotchSplit)[0]
-        .line(points.saFlyShieldExCrotch)
+        .line(points.saFlyShieldExCrotchCorner)
         .join(
           paths.crotchSeam
             .clone()
