@@ -168,7 +168,9 @@ export const centreFront = {
       }
       if (sa) {
         const inseamSa = sa * options.inseamSaWidth * 100
-        const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
+        let crotchSeamSa = sa * options.crotchSeamSaWidth * 100
+        if (options.closurePosition == 'front' && options.swingPanelStyle != 'connected')
+          crotchSeamSa = sa * options.closureSaWidth * 100
         let hemSa = sa * options.skirtHemWidth * 100
         if (options.skirtHemFacings) {
           hemSa = sa

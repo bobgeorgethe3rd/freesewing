@@ -294,11 +294,13 @@ export const sidePanel = {
       }
 
       if (sa) {
+        const closureSa = sa * options.closureSaWidth * 100
         let crossSeamSa = sa
         let inseamSa = sa
         if (options.skirtStyle == 'straight') {
           crossSeamSa = sa * options.crossSeamSaWidth * 100
           inseamSa = sa * options.inseamSaWidth * 100
+          if (options.closurePosition == 'back') crossSeamSa = closureSa
         }
         let hemSa = sa * options.skirtHemWidth * 100
         if (options.skirtHemFacings) {
@@ -306,7 +308,7 @@ export const sidePanel = {
         }
         let sideSeamSa = sa * options.sideSeamSaWidth * 100
         if (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') {
-          sideSeamSa = sa * options.closureSaWidth * 100
+          sideSeamSa = closureSa
         }
         points.saHemE = points.hemE
           .shift(points.hemECp1.angle(points.hemE), sideSeamSa)

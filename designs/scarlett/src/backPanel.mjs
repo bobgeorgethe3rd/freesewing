@@ -228,7 +228,8 @@ export const backPanel = {
         }
       }
       if (sa) {
-        const crossSeamSa = sa * options.crossSeamSaWidth * 100
+        let crossSeamSa = sa * options.crossSeamSaWidth * 100
+        if (options.closurePosition == 'back') crossSeamSa = sa * options.closureSaWidth * 100
         const inseamSa = sa * options.inseamSaWidth * 100
         let hemSa = sa * options.skirtHemWidth * 100
         if (options.skirtHemFacings) {
