@@ -1,0 +1,580 @@
+import { back as backTitan } from '@freesewing/titan'
+import { pctBasedOn } from '@freesewing/core'
+import { util } from 'chai'
+
+export const back = {
+  name: 'frankie.back',
+  from: backTitan,
+  hide: {
+    from: true,
+  },
+  options: {
+    //Constants
+    fitKnee: false, //Locked for Frankie
+    kneeEase: 0.06, //Locked for Frankie
+    //Fit
+    waistEase: { pct: 2.7, min: 0, max: 20, menu: 'fit' }, //Altered for Frankie
+    seatEase: { pct: 2.4, min: 0, max: 20, menu: 'fit' }, //Altered for Frankie
+    titanGuide: { bool: false, menu: 'fit' },
+    //Style
+    waistbandWidth: {
+      pct: 4.1,
+      min: 1,
+      max: 6,
+      snap: 1.25,
+      ...pctBasedOn('waistToFloor'),
+      menu: 'style',
+    }, //Altered for Frankie
+    legFlare: { deg: 15, min: 0, max: 30, menu: 'style' },
+    legFlareBalance: { pct: 150, min: 50, max: 175, menu: 'style' },
+    legFlareSplit: { pct: 15, min: 10, max: 90, menu: 'style' },
+    legCurve: { pct: 66.7, min: 50, max: 100, menu: 'style' },
+    //Construction
+    sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    crossSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    inseamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    hemWidth: { pct: 2, min: 0, max: 10, menu: 'construction' },
+  },
+  draft: ({
+    store,
+    sa,
+    Point,
+    points,
+    Path,
+    paths,
+    options,
+    complete,
+    paperless,
+    macro,
+    utils,
+    part,
+    snippets,
+    Snippet,
+  }) => {
+    //delete inherited paths
+    const keepPaths = ['seam']
+    for (const name in paths) {
+      if (keepPaths.indexOf(name) === -1) delete paths[name]
+    }
+    if (options.titanGuide) {
+      paths.titanGuide = paths.seam.setClass('various lashed')
+    }
+    delete paths.seam
+    //macro & snippet removal
+    macro('rmGrainline')
+    macro('rmTitle')
+    macro('rmScalebox')
+    for (let i in snippets) delete snippets[i]
+    //draw methods
+    let waistOut = points.styleWaistOut || points.waistOut
+    const drawOutseam = () => {
+      if (points.waistOut.x > points.seatOut.x)
+        return new Path().move(points.floorOut).curve(points.kneeOutCp2, points.seatOut, waistOut)
+      else
+        return new Path()
+          .move(points.floorOut)
+          .curve(points.kneeOutCp2, points.seatOutCp1, points.seatOut)
+          .curve_(points.seatOutCp2, waistOut)
+    }
+    //let's begin
+    points.forkAnchor = new Point(points.knee.x, points.fork.y)
+    points.pivot = points.forkAnchor.shiftFractionTowards(points.knee, 0.5)
+    points.pivotIn = utils.curveIntersectsY(
+      points.fork,
+      points.forkCp2,
+      points.kneeInCp1,
+      points.floorIn,
+      points.pivot.y
+    )
+    if (points.waistOut.x > points.seatOut.x) {
+      points.pivotOut = utils.curveIntersectsY(
+        points.floorOut,
+        points.kneeOutCp2,
+        points.seatOut,
+        waistOut,
+        points.pivot.y
+      )
+    } else {
+      points.pivotOut = utils.curveIntersectsY(
+        points.floorOut,
+        kneeOutCp2,
+        points.seatOutCp1,
+        points.seatOut,
+        points.pivot.y
+      )
+    }
+
+    //guide for when tweaking. Please DO NOT remove.
+    /*
+paths.pivot = new Path()
+.move(points.pivotIn)
+.line(points.pivotOut)
+*/
+
+    for (let i = 0; i <= 2; i++) {
+      points['pivotSplit' + i] = points.pivotIn.shiftFractionTowards(points.pivotOut, (i + 1) / 4)
+      points['floorSplit' + i] = new Point(points['pivotSplit' + i].x, points.floor.y)
+
+      //guide for when tweaking. Please DO NOT remove.
+      /*
+paths['split' + i] = new Path()
+.move(points['floorSplit' + i])
+.line(points['pivotSplit' + i])
+*/
+    }
+
+    //inseam rotation
+    const inseamRotAngle = options.legFlare * (1 / options.legFlareBalance)
+    paths.inseamInitial = new Path()
+      .move(points.fork)
+      .curve(points.forkCp2, points.kneeInCp1, points.floorIn)
+      .hide()
+
+    const rotIn0 = ['floorIn', 'pivotSplit0', 'pivotSplit1', 'floorSplit0', 'floorSplit1']
+    for (const p of rotIn0) points[p + 'RIn'] = points[p].rotate(-inseamRotAngle, points.pivotIn)
+
+    paths.inseamR = paths.inseamInitial
+      .rotate(-inseamRotAngle, points.pivotIn)
+      .split(points.pivotIn)[1]
+      .hide()
+
+    //guide for when tweaking. Please DO NOT remove.
+    /*
+    paths.segmentIn0 = paths.inseamR
+    .clone()
+    .line(points.floorSplit0RIn)
+    .line(points.pivotSplit0RIn)
+    .line(points.pivotIn)
+    .unhide()
+    */
+
+    const rotIn1 = ['pivotSplit1RIn', 'floorSplit0RIn', 'floorSplit1RIn']
+    for (const p of rotIn1) {
+      points[p + 'Initial'] = points[p]
+      points[p] = points[p].rotate((inseamRotAngle * 2) / 3, points.pivotSplit0RIn)
+    }
+
+    //guide for when tweaking. Please DO NOT remove.
+    /*
+    paths.segmentIn1 = new Path()
+    .move(points.pivotSplit0RIn)
+    .line(points.floorSplit0RIn)
+    .line(points.floorSplit1RIn)
+    .line(points.pivotSplit1RIn)
+    .line(points.pivotSplit0RIn)
+    */
+
+    //outseam rotation
+    const outSeamRotAngle = options.legFlare * options.legFlareBalance
+    const rotOut0 = [
+      'floorOut',
+      'styleWaistOut',
+      'pivotSplit2',
+      'pivotSplit1',
+      'floorSplit2',
+      'floorSplit1',
+    ]
+    for (const p of rotOut0) points[p + 'ROut'] = points[p].rotate(outSeamRotAngle, points.pivotOut)
+
+    paths.outSeamR = drawOutseam()
+      .rotate(outSeamRotAngle, points.pivotOut)
+      .split(points.pivotOut)[0]
+      .hide()
+
+    //guide for when tweaking. Please DO NOT remove.
+    /*
+      paths.segmentOut0 = paths.outSeamR
+      .clone()
+      .line(points.pivotSplit2ROut)
+      .line(points.floorSplit2ROut)
+      .line(points.floorOutROut)
+      .unhide()
+*/
+
+    const rotOut1 = ['pivotSplit1ROut', 'floorSplit2ROut', 'floorSplit1ROut']
+    for (const p of rotOut1) {
+      points[p + 'Initial'] = points[p]
+      points[p] = points[p].rotate((-outSeamRotAngle * 2) / 3, points.pivotSplit2ROut)
+    }
+
+    //guide for when tweaking. Please DO NOT remove.
+    /*
+      paths.segmentOut1 = new Path()
+      .move(points.pivotSplit1ROut)
+      .line(points.floorSplit1ROut)
+      .line(points.floorSplit2ROut)
+      .line(points.pivotSplit2ROut)
+      .line(points.pivotSplit1ROut)
+      */
+
+    //seam shaping
+    points.split = points.forkAnchor.shiftFractionTowards(points.pivot, options.legFlareSplit)
+
+    points.splitIn = utils.curveIntersectsY(
+      points.fork,
+      points.forkCp2,
+      points.kneeInCp1,
+      points.floorIn,
+      points.split.y
+    )
+    if (points.waistOut.x > points.seatOut.x) {
+      points.splitOut = utils.curveIntersectsY(
+        points.floorOut,
+        points.kneeOutCp2,
+        points.seatOut,
+        waistOut,
+        points.split.y
+      )
+    } else {
+      points.splitOut = utils.curveIntersectsY(
+        points.floorOut,
+        kneeOutCp2,
+        points.seatOutCp1,
+        points.seatOut,
+        points.split.y
+      )
+    }
+
+    points.splitInR = paths.inseamR.shiftAlong(
+      paths.inseamInitial.split(points.pivotIn)[0].split(points.splitIn)[1].length()
+    )
+
+    paths.inseamSplit = paths.inseamInitial.split(points.splitIn)[0].hide()
+    paths.inseamRSplit = paths.inseamR.split(points.splitInR)[1].hide()
+
+    points.splitInCpTarget = utils.beamsIntersect(
+      paths.inseamSplit.shiftFractionAlong(0.99),
+      points.splitIn,
+      paths.inseamRSplit.shiftFractionAlong(0.01),
+      points.splitInR
+    )
+
+    points.splitInCp2 = points.splitIn.shiftFractionTowards(
+      points.splitInCpTarget,
+      options.legCurve
+    )
+    points.splitInRCp1 = points.splitInR.shiftFractionTowards(
+      points.splitInCpTarget,
+      options.legCurve
+    )
+
+    points.splitOutR = paths.outSeamR
+      .reverse()
+      .shiftAlong(drawOutseam().split(points.pivotOut)[1].split(points.splitOut)[0].length())
+
+    paths.outSeamSplit = drawOutseam().split(points.splitOut)[1].hide()
+    paths.outSeamRSplit = paths.outSeamR.split(points.splitOutR)[0].hide()
+
+    points.splitOutCpTarget = utils.beamsIntersect(
+      paths.outSeamRSplit.shiftFractionAlong(0.99),
+      points.splitOutR,
+      points.splitOut,
+      paths.outSeamSplit.shiftFractionAlong(0.01)
+    )
+
+    points.splitOutRCp2 = points.splitOutR.shiftFractionTowards(
+      points.splitOutCpTarget,
+      options.legCurve
+    )
+    points.splitOutCp1 = points.splitOut.shiftFractionTowards(
+      points.splitOutCpTarget,
+      options.legCurve
+    )
+
+    //hem
+    points.hemOrigin = utils.beamsIntersect(
+      points.floorSplit0RInInitial,
+      points.pivotSplit0RIn,
+      points.floorSplit2ROutInitial,
+      points.pivotSplit2ROut
+    )
+
+    const hemRadius =
+      points.hemOrigin.dist(points.floorSplit0RInInitial) <
+      points.hemOrigin.dist(points.floorSplit2ROutInitial)
+        ? points.hemOrigin.dist(points.floorSplit0RInInitial)
+        : points.hemOrigin.dist(points.floorSplit2ROutInitial)
+
+    const hemAngle =
+      points.hemOrigin.angle(points.floorSplit2ROutInitial) -
+      points.hemOrigin.angle(points.floorSplit0RInInitial)
+
+    const hemCpDistance = (4 / 3) * hemRadius * Math.tan(utils.deg2rad(hemAngle / 4))
+
+    points.floorSplit0RInInitialCp2 = points.floorSplit0RInInitial.shift(
+      points.floorSplit0RInInitial.angle(points.hemOrigin) - 90,
+      hemCpDistance
+    )
+    points.floorSplit2ROutInitialCp1 = points.floorSplit2ROutInitial.shift(
+      points.floorSplit2ROutInitial.angle(points.hemOrigin) + 90,
+      hemCpDistance
+    )
+    //paths
+    paths.hemBase = new Path()
+      .move(points.floorInRIn)
+      .line(points.floorSplit0RInInitial)
+      .curve(
+        points.floorSplit0RInInitialCp2,
+        points.floorSplit2ROutInitialCp1,
+        points.floorSplit2ROutInitial
+      )
+      .line(points.floorOutROut)
+      .hide()
+
+    paths.outSeam = paths.outSeamRSplit
+      .curve(points.splitOutRCp2, points.splitOutCp1, points.splitOut)
+      .join(paths.outSeamSplit)
+      .hide()
+
+    paths.waist = new Path().move(points.styleWaistOut).line(points.styleWaistIn).hide()
+
+    paths.crossSeam = new Path()
+      .move(points.styleWaistIn)
+      .line(points.crossSeamCurveStart)
+      .curve(points.crossSeamCurveCp1, points.crossSeamCurveCp2, points.fork)
+      .hide()
+
+    paths.inseam = paths.inseamSplit
+      .curve(points.splitInCp2, points.splitInRCp1, points.splitInR)
+      .join(paths.inseamRSplit)
+      .hide()
+
+    paths.seam = paths.hemBase
+      .clone()
+      .join(paths.outSeam)
+      .join(paths.waist)
+      .join(paths.crossSeam)
+      .join(paths.inseam)
+      .close()
+      .setClass('fabric')
+
+    if (sa) {
+      paths.sa = paths.hemBase
+        .offset(sa * options.hemWidth * 100)
+        .join(paths.outSeam.offset(sa * options.sideSeamSaWidth * 100))
+        .join(paths.waist.offset(sa))
+        .join(paths.crossSeam.offset(sa * options.crossSeamSaWidth * 100))
+        .join(paths.inseam.offset(sa * options.inseamSaWidth * 100))
+        .close()
+        .setClass('fabric sa')
+    }
+
+    //details
+    //grainline
+    points.grainlineFrom = points.styleWaistIn
+    points.grainlineTo = new Point(points.grainlineFrom.x, points.floor.y)
+    macro('grainline', {
+      from: points.grainlineFrom,
+      to: points.grainlineTo,
+      grainline: true,
+    })
+    //notches
+    snippets.crossSeamCurveStart = new Snippet('bnotch', points.crossSeamCurveStart)
+    //cutlist
+    store.cutlist.setCut({ cut: 2, from: 'fabric', identical: 'true' })
+    //title
+    points.title = new Point(
+      (points.styleWaistIn.x + points.styleWaistOut.x) / 2,
+      (points.styleWaistIn.y + points.pivot.y) / 2
+    )
+    macro('title', {
+      at: points.title,
+      nr: 1,
+      title: 'back',
+      scale: 0.75,
+    })
+    //logo
+    points.logo = new Point(points.title.x, points.pivot.y)
+    snippets.logo = new Snippet('logo', points.logo)
+    //scalebox
+    points.scalebox = new Point(points.title.x, (points.floor.y + points.pivot.y) / 2)
+    macro('scalebox', { at: points.scalebox })
+
+    if (paperless) {
+      //in
+      macro('hd', {
+        from: points.floorInRIn,
+        to: paths.hemBase.edge('bottom'),
+        y: paths.hemBase.edge('bottom').y,
+        id: 'hdIn0',
+      })
+      macro('hd', {
+        from: points.floorInRIn,
+        to: points.fork,
+        y: points.fork.y,
+        id: 'hdIn1',
+      })
+      macro('hd', {
+        from: points.floorInRIn,
+        to: paths.inseam.edge('right'),
+        y: paths.inseam.edge('right').y,
+        id: 'hdIn2',
+      })
+      macro('hd', {
+        from: points.floorInRIn,
+        to: points.crossSeamCurveStart,
+        y: points.crossSeamCurveStart.y,
+        id: 'hdIn3',
+      })
+      macro('hd', {
+        from: points.floorInRIn,
+        to: points.styleWaistIn,
+        y: points.styleWaistIn.y,
+        id: 'hdIn4',
+      })
+      if (points.styleWaistOut.y < points.styleWaistIn.y) {
+        macro('hd', {
+          from: points.floorInRIn,
+          to: points.styleWaistOut,
+          y: points.styleWaistOut.y,
+          id: 'hdIn5',
+        })
+        macro('vd', {
+          from: points.styleWaistIn,
+          to: points.styleWaistOut,
+          x: points.floorInRIn.x,
+          id: 'vdIn6',
+        })
+        macro('vd', {
+          from: paths.hemBase.edge('bottom'),
+          to: points.styleWaistOut,
+          x: points.floorInRIn.x - 15,
+          id: 'vdIn5',
+        })
+      } else {
+        macro('vd', {
+          from: paths.hemBase.edge('bottom'),
+          to: points.styleWaistIn,
+          x: points.floorInRIn.x - 15,
+          id: 'vdIn5',
+        })
+      }
+      macro('vd', {
+        from: paths.hemBase.edge('bottom'),
+        to: points.floorInRIn,
+        x: points.floorInRIn.x,
+        id: 'vdIn0',
+      })
+      macro('vd', {
+        from: points.floorInRIn,
+        to: paths.inseam.edge('right'),
+        x: points.floorInRIn.x,
+        id: 'vdIn1',
+      })
+      macro('vd', {
+        from: paths.inseam.edge('right'),
+        to: points.fork,
+        x: points.floorInRIn.x,
+        id: 'vdIn2',
+      })
+      macro('vd', {
+        from: points.fork,
+        to: points.crossSeamCurveStart,
+        x: points.floorInRIn.x,
+        id: 'vdIn3',
+      })
+      macro('vd', {
+        from: points.crossSeamCurveStart,
+        to: points.styleWaistIn,
+        x: points.floorInRIn.x,
+        id: 'vdIn4',
+      })
+      //out
+      macro('hd', {
+        from: paths.hemBase.edge('bottom'),
+        to: points.floorOutROut,
+        y: paths.hemBase.edge('bottom').y,
+        id: 'hdOut0',
+      })
+      macro('hd', {
+        from: paths.outSeam.edge('left'),
+        to: points.floorOutROut,
+        y: paths.outSeam.edge('left').y,
+        id: 'hdOut1',
+      })
+      macro('hd', {
+        from: points.styleWaistOut,
+        to: points.floorOutROut,
+        y: points.styleWaistOut.y,
+        id: 'hdOut2',
+      })
+      if (points.styleWaistOut.y > points.styleWaistIn.y) {
+        macro('hd', {
+          from: points.styleWaistIn,
+          to: points.floorOutROut,
+          y: points.styleWaistIn.y,
+          id: 'hdOut3',
+        })
+        macro('vd', {
+          from: points.styleWaistOut,
+          to: points.styleWaistIn,
+          x: points.floorOutROut.x,
+          id: 'vdOut4',
+        })
+        macro('vd', {
+          from: paths.hemBase.edge('bottom'),
+          to: points.styleWaistIn,
+          x: points.floorOutROut.x + 15,
+          id: 'vdOut3',
+        })
+      } else {
+        macro('vd', {
+          from: paths.hemBase.edge('bottom'),
+          to: points.styleWaistOut,
+          x: points.floorOutROut.x + 15,
+          id: 'vdOut3',
+        })
+      }
+      macro('vd', {
+        from: paths.hemBase.edge('bottom'),
+        to: points.floorOutROut,
+        x: points.floorOutROut.x,
+        id: 'vdOut0',
+      })
+      macro('vd', {
+        from: points.floorOutROut,
+        to: paths.outSeam.edge('left'),
+        x: points.floorOutROut.x,
+        id: 'vdOut1',
+      })
+      if (points.waistOut.x > points.seatOut.x) {
+        macro('vd', {
+          from: paths.outSeam.edge('left'),
+          to: points.styleWaistOut,
+          x: points.floorOutROut.x,
+          id: 'vdOut2',
+        })
+      } else {
+        macro('vd', {
+          from: paths.outSeam.edge('left'),
+          to: points.seatOut,
+          x: points.floorOutROut.x,
+          id: 'vdOut2',
+        })
+        macro('vd', {
+          from: points.seatOut,
+          to: points.styleWaistOut,
+          x: points.floorOutROut.x,
+          id: 'vdOut5',
+        })
+      }
+      //horizontals
+      macro('hd', {
+        from: points.floorInRIn,
+        to: points.floorOutROut,
+        y:
+          points.styleWaistIn.y < points.styleWaistOut.y
+            ? points.styleWaistIn.y - 15
+            : points.styleWaistOut.y - 15,
+        id: 'hdO',
+      })
+      macro('hd', {
+        from: points.floorInRIn,
+        to: points.floorOutROut,
+        y: paths.hemBase.edge('bottom').y + 15,
+        id: 'hd1',
+      })
+    }
+    return part
+  },
+}
