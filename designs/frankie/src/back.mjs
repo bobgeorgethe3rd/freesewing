@@ -64,7 +64,7 @@ export const back = {
     macro('rmScalebox')
     for (let i in snippets) delete snippets[i]
     //draw methods
-    let waistOut = points.styleWaistOut || points.waistOut
+    const waistOut = points.styleWaistOut || points.waistOut
     const drawOutseam = () => {
       if (points.waistOut.x > points.seatOut.x)
         return new Path().move(points.floorOut).curve(points.kneeOutCp2, points.seatOut, waistOut)
