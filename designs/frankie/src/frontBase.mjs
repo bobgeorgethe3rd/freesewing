@@ -8,11 +8,6 @@ export const frontBase = {
   hide: {
     from: true,
   },
-  options: {
-    //Pockets
-    frontPocketOpeningDepth: { pct: 4.9, min: 3, max: 6, menu: 'pockets.frontPockets' },
-    frontPocketOpeningLength: { pct: 11.3, min: 10, max: 15, menu: 'pockets.frontPockets' },
-  },
   draft: ({
     store,
     Point,
@@ -84,7 +79,7 @@ export const frontBase = {
     //outseam rotation
     const outSeamRotAngle = options.legFlare * options.legFlareBalance
 
-    points.floorOutR = points.floorOut.rotate(-outSeamRotAngle, points.pivotOut)
+    points.floorOutROut = points.floorOut.rotate(-outSeamRotAngle, points.pivotOut)
 
     paths.outSeamR = drawOutseam()
       .rotate(-outSeamRotAngle, points.pivotOut)
@@ -141,16 +136,15 @@ export const frontBase = {
       .hide()
 
     //pocket
-    const frontPocketOpeningDepth = measurements.waistToFloor * options.frontPocketOpeningDepth
-    const frontPocketOpeningLength = measurements.waistToFloor * options.frontPocketOpeningLength
+    const frontPocketOpeningDepth = store.get('frontPocketOpeningDepth')
 
     points.frontPocketOpeningTop = paths.outSeam.shiftAlong(frontPocketOpeningDepth)
     points.frontPocketOpeningBottom = paths.outSeam.shiftAlong(
-      frontPocketOpeningDepth + frontPocketOpeningLength
+      frontPocketOpeningDepth + store.get('frontPocketOpeningLength')
     )
 
-    store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
-    store.set('frontPocketOpeningLength', frontPocketOpeningLength)
+    //stores
+    store.set('frontOutSeamRotAngle', outSeamRotAngle)
 
     return part
   },

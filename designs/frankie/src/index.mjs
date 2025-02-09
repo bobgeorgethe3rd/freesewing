@@ -6,12 +6,13 @@ import { data } from '../data.mjs'
 // Parts
 import { back } from './back.mjs'
 import { frontBase } from './frontBase.mjs'
+import { front } from './front.mjs'
 
 // Create new design
 const Frankie = new Design({
   data,
-  parts: [back, frontBase],
+  parts: [back, frontBase, front],
 })
 
 // Named exports
-export { back, frontBase, i18n, Frankie }
+export { back, frontBase, front, i18n, Frankie }
