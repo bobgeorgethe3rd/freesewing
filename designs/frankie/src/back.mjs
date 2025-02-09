@@ -164,14 +164,7 @@ paths['split' + i] = new Path()
 
     //outseam rotation
     const outSeamRotAngle = options.legFlare * options.legFlareBalance
-    const rotOut0 = [
-      'floorOut',
-      'styleWaistOut',
-      'pivotSplit2',
-      'pivotSplit1',
-      'floorSplit2',
-      'floorSplit1',
-    ]
+    const rotOut0 = ['floorOut', 'pivotSplit2', 'pivotSplit1', 'floorSplit2', 'floorSplit1']
     for (const p of rotOut0) points[p + 'ROut'] = points[p].rotate(outSeamRotAngle, points.pivotOut)
 
     paths.outSeamR = drawOutseam()
