@@ -453,7 +453,7 @@
       "hem"
     ]
   },
-    "legend": {
+  "legend": {
     "code": "Joost De Cock",
     "description": "A FreeSewing pattern to document pattern notation"
   },
@@ -930,6 +930,22 @@
     "techniques": [
       "elastic",
       "curved-seam",
+      "hem"
+    ]
+  },
+  "frankie": {
+    "code": "bobgeorgethe3rd",
+    "description": "A FreeSewing pattern for flare trousers",
+    "design": ["halbmoki", "bobgeorgethe3rd"],
+    "difficulty": 3,
+    "lab": true,
+    "org": true,
+    "tags": [
+      "bottoms",
+      "trousers"
+    ],
+    "techniques": [
+      "curvedSeam",
       "hem"
     ]
   }
