@@ -1,6 +1,5 @@
 import { back as backTitan } from '@freesewing/titan'
 import { pctBasedOn } from '@freesewing/core'
-import { util } from 'chai'
 
 export const back = {
   name: 'frankie.back',
