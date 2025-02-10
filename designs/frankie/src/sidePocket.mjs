@@ -8,22 +8,7 @@ export const sidePocket = {
     sidePocketFolded: { bool: false, menu: 'pockets.sidePockets' },
     sidePocketFoldLength: { pct: 25, min: 15, max: 30, menu: 'pockets.sidePockets' },
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    paperless,
-    complete,
-    macro,
-    utils,
-    part,
-    snippets,
-    Snippet,
-  }) => {
+  draft: ({ store, sa, Point, points, Path, paths, options, paperless, complete, macro, part }) => {
     //set render
     if (!options.sidePocketsBool) return part.hide()
     //measures
