@@ -422,40 +422,46 @@ paths['split' + i] = new Path()
         })
       }
       macro('hd', {
+        from: points.styleWaistIn,
+        to: points.topRightAnchor,
+        y: points.styleWaistIn.y,
+        id: 'hdIn1',
+      })
+      macro('hd', {
         from: points.crotchSeamCurveStart,
         to: points.topRightAnchor,
         y: points.crotchSeamCurveStart.y,
-        id: 'hdIn1',
+        id: 'hdIn2',
       })
       macro('hd', {
         from: points.flyCrotchEx,
         to: points.topRightAnchor,
         y: points.flyCrotchEx.y,
-        id: 'hdIn2',
+        id: 'hdIn3',
       })
       macro('hd', {
         from: points.fork,
         to: points.topRightAnchor,
         y: points.fork.y,
-        id: 'hdIn3',
+        id: 'hdIn4',
       })
       macro('hd', {
         from: paths.inseam.edge('left'),
         to: points.topRightAnchor,
         y: paths.inseam.edge('left').y,
-        id: 'hdIn4',
+        id: 'hdIn5',
       })
       macro('hd', {
         from: points.floorInRIn,
         to: points.topRightAnchor,
         y: points.floorInRIn.y,
-        id: 'hdIn5',
+        id: 'hdIn6',
       })
       macro('hd', {
         from: paths.hemBase.edge('bottom'),
         to: points.topRightAnchor,
         y: paths.hemBase.edge('bottom').y,
-        id: 'hdIn6',
+        id: 'hdIn7',
       })
       macro('vd', {
         from: paths.hemBase.edge('bottom'),
