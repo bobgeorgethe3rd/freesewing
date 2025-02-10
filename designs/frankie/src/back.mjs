@@ -24,7 +24,7 @@ export const back = {
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     }, //Altered for Frankie
-    legFlare: { deg: 15, min: 0, max: 30, menu: 'style' },
+    legFlare: { deg: 15, min: 5, max: 30, menu: 'style' },
     legFlareBalance: { pct: 150, min: 50, max: 175, menu: 'style' },
     legFlareSplit: { pct: 15, min: 10, max: 90, menu: 'style' },
     legCurve: { pct: 66.7, min: 50, max: 100, menu: 'style' },
