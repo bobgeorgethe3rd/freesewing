@@ -8,12 +8,13 @@ import { back } from './back.mjs'
 import { frontBase } from './frontBase.mjs'
 import { front } from './front.mjs'
 import { fly } from './fly.mjs'
+import { buttonholePlacket } from './buttonholePlacket.mjs'
 
 // Create new design
 const Frankie = new Design({
   data,
-  parts: [back, frontBase, front, fly],
+  parts: [back, frontBase, front, fly, buttonholePlacket],
 })
 
 // Named exports
-export { back, frontBase, front, fly, i18n, Frankie }
+export { back, frontBase, front, fly, buttonholePlacket, i18n, Frankie }
