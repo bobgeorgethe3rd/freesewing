@@ -10,7 +10,7 @@ export const buttonholePlacket = {
   },
   options: {
     //Plackets
-    buttonholePlacketNum: { count: 3, min: 1, max: 5, menu: 'placket' },
+    buttonholePlacketNum: { count: 3, min: 1, max: 5, menu: 'plackets' },
   },
   draft: ({
     store,
@@ -37,7 +37,7 @@ export const buttonholePlacket = {
       .curve(points.flyCurveStartCp2, points.flyCurveEndCp1, points.flyCurveEnd)
       .hide()
 
-    paths.seam = paths.saBase.clone().line(points.styleWaistIn).close().unhide()
+    paths.seam = paths.saBase.clone().line(points.styleWaistIn).close().unhide().setClass('fabric')
 
     if (sa) {
       paths.sa = paths.saBase

@@ -22,7 +22,7 @@ export const fly = {
 
     paths.crotchSeam = paths.crotchSeam.split(points.flyCrotch)[1]
 
-    paths.seam = paths.saBase.join(paths.crotchSeam).close()
+    paths.seam = paths.saBase.join(paths.crotchSeam).close().setClass('fabric')
 
     if (sa) {
       paths.sa = paths.saBase
