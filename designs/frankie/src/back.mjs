@@ -108,7 +108,7 @@ export const back = {
     } else {
       points.pivotOut = utils.curveIntersectsY(
         points.floorOut,
-        kneeOutCp2,
+        points.kneeOutCp2,
         points.seatOutCp1,
         points.seatOut,
         points.pivot.y
@@ -232,7 +232,7 @@ paths['split' + i] = new Path()
     } else {
       points.splitOut = utils.curveIntersectsY(
         points.floorOut,
-        kneeOutCp2,
+        points.kneeOutCp2,
         points.seatOutCp1,
         points.seatOut,
         points.split.y
