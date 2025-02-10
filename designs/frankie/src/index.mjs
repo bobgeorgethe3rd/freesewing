@@ -13,6 +13,7 @@ import { flyShield } from './flyShield.mjs'
 import { waistband } from './waistband.mjs'
 import { frontPocketBag } from './frontPocketBag.mjs'
 import { sidePocket } from './sidePocket.mjs'
+import { beltLoops } from './beltLoops.mjs'
 
 // Create new design
 const Frankie = new Design({
@@ -27,6 +28,7 @@ const Frankie = new Design({
     waistband,
     frontPocketBag,
     sidePocket,
+    beltLoops,
   ],
 })
 
@@ -41,6 +43,7 @@ export {
   waistband,
   frontPocketBag,
   sidePocket,
+  beltLoops,
   i18n,
   Frankie,
 }
