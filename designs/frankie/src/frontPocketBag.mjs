@@ -10,6 +10,7 @@ export const frontPocketBag = {
     //Pockets
     frontPocketWidth: { pct: 60, min: 30, max: 70, menu: 'pockets.frontPockets' },
     frontPocketDepth: { pct: 15, min: 10, max: 20, menu: 'pockets.frontPockets' },
+    frontPocketFacingWidth: { pct: 30, min: 24, max: 40, menu: 'pockets.frontPockets' },
     //Construction
     frontPocketBagSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
   },
@@ -103,14 +104,27 @@ export const frontPocketBag = {
     //cutlist
     store.cutlist.setCut({ cut: 4, from: 'fabric', identical: 'true' })
     //title
-    points.title = points.frontPocketOutDepth.shiftFractionTowards(points.frontPocketCurveEnd, 0.25)
+    points.title = points.frontPocketOutDepth.shiftFractionTowards(points.frontPocketCurveEnd, 0.4)
     macro('title', {
       at: points.title,
       nr: 6,
       title: 'frontPocketBag',
       scale: 0.5,
     })
-    //paperless
+    //facing
+    points.frontPocketFacingWaist = points.styleWaistOut.shiftFractionTowards(
+      points.frontPocketWaist,
+      options.frontPocketFacingWidth
+    )
+    points.frontPocketFacingBottom = paths.saBottom.intersectsBeam(
+      points.frontPocketFacingWaist,
+      points.styleWaistOut.rotate(90, points.frontPocketFacingWaist)
+    )[0]
+    paths.pocketFacingLine = new Path()
+      .move(points.frontPocketFacingBottom)
+      .line(points.frontPocketFacingWaist)
+      .setClass('fabric help')
+      .setText('pocketFacingLine', 'center')
     //paperless
     if (paperless) {
       points.bottomLeftAnchor = paths.seam.edge('bottomLeft')
