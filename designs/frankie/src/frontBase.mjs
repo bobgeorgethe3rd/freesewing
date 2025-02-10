@@ -234,7 +234,9 @@ export const frontBase = {
     )
     //stores
     store.set('flyWidth', flyWidth)
+    store.set('waistbandPlacketWidth', flyWidth + flyExtension)
     store.set('frontOutSeamRotAngle', outSeamRotAngle)
+    store.set('waistFront', points.styleWaistIn.dist(points.styleWaistOut))
 
     return part
   },
