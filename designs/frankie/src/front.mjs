@@ -339,6 +339,218 @@ paths['split' + i] = new Path()
 
       snippets.sidePocketRight = new Snippet('notch', points.sidePocketRight)
     }
+    //paperless
+    if (paperless) {
+      points.bottomLeftAnchor = paths.seam.edge('bottomLeft')
+      points.topRightAnchor = paths.seam.edge('topRight')
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: paths.hemBase.edge('bottom'),
+        y: paths.hemBase.edge('bottom').y,
+        id: 'hdOut0',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.floorOutROut,
+        y: points.floorOutROut.y,
+        id: 'hdOut1',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: paths.outSeam.edge('right'),
+        y: paths.outSeam.edge('right').y,
+        id: 'hdOut2',
+      })
+      if (points.waistOut.x > points.seatOut.x) {
+        macro('hd', {
+          from: points.bottomLeftAnchor,
+          to: points.seatOut,
+          y: points.seatOut.y,
+          id: 'hdOut3',
+        })
+        macro('vd', {
+          from: paths.outSeam.edge('right'),
+          to: points.seatOut,
+          x: points.bottomLeftAnchor.x,
+          id: 'vdOut2',
+        })
+        macro('vd', {
+          from: points.seatOut,
+          to: points.styleWaistOut,
+          x: points.bottomLeftAnchor.x,
+          id: 'vdOut3',
+        })
+      } else {
+        macro('vd', {
+          from: paths.outSeam.edge('right'),
+          to: points.styleWaistOut,
+          x: points.bottomLeftAnchor.x,
+          id: 'vdOut4',
+        })
+      }
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.styleWaistOut,
+        y: points.styleWaistOut.y,
+        id: 'hdOut4',
+      })
+      if (points.styleWaistIn.y < points.styleWaistOut.y) {
+        macro('hd', {
+          from: points.bottomLeftAnchor,
+          to: points.styleWaistIn,
+          y: points.styleWaistIn.y,
+          id: 'hdOut5',
+        })
+        macro('vd', {
+          from: points.styleWaistOut,
+          to: points.styleWaistIn,
+          x: points.bottomLeftAnchor.x,
+          id: 'vdOut4',
+        })
+      } else {
+        macro('hd', {
+          from: points.styleWaistOut,
+          to: points.topRightAnchor,
+          y: points.styleWaistOut.y,
+          id: 'hdIn0',
+        })
+        macro('vd', {
+          from: points.styleWaistOut,
+          to: points.styleWaistIn,
+          x: points.topRightAnchor.x,
+          id: 'vdIn0',
+        })
+      }
+      macro('hd', {
+        from: points.crotchSeamCurveStart,
+        to: points.topRightAnchor,
+        y: points.crotchSeamCurveStart.y,
+        id: 'hdIn1',
+      })
+      macro('hd', {
+        from: points.flyCrotchEx,
+        to: points.topRightAnchor,
+        y: points.flyCrotchEx.y,
+        id: 'hdIn2',
+      })
+      macro('hd', {
+        from: points.fork,
+        to: points.topRightAnchor,
+        y: points.fork.y,
+        id: 'hdIn3',
+      })
+      macro('hd', {
+        from: paths.inseam.edge('left'),
+        to: points.topRightAnchor,
+        y: paths.inseam.edge('left').y,
+        id: 'hdIn4',
+      })
+      macro('hd', {
+        from: points.floorInRIn,
+        to: points.topRightAnchor,
+        y: points.floorInRIn.y,
+        id: 'hdIn5',
+      })
+      macro('hd', {
+        from: paths.hemBase.edge('bottom'),
+        to: points.topRightAnchor,
+        y: paths.hemBase.edge('bottom').y,
+        id: 'hdIn6',
+      })
+      macro('vd', {
+        from: paths.hemBase.edge('bottom'),
+        to: points.floorOutROut,
+        x: points.bottomLeftAnchor.x,
+        id: 'vdOut0',
+      })
+      macro('vd', {
+        from: points.floorOutROut,
+        to: paths.outSeam.edge('right'),
+        x: points.bottomLeftAnchor.x,
+        id: 'vdOut1',
+      })
+      if (points.crotchSeamCurveStart.y < points.flyCrotchEx.y) {
+        macro('vd', {
+          from: points.crotchSeamCurveStart,
+          to: points.styleWaistIn,
+          x: points.topRightAnchor.x,
+          id: 'vdIn1',
+        })
+        macro('vd', {
+          from: points.flyCrotchEx,
+          to: points.crotchSeamCurveStart,
+          x: points.topRightAnchor.x,
+          id: 'vdIn2',
+        })
+        macro('vd', {
+          from: points.fork,
+          to: points.flyCrotchEx,
+          x: points.topRightAnchor.x,
+          id: 'vdIn3',
+        })
+      } else {
+        macro('vd', {
+          from: points.flyCrotchEx,
+          to: points.styleWaistIn,
+          x: points.topRightAnchor.x,
+          id: 'vdIn1',
+        })
+        macro('vd', {
+          from: points.crotchSeamCurveStart,
+          to: points.flyCrotchEx,
+          x: points.topRightAnchor.x,
+          id: 'vdIn2',
+        })
+        macro('vd', {
+          from: points.fork,
+          to: points.crotchSeamCurveStart,
+          x: points.topRightAnchor.x,
+          id: 'vdIn3',
+        })
+      }
+      macro('vd', {
+        from: paths.inseam.edge('left'),
+        to: points.fork,
+        x: points.topRightAnchor.x,
+        id: 'vdIn4',
+      })
+      macro('vd', {
+        from: points.floorInRIn,
+        to: paths.inseam.edge('left'),
+        x: points.topRightAnchor.x,
+        id: 'vdIn5',
+      })
+      macro('vd', {
+        from: paths.hemBase.edge('bottom'),
+        to: points.floorInRIn,
+        x: points.topRightAnchor.x,
+        id: 'vdIn6',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        y: points.topRightAnchor.y - 15,
+        id: 'hd0',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        y: points.bottomLeftAnchor.y + 15,
+        id: 'hd1',
+      })
+      macro('vd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        x: points.bottomLeftAnchor.x - 15,
+        id: 'vd0',
+      })
+      macro('vd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        x: points.topRightAnchor.x + 15,
+        id: 'vd1',
+      })
+    }
 
     return part
   },

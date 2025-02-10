@@ -436,9 +436,8 @@ paths['split' + i] = new Path()
 
       snippets.sidePocketLeft = new Snippet('notch', points.sidePocketLeft)
     }
-
+    //paperless
     if (paperless) {
-      //
       points.bottomLeftAnchor = paths.seam.edge('bottomLeft')
       points.topRightAnchor = paths.seam.edge('topRight')
       macro('hd', {
@@ -555,18 +554,6 @@ paths['split' + i] = new Path()
         y: paths.hemBase.edge('bottom').y,
         id: 'hdOut5',
       })
-      macro('hd', {
-        from: points.bottomLeftAnchor,
-        to: points.topRightAnchor,
-        y: points.bottomLeftAnchor.y + 15,
-        id: 'hd0',
-      })
-      macro('hd', {
-        from: points.bottomLeftAnchor,
-        to: points.topRightAnchor,
-        y: points.topRightAnchor.y - 15,
-        id: 'hd1',
-      })
       macro('vd', {
         from: paths.hemBase.edge('bottom'),
         to: points.floorInRIn,
@@ -608,6 +595,18 @@ paths['split' + i] = new Path()
         to: points.floorOutROut,
         x: points.topRightAnchor.x,
         id: 'vdOut5',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        y: points.bottomLeftAnchor.y + 15,
+        id: 'hd0',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        y: points.topRightAnchor.y - 15,
+        id: 'hd1',
       })
       macro('vd', {
         from: points.bottomLeftAnchor,
