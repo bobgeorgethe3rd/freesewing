@@ -438,188 +438,188 @@ paths['split' + i] = new Path()
     }
 
     if (paperless) {
-      //in
+      //
+      points.bottomLeftAnchor = paths.seam.edge('bottomLeft')
+      points.topRightAnchor = paths.seam.edge('topRight')
       macro('hd', {
-        from: points.floorInRIn,
+        from: points.bottomLeftAnchor,
         to: paths.hemBase.edge('bottom'),
         y: paths.hemBase.edge('bottom').y,
         id: 'hdIn0',
       })
       macro('hd', {
-        from: points.floorInRIn,
-        to: points.fork,
-        y: points.fork.y,
+        from: points.bottomLeftAnchor,
+        to: points.floorInRIn,
+        y: points.floorInRIn.y,
         id: 'hdIn1',
       })
       macro('hd', {
-        from: points.floorInRIn,
+        from: points.bottomLeftAnchor,
         to: paths.inseam.edge('right'),
         y: paths.inseam.edge('right').y,
         id: 'hdIn2',
       })
       macro('hd', {
-        from: points.floorInRIn,
-        to: points.crossSeamCurveStart,
-        y: points.crossSeamCurveStart.y,
+        from: points.bottomLeftAnchor,
+        to: points.fork,
+        y: points.fork.y,
         id: 'hdIn3',
       })
       macro('hd', {
-        from: points.floorInRIn,
+        from: points.bottomLeftAnchor,
+        to: points.crossSeamCurveStart,
+        y: points.crossSeamCurveStart.y,
+        id: 'hdIn4',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
         to: points.styleWaistIn,
         y: points.styleWaistIn.y,
-        id: 'hdIn4',
+        id: 'hdIn5',
       })
       if (points.styleWaistOut.y < points.styleWaistIn.y) {
         macro('hd', {
-          from: points.floorInRIn,
+          from: points.bottomLeftAnchor,
           to: points.styleWaistOut,
           y: points.styleWaistOut.y,
-          id: 'hdIn5',
+          id: 'hdIn6',
         })
         macro('vd', {
           from: points.styleWaistIn,
           to: points.styleWaistOut,
-          x: points.floorInRIn.x,
-          id: 'vdIn6',
-        })
-        macro('vd', {
-          from: paths.hemBase.edge('bottom'),
-          to: points.styleWaistOut,
-          x: points.floorInRIn.x - 15,
+          x: points.bottomLeftAnchor.x,
           id: 'vdIn5',
         })
       } else {
+        macro('hd', {
+          from: points.styleWaistIn,
+          to: points.topRightAnchor,
+          y: points.styleWaistIn.y,
+          id: 'hdOut0',
+        })
         macro('vd', {
-          from: paths.hemBase.edge('bottom'),
+          from: points.styleWaistOut,
           to: points.styleWaistIn,
-          x: points.floorInRIn.x - 15,
-          id: 'vdIn5',
+          x: points.topRightAnchor.x,
+          id: 'vdOut0',
         })
       }
+      macro('hd', {
+        from: points.styleWaistOut,
+        to: points.topRightAnchor,
+        y: points.styleWaistOut.y,
+        id: 'hdOut1',
+      })
+      if (points.waistOut.x < points.seatOut.x) {
+        macro('hd', {
+          from: points.seatOut,
+          to: points.topRightAnchor,
+          y: points.seatOut.y,
+          id: 'hdOut2',
+        })
+        macro('vd', {
+          from: points.seatOut,
+          to: points.styleWaistOut,
+          x: points.topRightAnchor.x,
+          id: 'vdOut1',
+        })
+        macro('vd', {
+          from: paths.outSeam.edge('left'),
+          to: points.seatOut,
+          x: points.topRightAnchor.x,
+          id: 'vdOut2',
+        })
+      } else {
+        macro('vd', {
+          from: paths.outSeam.edge('left'),
+          to: points.styleWaistOut,
+          x: points.topRightAnchor.x,
+          id: 'vdOut3',
+        })
+      }
+      macro('hd', {
+        from: paths.outSeam.edge('left'),
+        to: points.topRightAnchor,
+        y: paths.outSeam.edge('left').y,
+        id: 'hdOut3',
+      })
+      macro('hd', {
+        from: points.floorOutROut,
+        to: points.topRightAnchor,
+        y: points.floorOutROut.y,
+        id: 'hdOut4',
+      })
+      macro('hd', {
+        from: paths.hemBase.edge('bottom'),
+        to: points.topRightAnchor,
+        y: paths.hemBase.edge('bottom').y,
+        id: 'hdOut5',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        y: points.bottomLeftAnchor.y + 15,
+        id: 'hd0',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        y: points.topRightAnchor.y - 15,
+        id: 'hd1',
+      })
       macro('vd', {
         from: paths.hemBase.edge('bottom'),
         to: points.floorInRIn,
-        x: points.floorInRIn.x,
+        x: points.bottomLeftAnchor.x,
         id: 'vdIn0',
       })
       macro('vd', {
         from: points.floorInRIn,
         to: paths.inseam.edge('right'),
-        x: points.floorInRIn.x,
+        x: points.bottomLeftAnchor.x,
         id: 'vdIn1',
       })
       macro('vd', {
         from: paths.inseam.edge('right'),
         to: points.fork,
-        x: points.floorInRIn.x,
+        x: points.bottomLeftAnchor.x,
         id: 'vdIn2',
       })
       macro('vd', {
         from: points.fork,
         to: points.crossSeamCurveStart,
-        x: points.floorInRIn.x,
+        x: points.bottomLeftAnchor.x,
         id: 'vdIn3',
       })
       macro('vd', {
         from: points.crossSeamCurveStart,
         to: points.styleWaistIn,
-        x: points.floorInRIn.x,
+        x: points.bottomLeftAnchor.x,
         id: 'vdIn4',
-      })
-      //out
-      macro('hd', {
-        from: paths.hemBase.edge('bottom'),
-        to: points.floorOutROut,
-        y: paths.hemBase.edge('bottom').y,
-        id: 'hdOut0',
-      })
-      macro('hd', {
-        from: paths.outSeam.edge('left'),
-        to: points.floorOutROut,
-        y: paths.outSeam.edge('left').y,
-        id: 'hdOut1',
-      })
-      macro('hd', {
-        from: points.styleWaistOut,
-        to: points.floorOutROut,
-        y: points.styleWaistOut.y,
-        id: 'hdOut2',
-      })
-      if (points.styleWaistOut.y > points.styleWaistIn.y) {
-        macro('hd', {
-          from: points.styleWaistIn,
-          to: points.floorOutROut,
-          y: points.styleWaistIn.y,
-          id: 'hdOut3',
-        })
-        macro('vd', {
-          from: points.styleWaistOut,
-          to: points.styleWaistIn,
-          x: points.floorOutROut.x,
-          id: 'vdOut4',
-        })
-        macro('vd', {
-          from: paths.hemBase.edge('bottom'),
-          to: points.styleWaistIn,
-          x: points.floorOutROut.x + 15,
-          id: 'vdOut3',
-        })
-      } else {
-        macro('vd', {
-          from: paths.hemBase.edge('bottom'),
-          to: points.styleWaistOut,
-          x: points.floorOutROut.x + 15,
-          id: 'vdOut3',
-        })
-      }
-      macro('vd', {
-        from: paths.hemBase.edge('bottom'),
-        to: points.floorOutROut,
-        x: points.floorOutROut.x,
-        id: 'vdOut0',
       })
       macro('vd', {
         from: points.floorOutROut,
         to: paths.outSeam.edge('left'),
-        x: points.floorOutROut.x,
-        id: 'vdOut1',
+        x: points.topRightAnchor.x,
+        id: 'vdOut4',
       })
-      if (points.waistOut.x > points.seatOut.x) {
-        macro('vd', {
-          from: paths.outSeam.edge('left'),
-          to: points.styleWaistOut,
-          x: points.floorOutROut.x,
-          id: 'vdOut2',
-        })
-      } else {
-        macro('vd', {
-          from: paths.outSeam.edge('left'),
-          to: points.seatOut,
-          x: points.floorOutROut.x,
-          id: 'vdOut2',
-        })
-        macro('vd', {
-          from: points.seatOut,
-          to: points.styleWaistOut,
-          x: points.floorOutROut.x,
-          id: 'vdOut5',
-        })
-      }
-      //horizontals
-      macro('hd', {
-        from: points.floorInRIn,
+      macro('vd', {
+        from: paths.hemBase.edge('bottom'),
         to: points.floorOutROut,
-        y:
-          points.styleWaistIn.y < points.styleWaistOut.y
-            ? points.styleWaistIn.y - 15
-            : points.styleWaistOut.y - 15,
-        id: 'hdO',
+        x: points.topRightAnchor.x,
+        id: 'vdOut5',
       })
-      macro('hd', {
-        from: points.floorInRIn,
-        to: points.floorOutROut,
-        y: paths.hemBase.edge('bottom').y + 15,
-        id: 'hd1',
+      macro('vd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        x: points.bottomLeftAnchor.x - 15,
+        id: 'vd0',
+      })
+      macro('vd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        x: points.topRightAnchor.x + 15,
+        id: 'vd1',
       })
     }
     return part
