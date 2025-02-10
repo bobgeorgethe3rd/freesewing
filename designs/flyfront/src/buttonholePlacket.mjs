@@ -66,8 +66,7 @@ export const buttonholePlacket = {
       points.buttonholeTopAnchor = points.flyWaist.shiftFractionTowards(points.waistIn, 0.5)
       const buttonholeNum = options.flyFrontButtonholeNumber * 2
       for (let i = 0; i < buttonholeNum; i++) {
-        if (i % 2 > 0) {
-        } else {
+        if (i % 2 <= 0) {
           points['buttonhole' + i] = points.buttonholeBottomAnchor.shiftFractionTowards(
             points.buttonholeTopAnchor,
             (i + 1) / buttonholeNum
