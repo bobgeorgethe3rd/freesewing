@@ -102,17 +102,15 @@ export const plugin = {
 
       const angleRads = (so.length - so.lengthTop) / widthStatic
       const radius = so.length / angleRads
-      const angleDegs = utils.rad2deg(angleRads)
 
-      const bottomCpDistance = (4 / 3) * radius * Math.tan(utils.deg2rad(angleDegs / 8))
-      const topCpDistance =
-        (4 / 3) * (radius - widthStatic) * Math.tan(utils.deg2rad(angleDegs / 8))
+      const bottomCpDistance = (4 / 3) * radius * Math.tan(angleRads / 8)
+      const topCpDistance = (4 / 3) * (radius - widthStatic) * Math.tan(angleRads / 8)
 
       //let's begin
       points[prefixFunction('bottomMid')] = new Point(0, 0)
       points[prefixFunction('origin')] = points[prefixFunction('bottomMid')].shift(90, radius)
       points[prefixFunction('bottomLeft')] = points[prefixFunction('bottomMid')].rotate(
-        angleDegs / -2,
+        utils.rad2deg(angleRads) / -2,
         points[prefixFunction('origin')]
       )
       points[prefixFunction('bottomRight')] = points[prefixFunction('bottomLeft')].flipX(
