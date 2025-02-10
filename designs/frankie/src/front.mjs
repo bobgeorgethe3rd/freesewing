@@ -1,3 +1,4 @@
+import { beamsIntersect, Snippet } from '@freesewing/core'
 import { frontBase } from './frontBase.mjs'
 
 export const front = {
@@ -7,6 +8,9 @@ export const front = {
     from: true,
   },
   options: {
+    //Plackets
+    flyWidth: { pct: 4.4, min: 4, max: 6, menu: 'plackets' },
+    flyFrontLength: { pct: 70.2, min: 70, max: 80, menu: 'plackets' },
     //Construction
     crotchSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
   },
@@ -20,9 +24,11 @@ export const front = {
     options,
     measurements,
     paperless,
+    complete,
     macro,
     utils,
     part,
+    absoluteOptions,
     snippets,
   }) => {
     //measures
@@ -196,7 +202,7 @@ paths['split' + i] = new Path()
       .join(paths.inseamSplit)
       .hide()
 
-    paths.crossSeam = new Path()
+    paths.crotchSeam = new Path()
       .move(points.fork)
       .curve(points.crotchSeamCurveCp1, points.crotchSeamCurveCp2, points.crotchSeamCurveStart)
       .line(points.styleWaistIn)
@@ -207,14 +213,132 @@ paths['split' + i] = new Path()
     paths.seam = paths.hemBase
       .clone()
       .join(paths.inseam)
-      .join(paths.crossSeam)
+      .join(paths.crotchSeam)
       .join(paths.waist)
       .join(paths.outSeam)
       .close()
       .setClass('fabric')
 
     //fly
-    const flyExtension = 10 //this is a seam allowance that has to be present so is hard coded
+    const flyExtension = (1 - options.flyWidth) * 8
+    const flyLength =
+      (measurements.crossSeamFront - measurements.waistToHips) * options.flyFrontLength
+
+    points.flyCrotch = paths.crotchSeam
+      .reverse()
+      .shiftAlong(
+        measurements.waistToHips * options.waistHeight + flyLength - absoluteOptions.waistbandWidth
+      )
+
+    points.flyCrotchEx = paths.crotchSeam.intersectsBeam(
+      points.flyCrotch.shift(points.styleWaistIn.angle(points.crotchSeamCurveStart), flyExtension),
+      points.flyCrotch
+        .shift(points.styleWaistIn.angle(points.crotchSeamCurveStart), flyExtension)
+        .shift(points.styleWaistIn.angle(points.crotchSeamCurveStart) + 90, 1)
+    )[0]
+
+    points.flyCrotchExSplit = paths.crotchSeam
+      .offset(flyExtension)
+      .intersectsBeam(
+        points.flyCrotchEx,
+        points.flyCrotchEx.shift(points.styleWaistIn.angle(points.crotchSeamCurveStart) + 90, 1)
+      )[0]
+
+    paths.flyCrotchEx = paths.crotchSeam
+      .offset(flyExtension)
+      .split(points.flyCrotchExSplit)[1]
+      .hide()
+
+    const flyWaistSplit = paths.crotchSeam
+      .offset(flyExtension)
+      .intersectsBeam(points.styleWaistOut, points.styleWaistIn)[0]
+    if (flyWaistSplit) {
+      points.flyWaistSplit = flyWaistSplit
+      paths.flyCrotchEx.split(points.flyWaistSplit)[0]
+    } else {
+      points.flyWaistSplit = beamsIntersect(
+        points.styleWaistIn
+          .shiftTowards(points.crotchSeamCurveStart, flyExtension)
+          .rotate(90, points.styleWaistIn),
+        points.crotchSeamCurveStart
+          .shiftTowards(points.styleWaistIn, flyExtension)
+          .rotate(-90, points.crotchSeamCurveStart),
+        points.styleWaistOut,
+        points.styleWaistIn
+      )
+      paths.flyCrotchEx.line(points.flyWaistSplit)
+    }
+
+    paths.flyCrotchExDetail = new Path()
+      .move(points.flyCrotchEx)
+      .line(points.flyCrotchExSplit)
+      .join(paths.flyCrotchEx)
+      .line(points.styleWaistIn)
+      .setText('rightLegExtension', 'center')
+
+    //seam allowance
+    if (sa) {
+      const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
+
+      points.saFlyCrotchEx = paths.crotchSeam
+        .offset(crotchSeamSa)
+        .intersectsBeam(points.flyCrotchEx, points.flyCrotchExSplit)[0]
+
+      paths.sa = paths.hemBase
+        .offset(sa * options.hemWidth * 100)
+        .join(paths.inseam.offset(sa * options.inseamSaWidth * 100))
+        .join(paths.crotchSeam.offset(crotchSeamSa).split(points.saFlyCrotchEx)[0])
+        .join(paths.flyCrotchEx.offset(crotchSeamSa))
+        .join(paths.waist.offset(sa))
+        .join(paths.outSeam.offset(sa * options.sideSeamSaWidth * 100))
+        .close()
+        .attr('class', 'fabric sa')
+    }
+
+    //details
+    //grainline
+    points.grainlineFrom = points.styleWaistOut.shiftFractionTowards(points.styleWaistIn, 0.25)
+    points.grainlineTo = new Point(points.grainlineFrom.x, points.floor.y)
+    macro('grainline', {
+      from: points.grainlineFrom,
+      to: points.grainlineTo,
+      grainline: true,
+    })
+    //notches
+    if (options.frontPocketsBool) {
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['frontPocketOpeningTop', 'frontPocketOpeningBottom'],
+      })
+    }
+    snippets.flyCrotchEx = new Snippet('notch', points.flyCrotchEx)
+    //cutlist
+    store.cutlist.setCut({ cut: 2, from: 'fabric', identical: 'true' })
+    //title
+    points.title = points.forkAnchor
+    macro('title', {
+      at: points.title,
+      nr: 2,
+      title: 'back',
+      scale: 0.75,
+    })
+    //side pockets
+    if (options.sidePocketsBool) {
+      const sidePocketPlacement = store.get('sidePocketPlacement')
+      points.sidePocketBottom = paths.outSeam.shiftAlong(sidePocketPlacement)
+      points.sidePocketRight = points.sidePocketBottom.shift(
+        points.sidePocketBottom.angle(paths.outSeam.shiftAlong(sidePocketPlacement * 0.99)) - 90,
+        store.get('sidePocketWidth') * 0.5
+      )
+      if (complete)
+        paths.sidePocketLine = new Path()
+          .move(points.sidePocketBottom)
+          .line(points.sidePocketRight)
+          .setClass('fabric help')
+          .setText('sidePocketLine', 'center')
+
+      snippets.sidePocketRight = new Snippet('notch', points.sidePocketRight)
+    }
 
     return part
   },

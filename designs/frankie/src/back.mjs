@@ -372,8 +372,8 @@ paths['split' + i] = new Path()
       frontPocketOpeningLength +
       sidePocketDepth +
       measurements.waistToFloor * options.sidePocketPlacement
+    store.set('sidePocketDepth', sidePocketDepth)
     store.set('sidePocketWidth', sidePocketWidth)
-    store.set('sidePocketWidth', sidePocketDepth)
     store.set('sidePocketPlacement', sidePocketPlacement)
     store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
     store.set('frontPocketOpeningLength', frontPocketOpeningLength)
