@@ -20,6 +20,7 @@ export const front = {
     utils,
     part,
     snippets,
+    Snippet,
   }) => {
     //measures
     const outSeamRotAngle = store.get('frontOutSeamRotAngle')
