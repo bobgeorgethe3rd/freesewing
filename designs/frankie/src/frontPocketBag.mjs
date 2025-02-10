@@ -13,22 +13,9 @@ export const frontPocketBag = {
     //Construction
     frontPocketBagSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
   },
-  draft: ({
-    store,
-    sa,
-    Point,
-    points,
-    Path,
-    paths,
-    options,
-    paperless,
-    complete,
-    macro,
-    utils,
-    part,
-    snippets,
-    Snippet,
-  }) => {
+  draft: ({ store, sa, Point, points, Path, paths, options, paperless, macro, utils, part }) => {
+    //set render
+    if (!options.frontPocketsBool) return part.hide()
     //let's begin
     points.frontPocketOutDepth = paths.outSeam.shiftAlong(
       store.get('frontPocketOpeningDepth') * 2 + store.get('frontPocketOpeningLength')
@@ -81,7 +68,7 @@ export const frontPocketBag = {
 
     paths.waist = new Path().move(points.frontPocketWaist).line(points.styleWaistOut).hide()
 
-    paths.outSeam = paths.outSeam.split(points.frontPocketOutDepth)[0]
+    paths.outSeam = paths.outSeam.split(points.frontPocketOutDepth)[0].hide()
 
     paths.seam = paths.saBottom
       .clone()
