@@ -1,4 +1,3 @@
-import { beamsIntersect, Snippet } from '@freesewing/core'
 import { frontBase } from './frontBase.mjs'
 
 export const front = {
