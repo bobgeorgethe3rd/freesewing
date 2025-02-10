@@ -66,7 +66,7 @@ export const buttonholePlacket = {
     )
     macro('title', {
       at: points.title,
-      nr: 6,
+      nr: 9,
       title: 'buttonholePlacket',
       rotation: 90 - points.flyCurveStart.angle(points.flyWaist),
       scale: 0.5,
