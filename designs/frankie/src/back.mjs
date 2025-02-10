@@ -247,9 +247,9 @@ paths['split' + i] = new Path()
     paths.inseamRSplit = paths.inseamR.split(points.splitInR)[1].hide()
 
     points.splitInCpTarget = utils.beamsIntersect(
-      paths.inseamSplit.shiftFractionAlong(0.99),
+      paths.inseamSplit.shiftFractionAlong(0.95),
       points.splitIn,
-      paths.inseamRSplit.shiftFractionAlong(0.01),
+      paths.inseamRSplit.shiftFractionAlong(0.05),
       points.splitInR
     )
 
@@ -270,10 +270,10 @@ paths['split' + i] = new Path()
     paths.outSeamRSplit = paths.outSeamR.split(points.splitOutR)[0].hide()
 
     points.splitOutCpTarget = utils.beamsIntersect(
-      paths.outSeamRSplit.shiftFractionAlong(0.99),
+      paths.outSeamRSplit.shiftFractionAlong(0.95),
       points.splitOutR,
       points.splitOut,
-      paths.outSeamSplit.shiftFractionAlong(0.01)
+      paths.outSeamSplit.shiftFractionAlong(0.05)
     )
 
     points.splitOutRCp2 = points.splitOutR.shiftFractionTowards(
