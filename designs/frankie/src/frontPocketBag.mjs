@@ -101,13 +101,151 @@ export const frontPocketBag = {
 
     //details
     //grainline
-
+    points.grainlineFrom = points.styleWaistOut.shiftFractionTowards(points.frontPocketWaist, 0.75)
+    points.grainlineTo = new Point(points.grainlineFrom.x, points.frontPocketBottom.y)
+    macro('grainline', {
+      from: points.grainlineFrom,
+      to: points.grainlineTo,
+      grainline: true,
+    })
     //notches
     macro('sprinkle', {
       snippet: 'notch',
       on: ['frontPocketOpeningTop', 'frontPocketOpeningBottom'],
     })
-
+    //cutlist
+    store.cutlist.setCut({ cut: 4, from: 'fabric', identical: 'true' })
+    //title
+    points.title = points.frontPocketOutDepth.shiftFractionTowards(points.frontPocketCurveEnd, 0.25)
+    macro('title', {
+      at: points.title,
+      nr: 6,
+      title: 'frontPocketBag',
+      scale: 0.5,
+    })
+    //paperless
+    //paperless
+    if (paperless) {
+      points.bottomLeftAnchor = paths.seam.edge('bottomLeft')
+      points.topRightAnchor = paths.seam.edge('topRight')
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: paths.saBottom.edge('bottom'),
+        y: paths.saBottom.edge('bottom').y,
+        id: 'hdOut0',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.frontPocketOutDepth,
+        y: points.frontPocketOutDepth.y,
+        id: 'hdOut1',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.styleWaistOut,
+        y: points.styleWaistOut.y,
+        id: 'hdOut2',
+      })
+      if (points.frontPocketWaist.y < points.styleWaistOut.y) {
+        macro('hd', {
+          from: points.bottomLeftAnchor,
+          to: points.frontPocketWaist,
+          y: points.frontPocketWaist.y,
+          id: 'hdOut3',
+        })
+        macro('vd', {
+          from: points.styleWaistOut,
+          to: points.frontPocketWaist,
+          x: points.bottomLeftAnchor.x,
+          id: 'vdOut2',
+        })
+      } else {
+        macro('hd', {
+          from: points.styleWaistOut,
+          to: points.topRightAnchor,
+          y: points.styleWaistOut.y,
+          id: 'hdIn0',
+        })
+        macro('vd', {
+          from: points.frontPocketWaist,
+          to: points.styleWaistOut,
+          x: points.topRightAnchor.x,
+          id: 'vdIn0',
+        })
+      }
+      macro('hd', {
+        from: points.frontPocketWaist,
+        to: points.topRightAnchor,
+        y: points.frontPocketWaist.y,
+        id: 'hdIn1',
+      })
+      macro('hd', {
+        from: points.frontPocketCurveEnd,
+        to: points.topRightAnchor,
+        y: points.frontPocketCurveEnd.y,
+        id: 'hdIn2',
+      })
+      macro('hd', {
+        from: paths.saBottom.edge('bottom'),
+        to: points.topRightAnchor,
+        y: paths.saBottom.edge('bottom').y,
+        id: 'hdIn3',
+      })
+      macro('vd', {
+        from: paths.saBottom.edge('bottom'),
+        to: points.frontPocketOutDepth,
+        x: points.bottomLeftAnchor.x,
+        id: 'vdOut0',
+      })
+      macro('vd', {
+        from: points.frontPocketOutDepth,
+        to: points.styleWaistOut,
+        x: points.bottomLeftAnchor.x,
+        id: 'vdOut1',
+      })
+      macro('vd', {
+        from: points.frontPocketCurveEnd,
+        to: points.frontPocketWaist,
+        x: points.topRightAnchor.x,
+        id: 'vdIn1',
+      })
+      macro('vd', {
+        from: paths.saBottom.edge('right'),
+        to: points.frontPocketCurveEnd,
+        x: points.topRightAnchor.x,
+        id: 'vdIn2',
+      })
+      macro('vd', {
+        from: paths.saBottom.edge('bottom'),
+        to: paths.saBottom.edge('right'),
+        x: points.topRightAnchor.x,
+        id: 'vdIn3',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        y: points.topRightAnchor.y - 15,
+        id: 'hd0',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        y: points.bottomLeftAnchor.y + 15,
+        id: 'hd1',
+      })
+      macro('vd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        x: points.bottomLeftAnchor.x - 15,
+        id: 'vd0',
+      })
+      macro('vd', {
+        from: points.bottomLeftAnchor,
+        to: points.topRightAnchor,
+        x: points.topRightAnchor.x + 15,
+        id: 'vd1',
+      })
+    }
     return part
   },
 }
