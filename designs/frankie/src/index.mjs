@@ -11,12 +11,24 @@ import { fly } from './fly.mjs'
 import { buttonholePlacket } from './buttonholePlacket.mjs'
 import { flyShield } from './flyShield.mjs'
 import { waistband } from './waistband.mjs'
+import { frontPocketBag } from './frontPocketBag.mjs'
 
 // Create new design
 const Frankie = new Design({
   data,
-  parts: [back, frontBase, front, fly, flyShield, buttonholePlacket, waistband],
+  parts: [back, frontBase, front, fly, flyShield, buttonholePlacket, waistband, frontPocketBag],
 })
 
 // Named exports
-export { back, frontBase, front, fly, buttonholePlacket, flyShield, waistband, i18n, Frankie }
+export {
+  back,
+  frontBase,
+  front,
+  fly,
+  buttonholePlacket,
+  flyShield,
+  waistband,
+  frontPocketBag,
+  i18n,
+  Frankie,
+}
