@@ -377,6 +377,7 @@ paths['split' + i] = new Path()
     store.set('sidePocketPlacement', sidePocketPlacement)
     store.set('frontPocketOpeningDepth', frontPocketOpeningDepth)
     store.set('frontPocketOpeningLength', frontPocketOpeningLength)
+    store.set('waistBack', points.styleWaistIn.dist(points.styleWaistOut))
 
     //details
     //grainline
