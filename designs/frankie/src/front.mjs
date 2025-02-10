@@ -135,7 +135,7 @@ paths['split' + i] = new Path()
     points.splitInCpTarget = utils.beamsIntersect(
       paths.inseamSplit.shiftFractionAlong(0.05),
       points.splitIn,
-      paths.inseamRSplit.shiftFractionAlong(0.99),
+      paths.inseamRSplit.shiftFractionAlong(0.95),
       points.splitInR
     )
 

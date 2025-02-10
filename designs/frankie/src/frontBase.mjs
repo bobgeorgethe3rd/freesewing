@@ -125,10 +125,10 @@ export const frontBase = {
     paths.outSeamRSplit = paths.outSeamR.split(points.splitOutR)[1].hide()
 
     points.splitOutCpTarget = utils.beamsIntersect(
-      paths.outSeamRSplit.shiftFractionAlong(0.01),
+      paths.outSeamRSplit.shiftFractionAlong(0.05),
       points.splitOutR,
       points.splitOut,
-      paths.outSeamSplit.shiftFractionAlong(0.99)
+      paths.outSeamSplit.shiftFractionAlong(0.95)
     )
 
     points.splitOutRCp1 = points.splitOutR.shiftFractionTowards(
