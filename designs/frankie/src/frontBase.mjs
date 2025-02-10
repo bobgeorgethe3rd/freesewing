@@ -8,6 +8,13 @@ export const frontBase = {
   hide: {
     from: true,
   },
+  options: {
+    //Constants
+    cpFraction: 0.55191502449,
+    //Plackets
+    flyWidth: { pct: 4.4, min: 4, max: 6, menu: 'plackets' },
+    flyFrontLength: { pct: 70.2, min: 70, max: 80, menu: 'plackets' },
+  },
   draft: ({
     store,
     Point,
@@ -20,6 +27,7 @@ export const frontBase = {
     utils,
     part,
     snippets,
+    absoluteOptions,
   }) => {
     //delete inherited paths
     const keepPaths = ['seam']
@@ -143,7 +151,87 @@ export const frontBase = {
       frontPocketOpeningDepth + store.get('frontPocketOpeningLength')
     )
 
+    //fly
+    paths.crotchSeam = new Path()
+      .move(points.fork)
+      .curve(points.crotchSeamCurveCp1, points.crotchSeamCurveCp2, points.crotchSeamCurveStart)
+      .line(points.styleWaistIn)
+      .hide()
+
+    const flyExtension = (1 - options.flyWidth) * 8
+    const flyLength =
+      (measurements.crossSeamFront - measurements.waistToHips) * options.flyFrontLength
+    const flyWidth = measurements.waist * options.flyWidth
+
+    points.flyCrotch = paths.crotchSeam
+      .reverse()
+      .shiftAlong(
+        measurements.waistToHips * options.waistHeight + flyLength - absoluteOptions.waistbandWidth
+      )
+
+    points.flyCrotchEx = paths.crotchSeam.intersectsBeam(
+      points.flyCrotch.shift(points.styleWaistIn.angle(points.crotchSeamCurveStart), flyExtension),
+      points.flyCrotch
+        .shift(points.styleWaistIn.angle(points.crotchSeamCurveStart), flyExtension)
+        .shift(points.styleWaistIn.angle(points.crotchSeamCurveStart) + 90, 1)
+    )[0]
+
+    points.flyCrotchExSplit = paths.crotchSeam
+      .offset(flyExtension)
+      .intersectsBeam(
+        points.flyCrotchEx,
+        points.flyCrotchEx.shift(points.styleWaistIn.angle(points.crotchSeamCurveStart) + 90, 1)
+      )[0]
+
+    paths.flyCrotchEx = paths.crotchSeam
+      .offset(flyExtension)
+      .split(points.flyCrotchExSplit)[1]
+      .hide()
+
+    const flyWaistSplit = paths.crotchSeam
+      .offset(flyExtension)
+      .intersectsBeam(points.styleWaistOut, points.styleWaistIn)[0]
+    if (flyWaistSplit) {
+      points.flyWaistSplit = flyWaistSplit
+      paths.flyCrotchEx.split(points.flyWaistSplit)[0]
+    } else {
+      points.flyWaistSplit = beamsIntersect(
+        points.styleWaistIn
+          .shiftTowards(points.crotchSeamCurveStart, flyExtension)
+          .rotate(90, points.styleWaistIn),
+        points.crotchSeamCurveStart
+          .shiftTowards(points.styleWaistIn, flyExtension)
+          .rotate(-90, points.crotchSeamCurveStart),
+        points.styleWaistOut,
+        points.styleWaistIn
+      )
+      paths.flyCrotchEx.line(points.flyWaistSplit)
+    }
+
+    points.flyWaist = points.styleWaistIn.shiftTowards(points.styleWaistOut, flyWidth)
+    points.flyCurveEnd = utils.beamsIntersect(
+      points.styleWaistIn,
+      points.crotchSeamCurveStart,
+      points.flyCrotch,
+      points.flyCrotch.shift(points.styleWaistIn.angle(points.crotchSeamCurveStart) - 90, 1)
+    )
+    points.flyCpTarget = utils.beamsIntersect(
+      points.flyWaist,
+      points.flyWaist.shift(points.styleWaistIn.angle(points.crotchSeamCurveStart), 1),
+      points.flyCrotch,
+      points.flyCrotch.shift(points.styleWaistIn.angle(points.crotchSeamCurveStart) - 90, 1)
+    )
+    points.flyCurveStart = points.flyCurveEnd.rotate(90, points.flyCpTarget)
+    points.flyCurveStartCp2 = points.flyCurveStart.shiftFractionTowards(
+      points.flyCpTarget,
+      options.cpFraction
+    )
+    points.flyCurveEndCp1 = points.flyCurveEnd.shiftFractionTowards(
+      points.flyCpTarget,
+      options.cpFraction
+    )
     //stores
+    store.set('flyWidth', flyWidth)
     store.set('frontOutSeamRotAngle', outSeamRotAngle)
 
     return part
