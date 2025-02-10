@@ -7,10 +7,6 @@ export const front = {
   hide: {
     from: true,
   },
-  options: {
-    //Construction
-    crotchSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
-  },
   draft: ({
     store,
     sa,
