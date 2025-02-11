@@ -123,7 +123,7 @@ paths['split' + i] = new Path()
       points.kneeInCp2,
       points.forkCp1,
       points.fork,
-      points.split.y
+      points.splitInAnchor.y
     )
 
     points.splitInR = paths.inseamR
