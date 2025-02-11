@@ -156,14 +156,17 @@ export const frontBase = {
       points.splitOut,
       paths.outSeamSplit.reverse().shiftAlong(0.05)
     )
-    if (splitOutCpTarget) {
+    if (
+      splitOutCpTarget &&
+      splitOutCpTarget.y > points.splitOut.y &&
+      splitOutCpTarget.y < points.splitOutR.y
+    ) {
       points.splitOutCpTarget = splitOutCpTarget
     } else {
       points.splitOutCpTarget = points.pivotOut
-      log.warn(
-        'points.splitOutCpTarget in frontBase.mjs failed to draft properly. You may need to increase options.legFlareSplit to fix this'
-      )
+      log.warn('points.splitOutCpTarget in frontBase.mjs drafted with the back up method')
     }
+    points.splitOutCpTarget = points.pivotOut
     //ok so this was shiftFractionAlong but that kept breaking
     //also if the intersect fails there is a fail safe
 
