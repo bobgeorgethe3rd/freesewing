@@ -207,7 +207,7 @@ export const frontBase = {
       points.flyWaistSplit = flyWaistSplit
       paths.flyCrotchEx.split(points.flyWaistSplit)[0]
     } else {
-      points.flyWaistSplit = beamsIntersect(
+      points.flyWaistSplit = utils.beamsIntersect(
         points.styleWaistIn
           .shiftTowards(points.crotchSeamCurveStart, flyExtension)
           .rotate(90, points.styleWaistIn),
