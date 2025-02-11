@@ -321,8 +321,8 @@ paths['split' + i] = new Path()
 
     if (
       splitOutCpTarget &&
-      splitOutCpTarget.y > points.splitOut.y &&
-      splitOutCpTarget.y < points.splitOutR.y
+      splitOutCpTarget.y > points.splitOut.y * 1.005 &&
+      splitOutCpTarget.y < points.splitOutR.y * 0.995
     ) {
       points.splitOutCpTarget = splitOutCpTarget
     } else {
