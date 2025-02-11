@@ -417,7 +417,7 @@ paths['split' + i] = new Path()
 
     //details
     //grainline
-    points.grainlineFrom = points.styleWaistIn
+    points.grainlineFrom = points.styleWaistIn.shiftFractionTowards(points.styleWaistOut, 0.15)
     points.grainlineTo = new Point(points.grainlineFrom.x, points.floor.y)
     macro('grainline', {
       from: points.grainlineFrom,
