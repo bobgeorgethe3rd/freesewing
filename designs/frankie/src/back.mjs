@@ -26,7 +26,6 @@ export const back = {
     }, //Altered for Frankie
     legFlare: { deg: 15, min: 5, max: 30, menu: 'style' },
     legFlareBalance: { pct: 150, min: 50, max: 175, menu: 'style' },
-    legFlareSplit: { pct: 15, min: 10, max: 90, menu: 'style' },
     legCurve: { pct: 66.7, min: 50, max: 100, menu: 'style' },
     //Pockets
     frontPocketsBool: { bool: true, menu: 'pockets' },
@@ -41,6 +40,8 @@ export const back = {
     crossSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     inseamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     hemWidth: { pct: 2, min: 0, max: 10, menu: 'construction' },
+    //Advanced
+    legFlareSplit: { pct: 15, min: 10, max: 90, menu: 'advanced' },
   },
   draft: ({
     store,
