@@ -285,11 +285,7 @@ paths['split' + i] = new Path()
     //ok so this was shiftFractionAlong but that kept breaking
     //also if the intersect fails there is a fail safe
 
-    if (
-      splitInCpTarget &&
-      splitInCpTarget.y > points.splitIn.y &&
-      splitInCpTarget.y < points.splitInR.y
-    ) {
+    if (splitInCpTarget) {
       points.splitInCpTarget = splitInCpTarget
     } else {
       points.splitInCpTarget = points.pivotIn
@@ -312,35 +308,13 @@ paths['split' + i] = new Path()
     paths.outSeamSplit = drawOutseam().split(points.splitOut)[1].hide()
     paths.outSeamRSplit = paths.outSeamR.split(points.splitOutR)[0].hide()
 
-    const splitOutCpTarget = utils.beamsIntersect(
-      paths.outSeamRSplit.reverse().shiftAlong(0.05),
-      points.splitOutR,
-      points.splitOut,
-      paths.outSeamSplit.shiftAlong(0.05)
-    )
-
-    if (
-      splitOutCpTarget &&
-      splitOutCpTarget.y > points.splitOut.y * 1.005 &&
-      splitOutCpTarget.y < points.splitOutR.y * 0.995
-    ) {
-      points.splitOutCpTarget = splitOutCpTarget
-    } else {
-      points.splitOutCpTarget = points.pivotOut
-      log.warn('points.splitOutCpTarget in back.mjs drafted with the back up method')
-    }
-
-    //ok so this was shiftFractionAlong but that kept breaking
-    //also if the intersect fails there is a fail safe
-
-    points.splitOutRCp2 = points.splitOutR.shiftFractionTowards(
-      points.splitOutCpTarget,
-      options.legCurve
-    )
-    points.splitOutCp1 = points.splitOut.shiftFractionTowards(
-      points.splitOutCpTarget,
-      options.legCurve
-    )
+    points.splitOutRCp2 = paths.outSeamRSplit
+      .reverse()
+      .shiftAlong(0.05)
+      .shiftOutwards(points.splitOutR, points.splitOutR.dist(points.pivotOut) * options.legCurve)
+    points.splitOutCp1 = paths.outSeamSplit
+      .shiftAlong(0.05)
+      .shiftOutwards(points.splitOut, points.splitOut.dist(points.pivotOut) * options.legCurve)
 
     //hem
     points.hemOrigin = utils.beamsIntersect(

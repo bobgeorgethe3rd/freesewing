@@ -150,34 +150,13 @@ export const frontBase = {
     paths.outSeamSplit = drawOutseam().split(points.splitOut)[0].hide()
     paths.outSeamRSplit = paths.outSeamR.split(points.splitOutR)[1].hide()
 
-    const splitOutCpTarget = utils.beamsIntersect(
-      paths.outSeamRSplit.shiftAlong(0.05),
-      points.splitOutR,
-      points.splitOut,
-      paths.outSeamSplit.reverse().shiftAlong(0.05)
-    )
-    if (
-      splitOutCpTarget &&
-      splitOutCpTarget.y > points.splitOut.y * 1.005 &&
-      splitOutCpTarget.y < points.splitOutR.y * 0.995
-    ) {
-      points.splitOutCpTarget = splitOutCpTarget
-    } else {
-      points.splitOutCpTarget = points.pivotOut
-      log.warn('points.splitOutCpTarget in frontBase.mjs drafted with the back up method')
-    }
-    points.splitOutCpTarget = points.pivotOut
-    //ok so this was shiftFractionAlong but that kept breaking
-    //also if the intersect fails there is a fail safe
-
-    points.splitOutRCp1 = points.splitOutR.shiftFractionTowards(
-      points.splitOutCpTarget,
-      options.legCurve
-    )
-    points.splitOutCp2 = points.splitOut.shiftFractionTowards(
-      points.splitOutCpTarget,
-      options.legCurve
-    )
+    points.splitOutRCp1 = paths.outSeamRSplit
+      .shiftAlong(0.05)
+      .shiftOutwards(points.splitOutR, points.splitOutR.dist(points.pivotOut) * options.legCurve)
+    points.splitOutCp2 = paths.outSeamSplit
+      .reverse()
+      .shiftAlong(0.05)
+      .shiftOutwards(points.splitOut, points.splitOut.dist(points.pivotOut) * options.legCurve)
 
     paths.outSeam = paths.outSeamSplit
       .curve(points.splitOutCp2, points.splitOutRCp1, points.splitOutR)
