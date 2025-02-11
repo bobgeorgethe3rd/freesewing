@@ -24,7 +24,7 @@ export const back = {
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     }, //Altered for Frankie
-    legFlare: { deg: 15, min: 5, max: 30, menu: 'style' },
+    legFlare: { deg: 15, min: 5, max: 45, menu: 'style' },
     legFlareBalance: { pct: 150, min: 50, max: 175, menu: 'style' },
     legFlareHeight: { pct: 50, min: 10, max: 100, menu: 'style' },
     legCurve: { pct: 66.7, min: 50, max: 100, menu: 'style' },
@@ -330,9 +330,11 @@ paths['split' + i] = new Path()
         ? points.hemOrigin.dist(points.floorSplit0RInInitial)
         : points.hemOrigin.dist(points.floorSplit2ROutInitial)
 
-    const hemAngle =
+    const hemAngleInitial =
       points.hemOrigin.angle(points.floorSplit2ROutInitial) -
       points.hemOrigin.angle(points.floorSplit0RInInitial)
+
+    const hemAngle = hemAngleInitial > 0 ? hemAngleInitial : hemAngleInitial + 360
 
     const hemCpDistance = (4 / 3) * hemRadius * Math.tan(utils.deg2rad(hemAngle / 4))
 

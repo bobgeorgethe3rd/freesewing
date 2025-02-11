@@ -173,9 +173,11 @@ paths['split' + i] = new Path()
         ? points.hemOrigin.dist(points.floorSplit0ROutInitial)
         : points.hemOrigin.dist(points.floorSplit2RInInitial)
 
-    const hemAngle =
+    const hemAngleInitial =
       points.hemOrigin.angle(points.floorSplit2RInInitial) -
       points.hemOrigin.angle(points.floorSplit0ROutInitial)
+
+    const hemAngle = hemAngleInitial > 0 ? hemAngleInitial : hemAngleInitial + 360
 
     const hemCpDistance = (4 / 3) * hemRadius * Math.tan(utils.deg2rad(hemAngle / 4))
 
