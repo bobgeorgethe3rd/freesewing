@@ -140,11 +140,7 @@ paths['split' + i] = new Path()
       points.splitInR
     )
 
-    if (
-      splitInCpTarget &&
-      splitInCpTarget.y > points.splitIn.y &&
-      splitInCpTarget.y < points.splitInR.y
-    ) {
+    if (splitInCpTarget) {
       points.splitInCpTarget = splitInCpTarget
     } else {
       points.splitInCpTarget = points.pivotIn
