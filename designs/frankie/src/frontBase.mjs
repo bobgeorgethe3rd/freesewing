@@ -30,6 +30,7 @@ export const frontBase = {
     part,
     snippets,
     absoluteOptions,
+    log,
   }) => {
     //delete inherited paths
     const keepPaths = ['seam']
@@ -124,12 +125,22 @@ export const frontBase = {
     paths.outSeamSplit = drawOutseam().split(points.splitOut)[0].hide()
     paths.outSeamRSplit = paths.outSeamR.split(points.splitOutR)[1].hide()
 
-    points.splitOutCpTarget = utils.beamsIntersect(
-      paths.outSeamRSplit.shiftFractionAlong(0.05),
+    const splitOutCpTarget = utils.beamsIntersect(
+      paths.outSeamRSplit.shiftAlong(0.05),
       points.splitOutR,
       points.splitOut,
-      paths.outSeamSplit.shiftFractionAlong(0.95)
+      paths.outSeamSplit.reverse().shiftAlong(0.05)
     )
+    if (splitOutCpTarget) {
+      points.splitOutCpTarget = splitOutCpTarget
+    } else {
+      points.splitOutCpTarget = points.pivotOut
+      log.warn(
+        'points.splitOutCpTarget in frontBase.mjs failed to draft properly. You may need to increase options.legFlareSplit to fix this'
+      )
+    }
+    //ok so this was shiftFractionAlong but that kept breaking
+    //also if the intersect fails there is a fail safe
 
     points.splitOutRCp1 = points.splitOutR.shiftFractionTowards(
       points.splitOutCpTarget,

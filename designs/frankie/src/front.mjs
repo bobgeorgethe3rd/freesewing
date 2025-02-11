@@ -21,6 +21,7 @@ export const front = {
     part,
     snippets,
     Snippet,
+    log,
   }) => {
     //measures
     const outSeamRotAngle = store.get('frontOutSeamRotAngle')
@@ -132,12 +133,24 @@ paths['split' + i] = new Path()
     paths.inseamSplit = paths.inseamInitial.split(points.splitIn)[1].hide()
     paths.inseamRSplit = paths.inseamR.split(points.splitInR)[0].hide()
 
-    points.splitInCpTarget = utils.beamsIntersect(
-      paths.inseamSplit.shiftFractionAlong(0.05),
+    const splitInCpTarget = utils.beamsIntersect(
+      paths.inseamSplit.shiftAlong(0.05),
       points.splitIn,
-      paths.inseamRSplit.shiftFractionAlong(0.95),
+      paths.inseamRSplit.reverse().shiftAlong(0.05),
       points.splitInR
     )
+
+    if (splitInCpTarget) {
+      points.splitInCpTarget = splitInCpTarget
+    } else {
+      points.splitInCpTarget = points.pivotIn
+      log.warn(
+        'points.splitInCpTarget in front.mjs failed to draft properly. You may need to increase options.legFlareSplit to fix this'
+      )
+    }
+
+    //ok so this was shiftFractionAlong but that kept breaking
+    //also if the intersect fails there is a fail safe
 
     points.splitInCp1 = points.splitIn.shiftFractionTowards(
       points.splitInCpTarget,
