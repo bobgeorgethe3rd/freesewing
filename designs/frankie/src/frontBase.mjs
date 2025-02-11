@@ -100,8 +100,11 @@ export const frontBase = {
     points.pivotOut = drawOutseam().intersectsY(points.pivotOutAnchor.y)[0]
 
     points.pivotSplit0 = points.pivotOut.shiftFractionTowards(points.pivotIn, 0.25)
-    points.floorSplit0 = new Point(points.pivotSplit0.x, points.floor.y)
-
+    if (points.pivotSplit0.x > points.floorOut.x) {
+      points.floorSplit0 = new Point(points.pivotSplit0.x, points.floor.y)
+    } else {
+      points.floorSplit0 = points.floorOut.shiftFractionTowards(points.floorIn, 0.25)
+    }
     //outseam rotation
     const outSeamRotAngle = options.legFlare * options.legFlareBalance
 

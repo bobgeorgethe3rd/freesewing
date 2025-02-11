@@ -39,8 +39,11 @@ paths.pivotSplit0 = new Path()
 
     for (let i = 1; i <= 2; i++) {
       points['pivotSplit' + i] = points.pivotOut.shiftFractionTowards(points.pivotIn, (i + 1) / 4)
-      points['floorSplit' + i] = new Point(points['pivotSplit' + i].x, points.floor.y)
-
+      if (points.pivotSplit0.x > points.floorOut.x) {
+        points['floorSplit' + i] = new Point(points['pivotSplit' + i].x, points.floor.y)
+      } else {
+        points['floorSplit' + i] = points.floorOut.shiftFractionTowards(points.floorIn, (i + 1) / 4)
+      }
       //guide for when tweaking. Please DO NOT remove.
       /*
 paths['split' + i] = new Path()

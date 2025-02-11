@@ -1,5 +1,5 @@
 import { back as backTitan } from '@freesewing/titan'
-import { pctBasedOn } from '@freesewing/core'
+import { pctBasedOn, pointOnBeam } from '@freesewing/core'
 
 export const back = {
   name: 'frankie.back',
@@ -141,8 +141,11 @@ paths.pivot = new Path()
 */
     for (let i = 0; i <= 2; i++) {
       points['pivotSplit' + i] = points.pivotIn.shiftFractionTowards(points.pivotOut, (i + 1) / 4)
-      points['floorSplit' + i] = new Point(points['pivotSplit' + i].x, points.floor.y)
-
+      if (points.pivotSplit0.x > points.floorIn.x) {
+        points['floorSplit' + i] = new Point(points['pivotSplit' + i].x, points.floor.y)
+      } else {
+        points['floorSplit' + i] = points.floorIn.shiftFractionTowards(points.floorOut, (i + 1) / 4)
+      }
       //guide for when tweaking. Please DO NOT remove.
       /*
 paths['split' + i] = new Path()
