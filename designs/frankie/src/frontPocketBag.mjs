@@ -12,7 +12,7 @@ export const frontPocketBag = {
     frontPocketDepth: { pct: 15, min: 10, max: 20, menu: 'pockets.frontPockets' },
     frontPocketFacingWidth: { pct: 30, min: 24, max: 40, menu: 'pockets.frontPockets' },
     //Construction
-    frontPocketBagSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
+    frontPocketBagSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
   },
   draft: ({ store, sa, Point, points, Path, paths, options, paperless, macro, utils, part }) => {
     //set render
