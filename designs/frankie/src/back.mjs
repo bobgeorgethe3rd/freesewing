@@ -58,6 +58,7 @@ export const back = {
     part,
     snippets,
     Snippet,
+    log,
   }) => {
     //delete inherited paths
     const keepPaths = ['seam']
@@ -246,12 +247,23 @@ paths['split' + i] = new Path()
     paths.inseamSplit = paths.inseamInitial.split(points.splitIn)[0].hide()
     paths.inseamRSplit = paths.inseamR.split(points.splitInR)[1].hide()
 
-    points.splitInCpTarget = utils.beamsIntersect(
-      paths.inseamSplit.shiftFractionAlong(0.95),
+    const splitInCpTarget = utils.beamsIntersect(
+      paths.inseamSplit.reverse().shiftAlong(0.05),
       points.splitIn,
-      paths.inseamRSplit.shiftFractionAlong(0.05),
+      paths.inseamRSplit.shiftAlong(0.05),
       points.splitInR
     )
+    //ok so this was shiftFractionAlong but that kept breaking
+    //also if the intersect fails there is a fail safe
+
+    if (splitInCpTarget) {
+      points.splitInCpTarget = splitInCpTarget
+    } else {
+      points.splitInCpTarget = points.pivotIn
+      log.warn(
+        'points.splitInCpTarget in back.mjs failed to draft properly. You may need to increase options.legFlareSplit to fix this'
+      )
+    }
 
     points.splitInCp2 = points.splitIn.shiftFractionTowards(
       points.splitInCpTarget,
@@ -269,12 +281,24 @@ paths['split' + i] = new Path()
     paths.outSeamSplit = drawOutseam().split(points.splitOut)[1].hide()
     paths.outSeamRSplit = paths.outSeamR.split(points.splitOutR)[0].hide()
 
-    points.splitOutCpTarget = utils.beamsIntersect(
-      paths.outSeamRSplit.shiftFractionAlong(0.95),
+    const splitOutCpTarget = utils.beamsIntersect(
+      paths.outSeamRSplit.reverse().shiftAlong(0.05),
       points.splitOutR,
       points.splitOut,
-      paths.outSeamSplit.shiftFractionAlong(0.05)
+      paths.outSeamSplit.shiftAlong(0.05)
     )
+
+    if (splitOutCpTarget) {
+      points.splitOutCpTarget = splitOutCpTarget
+    } else {
+      points.splitOutCpTarget = points.pivotOut
+      log.warn(
+        'points.splitOutCpTarget in back.mjs failed to draft properly. You may need to increase options.legFlareSplit to fix this'
+      )
+    }
+
+    //ok so this was shiftFractionAlong but that kept breaking
+    //also if the intersect fails there is a fail safe
 
     points.splitOutRCp2 = points.splitOutR.shiftFractionTowards(
       points.splitOutCpTarget,
