@@ -26,6 +26,7 @@ export const back = {
     }, //Altered for Frankie
     legFlare: { deg: 15, min: 5, max: 30, menu: 'style' },
     legFlareBalance: { pct: 150, min: 50, max: 175, menu: 'style' },
+    legFlareHeight: { pct: 50, min: 25, max: 100, menu: 'style' },
     legCurve: { pct: 66.7, min: 50, max: 100, menu: 'style' },
     //Pockets
     frontPocketsBool: { bool: true, menu: 'pockets' },
@@ -91,7 +92,7 @@ export const back = {
     const frontPocketOpeningLength = measurements.waistToFloor * options.frontPocketOpeningLength
     //let's begin
     points.forkAnchor = new Point(points.knee.x, points.fork.y)
-    points.pivot = points.forkAnchor.shiftFractionTowards(points.knee, 0.5)
+    points.pivot = points.forkAnchor.shiftFractionTowards(points.knee, options.legFlareHeight)
     points.pivotIn = utils.curveIntersectsY(
       points.fork,
       points.forkCp2,
