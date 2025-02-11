@@ -58,21 +58,34 @@ export const frontBase = {
     }
     //let's begin
     points.forkAnchor = new Point(points.knee.x, points.fork.y)
-    points.pivot = points.forkAnchor.shiftFractionTowards(points.knee, options.legFlareHeight)
+    points.pivotOutAnchorMin = options.legFlareLock
+      ? points.forkAnchor
+      : new Point(points.knee.x, points.styleWaistOut.y)
+
+    points.pivotInAnchor = points.forkAnchor.shiftFractionTowards(
+      points.knee,
+      options.legFlareHeight
+    )
+    points.pivotOutAnchor = points.pivotOutAnchorMin.shiftFractionTowards(
+      points.knee,
+      options.legFlareHeight
+    )
+
     points.pivotIn = utils.curveIntersectsY(
       points.floorIn,
       points.kneeInCp2,
       points.forkCp1,
       points.fork,
-      points.pivot.y
+      points.pivotInAnchor.y
     )
+    /*
     if (points.waistOut.x < points.seatOut.x) {
       points.pivotOut = utils.curveIntersectsY(
         waistOut,
         points.seatOut,
         points.kneeOutCp1,
         points.floorOut,
-        points.pivot.y
+        points.pivotOutAnchor.y
       )
     } else {
       points.pivotOut = utils.curveIntersectsY(
@@ -80,9 +93,11 @@ export const frontBase = {
         points.seatOutCp2,
         points.kneeOutCp1,
         points.floorOut,
-        points.pivot.y
+        points.pivotOutAnchor.y
       )
     }
+    */
+    points.pivotOut = drawOutseam().intersectsY(points.pivotOutAnchor.y)[0]
 
     points.pivotSplit0 = points.pivotOut.shiftFractionTowards(points.pivotIn, 0.25)
     points.floorSplit0 = new Point(points.pivotSplit0.x, points.floor.y)
@@ -98,15 +113,23 @@ export const frontBase = {
       .hide()
 
     //seam shaping
-    points.split = points.forkAnchor.shiftFractionTowards(points.pivot, options.legFlareSplit)
+    points.splitInAnchor = points.forkAnchor.shiftFractionTowards(
+      points.pivotInAnchor,
+      options.legFlareSplit
+    )
+    points.splitOutAnchor = points.pivotOutAnchorMin.shiftFractionTowards(
+      points.pivotOutAnchor,
+      options.legFlareSplit
+    )
 
+    /*
     if (points.waistOut.x < points.seatOut.x) {
       points.splitOut = utils.curveIntersectsY(
         waistOut,
         points.seatOut,
         points.kneeOutCp1,
         points.floorOut,
-        points.split.y
+        points.splitOutAnchor.y
       )
     } else {
       points.splitOut = utils.curveIntersectsY(
@@ -114,9 +137,11 @@ export const frontBase = {
         points.seatOutCp2,
         points.kneeOutCp1,
         points.floorOut,
-        points.split.y
+        points.splitOutAnchor.y
       )
     }
+      */
+    points.splitOut = drawOutseam().intersectsY(points.splitOutAnchor.y)[0]
 
     points.splitOutR = paths.outSeamR.shiftAlong(
       drawOutseam().split(points.pivotOut)[0].split(points.splitOut)[1].length()

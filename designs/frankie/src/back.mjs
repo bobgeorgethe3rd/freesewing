@@ -26,8 +26,10 @@ export const back = {
     }, //Altered for Frankie
     legFlare: { deg: 15, min: 5, max: 30, menu: 'style' },
     legFlareBalance: { pct: 150, min: 50, max: 175, menu: 'style' },
-    legFlareHeight: { pct: 50, min: 25, max: 100, menu: 'style' },
+    legFlareHeight: { pct: 50, min: 10, max: 100, menu: 'style' },
     legCurve: { pct: 66.7, min: 50, max: 100, menu: 'style' },
+    legFlareSplit: { pct: 15, min: 10, max: 90, menu: 'style' },
+    legFlareLock: { bool: true, menu: 'style' },
     //Pockets
     frontPocketsBool: { bool: true, menu: 'pockets' },
     frontPocketOpeningDepth: { pct: 4.9, min: 3, max: 6, menu: 'pockets.frontPockets' },
@@ -41,8 +43,6 @@ export const back = {
     crossSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     inseamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     hemWidth: { pct: 2, min: 0, max: 10, menu: 'construction' },
-    //Advanced
-    legFlareSplit: { pct: 15, min: 10, max: 90, menu: 'advanced' },
   },
   draft: ({
     store,
@@ -92,21 +92,34 @@ export const back = {
     const frontPocketOpeningLength = measurements.waistToFloor * options.frontPocketOpeningLength
     //let's begin
     points.forkAnchor = new Point(points.knee.x, points.fork.y)
-    points.pivot = points.forkAnchor.shiftFractionTowards(points.knee, options.legFlareHeight)
+    points.pivotOutAnchorMin = options.legFlareLock
+      ? points.forkAnchor
+      : new Point(points.knee.x, points.styleWaistOut.y)
+
+    points.pivotInAnchor = points.forkAnchor.shiftFractionTowards(
+      points.knee,
+      options.legFlareHeight
+    )
+    points.pivotOutAnchor = points.pivotOutAnchorMin.shiftFractionTowards(
+      points.knee,
+      options.legFlareHeight
+    )
+
     points.pivotIn = utils.curveIntersectsY(
       points.fork,
       points.forkCp2,
       points.kneeInCp1,
       points.floorIn,
-      points.pivot.y
+      points.pivotInAnchor.y
     )
+    /*
     if (points.waistOut.x > points.seatOut.x) {
       points.pivotOut = utils.curveIntersectsY(
         points.floorOut,
         points.kneeOutCp2,
         points.seatOut,
         waistOut,
-        points.pivot.y
+        points.pivotOutAnchor.y
       )
     } else {
       points.pivotOut = utils.curveIntersectsY(
@@ -114,9 +127,11 @@ export const back = {
         points.kneeOutCp2,
         points.seatOutCp1,
         points.seatOut,
-        points.pivot.y
+        points.pivotOutAnchor.y
       )
     }
+      */
+    points.pivotOut = drawOutseam().intersectsY(points.pivotOutAnchor.y)[0]
 
     //guide for when tweaking. Please DO NOT remove.
     /*
@@ -124,7 +139,6 @@ paths.pivot = new Path()
 .move(points.pivotIn)
 .line(points.pivotOut)
 */
-
     for (let i = 0; i <= 2; i++) {
       points['pivotSplit' + i] = points.pivotIn.shiftFractionTowards(points.pivotOut, (i + 1) / 4)
       points['floorSplit' + i] = new Point(points['pivotSplit' + i].x, points.floor.y)
@@ -153,6 +167,7 @@ paths['split' + i] = new Path()
       .hide()
 
     //guide for when tweaking. Please DO NOT remove.
+
     /*
     paths.segmentIn0 = paths.inseamR
     .clone()
@@ -169,6 +184,7 @@ paths['split' + i] = new Path()
     }
 
     //guide for when tweaking. Please DO NOT remove.
+
     /*
     paths.segmentIn1 = new Path()
     .move(points.pivotSplit0RIn)
@@ -189,6 +205,7 @@ paths['split' + i] = new Path()
       .hide()
 
     //guide for when tweaking. Please DO NOT remove.
+
     /*
       paths.segmentOut0 = paths.outSeamR
       .clone()
@@ -215,22 +232,30 @@ paths['split' + i] = new Path()
       */
 
     //seam shaping
-    points.split = points.forkAnchor.shiftFractionTowards(points.pivot, options.legFlareSplit)
+    points.splitInAnchor = points.forkAnchor.shiftFractionTowards(
+      points.pivotInAnchor,
+      options.legFlareSplit
+    )
+    points.splitOutAnchor = points.pivotOutAnchorMin.shiftFractionTowards(
+      points.pivotOutAnchor,
+      options.legFlareSplit
+    )
 
     points.splitIn = utils.curveIntersectsY(
       points.fork,
       points.forkCp2,
       points.kneeInCp1,
       points.floorIn,
-      points.split.y
+      points.splitInAnchor.y
     )
+    /*
     if (points.waistOut.x > points.seatOut.x) {
       points.splitOut = utils.curveIntersectsY(
         points.floorOut,
         points.kneeOutCp2,
         points.seatOut,
         waistOut,
-        points.split.y
+        points.splitOutAnchor.y
       )
     } else {
       points.splitOut = utils.curveIntersectsY(
@@ -238,9 +263,11 @@ paths['split' + i] = new Path()
         points.kneeOutCp2,
         points.seatOutCp1,
         points.seatOut,
-        points.split.y
+        points.splitOutAnchor.y
       )
     }
+      */
+    points.splitOut = drawOutseam().intersectsY(points.splitOutAnchor.y)[0]
 
     points.splitInR = paths.inseamR.shiftAlong(
       paths.inseamInitial.split(points.pivotIn)[0].split(points.splitIn)[1].length()
@@ -431,7 +458,7 @@ paths['split' + i] = new Path()
     //title
     points.title = new Point(
       (points.styleWaistIn.x + points.styleWaistOut.x) / 2,
-      (points.styleWaistIn.y + points.pivot.y) / 2
+      (points.styleWaistIn.y + points.pivotInAnchor.y) / 2
     )
     macro('title', {
       at: points.title,
@@ -440,10 +467,10 @@ paths['split' + i] = new Path()
       scale: 0.75,
     })
     //logo
-    points.logo = new Point(points.title.x, points.pivot.y)
+    points.logo = new Point(points.title.x, points.pivotInAnchor.y)
     snippets.logo = new Snippet('logo', points.logo)
     //scalebox
-    points.scalebox = new Point(points.title.x, (points.floor.y + points.pivot.y) / 2)
+    points.scalebox = new Point(points.title.x, (points.floor.y + points.pivotInAnchor.y) / 2)
     macro('scalebox', { at: points.scalebox })
     //side pockets
     if (options.sidePocketsBool) {
@@ -648,6 +675,7 @@ paths['split' + i] = new Path()
         id: 'vd1',
       })
     }
+
     return part
   },
 }
