@@ -58,7 +58,7 @@ export const frontBase = {
     }
     //let's begin
     points.forkAnchor = new Point(points.knee.x, points.fork.y)
-    points.pivot = points.forkAnchor.shiftFractionTowards(points.knee, 0.5)
+    points.pivot = points.forkAnchor.shiftFractionTowards(points.knee, options.legFlareHeight)
     points.pivotIn = utils.curveIntersectsY(
       points.floorIn,
       points.kneeInCp2,
