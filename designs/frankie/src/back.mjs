@@ -285,13 +285,15 @@ paths['split' + i] = new Path()
     //ok so this was shiftFractionAlong but that kept breaking
     //also if the intersect fails there is a fail safe
 
-    if (splitInCpTarget) {
+    if (
+      splitInCpTarget &&
+      splitInCpTarget.y > points.splitIn.y &&
+      splitInCpTarget.y < points.splitInR.y
+    ) {
       points.splitInCpTarget = splitInCpTarget
     } else {
       points.splitInCpTarget = points.pivotIn
-      log.warn(
-        'points.splitInCpTarget in back.mjs failed to draft properly. You may need to increase options.legFlareSplit to fix this'
-      )
+      log.warn('points.splitInCpTarget in back.mjs drafted with the back up method')
     }
 
     points.splitInCp2 = points.splitIn.shiftFractionTowards(
@@ -317,13 +319,15 @@ paths['split' + i] = new Path()
       paths.outSeamSplit.shiftAlong(0.05)
     )
 
-    if (splitOutCpTarget) {
+    if (
+      splitOutCpTarget &&
+      splitOutCpTarget.y > points.splitOut.y &&
+      splitOutCpTarget.y < points.splitOutR.y
+    ) {
       points.splitOutCpTarget = splitOutCpTarget
     } else {
       points.splitOutCpTarget = points.pivotOut
-      log.warn(
-        'points.splitOutCpTarget in back.mjs failed to draft properly. You may need to increase options.legFlareSplit to fix this'
-      )
+      log.warn('points.splitOutCpTarget in back.mjs drafted with the back up method')
     }
 
     //ok so this was shiftFractionAlong but that kept breaking

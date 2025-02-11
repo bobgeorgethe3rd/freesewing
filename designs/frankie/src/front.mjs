@@ -140,13 +140,15 @@ paths['split' + i] = new Path()
       points.splitInR
     )
 
-    if (splitInCpTarget) {
+    if (
+      splitInCpTarget &&
+      splitInCpTarget.y > points.splitIn.y &&
+      splitInCpTarget.y < points.splitInR.y
+    ) {
       points.splitInCpTarget = splitInCpTarget
     } else {
       points.splitInCpTarget = points.pivotIn
-      log.warn(
-        'points.splitInCpTarget in front.mjs failed to draft properly. You may need to increase options.legFlareSplit to fix this'
-      )
+      log.warn('points.splitInCpTarget in front.mjs drafted with the back up method')
     }
 
     //ok so this was shiftFractionAlong but that kept breaking
