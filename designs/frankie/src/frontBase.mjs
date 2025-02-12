@@ -13,7 +13,7 @@ export const frontBase = {
     cpFraction: 0.55191502449,
     //Plackets
     flyWidth: { pct: 4.4, min: 4, max: 6, menu: 'plackets' },
-    flyLength: { pct: 70.2, min: 70, max: 80, menu: 'plackets' },
+    flyLength: { pct: 74.1, min: 70, max: 80, menu: 'plackets' },
     //Construction
     crotchSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
   },
