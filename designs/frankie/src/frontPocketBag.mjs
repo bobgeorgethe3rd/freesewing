@@ -11,30 +11,39 @@ export const frontPocketBag = {
     frontPocketWidth: { pct: 50, min: 30, max: 70, menu: 'pockets.frontPockets' },
     frontPocketDepth: { pct: 15, min: 10, max: 20, menu: 'pockets.frontPockets' },
     frontPocketFacingWidth: { pct: 30, min: 24, max: 40, menu: 'pockets.frontPockets' },
+    inheritFrontPocket: { bool: true, menu: 'pockets.frontPockets' },
     //Construction
     frontPocketBagSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
   },
   draft: ({ store, sa, Point, points, Path, paths, options, paperless, macro, utils, part }) => {
     //set render
     if (!options.frontPocketsBool) return part.hide()
+    //delete inherieted when not
+    if (!options.inheritFrontPocket && options.titanGuide) delete paths.titanGuide
     //let's begin
-    points.frontPocketOutDepth = paths.outSeam.shiftAlong(
-      store.get('frontPocketOpeningDepth') * 2 + store.get('frontPocketOpeningLength')
-    )
-    points.frontPocketWaist = points.styleWaistOut.shiftFractionTowards(
-      points.styleWaistIn,
-      options.frontPocketWidth
-    )
+    const frontPocketOpeningDepth = store.get('frontPocketOpeningDepth')
+    const frontPocketOutDepth = frontPocketOpeningDepth * 2 + store.get('frontPocketOpeningLength')
+    points.frontPocketOutDepth = options.inheritFrontPocket
+      ? paths.outSeam.shiftAlong(frontPocketOutDepth)
+      : points.styleWaistOut.shift(-90, frontPocketOutDepth)
+
+    points.frontPocketWaist = options.inheritFrontPocket
+      ? points.styleWaistOut.shiftFractionTowards(points.styleWaistIn, options.frontPocketWidth)
+      : points.styleWaistOut.shift(
+          0,
+          points.styleWaistOut.dist(points.styleWaistIn) * options.frontPocketWidth
+        )
+
     points.frontPocketCurveEnd = utils.beamsIntersect(
       points.frontPocketOutDepth,
-      points.frontPocketOutDepth.shift(points.styleWaistOut.angle(points.styleWaistIn), 1),
+      points.frontPocketOutDepth.shift(points.styleWaistOut.angle(points.frontPocketWaist), 1),
       points.frontPocketWaist,
-      points.frontPocketWaist.shift(points.styleWaistOut.angle(points.styleWaistIn) - 80, 1)
+      points.frontPocketWaist.shift(points.styleWaistOut.angle(points.frontPocketWaist) - 80, 1)
     )
     points.frontPocketBottom = points.frontPocketOutDepth
       .shiftFractionTowards(points.frontPocketCurveEnd, 0.55)
       .shift(
-        points.styleWaistOut.angle(points.styleWaistIn) - 90,
+        points.styleWaistOut.angle(points.frontPocketWaist) - 90,
         paths.outSeam.length() * options.frontPocketDepth
       )
     points.frontPocketOutDepthCp2 = points.frontPocketOutDepth.shiftFractionTowards(
@@ -42,12 +51,12 @@ export const frontPocketBag = {
       0.25
     )
     points.frontPocketBottomCp1 = points.frontPocketBottom.shift(
-      points.styleWaistIn.angle(points.styleWaistOut),
+      points.frontPocketWaist.angle(points.styleWaistOut),
       points.frontPocketOutDepth.dist(points.frontPocketCurveEnd) * 0.5
     )
     points.frontPocketBottomCpTarget = utils.beamsIntersect(
       points.frontPocketBottom,
-      points.frontPocketBottom.shift(points.styleWaistOut.angle(points.styleWaistIn), 1),
+      points.frontPocketBottom.shift(points.styleWaistOut.angle(points.frontPocketWaist), 1),
       points.frontPocketWaist,
       points.frontPocketCurveEnd
     )
@@ -69,7 +78,9 @@ export const frontPocketBag = {
 
     paths.waist = new Path().move(points.frontPocketWaist).line(points.styleWaistOut).hide()
 
-    paths.outSeam = paths.outSeam.split(points.frontPocketOutDepth)[0].hide()
+    paths.outSeam = options.inheritFrontPocket
+      ? paths.outSeam.split(points.frontPocketOutDepth)[0].hide()
+      : new Path().move(points.styleWaistOut).line(points.frontPocketOutDepth).hide()
 
     paths.seam = paths.saBottom
       .clone()
@@ -97,6 +108,16 @@ export const frontPocketBag = {
       grainline: true,
     })
     //notches
+    if (!options.inheritFrontPocket) {
+      points.frontPocketOpeningTop = points.styleWaistOut.shiftTowards(
+        points.frontPocketOutDepth,
+        frontPocketOpeningDepth
+      )
+      points.frontPocketOpeningBottom = points.frontPocketOutDepth.shiftTowards(
+        points.styleWaistOut,
+        frontPocketOpeningDepth
+      )
+    }
     macro('sprinkle', {
       snippet: 'notch',
       on: ['frontPocketOpeningTop', 'frontPocketOpeningBottom'],
