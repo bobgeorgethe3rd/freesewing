@@ -1063,6 +1063,11 @@
       "trousers"
     ],
     "techniques": [
+      "seamPocket",
+      "pocket",
+      "fly",
+      "zipper",
+      "button",
       "curvedSeam",
       "hem"
     ]
