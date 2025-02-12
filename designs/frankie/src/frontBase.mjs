@@ -181,7 +181,7 @@ export const frontBase = {
       .line(points.styleWaistIn)
       .hide()
 
-    const flyExtension = (1 - options.flyWidth) * 8
+    const flyExtension = Math.ceil(measurements.crossSeam * 0.01)
     const flyLength = (measurements.crossSeamFront - measurements.waistToHips) * options.flyLength
     const flyWidth = measurements.waist * options.flyWidth
 

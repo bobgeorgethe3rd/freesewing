@@ -232,14 +232,15 @@ paths['split' + i] = new Path()
     if (sa) {
       const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
 
-      points.saFlyCrotchEx = paths.crotchSeam
-        .offset(crotchSeamSa)
-        .intersectsBeam(points.flyCrotchEx, points.flyCrotchExSplit)[0]
+      points.saFlyCrotchEx = paths.crotchSeam.intersectsBeam(
+        points.flyCrotchExSplit,
+        paths.flyCrotchEx.offset(crotchSeamSa).start()
+      )[0]
 
       paths.sa = paths.hemBase
         .offset(sa * options.hemWidth * 100)
         .join(paths.inseam.offset(sa * options.inseamSaWidth * 100))
-        .join(paths.crotchSeam.offset(crotchSeamSa).split(points.saFlyCrotchEx)[0])
+        .join(paths.crotchSeam.split(points.saFlyCrotchEx)[0].offset(crotchSeamSa))
         .join(paths.flyCrotchEx.offset(crotchSeamSa))
         .join(paths.waist.offset(sa))
         .join(paths.outSeam.offset(sa * options.sideSeamSaWidth * 100))
