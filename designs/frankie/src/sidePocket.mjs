@@ -33,14 +33,16 @@ export const sidePocket = {
     if (!options.sidePocketsBool || !expand) {
       if (!expand) {
         store.flag.note({
-          msg: `franklin:sidePocket`,
+          msg: `frankie:cutSidePocket`,
           notes: [sa ? 'flag:saIncluded' : 'flag:saExcluded', 'flag:partHiddenByExpand'],
           replace: {
             width: units(sidePocketWidth + sa * 2),
             length: units(length + sa * 2),
-            fold: options.sidePocketFolded
-              ? sidePocketLength * 0.5
-              : sidePocketLength * options.sidePocketFoldLength,
+            fold: units(
+              (options.sidePocketFolded
+                ? sidePocketLength * 0.5
+                : sidePocketLength * options.sidePocketFoldLength) + sa
+            ),
           },
           suggest: {
             text: 'flag:show',
