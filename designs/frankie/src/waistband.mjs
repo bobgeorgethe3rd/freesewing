@@ -49,7 +49,7 @@ export const waistband = {
       const waistbandOverlap = store.get('waistbandOverlap')
       const waistbandPlacketWidth = store.get('waistbandPlacketWidth')
       store.flag.note({
-        msg: `frankie:cutWaistbandStraight`,
+        msg: `frankie:cutWaistband`,
         notes: [sa ? 'flag:saIncluded' : 'flag:saExcluded', 'flag:partHiddenByExpand'],
         replace: {
           width: units(
@@ -61,8 +61,8 @@ export const waistband = {
           length: units(
             waistbandPlacketWidth + store.get('waistbandLength') + waistbandOverlap + sa * 2
           ),
-          overlap: units(waistbandOverlap + sa),
-          placketWidth: units(waistbandPlacketWidth + sa),
+          overlap: units(waistbandOverlap + (waistbandOverlap > 0 ? sa : 0)),
+          placket: units(waistbandPlacketWidth + sa),
         },
         suggest: {
           text: 'flag:show',
