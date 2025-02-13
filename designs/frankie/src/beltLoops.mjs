@@ -60,11 +60,11 @@ export const beltLoops = {
         })
       }
       return part.hide()
-    } else {
-      if (expand) {
+    } 
+     //hint at expand
+      if (expand && options.beltLoops) {
         store.flag.preset('expandIsOff')
       }
-    }
 
     //let's begin
     points.origin = new Point(0, 0)
