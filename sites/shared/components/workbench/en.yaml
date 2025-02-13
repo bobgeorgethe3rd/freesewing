@@ -88,6 +88,7 @@ patternEditor: Pattern Editor
 patternInspector: Pattern Inspector
 patternLogs: Pattern logs
 patternSaved: Pattern saved
+plackets: Plackets
 pockets: Pockets
 printLayout: Print Layout
 printSettings.d: Configure your pattern so you can print it just the way you like it. Includes page size & orientation, margins, and more.
@@ -108,6 +109,7 @@ show: Show
 showAllParts: Show all pattern parts
 showMovableButtons: Buttons
 showOnlyThisPart: Show only this pattern part
+sidePockets: Side pockets
 sleevecap: Sleevecap
 style: Style
 test: Test
