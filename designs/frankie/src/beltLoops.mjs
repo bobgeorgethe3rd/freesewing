@@ -29,6 +29,8 @@ export const beltLoops = {
     macro,
     complete,
     paperless,
+    expand,
+    units,
     part,
     absoluteOptions,
   }) => {
@@ -37,6 +39,33 @@ export const beltLoops = {
     const beltLoopWidth = options.beltLoopDoubleFolded
       ? absoluteOptions.beltLoopWidth * 2
       : absoluteOptions.beltLoopWidth
+
+    if (!options.beltLoops || !expand) {
+      if (!expand) {
+        store.flag.note({
+          msg: `franklin:beltLoop`,
+          notes: [sa ? 'flag:saIncluded' : 'flag:saExcluded', 'flag:partHiddenByExpand'],
+          replace: {
+            width: units(beltLoopWidth),
+            length: units(length),
+            count: options.beltLoopNumber,
+          },
+          suggest: {
+            text: 'flag:show',
+            icon: 'expand',
+            update: {
+              settings: ['expand', 1],
+            },
+          },
+        })
+      }
+      return part.hide()
+    } else {
+      if (expand) {
+        store.flag.preset('expandIsOff')
+      }
+    }
+
     //let's begin
     points.origin = new Point(0, 0)
     points.topLeft = points.origin.translate(beltLoopWidth / -2, length / -2)

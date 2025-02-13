@@ -8,14 +8,55 @@ export const sidePocket = {
     sidePocketFolded: { bool: false, menu: 'pockets.sidePockets' },
     sidePocketFoldLength: { pct: 25, min: 15, max: 30, menu: 'pockets.sidePockets' },
   },
-  draft: ({ store, sa, Point, points, Path, paths, options, paperless, complete, macro, part }) => {
-    //set render
-    if (!options.sidePocketsBool) return part.hide()
+  draft: ({
+    store,
+    sa,
+    Point,
+    points,
+    Path,
+    paths,
+    options,
+    paperless,
+    complete,
+    macro,
+    expand,
+    units,
+    part,
+  }) => {
     //measures
     const sidePocketLength = store.get('sidePocketDepth')
+    const sidePocketWidth = store.get('sidePocketWidth')
     const length = options.sidePocketFolded
       ? sidePocketLength * 2
       : sidePocketLength * (1 + options.sidePocketFoldLength)
+    //set render
+    if (!options.sidePocketsBool || !expand) {
+      if (!expand) {
+        store.flag.note({
+          msg: `franklin:sidePocket`,
+          notes: [sa ? 'flag:saIncluded' : 'flag:saExcluded', 'flag:partHiddenByExpand'],
+          replace: {
+            width: units(sidePocketWidth + sa * 2),
+            length: units(length + sa * 2),
+            fold: options.sidePocketFolded
+              ? sidePocketLength * 0.5
+              : sidePocketLength * options.sidePocketFoldLength,
+          },
+          suggest: {
+            text: 'flag:show',
+            icon: 'expand',
+            update: {
+              settings: ['expand', 1],
+            },
+          },
+        })
+      }
+      return part.hide()
+    } else {
+      if (expand) {
+        store.flag.preset('expandIsOff')
+      }
+    }
     //let's begin
     points.origin = new Point(0, 0)
     points.topLeft = points.origin.translate(store.get('sidePocketWidth') / -2, length / -2)
