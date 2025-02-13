@@ -203,7 +203,7 @@
       "d": "Controls the length of the opening for the front pocket."
     },
     "frontPocketsBool": {
-      "t": "Front pockets",
+      "t": "Draft front pockets",
       "d": "Controls whether to draft front pockets."
     },
     "frontPocketsBoolNo": {
@@ -295,7 +295,7 @@
       "d": "Controls the placement of the side pocket along the side seam."
     },
     "sidePocketsBool": {
-      "t": "Side pockets",
+      "t": "Draft side pockets",
       "d": "Controls whether to draft side pockets."
     },
     "sidePocketsBoolNo": {
