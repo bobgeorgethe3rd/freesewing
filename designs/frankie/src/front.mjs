@@ -319,8 +319,8 @@ paths['split' + i] = new Path()
       })
       macro('hd', {
         from: points.bottomLeftAnchor,
-        to: paths.outSeam.edge('right'),
-        y: paths.outSeam.edge('right').y,
+        to: points.splitOutR,
+        y: points.splitOutR.y,
         id: 'hdOut2',
       })
       if (points.waistOut.x > points.seatOut.x) {
@@ -331,7 +331,7 @@ paths['split' + i] = new Path()
           id: 'hdOut3',
         })
         macro('vd', {
-          from: paths.outSeam.edge('right'),
+          from: points.splitOutR,
           to: points.seatOut,
           x: points.bottomLeftAnchor.x,
           id: 'vdOut2',
@@ -344,7 +344,7 @@ paths['split' + i] = new Path()
         })
       } else {
         macro('vd', {
-          from: paths.outSeam.edge('right'),
+          from: points.splitOutR,
           to: points.styleWaistOut,
           x: points.bottomLeftAnchor.x,
           id: 'vdOut4',
@@ -408,9 +408,9 @@ paths['split' + i] = new Path()
         id: 'hdIn4',
       })
       macro('hd', {
-        from: paths.inseam.edge('left'),
+        from: points.splitIn,
         to: points.topRightAnchor,
-        y: paths.inseam.edge('left').y,
+        y: points.splitIn.y,
         id: 'hdIn5',
       })
       macro('hd', {
@@ -433,7 +433,7 @@ paths['split' + i] = new Path()
       })
       macro('vd', {
         from: points.floorOutROut,
-        to: paths.outSeam.edge('right'),
+        to: points.splitOutR,
         x: points.bottomLeftAnchor.x,
         id: 'vdOut1',
       })
@@ -477,14 +477,14 @@ paths['split' + i] = new Path()
         })
       }
       macro('vd', {
-        from: paths.inseam.edge('left'),
+        from: points.splitIn,
         to: points.fork,
         x: points.topRightAnchor.x,
         id: 'vdIn4',
       })
       macro('vd', {
         from: points.floorInRIn,
-        to: paths.inseam.edge('left'),
+        to: points.splitIn,
         x: points.topRightAnchor.x,
         id: 'vdIn5',
       })
