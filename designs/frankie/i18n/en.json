@@ -1,7 +1,18 @@
 {
   "t": "Frankie flared trousers",
   "d": "Frankie is a flared trouser pattern",
-  "p": { },
+  "p": {
+    "back": "Back",
+    "frontBase": "Front Base",
+    "front": "Front",
+    "fly": "Fly",
+    "buttonholePlacket": "Buttonhole Placket",
+    "flyShield": "Fly Shield",
+    "waistband": "Waistband",
+    "frontPocketBag": "Front Pocket Bag",
+    "sidePocket": "Side Pocket",
+    "beltLoops": "Belt Loops"
+   },
   "s": {
     "cutBeltloops.t": "The belt loops are not shown",
     "cutBeltloops.d": "The **Belt loops** are a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} long that is cut into {{{ count }}} pieces.",
@@ -10,5 +21,330 @@
     "cutWaistband.t": "The waistband is not shown",
     "cutWaistband.d": "The **waistband** is a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} with a placket line {{{ placket }}} from the right & a overlap line {{{ overlap }}}."
    },
-  "o": { }
+  "o": {
+    "waistHeight": {
+      "t": "Waist height",
+      "d": "Controls the height of the waist, 100% = waist height, 0% = hip height"
+    },
+    "lengthBonus": {
+      "t": "Length bonus",
+      "d": "Controls the length of the trousers"
+    },
+    "crotchDrop": {
+      "t": "Crotch drop",
+      "d": "Lowers the crotch for a more relaxed fit"
+    },
+    "legBalance": {
+      "t": "Leg balance",
+      "d": "Controls the ratio between front and back panel of the leg"
+    },
+    "crossSeamCurveStart": {
+      "t": "Start of the cross seam curve",
+      "d": "Controls how far into the cross seam we start to curve"
+    },
+    "crossSeamCurveBend": {
+      "t": "Cross seam bend",
+      "d": "Controls the curvature of the cross seam"
+    },
+    "crossSeamCurveAngle": {
+      "t": "Cross seam angle",
+      "d": "Controls the angle of the cross seam"
+    },
+    "crotchSeamCurveStart": {
+      "t": "Start of the crotch seam curve",
+      "d": "Controls how far into the crotch seam we start to curve"
+    },
+    "crotchSeamCurveBend": {
+      "t": "Crotch seam bend",
+      "d": "Controls the curvature of the crotch seam"
+    },
+    "crotchSeamCurveAngle": {
+      "t": "Crotch seam angle",
+      "d": "Controls the angle of the crotch seam"
+    },
+    "seatEase": {
+      "t": "Seat ease",
+      "d": "Controls the amount of ease at your seat"
+    },
+    "waistBalance": {
+      "t": "Waist balance",
+      "d": "Controls the horizontal position of the waist relative to the seat"
+    },
+    "waistbandWidth": {
+      "t": "Waistband width",
+      "d": "The width of the waistband"
+    },
+    "waistEase": {
+      "t": "Waist ease",
+      "d": "Controls the amount of ease at your waist"
+    },
+    "waistAngle":  {
+      "t": "Waistband angle",
+      "d": "Change the angle of the waistband when viewed from the side"
+    },
+    "useWaistAngleFor": {
+      "t": "Use waistband angle for",
+      "d": "Apply the waistband angle to the front, back or both"
+    },
+    "useWaistAngleFor.both": {
+      "t": "Both",
+      "d": "Apply the waistband angle to the front and back"
+    },
+     "useWaistAngleFor.backOnly": {
+      "t": "Back",
+      "d": "Apply the waistband angle only to the back"
+    },
+     "useWaistAngleFor.frontOnly": {
+      "t": "Front",
+      "d": "Apply the waistband angle only to the front"
+    },
+    "grainlinePosition": {
+      "t": "Grainline position",
+      "d": "Controls the horizontal position of the leg relative to the seat"
+    },
+    "beltLoopDoubleFolded": {
+      "t": "Belt loop double folded",
+      "d": "Controls whether the belt loop has to be folded in half or not."
+    },
+    "beltLoopDoubleFoldedNo": {
+      "t": "Draft single folded belt loops",
+      "d": "The belt loop does not have to be folded in half."
+    },
+    "beltLoopDoubleFoldedYes": {
+      "t": "Draft doubled folded belt loops",
+      "d": "The belt loops has to be folded in half."
+    },
+    "beltLoopNumber": {
+      "t": "Belt loop number",
+      "d": "Controls how man belt loops to include."
+    },
+    "beltLoops": {
+      "t": "Belt loops",
+      "d": "Controls whether to draft belt loops or not."
+    },
+    "beltLoopsNo": {
+      "t": "Do not draft belt loops",
+      "d": "Belt loops are not drafted."
+    },
+    "beltLoopsYes": {
+      "t": "Do draft belt loops",
+      "d": "Belt loops are drafted."
+    },
+    "beltLoopWidth": {
+      "t": "Belt loop width",
+      "d": "Controls the width of the belt loops."
+    },
+    "buttonholePlacket": {
+      "t": "Buttonhole Placket",
+      "d": "Controls whether the fly is drafted with a buttonhole placket."
+    },
+    "buttonholePlacketNo": {
+      "t": "Draft zipper fly",
+      "d": "The fly is drafted without a buttonhole placket."
+    },
+    "buttonholePlacketYes": {
+      "t": "Draft buttonhole fly",
+      "d": "The fly is drafted with a buttonhole placket."
+    },
+    "buttonholePlacketNum": {
+      "t": "Buttonhole Placket Number",
+      "d": "Controls the number of buttonholes the buttonhole placket is drafted with."
+    },
+    "crossSeamSaWidth": {
+      "t": "Cross seam seam allowance width",
+      "d": "Multiplies the cross seam seam allowance."
+    },
+    "crotchSeamSaWidth": {
+      "t": "Crotch seam seam allowance width",
+      "d": "Multiplies the crotch seam seam allowance."
+    },
+    "flyLength": {
+      "t": "Fly length",
+      "d": "Controls the length of the fly."
+    },
+    "flyShieldCurved": {
+      "t": "Fly shield curved",
+      "d": "Controls whether the fly shield is drafted curved or not."
+    },
+    "flyShieldCurvedNo": {
+      "t": "Draft the fly shield straight",
+      "d": "The fly shield is drafted without a curve."
+    },
+    "flyShieldCurvedYes": {
+      "t": "Draft the fly shield curved",
+      "d": "The fly shield is drafted with a curve."
+    },
+    "flyWidth": {
+      "t": "Fly width",
+      "d": "Controls the width of the fly."
+    },
+    "frontPocketBagSaWidth": {
+      "t": "Front pocket bag seam allowance width",
+      "d": "Multiplies the Front pocket bag seam allowance."
+    },
+    "frontPocketBagDepth": {
+      "t": "Front pocket depth",
+      "d": "Controls the depth of the front pocket bag."
+    },
+    "frontPocketFacingWidth": {
+      "t": "Front pocket facing width",
+      "d": "Controls the width of the front pocket bag facing."
+    },
+    "frontPocketOpeningDepth": {
+      "t": "Front pocket opening depth",
+      "d": "Controls where the front pocket opening starts."
+    },
+    "frontPocketOpeningLength": {
+      "t": "Front pocket opening length",
+      "d": "Controls the length of the opening for the front pocket."
+    },
+    "frontPocketsBool": {
+      "t": "Front pockets",
+      "d": "Controls whether to draft front pockets."
+    },
+    "frontPocketsBoolNo": {
+      "t": "Do not draft front pockets",
+      "d": "Front pockets are not drafted."
+    },
+    "frontPocketsBoolYes": {
+      "t": "Do draft front pockets",
+      "d": "Front pockets are drafted."
+    },
+    "frontPocketWidth": {
+      "t": "Front pocket width",
+      "d": "Controls the width of the front pocket bag."
+    },
+    "hemWidth": {
+      "t": "Hem allowance width",
+      "d": "Controls the width of the hem allowance."
+    },
+    "inheritFrontPocket": {
+      "t": "Inherit front pockets",
+      "d": "Controls whether the front pocket bag inherits seams from the front legs"
+    },
+    "inheritFrontPocketNo": {
+      "t": "Do not inherit seams",
+      "d": "The front pocket does not inherit seams from the front leg."
+    },
+    "inheritFrontPocketYes": {
+      "t": "Do inherit seams",
+      "d": "The front pocket does inherit seams from the front leg."
+    },
+    "inseamSaWidth": {
+      "t": "Inseam seam allowance width",
+      "d": "Multiplies the inseam seam allowance."
+    },
+    "legCurve": {
+      "t": "Leg curve",
+      "d": "Controls the tightness of the leg curves."
+    },
+    "legFlare": {
+      "t": "Leg flare",
+      "d": "Controls the angle used to draft the leg flare."
+    },
+    "legFlareHeight": {
+      "t": "Leg flare height",
+      "d": "Controls where the flare is drafted on the leg. 100% is at the knee."
+    },
+    "legFlareLock": {
+      "t": "Leg flare lock",
+      "d": "Controls whether the sideseam flare is locked to below the fork or can travel up to the waist."
+    },
+    "legFlareLockNo": {
+      "t": "Allow the side seam to travel past the fork",
+      "d": "The side seam flare can travel to the waist."
+    },
+    "legFlareLockYes": {
+      "t": "Lock the side seam flare below the fork",
+      "d": "The side seam flare is locked below the fork."
+    },
+    "legFlareSplit": {
+      "t": "Leg flare split",
+      "d": "Controls where to start the split for the leg flares."
+    },
+    "sidePocketDepth": {
+      "t": "Side pocket depth",
+      "d": "Controls the depth of the side pockets."
+    },
+    "sidePocketFolded": {
+      "t": "Side pocket depth",
+      "d": "Controls whether the side pocket is drafted by folding in half or the top is folded down."
+    },
+    "sidePocketFoldedNo": {
+      "t": "Draft with a top fold",
+      "d": "The side pocket is drafted with a top down fold."
+    },
+    "sidePocketFoldedYes": {
+      "t": "Draft to fold in half ",
+      "d": "The side pocket is drafted to fold in half."
+    },
+    "sidePocketFoldLength": {
+      "t": "Side pocket fold length",
+      "d": "Controls the length of the fold at the top of the side pocket."
+    },
+    "sidePocketPlacement": {
+      "t": "Side pocket placement",
+      "d": "Controls the placement of the side pocket along the side seam."
+    },
+    "sidePocketsBool": {
+      "t": "Side pockets",
+      "d": "Controls whether to draft side pockets."
+    },
+    "sidePocketsBoolNo": {
+      "t": "Do not draft side pockets",
+      "d": "Side pockets are not drafted."
+    },
+    "sidePocketsBoolYes": {
+      "t": "Do draft side pockets",
+      "d": "Side pockets are drafted."
+    },
+    "sidePocketWidth": {
+      "t": "Side pocket width",
+      "d": "Controls the width of the side pockets."
+    },
+    "sideSeamSaWidth": {
+      "t": "Side seam seam allowance width",
+      "d": "Multiplies the side seam seam allowance."
+    },
+    "titanGuide": {
+      "t": "Show Titan",
+      "d": "Whether to show the underlying Titan block Frankie is based on."
+    },
+    "titanGuideNo": {
+      "t": "Do not show Titan",
+      "d": "Titan is not shown"
+    },
+    "titanGuideYes": {
+      "t": "Do show Titan",
+      "d": "Titan is shown."
+    },
+    "waistbandCurved": {
+      "t": "Waistband curved",
+      "d": "Whether the waistband is drafted straight or curved."
+    },
+    "waistbandCurvedNo": {
+      "t": "Draft a straight waistband",
+      "d": "The waistband is drafted straight."
+    },
+    "waistbandCurvedYes": {
+      "t": "Draft a curved waistband",
+      "d": "The waistband is drafted curved."
+    },
+    "waistbandFolded": {
+      "t": "Waistband folded",
+      "d": "Whether the straight waistband is drafted with a fold."
+    },
+    "waistbandFoldedNo": {
+      "t": "Draft without a fold",
+      "d": "The straight waistband is drafted without a fold."
+    },
+    "waistbandFoldedYes": {
+      "t": "Draft with a fold",
+      "d": "The straight waistband is drafted with a fold."
+    },
+    "waistbandOverlap": {
+      "t": "Waistband overlap",
+      "d": "Controls the overlap width of the waistband."
+    }
+   }
 }
