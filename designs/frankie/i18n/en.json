@@ -275,7 +275,7 @@
       "d": "Controls the depth of the side pockets."
     },
     "sidePocketFolded": {
-      "t": "Side pocket depth",
+      "t": "Side pocket folded",
       "d": "Controls whether the side pocket is drafted by folding in half or the top is folded down."
     },
     "sidePocketFoldedNo": {
