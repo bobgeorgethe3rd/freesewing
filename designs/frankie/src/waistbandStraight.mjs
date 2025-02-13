@@ -13,48 +13,20 @@ export const waistbandStraight = {
     Snippet,
     macro,
     paperless,
-    expand,
-    units,
-    part,
     absoluteOptions,
   }) => {
     //measures
-    const waistbandLength = store.get('waistbandLength')
-    const waistbandOverlap = store.get('waistbandOverlap')
     const waistbandPlacketWidth = store.get('waistbandPlacketWidth')
     const waistbandWidth = options.waistbandFolded
       ? absoluteOptions.waistbandWidth * 2
       : absoluteOptions.waistbandWidth
-    //expand
-    if (!expand && !options.waistbandCurved) {
-      store.flag.note({
-        msg: `franklin:waistbandStraight`,
-        notes: [sa ? 'flag:saIncluded' : 'flag:saExcluded', 'flag:partHiddenByExpand'],
-        replace: {
-          width: units(waistbandWidth + sa * 2),
-          length: units(waistbandPlacketWidth + waistbandLength + waistbandOverlap + sa * 2),
-          overlap: options.waistbandOverlap,
-          placketWidth: waistbandPlacketWidth,
-        },
-        suggest: {
-          text: 'flag:show',
-          icon: 'expand',
-          update: {
-            settings: ['expand', 1],
-          },
-        },
-      })
-      return part.hide()
-    } else {
-      store.flag.preset('expandIsOff')
-    }
     //let's begin
     points.origin = new Point(0, 0)
-    points.topLeft = points.origin.translate(waistbandLength / -2, waistbandWidth / -2)
+    points.topLeft = points.origin.translate(store.get('waistbandLength') / -2, waistbandWidth / -2)
     points.bottomLeft = points.topLeft.flipY(points.origin)
     points.bottomRight = points.bottomLeft.flipX(points.origin)
     points.topRight = points.bottomRight.flipY(points.origin)
-    points.topLeftEx = points.topLeft.shift(180, waistbandOverlap)
+    points.topLeftEx = points.topLeft.shift(180, store.get('waistbandOverlap'))
     points.bottomLeftEx = points.topLeftEx.flipY(points.origin)
     points.topRightEx = points.topRight.shift(0, waistbandPlacketWidth)
     points.bottomRightEx = points.topRightEx.flipY(points.origin)

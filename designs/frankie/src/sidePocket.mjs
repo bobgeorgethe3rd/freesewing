@@ -52,11 +52,11 @@ export const sidePocket = {
         })
       }
       return part.hide()
-    } else {
-      if (expand) {
+    }
+     //hint at expand
+      if (expand && options.sidePocketsBool) {
         store.flag.preset('expandIsOff')
       }
-    }
     //let's begin
     points.origin = new Point(0, 0)
     points.topLeft = points.origin.translate(store.get('sidePocketWidth') / -2, length / -2)
