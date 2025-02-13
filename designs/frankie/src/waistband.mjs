@@ -52,8 +52,15 @@ export const waistband = {
         msg: `franklin:waistbandStraight`,
         notes: [sa ? 'flag:saIncluded' : 'flag:saExcluded', 'flag:partHiddenByExpand'],
         replace: {
-          width: units((options.waistbandFolded ? absoluteOptions.waistbandWidth * 2 : absoluteOptions.waistbandWidth) + sa * 2),
-          length: units(waistbandPlacketWidth + store.get('waistbandLength') +  waistbandOverlap + sa * 2),
+          width: units(
+            (options.waistbandFolded
+              ? absoluteOptions.waistbandWidth * 2
+              : absoluteOptions.waistbandWidth) +
+              sa * 2
+          ),
+          length: units(
+            waistbandPlacketWidth + store.get('waistbandLength') + waistbandOverlap + sa * 2
+          ),
           overlap: waistbandOverlap,
           placketWidth: waistbandPlacketWidth,
         },
@@ -68,10 +75,10 @@ export const waistband = {
       return part.hide()
     }
     //hint at expand
-      if (expand &&!options.waistbandCurved) {
+    if (expand && !options.waistbandCurved) {
       store.flag.preset('expandIsOff')
-      }
-    
+    }
+
     //draft method
     if (options.waistbandCurved) waistbandCurved.draft(sh)
     else waistbandStraight.draft(sh)
