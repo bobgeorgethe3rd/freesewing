@@ -14,12 +14,12 @@
     "beltLoops": "Belt Loops"
    },
   "s": {
-    "cutBeltloops.t": "The belt loops are not shown",
-    "cutBeltloops.d": "The **Belt loops** are a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} long that is cut into {{{ count }}} pieces.",
+    "cutBeltLoops.t": "The belt loops are not shown",
+    "cutBeltLoops.d": "The **Belt loops** are a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} long that is cut into {{{ count }}} pieces.",
     "cutSidePocket.t": "The side pocket is not shown",
     "cutSidePocket.d": "The **Side pocket** is a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} with a fold line {{{ fold }}} from the top.",
     "cutWaistband.t": "The waistband is not shown",
-    "cutWaistband.d": "The **waistband** is a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} with a placket line {{{ placket }}} from the right & a overlap line {{{ overlap }}}."
+    "cutWaistband.d": "The **waistband** is a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} with a placket line {{{ placket }}} from the right & a overlap line {{{ overlap }}} from the left."
    },
   "o": {
     "waistHeight": {
@@ -186,6 +186,10 @@
       "t": "Front pocket depth",
       "d": "Controls the depth of the front pocket bag."
     },
+    "frontPocketDepth": {
+      "t": "Front pocket depth",
+      "d": "Controls the depth of the front pocket bag."
+    },
     "frontPocketFacingWidth": {
       "t": "Front pocket facing width",
       "d": "Controls the width of the front pocket bag facing."
@@ -241,6 +245,10 @@
     "legFlare": {
       "t": "Leg flare",
       "d": "Controls the angle used to draft the leg flare."
+    },
+    "legFlareBalance": {
+      "t": "Leg flare balance",
+      "d": "Controls the distribution of the flare between the side and inseams."
     },
     "legFlareHeight": {
       "t": "Leg flare height",
