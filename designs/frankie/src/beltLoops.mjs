@@ -43,7 +43,7 @@ export const beltLoops = {
     if (!options.beltLoops || !expand) {
       if (!expand) {
         store.flag.note({
-          msg: `franklin:beltLoop`,
+          msg: `frankie:cutBeltLoop`,
           notes: [sa ? 'flag:saIncluded' : 'flag:saExcluded', 'flag:partHiddenByExpand'],
           replace: {
             width: units(beltLoopWidth),
