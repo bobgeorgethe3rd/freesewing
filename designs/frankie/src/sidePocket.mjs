@@ -40,7 +40,7 @@ export const sidePocket = {
             length: units(length + sa * 2),
             fold: units(
               (options.sidePocketFolded
-                ? sidePocketLength * 0.5
+                ? sidePocketLength
                 : sidePocketLength * options.sidePocketFoldLength) + sa
             ),
           },
