@@ -497,34 +497,40 @@ paths['split' + i] = new Path()
       })
       macro('hd', {
         from: points.bottomLeftAnchor,
+        to: points.splitIn,
+        y: points.splitIn.y,
+        id: 'hdIn3',
+      })
+      macro('hd', {
+        from: points.bottomLeftAnchor,
         to: points.fork,
         y: points.fork.y,
-        id: 'hdIn3',
+        id: 'hdIn4',
       })
       macro('hd', {
         from: points.bottomLeftAnchor,
         to: points.crossSeamCurveStart,
         y: points.crossSeamCurveStart.y,
-        id: 'hdIn4',
+        id: 'hdIn5',
       })
       macro('hd', {
         from: points.bottomLeftAnchor,
         to: points.styleWaistIn,
         y: points.styleWaistIn.y,
-        id: 'hdIn5',
+        id: 'hdIn6',
       })
       if (points.styleWaistOut.y < points.styleWaistIn.y) {
         macro('hd', {
           from: points.bottomLeftAnchor,
           to: points.styleWaistOut,
           y: points.styleWaistOut.y,
-          id: 'hdIn6',
+          id: 'hdIn7',
         })
         macro('vd', {
           from: points.styleWaistIn,
           to: points.styleWaistOut,
           x: points.bottomLeftAnchor.x,
-          id: 'vdIn5',
+          id: 'vdIn6',
         })
       } else {
         macro('hd', {
@@ -605,21 +611,27 @@ paths['split' + i] = new Path()
       })
       macro('vd', {
         from: points.splitInR,
-        to: points.fork,
+        to: points.splitIn,
         x: points.bottomLeftAnchor.x,
         id: 'vdIn2',
+      })
+      macro('vd', {
+        from: points.splitIn,
+        to: points.fork,
+        x: points.bottomLeftAnchor.x,
+        id: 'vdIn3',
       })
       macro('vd', {
         from: points.fork,
         to: points.crossSeamCurveStart,
         x: points.bottomLeftAnchor.x,
-        id: 'vdIn3',
+        id: 'vdIn4',
       })
       macro('vd', {
         from: points.crossSeamCurveStart,
         to: points.styleWaistIn,
         x: points.bottomLeftAnchor.x,
-        id: 'vdIn4',
+        id: 'vdIn5',
       })
       macro('vd', {
         from: points.floorOutROut,
