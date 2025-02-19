@@ -414,16 +414,22 @@ paths['split' + i] = new Path()
         id: 'hdIn5',
       })
       macro('hd', {
+        from: points.splitInR,
+        to: points.topRightAnchor,
+        y: points.splitInR.y,
+        id: 'hdIn6',
+      })
+      macro('hd', {
         from: points.floorInRIn,
         to: points.topRightAnchor,
         y: points.floorInRIn.y,
-        id: 'hdIn6',
+        id: 'hdIn7',
       })
       macro('hd', {
         from: paths.hemBase.edge('bottom'),
         to: points.topRightAnchor,
         y: paths.hemBase.edge('bottom').y,
-        id: 'hdIn7',
+        id: 'hdIn8',
       })
       macro('vd', {
         from: paths.hemBase.edge('bottom'),
@@ -483,16 +489,22 @@ paths['split' + i] = new Path()
         id: 'vdIn4',
       })
       macro('vd', {
-        from: points.floorInRIn,
+        from: points.splitInR,
         to: points.splitIn,
         x: points.topRightAnchor.x,
         id: 'vdIn5',
       })
       macro('vd', {
+        from: points.floorInRIn,
+        to: points.splitIn,
+        x: points.topRightAnchor.x,
+        id: 'vdIn6',
+      })
+      macro('vd', {
         from: paths.hemBase.edge('bottom'),
         to: points.floorInRIn,
         x: points.topRightAnchor.x,
-        id: 'vdIn6',
+        id: 'vdIn7',
       })
       macro('hd', {
         from: points.bottomLeftAnchor,
