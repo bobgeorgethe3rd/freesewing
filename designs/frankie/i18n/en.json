@@ -23,7 +23,8 @@
     "failedPivotOutBack" : "points.pivotOut for back.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
     "failedSplitOutBack" : "points.splitOut for back.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
     "failedPivotOutFront" : "points.pivotOut for frontBase.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
-    "failedSplitOutFront" : "points.splitOut for frontBase.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message."
+    "failedSplitOutFront" : "points.splitOut for frontBase.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
+    "sidePocketLine" : "Bottom of the Side Pocket"
    },
   "o": {
     "waistHeight": {
