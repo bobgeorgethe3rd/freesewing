@@ -20,10 +20,14 @@
     "cutSidePocket.d": "The **Side pocket** is a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} with a fold line {{{ fold }}} from the top.",
     "cutWaistband.t": "The waistband is not shown",
     "cutWaistband.d": "The **waistband** is a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} with a placket line {{{ placket }}} from the right & a overlap line {{{ overlap }}} from the left.",
-    "failedPivotOutBack" : "points.pivotOut for back.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
-    "failedSplitOutBack" : "points.splitOut for back.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
-    "failedPivotOutFront" : "points.pivotOut for frontBase.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
-    "failedSplitOutFront" : "points.splitOut for frontBase.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
+    "failedPivotOutBack.t" : "Pivot Out intersect failed back",
+    "failedPivotOutBack.d" : "points.pivotOut for back.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
+    "failedSplitOutBack.t" : "Split Out intersect failed back",
+    "failedSplitOutBack.d" : "points.splitOut for back.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
+    "failedPivotOutFront.t" : "Pivot Out intersect failed front",
+    "failedPivotOutFront.d" : "points.pivotOut for frontBase.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
+    "failedSplitOutFront.t" : "Split Out intersect failed front",
+    "failedSplitOutFront.d" : "points.splitOut for frontBase.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
     "sidePocketLine" : "Bottom of the Side Pocket"
    },
   "o": {

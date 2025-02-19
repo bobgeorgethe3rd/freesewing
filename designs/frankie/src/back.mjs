@@ -135,7 +135,7 @@ export const back = {
     points.pivotOut = pivotOut ? pivotOut : points.seatOut
 
     if (!pivotOut) {
-      log.warn('failedPivotOutBack')
+      store.flag.warn({ msg: 'frankie:failedPivotOutBack' })
     }
 
     //guide for when tweaking. Please DO NOT remove.
@@ -283,7 +283,7 @@ paths['split' + i] = new Path()
           .shiftFractionAlong(1 - options.legFlareSplit)
 
     if (!splitOut) {
-      log.warn('failedSplitOutBack')
+      store.flag.warn({ msg: 'frankie:failedSplitOutBack' })
     }
 
     points.splitInR = paths.inseamR.shiftAlong(
