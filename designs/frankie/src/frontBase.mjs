@@ -101,7 +101,7 @@ export const frontBase = {
     points.pivotOut = pivotOut ? pivotOut : points.seatOut
 
     if (!pivotOut) {
-      log.warn('failedPivotOutFront')
+      store.flag.warn({ msg: 'frankie:failedPivotOutFront' })
     }
 
     points.pivotSplit0 = points.pivotOut.shiftFractionTowards(points.pivotIn, 0.25)
@@ -155,7 +155,7 @@ export const frontBase = {
       : drawOutseam().split(points.pivotOut)[0].shiftFractionAlong(options.legFlareSplit)
 
     if (!splitOut) {
-      log.warn('failedSplitOutFront')
+      store.flag.warn({ msg: 'frankie:failedSplitOutFront' })
     }
 
     points.splitOutR = paths.outSeamR.shiftAlong(
