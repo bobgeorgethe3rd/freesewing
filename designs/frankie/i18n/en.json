@@ -19,7 +19,11 @@
     "cutSidePocket.t": "The side pocket is not shown",
     "cutSidePocket.d": "The **Side pocket** is a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} with a fold line {{{ fold }}} from the top.",
     "cutWaistband.t": "The waistband is not shown",
-    "cutWaistband.d": "The **waistband** is a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} with a placket line {{{ placket }}} from the right & a overlap line {{{ overlap }}} from the left."
+    "cutWaistband.d": "The **waistband** is a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} with a placket line {{{ placket }}} from the right & a overlap line {{{ overlap }}} from the left.",
+    "failedPivotOutBack" : "points.pivotOut for back.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
+    "failedSplitOutBack" : "points.splitOut for back.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
+    "failedPivotOutFront" : "points.pivotOut for frontBase.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
+    "failedSplitOutFront" : "points.splitOut for frontBase.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message."
    },
   "o": {
     "waistHeight": {
