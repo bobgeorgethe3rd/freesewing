@@ -97,7 +97,12 @@ export const frontBase = {
       )
     }
     */
-    points.pivotOut = drawOutseam().intersectsY(points.pivotOutAnchor.y)[0]
+    const pivotOut = drawOutseam().intersectsY(points.pivotOutAnchor.y)[0]
+    points.pivotOut = pivotOut ? pivotOut : points.seatOut
+
+    if (!pivotOut) {
+      log.warn('failedPivotOutFront')
+    }
 
     points.pivotSplit0 = points.pivotOut.shiftFractionTowards(points.pivotIn, 0.25)
     if (points.pivotSplit0.x > points.floorOut.x) {
@@ -121,7 +126,7 @@ export const frontBase = {
       options.legFlareSplit
     )
     points.splitOutAnchor = points.pivotOutAnchorMin.shiftFractionTowards(
-      points.pivotOutAnchor,
+      new Point(points.pivotOutAnchor.x, points.pivotOut.y),
       options.legFlareSplit
     )
 
@@ -144,7 +149,14 @@ export const frontBase = {
       )
     }
       */
-    points.splitOut = drawOutseam().intersectsY(points.splitOutAnchor.y)[0]
+    const splitOut = drawOutseam().intersectsY(points.splitOutAnchor.y)[0]
+    points.splitOut = splitOut
+      ? splitOut
+      : drawOutseam().split(points.pivotOut)[0].shiftFractionAlong(options.legFlareSplit)
+
+    if (!splitOut) {
+      log.warn('failedSplitOutFront')
+    }
 
     points.splitOutR = paths.outSeamR.shiftAlong(
       drawOutseam().split(points.pivotOut)[0].split(points.splitOut)[1].length()

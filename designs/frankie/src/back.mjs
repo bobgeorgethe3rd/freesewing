@@ -131,7 +131,12 @@ export const back = {
       )
     }
       */
-    points.pivotOut = drawOutseam().intersectsY(points.pivotOutAnchor.y)[0]
+    const pivotOut = drawOutseam().intersectsY(points.pivotOutAnchor.y)[0]
+    points.pivotOut = pivotOut ? pivotOut : points.seatOut
+
+    if (!pivotOut) {
+      log.warn('failedPivotOutBack')
+    }
 
     //guide for when tweaking. Please DO NOT remove.
     /*
@@ -240,7 +245,7 @@ paths['split' + i] = new Path()
       options.legFlareSplit
     )
     points.splitOutAnchor = points.pivotOutAnchorMin.shiftFractionTowards(
-      points.pivotOutAnchor,
+      new Point(points.pivotOutAnchor.x, points.pivotOut.y),
       options.legFlareSplit
     )
 
@@ -270,7 +275,16 @@ paths['split' + i] = new Path()
       )
     }
       */
-    points.splitOut = drawOutseam().intersectsY(points.splitOutAnchor.y)[0]
+    const splitOut = drawOutseam().intersectsY(points.splitOutAnchor.y)[0]
+    points.splitOut = splitOut
+      ? splitOut
+      : drawOutseam()
+          .split(points.pivotOut)[1]
+          .shiftFractionAlong(1 - options.legFlareSplit)
+
+    if (!splitOut) {
+      log.warn('failedSplitOutBack')
+    }
 
     points.splitInR = paths.inseamR.shiftAlong(
       paths.inseamInitial.split(points.pivotIn)[0].split(points.splitIn)[1].length()
