@@ -14,6 +14,9 @@
     "beltLoops": "Belt Loops"
    },
   "s": {
+    "sidePocketLine" : "Bottom of the Side Pocket",
+    "foldline" : "Foldline",
+    "pleatLine" : "Pleat Line",
     "cutBeltLoops.t": "The belt loops are not shown",
     "cutBeltLoops.d": "The **Belt loops** are a rectangular piece of fabric {{{ width }}} wide and {{{ length }}} long that is cut into {{{ count }}} pieces.",
     "cutSidePocket.t": "The side pocket is not shown",
@@ -28,7 +31,9 @@
     "failedPivotOutFront.d" : "points.pivotOut for frontBase.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
     "failedSplitOutFront.t" : "Split Out intersect failed front",
     "failedSplitOutFront.d" : "points.splitOut for frontBase.mjs had to draft with a failsafe method. You may wish to tweak your options to get rid of this message.",
-    "sidePocketLine" : "Bottom of the Side Pocket"
+    "sidePocketPleatNoFold.t" : "Side pocket folded disabled",
+    "sidePocketPleatNoFold.d" : "When Side pocket pleat is enabled, Side pocket folded is disabled."
+    
    },
   "o": {
     "waistHeight": {
