@@ -101,7 +101,12 @@ export const frontPocketBag = {
     //details
     //grainline
     points.grainlineFrom = points.styleWaistOut.shiftFractionTowards(points.frontPocketWaist, 0.75)
-    points.grainlineTo = new Point(points.grainlineFrom.x, points.frontPocketBottom.y)
+    points.grainlineTo = utils.beamsIntersect(
+      points.grainlineFrom,
+      points.styleWaistOut.rotate(90, points.grainlineFrom),
+      points.frontPocketBottom,
+      points.frontPocketBottom.shift(points.styleWaistOut.angle(points.styleWaistIn), 1)
+    )
     macro('grainline', {
       from: points.grainlineFrom,
       to: points.grainlineTo,
