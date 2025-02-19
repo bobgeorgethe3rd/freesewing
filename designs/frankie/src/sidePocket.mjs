@@ -50,6 +50,7 @@ export const sidePocket = {
                 ? sidePocketLength
                 : sidePocketLength * options.sidePocketFoldLength) + sa
             ),
+            pleat: units(sidePocketPleatWidth),
           },
           suggest: {
             text: 'flag:show',
