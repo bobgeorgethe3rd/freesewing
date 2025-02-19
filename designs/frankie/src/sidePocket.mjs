@@ -7,6 +7,8 @@ export const sidePocket = {
     //Pockets
     sidePocketFolded: { bool: false, menu: 'pockets.sidePockets' },
     sidePocketFoldLength: { pct: 25, min: 15, max: 30, menu: 'pockets.sidePockets' },
+    sidePocketPleat: { bool: false, menu: 'pockets.sidePockets' },
+    sidePocketPleatWidth: { pct: 50, min: 10, max: 100, menu: 'pockets.sidePockets' },
   },
   draft: ({
     store,
@@ -24,11 +26,16 @@ export const sidePocket = {
     part,
   }) => {
     //measures
-    const sidePocketLength = store.get('sidePocketDepth')
     const sidePocketWidth = store.get('sidePocketWidth')
-    const length = options.sidePocketFolded
-      ? sidePocketLength * 2
-      : sidePocketLength * (1 + options.sidePocketFoldLength)
+    const sidePocketPleatWidth = options.sidePocketPleat
+      ? sidePocketWidth * options.sidePocketPleatWidth
+      : 0
+    const sidePocketLength = store.get('sidePocketDepth')
+    const width = sidePocketWidth + sidePocketPleatWidth
+    const length =
+      options.sidePocketFolded && !options.sidePocketPleat
+        ? sidePocketLength * 2
+        : sidePocketLength * (1 + options.sidePocketFoldLength)
     //set render
     if (!options.sidePocketsBool || !expand) {
       if (!expand) {
@@ -36,7 +43,7 @@ export const sidePocket = {
           msg: `frankie:cutSidePocket`,
           notes: [sa ? 'flag:saIncluded' : 'flag:saExcluded', 'flag:partHiddenByExpand'],
           replace: {
-            width: units(sidePocketWidth + sa * 2),
+            width: units(width + sa * 2),
             length: units(length + sa * 2),
             fold: units(
               (options.sidePocketFolded
@@ -61,7 +68,7 @@ export const sidePocket = {
     }
     //let's begin
     points.origin = new Point(0, 0)
-    points.topLeft = points.origin.translate(store.get('sidePocketWidth') / -2, length / -2)
+    points.topLeft = points.origin.translate(width / -2, length / -2)
     points.bottomLeft = points.topLeft.flipY(points.origin)
     points.bottomRight = points.bottomLeft.flipX(points.origin)
     points.topRight = points.bottomRight.flipY(points.origin)
@@ -106,12 +113,41 @@ export const sidePocket = {
       scale: 0.5,
     })
     //foldline
-    if (complete)
+    if (complete) {
       paths.foldline = new Path()
         .move(points.topLeftNotch)
         .line(points.topRightNotch)
         .setClass('fabric help')
         .setText('foldline', 'center')
+    }
+    //pleat lines
+    if (options.sidePocketPleat) {
+      store.flag.note({
+        msg: `frankie:sidePocketPleatNoFold`,
+      })
+      if (complete) {
+        points.pleatTopLeft = new Point(-sidePocketPleatWidth / 2, points.topLeft.y)
+        points.pleatTopLeftFold = new Point(points.pleatTopLeft.x, points.topLeftNotch.y)
+        points.pleatTopRight = new Point(sidePocketPleatWidth / 2, points.topLeft.y)
+        points.pleatTopRightFold = new Point(points.pleatTopRight.x, points.topRightNotch.y)
+        points.pleatBottomLeft = new Point(points.pleatTopLeft.x, points.bottomLeft.y)
+        points.pleatBottomRight = new Point(points.pleatTopRight.x, points.bottomRight.y)
+        paths.pleatLeft = new Path()
+          .move(points.pleatTopLeft)
+          .line(points.pleatBottomLeft)
+          .addClass('fabric help')
+          .addText('pleatLine', 'center')
+        paths.pleatRight = new Path()
+          .move(points.pleatTopRight)
+          .line(points.pleatBottomRight)
+          .addClass('fabric help')
+          .addText('pleatLine', 'center')
+      }
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['pleatTopLeftFold', 'pleatTopRightFold', 'pleatBottomLeft', 'pleatBottomRight'],
+      })
+    }
     //paperless
     if (paperless) {
       macro('hd', {
