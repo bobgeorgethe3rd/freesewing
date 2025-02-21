@@ -132,7 +132,11 @@ export const back = {
     }
       */
     const pivotOut = drawOutseam().intersectsY(points.pivotOutAnchor.y)[0]
-    points.pivotOut = pivotOut ? pivotOut : points.waistOut.x > points.seatOut.x ? drawOutseam().intersectsY(points.knee.y)[0] : points.seatOut
+    points.pivotOut = pivotOut
+      ? pivotOut
+      : points.waistOut.x > points.seatOut.x
+        ? drawOutseam().intersectsY(points.knee.y)[0]
+        : points.seatOut
 
     if (!pivotOut) {
       store.flag.warn({ msg: 'frankie:failedPivotOutBack' })
