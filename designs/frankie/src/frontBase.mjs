@@ -98,7 +98,7 @@ export const frontBase = {
     }
     */
     const pivotOut = drawOutseam().intersectsY(points.pivotOutAnchor.y)[0]
-    points.pivotOut = pivotOut ? pivotOut : points.seatOut
+    points.pivotOut = pivotOut ? pivotOut : points.waistOut.x < points.seatOut.x ? drawOutseam().intersectsY(points.knee.y) : points.seatOut
 
     if (!pivotOut) {
       store.flag.warn({ msg: 'frankie:failedPivotOutFront' })
