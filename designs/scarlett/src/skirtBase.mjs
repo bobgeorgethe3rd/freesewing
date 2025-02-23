@@ -22,7 +22,7 @@ export const skirtBase = {
       snap: 3.175,
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
-    }, //altered for Scarlett
+    }, //Altered for Scarlett
     //Construction
     closurePosition: {
       dflt: 'front',

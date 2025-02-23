@@ -15,7 +15,8 @@ export const waistband = {
       dflt: 'right',
       list: ['right', 'left'],
       menu: 'style',
-    }, //altered for Scarlett
+    }, //Altered for Scarlett
+    waistbandFolded: { bool: true, menu: 'style' }, //Altered for Scarlett
   },
   after: [skirtBase, swingPanel, placket],
   plugins: [...waistbandStraight.plugins, ...waistbandCurved.plugins],
