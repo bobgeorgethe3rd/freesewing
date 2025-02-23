@@ -13,7 +13,7 @@ export const pocket = {
     weltPocketCurve: { pct: (1 / 3) * 100, min: 0, max: 100, menu: 'pockets.weltPockets' },
     weltPocketStyle: { dflt: 'curved', list: ['straight', 'curved'], menu: 'pockets.weltPockets' },
     //Construction
-    pocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    pocketBagSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
     //Advanced
     weltToAnchorLength: { pct: 0, min: -25, max: 50, menu: 'advanced.pockets' },
   },

@@ -22,7 +22,7 @@ export const pocket = {
       menu: 'pockets.boxPleatPockets',
     },
     //Construction
-    pocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    pocketBagSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
     //Advanced
     boxPleatPocketDepthRight: { pct: 75, min: 65, max: 80, menu: 'advanced.pockets' },
     boxPleatPocketTopWidth: { pct: (9 / 50) * 100, min: 15, max: 30, menu: 'advanced.pockets' },

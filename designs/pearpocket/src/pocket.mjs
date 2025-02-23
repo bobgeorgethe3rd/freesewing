@@ -15,7 +15,7 @@ export const pocket = {
     pearPocketToAnchor: { pct: (2 / 3) * 100, min: 30, max: 75, menu: 'pockets.pearPockets' },
     pearPocketCurvePlacement: { pct: 53.9, min: 40, max: 60, menu: 'pockets.pearPockets' },
     //Construction
-    pocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    pocketBagSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
     //Advanced
   },
   plugins: [pluginBundle],
