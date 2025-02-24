@@ -57,8 +57,8 @@ export const sleevecap = {
       void store.setIfUnset('raglanArmholeFrontAngle', 36)
     }
     //measures
-    const shoulderLength = store.get('shoulderLength')
-    // const scyeDepth = (store.get('scyeBackDepth') + store.get('scyeFrontDepth')) / 2 + shoulderLength
+    // const shoulderLength = store.get('shoulderLength')
+    const scyeDepth = (store.get('scyeBackDepth') + store.get('scyeFrontDepth')) / 2
     const sleeveCapDepth =
       (store.get('raglanScyeFrontDepth') + store.get('raglanScyeBackDepth')) / 2 //) + scyeDepth) / 2
     const raglanNeckBackAngle = store.get('raglanNeckBackAngle')
@@ -75,7 +75,7 @@ export const sleevecap = {
     let sleeveVertDelta
     do {
       points.hps = points.origin.shift(90, sleeveCapDepth * sleeveVertTweak)
-      points.sleeveTip = points.hps.shift(-90, shoulderLength)
+      points.sleeveTip = points.origin.shift(90, scyeDepth)
 
       points.cfNeckCorner = points.hps
         .shiftTowards(points.sleeveTip, store.get('neckFrontDepth'))
