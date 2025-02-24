@@ -12,7 +12,7 @@ export const frontPocketBag = {
     frontPocketBottomPlateau: { pct: 15, min: 0, max: 50, menu: 'pockets.frontPockets' },
     frontPocketDepth: { pct: 15, min: 0, max: 50, menu: 'pockets.frontPockets' }, //11.5
     //Construction
-    frontPocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    frontPocketBagSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
   },
   plugins: [pluginMirror],
   draft: ({

@@ -15,7 +15,7 @@ export const frontPocketBag = {
     frontPocketStyle: { dflt: 'pear', list: ['original', 'pear'], menu: 'pockets.frontPockets' },
     frontPocketWidth: { pct: 72.5, min: 50, max: 75, menu: 'pockets.frontPockets' },
     //Construction
-    frontPocketBagSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    frontPocketBagSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
   },
   plugins: [pluginMirror],
   draft: ({
