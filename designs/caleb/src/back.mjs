@@ -28,8 +28,8 @@ export const back = {
     waistEase: { pct: 6.4, min: 0, max: 20, menu: 'fit' }, //Altered for Caleb
     hipsEase: { pct: 5.9, min: 0, max: 20, menu: 'fit' }, //Altered for Caleb
     seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' }, //Altered for Caleb
-    kneeEase: { pct: 19.8, min: 0, max: 25, menu: 'fit' }, //Altered for Caleb
-    calfEase: { pct: 20.4, min: 0, max: 25, menu: 'fit' }, //Altered for Caleb
+    kneeEase: { pct: 19.6, min: 0, max: 25, menu: 'fit' }, //Altered for Caleb
+    calfEase: { pct: 20.1, min: 0, max: 25, menu: 'fit' }, //Altered for Caleb
     fitGuides: { bool: false, menu: 'fit' }, //Altered for Caleb
     daltonGuides: { bool: false, menu: 'fit' },
     //Style

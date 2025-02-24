@@ -33,8 +33,8 @@ export const front = {
     waistEase: { pct: 6.4, min: 0, max: 20, menu: 'fit' }, //Altered for Paul
     hipsEase: { pct: 5.9, min: 0, max: 20, menu: 'fit' }, //Altered for Paul
     seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' }, //Altered for Paul
-    kneeEase: { pct: 13.2, min: 0, max: 20, menu: 'fit' }, //Altered for Paul
-    calfEase: { pct: 13.6, min: 0, max: 20, menu: 'fit' }, //Altered for Paul
+    kneeEase: { pct: 13.1, min: 0, max: 20, menu: 'fit' }, //Altered for Paul
+    calfEase: { pct: 13.4, min: 0, max: 20, menu: 'fit' }, //Altered for Paul
     fitGuides: { bool: false, menu: 'fit' }, //Altered for Paul
     //Style
     waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //Altered for Paul

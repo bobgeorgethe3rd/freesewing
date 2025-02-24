@@ -25,8 +25,8 @@ export const backBase = {
     waistEase: { pct: 6.4, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson
     hipsEase: { pct: 5.9, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson
     seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson
-    kneeEase: { pct: 13.2, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson
-    calfEase: { pct: 13.6, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson
+    kneeEase: { pct: 13.1, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson
+    calfEase: { pct: 13.4, min: 0, max: 20, menu: 'fit' }, //Altered for Jackson
     fitGuides: { bool: false, menu: 'fit' }, //Altered for Jackson
     //Style
     waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //Altered for Jackson
