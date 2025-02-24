@@ -37,7 +37,7 @@ export const waistFacing = {
     if (complete) {
       //title
       macro('title', {
-        nr: 12,
+        nr: 10,
         title: 'Waist Facing',
         at: points.title,
         cutNr: 4,

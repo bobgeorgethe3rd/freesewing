@@ -101,7 +101,7 @@ export const backPanel = {
       //title
       points.title = points.waist6Cp2B.shiftFractionTowards(points.hemKCp1B, 0.5)
       macro('title', {
-        nr: 11,
+        nr: 9,
         title: 'Back Panel',
         at: points.title,
         cutNr: 2,

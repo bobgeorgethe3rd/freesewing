@@ -1,4 +1,5 @@
 import { placket as wandaPlacket } from '@freesewing/wanda'
+import { frontPlacket } from './frontPlacket.mjs'
 
 export const placket = {
   name: 'scarlett.placket',
@@ -27,13 +28,11 @@ export const placket = {
       part.hide()
       return part
     }
-    wandaPlacket.draft(sh)
-    //stores
-    store.set('placketLength', points.topLeft.dist(points.bottomLeft))
-    store.set('swingWidth', points.topLeft.dist(points.topRight))
-    if (options.closurePosition == 'front' && options.swingPanelStyle == 'connected') {
-      store.set('waistbandPlacketWidth', 0)
-    }
+    if (options.waistbandStyle != 'none' && options.closurePosition == 'front') {
+      frontPlacket.from.from.draft(sh)
+      frontPlacket.from.draft(sh)
+      frontPlacket.draft(sh)
+    } else wandaPlacket.draft(sh)
 
     if (complete) {
       //title

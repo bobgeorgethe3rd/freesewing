@@ -15,14 +15,14 @@ export const skirtBase = {
     crotchDrop: { pct: 2, min: 0, max: 15, menu: 'style' },
     skirtStyle: { dflt: 'straight', list: ['straight', 'bell', 'umbrella'], menu: 'style' },
     swingPanelStyle: { dflt: 'connected', list: ['connected', 'separate', 'none'], menu: 'style' },
-    waistbandWidth: {
-      pct: 3.75,
-      min: 1,
-      max: 8,
-      snap: 3.175,
-      ...pctBasedOn('waistToFloor'),
-      menu: 'style',
-    }, //Altered for Scarlett
+    // waistbandWidth: {
+    // pct: 3.75,
+    // min: 1,
+    // max: 8,
+    // snap: 3.175,
+    // ...pctBasedOn('waistToFloor'),
+    // menu: 'style',
+    // }, //Altered for Scarlett
     //Construction
     closurePosition: {
       dflt: 'front',

@@ -39,7 +39,7 @@ export const sideWaistFacing = {
     if (complete) {
       //title
       macro('title', {
-        nr: 13,
+        nr: 11,
         title: 'Side Waist Facing',
         at: points.title,
         cutNr: 4,

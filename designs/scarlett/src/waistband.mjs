@@ -44,23 +44,121 @@ export const waistband = {
         waistbandStraight.draft(sh)
       else waistbandCurved.draft(sh)
     }
-
+    //measurements
+    const waistbandWidth = store.get('waistbandWidth')
+    const bottomLength = paths.waistbandBottomCurve ? paths.waistbandBottomCurve.length() : 0
+    const topLength = paths.waistbandTopCurve ? paths.waistbandTopCurve.length() : 0
+    const width = topLength > bottomLength ? waistbandWidth * -1 : waistbandWidth
+    let markingOffset = store.get('swingWaisbandLength')
+    if (options.waistbandOverlapSide == 'right') markingOffset = markingOffset * -1
+    //let's begin
     if (complete) {
       //title
       let titleCutNum = 2
       if (options.waistbandFolded || options.waistbandStyle == 'curved') titleCutNum = 1
       macro('title', {
         at: points.title,
-        nr: 10,
+        nr: 8,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
         cutNr: titleCutNum,
         scale: 0.25,
       })
 
+      if (options.closurePosition == 'front') {
+        if (paths.waistbandLeftEx) paths.waistbandLeftEx.attr('data-text', 'Side Front', true)
+        if (paths.waistbandRightEx) paths.waistbandRightEx.attr('data-text', 'Side Front', true)
+        if (
+          options.waistbandStyle == 'straight' ||
+          !measurements.waistToHips ||
+          !measurements.hips
+        ) {
+          points.waistbandBottomLeftNotch = points.waistbandBottomLeftNotch.shift(0, markingOffset)
+          points.waistbandBottomMidNotch = points.waistbandBottomMidNotch.shift(0, markingOffset)
+          points.waistbandBottomRightNotch = points.waistbandBottomRightNotch.shift(
+            0,
+            markingOffset
+          )
+          points.waistbandTopLeftNotch = points.waistbandTopLeftNotch.shift(0, markingOffset)
+          points.waistbandTopMidNotch = points.waistbandTopMidNotch.shift(0, markingOffset)
+          points.waistbandTopRightNotch = points.waistbandTopRightNotch.shift(0, markingOffset)
+          points.sideFrontBottom =
+            options.waistbandOverlapSide == 'right'
+              ? points.waistbandBottomRight.shift(0, markingOffset * 2)
+              : points.waistbandBottomLeft.shift(0, markingOffset * 2)
+          points.sideFrontTop = new Point(points.sideFrontBottom.x, points.waistbandTopLeft.y)
+        } else {
+          points.waistbandBottomLeftNotch = paths.waistbandBottomCurve.shiftAlong(
+            bottomLength * 0.25 + markingOffset
+          )
+          points.waistbandBottomMidNotch = paths.waistbandBottomCurve.shiftAlong(
+            bottomLength * 0.5 + markingOffset
+          )
+          points.waistbandBottomRightNotch = paths.waistbandBottomCurve.shiftAlong(
+            bottomLength * 0.75 + markingOffset
+          )
+          points.waistbandTopLeftNotch = points.waistbandBottomLeftNotch.shiftTowards(
+            points.waistbandOrigin,
+            width
+          )
+          points.waistbandTopMidNotch = points.waistbandBottomMidNotch.shiftTowards(
+            points.waistbandOrigin,
+            width
+          )
+          points.waistbandTopRightNotch = points.waistbandBottomRightNotch.shiftTowards(
+            points.waistbandOrigin,
+            width
+          )
+          points.sideFrontBottom =
+            options.waistbandOverlapSide == 'right'
+              ? paths.waistbandBottomCurve.shiftAlong(bottomLength + markingOffset * 2)
+              : paths.waistbandBottomCurve.shiftAlong(markingOffset * 2)
+          points.sideFrontTop = points.sideFrontBottom.shiftTowards(points.waistbandOrigin, width)
+        }
+        paths.waistbandLeft = new Path()
+          .move(points.waistbandTopLeftNotch)
+          .line(points.waistbandBottomLeftNotch)
+          .attr('class', 'various')
+          .attr('data-text', 'Side Seam')
+          .attr('data-text-class', 'center')
+
+        paths.waistbandMid = new Path()
+          .move(points.waistbandTopMidNotch)
+          .line(points.waistbandBottomMidNotch)
+          .attr('class', 'various')
+          .attr('data-text', 'Centre Back')
+          .attr('data-text-class', 'center')
+
+        paths.waistbandRight = new Path()
+          .move(points.waistbandTopRightNotch)
+          .line(points.waistbandBottomRightNotch)
+          .attr('class', 'various')
+          .attr('data-text', 'Side Seam')
+          .attr('data-text-class', 'center')
+
+        paths.sideFront = new Path()
+          .move(points.sideFrontTop)
+          .line(points.sideFrontBottom)
+          .attr('class', 'various')
+          .attr('data-text', 'Side Front')
+          .attr('data-text-class', 'center')
+
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: [
+            'waistbandBottomLeftNotch',
+            'waistbandBottomMidNotch',
+            'waistbandBottomRightNotch',
+            'waistbandTopLeftNotch',
+            'waistbandTopMidNotch',
+            'waistbandTopRightNotch',
+            'sideFrontBottom',
+            'sideFrontTop',
+          ],
+        })
+      }
+
       if (options.waistbandStyle == 'straight' || !measurements.waistToHips || !measurements.hips) {
         //pleat lines & buttons
-        const buttonWidth = store.get('waistbandWidth') / 2
-        const buttonLength = store.get('swingWaisbandLength') - buttonWidth
         if (options.closurePosition == 'front') {
           points.pleatFrom0 = points.waistbandTopLeftNotch.shiftFractionTowards(
             points.waistbandTopMidNotch,
@@ -70,10 +168,6 @@ export const waistband = {
             points.waistbandTopRightNotch,
             0.5
           )
-          if (options.swingPanelStyle != 'none') {
-            points.swingButton0 = points.waistbandBottomLeft.translate(buttonLength, -buttonWidth)
-            points.swingButton1 = points.waistbandBottomRight.translate(-buttonLength, -buttonWidth)
-          }
         }
         if (options.closurePosition == 'back') {
           points.pleatFrom0 = points.waistbandTopLeft.shiftFractionTowards(
@@ -84,16 +178,6 @@ export const waistband = {
             points.waistbandTopRight,
             0.5
           )
-          if (options.swingPanelStyle == 'separate') {
-            points.swingButton0 = points.waistbandBottomMidNotch.translate(
-              -buttonLength,
-              -buttonWidth
-            )
-            points.swingButton1 = points.waistbandBottomMidNotch.translate(
-              buttonLength,
-              -buttonWidth
-            )
-          }
         }
         if (options.closurePosition == 'sideRight') {
           points.pleatFrom0 = points.waistbandTopRightNotch.shiftFractionTowards(
@@ -104,16 +188,6 @@ export const waistband = {
             points.waistbandTopRight,
             0.5
           )
-          if (options.swingPanelStyle == 'separate') {
-            points.swingButton0 = points.waistbandBottomLeftNotch.translate(
-              -buttonLength,
-              -buttonWidth
-            )
-            points.swingButton1 = points.waistbandBottomLeftNotch.translate(
-              buttonLength,
-              -buttonWidth
-            )
-          }
         }
         if (options.closurePosition == 'sideLeft') {
           points.pleatFrom0 = points.waistbandTopLeft.shiftFractionTowards(
@@ -124,78 +198,31 @@ export const waistband = {
             points.waistbandTopMidNotch,
             0.5
           )
-          if (options.swingPanelStyle == 'separate') {
-            points.swingButton0 = points.waistbandBottomRightNotch.translate(
-              -buttonLength,
-              -buttonWidth
-            )
-            points.swingButton1 = points.waistbandBottomRightNotch.translate(
-              buttonLength,
-              -buttonWidth
-            )
-          }
         }
         for (let i = 0; i < 2; i++) {
           points['pleatTo' + i] = new Point(points['pleatFrom' + i].x, points.waistbandBottomLeft.y)
-          if (options.waistbandFolded && points['swingButton' + i]) {
-            points['swingButton' + i + 'F'] = points['swingButton' + i].flipY(
-              points.waistbandBottomRight.shiftFractionTowards(points.waistbandTopRight, 0.5)
-            )
-            snippets['swingButton' + i + 'F'] = new Snippet(
-              'button',
-              points['swingButton' + i + 'F']
-            )
-          }
         }
       } else {
         //pleat lines & buttons
-        const buttonWidth = store.get('waistbandWidth') / 2
-        const buttonLength = store.get('swingWaisbandLength') - buttonWidth
-        const bottomCurveLength = paths.waistbandBottomCurve.length()
-
         if (options.closurePosition == 'front') {
-          points.pleatTo0 = paths.waistbandBottomCurve.shiftFractionAlong(3 / 8)
-          points.pleatTo1 = paths.waistbandBottomCurve.shiftFractionAlong(5 / 8)
-          if (options.swingPanelStyle != 'none') {
-            points.swingButton0A = paths.waistbandBottomCurve.shiftAlong(buttonLength)
-            points.swingButton1A = paths.waistbandBottomCurve.reverse().shiftAlong(buttonLength)
-          }
+          points.pleatTo0 = paths.waistbandBottomCurve.shiftAlong(
+            bottomLength * (3 / 8) + markingOffset
+          )
+          points.pleatTo1 = paths.waistbandBottomCurve.shiftAlong(
+            bottomLength * (5 / 8) + markingOffset
+          )
         }
         if (options.closurePosition == 'back') {
           points.pleatTo0 = paths.waistbandBottomCurve.shiftFractionAlong(1 / 8)
           points.pleatTo1 = paths.waistbandBottomCurve.shiftFractionAlong(7 / 8)
-          if (options.swingPanelStyle == 'separate') {
-            points.swingButton0A = paths.waistbandBottomCurve.shiftAlong(
-              bottomCurveLength / 2 - buttonLength
-            )
-            points.swingButton1A = paths.waistbandBottomCurve.shiftAlong(
-              bottomCurveLength / 2 + buttonLength
-            )
-          }
         }
         if (options.closurePosition == 'sideRight') {
           points.pleatTo0 = paths.waistbandBottomCurve.shiftFractionAlong(5 / 8)
           points.pleatTo1 = paths.waistbandBottomCurve.shiftFractionAlong(7 / 8)
-          if (options.swingPanelStyle == 'separate') {
-            points.swingButton0A = paths.waistbandBottomCurve.shiftAlong(
-              bottomCurveLength / 4 - buttonLength
-            )
-            points.swingButton1A = paths.waistbandBottomCurve.shiftAlong(
-              bottomCurveLength / 4 + buttonLength
-            )
-          }
         }
         if (options.closurePosition == 'sideLeft') {
           points.pleatTo0 = paths.waistbandBottomCurve.shiftFractionAlong(1 / 8)
           points.pleatTo1 = paths.waistbandBottomCurve.shiftFractionAlong(3 / 8)
-          if (options.swingPanelStyle == 'separate') {
-            points.swingButton0A = paths.waistbandBottomCurve.shiftAlong(
-              bottomCurveLength * (3 / 4) - buttonLength
-            )
-            points.swingButton1A = paths.waistbandBottomCurve.shiftAlong(
-              bottomCurveLength * (3 / 4) + buttonLength
-            )
-          }
         }
         for (let i = 0; i < 2; i++) {
           if (points.waistbandOrigin < points.waistbandBottomMid) {
@@ -203,23 +230,11 @@ export const waistband = {
               points['pleatTo' + i],
               points.waistbandTopMid.dist(points.waistbandBottomMid)
             )
-            if (points['swingButton' + i + 'A']) {
-              points['swingButton' + i] = points.waistbandOrigin.shiftOutwards(
-                points['swingButton' + i + 'A'],
-                buttonWidth
-              )
-            }
           } else {
             points['pleatFrom' + i] = points['pleatTo' + i].shiftTowards(
               points.waistbandOrigin,
               points.waistbandTopMid.dist(points.waistbandBottomMid)
             )
-            if (points['swingButton' + i + 'A']) {
-              points['swingButton' + i] = points['swingButton' + i + 'A'].shiftTowards(
-                points.waistbandOrigin,
-                buttonWidth
-              )
-            }
           }
         }
       }
@@ -231,13 +246,6 @@ export const waistband = {
           .attr('class', 'mark')
           .attr('data-text', 'Pleats Start')
           .attr('data-text-class', 'center')
-      }
-
-      if (points.swingButton0) {
-        macro('sprinkle', {
-          snippet: 'button',
-          on: ['swingButton0', 'swingButton1'],
-        })
       }
     }
     return part

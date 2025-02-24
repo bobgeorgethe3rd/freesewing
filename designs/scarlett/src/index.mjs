@@ -13,8 +13,8 @@ import { backPanel } from './backPanel.mjs'
 import { pocket } from './pocket.mjs'
 import { placket } from './placket.mjs'
 import { watchPocket } from './watchPocket.mjs'
-import { swingFacing } from './swingFacing.mjs'
-import { swingWaistband } from './swingWaistband.mjs'
+// import { swingFacing } from './swingFacing.mjs'
+// import { swingWaistband } from './swingWaistband.mjs'
 import { waistband } from './waistband.mjs'
 import { waistFacing } from './waistFacing.mjs'
 import { sideWaistFacing } from './sideWaistFacing.mjs'
@@ -33,8 +33,8 @@ const Scarlett = new Design({
     pocket,
     watchPocket,
     placket,
-    swingFacing,
-    swingWaistband,
+    // swingFacing,
+    // swingWaistband,
     waistband,
     waistFacing,
     sideWaistFacing,
@@ -53,8 +53,8 @@ export {
   pocket,
   watchPocket,
   placket,
-  swingFacing,
-  swingWaistband,
+  // swingFacing,
+  // swingWaistband,
   waistband,
   waistFacing,
   sideWaistFacing,
