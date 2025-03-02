@@ -160,6 +160,13 @@ export const back = {
       }
     }
 
+    if (options.sleeveStyle == 'inset') {
+      points.cbNeckCp1 = utils.beamIntersectsY(
+        points.hps,
+        points.shoulder.rotate((180 - (points.hps.angle(points.shoulder) - 270)) * -1, points.hps),
+        points.cbNeck.y
+      )
+    }
     paths.cbNeck = new Path().move(points.hps)._curve(points.cbNeckCp1, points.cbNeck).hide()
 
     paths.saLeft = new Path()

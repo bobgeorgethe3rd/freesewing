@@ -154,6 +154,15 @@ export const back = {
       points.bodiceSleeveTop = points.bodiceSleeveTopMin
       points.bodiceSleeveBottom = points.bodiceSleeveBottomMin
     }
+    //cbNeck
+    points.cbNeckCp1 = utils.beamIntersectsY(
+      points.hps,
+      points.shoulderRise.rotate(
+        (180 - (points.hps.angle(points.shoulderRise) - 270)) * -1,
+        points.hps
+      ),
+      points.cbNeck.y
+    )
 
     //guides
     if (options.daisyGuides) {

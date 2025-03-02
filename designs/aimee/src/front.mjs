@@ -41,7 +41,7 @@ export const front = {
     sleeveHemWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
     closurePosition: { dflt: 'back', list: ['front', 'back'], menu: 'construction' }, //Altered for Aimee
     //Advanced
-    shoulderRise: { pct: 1.6, min: 0, max: 2, menu: 'advanced' },
+    shoulderRise: { pct: 1.7, min: 0, max: 2, menu: 'advanced' },
     underArmCurve: { pct: 100, min: 50, max: 150, menu: 'advanced' },
     fullSleeves: { bool: true, menu: 'advanced' }, //So you can control separate sleeves later without affecting the bodice
   },
