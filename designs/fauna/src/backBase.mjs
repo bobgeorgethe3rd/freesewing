@@ -1,18 +1,15 @@
 import { back as backDaisy } from '@freesewing/daisy'
+import { frontBase } from './frontBase.mjs'
 
 export const backBase = {
   name: 'fauna.backBase',
   from: backDaisy,
+  after: frontBase,
   hide: {
     from: true,
     inherited: true,
   },
   options: {
-    //Constant
-    closurePosition: 'front', //Locked for Fauna
-    //Fit
-    daisyGuides: { bool: false, menu: 'fit' },
-    shoulderRise: { pct: 1.7, min: 0, max: 2, menu: 'fit' },
     //Style
     yokeBackDepth: { pct: (1 / 3) * 100, min: 25, max: 75, menu: 'style' },
     //Construction
@@ -42,7 +39,7 @@ export const backBase = {
     macro('title', false)
     macro('cutonfold', false)
     //measurements
-    const shoulderRise = measurements.hpsToWaistBack * options.shoulderRise
+    const shoulderRise = store.get('shoulderRise')
     //tweak armhole for shoulder pads
     points.shoulder = points.armholePitchCp2.shiftOutwards(points.shoulder, shoulderRise)
     points.armholePitch = points.cArmholePitch.shift(
@@ -116,7 +113,6 @@ export const backBase = {
     //paths.yoke = new Path().move(points.cbYoke).line(points.yokeBackSplit)
 
     //stores
-    store.set('shoulderRise', shoulderRise)
     store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
     store.set(
       'scyeBackDepth',

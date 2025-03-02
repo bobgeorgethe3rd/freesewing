@@ -1,15 +1,17 @@
 import { backBase } from './backBase.mjs'
+import { front } from './front.mjs'
 
 export const back = {
   name: 'fauna.back',
   from: backBase,
+  after: front,
   hide: {
     from: true,
-    inherited: true,
+    // inherited: true,
   },
   options: {
     //Style
-    backFullness: { pct: 0, min: 0, max: 100, menu: 'style' },
+    backFullnessBonus: { pct: 0, min: 0, max: 100, menu: 'style' },
   },
   measurements: [],
   draft: ({
@@ -38,7 +40,7 @@ export const back = {
     //fullness
     points.cbTop = points.yokeBackSplit.shiftFractionTowards(
       points.cbYoke,
-      1 + options.backFullness
+      1 + options.backFullnessBonus
     )
     //rotate
     points.gatherCurveStart = points.yokeBackSplit.shiftFractionTowards(points.cbYoke, 1 / 7)

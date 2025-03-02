@@ -5,7 +5,7 @@ export const yokeBack = {
   from: backBase,
   hide: {
     from: true,
-    inherited: true,
+    // inherited: true,
   },
   options: {
     yokeBackOnBias: { bool: false, menu: 'style' },
