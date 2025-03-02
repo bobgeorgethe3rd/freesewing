@@ -467,6 +467,14 @@
       "difficulty": 2,
       "tags": ["tops", "blouses"]
     },
+    "fauna": {
+      "description": "Fauna foldover collar blouse design",
+      "number": "0049",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["tops", "blouses", "historical"]
+    },
     "riley": {
       "description": "Riley raglan tee design ",
       "number": "0031",

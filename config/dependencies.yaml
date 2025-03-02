@@ -137,6 +137,9 @@ fallon:
     '@freesewing/inseampocket': *freesewing
     '@freesewing/boxpleatpocket': *freesewing
     '@freesewing/pearpocket': *freesewing
+fauna:
+  peer:
+    '@freesewing/daisy': *freesewing
 flyfront:
   peer:
     '@freesewing/dalton': *freesewing
