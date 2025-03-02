@@ -35,10 +35,12 @@ export const backBase = {
     snippets,
     Snippet,
   }) => {
+    //delete inherited paths
     for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
-    //removing macros not required from Bella
+    //removing macros not required from Daisy
     macro('title', false)
+    macro('cutonfold', false)
     //measurements
     const shoulderRise = measurements.hpsToWaistBack * options.shoulderRise
     //tweak armhole for shoulder pads
@@ -68,13 +70,7 @@ export const backBase = {
       points.cbNeck.y
     )
 
-    //paths
-    paths.armhole = new Path()
-      .move(points.armhole)
-      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
-      .curve_(points.armholePitchCp2, points.shoulder)
-      .hide()
-
+    //guides
     if (options.daisyGuides) {
       paths.daisyGuide = new Path()
         .move(points.cbWaist)
@@ -83,7 +79,8 @@ export const backBase = {
         .line(points.dartBottomRight)
         .line(points.sideWaist)
         .line(points.armhole)
-        .join(paths.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
         .line(points.hps)
         ._curve(points.cbNeckCp1, points.cbNeck)
         .line(points.cbWaist)
@@ -116,7 +113,7 @@ export const backBase = {
             points.cbYoke.y
           )
 
-    paths.yoke = new Path().move(points.cbYoke).line(points.yokeBackSplit)
+    //paths.yoke = new Path().move(points.cbYoke).line(points.yokeBackSplit)
 
     //stores
     store.set('shoulderRise', shoulderRise)
