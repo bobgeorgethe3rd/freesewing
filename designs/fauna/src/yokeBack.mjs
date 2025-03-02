@@ -98,6 +98,8 @@ export const yokeBack = {
       //notches
       if (points.armholePitch.y < points.yokeBackSplit.y)
         snippets.armholePitch = new Snippet('bnotch', points.armholePitch)
+
+      snippets.cbYoke = new Snippet('bnotch', points.cbYoke)
       //title
       points.title = new Point(points.title.x, (points.cbNeck.y + points.cbYoke.y) / 2)
       macro('title', {

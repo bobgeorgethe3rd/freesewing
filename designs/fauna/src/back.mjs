@@ -36,7 +36,7 @@ export const back = {
       points.dartTip.angle(points.dartBottomRight) - points.dartTip.angle(points.dartBottomLeft)
     //let's begin
     //fullness
-    points.topLeft = points.yokeBackSplit.shiftFractionTowards(
+    points.cbTop = points.yokeBackSplit.shiftFractionTowards(
       points.cbYoke,
       1 + options.backFullness
     )
@@ -179,8 +179,16 @@ export const back = {
       .line(points.gatherCurveStart)
       .curve(points.gatherCurveStartCp2, points.gatherCurveEndCp1, points.gatherCurveEnd)
       .line(points.cbYoke)
-      .line(points.topLeft)
+      .line(points.cbTop)
     //don't forget extra gathers section
+
+    if (complete) {
+      //notches
+      if (points.armholePitch.y > points.yokeBackSplit.y)
+        snippets.armholePitch = new Snippet('bnotch', points.armholePitch)
+
+      snippets.cbTop = new Snippet('bnotch', points.cbTop)
+    }
 
     return part
   },
