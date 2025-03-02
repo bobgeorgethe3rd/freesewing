@@ -41,9 +41,6 @@ export const back = {
       1 + options.backFullness
     )
     //rotate
-    points.dartBottomMid = points.dartBottomLeft
-    points.dartBottomLeft = points.hps.shiftFractionTowards(points.shoulder, 0.5)
-
     points.gatherCurveStart = points.yokeBackSplit.shiftFractionTowards(points.cbYoke, 1 / 7)
     points.gatherCurveEnd = points.yokeBackSplit.shiftFractionTowards(points.cbYoke, 6 / 7)
 
@@ -57,7 +54,6 @@ export const back = {
       'shoulder',
       'yokeBackSplit',
       'gatherCurveStart',
-      'dartBottomLeft',
     ]
     for (const p of rotFull) points[p] = points[p].rotate(-backDartAngle, points.dartTip)
     points.dartBottomRight = points.dartBottomLeft.rotate(backDartAngle, points.dartTip)
@@ -72,13 +68,12 @@ export const back = {
     if (options.daisyGuides) {
       paths.daisyGuide = new Path()
         .move(points.cbWaist)
-        .line(points.dartBottomMid)
+        .line(points.dartBottomLeft)
         .line(points.sideWaist)
         .line(points.armhole)
         .join(paths.armhole)
-        .line(points.dartBottomLeft)
+        .line(points.hps.rotate(-backDartAngle, points.dartTip))
         .line(points.dartTip)
-        .line(points.dartBottomRight)
         .line(points.hps)
         ._curve(points.cbNeckCp1, points.cbNeck)
         .line(points.cbWaist)
