@@ -152,6 +152,7 @@
   "collars": {
     "hood": {
       "description": "Hood design to be used in other designs",
+      "number": "C0021",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -159,6 +160,7 @@
     },
     "neckbandcurved": {
       "description": "Curved Neckband design to be used in other designs",
+      "number": "C0020",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -166,6 +168,7 @@
     },
     "neckbandstraight": {
       "description": "Straight Neckband design to be used in other designs",
+      "number": "C0019",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -173,6 +176,7 @@
     },
     "shirtcollar": {
       "description": "Shirt Collar design to be used in other designs",
+      "number": "C0016",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -301,6 +305,7 @@
   "pockets": {
     "boxpleatpocket": {
       "description": "Box Pleat Pocket design to be used in other designs",
+      "number": "C0011",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -308,6 +313,7 @@
     },
     "inseampocket": {
       "description": "Inseam Pocket design to be used in other designs",
+      "number": "C0009",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -315,6 +321,7 @@
     },
     "patchpocket": {
       "description": "Patch Pocket design to be used in other designs",
+      "number": "C0009",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -322,6 +329,7 @@
     },
     "pearpocket": {
       "description": "Pear Shaped Pocket design to be used in other designs",
+      "number": "C0012",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -329,6 +337,7 @@
     },
     "watchpocket": {
       "description": "Watch Pocket design to be used in other designs",
+      "number": "C0008",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -336,6 +345,7 @@
     },
     "weltpocket": {
       "description": "Welt Pocket design to be used in other designs",
+      "number": "C0013",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -395,6 +405,7 @@
   "sleeves": {
     "basicraglansleeve": {
       "description": "Basic Raglan Sleeve design to be used in other designs",
+      "number": "C0022",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -402,6 +413,7 @@
     },
     "basicsleeve": {
       "description": "Basic Sleeve design to be used in other designs",
+      "number": "C0002",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -409,6 +421,7 @@
     },
     "capsleeve": {
       "description": "Cap Sleeve design to be used in other designs",
+      "number": "C0017",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -416,6 +429,7 @@
     },
     "dolmansleeve": {
       "description": "Dolman Sleeve design to be used in other designs",
+      "number": "C0018",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -423,6 +437,15 @@
     },
     "fullshirtsleeve": {
       "description": "Full Shirt Sleeve design to be used in other designs",
+      "number": "C0014",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["sleeve"]
+    },
+    "gatherheadsleeve": {
+      "description": "Gather Head Sleeve design to be used in other designs",
+      "number": "C0027",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -430,6 +453,7 @@
     },
     "rufflebutterflysleeve": {
       "description": "Ruffle Butterfly Sleeve design to be used in other designs",
+      "number": "C0004",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -437,6 +461,7 @@
     },
     "simpleraglanshirtsleeve": {
       "description": "Simple Raglan Shirt Sleeve designto be used in other designs",
+      "number": "C0023",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -444,6 +469,7 @@
     },
     "simpleshirtsleeve": {
       "description": "Simple Shirt Sleeve design to be used in other designs",
+      "number": "C0015",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -451,6 +477,7 @@
     },
     "spreadsleeve": {
       "description": "Spread Sleeve design based of the Basic Sleeve design to be used in other designs",
+      "number": "C0003",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -519,6 +546,7 @@
   "waistbands": {
     "beltloops": {
       "description": "Belt Loop design to be used in other designs",
+      "number": "C0007",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -526,6 +554,7 @@
     },
     "flyfront": {
       "description": "Fly Front design to be used in other designs",
+      "number": "C0024",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -533,6 +562,7 @@
     },
     "legbandcurved": {
       "description": "Curved leg band design to be used in other designs",
+      "number": "C0026",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -540,6 +570,7 @@
     },
     "legbandstraight": {
       "description": "Straight leg band design to be used in other designs",
+      "number": "C0025",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -547,6 +578,7 @@
     },
     "waistbandcurved": {
       "description": "Curved Waistband design to be used in other designs",
+      "number": "C0006",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
@@ -554,6 +586,7 @@
     },
     "waistbandstraight": {
       "description": "Straight Waistband design to be used in other designs",
+      "number": "C0005",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
       "difficulty": 1,

@@ -140,6 +140,8 @@ fallon:
 fauna:
   peer:
     '@freesewing/daisy': *freesewing
+    '@freesewing/gatherheadsleeve': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 flyfront:
   peer:
     '@freesewing/dalton': *freesewing
@@ -152,6 +154,9 @@ fullshirtsleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing
     '@freesewing/plugin-mirror': *freesewing
+gatherheadsleeve:
+  peer:
+    '@freesewing/basicsleeve': *freesewing
 harriet:
   _:
     '@freesewing/claude': *freesewing
