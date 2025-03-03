@@ -1,4 +1,3 @@
-import { pctBasedOn } from '@freesewing/core'
 import { sleeve as basicsleeve } from '@freesewing/basicsleeve'
 
 export const sleeveBase = {
