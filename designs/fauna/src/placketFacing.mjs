@@ -33,17 +33,16 @@ export const placketFacing = {
       return part
     }
     //delete inherited paths
-    const keepThese = ['mCfNeck', 'facingCurve']
+    const keepThese = ['mHemBase', 'mCfNeck', 'facingCurve']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
     //paths
-
+    paths.hemBase = paths.mHemBase.reverse().split(points.mFacingBottom)[1]
     paths.cfNeck = paths.mCfNeck.reverse()
 
-    paths.seam = new Path()
-      .move(points.mFacingBottom)
-      .line(points.placketBottomLeft)
+    paths.seam = paths.hemBase
+      .clone()
       .line(points.placketTopLeft)
       .join(paths.cfNeck)
       .line(points.facingShoulder)
@@ -76,7 +75,19 @@ export const placketFacing = {
         const placketFacingSa = sa * options.placketFacingSaWidth * 100
         const hemSa = sa * options.hemWidth * 100
 
-        points.saMFacingBottom = points.mFacingBottom.translate(-placketFacingSa, hemSa)
+        points.saMFacingBottom = utils.beamIntersectsX(
+          paths.hemBase.offset(hemSa).start(),
+          paths.hemBase.offset(hemSa).shiftFractionAlong(0.005),
+          points.mFacingBottom.x - placketFacingSa
+        )
+
+        if (points.saMFacingBottom.x > paths.hemBase.offset(hemSa).start().x) {
+          points.saMFacingBottom = paths.hemBase.offset(hemSa).start()
+        }
+        if (points.saMFacingBottom.y < paths.facingCurve.offset(placketFacingSa).end().y) {
+          points.saMFacingBottom = paths.facingCurve.offset(placketFacingSa).end()
+        }
+
         points.saPlacketBottomLeft = points.placketBottomLeft.translate(sa, hemSa)
         points.saPlacketTopLeft = new Point(points.saPlacketBottomLeft.x, points.saCfNeck.y)
         points.saFacingShoulder = utils.beamIntersectsX(
@@ -92,8 +103,9 @@ export const placketFacing = {
           )
         }
 
-        paths.sa = new Path()
-          .move(points.saMFacingBottom)
+        paths.sa = paths.hemBase
+          .clone()
+          .offset(hemSa)
           .line(points.saPlacketBottomLeft)
           .line(points.saPlacketTopLeft)
           .join(paths.cfNeck.offset(sa * options.neckSaWidth * 100))

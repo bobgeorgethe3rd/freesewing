@@ -173,8 +173,65 @@ export const back = {
       0.5
     )
 
+    //hem
+    const hips = store.get('hips')
+    const seat = store.get('seat')
+    const midWidth = hips < points.sideWaist.x * 4 ? points.sideWaist.x * 1.25 : hips * 0.25
+
+    const maxWidth = seat < points.sideWaist.x * 4 ? points.sideWaist.x * 1.25 : seat * 0.25
+
+    const bodyWidth =
+      options.bodyLength < 0.5
+        ? points.sideWaist.x * (1 - 2 * options.bodyLength) + midWidth * (2 * options.bodyLength)
+        : midWidth * (2 - 2 * options.bodyLength) + maxWidth * (2 * options.bodyLength - 1)
+
+    points.sideHem = new Point(bodyWidth, points.sideWaist.y + store.get('bodyLength'))
+    points.sideHips = new Point(
+      midWidth,
+      points.sideWaist.y + measurements.waistToHips * (1 + options.bodyLengthBonus)
+    )
+    points.sideSeat = new Point(
+      maxWidth,
+      points.sideWaist.y + measurements.waistToSeat * (1 + options.bodyLengthBonus)
+    )
+
+    paths.sideSeamGuide = new Path()
+      .move(points.sideSeat)
+      .line(points.sideHips)
+      .line(points.sideWaist)
+
+    points.cbHemCp2 = points.sideHem.shift(
+      points.sideSeat.angle(points.sideHips) + 90,
+      bodyWidth * 0.5
+    )
+
+    points.cbHem = new Point(points.cbNeck.x, points.cbHemCp2.y)
+
+    if (points.cbHem.y < points.cbWaist.y) {
+      points.cbHem = points.cbWaist
+      points.cbHemCp2 = new Point(points.sideWaist.x * 0.5, points.cbWaist.y)
+    }
+
+    points.cbBottom = new Point(points.cbTop.x, points.cbHem.y)
+    points.sideHemCp2 = points.sideHem.shift(
+      points.sideSeat.angle(points.sideHips),
+      points.sideHem.dist(points.sideWaist) * options.bodyLength
+    )
+    points.armholeCp1 = points.armhole.shiftFractionTowards(points.sideWaist, 0.1)
+
     //paths
-    paths.armhole = paths.armhole.split(points.yokeBackSplit)[0].hide()
+    paths.hemBase = new Path()
+      .move(points.cbBottom)
+      .line(points.cbHem)
+      .curve_(points.cbHemCp2, points.sideHem)
+      .hide()
+
+    paths.sideSeam = new Path()
+      .move(points.sideHem)
+      .curve(points.sideHemCp2, points.armholeCp1, points.armhole)
+      .hide()
+
+    paths.armhole = paths.armhole.split(points.yokeBackSplit)[0].hide().hide()
 
     paths.saTop = new Path()
       .move(points.yokeBackSplit)
@@ -182,7 +239,15 @@ export const back = {
       .curve(points.gatherCurveStartCp2, points.gatherCurveEndCp1, points.gatherCurveEnd)
       .line(points.cbYoke)
       .line(points.cbTop)
-    //don't forget extra gathers section
+      .hide()
+
+    paths.seam = paths.hemBase
+      .clone()
+      .join(paths.sideSeam)
+      .join(paths.armhole)
+      .join(paths.saTop)
+      .line(points.cbBottom)
+      .close()
 
     if (complete) {
       //notches

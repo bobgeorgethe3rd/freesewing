@@ -8,13 +8,12 @@ export const front = {
     inherited: true,
   },
   options: {
-    //Fit
-    hipsEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' },
-    seatEase: { pct: 4.8, min: 0, max: 20, menu: 'fit' },
     //Placket
     inbuiltPlacketFacing: { bool: true, menu: 'plackets' },
     //Construction
     placketFacingSaWidth: { pct: 1.5, min: 0, max: 3, menu: 'construction' },
+    armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
+    sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
     hemWidth: { pct: 1.5, min: 0, max: 3, menu: 'construction' },
   },
   measurements: ['hips', 'seat'],
@@ -37,30 +36,178 @@ export const front = {
     Snippet,
   }) => {
     //delete inherited paths
-    const keepThese = ['cfNeck', 'mCfNeck', 'facingCurve']
+    const keepThese = ['hemBase', 'mHemBase', 'cfNeck', 'mCfNeck', 'facingCurve']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
     }
     //measurements
-    const hips = measurements.hips * (1 + options.hipsEase)
-    const seat = measurements.seat * (1 + options.seatEase)
-    const bodyWidth =
-      options.bodyLength < 0.5
-        ? points.sideWaist.x * (1 - 2 * options.bodyLength) + hips * (2 * options.bodyLength)
-        : hips * (2 - 2 * options.bodyLength) + seat * (2 * options.bodyLength - 1)
+    const angle = store.get('bustDartAngle') + store.get('waistDartAngle')
+    //let's begin
+    points.shoulderSplit0 = points.shoulder.shiftFractionTowards(points.hps, 1 / 7)
+    points.shoulderSplit1 = points.shoulder.shiftFractionTowards(points.hps, 6 / 7)
+    const rotFull = [
+      'armhole',
+      'armholeCp2',
+      'armholePitchCp1',
+      'armholePitch',
+      'armholePitchCp2',
+      'shoulder',
+      'shoulderSplit0',
+    ]
+    for (const p of rotFull) points[p] = points[p].rotate(-angle, points.bust)
 
-    //stores
-    store.set('bodyWidth', bodyWidth)
+    points.shoulderSplit0Cp2 = utils.beamsIntersect(
+      points.hps,
+      points.shoulderSplit1.rotate(-angle / 6, points.bust),
+      points.shoulder,
+      points.shoulderSplit0
+    )
+
+    points.sideHemCp2 = points.sideHem.shift(
+      points.sideSeat.angle(points.sideHips),
+      points.sideHem.dist(points.sideWaist) * options.bodyLength
+    )
+    points.armholeCp1 = points.armhole.shiftFractionTowards(points.sideWaist, 0.1)
+    //paths
+
+    paths.sideSeamGuide = new Path()
+      .move(points.sideSeat)
+      .line(points.sideHips)
+      .line(points.sideWaist)
+
+    if (options.daisyGuides) {
+      for (let i = 0; i <= 5; i++) {
+        points['bustDartTop' + i] = points.shoulder
+          .rotate(angle, points.bust)
+          .shiftFractionTowards(points.hps, (i + 1) / 7)
+        points['bustDartBottom' + i] = points['bustDartTop' + i].rotate(-angle / 6, points.bust)
+      }
+
+      for (let i = 0; i <= 4; i++) {
+        points['bustDartTop' + i] = points['bustDartTop' + i].rotate(-angle / 6, points.bust)
+        points['bustDartBottom' + i] = points['bustDartBottom' + i].rotate(-angle / 6, points.bust)
+      }
+
+      for (let i = 0; i <= 3; i++) {
+        points['bustDartTop' + i] = points['bustDartTop' + i].rotate(-angle / 6, points.bust)
+        points['bustDartBottom' + i] = points['bustDartBottom' + i].rotate(-angle / 6, points.bust)
+      }
+      for (let i = 0; i <= 2; i++) {
+        points['bustDartTop' + i] = points['bustDartTop' + i].rotate(-angle / 6, points.bust)
+        points['bustDartBottom' + i] = points['bustDartBottom' + i].rotate(-angle / 6, points.bust)
+      }
+      for (let i = 0; i <= 1; i++) {
+        points['bustDartTop' + i] = points['bustDartTop' + i].rotate(-angle / 6, points.bust)
+        points['bustDartBottom' + i] = points['bustDartBottom' + i].rotate(-angle / 6, points.bust)
+      }
+
+      points.bustDartTop0 = points.bustDartTop0.rotate(-angle / 6, points.bust)
+      points.bustDartBottom0 = points.bustDartBottom0.rotate(-angle / 6, points.bust)
+
+      paths.daisyGuide = new Path()
+        .move(points.cfWaist)
+        .line(points.waistDartLeft)
+        .line(points.sideWaist)
+        .line(points.armhole)
+        .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+        .curve_(points.armholePitchCp2, points.shoulder)
+        .line(points.bustDartBottom0)
+        .line(points.bust)
+        .line(points.bustDartTop0)
+        .line(points.bustDartBottom1)
+        .line(points.bust)
+        .line(points.bustDartTop1)
+        .line(points.bustDartBottom2)
+        .line(points.bust)
+        .line(points.bustDartTop2)
+        .line(points.bustDartBottom3)
+        .line(points.bust)
+        .line(points.bustDartTop3)
+        .line(points.bustDartBottom4)
+        .line(points.bust)
+        .line(points.bustDartTop4)
+        .line(points.bustDartBottom5)
+        .line(points.bust)
+        .line(points.bustDartTop5)
+        .line(points.hps)
+        .curve(points.hpsCp2, points.cfNeckCp1, points.cfNeck)
+        .line(points.cfWaist)
+        .close()
+        .attr('class', 'various lashed')
+
+      // paths.gatherTest = new Path()
+      // .move(points.shoulder)
+      // .line(points.bustDartBottom0)
+      // .line(points.bustDartBottom1)
+      // .line(points.bustDartBottom2)
+      // .line(points.bustDartBottom3)
+      // .line(points.bustDartBottom4)
+      // .line(points.bustDartBottom5)
+      // .line(points.hps)
+    }
+
+    paths.hemBase = options.inbuiltPlacketFacing
+      ? paths.mHemBase.reverse().split(points.mFacingBottom)[1].join(paths.hemBase).hide()
+      : paths.hemBase.hide()
+
+    paths.sideSeam = new Path()
+      .move(points.sideHem)
+      .curve(points.sideHemCp2, points.armholeCp1, points.armhole)
+      .hide()
+
+    paths.armhole = new Path()
+      .move(points.armhole)
+      .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+      .curve_(points.armholePitchCp2, points.shoulder)
+      .hide()
+
+    paths.shoulder = new Path()
+      .move(points.shoulder)
+      .line(points.shoulderSplit0)
+      .curve(points.shoulderSplit0Cp2, points.shoulderSplit1, points.hps)
+      .hide()
+
+    paths.cfNeck = options.inbuiltPlacketFacing
+      ? paths.cfNeck.join(paths.mCfNeck.reverse()).hide()
+      : paths.cfNeck.hide()
+
+    paths.saLeft = options.inbuiltPlacketFacing
+      ? new Path().move(points.mHps).line(points.facingShoulder).join(paths.facingCurve).hide()
+      : new Path().move(points.placketTopLeft).line(points.placketBottomLeft).hide()
+
+    paths.seam = paths.hemBase
+      .clone()
+      .join(paths.sideSeam)
+      .join(paths.armhole)
+      .join(paths.shoulder)
+      .line(points.hps)
+      .join(paths.cfNeck)
+      .join(paths.saLeft)
+      .close()
 
     if (complete) {
       //foldline
-      // points.placketNeck = utils.curveIntersectsX(
-      // points.hps,
-      // points.hpsCp2,
-      // points.cfNeckCp1,
-      // points.cfNeck,
-      // points.placketBottomRight.x
-      // )
+      points.placketNeck = utils.curveIntersectsX(
+        points.hps,
+        points.hpsCp2,
+        points.cfNeckCp1,
+        points.cfNeck,
+        points.placketBottomRight.x
+      )
+      paths.placketLine = new Path()
+        .move(points.placketNeck)
+        .line(points.placketBottomRight)
+        .attr('class', 'mark help')
+        .attr('data-text', 'Placket Line')
+        .attr('data-text-class', 'center')
+      if (options.inbuiltPlacketFacing) {
+        paths.foldline = new Path()
+          .move(points.placketTopLeft)
+          .line(points.placketBottomLeft)
+          .attr('class', 'mark help')
+          .attr('data-text', 'Fold - Line')
+          .attr('data-text-class', 'center')
+      }
     }
 
     return part

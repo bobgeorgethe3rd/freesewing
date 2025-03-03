@@ -14,10 +14,12 @@ export const frontBase = {
     bustDartFraction: 0.5, //Locked for Fauna
     bustDartLength: 1, //Locked for Fauna
     waistDartLength: 1, //Locked for Fauna
-    bustDartPlacment: 'bustSide', //Locked for Fauna
+    bustDartPlacement: 'bustSide', //Locked for Fauna
     //Fit
     daisyGuides: { bool: false, menu: 'fit' },
     shoulderRise: { pct: 1.7, min: 0, max: 2, menu: 'fit' },
+    hipsEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' },
+    seatEase: { pct: 4.8, min: 0, max: 20, menu: 'fit' },
     //Style
     bodyLength: { pct: 50, min: 0, max: 100, menu: 'style' },
     bodyLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
@@ -64,6 +66,8 @@ export const frontBase = {
     //measurements
     const shoulderRise = measurements.hpsToWaistBack * options.shoulderRise
     const placketWidth = absoluteOptions.placketWidth
+    const hips = measurements.hips * (1 + options.hipsEase)
+    const seat = measurements.seat * (1 + options.seatEase)
     const bodyLength =
       options.bodyLength < 0.5
         ? measurements.waistToHips * 2 * options.bodyLength
@@ -111,17 +115,45 @@ export const frontBase = {
         .attr('class', 'various lashed')
     }
     //below waist
-    points.cfWaistAnchor =
-      points.sideWaist.y < points.cfWaist.y
-        ? points.cfWaist
-        : new Point(points.cfWaist.x, points.sideWaist.y)
+    const midWidth = hips < points.sideWaist.x * 4 ? points.sideWaist.x * 1.25 : hips * 0.25
 
-    points.cfBottom = points.cfWaistAnchor.shift(-90, bodyLength)
+    const maxWidth = seat < points.sideWaist.x * 4 ? points.sideWaist.x * 1.25 : seat * 0.25
+
+    const bodyWidth =
+      options.bodyLength < 0.5
+        ? points.sideWaist.x * (1 - 2 * options.bodyLength) + midWidth * (2 * options.bodyLength)
+        : midWidth * (2 - 2 * options.bodyLength) + maxWidth * (2 * options.bodyLength - 1)
+
+    points.sideHem = new Point(bodyWidth, points.sideWaist.y + bodyLength)
+    points.sideHips = new Point(
+      midWidth,
+      points.sideWaist.y + measurements.waistToHips * (1 + options.bodyLengthBonus)
+    )
+    points.sideSeat = new Point(
+      maxWidth,
+      points.sideWaist.y + measurements.waistToSeat * (1 + options.bodyLengthBonus)
+    )
+    points.placketBottomRightCp2 = points.sideHem.shift(
+      points.sideSeat.angle(points.sideHips) + 90,
+      bodyWidth * 0.5
+    )
+
+    points.cfHem = new Point(points.cfNeck.x, points.placketBottomRightCp2.y)
+
+    if (points.cfHem.y < points.cfWaist.y) {
+      points.cfHem = points.cfWaist
+      points.placketBottomRightCp2 = new Point(points.sideWaist.x * 0.5, points.cfWaist.y)
+    }
+
     points.placketTopLeft = points.cfNeck.shift(180, placketWidth / 2)
-    points.placketBottomLeft = new Point(points.placketTopLeft.x, points.cfBottom.y)
-    points.facingBottom = points.placketBottomLeft.shift(
-      0,
-      placketWidth * (1 + options.placketFacingWidth * 2)
+    points.placketBottomLeft = new Point(points.placketTopLeft.x, points.cfHem.y)
+    points.placketBottomRight = points.placketBottomLeft.flipX(points.cfHem)
+    points.facingBottom = utils.curveIntersectsX(
+      points.placketBottomRight,
+      points.placketBottomRightCp2,
+      points.sideHem,
+      points.sideHem,
+      points.placketBottomLeft.shift(0, placketWidth * (1 + options.placketFacingWidth * 2)).x
     )
 
     paths.cfNeck = paths.cfNeck.line(points.placketTopLeft)
@@ -145,10 +177,15 @@ export const frontBase = {
         )
       }
     }
+    paths.hemBase = new Path()
+      .move(points.placketBottomLeft)
+      .line(points.placketBottomRight)
+      .curve_(points.placketBottomRightCp2, points.sideHem)
+      .hide()
 
     macro('mirror', {
       mirror: [points.placketTopLeft, points.placketBottomLeft],
-      paths: ['cfNeck'],
+      paths: ['hemBase', 'cfNeck'],
       points: ['facingBottom', 'shoulder', 'hps', 'saHps'],
       prefix: 'm',
     })
@@ -157,28 +194,29 @@ export const frontBase = {
       points.mShoulder,
       options.placketFacingWidth
     )
-    points.facingShoulderCp2 = points.facingShoulder.shift(-90, points.cfBottom.y / 4)
-    points.mFacingBottomCp1 = points.mFacingBottom.shift(90, points.cfBottom.y / 2)
+    points.facingShoulderCp2 = points.facingShoulder.shift(-90, points.cfHem.y / 4)
+    points.mFacingBottomCp1 = points.mFacingBottom.shift(90, points.cfHem.y / 2)
 
     paths.facingCurve = new Path()
       .move(points.facingShoulder)
       .curve(points.facingShoulderCp2, points.mFacingBottomCp1, points.mFacingBottom)
       .hide()
 
-    // paths.test = new Path()
-    // .move(points.cfNeck)
-    // .line(points.placketTopLeft)
-    // .line(points.placketBottomLeft)
-    // .line(points.placketBottomRight)
+    paths.test = new Path()
+      .move(points.cfNeck)
+      .line(points.placketTopLeft)
+      .line(points.placketBottomLeft)
 
-    // paths.test1 = paths.cfNeck
-    // .join(paths.mCfNeck.reverse())
-    // .line(points.facingShoulder)
-    // .curve(points.facingShoulderCp2, points.mFacingBottomCp1, points.mFacingBottom)
+    paths.test1 = paths.cfNeck
+      .join(paths.mCfNeck.reverse())
+      .line(points.facingShoulder)
+      .curve(points.facingShoulderCp2, points.mFacingBottomCp1, points.mFacingBottom)
     //stores
     store.set('shoulderRise', shoulderRise)
     store.set('placketWidth', placketWidth)
     store.set('bodyLength', bodyLength)
+    store.set('hips', hips)
+    store.set('seat', seat)
     store.set('scyeFrontWidth', points.armhole.dist(points.shoulder))
     store.set(
       'scyeFrontDepth',
