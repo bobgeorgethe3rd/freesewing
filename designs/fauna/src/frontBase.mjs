@@ -21,14 +21,14 @@ export const frontBase = {
     hipsEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' },
     seatEase: { pct: 4.8, min: 0, max: 20, menu: 'fit' },
     //Style
-    bodyLength: { pct: 50, min: 0, max: 100, menu: 'style' },
+    bodyLength: { pct: 75, min: 0, max: 100, menu: 'style' },
     bodyLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
     //Plackets
     placketWidth: {
       pct: 5.5,
       min: 1,
       max: 6,
-      snap: 5,
+      snap: 1.25,
       ...pctBasedOn('waist'),
       menu: 'plackets',
     },
@@ -118,13 +118,6 @@ export const frontBase = {
     const midWidth = hips < points.sideWaist.x * 4 ? points.sideWaist.x * 1.25 : hips * 0.25
 
     const maxWidth = seat < points.sideWaist.x * 4 ? points.sideWaist.x * 1.25 : seat * 0.25
-
-    const bodyWidth =
-      options.bodyLength < 0.5
-        ? points.sideWaist.x * (1 - 2 * options.bodyLength) + midWidth * (2 * options.bodyLength)
-        : midWidth * (2 - 2 * options.bodyLength) + maxWidth * (2 * options.bodyLength - 1)
-
-    points.sideHem = new Point(bodyWidth, points.sideWaist.y + bodyLength)
     points.sideHips = new Point(
       midWidth,
       points.sideWaist.y + measurements.waistToHips * (1 + options.bodyLengthBonus)
@@ -133,9 +126,13 @@ export const frontBase = {
       maxWidth,
       points.sideWaist.y + measurements.waistToSeat * (1 + options.bodyLengthBonus)
     )
+    points.sideHem =
+      options.bodyLength < 0.5
+        ? points.sideWaist.shiftFractionTowards(points.sideHips, 2 * options.bodyLength)
+        : points.sideHips.shiftFractionTowards(points.sideSeat, 2 * options.bodyLength - 1)
     points.placketBottomRightCp2 = points.sideHem.shift(
       points.sideSeat.angle(points.sideHips) + 90,
-      bodyWidth * 0.5
+      points.sideHem.x * 0.5
     )
 
     points.cfHem = new Point(points.cfNeck.x, points.placketBottomRightCp2.y)
@@ -195,7 +192,7 @@ export const frontBase = {
       options.placketFacingWidth
     )
     points.facingShoulderCp2 = points.facingShoulder.shift(-90, points.cfHem.y / 4)
-    points.mFacingBottomCp1 = points.mFacingBottom.shift(90, points.cfHem.y / 2)
+    points.mFacingBottomCp1 = points.mFacingBottom.shift(90, (points.cfHem.y * 2) / 3)
 
     paths.facingCurve = new Path()
       .move(points.facingShoulder)

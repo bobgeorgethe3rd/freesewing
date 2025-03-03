@@ -93,22 +93,26 @@ export const backBase = {
             options.yokeBackDepth
           )
 
-    points.yokeBackSplit =
-      points.cbYoke.y < points.armholePitch.y
-        ? utils.curveIntersectsY(
-            points.armholePitch,
-            points.armholePitchCp2,
-            points.shoulder,
-            points.shoulder,
-            points.cbYoke.y
-          )
-        : utils.curveIntersectsY(
-            points.armhole,
-            points.armholeCp2,
-            points.armholePitchCp1,
-            points.armholePitch,
-            points.cbYoke.y
-          )
+    if (points.cbYoke.sitsRoughlyOn(points.cArmholePitch)) {
+      points.yokeBackSplit = points.armholePitch
+    } else {
+      points.yokeBackSplit =
+        points.cbYoke.y < points.armholePitch.y
+          ? utils.curveIntersectsY(
+              points.armholePitch,
+              points.armholePitchCp2,
+              points.shoulder,
+              points.shoulder,
+              points.cbYoke.y
+            )
+          : utils.curveIntersectsY(
+              points.armhole,
+              points.armholeCp2,
+              points.armholePitchCp1,
+              points.armholePitch,
+              points.cbYoke.y
+            )
+    }
 
     //paths.yoke = new Path().move(points.cbYoke).line(points.yokeBackSplit)
 

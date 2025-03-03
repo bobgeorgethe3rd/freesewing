@@ -179,13 +179,6 @@ export const back = {
     const midWidth = hips < points.sideWaist.x * 4 ? points.sideWaist.x * 1.25 : hips * 0.25
 
     const maxWidth = seat < points.sideWaist.x * 4 ? points.sideWaist.x * 1.25 : seat * 0.25
-
-    const bodyWidth =
-      options.bodyLength < 0.5
-        ? points.sideWaist.x * (1 - 2 * options.bodyLength) + midWidth * (2 * options.bodyLength)
-        : midWidth * (2 - 2 * options.bodyLength) + maxWidth * (2 * options.bodyLength - 1)
-
-    points.sideHem = new Point(bodyWidth, points.sideWaist.y + store.get('bodyLength'))
     points.sideHips = new Point(
       midWidth,
       points.sideWaist.y + measurements.waistToHips * (1 + options.bodyLengthBonus)
@@ -194,15 +187,14 @@ export const back = {
       maxWidth,
       points.sideWaist.y + measurements.waistToSeat * (1 + options.bodyLengthBonus)
     )
-
-    paths.sideSeamGuide = new Path()
-      .move(points.sideSeat)
-      .line(points.sideHips)
-      .line(points.sideWaist)
+    points.sideHem =
+      options.bodyLength < 0.5
+        ? points.sideWaist.shiftFractionTowards(points.sideHips, 2 * options.bodyLength)
+        : points.sideHips.shiftFractionTowards(points.sideSeat, 2 * options.bodyLength - 1)
 
     points.cbHemCp2 = points.sideHem.shift(
       points.sideSeat.angle(points.sideHips) + 90,
-      bodyWidth * 0.5
+      points.sideHem.x * 0.5
     )
 
     points.cbHem = new Point(points.cbNeck.x, points.cbHemCp2.y)
@@ -237,7 +229,6 @@ export const back = {
       .move(points.yokeBackSplit)
       .line(points.gatherCurveStart)
       .curve(points.gatherCurveStartCp2, points.gatherCurveEndCp1, points.gatherCurveEnd)
-      .line(points.cbYoke)
       .line(points.cbTop)
       .hide()
 
@@ -250,11 +241,78 @@ export const back = {
       .close()
 
     if (complete) {
+      //grainline
+      if (options.cbSaWidth == 0) {
+        points.cutOnFoldFrom = points.cbTop
+        points.cutOnFoldTo = points.cbBottom
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+      } else {
+        points.grainlineFrom = points.cbTop.shiftFractionTowards(points.gatherCurveEnd, 0.5)
+        points.grainlineTo = new Point(points.grainlineFrom.x, points.cbBottom.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+      }
       //notches
-      if (points.armholePitch.y > points.yokeBackSplit.y)
+      if (points.armholePitch.y > points.yokeBackSplit.y) {
         snippets.armholePitch = new Snippet('bnotch', points.armholePitch)
-
+      }
+      points.sideNotch = paths.sideSeam.shiftFractionAlong(0.5)
+      snippets.sideNotch = new Snippet('notch', points.sideNotch)
       snippets.cbTop = new Snippet('bnotch', points.cbTop)
+      //title
+      points.title = new Point(points.yokeBackSplit.x * 0.5, points.armhole.y)
+      macro('title', {
+        at: points.title,
+        nr: '1',
+        title: 'Back',
+        cutNr: options.cbSaWidth == 0 ? 1 : 2,
+        scale: 0.5,
+      })
+      if (sa) {
+        const hemSa = sa * options.hemWidth * 100
+        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
+
+        points.saSideHem = points.sideHem
+          .shift(points.sideHips.angle(points.sideSeat), hemSa)
+          .shift(points.cbHemCp2.angle(points.sideHem), sideSeamSa)
+
+        points.saArmholeCorner = points.saArmholeCorner.rotate(-backDartAngle, points.dartTip)
+
+        points.saYokeBackSplit = utils.beamsIntersect(
+          paths.armhole.offset(armholeSa).shiftFractionAlong(0.995),
+          paths.armhole.offset(armholeSa).end(),
+          points.yokeBackSplit
+            .shiftTowards(points.gatherCurveStart, sa)
+            .rotate(-90, points.yokeBackSplit),
+          points.gatherCurveStart
+            .shiftTowards(points.yokeBackSplit, sa)
+            .rotate(90, points.gatherCurveStart)
+        )
+
+        points.saCbTop = points.cbTop.translate(-sa * options.cbSaWidth * 100, -sa)
+        points.saCbBottom = new Point(points.saCbTop.x, points.cbBottom.y + hemSa)
+
+        paths.sa = paths.hemBase
+          .clone()
+          .offset(hemSa)
+          .line(points.saSideHem)
+          .join(paths.sideSeam.offset(sideSeamSa))
+          .line(points.saArmholeCorner)
+          .join(paths.armhole.offset(armholeSa))
+          .line(points.saYokeBackSplit)
+          .join(paths.saTop.offset(sa))
+          .line(points.saCbTop)
+          .line(points.saCbBottom)
+          .close()
+          .attr('class', 'fabric sa')
+      }
     }
 
     return part

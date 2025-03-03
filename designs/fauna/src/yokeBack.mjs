@@ -104,7 +104,7 @@ export const yokeBack = {
       points.title = new Point(points.title.x, (points.cbNeck.y + points.cbYoke.y) / 2)
       macro('title', {
         at: points.title,
-        nr: '1',
+        nr: '2',
         title: 'Yoke Back',
         cutNr: options.cbSaWidth == 0 ? 2 : 4,
         scale: 0.5,
