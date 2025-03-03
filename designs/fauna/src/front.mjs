@@ -9,6 +9,8 @@ export const front = {
     inherited: true,
   },
   options: {
+    //Style
+    sideSeamCurve: { pct: 10, min: 0, max: 100, menu: 'style' },
     //Placket
     inbuiltPlacketFacing: { bool: true, menu: 'plackets' },
     //Construction
@@ -69,7 +71,7 @@ export const front = {
       points.sideSeat.angle(points.sideHips),
       points.sideHem.dist(points.sideWaist) * options.bodyLength
     )
-    points.armholeCp1 = points.armhole.shiftFractionTowards(points.sideWaist, 0.1)
+    points.armholeCp1 = points.armhole.shiftFractionTowards(points.sideWaist, options.sideSeamCurve)
     //paths
     if (options.daisyGuides) {
       for (let i = 0; i <= 5; i++) {
@@ -182,7 +184,7 @@ export const front = {
       .close()
 
     //stores
-    store.set('sideLength', paths.sideSeam.length())
+    store.set('sideSeamLength', paths.sideSeam.length())
 
     if (complete) {
       //grainline
@@ -254,6 +256,12 @@ export const front = {
           .attr('data-text', 'Fold - Line')
           .attr('data-text-class', 'center')
       }
+      //gather lines
+      macro('banner', {
+        path: paths.shoulder.attr('class', 'fabric hidden').unhide(),
+        text: 'Gather',
+        spaces: 8,
+      })
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100

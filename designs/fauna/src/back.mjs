@@ -209,18 +209,18 @@ export const back = {
       points.sideSeat.angle(points.sideHips),
       points.sideHem.dist(points.sideWaist) * options.bodyLength
     )
-    points.armholeCp1 = points.armhole.shiftFractionTowards(points.sideWaist, 0.1)
+    points.armholeCp1 = points.armhole.shiftFractionTowards(points.sideWaist, options.sideSeamCurve)
+
+    paths.sideSeam = new Path()
+      .move(points.sideHem)
+      .curve(points.sideHemCp2, points.armholeCp1, points.armhole)
+      .hide()
 
     //paths
     paths.hemBase = new Path()
       .move(points.cbBottom)
       .line(points.cbHem)
       .curve_(points.cbHemCp2, points.sideHem)
-      .hide()
-
-    paths.sideSeam = new Path()
-      .move(points.sideHem)
-      .curve(points.sideHemCp2, points.armholeCp1, points.armhole)
       .hide()
 
     paths.armhole = paths.armhole.split(points.yokeBackSplit)[0].hide().hide()
@@ -273,6 +273,12 @@ export const back = {
         title: 'Back',
         cutNr: options.cbSaWidth == 0 ? 1 : 2,
         scale: 0.5,
+      })
+      //gather lines
+      macro('banner', {
+        path: paths.saTop.attr('class', 'fabric hidden').unhide(),
+        text: 'Gather',
+        spaces: 8,
       })
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
