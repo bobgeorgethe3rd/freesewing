@@ -33,7 +33,10 @@ export const backBase = {
     Snippet,
   }) => {
     //delete inherited paths
-    for (let i in paths) delete paths[i]
+    const keepThese = 'cbNeck'
+    for (const name in paths) {
+      if (keepThese.indexOf(name) === -1) delete paths[name]
+    }
     for (let i in snippets) delete snippets[i]
     //removing macros not required from Daisy
     macro('title', false)
@@ -117,6 +120,7 @@ export const backBase = {
     //paths.yoke = new Path().move(points.cbYoke).line(points.yokeBackSplit)
 
     //stores
+    store.set('neckBack', paths.cbNeck.length())
     store.set('scyeBackWidth', points.armhole.dist(points.shoulder))
     store.set(
       'scyeBackDepth',

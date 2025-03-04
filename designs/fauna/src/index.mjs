@@ -10,12 +10,13 @@ import { yokeBack } from './yokeBack.mjs'
 import { back } from './back.mjs'
 import { placketFacing } from './placketFacing.mjs'
 import { sleeve } from './sleeve.mjs'
+import { collar } from './collar.mjs'
 
 // Create new design
 const Fauna = new Design({
   data,
-  parts: [frontBase, front, backBase, yokeBack, back, placketFacing, sleeve],
+  parts: [frontBase, front, backBase, yokeBack, back, placketFacing, sleeve, collar],
 })
 
 // Named exports
-export { frontBase, front, backBase, yokeBack, back, placketFacing, sleeve, Fauna }
+export { frontBase, front, backBase, yokeBack, back, placketFacing, sleeve, collar, Fauna }

@@ -73,6 +73,7 @@ export const frontBase = {
         ? measurements.waistToHips * 2 * options.bodyLength
         : measurements.waistToHips * (2 - 2 * options.bodyLength) +
           measurements.waistToSeat * (2 * options.bodyLength - 1)
+    store.set('neckFront', paths.cfNeck.length())
     //tweak armhole for shoulder pads
     points.shoulder = points.armholePitchCp2.shiftOutwards(points.shoulder, shoulderRise)
     points.armholePitch = points.cArmholePitch.shift(

@@ -11,7 +11,7 @@ export const collar = {
     collarWidth: {
       pct: 16.4,
       min: 10,
-      max: 20,
+      max: 30,
       snap: 1.25,
       ...pctBasedOn('hpsToWaistBack'),
       menu: 'collar',
