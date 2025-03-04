@@ -3,13 +3,13 @@
 import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
-import { box } from './box.mjs'
+import { collar } from './collar.mjs'
 
 // Create new design
 const Standardcollar = new Design({
   data,
-  parts: [box],
+  parts: [collar],
 })
 
 // Named exports
-export { box, Standardcollar }
+export { collar, Standardcollar }
