@@ -76,7 +76,7 @@ export const flyShield = {
       .hide()
 
     if (points.flyShieldExWaist.y > paths.crotchSeamOffset.end().y)
-      paths.crotchSeamOffset = paths.crotchSeamOffset.split(points.flyShieldExWaist)[0]
+      paths.crotchSeamOffset = paths.crotchSeamOffset.split(points.flyShieldExWaist)[0].hide()
 
     paths.seam = paths.bottom
       .clone()
