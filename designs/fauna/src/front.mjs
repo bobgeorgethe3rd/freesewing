@@ -10,7 +10,7 @@ export const front = {
   },
   options: {
     //Style
-    sideSeamCurve: { pct: 10, min: 0, max: 100, menu: 'style' },
+    sideSeamCurve: { pct: 50, min: 0, max: 100, menu: 'style' },
     //Placket
     inbuiltPlacketFacing: { bool: true, menu: 'plackets' },
     //Construction
