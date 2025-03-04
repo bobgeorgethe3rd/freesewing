@@ -58,8 +58,8 @@ export const yokeBack = {
 
     paths.seam =
       options.yokeBackOnBias && options.cbSaWidth == 0
-        ? paths.seamBase.join(paths.mSeamBase.reverse()).close().unhide()
-        : paths.seamBase.line(points.cbYoke).close().unhide()
+        ? paths.seamBase.clone().join(paths.mSeamBase.reverse()).close().unhide()
+        : paths.seamBase.clone().line(points.cbYoke).close().unhide()
 
     if (complete) {
       //grainline
@@ -154,8 +154,9 @@ export const yokeBack = {
 
         paths.sa =
           options.yokeBackOnBias && options.cbSaWidth == 0
-            ? paths.saBase.join(paths.mSaBase.reverse()).close().attr('class', 'fabric sa')
+            ? paths.saBase.clone().join(paths.mSaBase.reverse()).close().attr('class', 'fabric sa')
             : paths.saBase
+                .clone()
                 .line(points.saCbNeck)
                 .line(points.saCbYoke)
                 .close()
