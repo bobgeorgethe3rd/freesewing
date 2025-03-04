@@ -181,6 +181,14 @@
       "design": "bobgeorgethe3rd",
       "difficulty": 1,
       "tags": ["collars", "shirt"]
+    },
+    "standardcollar": {
+      "description": "Standard Collar design to be used in other designs",
+      "number": "C0028",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["collars", "shirt"]
     }
   },
   "costumes": {},
