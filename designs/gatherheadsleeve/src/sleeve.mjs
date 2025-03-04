@@ -6,7 +6,7 @@ export const sleeve = {
     //Imported
     ...basicsleeve.options,
     //Fit
-    basicSleeveGuides: { bool: false, menu: 'fit' },
+    // basicSleeveGuides: { bool: false, menu: 'fit' },
     //Sleeves
     spread: { pct: 60, min: 0, max: 120, menu: 'sleeves' },
   },
@@ -35,14 +35,15 @@ export const sleeve = {
     //draft basic sleeve
     basicsleeve.draft(sh)
     //remove paths & snippets
-    const keepThese = ['seam']
-    for (const name in paths) {
-      if (keepThese.indexOf(name) === -1) delete paths[name]
-    }
-    if (options.basicSleeveGuides) {
-      paths.basicSleeveGuide = paths.seam.attr('class', 'various lashed')
-    }
-    delete paths.seam
+    // const keepThese = ['seam']
+    // for (const name in paths) {
+    // if (keepThese.indexOf(name) === -1) delete paths[name]
+    // }
+    // if (options.basicSleeveGuides) {
+    // paths.basicSleeveGuide = paths.seam.attr('class', 'various lashed')
+    // }
+    // delete paths.seam
+    for (let i in paths) delete paths[i]
     for (let i in snippets) delete snippets[i]
     //removing macros not required from sleevecap
     macro('title', false)
