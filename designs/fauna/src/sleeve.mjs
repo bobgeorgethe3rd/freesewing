@@ -17,8 +17,8 @@ export const sleeve = {
     bicepsEase: { pct: 17.3, min: 0, max: 25, menu: 'fit' }, //Altered for Fauna
     elbowEase: { pct: 18.9, min: 0, max: 25, menu: 'fit' }, //Altered for Fauna
     wristEase: { pct: 28.3, min: 0, max: 30, menu: 'fit' }, //Altered for Fauna
-    //Style
-    sleeveLength: { pct: 25, min: 0, max: 100, menu: 'style' }, //Altered for Fauna
+    //Sleeve
+    sleeveLength: { pct: 25, min: 0, max: 100, menu: 'sleeve' }, //Altered for Fauna
   },
   measurements: gatherHeadSleeve.measurements,
   draft: (sh) => {
