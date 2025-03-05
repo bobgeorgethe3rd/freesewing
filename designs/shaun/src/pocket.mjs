@@ -17,6 +17,8 @@ export const pocket = {
       list: ['straight', 'curved'],
       menu: 'pockets.patchPockets',
     }, //Altered for Shaun
+    //Construction
+    patchPocketTopFoldWidth: { pct: 18.2, min: 10, max: 50, menu: 'construction' }, //Altered for Shaun
   },
   plugins: [...patchPocket.plugins],
   draft: (sh) => {

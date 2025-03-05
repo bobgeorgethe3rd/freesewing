@@ -19,6 +19,7 @@ export const pocket = {
     }, //Altered for Vincenzo
     //Construction
     patchPocketFolded: { bool: true, menu: 'construction' }, //Altered for Vincenzo
+    patchPocketTopFoldWidth: { pct: 21.1, min: 10, max: 50, menu: 'construction' }, //Altered for Vincenzo
   },
   plugins: [...patchPocket.plugins],
   draft: (sh) => {

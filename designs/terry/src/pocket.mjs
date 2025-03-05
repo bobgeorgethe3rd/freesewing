@@ -19,6 +19,7 @@ export const pocket = {
     }, //Altered for Terry
     //Construction
     patchPocketFolded: { bool: true, menu: 'construction' }, //Altered for Terry
+    patchPocketTopFoldWidth: { pct: 21.1, min: 10, max: 50, menu: 'construction' }, //Altered for Terry
   },
   plugins: [...patchPocket.plugins],
   draft: (sh) => {

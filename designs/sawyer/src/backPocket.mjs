@@ -15,7 +15,7 @@ export const backPocket = {
     backPocketFolded: { bool: true, menu: 'pockets.backPockets' },
     backPocketPeakPlateau: { bool: false, menu: 'pockets.backPockets' },
     //Construction
-    backPocketTopSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    backPocketTopFoldWidth: { pct: 14.3, min: 10, max: 50, menu: 'construction' },
   },
   plugins: [pluginMirror, pluginPatchPocket],
   draft: ({
@@ -54,7 +54,7 @@ export const backPocket = {
       peakPlateau: options.backPocketPeakPlateau,
       style: 'straight',
       folded: options.backPocketFolded,
-      topSaWidth: options.backPocketTopSaWidth,
+      topFoldWidth: backPocketDepth * options.backPocketTopFoldWidth,
       prefix: 'backPocket',
     })
 

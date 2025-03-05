@@ -9,6 +9,8 @@ export const pocket = {
     ...patchPocket.options,
     //Constant
     patchPocketGrainlineBias: false, //Locked for Shannon
+    //Construction
+    patchPocketTopFoldWidth: { pct: 25, min: 10, max: 50, menu: 'construction' }, //Altered for Shannon
   },
   plugins: [...patchPocket.plugins],
   draft: (sh) => {

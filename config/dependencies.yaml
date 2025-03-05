@@ -342,6 +342,8 @@ sawyer:
   peer:
     '@freesewing/dalton': *freesewing
     '@freesewing/paul': *freesewing
+    '@freesewing/patchpocket': *freesewing
+    '@freesewing/plugin-patchpocket': *freesewing
     '@freesewing/legbandstraight': *freesewing
 scarlett:
     peer:
@@ -366,6 +368,7 @@ shaun:
     '@freesewing/fullshirtsleeve': *freesewing
     '@freesewing/simpleshirtsleeve': *freesewing
     '@freesewing/shirtcollar': *freesewing
+    '@freesewing/patchpocket': *freesewing
     '@freesewing/plugin-flip': *freesewing
     '@freesewing/plugin-mirror': *freesewing
 shin:
@@ -374,7 +377,6 @@ shin:
 simeon:
   peer:
     '@freesewing/dalton': *freesewing
-    '@freesewing/patchpocket': *freesewing
     '@freesewing/beltloops': *freesewing
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing

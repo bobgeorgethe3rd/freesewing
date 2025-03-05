@@ -51,6 +51,8 @@
     "@freesewing/plugin-logorg": "3.0.0-alpha.8",
     "@freesewing/dalton": "3.0.0-alpha.8",
     "@freesewing/paul": "3.0.0-alpha.8",
+    "@freesewing/patchpocket": "3.0.0-alpha.8",
+    "@freesewing/plugin-patchpocket": "3.0.0-alpha.8",
     "@freesewing/legbandstraight": "3.0.0-alpha.8"
   },
   "dependencies": {},
