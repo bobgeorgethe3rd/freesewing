@@ -101,9 +101,7 @@ export const back = {
 
     //dart
     if (options.backDarts && waistDiff > 0) {
-      const dartWidth =
-        ((store.get('chest') - store.get('waist')) / (options.waistDiffDivider / 2)) *
-        options.backDartWidth
+      const dartWidth = ((store.get('chest') - store.get('waist')) / 4) * options.backDartWidth
       points.cHips = points.cWaist.shift(
         -90,
         measurements.waistToHips * (1 + options.shirtLengthBonus)
