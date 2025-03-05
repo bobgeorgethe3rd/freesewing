@@ -142,6 +142,7 @@ fauna:
     '@freesewing/daisy': *freesewing
     '@freesewing/gatherheadsleeve': *freesewing
     '@freesewing/standardcollar': *freesewing
+    '@freesewing/patchpocket': *freesewing
     '@freesewing/plugin-mirror': *freesewing
 flyfront:
   peer:

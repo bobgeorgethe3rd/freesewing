@@ -21,7 +21,7 @@ export const pocket = {
     patchPocketPeakPlateau: { bool: true, menu: 'pockets.patchPockets' },
     //Construction
     patchPocketFolded: { bool: false, menu: 'construction' },
-    patchPocketTopSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    patchPocketTopFoldWidth: { pct: 20, min: 10, max: 50, menu: 'construction' },
     patchPocketGrainlineBias: { bool: false, menu: 'construction' },
   },
   plugins: [pluginBundle, pluginMirror, pluginPatchPocket],
@@ -48,9 +48,11 @@ export const pocket = {
       void store.setIfUnset('patchPocketWidth', 150 * (1 + options.patchPocketWidth))
     }
 
+    const patchPocketDepth = store.get('patchPocketDepth')
+
     macro('patchpocket', {
       width: store.get('patchPocketWidth'),
-      depth: store.get('patchPocketWidth'),
+      depth: patchPocketDepth,
       bottomWidth: options.patchPocketBottomWidth,
       peakDepth: options.patchPocketPeakDepth,
       peakCurve: options.patchPocketPeakCurve,
@@ -58,7 +60,7 @@ export const pocket = {
       style: options.patchPocketStyle,
       folded: options.patchPocketFolded,
       grainlineBias: options.patchPocketGrainlineBias,
-      topSaWidth: options.patchPocketTopSaWidth,
+      topFoldWidth: patchPocketDepth * options.patchPocketTopFoldWidth,
     })
 
     if (complete) {

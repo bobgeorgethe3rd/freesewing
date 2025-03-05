@@ -12,7 +12,7 @@ export const backPocket = {
     //Pockets
     backPocketPleat: { bool: true, menu: 'pockets.backPockets' },
     //Construction
-    backPocketTopSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
+    backPocketTopFoldWidth: { pct: 14.3, min: 10, max: 50, menu: 'construction' },
   },
   plugins: [pluginMirror, pluginPatchPocket],
   draft: ({
@@ -49,7 +49,7 @@ export const backPocket = {
       peakDepth: options.backPocketPeakDepth,
       peakPlateau: false,
       style: 'straight',
-      topSaWidth: options.backPocketTopSaWidth,
+      topFoldWidth: backPocketDepth * options.backPocketTopFoldWidth,
       prefix: 'backPocket',
     })
 
@@ -70,11 +70,7 @@ export const backPocket = {
     if (options.backPocketPleat) {
       // keep paths
       let keepThese
-      if (sa) {
-        keepThese = ['grainline', prefixFunction('seamTop'), prefixFunction('foldline')]
-      } else {
-        keepThese = ['grainline']
-      }
+      keepThese = ['grainline', prefixFunction('seamTop'), prefixFunction('foldline')]
       for (const name in paths) {
         if (keepThese.indexOf(name) === -1) delete paths[name]
       }
@@ -130,8 +126,7 @@ export const backPocket = {
         }
         paths.pleat1.attr('class', 'interfacing', true).attr('data-text', 'Fold-line', true)
         //fold line back to top
-        paths.foldline = paths[prefixFunction('foldline')]
-        delete paths[prefixFunction('foldline')]
+
         if (sa) {
           if (options.backPocketPeakDepth > 0) {
             let shiftSa = [prefixFunction('saPeakLeftStart'), prefixFunction('saPeakLeftEnd')]

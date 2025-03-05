@@ -12,7 +12,7 @@ export const sidePocket = {
     sidePocketPleat: { bool: true, menu: 'pockets.sidePockets' },
     sidePocketPleatWidth: { pct: 27.1, min: 20, max: 30, menu: 'pockets.sidePockets' },
     //Construction
-    sidePocketTopSaWidth: { pct: 4, min: 1, max: 5, menu: 'construction' },
+    sidePocketTopFoldWidth: { pct: 21.7, min: 10, max: 50, menu: 'construction' },
   },
   plugins: [pluginMirror, pluginPatchPocket],
   draft: ({
@@ -43,13 +43,14 @@ export const sidePocket = {
     //measures
     const sidePocketWidth = store.get('sidePocketWidth')
     const sidePocketDepth = measurements.waistToFloor * options.sidePocketDepth
+    const topFoldWidth = sidePocketDepth * options.sidePocketTopFoldWidth
     //let's begin
     macro('patchpocket', {
       width: store.get('sidePocketWidth'),
       depth: sidePocketDepth,
       peakDepth: 0,
       style: 'straight',
-      topSaWidth: options.sidePocketTopSaWidth,
+      topFoldWidth: topFoldWidth,
       prefix: 'sidePocket',
     })
 
@@ -65,15 +66,25 @@ export const sidePocket = {
       const shiftRight = [prefixFunction('topRight'), prefixFunction('bottomRight')]
       for (const p of shiftRight) points[p] = points[p].shift(0, sidePocketPleatWidth)
 
-      const shiftLeft = [prefixFunction('topLeft'), prefixFunction('bottomLeft')]
+      const shiftLeft = [
+        prefixFunction('topLeft'),
+        prefixFunction('bottomLeft'),
+        prefixFunction('topLeftFold'),
+      ]
       for (const p of shiftLeft) points[p] = points[p].shift(180, sidePocketPleatWidth)
 
       points.pleatLeft = points[prefixFunction('topMid')].shift(180, sidePocketPleatWidth)
-      points.pleatTopLeft = points.pleatLeft.shift(90, sa * options.sidePocketTopSaWidth * 100)
+      points.pleatTopLeft = points.pleatLeft.shift(90, topFoldWidth)
       points.pleatBottomLeft = new Point(points.pleatLeft.x, points[prefixFunction('bottomLeft')].y)
       const flipX = ['pleatLeft', 'pleatTopLeft', 'pleatBottomLeft']
       for (const p of flipX) points[p + 'F'] = points[p].flipX()
       //paths
+      paths.seamTop = new Path()
+        .move(points[prefixFunction('topRight')])
+        .line(points[prefixFunction('topLeftFold')].flipX())
+        .line(points[prefixFunction('topLeftFold')])
+        .line(points[prefixFunction('topLeft')])
+
       paths.seam = new Path()
         .move(points[prefixFunction('topLeft')])
         .line(points[prefixFunction('bottomLeft')])
@@ -126,27 +137,20 @@ export const sidePocket = {
           .attr('class', 'mark')
           .attr('data-text', 'Pleat - Line')
           .attr('data-text-class', 'center')
+        //foldline
+        paths.foldline = new Path()
+          .move(points[prefixFunction('topLeft')])
+          .line(points[prefixFunction('topRight')])
+          .attr('class', 'various')
+          .attr('data-text', 'Fold-line')
+          .attr('data-text-class', 'center')
         if (sa) {
           const shiftSaLeft = [
-            prefixFunction('topLeftFold'),
             prefixFunction('saTopLeftCorner'),
             prefixFunction('saTopLeft'),
             prefixFunction('saBottomLeft'),
           ]
           for (const p of shiftSaLeft) points[p] = points[p].shift(180, sidePocketPleatWidth)
-
-          paths.foldline = new Path()
-            .move(points[prefixFunction('topLeft')])
-            .line(points[prefixFunction('topRight')])
-            .attr('class', 'various')
-            .attr('data-text', 'Fold-line')
-            .attr('data-text-class', 'center')
-
-          paths.seamTop = new Path()
-            .move(points[prefixFunction('topRight')])
-            .line(points[prefixFunction('topLeftFold')].flipX())
-            .line(points[prefixFunction('topLeftFold')])
-            .line(points[prefixFunction('topLeft')])
 
           paths.sa = new Path()
             .move(points[prefixFunction('saTopLeftCorner')])

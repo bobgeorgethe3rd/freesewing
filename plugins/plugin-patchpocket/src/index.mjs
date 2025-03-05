@@ -226,6 +226,26 @@ export const plugin = {
             .line(points[prefixFunction('patchPocketTopLeft')])
       }
 
+      if (!so.folded) {
+        points[prefixFunction('patchPocketTopLeftFold')] = utils
+          .beamIntersectsY(
+            points[prefixFunction('patchPocketTopLeft')],
+            points[prefixFunction('patchPocketPeakLeftStart')],
+            points[prefixFunction('patchPocketTopLeft')].y + so.topFoldWidth
+          )
+          .flipY(points[prefixFunction('patchPocketTopLeft')])
+
+        paths[prefixFunction('patchPocketSeamTop')] = new Path()
+          .move(points[prefixFunction('patchPocketTopRight')])
+          .line(
+            points[prefixFunction('patchPocketTopLeftFold')].flipX(
+              points[prefixFunction('patchPocketTopMid')]
+            )
+          )
+          .line(points[prefixFunction('patchPocketTopLeftFold')])
+          .line(points[prefixFunction('patchPocketTopLeft')])
+      }
+
       paths[prefixFunction('patchPocketSeam')] = drawSeamBase().join(drawSeamTop()).close()
 
       if (complete) {
@@ -267,6 +287,13 @@ export const plugin = {
           points[prefixFunction('patchPocketTopRight')].x * (1 / 3),
           points[prefixFunction('patchPocketBottomRight')].y / 2
         )
+        //foldline
+        paths[prefixFunction('patchPocketFoldline')] = new Path()
+          .move(points[prefixFunction('patchPocketTopLeft')])
+          .line(points[prefixFunction('patchPocketTopRight')])
+          .attr('class', 'various')
+          .attr('data-text', 'Fold-line')
+          .attr('data-text-class', 'center')
         if (sa) {
           points[prefixFunction('patchPocketSaLeft')] = utils.beamIntersectsY(
             points[prefixFunction('patchPocketTopLeft')]
@@ -285,14 +312,14 @@ export const plugin = {
               points[prefixFunction('patchPocketPeakLeftStart')]
                 .shiftTowards(points[prefixFunction('patchPocketTopLeft')], sa)
                 .rotate(90, points[prefixFunction('patchPocketPeakLeftStart')]),
-              points[prefixFunction('patchPocketTopLeft')].y + sa * so.topSaWidth * 100
+              points[prefixFunction('patchPocketTopLeft')].y + so.topFoldWidth
             )
             .flipY(points[prefixFunction('patchPocketTopLeft')])
 
           points[prefixFunction('patchPocketSaTopLeftCorner')] = utils
             .beamIntersectsY(
-              points[prefixFunction('patchPocketSaTopLeft')],
               points[prefixFunction('patchPocketSaLeft')],
+              points[prefixFunction('patchPocketSaTopLeft')],
               points[prefixFunction('patchPocketSaTopLeft')].y + sa
             )
             .flipY(points[prefixFunction('patchPocketSaTopLeft')])
@@ -499,33 +526,6 @@ export const plugin = {
             .close()
             .attr('class', 'fabric sa')
             .unhide()
-
-          if (!so.folded) {
-            points[prefixFunction('patchPocketTopLeftFold')] = points[
-              prefixFunction('patchPocketSaTopLeft')
-            ].shift(
-              0,
-              points[prefixFunction('patchPocketSaLeft')].dist(
-                points[prefixFunction('patchPocketTopLeft')]
-              )
-            )
-            paths[prefixFunction('patchPocketSeamTop')] = new Path()
-              .move(points[prefixFunction('patchPocketTopRight')])
-              .line(
-                points[prefixFunction('patchPocketTopLeftFold')].flipX(
-                  points[prefixFunction('patchPocketTopMid')]
-                )
-              )
-              .line(points[prefixFunction('patchPocketTopLeftFold')])
-              .line(points[prefixFunction('patchPocketTopLeft')])
-          }
-
-          paths[prefixFunction('patchPocketFoldline')] = new Path()
-            .move(points[prefixFunction('patchPocketTopLeft')])
-            .line(points[prefixFunction('patchPocketTopRight')])
-            .attr('class', 'various')
-            .attr('data-text', 'Fold-line')
-            .attr('data-text-class', 'center')
         }
       }
       return true

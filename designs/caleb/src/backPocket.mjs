@@ -19,7 +19,7 @@ export const backPocket = {
     //Construction
     backPocketFolded: { bool: false, menu: 'construction' },
     backPocketGrainlineBias: { bool: false, menu: 'construction' },
-    backPocketTopSaWidth: { pct: 3.3, min: 1, max: 4, menu: 'construction' },
+    backPocketTopFoldWidth: { pct: 24.5, min: 10, max: 50, menu: 'construction' },
   },
   plugins: [pluginMirror, pluginPatchPocket],
   draft: ({
@@ -47,16 +47,17 @@ export const backPocket = {
       return part
     }
 
+    const backPocketDepth = measurements.waistToFloor * options.backPocketDepth
     macro('patchpocket', {
       width: store.get('backPocketWidth'),
-      depth: measurements.waistToFloor * options.backPocketDepth,
+      depth: backPocketDepth,
       peakDepth: options.backPocketPeakDepth,
       peakCurve: options.backPocketPeakCurve,
       peakPlateau: options.backPocketPeakPlateau,
       style: options.backPocketStyle,
       folded: options.backPocketFolded,
       grainlineBias: options.backPocketGrainlineBias,
-      topSaWidth: options.backPocketTopSaWidth,
+      topFoldWidth: backPocketDepth * options.backPocketTopFoldWidth,
       prefix: 'backPocket',
     })
 
