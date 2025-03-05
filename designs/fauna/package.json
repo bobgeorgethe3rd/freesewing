@@ -52,6 +52,7 @@
     "@freesewing/daisy": "3.0.0-alpha.8",
     "@freesewing/gatherheadsleeve": "3.0.0-alpha.8",
     "@freesewing/standardcollar": "3.0.0-alpha.8",
+    "@freesewing/patchpocket": "3.0.0-alpha.8",
     "@freesewing/plugin-mirror": "3.0.0-alpha.8"
   },
   "dependencies": {},
