@@ -58,7 +58,7 @@ export const sleeve = {
       paths.gatherLine = paths.sleevecap
         .split(points.frontNotch)[1]
         .split(points.backNotch)[0]
-        .attr('class', 'various hidden')
+        .attr('class', 'fabric hidden')
 
       macro('banner', {
         path: paths.gatherLine,

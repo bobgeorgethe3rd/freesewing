@@ -118,7 +118,10 @@ export const collar = {
         })
       }
       //notches
-      snippets.shoulderNotch = new Snippet('notch', points.bottomCurveStart)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['bottomCurveStart', 'bottomRight'],
+      })
       //title
       points.title = new Point(points.bottomCurveStart.x, points.topMid.y * 0.5)
       macro('title', {
