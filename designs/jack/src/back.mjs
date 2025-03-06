@@ -64,7 +64,6 @@ export const back = {
     macro('logorg', false)
     macro('scalebox', false)
     delete paths.grainline
-
     //drawGuides
     const drawOutseam = () => {
       if (options.fitKnee) {
@@ -432,7 +431,7 @@ export const back = {
         delete paths.backPocket
         delete snippets['backPocketTopIn-notch']
         delete snippets['backPocketTopOut-notch']
-        log.info('backPocket unable to draft at this length')
+        log.warning('backPocket unable to draft at this length')
       }
       //paths
       if (options.legBandStyle != 'bandStraight' && options.legBandStyle != 'bandCurved') {

@@ -1,20 +1,16 @@
-import { pluginMirror } from '@freesewing/plugin-mirror'
-import { frontBase } from './frontBase.mjs'
+import { front as frontJackson } from '@freesewing/jackson'
+import { pluginLogoRG } from '@freesewing/plugin-logorg'
+import { pctBasedOn } from '@freesewing/core'
+import { back } from './back.mjs'
 
 export const front = {
-  name: 'caleb.front',
-  from: frontBase,
+  name: 'jack.front',
+  from: frontJackson,
+  after: back,
   hide: {
     from: true,
   },
-  options: {
-    frontPocketOpeningStyle: {
-      dflt: 'slanted',
-      list: ['slanted', 'inseam'],
-      menu: 'pockets.frontPockets',
-    },
-  },
-  plugins: [pluginMirror],
+  plugins: [pluginLogoRG],
   draft: ({
     store,
     sa,
@@ -31,24 +27,12 @@ export const front = {
     part,
     snippets,
     Snippet,
+    log,
     absoluteOptions,
   }) => {
-    //remove paths
-    const keepPaths = [
-      'daltonGuide',
-      'crotchSeam',
-      'seatGuide',
-      'hipsGuide',
-      'placketCurve',
-      'placketCurveDetail',
-      'flyShieldEx',
-      'flyShieldExDetail',
-      'saFlyShieldEx',
-      'saFlyShieldExDetail',
-    ]
-    for (const name in paths) {
-      if (keepPaths.indexOf(name) === -1) delete paths[name]
-    }
+    //remove macros
+    macro('title', false)
+    delete paths.grainline
     //measures
     const legBandWidth = store.get('legBandWidth')
     //draw paths
@@ -135,6 +119,17 @@ export const front = {
       }
     }
     //let's begin
+    points.bottomMin = points.upperLeg.shiftFractionTowards(points.knee, 0.1)
+    if (points.upperLeg.dist(points.bottomMin) < legBandWidth) {
+      points.bottomMin = points.upperLeg
+        .shiftTowards(points.knee, legBandWidth)
+        .shiftFractionTowards(points.knee, 0.1)
+    }
+    if (options.legLength < 0.5) {
+      points.bottom = points.bottomMin.shiftFractionTowards(points.knee, 2 * options.legLength)
+    } else {
+      points.bottom = points.knee.shiftFractionTowards(points.floor, 2 * options.legLength - 1)
+    }
     points.split = points.bottom.shiftTowards(points.upperLeg, legBandWidth)
     points.splitOut = drawOutseam().intersects(
       new Path().move(points.split).line(points.split.shift(180, measurements.waistToFloor * 10))
@@ -315,11 +310,9 @@ export const front = {
       }
     }
 
-    paths.saLeft = drawSeamLeft().hide()
-
-    if (options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool) {
-      paths.saLeft = paths.saLeft.split(points.frontPocketOpeningOut)[1].hide()
-    }
+    paths.seamLeft = options.frontPocketsBool
+      ? drawSeamLeft().split(points.frontPocketOpeningOut)[1].hide()
+      : drawSeamLeft().hide()
 
     const drawSeamRight = () => {
       if (options.legBandStyle == 'cuffed') {
@@ -332,17 +325,23 @@ export const front = {
         return paths.inseam1.join(paths.inseam)
       }
     }
-    points.hemOut = drawSeamLeft().end()
+    points.hemOut = paths.seamLeft.end()
     points.hemIn = drawSeamRight().start()
     //paths
-    const drawWaist = () =>
-      options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool
-        ? new Path()
-            .move(points.waistIn)
-            .line(points.frontPocketOpeningWaist)
-            .line(points.frontPocketOpeningCorner)
-            .line(points.frontPocketOpeningOut)
-        : new Path().move(points.waistIn).line(points.waistOut)
+    const drawWaist = () => {
+      if (options.frontPocketsBool) {
+        return new Path()
+          .move(points.waistIn)
+          .line(points.frontPocketOpeningWaist)
+          .curve(
+            points.frontPocketOpeningWaistCp2,
+            points.frontPocketOpeningOutCp1,
+            points.frontPocketOpeningOut
+          )
+      } else {
+        return new Path().move(points.waistIn).line(points.waistOut)
+      }
+    }
 
     paths.seam = new Path()
       .move(points.hemOut)
@@ -350,18 +349,23 @@ export const front = {
       .join(drawSeamRight())
       .join(paths.crotchSeam)
       .join(drawWaist())
-      .join(paths.saLeft)
+      .join(paths.seamLeft)
       .close()
-    //stores
-    if (options.legBandStyle == 'straight') {
-      store.set('legBandLength', store.get('legBandBack') + points.splitIn.dist(points.splitOut))
-    } else {
-      store.set('legBandLength', store.get('legBandBack') + points.bottomIn.dist(points.bottomOut))
+    //pocket check
+    points.bottomAnchor =
+      options.legBandStyle == 'bandStraight' || options.legBandStyle == 'bandCurved'
+        ? points.splitOut
+        : points.bottomOut
+    if (
+      options.frontPocketsBool &&
+      points.frontPocketOut.y >
+        paths.seamLeft.split(points.bottomAnchor)[0].shiftFractionAlong(0.9).y
+    ) {
+      delete snippets['frontPocketOut-notch']
+      points.frontPocketOut = paths.seamLeft.split(points.bottomAnchor)[0].shiftFractionAlong(0.9)
+      if (complete) snippets.frontPocketOut = new Snippet('notch', points.frontPocketOut)
     }
-    store.set(
-      'legBandLengthTop',
-      store.get('legBandBackTop') + points.splitIn.dist(points.splitOut)
-    )
+
     if (complete) {
       //grainline
       points.grainlineTo = points.split.shift(0, points.split.dx(points.crotchSeamCurveEnd) * 0.5)
@@ -370,50 +374,35 @@ export const front = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
-      //notches
-      if (options.frontPocketsBool) {
-        if (options.frontPocketOpeningStyle == 'slanted') {
-          snippets.frontPocketOpeningCorner = new Snippet('notch', points.frontPocketOpeningCorner)
-        } else {
-          macro('sprinkle', {
-            snippet: 'notch',
-            on: ['frontPocketOpeningTopOut', 'frontPocketOpeningBottomOut'],
-          })
-        }
-        snippets.frontPocketOut = new Snippet('notch', points.frontPocketOut)
-      }
       //title
       points.title = new Point(
         points.split.x,
-        points.crotchSeamCurveEnd.y + points.crotchSeamCurveEnd.dy(points.split) * 0.5
+        points.crotchSeamCurveEnd.y + points.crotchSeamCurveEnd.dy(points.split) * 0.1
       )
       macro('title', {
-        nr: 5,
+        nr: 4,
         title: 'Front',
         at: points.title,
         cutNr: 2,
         scale: 0.5,
       })
+      //logo
+      points.logo = new Point(
+        points.split.x,
+        points.crotchSeamCurveEnd.y + points.crotchSeamCurveEnd.dy(points.split) * 0.425
+      )
+      macro('logorg', { at: points.logo, scale: 1 / 3 })
+      //scalebox
+      points.scalebox = new Point(
+        points.split.x,
+        points.crotchSeamCurveEnd.y + points.crotchSeamCurveEnd.dy(points.split) * 0.75
+      )
+      macro('scalebox', { at: points.scalebox })
       //fit guides
-      if (
-        options.fitGuides &&
-        ((points.bottom.y > points.knee.y &&
-          options.legBandStyle != 'bandStraight' &&
-          options.legBandStyle != 'bandCurved') ||
-          (points.split.y > points.knee.y && options.legBandStyle == 'bandStraight') ||
-          options.legBandStyle == 'bandCurved')
-      ) {
-        paths.kneeGuide = new Path()
-          .move(points.kneeGuideOut)
-          .line(points.kneeGuideIn)
-          .attr('class', 'various')
-          .attr('data-text', 'Knee Guide')
-          .attr('data-text-class', 'right')
-
-        macro('sprinkle', {
-          snippet: 'notch',
-          on: ['kneeGuideIn', 'kneeGuideOut'],
-        })
+      if (options.fitGuides && points.bottomAnchor.y <= points.kneeGuideIn.y) {
+        delete paths.kneeGuide
+        delete snippets['kneeGuideIn-notch']
+        delete snippets['kneeGuideOut-notch']
       }
       //paths
       if (options.legBandStyle != 'bandStraight' && options.legBandStyle != 'bandCurved') {
@@ -437,8 +426,8 @@ export const front = {
         const inseamSa = sa * options.inseamSaWidth * 100
 
         points.saHemOut = utils.beamIntersectsY(
-          drawSeamLeft().offset(sideSeamSa).shiftFractionAlong(0.995),
-          drawSeamLeft().offset(sideSeamSa).end(),
+          paths.seamLeft.offset(sideSeamSa).shiftFractionAlong(0.995),
+          paths.seamLeft.offset(sideSeamSa).end(),
           points.hemIn.y + sa
         )
         points.saHemIn = utils.beamIntersectsY(
@@ -447,14 +436,17 @@ export const front = {
           points.hemOut.y + sa
         )
 
-        const drawSaWaist = () =>
-          options.frontPocketOpeningStyle == 'slanted' && options.frontPocketsBool
-            ? new Path()
-                .move(points.saWaistIn)
-                .line(points.saFrontPocketOpeningWaist)
-                .line(points.saFrontPocketOpeningCorner)
-                .line(points.saFrontPocketOpeningOut)
-            : new Path().move(points.saWaistIn).line(points.saWaistOut)
+        const drawSaWaist = () => {
+          if (options.frontPocketsBool) {
+            return new Path()
+              .move(points.saWaistIn)
+              .line(points.saFrontPocketOpeningWaist)
+              .join(paths.pocketCurve.offset(sa))
+              .line(points.saFrontPocketOpeningOut)
+          } else {
+            return new Path().move(points.saWaistIn).line(points.saWaistOut)
+          }
+        }
 
         paths.sa = new Path()
           .move(points.saHemOut)
@@ -464,35 +456,12 @@ export const front = {
           .join(paths.crotchSeam.offset(sa * options.crotchSeamSaWidth * 100))
           .line(points.saWaistIn)
           .join(drawSaWaist())
-          .join(paths.saLeft.offset(sideSeamSa))
+          .join(paths.seamLeft.offset(sideSeamSa))
           .line(points.saHemOut)
           .close()
           .attr('class', 'fabric sa')
       }
     }
-    if (store.get('sidePocketsBool')) {
-      points.sidePocketOut = drawOutseam().shiftAlong(store.get('sidePocketPlacement'))
-      if (complete /*  && points.split.y >= points.sidePocketOut.y */) {
-        points.sidePocketOutAnchor = drawOutseam()
-          .split(points.sidePocketOut)[0]
-          .shiftFractionAlong(0.995)
-        points.sidePocketIn = points.sidePocketOut
-          .shiftTowards(
-            points.sidePocketOutAnchor,
-            store.get('sidePocketWidth') * options.sidePocketBalance
-          )
-          .rotate(-90, points.sidePocketOut)
-        //notches
-        snippets.sidePocketIn = new Snippet('notch', points.sidePocketIn)
-        //paths
-        paths.sidePocketLine = new Path()
-          .move(points.sidePocketOut)
-          .line(points.sidePocketIn)
-          .attr('class', 'fabric help')
-          .attr('data-text', 'Side Pocket-Line')
-      }
-    }
-
     return part
   },
 }
