@@ -1,77 +1,45 @@
-import { pluginMirror } from '@freesewing/plugin-mirror'
+import { back as backJackson } from '@freesewing/jackson'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
-import { back as backDalton } from '@freesewing/dalton'
 import { pctBasedOn } from '@freesewing/core'
 
 export const back = {
-  name: 'caleb.back',
-  from: backDalton,
+  name: 'jack.back',
+  from: backJackson,
   hide: {
     from: true,
   },
   options: {
-    //Dalton
     //Constants
-    useVoidStores: false, //Locked for Caleb
-    fitWaist: false, //Locked for Caleb
-    legBandsBool: false, //Altered for Caleb
-    calculateLegBandDiff: false, //Locked for Caleb
-    hemWidth: 0.01, //Locked for Caleb
-    //Fit
-    waistEase: { pct: 6.4, min: 0, max: 20, menu: 'fit' }, //Altered for Caleb
-    hipsEase: { pct: 5.9, min: 0, max: 20, menu: 'fit' }, //Altered for Caleb
-    seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' }, //Altered for Caleb
-    kneeEase: { pct: 19.6, min: 0, max: 25, menu: 'fit' }, //Altered for Caleb
-    calfEase: { pct: 20.1, min: 0, max: 25, menu: 'fit' }, //Altered for Caleb
-    fitGuides: { bool: false, menu: 'fit' }, //Altered for Caleb
-    daltonGuides: { bool: false, menu: 'fit' },
-    //Style
-    waistHeight: { pct: 0, min: 0, max: 100, menu: 'style' }, //Altered for Caleb
-    waistbandWidth: {
-      pct: 3.3,
-      min: 1,
-      max: 6,
-      snap: 1.25,
-      ...pctBasedOn('waistToFloor'),
-      menu: 'style',
-    }, //Altered for Caleb
-    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved'], menu: 'style' }, //Altered for Caleb
-    fitKnee: { bool: true, menu: 'style' }, //Altered for Caleb
-    legLength: { pct: 50, min: 0, max: 100, menu: 'style' },
     legBandWidth: {
-      pct: 5.1,
-      min: 0.9,
-      max: 10,
+      pct: 0,
+      min: 0,
+      max: 0,
       snap: 5,
       ...pctBasedOn('waistToFloor'),
+    }, //locked for Jack
+    legBandsBool: false, //Altered for Jack
+    calculateLegBandDiff: false, //Locked for Jack
+    hemWidth: 0.01, //Locked for Jack
+    //Fit
+    kneeEase: { pct: 19.6, min: 0, max: 25, menu: 'fit' }, //Altered for Jack
+    //Style
+    fitKnee: { bool: true, menu: 'style' }, //Altered for Jack
+    legLength: { pct: 50, min: 0, max: 100, menu: 'style' },
+    legBandWidth: {
+      pct: 1.5,
+      min: 0.9,
+      max: 10,
+      snap: 2.5,
+      ...pctBasedOn('waistToFloor'),
       menu: 'style',
-    }, //Altered for Caleb
+    }, //Altered for Jack
     legBandStyle: {
-      dflt: 'cuffed',
+      dflt: 'turnover',
       list: ['cuffed', 'bandStraight', 'bandCurved', 'turnover'],
       menu: 'style',
     },
-    fitWaistBack: { bool: true, menu: 'style' }, //Altered For Caleb
-    //Darts
-    backDartWidth: { pct: 3.2, min: 1, max: 6, menu: 'darts' }, //Altered for Caleb
-    backDartDepth: { pct: 95, min: 75, max: 100, menu: 'darts' }, //Altered for Darts
-    //Pockets
-    backPocketsBool: { bool: true, menu: 'pockets' },
-    sidePocketsBool: { bool: true, menu: 'pockets' },
-    backPocketPlacement: { pct: 62.5, min: 50, max: 100, menu: 'pockets.backPockets' },
-    backPocketBalance: { pct: 50, min: 40, max: 70, menu: 'pockets.backPockets' },
-    backPocketWidth: { pct: (2 / 3) * 100, min: 40, max: 70, menu: 'pockets.backPockets' }, //Altered for Caleb
-    sidePocketPlacement: { pct: 2.4, min: 0, max: 5, menu: 'pockets.sidePockets' },
-    sidePocketBalance: { pct: 50, min: 40, max: 70, menu: 'pockets.sidePockets' },
-    sidePocketWidth: { pct: 85.8, min: 40, max: 90, menu: 'pockets.sidePockets' },
-    //Construction
-    crossSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Caleb
-    inseamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Caleb
-    sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Caleb
-    //Advanced
-    backDartMultiplier: { count: 1, min: 0, max: 2, menu: 'advanced' }, //Altered for Caleb
   },
-  plugins: [pluginMirror, pluginLogoRG],
+  plugins: [pluginLogoRG],
   draft: ({
     store,
     sa,
@@ -91,32 +59,13 @@ export const back = {
     log,
     absoluteOptions,
   }) => {
-    //removing paths and snippets not required from Dalton
-    const keepPaths = ['seam', 'crossSeam', 'seatGuide', 'hipsGuide']
-    for (const name in paths) {
-      if (keepPaths.indexOf(name) === -1) delete paths[name]
-    }
-    if (options.daltonGuides) {
-      paths.daltonGuide = paths.seam.clone().attr('class', 'various lashed')
-    }
-    delete paths.seam
-    const keepSnippets = [
-      'crossSeamCurveStart',
-      'seatGuideIn-notch',
-      'seatGuideOut-notch',
-      'hipsGuideIn-notch',
-      'hipsGuideOut-notch',
-    ]
-    for (const name in snippets) {
-      if (keepSnippets.indexOf(name) === -1) delete snippets[name]
-    }
     //remove macros
     macro('title', false)
+    macro('logorg', false)
     macro('scalebox', false)
-    //measures
-    const legBandWidth = absoluteOptions.legBandWidth
-    //let's begin
-    //draw paths
+    delete paths.grainline
+
+    //drawGuides
     const drawOutseam = () => {
       if (options.fitKnee) {
         if (options.fitCalf) {
@@ -200,7 +149,9 @@ export const back = {
         }
       }
     }
-    //new legs
+    //measures
+    const legBandWidth = absoluteOptions.legBandWidth
+    //let's begin
     points.bottomMin = points.upperLeg.shiftFractionTowards(points.knee, 0.1)
     if (points.upperLeg.dist(points.bottomMin) < legBandWidth) {
       points.bottomMin = points.upperLeg
@@ -409,22 +360,47 @@ export const back = {
         return paths.outSeam1.join(paths.outSeam)
       }
     }
+
+    const drawWaist = () => {
+      if (options.yoke) {
+        return new Path().move(points.yokeOut).line(points.yokeIn)
+      } else {
+        return new Path()
+          .move(points.waistOut)
+          .line(points.dartOut)
+          .line(points.dartTip)
+          .line(points.dartIn)
+          .line(points.waistIn)
+      }
+    }
+
+    paths.seamRight = options.yoke
+      ? drawSeamRight().split(points.yokeOut)[0].hide()
+      : drawSeamRight().hide()
+
     points.hemIn = drawSeamLeft().end()
-    points.hemOut = drawSeamRight().start()
+    points.hemOut = paths.seamRight.start()
     //paths
     paths.seam = new Path()
       .move(points.hemIn)
       .line(points.hemOut)
-      .join(drawSeamRight())
-      .line(points.dartOut)
-      .line(points.dartTip)
-      .line(points.dartIn)
-      .line(points.waistIn)
+      .join(paths.seamRight)
+      .join(drawWaist())
       .join(paths.crossSeam)
       .join(drawSeamLeft())
       .close()
     //stores
+    points.bottomAnchor =
+      options.legBandStyle == 'bandStraight' || options.legBandStyle == 'bandCurved'
+        ? points.split
+        : points.bottom
+    const backPocketsBool = options.backPocketsBool
+      ? points.backPocketPeakDepth.y < points.bottomAnchor.y
+        ? 1
+        : 0
+      : 0
     store.set('legBandWidth', legBandWidth)
+    store.set('backPocketsBool', backPocketsBool)
     if (complete) {
       //grainline
       points.grainlineTo = points.split.shift(0, points.split.dx(points.crossSeamCurveStart) * 0.75)
@@ -436,7 +412,7 @@ export const back = {
       //title
       points.title = new Point(
         points.split.x,
-        points.crossSeamCurveStart.y + points.crossSeamCurveStart.dy(points.split) * 0.1
+        points.crossSeamCurveStart.y + points.crossSeamCurveStart.dy(points.split) * 0.75
       )
       macro('title', {
         nr: 1,
@@ -445,38 +421,18 @@ export const back = {
         cutNr: 2,
         scale: 0.5,
       })
-      //logo
-      points.logo = new Point(
-        points.split.x,
-        points.crossSeamCurveStart.y + points.crossSeamCurveStart.dy(points.split) * 0.425
-      )
-      macro('logorg', { at: points.logo, scale: 1 / 3 })
-      //scalebox
-      points.scalebox = new Point(
-        points.split.x,
-        points.crossSeamCurveStart.y + points.crossSeamCurveStart.dy(points.split) * 0.75
-      )
-      macro('scalebox', { at: points.scalebox })
       //fit guides
-      if (
-        options.fitGuides &&
-        ((points.bottom.y > points.knee.y &&
-          options.legBandStyle != 'bandStraight' &&
-          options.legBandStyle != 'bandCurved') ||
-          (points.split.y > points.knee.y && options.legBandStyle == 'bandStraight') ||
-          options.legBandStyle == 'bandCurved')
-      ) {
-        paths.kneeGuide = new Path()
-          .move(points.kneeGuideIn)
-          .line(points.kneeGuideOut)
-          .attr('class', 'various')
-          .attr('data-text', 'Knee Guide')
-          .attr('data-text-class', 'right')
-
-        macro('sprinkle', {
-          snippet: 'notch',
-          on: ['kneeGuideIn', 'kneeGuideOut'],
-        })
+      if (options.fitGuides && points.bottomAnchor.y <= points.kneeGuideIn.y) {
+        delete paths.kneeGuide
+        delete snippets['kneeGuideIn-notch']
+        delete snippets['kneeGuideOut-notch']
+      }
+      //pockets
+      if (backPocketsBool < 1 && options.backPocketsBool) {
+        delete paths.backPocket
+        delete snippets['backPocketTopIn-notch']
+        delete snippets['backPocketTopOut-notch']
+        log.info('backPocket unable to draft at this length')
       }
       //paths
       if (options.legBandStyle != 'bandStraight' && options.legBandStyle != 'bandCurved') {
@@ -494,124 +450,41 @@ export const back = {
             .attr('data-text', 'Cuff Fold-line')
             .attr('data-text-class', 'center')
         }
-      }
-      if (sa) {
-        const inseamSa = sa * options.inseamSaWidth * 100
-        const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        if (sa) {
+          const inseamSa = sa * options.inseamSaWidth * 100
+          const sideSeamSa = sa * options.sideSeamSaWidth * 100
 
-        points.saHemIn = utils.beamIntersectsY(
-          drawSeamLeft().offset(inseamSa).shiftFractionAlong(0.995),
-          drawSeamLeft().offset(inseamSa).end(),
-          points.hemIn.y + sa
-        )
-        points.saHemOut = utils.beamIntersectsY(
-          drawSeamRight().offset(sideSeamSa).start(),
-          drawSeamRight().offset(sideSeamSa).shiftFractionAlong(0.005),
-          points.hemOut.y + sa
-        )
+          points.saHemIn = utils.beamIntersectsY(
+            drawSeamLeft().offset(inseamSa).shiftFractionAlong(0.995),
+            drawSeamLeft().offset(inseamSa).end(),
+            points.hemIn.y + sa
+          )
+          points.saHemOut = utils.beamIntersectsY(
+            paths.seamRight.offset(sideSeamSa).start(),
+            paths.seamRight.offset(sideSeamSa).shiftFractionAlong(0.005),
+            points.hemOut.y + sa
+          )
 
-        paths.sa = new Path()
-          .move(points.saHemIn)
-          .line(points.saHemOut)
-          .join(drawSeamRight().offset(sideSeamSa))
-          .line(points.saWaistOut)
-          .line(points.saWaistIn)
-          .join(paths.crossSeam.offset(sa * options.crossSeamSaWidth * 100))
-          .line(points.saUpperLegIn)
-          .join(drawSeamLeft().offset(inseamSa))
-          .line(points.saHemIn)
-          .close()
-          .attr('class', 'fabric sa')
-      }
-    }
-    //backPockets
-    if (options.backPocketsBool) {
-      const backPocketWidth =
-        (points.waistIn.dist(points.dartIn) + points.dartOut.dist(points.waistOut)) *
-        options.backPocketWidth
-      points.dartPocket = points.dartMid.shiftFractionTowards(
-        points.dartTip,
-        options.backPocketPlacement
-      )
-      points.dartPocketIn = utils.beamsIntersect(
-        points.dartPocket,
-        points.dartMid.rotate(90, points.dartPocket),
-        points.dartIn,
-        points.dartTip
-      )
-      points.dartPocketOut = points.dartPocketIn.rotate(180, points.dartPocket)
-      points.backPocketIn = points.dartPocketIn.shift(
-        points.dartIn.angle(points.waistIn),
-        backPocketWidth * (1 - options.backPocketBalance)
-      )
-      points.backPocketOut = points.dartPocketOut.shift(
-        points.dartOut.angle(points.waistOut),
-        backPocketWidth * options.backPocketBalance
-      )
-      //stores
-      store.set('backPocketWidth', backPocketWidth)
-      if (options.legBandStyle == 'bandStraight') {
-        store.set('legBandBack', points.splitIn.dist(points.splitOut))
-      } else {
-        store.set('legBandBack', points.bottomIn.dist(points.bottomOut))
-      }
-      store.set('legBandBackTop', points.splitIn.dist(points.splitOut))
-      if (complete) {
-        //notches
-        macro('sprinkle', {
-          snippet: 'notch',
-          on: ['backPocketIn', 'backPocketOut'],
-        })
-        //paths
-        paths.backPocketLine = new Path()
-          .move(points.backPocketIn)
-          .line(points.dartPocketIn)
-          .move(points.dartPocketOut)
-          .line(points.backPocketOut)
-          .attr('class', 'fabric help')
-          .attr('data-text', 'Back Pocket-Line')
-      }
-    }
-    //sidePockets
-    if (options.sidePocketsBool) {
-      const sidePocketWidth =
-        (points.waistIn.dist(points.dartIn) + points.dartOut.dist(points.waistOut)) *
-        options.sidePocketWidth
-      points.sidePocketSplit = points.knee.shift(90, legBandWidth)
-      points.sidePocketSplitOn = drawOutseam().intersects(
-        new Path()
-          .move(points.sidePocketSplit)
-          .line(points.sidePocketSplit.shift(0, measurements.waistToFloor * 10))
-      )[0]
-      points.sidePocketOut = drawOutseam()
-        .split(points.sidePocketSplitOn)[1]
-        .shiftAlong(measurements.waistToFloor * options.sidePocketPlacement)
-      //stores
-      store.set('sidePocketPlacement', drawOutseam().split(points.sidePocketOut)[1].length())
-      store.set('sidePocketWidth', sidePocketWidth)
-      if (points.split.y >= points.sidePocketOut.y) {
-        store.set('sidePocketsBool', true)
-        if (complete) {
-          points.sidePocketOutAnchor = drawOutseam()
-            .split(points.sidePocketOut)[1]
-            .shiftFractionAlong(0.005)
-          points.sidePocketIn = points.sidePocketOut
-            .shiftTowards(
-              points.sidePocketOutAnchor,
-              sidePocketWidth * (1 - options.sidePocketBalance)
-            )
-            .rotate(90, points.sidePocketOut)
-          //notches
-          snippets.sidePocketIn = new Snippet('notch', points.sidePocketIn)
-          //paths
-          paths.sidePocketLine = new Path()
-            .move(points.sidePocketIn)
-            .line(points.sidePocketOut)
-            .attr('class', 'fabric help')
-            .attr('data-text', 'Side Pocket-Line')
+          const drawSaWaist = () => {
+            if (options.yoke) {
+              return new Path().move(points.saYokeOut).line(points.saYokeIn)
+            } else {
+              return new Path().move(points.saWaistOut).line(points.saWaistIn)
+            }
+          }
+
+          paths.sa = new Path()
+            .move(points.saHemIn)
+            .line(points.saHemOut)
+            .join(paths.seamRight.offset(sideSeamSa))
+            .join(drawSaWaist())
+            .join(paths.crossSeam.offset(sa * options.crossSeamSaWidth * 100))
+            .line(points.saUpperLegIn)
+            .join(drawSeamLeft().offset(inseamSa))
+            .line(points.saHemIn)
+            .close()
+            .attr('class', 'fabric sa')
         }
-      } else {
-        store.set('sidePocketsBool', false)
       }
     }
 
