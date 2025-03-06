@@ -14,6 +14,7 @@ export const front = {
     //Placket
     inbuiltPlacketFacing: { bool: true, menu: 'plackets' },
     //Pockets
+    pockets: { bool: true, menu: 'pockets' },
     patchPocketWidth: { pct: 65.6, min: 30, max: 80, menu: 'pockets.patchPockets' },
     patchPocketPlacement: { pct: 60, min: 40, max: 70, menu: 'pockets.patchPockets' },
     //Construction
@@ -251,6 +252,18 @@ export const front = {
         )
       }
       //pockets
+      if (options.pockets) {
+        paths.pocketLine = new Path()
+          .move(points.pocketLeft)
+          .line(points.pocketRight)
+          .attr('class', 'various')
+          .attr('data-text', 'Pocket-line')
+          .attr('data-text-class', 'center')
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketLeft', 'pocketRight'],
+        })
+      }
       //foldline
       points.placketNeck = utils.curveIntersectsX(
         points.hps,
