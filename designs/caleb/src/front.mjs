@@ -351,6 +351,7 @@ export const front = {
       .join(paths.crotchSeam)
       .join(drawWaist())
       .join(paths.saLeft)
+      .close()
     //stores
     if (options.legBandStyle == 'straight') {
       store.set('legBandLength', store.get('legBandBack') + points.splitIn.dist(points.splitOut))

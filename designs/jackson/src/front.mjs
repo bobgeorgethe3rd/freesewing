@@ -28,9 +28,9 @@ export const front = {
     if (options.frontPocketsBool) {
       if (options.daltonGuides) {
         paths.daltonGuide = paths.seam.clone().attr('class', 'various lashed')
-        paths.seam.hide()
-        paths.sa.hide()
       }
+      paths.seam.hide()
+      if (sa) paths.sa.hide()
 
       const drawOutseam = () => {
         if (options.fitKnee) {
