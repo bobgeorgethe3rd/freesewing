@@ -9,7 +9,6 @@ export const pocket = {
     ...patchPocket.options,
     //Constant
     patchPocketFolded: false, //Locked for Fauna
-    patchPocketGrainlineBias: false, //Locked for Fauna
     //Pockets
     pockets: { bool: true, menu: 'pockets' },
     patchPocketDepth: { pct: 33.3, min: 20, max: 35, menu: 'pockets.patchPockets' },
