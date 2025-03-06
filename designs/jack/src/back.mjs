@@ -411,7 +411,7 @@ export const back = {
       //title
       points.title = new Point(
         points.split.x,
-        points.crossSeamCurveStart.y + points.crossSeamCurveStart.dy(points.split) * 0.75
+        points.crossSeamCurveStart.y + (points.crossSeamCurveStart.dy(points.split) * 2) / 3
       )
       macro('title', {
         nr: 1,
