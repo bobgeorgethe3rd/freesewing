@@ -13,6 +13,9 @@ export const front = {
     sideSeamCurve: { pct: 50, min: 0, max: 100, menu: 'style' },
     //Placket
     inbuiltPlacketFacing: { bool: true, menu: 'plackets' },
+    //Pockets
+    patchPocketWidth: { pct: 65.6, min: 30, max: 80, menu: 'pockets.patchPockets' },
+    patchPocketPlacement: { pct: 60, min: 40, max: 70, menu: 'pockets.patchPockets' },
     //Construction
     placketFacingSaWidth: { pct: 1.5, min: 0, max: 3, menu: 'construction' },
     armholeSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
@@ -46,7 +49,20 @@ export const front = {
     }
     //measurements
     const angle = store.get('bustDartAngle') + store.get('waistDartAngle')
+    const patchPocketWidth = points.shoulder.x * options.patchPocketWidth
     //let's begin
+    //pocket
+    points.pocketMid = new Point(
+      points.armholePitch.x * options.patchPocketPlacement,
+      points.cArmholePitch.shiftFractionTowards(points.cArmhole, 2 / 3).y
+    )
+    points.pocketLeft = points.pocketMid.shift(180, patchPocketWidth / 2)
+    points.pocketRight = points.pocketLeft.flipX(points.pocketMid)
+    // paths.armholeGuide = new Path()
+    // .move(points.armhole)
+    // .curve(points.armholeCp2, points.armholePitchCp1, points.armholePitch)
+    // .curve_(points.armholePitchCp2, points.shoulder)
+    // .hide()
     points.shoulderSplit0 = points.shoulder.shiftFractionTowards(points.hps, 1 / 7)
     points.hpsCp1 = points.shoulder.shiftFractionTowards(points.hps, 6 / 7)
     const rotFull = [
@@ -185,6 +201,7 @@ export const front = {
 
     //stores
     store.set('sideSeamLength', paths.sideSeam.length())
+    store.set('patchPocketWidth', patchPocketWidth)
 
     if (complete) {
       //grainline

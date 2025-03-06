@@ -200,15 +200,16 @@ export const frontBase = {
       .curve(points.facingShoulderCp2, points.mFacingBottomCp1, points.mFacingBottom)
       .hide()
 
-    paths.test = new Path()
-      .move(points.cfNeck)
-      .line(points.placketTopLeft)
-      .line(points.placketBottomLeft)
+    //Uncomment to use when trouble shooting. Please do not remove.
+    // paths.guide0 = new Path()
+    // .move(points.cfNeck)
+    // .line(points.placketTopLeft)
+    // .line(points.placketBottomLeft)
 
-    paths.test1 = paths.cfNeck
-      .join(paths.mCfNeck.reverse())
-      .line(points.facingShoulder)
-      .curve(points.facingShoulderCp2, points.mFacingBottomCp1, points.mFacingBottom)
+    // paths.guide1 = paths.cfNeck
+    // .join(paths.mCfNeck.reverse())
+    // .line(points.facingShoulder)
+    // .curve(points.facingShoulderCp2, points.mFacingBottomCp1, points.mFacingBottom)
     //stores
     store.set('shoulderRise', shoulderRise)
     store.set('placketWidth', placketWidth)

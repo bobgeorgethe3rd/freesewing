@@ -133,14 +133,13 @@ export const plugin = {
         prefixFunction('patchPocketPeakLeftStart')
       ].flipX(points[prefixFunction('patchPocketPeak')])
 
-      points[prefixFunction('patchPocketPeakLeftAnchor')] = utils.beamsIntersect(
+      points[prefixFunction('patchPocketPeakLeftAnchor')] = utils.beamIntersectsX(
         points[prefixFunction('patchPocketPeakLeftStart')],
         points[prefixFunction('patchPocketTopLeft')].rotate(
           -90,
           points[prefixFunction('patchPocketPeakLeftStart')]
         ),
-        points[prefixFunction('patchPocketPeakLeftEnd')],
-        points[prefixFunction('patchPocketPeakLeftEnd')].shift(90, 1)
+        points[prefixFunction('patchPocketPeakLeftEnd')].x
       )
       const radius = points[prefixFunction('patchPocketPeakLeftAnchor')].dist(
         points[prefixFunction('patchPocketPeakLeftStart')]
@@ -522,6 +521,7 @@ export const plugin = {
           }
 
           paths[prefixFunction('patchPocketSa')] = drawSaBase()
+            .clone()
             .line(drawSaLeft().start())
             .close()
             .attr('class', 'fabric sa')
