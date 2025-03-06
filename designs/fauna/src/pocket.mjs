@@ -12,7 +12,8 @@ export const pocket = {
     patchPocketGrainlineBias: false, //Locked for Fauna
     //Pockets
     pockets: { bool: true, menu: 'pockets' },
-    patchPocketDepth: { pct: 28.3, min: 20, max: 30, menu: 'pockets.patchPockets' },
+    patchPocketDepth: { pct: 33.3, min: 20, max: 35, menu: 'pockets.patchPockets' },
+    patchPocketPeakDepth: { pct: 0, min: 0, max: 100, menu: 'pockets.patchPockets' }, //Altered for Fauna
     patchPocketPeakPlateau: { bool: false, menu: 'pockets.patchPockets' }, //Altered for Fauna
     patchPocketStyle: {
       dflt: 'straight',
