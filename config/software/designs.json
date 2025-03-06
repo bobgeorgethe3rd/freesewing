@@ -100,6 +100,14 @@
       "difficulty": 2,
       "tags": ["bottoms", "trousers", "viking"]
     },
+    "jack": {
+      "description": "Jack jean shorts design",
+      "number": "0050",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["bottoms", "shorts", "jeans"]
+    },
     "jackson": {
       "description": "Jackon jean design",
       "number": "0006",
