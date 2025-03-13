@@ -277,7 +277,10 @@ export const back = {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const armholeSa = sa * options.armholeSaWidth * 100
 
-        points.saCHem = new Point(points.saCbNeck.x, points.cHem.y + hemSa)
+        points.saCHem = new Point(
+          options.backBoxPleat ? points.saCbNeck.x - backBoxPleatWidth * 0.5 : points.saCbNeck.x,
+          points.cHem.y + hemSa
+        )
         points.saSideHem = points.sideHem
           .shift(points.sideHemCp1.angle(points.sideHem), sideSeamSa)
           .shift(points.sideHemCp1.angle(points.sideHem) - 90, hemSa)
