@@ -8,7 +8,7 @@ export const sleeveBand = {
     //Sleeves
     sleeveBandFolded: { bool: false, menu: 'sleeves' },
     sleeveBandRuffles: { bool: true, menu: 'sleeves' },
-    sleeveBandOverlap: { pct: 0, min: 0, max: 20, menu: 'sleeves' }, //9,1
+    sleeveBandOverlap: { pct: 9.4, min: 0, max: 20, menu: 'sleeves' }, //9.1
   },
   draft: ({
     store,
