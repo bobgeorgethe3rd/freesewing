@@ -1,0 +1,26 @@
+{
+  "id": "frankie",
+  "name": "Frankie flared trousers",
+  "code": "bobgeorgethe3rd",
+  "description": "A FreeSewing pattern for flared trousers",
+  "design": [
+    "halbmoki",
+    "bobgeorgethe3rd"
+  ],
+  "difficulty": 3,
+  "tags": [
+    "bottoms",
+    "trousers"
+  ],
+  "techniques": [
+    "seamPocket",
+    "pocket",
+    "fly",
+    "zipper",
+    "button",
+    "curvedSeam",
+    "hem"
+  ],
+  "version": "4.0.0",
+  "pkg": "@freesewing/frankie"
+}
