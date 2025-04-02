@@ -11,6 +11,10 @@ import { capitalize } from 'shared/utils.mjs'
 // Initial navigation
 const initialNavigation = (t) => {
   const base = {
+    all: {
+      __title: t('All'),
+      __slug: 'designs',
+    },
     blocks: {
       __title: t('Blocks'),
       __slug: 'blocks',
