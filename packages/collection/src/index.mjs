@@ -19,6 +19,7 @@ import { Cornelius as cornelius } from '@freesewing/cornelius'
 import { Diana as diana } from '@freesewing/diana'
 import { Florence as florence } from '@freesewing/florence'
 import { Florent as florent } from '@freesewing/florent'
+import { Frankie as frankie } from '@freesewing/frankie'
 import { Gozer as gozer } from '@freesewing/gozer'
 import { Hi as hi } from '@freesewing/hi'
 import { Holmes as holmes } from '@freesewing/holmes'
@@ -86,6 +87,7 @@ export const designs = {
   diana,
   florence,
   florent,
+  frankie,
   gozer,
   hi,
   holmes,
