@@ -53,7 +53,7 @@ diana:
     '@freesewing/brian': *freesewing
     '@freesewing/plugin-bust': *freesewing
 frankie:
-  _:
+  peer:
     '@freesewing/titan': *freesewing
 examples:
   peer:
