@@ -17,6 +17,7 @@ import { Cornelius, CorneliusFront, CorneliusBack } from './cornelius.mjs'
 import { Diana, DianaFront, DianaBack } from './diana.mjs'
 import { Florence, FlorenceFront } from './florence.mjs'
 import { Florent, FlorentFront } from './florent.mjs'
+import { Frankie, FrankieFront, FrankieBack } from './frankie.mjs'
 import { Gozer, GozerFront, GozerBack } from './gozer.mjs'
 import { Hi, HiFront } from './hi.mjs'
 import { Holmes, HolmesFront } from './holmes.mjs'
@@ -58,6 +59,7 @@ const lineDrawingsFront = {
   diana: DianaFront,
   florence: FlorenceFront,
   florent: FlorentFront,
+  frankie: FrankieFront,
   gozer: GozerFront,
   hi: HiFront,
   holmes: HolmesFront,
@@ -99,6 +101,7 @@ const lineDrawingsBack = {
   charlie: CharlieBack,
   cornelius: CorneliusBack,
   diana: DianaBack,
+  frankie: FrankieBack,
   gozer: GozerBack,
   huey: HueyBack,
   hugo: HugoBack,
@@ -136,6 +139,7 @@ const lineDrawings = {
   diana: Diana,
   florence: Florence,
   florent: Florent,
+  frankie: Frankie,
   gozer: Gozer,
   hi: Hi,
   holmes: Holmes,
@@ -238,6 +242,10 @@ export {
   // Florent
   Florent,
   FlorentFront,
+  // Frankie
+  Frankie,
+  FrankieFront,
+  FrankieBack,
   // Gozer
   Gozer,
   GozerFront,
