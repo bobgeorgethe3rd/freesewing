@@ -9,7 +9,7 @@ import { PageWrapper } from 'site/components/wrappers/page.mjs'
 import { BareLayout } from 'site/components/layouts/bare.mjs'
 import { Icons } from 'shared/components/navigation/primary.mjs'
 
-const title = 'Welcome to the FreeSewing Lab'
+const title = "Welcome to the bobgeorgethe3rd's Lab"
 
 const HomePage = () => {
   const app = useApp()
@@ -40,117 +40,59 @@ const HomePage = () => {
       </Head>
       <section
         style={{
-          backgroundImage: "url('/img/splash.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: '40% 50%',
+          backgroundImage: "url('/img/bg3.jpg')",
+          backgroundSize: '33.3%',
+          backgroundPosition: '0% 50%',
         }}
         className="m-0 p-0 shadow drop-shadow-lg w-full mb-8"
       >
-        <div className="mx-auto px-8 flex flex-col items-center justify-center min-h-screen py-24 lg:min-h-0 lg:py-96">
-          <div className="flex flex-col items-end max-w-4xl">
+        <div className="mx-auto px-8 flex flex-col items-center justify-center min-h-screen py-24 lg:min-h-0 lg:py-96 bg-base-200 bg-opacity-25">
+          <div
+            className="flex flex-col items-end max-w-4xl bg-base-200
+                  bg-opacity-50"
+          >
             <h1
               className={`
-                  text-3xl font-black text-right px-4
+                  text-3xl font-black text-center px-4
                   sm:text-6xl
                   md:text-7xl px-6
                   lg:px-8
-                  bg-accent
                   `}
-              style={{ textShadow: '1px 1px 3px #000', color: 'white' }}
+              style={{ textShadow: '10px 10px 30px #000', color: 'white' }}
             >
-              <span className="font-light">lab.</span>
-              FreeSewing
-              <span className="font-light">.dev</span>
+              <span className="font-bold ">bobgeorgethe3rd's </span>
+              <span className="font-light">lab</span>
             </h1>
-
-            <h2
-              className={`
-                  text-xl mr-0 mt-4 font-bold
-                  sm:text-3xl
-                  md:text-4xl
-                  lg:max-w-1/2 lg:text-4xl
-                  xl:pr-0 `}
-              style={{ textShadow: '1px 1px 3px #000', color: 'white' }}
-            >
-              {t('slogan')}:
-            </h2>
-            <ul
-              className={`
-                  text-xl mr-8 font-bold list list-inside list-disc
-                  sm:text-3xl
-                  md:text-4xl
-                  lg:max-w-1/2 lg:text-3xl
-                  xl:pr-0 `}
-              style={{ textShadow: '1px 1px 3px #000', color: 'white' }}
-            >
-              <li>{t('slogan1')}</li>
-              <li>{t('slogan2')}</li>
-              <li>{t('slogan3')}</li>
-              <li>{t('slogan4')}</li>
-            </ul>
           </div>
-          <Icons
-            app={app}
-            active="/"
-            ulClasses="flex flex-row flex-wrap mt-8 justify-around w-full max-w-6xl"
-            liClasses="text-neutral-content w-1/2 my-4 lg:mx-2 lg:w-24"
-            linkClasses={`
-                text-lg lg:text-xl py-1 text-secondary text-center
-                hover:text-secondary sm:hover:text-secondary-focus hover:cursor-pointer
-                flex flex-col items-center capitalize`}
-          />
-          <p className="text-neutral-content text-center mt-8">
-            To learn more about FreeSewing and try our platform go to{' '}
-            <a
-              href="https://freesewing.org/"
-              title="Go to FreeSewing.org"
-              className="text-secondary font-bold"
-            >
-              freesewing.org
-            </a>
-          </p>
-        </div>
-      </section>
-      <div>
-        <div className="max-w-7xl m-auto my-32">
-          <div
-            className="bg-cover bg-neutral w-full bg-center rounded-lg shadow p-4 "
-            style={{ backgroundImage: 'url(/support.jpg)' }}
+          <h2
+            className={`
+            text-left bg-base-200
+                  bg-opacity-50
+                  `}
+            style={{ textShadow: '10px 10px 30px #000', color: 'base-content' }}
           >
-            <h2 className="text-neutral-content p-4 text-4xl font-bold sm:font-light sm:text-6xl drop-shadow">
-              Support FreeSewing
-            </h2>
-            <p className="text-neutral-content p-4 font-bold max-w-md text-lg">
-              FreeSewing is fuelled by a voluntary subscription model
-            </p>
-            <p className="text-neutral-content p-4 font-bold max-w-md text-lg">
-              If you think what we do is worthwhile, and if you can spare a few coins each month
-              without hardship, please support our work
-            </p>
-            <a
-              role="button"
-              className="btn btn-accent btn-wide ml-4 mb-8"
-              href="https://freesewing.org/patrons/join"
-            >
-              Become a Patron
-            </a>
-          </div>
-        </div>
-        <div className="max-w-7xl m-auto my-32">
-          <div className="px-8 text-base-content">
+            - bobgeorgethe3rd's little corner of pattern design
+            <br></br>- I try my best but sometimes it is hard
+          </h2>
+          <div
+            className={`
+            text-left bg-base-200
+                  bg-opacity-50
+                  `}
+          >
             <Icons
               app={app}
               active="/"
               ulClasses="flex flex-row flex-wrap mt-8 justify-around w-full max-w-6xl"
-              liClasses="w-1/3 my-4 lg:mx-2 lg:w-24"
+              liClasses="text-neutral-content w-1/2 my-4 lg:mx-2 lg:w-24"
               linkClasses={`
-              text-lg lg:text-xl py-1 text-base-content text-center
-              hover:text-secondary sm:hover:text-secondary-focus hover:cursor-pointer
-              flex flex-col items-center capitalize`}
+                text-lg lg:text-xl py-1 text-base-content text-center hover:text-neutral-content
+                  hover:cursor-pointer hover:bg-secondary
+                flex flex-col items-center capitalize`}
             />
           </div>
         </div>
-      </div>
+      </section>
     </PageWrapper>
   )
 }
