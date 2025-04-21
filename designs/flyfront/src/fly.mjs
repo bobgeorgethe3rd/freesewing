@@ -69,6 +69,7 @@ export const fly = {
         rotation: 90 - points.flyCurveStart.angle(points.flyWaist),
       })
       if (sa) {
+        const flySa = sa * options.flySaWidth * 100
         const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
 
         paths.saCrotchSeam = paths.crotchSeam
@@ -80,13 +81,13 @@ export const fly = {
         points.saFlyCrotch = utils.beamsIntersect(
           paths.saCrotchSeam.start(),
           paths.saCrotchSeam.shiftFractionAlong(0.01),
-          points.flyCurveEnd.shiftTowards(points.flyCrotch, sa).rotate(-90, points.flyCurveEnd),
-          points.flyCrotch.shiftTowards(points.flyCurveEnd, sa).rotate(90, points.flyCrotch)
+          points.flyCurveEnd.shiftTowards(points.flyCrotch, flySa).rotate(-90, points.flyCurveEnd),
+          points.flyCrotch.shiftTowards(points.flyCurveEnd, flySa).rotate(90, points.flyCrotch)
         )
 
         paths.sa = paths.placketCurve
           .line(points.flyCrotch)
-          .offset(sa)
+          .offset(flySa)
           .line(points.saFlyCrotch)
           .join(paths.saCrotchSeam)
           .line(points.saWaistIn)

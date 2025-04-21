@@ -26,6 +26,7 @@ export const front = {
     calculateLegBandDiff: false, //Locked for Simeon
     useHeel: true, //Locked for Simeon
     ankleEase: 0.108, //Locked for Simeon
+    flySaWidth: 0.01, //Locked for Simeon
     //Fit
     waistEase: { pct: 6.4, min: 0, max: 20, menu: 'fit' }, //Altered for Simeon
     hipsEase: { pct: 5.9, min: 0, max: 20, menu: 'fit' }, //Altered for Simeon

@@ -128,11 +128,12 @@ export const flyFunction = (
       .attr('data-text', 'Fly Stitching Line')
       .attr('data-text-class', 'center')
     if (sa) {
+      const flySa = sa * options.flySaWidth * 100
       const crotchSeamSa = sa * options.crotchSeamSaWidth * 100
 
       points.saFlyWaist = utils.beamsIntersect(
-        points.flyWaist.shiftTowards(points.flyCurveStart, sa).rotate(-90, points.flyWaist),
-        points.flyCurveStart.shiftTowards(points.flyWaist, sa).rotate(90, points.flyCurveStart),
+        points.flyWaist.shiftTowards(points.flyCurveStart, flySa).rotate(-90, points.flyWaist),
+        points.flyCurveStart.shiftTowards(points.flyWaist, flySa).rotate(90, points.flyCurveStart),
         points.saWaistOut,
         points.saWaistIn
       )

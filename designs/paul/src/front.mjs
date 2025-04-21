@@ -29,6 +29,7 @@ export const front = {
     useHeel: true, //Locked for Paul
     fitCalf: false, //Locked for Paul
     fitKnee: false, //Locked for Paul
+    flySaWidth: 0.01, //Locked for Paul
     //Fit
     waistEase: { pct: 6.4, min: 0, max: 20, menu: 'fit' }, //Altered for Paul
     hipsEase: { pct: 5.9, min: 0, max: 20, menu: 'fit' }, //Altered for Paul

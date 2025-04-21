@@ -14,6 +14,8 @@ export const flyBase = {
     //Plackets
     flyFrontLength: { pct: 70.2, min: 70, max: 80, menu: 'plackets' },
     flyFrontWidth: { pct: 5.1, min: 5, max: 6, menu: 'plackets' },
+    //Construction
+    flySaWidth: { pct: 1, min: 1, max: 2, menu: 'construction' },
   },
   draft: ({
     store,
