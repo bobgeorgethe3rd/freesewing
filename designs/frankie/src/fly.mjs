@@ -9,6 +9,8 @@ export const fly = {
   options: {
     //Plackets
     buttonholePlacket: { bool: false, menu: 'plackets' },
+    //Construction
+    flySaWidth: { pct: 1, min: 1, max: 2, menu: 'construction' },
   },
   draft: ({ store, sa, points, Path, paths, options, paperless, macro, utils, part }) => {
     //paths
@@ -26,7 +28,7 @@ export const fly = {
 
     if (sa) {
       paths.sa = paths.saBase
-        .offset(sa)
+        .offset(sa * options.flySaWidth * 100)
         .join(paths.crotchSeam.offset(sa * options.crotchSeamSaWidth * 100))
         .close()
         .setClass('fabric sa')

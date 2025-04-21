@@ -176,6 +176,10 @@
       "t": "Fly length",
       "d": "Controls the length of the fly."
     },
+    "flySaWidth": {
+      "t": "Fly seam allowance width",
+      "d": "Multiplies the fly seam allowance."
+    },
     "flyShieldCurved": {
       "t": "Fly shield curved",
       "d": "Controls whether the fly shield is drafted curved or not."

@@ -41,7 +41,7 @@ export const buttonholePlacket = {
 
     if (sa) {
       paths.sa = paths.saBase
-        .offset(sa)
+        .offset(sa * options.flySaWidth * 100)
         .line(points.flyCurveEnd)
         .line(points.styleWaistIn)
         .close()
