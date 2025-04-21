@@ -10,7 +10,7 @@ export const crown = {
     //Fit
     headEase: { pct: 3, min: 0, max: 20, menu: 'fit' },
     //Style
-    crownWidth: { pct: 43, min: 40, max: 100, menu: 'style' },
+    crownWidth: { pct: 45.3, min: 40, max: 100, menu: 'style' }, //43
   },
   measurements: ['head'],
   draft: ({

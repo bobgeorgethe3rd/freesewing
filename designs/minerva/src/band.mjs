@@ -8,14 +8,14 @@ export const band = {
     //Style
     band: { bool: true, menu: 'style' },
     bandLengthBonus: {
-      pct: 4.1,
+      pct: 4.4,
       min: 2,
       max: 20,
       snap: 6.35,
       ...pctBasedOn('head'),
       menu: 'style',
-    },
-    bandWidth: { pct: 4.1, min: 2, max: 10, snap: 6.35, ...pctBasedOn('head'), menu: 'style' },
+    }, //4.1
+    bandWidth: { pct: 4.4, min: 2, max: 10, snap: 6.35, ...pctBasedOn('head'), menu: 'style' }, //4.1
     bandFolds: { count: 4, min: 1, max: 4, menu: 'style' },
   },
   draft: ({

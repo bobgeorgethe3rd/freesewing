@@ -29,7 +29,7 @@ export const brim = {
   options: {
     //Style
     brimStyle: { dflt: 'circle', list: ['circle', 'eye', 'geometric', 'oval'], menu: 'style' },
-    brimWidth: { pct: 8.2, min: 5, max: 50, snap: 5, ...pctBasedOn('head'), menu: 'style' },
+    brimWidth: { pct: 8.6, min: 5, max: 50, snap: 5, ...pctBasedOn('head'), menu: 'style' }, //8.2
     brimSideOffset: { pct: 2.25, min: 1, max: 5, menu: 'style' },
     brimSideNum: { count: 8, min: 3, max: 12, menu: 'style' },
   },

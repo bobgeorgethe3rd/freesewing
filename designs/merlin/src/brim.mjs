@@ -8,11 +8,11 @@ export const brim = {
     //Style
     brimNumber: { count: 1, min: 1, max: 6, menu: 'style' },
     brimWidth: {
-      pct: 26.2,
+      pct: 26.5,
       min: 15,
       max: 200,
       /* snap: 6.35, ...pctBasedOn('head'), */ menu: 'style',
-    },
+    }, //26.2
   },
   draft: ({
     store,

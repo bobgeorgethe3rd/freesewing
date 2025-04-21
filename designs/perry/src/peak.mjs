@@ -9,7 +9,7 @@ export const peak = {
     cpFraction: 0.55191502449,
     //Style
     peak: { bool: true, menu: 'style' },
-    peakWidth: { pct: 6.5, min: 4.9, max: 8.2, snap: 5, ...pctBasedOn('head'), menu: 'style' },
+    peakWidth: { pct: 6.9, min: 4.9, max: 8.6, snap: 5, ...pctBasedOn('head'), menu: 'style' }, //6.5 //8.2
   },
   draft: ({
     store,

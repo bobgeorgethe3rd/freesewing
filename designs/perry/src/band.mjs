@@ -6,7 +6,7 @@ export const band = {
   after: crown,
   options: {
     //Style
-    bandWidth: { pct: 4.9, min: 4.9, max: 16.4, snap: 5, ...pctBasedOn('head'), menu: 'style' },
+    bandWidth: { pct: 5.2, min: 4.9, max: 17.1, snap: 5, ...pctBasedOn('head'), menu: 'style' }, //4.9 //16.4
     //Construction
     crownSaWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },

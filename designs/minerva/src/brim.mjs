@@ -11,7 +11,7 @@ export const brim = {
     //Imported
     ...brimBase.options,
     //Style
-    brimWidth: { pct: 6.2, min: 5, max: 50, snap: 6.35, ...pctBasedOn('head'), menu: 'style' },
+    brimWidth: { pct: 6.6, min: 5, max: 50, snap: 6.35, ...pctBasedOn('head'), menu: 'style' }, //6.2
     //Advanced
     brimWidthOffset: { pct: 2.25, min: 1.25, max: 4.5, menu: 'advanced' },
   },

@@ -8,21 +8,21 @@ export const stars = {
     appliques: { bool: true, menu: 'appliques' },
     appliqueNumber: { count: 5, min: 3, max: 20, menu: 'appliques' },
     appliqueLength: {
-      pct: 4.9,
+      pct: 5.2,
       min: 4.9,
       max: 8.2,
       snap: 5,
       ...pctBasedOn('head'),
       menu: 'appliques',
-    },
+    }, //4.9
     appliqueIncrement: {
-      pct: 3.3,
+      pct: 3.5,
       min: 1.5,
       max: 8.2,
       snap: 5,
       ...pctBasedOn('head'),
       menu: 'appliques',
-    },
+    }, //3.3
     //Construction
     appliqueSaWidth: { pct: 1, min: 0, max: 1.5, menu: 'construction' },
   },
