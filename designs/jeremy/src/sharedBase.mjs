@@ -9,19 +9,20 @@ export const sharedBase = {
     neckEase: 0, //.064,
     cfNeck: 0.55191502449,
     //Fit
-    chestEase: { pct: 4.6, min: 0, max: 20, menu: 'fit' },
+    chestEase: { pct: 5.5, min: 0, max: 20, menu: 'fit' }, //4.6
     shoulderToShoulderEase: { pct: 0, min: -10, max: 10, menu: 'fit' },
     // waistEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
     //Style
     waistLengthBonus: { pct: 0, min: -20, max: 20, menu: 'style' },
     //Armhole
     scyeDepth: { pct: 18.2, min: 15, max: 30, menu: 'armhole' },
-    backArmholePitchDepth: { pct: 50, min: 45, max: 60, menu: 'armhole' },
-    backArmholePitchWidth: { pct: 97, min: 95, max: 98.5, menu: 'armhole' },
+    backArmholePitchDepth: { pct: 55.8, min: 45, max: 60, menu: 'armhole' }, //50
+    backArmholePitchWidth: { pct: 90.7, min: 90, max: 98.5, menu: 'armhole' }, //97
     backArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },
-    frontArmholePitchDepth: { pct: 50, min: 45, max: 60, menu: 'armhole' },
-    frontArmholePitchWidth: { pct: 91.1, min: 90, max: 95, menu: 'armhole' },
+    frontArmholePitchDepth: { pct: (2 / 3) * 100, min: 45, max: 70, menu: 'armhole' }, //50
+    frontArmholePitchWidth: { pct: 88.4, min: 85, max: 95, menu: 'armhole' }, //91.1
     frontArmholeDepth: { pct: 55.2, min: 45, max: 65, menu: 'armhole' },
+    armholeBalance: { pct: 41.1, min: 40, max: 60, menu: 'armhole' },
     //Advanced
     shoulderRise: { pct: 0, min: 0, max: 3, menu: 'advanced' },
   },
@@ -136,7 +137,8 @@ export const sharedBase = {
     // points.armhole = new Point(points.cfArmhole.x * 0.5, points.cbArmhole.y)
     // points.armhole = points.cfArmhole.shift(0, measurements.chestFront * (1 + options.chestEase) * 0.5)
     points.armhole = new Point(
-      (points.frontArmholePitch.x + points.shoulderBack.x) * 0.5,
+      points.frontArmholePitch.x +
+        points.frontArmholePitch.dx(points.shoulderBack) * options.armholeBalance,
       points.cbArmhole.y
     )
 
@@ -185,7 +187,7 @@ export const sharedBase = {
         Math.sin(
           utils.deg2rad(
             points.armhole.angle(points.shoulderBack) -
-              (points.shoulderBack.angle(points.hpsBack) + 90)
+              (points.shoulderBack.angle(points.hpsBack) - 90)
           )
         )
     )
