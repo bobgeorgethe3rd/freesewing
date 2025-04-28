@@ -176,7 +176,7 @@ export const sharedBase = {
       .line(points.armhole)
       .curve(points.armholeCp2, points.frontArmholePitchCp1, points.frontArmholePitch)
       .curve_(points.frontArmholePitchCp2, points.shoulderFront)
-      .hide()
+    //.hide()
 
     //stores
     store.set('chest', chest)
