@@ -115,10 +115,13 @@ export const body = {
     paths.seam = draftRectangle(part, xDist, yDist)
 
     //details that are always needed
-    points.slit = points.top.shift(-90, measurements.hpsToWaistFront * options.slitLength)
     points.neckLeft = points.top.shift(180, neckFullness * 0.5 - sa)
     points.neckRight = points.neckLeft.flipX(points.top)
     points.neckFront = points.top.shift(-90, measurements.hpsToWaistFront * options.slitFrontDepth)
+    points.slit = points.neckFront.shift(
+      -90,
+      measurements.hpsToWaistFront * options.slitLength - neck / 4
+    )
     points.neckBack = points.top.shift(-90, measurements.hpsToWaistFront * options.slitBackDepth)
 
     points.neckFrontCp1 = new Point(points.neckRight.x * options.slitFrontCurve, points.neckFront.y)
