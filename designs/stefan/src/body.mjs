@@ -86,7 +86,7 @@ export const body = {
     let sleeveGussetWidth =
       toWaist - measurements.waistToArmpit * (1 - options.scyeDepth) - sleeveWidth * 0.5
     if (options.taperedSleeves && options.sleeveFullness <= 0) {
-      sleeveGussetWidth = (sleeveWidth - wrist) * 0.5
+      sleeveGussetWidth = (sleeveWidth - wrist - sleeveBandOverlap) * 0.5 - sa
     }
     const shoulderDrop = measurements.shoulderToElbow * options.bodyWidth
 
