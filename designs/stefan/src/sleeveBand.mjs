@@ -8,7 +8,7 @@ export const sleeveBand = {
     //Sleeves
     sleeveBandFolded: { bool: false, menu: 'sleeves' },
     sleeveBandRuffles: { bool: true, menu: 'sleeves' },
-    sleeveBandOverlap: { pct: 9.4, min: 0, max: 20, menu: 'sleeves' }, //9.1
+    //sleeveBandOverlap: { pct: 9.4, min: 0, max: 20, menu: 'sleeves' }, //9.1
   },
   draft: ({
     store,
@@ -34,8 +34,8 @@ export const sleeveBand = {
       return part
     }
 
-    const sleeveBandOverlap = measurements.wrist * options.sleeveBandOverlap
-    const xDist = store.get('wrist') + sleeveBandOverlap * 2
+    const sleeveBandOverlap = store.get('sleeveBandOverlap')
+    const xDist = store.get('wrist') + sleeveBandOverlap
     let yDist = store.get('sleeveBandWidth')
     if (options.sleeveBandFolded && !options.sleeveBandRuffles) yDist = yDist * 2
 
@@ -44,7 +44,7 @@ export const sleeveBand = {
 
     //details that are always needed
     if (sleeveBandOverlap > 0) {
-      points.topLeftOverlap = points.topLeft.shift(0, sleeveBandOverlap)
+      points.topLeftOverlap = points.topLeft.shift(0, sleeveBandOverlap * 0.5)
       points.bottomLeftOverlap = new Point(points.topLeftOverlap.x, points.bottomLeft.y)
       points.bottomRightOverlap = points.bottomLeftOverlap.flipX(points.origin)
       points.topRightOverlap = points.topLeftOverlap.flipX(points.origin)

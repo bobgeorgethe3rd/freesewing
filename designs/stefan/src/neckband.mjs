@@ -15,7 +15,7 @@ export const neckband = {
       ...pctBasedOn('hpsToWaistBack'),
       menu: 'style',
     },
-    neckbandOverlap: { pct: 0, min: 0, max: 10, menu: 'style' }, //3.8
+    //neckbandOverlap: { pct: 0, min: 0, max: 10, menu: 'style' }, //3.8
     neckbandFolded: { bool: false, menu: 'style' },
     neckbandRuffles: { bool: true, menu: 'style' },
   },
@@ -38,8 +38,8 @@ export const neckband = {
     absoluteOptions,
     log,
   }) => {
-    const neckbandOverlap = measurements.neck * options.neckbandOverlap
-    const xDist = store.get('neckbandLength') + neckbandOverlap * 2
+    const neckbandOverlap = store.get('neckbandOverlap') * 0.5
+    const xDist = store.get('neckbandLength') // + neckbandOverlap * 2
     let yDist = absoluteOptions.neckbandWidth
     if (options.neckbandFolded && !options.neckbandRuffles) yDist = yDist * 2
 
@@ -66,7 +66,7 @@ export const neckband = {
         .attr('data-text', 'Overlap line')
     }
     //stores
-    store.set('neckbandRuffleLength', xDist)
+    //store.set('neckbandRuffleLength', xDist)
     if (complete) {
       //grainline
       points.grainlineFrom = new Point(points.topLeft.x * 0.5, points.topLeft.y)

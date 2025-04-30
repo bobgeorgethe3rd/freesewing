@@ -8,7 +8,7 @@ export const body = {
     //Fit
     neckEase: { pct: 12.9, min: 0, max: 20, menu: 'fit' },
     bicepsEase: { pct: 25.9, min: 0, max: 40, menu: 'fit' },
-    wristEase: { pct: 30.8, min: 0, max: 50, menu: 'fit' },
+    wristEase: { pct: 15.4, min: 0, max: 50, menu: 'fit' }, //30.8
     //Style
     bodyWidth: { pct: 25, min: 0, max: 100, menu: 'style' },
     bodyLength: { pct: 150, min: 0, max: 250, menu: 'style' },
@@ -16,6 +16,7 @@ export const body = {
     bodySideStyle: { dflt: 'vents', list: ['vents', 'gores', 'none'], menu: 'style' },
     bodyVentLength: { pct: 43.8, menu: 25, max: 75, menu: 'style' },
     neckFullness: { pct: 100, min: 50, max: 150, menu: 'style' },
+    neckbandOverlap: { pct: 0, min: 0, max: 10, menu: 'style' }, //3.6
     slitLength: { pct: 72.6, min: 50, max: 100, menu: 'style' },
     slitBackDepth: { pct: 0, min: 0, max: 12.1, menu: 'style' },
     slitFrontDepth: { pct: 6.1, min: 0, max: 12.1, menu: 'style' },
@@ -25,6 +26,7 @@ export const body = {
     scyeDepth: { pct: 18.2, min: 15, max: 30, menu: 'armhole' },
     //Sleeves
     sleeveFullness: { pct: 0, min: 0, max: 150, menu: 'sleeves' },
+    sleeveBandOverlap: { pct: 9.4, min: 0, max: 20, menu: 'sleeves' }, //9.1
     taperedSleeves: { bool: false, menu: 'sleeves' },
     //Construction
     sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
@@ -69,12 +71,18 @@ export const body = {
   }) => {
     const neck = measurements.neck * (1 + options.neckEase)
     const wrist = measurements.wrist * (1 + options.wristEase)
-    const neckFullness = neck * options.neckFullness
+    const biceps = measurements.biceps * (1 + options.bicepsEase)
+    const neckbandOverlap = measurements.neck * options.neckbandOverlap * 2
+    const sleeveBandOverlap = measurements.wrist * options.sleeveBandOverlap * 2
+    const neckFullness = (neck + neckbandOverlap) * options.neckFullness
     let toWaist = measurements.hpsToWaistBack
     if (measurements.hpsToWaistFront > measurements.hpsToWaistBack) {
       toWaist = measurements.hpsToWaistFront
     }
-    const sleeveWidth = measurements.biceps * (1 + options.bicepsEase)
+    let sleeveWidth = measurements.biceps * (1 + options.bicepsEase)
+    if (wrist + sleeveBandOverlap > biceps) {
+      sleeveWidth = (wrist + sleeveBandOverlap) * 1.25
+    }
     let sleeveGussetWidth =
       toWaist - measurements.waistToArmpit * (1 - options.scyeDepth) - sleeveWidth * 0.5
     if (options.taperedSleeves && options.sleeveFullness <= 0) {
@@ -197,11 +205,13 @@ export const body = {
     })
 
     //stores
-    store.set('neckbandLength', neck)
+    store.set('neckbandLength', neck + neckbandOverlap)
+    store.set('neckbandOverlap', neckbandOverlap)
     store.set('shoulderDrop', shoulderDrop)
     store.set('sleeveWidth', sleeveWidth)
     store.set('sleeveGussetWidth', sleeveGussetWidth)
     store.set('wrist', wrist)
+    store.set('sleeveBandOverlap', sleeveBandOverlap)
     store.set('goreLength', points.sleeveGussetLeft.dist(points.bottomLeft))
 
     if (complete) {

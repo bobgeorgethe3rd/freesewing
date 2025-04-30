@@ -55,7 +55,10 @@ export const sleeve = {
     //details that are always needed
     const sleeveVentDepth = yDist * options.sleeveVentDepth
     if (options.taperedSleeves && options.sleeveFullness <= 0) {
-      points.wristLeft = points.bottom.shift(180, store.get('wrist') * 0.5)
+      points.wristLeft = points.bottom.shift(
+        180,
+        (store.get('wrist') + store.get('sleeveBandOverlap')) * 0.5 + sa * 2
+      )
       points.wristRight = points.wristLeft.flipX(points.origin)
 
       paths.cutLineLeft = new Path()
@@ -71,6 +74,16 @@ export const sleeve = {
         .attr('class', 'fabric help')
         .attr('data-text', 'Cut to create gore')
         .attr('data-text-class', 'center')
+      if (!sa) {
+        paths.cutLineLeft.attr(
+          'data-text',
+          'Shift notches to left by your seam allowance and redraw slit path before cutting.'
+        )
+        paths.cutLineRight.attr(
+          'data-text',
+          'Shift notches to right by your seam allowance and redraw slit path before cutting.'
+        )
+      }
 
       points.sleeveVentLeft = new Path()
         .move(points.wristLeft)

@@ -43,7 +43,7 @@ export const neckbandRuffle = {
       return part
     }
     const neckbandRuffleWidth = absoluteOptions.neckbandRuffleWidth
-    const xDist = store.get('neckbandRuffleLength') * options.neckbandRuffleFullness
+    const xDist = store.get('neckbandLength') * options.neckbandRuffleFullness
     const yDist = neckbandRuffleWidth
 
     //paths & points
