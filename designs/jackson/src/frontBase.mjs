@@ -19,7 +19,7 @@ export const frontBase = {
     frontPocketsBool: { bool: true, menu: 'pockets' },
     frontPocketWidth: { pct: 50, min: 30, max: 60, menu: 'pockets.frontPockets' },
     frontPocketOpeningWidth: { pct: 50, min: 45, max: 60, menu: 'pockets.frontPockets' },
-    frontPocketOpeningDepth: { pct: 16.6, min: 12, max: 20, menu: 'pockets.frontPockets' },
+    frontPocketOpeningDepth: { pct: 14.5, min: 12, max: 20, menu: 'pockets.frontPockets' }, //16.6
     frontPocketOpeningCurve: { pct: 66.7, min: 50, max: 100, menu: 'pockets.frontPockets' },
     frontPocketOutSeamDepth: { pct: 61, min: 30, max: 75, menu: 'pockets.frontPockets' }, //71.5
     //Construction

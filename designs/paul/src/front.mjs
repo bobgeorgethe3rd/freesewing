@@ -50,7 +50,7 @@ export const front = {
     fitFloor: { bool: false, menu: 'style' }, //Altered for Paul
     //Pockets
     frontPocketsBool: { bool: true, menu: 'pockets' },
-    frontPocketOpeningTopDepth: { pct: 13.6, min: 10, max: 20, menu: 'pockets.frontPockets' },
+    frontPocketOpeningTopDepth: { pct: 12.2, min: 10, max: 20, menu: 'pockets.frontPockets' }, //13.6
     frontPocketOpeningDepth: { pct: 91, min: 90, max: 110, menu: 'pockets.frontPockets' },
     //Plackets
     flyFrontBool: { bool: true, menu: 'plackets' },
