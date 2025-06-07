@@ -63,6 +63,14 @@
       "design": "bobgeorgethe3rd",
       "difficulty": 3,
       "tags": ["tops", "blocks"]
+    },
+    "sarah": {
+      "description": "Sarah skirt block design",
+      "number": "0051",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["bottoms", "blocks"]
     }
   },
   "bodices": {
