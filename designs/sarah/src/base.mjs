@@ -9,18 +9,13 @@ export const base = {
     //Constants
     waistbandStyle: 'straight',
     sideSeamSaWidth: 0.01,
-    circleRatio: 0.0125,
     //Fit
     waistEase: { pct: 3.2, min: 0, max: 20, menu: 'fit' },
     hipsEase: { pct: 3, min: 0, max: 20, menu: 'fit' },
     seatEase: { pct: 2.6, min: 0, max: 20, menu: 'fit' },
-    fitGuides: { bool: true, menu: 'fit' },
     //Style
     waistHeight: { pct: 100, min: 0, max: 100, menu: 'style' },
     kneeLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
-    //Darts
-    //Construction
-    hemWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
     //Advanced
     calculateWaistbandDiff: { bool: true, menu: 'advanced' },
     waistbandWidth: {
@@ -68,9 +63,9 @@ export const base = {
     //measures
     const waistbandWidth = options.waistbandStyle == 'none' ? 0 : absoluteOptions.waistbandWidth
 
-    const rise = measurements.waistToHips * (1 - options.waistHeight) + waistbandWidth
-
-    const toSeat = measurements.waistToSeat - rise
+    const toSeat =
+      measurements.waistToSeat -
+      (measurements.waistToHips * (1 - options.waistHeight) + waistbandWidth)
     const toKnee =
       (measurements.waistToKnee - measurements.waistToSeat) * (1 + options.kneeLengthBonus)
 
@@ -136,24 +131,10 @@ export const base = {
     }
 
     const sideDartWidth = (styleSeatFront + styleSeatBack - (styleWaistFront + styleWaistBack)) / 6
-    // const frontDartWidth = (styleSeatFront - styleWaistFront) / 3
-    // const backDartWidth = (styleSeatBack - styleWaistBack) / 3
-
-    const waistFrontCircumference =
-      styleWaistFront * 0.5 /*  + frontDartWidth */ * (10 / options.circleRatio)
-    const waistFrontRadius = waistFrontCircumference / Math.PI / 20
-
-    const waistBackCircumference =
-      styleWaistBack * 0.5 /*  + backDartWidth */ * (10 / options.circleRatio)
-    const waistBackRadius = waistBackCircumference / Math.PI / 20
 
     //let's begin
     points.origin = new Point(0, 0)
     points.sideSeat = points.origin.shift(-90, toSeat)
-    points.cfSeat = points.sideSeat.shift(180, styleSeatFront / 2)
-    points.cbSeat = points.sideSeat.shift(0, styleSeatBack / 2)
-    points.cfWaist = new Point(points.cfSeat.x, points.origin.y)
-    points.cbWaist = new Point(points.cbSeat.x, points.origin.y)
     points.sideCurveEnd = points.origin.shift(180, sideDartWidth / 2)
     points.sideCurveStart = points.origin.shift(0, sideDartWidth / 2)
     points.sideKnee = points.sideSeat.shift(-90, toKnee)
@@ -184,60 +165,23 @@ export const base = {
       .curve(points.sideCurveStartCp2, points.sideSeatCp1, points.sideSeat)
       .curve(points.sideSeatCp2, points.sideCurveEndCp1, points.sideCurveEnd)
 
-    //waist front swing
-
-    const waistAngle = 360 * options.circleRatio
-    const waistFrontCpDist = (4 / 3) * waistFrontRadius * Math.tan(utils.deg2rad(waistAngle / 4))
-
-    points.waistFrontOrigin = points.cfWaist.shift(90, waistFrontRadius)
-    points.sideWaistFront = points.cfWaist.rotate(waistAngle, points.waistFrontOrigin)
-    points.sideDartFrontCpTarget = utils.beamIntersectsX(
-      points.waistFrontOrigin,
-      points.sideWaistFront,
-      points.sideSeat.x
-    )
-
-    points.sideWaistFrontCp2I = points.sideWaistFront
-      .shiftTowards(points.waistFrontOrigin, waistFrontCpDist)
-      .rotate(90, points.sideWaistFront)
-    points.cfWaistCp1I = points.cfWaist.shift(0, waistFrontCpDist)
-    //waist back swing
-
-    const waistBackCpDist = (4 / 3) * waistFrontRadius * Math.tan(utils.deg2rad(waistAngle / 4))
-
-    points.waistBackOrigin = points.cbWaist.shift(90, waistBackRadius)
-    points.sideWaistBack = points.cbWaist.rotate(-waistAngle, points.waistBackOrigin)
-    points.sideDartBackCpTarget = utils.beamIntersectsX(
-      points.waistBackOrigin,
-      points.sideWaistBack,
-      points.sideSeat.x
-    )
-
-    points.cbWaistCp2I = points.cbWaist.shift(180, waistBackCpDist)
-    points.sideWaistBackCp1I = points.sideWaistBack
-      .shiftTowards(points.waistBackOrigin, waistBackCpDist)
-      .rotate(-90, points.sideWaistBack)
     //guides
+    // paths.origin = new Path()
+    // .move(points.sideKnee)
+    // .line(points.origin)
 
-    paths.box = new Path()
-      .move(points.cfWaist)
-      .line(points.cfSeat)
-      .line(points.cbSeat)
-      .line(points.cbWaist)
-      .line(points.cfWaist)
-      .move(points.sideSeat)
-      .line(points.origin)
+    // paths.sideDart = new Path()
+    // .move(points.sideWaistBack)
+    // .line(points.sideCurveStart)
+    // .curve(points.sideCurveStartCp2, points.sideSeatCp1, points.sideSeat)
+    // .curve(points.sideSeatCp2, points.sideCurveEndCp1, points.sideCurveEnd)
+    // .line(points.sideWaistFront)
 
-    paths.sideDart = new Path()
-      .move(points.sideCurveStart)
-      .curve(points.sideCurveStartCp2, points.sideSeatCp1, points.sideSeat)
-      .curve(points.sideSeatCp2, points.sideCurveEndCp1, points.sideCurveEnd)
-
-    paths.waistSwing = new Path()
-      .move(points.cbWaist)
-      .curve(points.cbWaistCp2I, points.sideWaistBackCp1I, points.sideWaistBack)
-      .move(points.sideWaistFront)
-      .curve(points.sideWaistFrontCp2I, points.cfWaistCp1I, points.cfWaist)
+    //stores
+    store.set('styleWaistFront', styleWaistFront)
+    store.set('styleWaistBack', styleWaistBack)
+    store.set('styleSeatFront', styleSeatFront)
+    store.set('styleSeatBack', styleSeatBack)
 
     return part
   },
