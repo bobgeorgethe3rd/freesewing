@@ -14,7 +14,8 @@ export const back = {
     //Fit
     fitGuides: { bool: true, menu: 'fit' },
     //Darts
-
+    maxBackDartNum: { count: 2, min: 1, max: 2, menu: 'darts' },
+    backDartLength: { pct: 65.3, min: 10, max: 100, menu: 'darts' },
     //Construction
     closurePosition: { dflt: 'back', list: ['front', 'side', 'back'], menu: 'construction' },
     hemWidth: { pct: 2, min: 0, max: 3, menu: 'construction' },
@@ -75,7 +76,134 @@ export const back = {
       .curve(points.cbWaistCp2I, points.sideWaistBackCp1I, points.sideWaistBack)
       .hide()
 
-    const dartBackWidth = paths.saWaistBase.length() - styleWaistBack * 0.5
+    const backDartWidth = paths.saWaistBase.length() - styleWaistBack * 0.5
+    const backDartLengthI =
+      (measurements.waistToSeat - measurements.waistToHips) * options.backDartLength +
+      measurements.waistToHips * options.waistHeight -
+      store.get('waistbandWidth')
+
+    let backDartLength = backDartLengthI
+    if (backDartLengthI < (measurements.waistToSeat - measurements.waistToHips) * 0.5) {
+      backDartLength = (measurements.waistToSeat - measurements.waistToHips) * 0.5
+      log.warning('backDart failsafe length used')
+    }
+
+    if (options.maxBackDartNum == 2 && !store.get('skirtBackDartPlacement')) {
+      //add placement for back dart options and stores
+      points.backDartMid0 = paths.saWaistBase.shiftFractionAlong(1 / 3)
+      points.backDartRight0 = paths.saWaistBase.shiftAlong(
+        (paths.saWaistBase.length() * 1) / 3 - backDartWidth * 0.25
+      )
+      points.backDartLeft0 = paths.saWaistBase.shiftAlong(
+        (paths.saWaistBase.length() * 1) / 3 + backDartWidth * 0.25
+      )
+      points.backDartBottom0 = points.waistBackOrigin.shiftOutwards(
+        points.backDartMid0,
+        backDartLength
+      )
+      points.backDartEdge0 = utils.beamsIntersect(
+        points.backDartLeft0,
+        points.backDartBottom0.rotate(90, points.backDartLeft0),
+        points.backDartBottom0,
+        points.backDartMid0
+      )
+      points.backDartMid1 = paths.saWaistBase.shiftFractionAlong(2 / 3)
+      points.backDartRight1 = paths.saWaistBase.shiftAlong(
+        (paths.saWaistBase.length() * 2) / 3 - backDartWidth * 0.25
+      )
+      points.backDartLeft1 = paths.saWaistBase.shiftAlong(
+        (paths.saWaistBase.length() * 2) / 3 + backDartWidth * 0.25
+      )
+      points.backDartBottom1 = points.waistBackOrigin.shiftOutwards(
+        points.backDartMid1,
+        backDartLength
+      )
+      points.backDartEdge1 = utils.beamsIntersect(
+        points.backDartLeft1,
+        points.backDartBottom1.rotate(90, points.backDartLeft1),
+        points.backDartBottom1,
+        points.backDartMid1
+      )
+      //need each as placement of darts can vary
+      const waistBackRightCpDist =
+        (4 / 3) *
+        waistBackRadius *
+        Math.tan(utils.deg2rad((270 - points.waistBackOrigin.angle(points.backDartRight0)) / 4))
+
+      const waistBackMidCpDist =
+        (4 / 3) *
+        waistBackRadius *
+        Math.tan(
+          utils.deg2rad(
+            (points.waistBackOrigin.angle(points.backDartLeft0) -
+              points.waistBackOrigin.angle(points.backDartRight1)) /
+              4
+          )
+        )
+
+      const waistBackLeftCpDist =
+        (4 / 3) *
+        waistBackRadius *
+        Math.tan(
+          utils.deg2rad(
+            (points.waistBackOrigin.angle(points.backDartLeft1) -
+              points.waistBackOrigin.angle(points.sideWaistBack)) /
+              4
+          )
+        )
+
+      points.cbWaistCp2 = points.cbWaist.shift(180, waistBackRightCpDist)
+      points.backDartRight0Cp1 = points.backDartRight0
+        .shiftTowards(points.waistBackOrigin, waistBackRightCpDist)
+        .rotate(-90, points.backDartRight0)
+      points.backDartLeft0Cp2 = points.backDartLeft0
+        .shiftTowards(points.waistBackOrigin, waistBackMidCpDist)
+        .rotate(90, points.backDartLeft0)
+      points.backDartRight1Cp1 = points.backDartRight1
+        .shiftTowards(points.waistBackOrigin, waistBackMidCpDist)
+        .rotate(-90, points.backDartRight1)
+      points.backDartLeft1Cp2 = points.backDartLeft1
+        .shiftTowards(points.waistBackOrigin, waistBackLeftCpDist)
+        .rotate(90, points.backDartLeft1)
+      points.sideWaistBackCp1 = points.sideWaistBack
+        .shiftTowards(points.waistBackOrigin, waistBackLeftCpDist)
+        .rotate(-90, points.sideWaistBack)
+
+      paths.saWaistLeft = new Path()
+        .move(points.cbWaist)
+        .curve(points.cbWaistCp2, points.backDartRight0Cp1, points.backDartRight0)
+        .hide()
+
+      paths.saWaistMid = new Path()
+        .move(points.backDartLeft0)
+        .curve(points.backDartLeft0Cp2, points.backDartRight1Cp1, points.backDartRight1)
+        .hide()
+
+      paths.saWaistRight = new Path()
+        .move(points.backDartLeft1)
+        .curve(points.backDartLeft1Cp2, points.sideWaistBackCp1, points.sideWaistBack)
+        .hide()
+
+      paths.waist = paths.saWaistLeft
+        .clone()
+        .line(points.backDartBottom0)
+        .line(points.backDartLeft0)
+        .join(paths.saWaistMid)
+        .line(points.backDartBottom1)
+        .line(points.backDartLeft1)
+        .join(paths.saWaistRight)
+        .hide()
+
+      paths.dartEdge = new Path()
+        .move(points.backDartRight0)
+        .line(points.backDartEdge0)
+        .line(points.backDartLeft0)
+        .move(points.backDartRight1)
+        .line(points.backDartEdge1)
+        .line(points.backDartLeft1)
+        .attr('class', 'fabric help')
+    } else {
+    }
 
     //paths
     paths.sideSeam = new Path()
@@ -89,7 +217,7 @@ export const back = {
       .move(points.sideKnee)
       .line(points.cbKnee)
       .line(points.cbWaist)
-      .join(paths.saWaistBase)
+      .join(paths.waist)
       .join(paths.sideSeam)
       .close()
 

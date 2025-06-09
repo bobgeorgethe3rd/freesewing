@@ -182,6 +182,7 @@ export const base = {
     store.set('styleWaistBack', styleWaistBack)
     store.set('styleSeatFront', styleSeatFront)
     store.set('styleSeatBack', styleSeatBack)
+    store.set('waistbandWidth', waistbandWidth)
 
     return part
   },

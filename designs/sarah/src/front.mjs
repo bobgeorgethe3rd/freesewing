@@ -12,6 +12,8 @@ export const front = {
     //Constants
     cfSaWidth: 0.01,
     //Darts
+    maxFrontDartNum: { count: 2, min: 1, max: 2, menu: 'darts' },
+    frontDartLength: { pct: 56.6, min: 10, max: 100, menu: 'darts' },
   },
   draft: ({
     store,
@@ -69,7 +71,22 @@ export const front = {
       .curve(points.sideWaistFrontCp2I, points.cfWaistCp1I, points.cfWaist)
       .hide()
 
-    const dartFrontWidth = paths.saWaistBase.length() - styleWaistFront * 0.5
+    const frontDartWidth = paths.saWaistBase.length() - styleWaistFront * 0.5
+    const frontDartLengthI =
+      (measurements.waistToSeat - measurements.waistToHips) * options.frontDartLength +
+      measurements.waistToHips * options.waistHeight -
+      store.get('waistbandWidth')
+
+    let frontDartLength = frontDartLengthI
+    if (frontDartLengthI < (measurements.waistToSeat - measurements.waistToHips) * 0.5) {
+      frontDartLength = (measurements.waistToSeat - measurements.waistToHips) * 0.5
+      log.warning('frontDart failsafe length used')
+    }
+
+    points.testAnchor = paths.saWaistBase.shiftFractionAlong(0.5)
+    points.testDart = points.waistFrontOrigin.shiftOutwards(points.testAnchor, frontDartLength)
+
+    paths.test = new Path().move(points.testAnchor).line(points.testDart)
 
     //paths
     paths.sideSeam = new Path()
