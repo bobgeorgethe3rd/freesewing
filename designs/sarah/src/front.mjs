@@ -10,7 +10,7 @@ export const front = {
   },
   options: {
     //Constants
-    cfSaWidth: 0.01,
+    cfSaWidth: 0,
     //Darts
     maxFrontDartNum: { count: 2, min: 1, max: 2, menu: 'darts' },
     frontDartLength: { pct: 56.6, min: 10, max: 100, menu: 'darts' },
@@ -66,12 +66,12 @@ export const front = {
       .rotate(90, points.sideWaistFront)
     points.cfWaistCp1I = points.cfWaist.shift(0, waistFrontCpDistI)
 
-    paths.saWaistBase = new Path()
+    paths.waistBase = new Path()
       .move(points.sideWaistFront)
       .curve(points.sideWaistFrontCp2I, points.cfWaistCp1I, points.cfWaist)
       .hide()
 
-    const frontDartWidth = paths.saWaistBase.length() - styleWaistFront * 0.5
+    const frontDartWidth = paths.waistBase.length() - styleWaistFront * 0.5
     const frontDartLengthI =
       (measurements.waistToSeat - measurements.waistToHips) * options.frontDartLength +
       measurements.waistToHips * options.waistHeight -
@@ -83,7 +83,7 @@ export const front = {
       log.warning('frontDart failsafe length used')
     }
 
-    points.testAnchor = paths.saWaistBase.shiftFractionAlong(0.5)
+    points.testAnchor = paths.waistBase.shiftFractionAlong(0.5)
     points.testDart = points.waistFrontOrigin.shiftOutwards(points.testAnchor, frontDartLength)
 
     paths.test = new Path().move(points.testAnchor).line(points.testDart)
@@ -100,7 +100,7 @@ export const front = {
       .move(points.cfKnee)
       .line(points.sideKnee)
       .join(paths.sideSeam)
-      .join(paths.saWaistBase)
+      .join(paths.waistBase)
       .line(points.cfKnee)
 
     return part
