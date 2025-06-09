@@ -299,8 +299,8 @@ export const back = {
       //grainline
       let titleCutNum
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
-        points.cutOnFoldFrom = points.cbWaist
-        points.cutOnFoldTo = points.cbKnee
+        points.cutOnFoldFrom = points.cbKnee
+        points.cutOnFoldTo = points.cbWaist
         macro('cutonfold', {
           from: points.cutOnFoldFrom,
           to: points.cutOnFoldTo,
@@ -372,23 +372,27 @@ export const back = {
           snippet: 'notch',
           on: ['seatGuideLeft', 'seatGuideRight'],
         })
-      }
-      if (points.cbSeat.dist(points.cbKnee) > measurements.waistToKnee - measurements.waistToSeat) {
-        points.kneeGuideRight = points.cbSeat
-          .shift(-90, measurements.waistToKnee - measurements.waistToSeat)
-          .shift(180, paths.waistLeft.length() * 0.1)
-        points.kneeGuideLeft = points.kneeGuideRight.shift(180, paths.waistLeft.length() * 0.8)
-        paths.kneeGuide = new Path()
-          .move(points.kneeGuideLeft)
-          .line(points.kneeGuideRight)
-          .attr('class', 'various')
-          .attr('data-text', 'Knee Guide')
-          .attr('data-text-class', 'right')
 
-        macro('sprinkle', {
-          snippet: 'notch',
-          on: ['kneeGuideLeft', 'kneeGuideRight'],
-        })
+        if (
+          points.sideSeat.dist(points.sideKnee) >
+          measurements.waistToKnee - measurements.waistToSeat
+        ) {
+          points.kneeGuideRight = points.cbSeat
+            .shift(-90, measurements.waistToKnee - measurements.waistToSeat)
+            .shift(180, paths.waistLeft.length() * 0.1)
+          points.kneeGuideLeft = points.kneeGuideRight.shift(180, paths.waistLeft.length() * 0.8)
+          paths.kneeGuide = new Path()
+            .move(points.kneeGuideLeft)
+            .line(points.kneeGuideRight)
+            .attr('class', 'various')
+            .attr('data-text', 'Knee Guide')
+            .attr('data-text-class', 'right')
+
+          macro('sprinkle', {
+            snippet: 'notch',
+            on: ['kneeGuideLeft', 'kneeGuideRight'],
+          })
+        }
       }
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
