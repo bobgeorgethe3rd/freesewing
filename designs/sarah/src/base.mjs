@@ -9,6 +9,7 @@ export const base = {
     //Constants
     waistbandStyle: 'straight',
     sideSeamSaWidth: 0.01,
+    cpFraction: 0.55191502449,
     //Fit
     waistEase: { pct: 3.2, min: 0, max: 20, menu: 'fit' },
     hipsEase: { pct: 3, min: 0, max: 20, menu: 'fit' },
