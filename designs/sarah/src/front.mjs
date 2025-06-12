@@ -131,15 +131,15 @@ export const front = {
           .split(points.skirtFrontDartAnchor1)[0]
           .shiftFractionAlong(0.5)
 
-        const waistDartAngle0 =
+        const waistFrontDartAngle0 =
           points.skirtFrontDartBottom0.angle(points.skirtFrontDartLeft0I) -
           points.skirtFrontDartBottom0.angle(points.skirtFrontDartRight0I)
-        const waistDartAngle1 =
+        const waistFrontDartAngle1 =
           points.skirtFrontDartBottom1.angle(points.skirtFrontDartLeft1I) -
           points.skirtFrontDartBottom1.angle(points.skirtFrontDartRight1I)
 
         points.waistAnchor0 = points.waistAnchor.rotate(
-          -waistDartAngle0,
+          -waistFrontDartAngle0,
           points.skirtFrontDartBottom0
         )
         points.waistFrontCpTarget0 = utils.beamsIntersect(
@@ -147,7 +147,7 @@ export const front = {
           points.sideWaistFrontCp2I,
           points.waistAnchor0,
           points.waistFrontOrigin
-            .rotate(-waistDartAngle0, points.skirtFrontDartBottom0)
+            .rotate(-waistFrontDartAngle0, points.skirtFrontDartBottom0)
             .rotate(-90, points.waistAnchor0)
         )
 
@@ -189,19 +189,19 @@ export const front = {
         )
 
         points.skirtFrontDartLeft0 = points.skirtFrontDartRight0.rotate(
-          waistDartAngle0,
+          waistFrontDartAngle0,
           points.skirtFrontDartBottom0
         )
 
         //dart1
         points.waistAnchor1 = points.waistAnchor.rotate(
-          waistDartAngle1,
+          waistFrontDartAngle1,
           points.skirtFrontDartBottom1
         )
         points.waistFrontCpTarget1 = utils.beamIntersectsY(
           points.waistAnchor1,
           points.waistFrontOrigin
-            .rotate(waistDartAngle1, points.skirtFrontDartBottom1)
+            .rotate(waistFrontDartAngle1, points.skirtFrontDartBottom1)
             .rotate(90, points.waistAnchor1),
           points.cfWaist.y
         )
@@ -242,23 +242,23 @@ export const front = {
           points.cfWaist
         )
         points.skirtFrontDartRight1 = points.skirtFrontDartLeft1.rotate(
-          -waistDartAngle1,
+          -waistFrontDartAngle1,
           points.skirtFrontDartBottom1
         )
 
         paths.waistClosed = new Path()
           .move(
             points.sideWaistFront
-              .rotate(waistDartAngle0, points.skirtFrontDartBottom0)
-              .rotate(waistDartAngle1, points.skirtFrontDartBottom1)
+              .rotate(waistFrontDartAngle0, points.skirtFrontDartBottom0)
+              .rotate(waistFrontDartAngle1, points.skirtFrontDartBottom1)
           )
           .curve(
             points.sideWaistFrontCp2
-              .rotate(waistDartAngle0, points.skirtFrontDartBottom0)
-              .rotate(waistDartAngle1, points.skirtFrontDartBottom1),
+              .rotate(waistFrontDartAngle0, points.skirtFrontDartBottom0)
+              .rotate(waistFrontDartAngle1, points.skirtFrontDartBottom1),
             points.waistAnchorCp1
-              .rotate(waistDartAngle0, points.skirtFrontDartBottom0)
-              .rotate(waistDartAngle1, points.skirtFrontDartBottom1),
+              .rotate(waistFrontDartAngle0, points.skirtFrontDartBottom0)
+              .rotate(waistFrontDartAngle1, points.skirtFrontDartBottom1),
             points.waistAnchor1
           )
           .join(paths.waistClosed1)
@@ -267,10 +267,10 @@ export const front = {
         paths.waistRight = paths.waistClosed0.clone().split(points.skirtFrontDartRight0)[0].hide()
 
         paths.waistMid = new Path()
-          .move(points.sideWaistFront.rotate(waistDartAngle0, points.skirtFrontDartBottom0))
+          .move(points.sideWaistFront.rotate(waistFrontDartAngle0, points.skirtFrontDartBottom0))
           .curve(
-            points.sideWaistFrontCp2.rotate(waistDartAngle0, points.skirtFrontDartBottom0),
-            points.waistAnchorCp1.rotate(waistDartAngle0, points.skirtFrontDartBottom0),
+            points.sideWaistFrontCp2.rotate(waistFrontDartAngle0, points.skirtFrontDartBottom0),
+            points.waistAnchorCp1.rotate(waistFrontDartAngle0, points.skirtFrontDartBottom0),
             points.waistAnchor
           )
           .split(points.skirtFrontDartLeft0)[1]
@@ -279,9 +279,9 @@ export const front = {
             new Path()
               .move(points.waistAnchor)
               .curve(
-                points.waistAnchorCp2.rotate(-waistDartAngle1, points.skirtFrontDartBottom1),
-                points.cfWaistCp1.rotate(-waistDartAngle1, points.skirtFrontDartBottom1),
-                points.cfWaist.rotate(-waistDartAngle1, points.skirtFrontDartBottom1)
+                points.waistAnchorCp2.rotate(-waistFrontDartAngle1, points.skirtFrontDartBottom1),
+                points.cfWaistCp1.rotate(-waistFrontDartAngle1, points.skirtFrontDartBottom1),
+                points.cfWaist.rotate(-waistFrontDartAngle1, points.skirtFrontDartBottom1)
               )
               .split(points.skirtFrontDartRight1)[0]
           )
@@ -435,17 +435,17 @@ export const front = {
           styleWaistFront * 0.5 - store.get('skirtFrontDartPlacement') + skirtFrontDartWidth
         )
 
-        const waistDartAngle =
+        const waistFrontDartAngle =
           points.skirtFrontDartBottom.angle(points.skirtFrontDartLeftI) -
           points.skirtFrontDartBottom.angle(points.skirtFrontDartRightI)
 
         points.sideWaistFrontR = points.sideWaistFront.rotate(
-          waistDartAngle,
+          waistFrontDartAngle,
           points.skirtFrontDartBottom
         )
         points.waistFrontCpTarget = utils.beamIntersectsY(
           points.sideWaistFrontR,
-          points.sideWaistFrontCp2I.rotate(waistDartAngle, points.skirtFrontDartBottom),
+          points.sideWaistFrontCp2I.rotate(waistFrontDartAngle, points.skirtFrontDartBottom),
           points.cfWaist.y
         )
 
@@ -481,16 +481,16 @@ export const front = {
         )
 
         points.skirtFrontDartRight = points.skirtFrontDartLeft.rotate(
-          -waistDartAngle,
+          -waistFrontDartAngle,
           points.skirtFrontDartBottom
         )
 
         paths.waistRight = new Path()
           .move(points.sideWaistFront)
           .curve(
-            points.sideWaistFrontCp2.rotate(-waistDartAngle, points.skirtFrontDartBottom),
-            points.cfWaistCp1.rotate(-waistDartAngle, points.skirtFrontDartBottom),
-            points.cfWaist.rotate(-waistDartAngle, points.skirtFrontDartBottom)
+            points.sideWaistFrontCp2.rotate(-waistFrontDartAngle, points.skirtFrontDartBottom),
+            points.cfWaistCp1.rotate(-waistFrontDartAngle, points.skirtFrontDartBottom),
+            points.cfWaist.rotate(-waistFrontDartAngle, points.skirtFrontDartBottom)
           )
           .split(points.skirtFrontDartRight)[0]
           .hide()
@@ -597,7 +597,23 @@ export const front = {
     //stores
     store.set('skirtFrontDartWidth', skirtFrontDartWidth)
     store.set('skirtFrontDartLength', skirtFrontDartLength)
-
+    if (options.maxSkirtFrontDartNum == 2 && skirtFrontDartWidth > paths.waistBase.length() / 8) {
+      store.set(
+        'waistFrontDartAngle0',
+        points.skirtFrontDartBottom0.angle(points.skirtFrontDartLeft0) -
+          points.skirtFrontDartBottom0.angle(points.skirtFrontDartRight0)
+      )
+      store.set(
+        'waistFrontDartAngle1',
+        points.skirtFrontDartBottom1.angle(points.skirtFrontDartLeft1) -
+          points.skirtFrontDartBottom1.angle(points.skirtFrontDartRight1)
+      )
+    } else
+      store.set(
+        'waistFrontDartAngle',
+        points.skirtFrontDartBottom.angle(points.skirtFrontDartLeft) -
+          points.skirtFrontDartBottom.angle(points.skirtFrontDartRight)
+      )
     if (complete) {
       //grainline
       let titleCutNum
