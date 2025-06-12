@@ -13,9 +13,9 @@ export const front = {
     cfSaWidth: 0,
     //Darts
     skirtFrontDartLength: { pct: 56.6, min: 10, max: 100, menu: 'darts' },
+    shapeSkirtFrontDarts: { bool: false, menu: 'darts' },
     skirtFrontDartPlacement: { pct: 50, min: 25, max: 75, menu: 'darts' },
     maxSkirtFrontDartNum: { count: 2, min: 1, max: 2, menu: 'darts' },
-    shapeSkirtFrontDarts: { bool: false, menu: 'darts' },
   },
   draft: ({
     store,
@@ -560,10 +560,11 @@ export const front = {
           .line(points.skirtFrontDartLeft)
           .join(paths.waistLeft)
           .hide()
-
-        log.warning(
-          'skirtFrontDartWidth < paths.waistBase.length() / 8 so only drafted with one front dart'
-        )
+        if (options.maxSkirtFrontDartNum == 2) {
+          log.warning(
+            'skirtFrontDartWidth < paths.waistBase.length() / 8 so only drafted with one front dart'
+          )
+        }
       }
 
       points.skirtFrontDartEdge = utils.beamsIntersect(
@@ -702,7 +703,7 @@ export const front = {
         points.saSideKnee = points.sideKnee.translate(sideSeamSa, hemSa)
         points.saSideWaistFront = points.sideWaistFront
           .shift(points.sideCurveEnd.angle(points.sideWaistFront), sa)
-          .shift(points.sideWaistFrontCp2.angle(points.sideWaistFront), sideSeamSa)
+          .shift(points.sideWaistFrontCp2I.angle(points.sideWaistFront), sideSeamSa)
 
         if (
           options.maxSkirtFrontDartNum == 2 &&
