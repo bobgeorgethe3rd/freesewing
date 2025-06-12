@@ -594,6 +594,7 @@ export const front = {
       .join(paths.sideSeam)
       .join(paths.waist)
       .line(points.cfKnee)
+      .close()
     //stores
     store.set('skirtFrontDartWidth', skirtFrontDartWidth)
     store.set('skirtFrontDartLength', skirtFrontDartLength)
