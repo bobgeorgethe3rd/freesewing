@@ -53,7 +53,7 @@ export const back = {
     Snippet,
   }) => {
     //remove paths & snippets
-    const keepPaths = ['waistClosed', 'seam']
+    const keepPaths = ['hipsGuide', 'seatGuide', 'waistClosed', 'seam']
     for (const name in paths) {
       if (keepPaths.indexOf(name) === -1) delete paths[name]
     }
@@ -198,6 +198,26 @@ export const back = {
         .shiftFractionAlong(0.5)
         .shiftFractionTowards(paths.hemBase.shiftFractionAlong(0.5), 0.75)
       macro('scalebox', { at: points.scalebox })
+
+      //fitGuides
+      if (
+        options.fitGuides &&
+        points.sideSeat.dist(points.sideHem) > measurements.waistToKnee - measurements.waistToSeat
+      ) {
+        points.kneeGuideRight = new Point(points.seatGuideRight.x, points.cbKnee.y)
+        points.kneeGuideLeft = new Point(points.seatGuideLeft.x, points.cbKnee.y)
+        paths.kneeGuide = new Path()
+          .move(points.kneeGuideLeft)
+          .line(points.kneeGuideRight)
+          .attr('class', 'various')
+          .attr('data-text', 'Knee Guide')
+          .attr('data-text-class', 'right')
+
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['kneeGuideLeft', 'kneeGuideRight'],
+        })
+      }
 
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
