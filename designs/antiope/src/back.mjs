@@ -158,7 +158,7 @@ export const back = {
       //grainline
       let titleCutNum
       if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
-        points.cutOnFoldFrom = points.cbKnee
+        points.cutOnFoldFrom = points.cbHem
         points.cutOnFoldTo = points.cbWaist
         macro('cutonfold', {
           from: points.cutOnFoldFrom,
@@ -167,7 +167,7 @@ export const back = {
         })
         titleCutNum = 1
       } else {
-        points.grainlineTo = points.cbKnee.shiftFractionTowards(points.sideKnee, 0.1)
+        points.grainlineTo = paths.hemBase.shiftFractionAlong(0.95)
         points.grainlineFrom = new Point(points.grainlineTo.x, points.cbWaist.y)
         macro('grainline', {
           from: points.grainlineFrom,
