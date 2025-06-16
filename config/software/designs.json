@@ -377,6 +377,14 @@
     }
   },
   "skirts": {
+    "antiope": {
+      "description": "Antiope a-line skirt design for independent use and extension into other desgins",
+      "number": "0052",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 2,
+      "tags": ["skirts"]
+    },
     "claude": {
       "description": "Claude cricle skirt design for independent use and extension into other desgins",
       "number": "0011",

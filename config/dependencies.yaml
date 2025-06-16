@@ -20,6 +20,13 @@ aaron:
 aimee:
   peer:
     '@freesewing/daisy': *freesewing
+antiope:
+  peer:
+    '@freesewing/sarah': *freesewing
+    '@freesewing/beltloops': *freesewing
+    '@freesewing/inseampocket': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
 barkley:
   peer:
     '@freesewing/henry': *freesewing
