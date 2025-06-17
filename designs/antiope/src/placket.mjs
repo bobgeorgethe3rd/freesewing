@@ -1,17 +1,16 @@
 import { pocket } from './pocket.mjs'
+import { back } from './back.mjs'
 
 export const placket = {
   name: 'antiope.placket',
-  after: pocket,
+  after: [pocket, back],
   options: {
-    //Constants
-    cpFraction: 0.55191502449,
     //Plackets
     placket: { dflt: 'shield', list: ['placket', 'shield', 'none'], menu: 'plackets' },
     placketWidth: { pct: 5.1, min: 5, max: 8, menu: 'plackets' },
     placketLength: { pct: 15.9, min: 10, max: 25, menu: 'plackets' },
     //Construction
-    placketOnFold: { bool: true, menu: 'construction' },
+    placketOnFold: { bool: false, menu: 'construction' },
   },
   draft: ({
     store,
