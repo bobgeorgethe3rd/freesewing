@@ -7,12 +7,13 @@ import { back } from './back.mjs'
 import { front } from './front.mjs'
 import { pocket } from './pocket.mjs'
 import { placket } from './placket.mjs'
+import { waistband } from './waistband.mjs'
 
 // Create new design
 const Antiope = new Design({
   data,
-  parts: [back, front, pocket, placket],
+  parts: [back, front, pocket, placket, waistband],
 })
 
 // Named exports
-export { back, front, pocket, placket, Antiope }
+export { back, front, pocket, placket, waistband, Antiope }

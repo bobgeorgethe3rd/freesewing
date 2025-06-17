@@ -25,7 +25,7 @@ export const back = {
       pct: 2.4,
       min: 1,
       max: 6,
-      snap: 1.25,
+      snap: 2.5,
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     }, //Altered for Antiope
