@@ -27,7 +27,7 @@ export const back = {
       ...pctBasedOn('waistToFloor'),
       menu: 'style',
     }, //Altered for Antiope
-    skirtLength: { pct: 50, min: 0, max: 100, menu: 'style' },
+    skirtLength: { pct: 62.5, min: 0, max: 100, menu: 'style' },
     skirtLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
     //Construction
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Antiope
@@ -153,6 +153,9 @@ export const back = {
       .join(paths.waist)
       .join(paths.sideSeam)
       .close()
+
+    //store
+    store.set('skirtLength', skirtLength)
 
     if (complete) {
       //grainline
