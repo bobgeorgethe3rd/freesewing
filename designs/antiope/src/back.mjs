@@ -61,7 +61,7 @@ export const back = {
       paths.sarahGuide = paths.seam.clone().attr('class', 'various lashed')
     }
     delete paths.seam
-    delete snippets.sideSeat
+    for (let i in snippets) delete snippets[i]
     //removing macros not required from Sarah
     macro('title', false)
     macro('scalebox', false)
@@ -89,13 +89,11 @@ export const back = {
     ]
 
     if (points.skirtBackDartBottom0) {
-      const waistBackDartAngle0 = store.get('waistBackDartAngle0')
-      const waistBackDartAngle1 = store.get('waistBackDartAngle1')
       for (const p of rotThese) {
-        points[p] = points[p].rotate(-waistBackDartAngle0, points.skirtBackDartBottom0)
+        points[p] = points[p].rotate(-store.get('waistBackDartAngle0'), points.skirtBackDartBottom0)
       }
       for (const p of rotThese) {
-        points[p] = points[p].rotate(-waistBackDartAngle1, points.skirtBackDartBottom1)
+        points[p] = points[p].rotate(-store.get('waistBackDartAngle1'), points.skirtBackDartBottom1)
       }
     } else {
       for (const p of rotThese) {
@@ -142,7 +140,7 @@ export const back = {
       .move(points.sideWaistBack)
       .line(points.sideCurveStart)
       .curve(points.sideCurveStartCp2, points.sideSeatCp1, points.sideSeat)
-      .line(points.sideHem)
+      .line(options.skirtLength == 0 ? points.sideSeat : points.sideHem)
       .hide()
 
     paths.waist = paths.waistClosed
@@ -179,7 +177,7 @@ export const back = {
         titleCutNum = 2
       }
       //notches
-
+      if (points.cbHem.y > points.cbSeat.y) snippets.cbSeat = new Snippet('bnotch', points.cbSeat)
       //title
       points.title = paths.waist
         .shiftFractionAlong(0.5)
