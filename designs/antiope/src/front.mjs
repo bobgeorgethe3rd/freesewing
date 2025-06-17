@@ -181,7 +181,59 @@ export const front = {
           on: ['kneeGuideLeft', 'kneeGuideRight'],
         })
       }
+      //facings
+      if (options.skirtFacings) {
+        const skirtFacingWidth = store.get('skirtFacingWidth')
+        points.cfFacing = points.cfHem.shift(90, skirtFacingWidth)
+        points.sideFacing = paths.sideSeam.shiftAlong(skirtFacingWidth)
+        points.facingCurveEnd = new Point(points.hemCurveStart.x, points.cfFacing.y)
+        points.facingCurveStart = utils.beamsIntersect(
+          points.sideFacing,
+          points.sideFacing.shift(points.sideSeat.angle(points.sideSeatCp2) + 90, 1),
+          points.hemCurveEnd,
+          points.hemCurveEnd.shift(points.sideSeat.angle(points.sideSeatCp2), 1)
+        )
+        points.facingCurveStartCp2 = utils.beamsIntersect(
+          points.hemCurveEndCp1,
+          points.hemOrigin,
+          points.sideFacing,
+          points.facingCurveStart
+        )
+        points.facingCurveEndCp1 = utils.beamIntersectsY(
+          points.hemCurveStartCp2,
+          points.hemOrigin,
+          points.cfFacing.y
+        )
 
+        paths.facing = new Path()
+          .move(points.sideFacing)
+          .line(points.facingCurveStart)
+          .curve(points.facingCurveStartCp2, points.facingCurveEndCp1, points.facingCurveEnd)
+          .line(points.cfFacing)
+          .hide()
+
+        paths.facingLine = paths.facing
+          .clone()
+          .reverse()
+          .unhide()
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Skirt Facing Line')
+          .attr('data-text-class', 'center')
+
+        store.set('skirtFacingWidth', skirtFacingWidth)
+
+        points.titleFacing = paths.facing
+          .shiftFractionAlong(0.5)
+          .shiftFractionTowards(paths.hemBase.shiftFractionAlong(0.5), 0.5)
+        macro('title', {
+          at: points.titleFacing,
+          nr: '8',
+          title: 'Facing (Skirt Front)',
+          cutNr: titleCutNum,
+          prefix: 'facing',
+          scale: 0.25,
+        })
+      }
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
         let sideSeamSa = sa * options.sideSeamSaWidth * 100
@@ -203,6 +255,30 @@ export const front = {
         }
 
         points.saCfHem = new Point(points.saCfWaist.x, points.cfHem.y + hemSa)
+
+        if (options.skirtFacings) {
+          points.saSideFacing = utils.beamsIntersect(
+            paths.sideSeam.split(points.sideFacing)[0].offset(sideSeamSa).shiftFractionAlong(0.995),
+            paths.sideSeam.split(points.sideFacing)[0].offset(sideSeamSa).end(),
+            paths.facing.offset(sa).start(),
+            paths.facing
+              .offset(sa)
+              .start()
+              .shift(points.facingCurveStart.angle(points.sideFacing), 1)
+          )
+          points.saCfFacing = new Point(points.saCfWaist.x, points.cfFacing.y - sa)
+
+          paths.facingSa = paths.hemBase
+            .clone()
+            .offset(hemSa)
+            .join(paths.sideSeam.split(points.sideFacing)[0].offset(sideSeamSa))
+            .line(points.saSideFacing)
+            .join(paths.facing.offset(sa))
+            .line(points.saCfFacing)
+            .line(points.saCfHem)
+            .close()
+            .attr('class', 'interfacing sa')
+        }
 
         paths.sa = paths.hemBase
           .clone()

@@ -31,7 +31,7 @@ export const back = {
     skirtLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
     //Construction
     skirtFacings: { bool: false, menu: 'construction' },
-    skirtFacingWidth: { pct: 10, min: 5, max: 50, menu: 'construction' },
+    skirtFacingWidth: { pct: 15, min: 5, max: 50, menu: 'construction' },
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Antiope
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Antiope
     sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Antiope
@@ -258,6 +258,8 @@ export const back = {
           .attr('class', 'interfacing')
           .attr('data-text', 'Skirt Facing Line')
           .attr('data-text-class', 'center')
+
+        store.set('skirtFacingWidth', skirtFacingWidth)
 
         points.titleFacing = paths.facing
           .shiftFractionAlong(0.5)
