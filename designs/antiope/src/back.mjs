@@ -30,6 +30,8 @@ export const back = {
     skirtLength: { pct: 62.5, min: 0, max: 100, menu: 'style' },
     skirtLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
     //Construction
+    skirtFacings: { bool: false, menu: 'construction' },
+    skirtFacingWidth: { pct: 10, min: 5, max: 50, menu: 'construction' },
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Antiope
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Antiope
     sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Antiope
@@ -100,8 +102,8 @@ export const back = {
         points[p] = points[p].rotate(-store.get('waistBackDartAngle'), points.skirtBackDartBottom)
       }
     }
-    //hem
 
+    //hem
     points.hemCurveStart = points.sideHem.shift(
       points.sideSeat.angle(points.sideSeatCp1) - 90,
       points.cbSeat.x * 0.25
@@ -128,7 +130,6 @@ export const back = {
     points.hemCurveEndCp1 = points.hemCurveEnd.shift(180, hemCpDist)
 
     //paths
-
     paths.hemBase = new Path()
       .move(points.sideHem)
       .line(points.hemCurveStart)
@@ -185,7 +186,7 @@ export const back = {
       macro('title', {
         at: points.title,
         nr: '1',
-        title: 'Back',
+        title: 'Skirt Back',
         cutNr: titleCutNum,
         scale: 2 / 3,
       })
@@ -199,7 +200,6 @@ export const back = {
         .shiftFractionAlong(0.5)
         .shiftFractionTowards(paths.hemBase.shiftFractionAlong(0.5), 0.75)
       macro('scalebox', { at: points.scalebox })
-
       //fitGuides
       if (
         options.fitGuides &&
@@ -219,8 +219,61 @@ export const back = {
           on: ['kneeGuideLeft', 'kneeGuideRight'],
         })
       }
+      //facings
+      if (options.skirtFacings) {
+        const skirtFacingWidth =
+          paths.sideSeam.split(points.sideCurveStart)[1].length() * options.skirtFacingWidth
+        points.cbFacing = points.cbHem.shift(90, skirtFacingWidth)
+        points.sideFacing = paths.sideSeam.reverse().shiftAlong(skirtFacingWidth)
+        points.facingCurveStart = new Point(points.hemCurveEnd.x, points.cbFacing.y)
+        points.facingCurveEnd = utils.beamsIntersect(
+          points.sideFacing,
+          points.sideFacing.shift(points.sideSeat.angle(points.sideSeatCp1) - 90, 1),
+          points.hemCurveStart,
+          points.hemCurveStart.shift(points.sideSeat.angle(points.sideSeatCp1), 1)
+        )
+        points.facingCurveStartCp2 = utils.beamIntersectsY(
+          points.hemCurveEndCp1,
+          points.hemOrigin,
+          points.cbFacing.y
+        )
+        points.facingCurveEndCp1 = utils.beamsIntersect(
+          points.hemCurveStartCp2,
+          points.hemOrigin,
+          points.sideFacing,
+          points.facingCurveEnd
+        )
+
+        paths.facing = new Path()
+          .move(points.cbFacing)
+          .line(points.facingCurveStart)
+          .curve(points.facingCurveStartCp2, points.facingCurveEndCp1, points.facingCurveEnd)
+          .line(points.sideFacing)
+          .hide()
+
+        paths.facingLine = paths.facing
+          .clone()
+          .reverse()
+          .unhide()
+          .attr('class', 'interfacing')
+          .attr('data-text', 'Skirt Facing Line')
+          .attr('data-text-class', 'center')
+
+        points.titleFacing = paths.facing
+          .shiftFractionAlong(0.5)
+          .shiftFractionTowards(paths.hemBase.shiftFractionAlong(0.5), 0.5)
+        macro('title', {
+          at: points.titleFacing,
+          nr: '7',
+          title: 'Facing (Skirt Back)',
+          cutNr: titleCutNum,
+          prefix: 'facing',
+          scale: 0.25,
+        })
+      }
 
       if (sa) {
+        if (options.skirtFacings) options.hemWidth = 0.01
         const hemSa = sa * options.hemWidth * 100
         let sideSeamSa = sa * options.sideSeamSaWidth * 100
         if (options.closurePosition == 'side') sideSeamSa = sa * options.closureSaWidth * 100
@@ -241,6 +294,28 @@ export const back = {
         points.saSideHem = points.sideHem
           .shift(points.hemCurveStart.angle(points.sideHem), sideSeamSa)
           .shift(points.sideSeatCp1.angle(points.sideSeat), hemSa)
+
+        if (options.skirtFacings) {
+          points.saCbFacing = new Point(points.saCbWaist.x, points.cbFacing.y - sa)
+          points.saSideFacing = utils.beamsIntersect(
+            paths.sideSeam.split(points.sideFacing)[1].offset(sideSeamSa).shiftFractionAlong(0.005),
+            paths.sideSeam.split(points.sideFacing)[1].offset(sideSeamSa).start(),
+            paths.facing.offset(sa).end(),
+            paths.facing.offset(sa).end().shift(points.facingCurveEnd.angle(points.sideFacing), 1)
+          )
+
+          paths.facingSa = paths.hemBase
+            .clone()
+            .offset(hemSa)
+            .line(points.saCbHem)
+            .line(points.saCbFacing)
+            .join(paths.facing.offset(sa))
+            .line(points.saSideFacing)
+            .join(paths.sideSeam.split(points.sideFacing)[1].offset(sideSeamSa))
+            .line(points.saSideHem)
+            .close()
+            .attr('class', 'interfacing sa')
+        }
 
         paths.sa = paths.hemBase
           .clone()

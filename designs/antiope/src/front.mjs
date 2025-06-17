@@ -75,6 +75,7 @@ export const front = {
         points[p] = points[p].rotate(store.get('waistFrontDartAngle'), points.skirtFrontDartBottom)
       }
     }
+
     //hem
     points.hemCurveStart = points.cfHem.shift(0, points.cfSeat.x * -0.25)
 
@@ -157,7 +158,7 @@ export const front = {
       macro('title', {
         at: points.title,
         nr: '2',
-        title: 'Front',
+        title: 'Skirt Front',
         cutNr: titleCutNum,
         scale: 2 / 3,
       })
