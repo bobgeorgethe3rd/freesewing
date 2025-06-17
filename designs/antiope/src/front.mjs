@@ -151,6 +151,19 @@ export const front = {
       }
       //notches
       if (points.cfHem.y > points.cfSeat.y) snippets.cfSeat = new Snippet('notch', points.cfSeat)
+      if (
+        options.pocketsBool &&
+        store.get('pocketLength') < paths.sideSeam.split(points.sideCurveEnd)[0].length()
+      ) {
+        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
+        points.pocketOpeningBottom = paths.sideSeam
+          .reverse()
+          .shiftAlong(store.get('pocketOpeningLength'))
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
+      }
       //title
       points.title = paths.waist
         .shiftFractionAlong(0.5)

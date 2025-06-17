@@ -1,10 +1,12 @@
 import { back as backSarah } from '@freesewing/sarah'
+import { pocket } from './pocket.mjs'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 import { pctBasedOn } from '@freesewing/core'
 
 export const back = {
   name: 'antiope.back',
   from: backSarah,
+  after: pocket,
   hide: {
     from: true,
     inherited: true,
@@ -179,6 +181,17 @@ export const back = {
       }
       //notches
       if (points.cbHem.y > points.cbSeat.y) snippets.cbSeat = new Snippet('bnotch', points.cbSeat)
+      if (
+        options.pocketsBool &&
+        store.get('pocketLength') < paths.sideSeam.split(points.sideCurveStart)[1].length()
+      ) {
+        points.pocketOpeningTop = paths.sideSeam.shiftAlong(store.get('pocketOpening'))
+        points.pocketOpeningBottom = paths.sideSeam.shiftAlong(store.get('pocketOpeningLength'))
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
+      }
       //title
       points.title = paths.waist
         .shiftFractionAlong(0.5)
