@@ -127,13 +127,8 @@ export const placket = {
       })
 
       if (sa) {
-        let waistSa = sa
-        if (options.waistbandStyle == 'none') waistSa = store.get('waistSa')
         let sideSeamSa
-        if (
-          (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight') &&
-          !options.waistbandElastic
-        ) {
+        if (options.closurePosition == 'sideRight' || options.closurePosition == 'sideLeft') {
           sideSeamSa = sa * options.closureSaWidth * 100
         } else {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
@@ -142,8 +137,8 @@ export const placket = {
         const placketSa = options.placketOnFold ? 0 : sa
 
         points.saBottomRight = points.bottomRight.translate(sideSeamSa, sa)
-        points.saTopRight = points.topRight.translate(sideSeamSa, -waistSa)
-        points.saTopLeft = points.topLeft.translate(-placketSa, -waistSa)
+        points.saTopRight = points.topRight.translate(sideSeamSa, -sa)
+        points.saTopLeft = points.topLeft.translate(-placketSa, -sa)
         points.saBottomCurveStart = points.bottomCurveStart.shift(180, placketSa)
 
         paths.sa = paths.saBottom
