@@ -41,7 +41,15 @@ export const front = {
       paths.sarahGuide = paths.seam.clone().attr('class', 'various lashed')
     }
     delete paths.seam
-    for (let i in snippets) delete snippets[i]
+    const keepSnippets = [
+      'hipsGuideLeft-notch',
+      'hipsGuideRight-notch',
+      'seatGuideLeft-notch',
+      'seatGuideRight-notch',
+    ]
+    for (const name in snippets) {
+      if (keepSnippets.indexOf(name) === -1) delete snippets[name]
+    }
     //removing macros not required from Sarah
     macro('title', false)
     //let's begin
