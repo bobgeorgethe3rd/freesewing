@@ -28,7 +28,7 @@ export const pocket = {
     //stores
     store.set('pocketOpening', points.topLeft.dist(points.openingTop))
     store.set('pocketOpeningLength', points.topLeft.dist(points.openingBottom))
-    store.set('pocketLength', points.curveBRStart.y - points.pocketTopLeft.y)
+    store.set('pocketLength', points.bottomLeft.y - points.pocketTopLeft.y)
 
     let pocketLengthCheck
     if (options.highLow) {
