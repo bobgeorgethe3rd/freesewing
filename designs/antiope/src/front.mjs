@@ -46,6 +46,7 @@ export const front = {
       'hipsGuideRight-notch',
       'seatGuideLeft-notch',
       'seatGuideRight-notch',
+      'cfSeat-notch',
     ]
     for (const name in snippets) {
       if (keepSnippets.indexOf(name) === -1) delete snippets[name]
@@ -158,7 +159,6 @@ export const front = {
         titleCutNum = 2
       }
       //notches
-      if (points.cfHem.y > points.cfSeat.y) snippets.cfSeat = new Snippet('notch', points.cfSeat)
       if (
         options.pocketsBool &&
         store.get('pocketLength') < paths.sideSeam.split(points.sideCurveEnd)[0].length()

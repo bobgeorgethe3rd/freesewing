@@ -70,6 +70,7 @@ export const back = {
       'hipsGuideRight-notch',
       'seatGuideLeft-notch',
       'seatGuideRight-notch',
+      'cbSeat',
     ]
     for (const name in snippets) {
       if (keepSnippets.indexOf(name) === -1) delete snippets[name]
@@ -188,7 +189,6 @@ export const back = {
         titleCutNum = 2
       }
       //notches
-      if (points.cbHem.y > points.cbSeat.y) snippets.cbSeat = new Snippet('bnotch', points.cbSeat)
       if (
         options.pocketsBool &&
         store.get('pocketLength') < paths.sideSeam.split(points.sideCurveStart)[1].length()
