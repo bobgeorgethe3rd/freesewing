@@ -6,7 +6,7 @@ export const placket = {
   after: [pocket, back],
   options: {
     //Plackets
-    placket: { dflt: 'shield', list: ['placket', 'shield', 'none'], menu: 'plackets' },
+    placketType: { dflt: 'shield', list: ['placket', 'shield', 'none'], menu: 'plackets' },
     placketWidth: { pct: 5.1, min: 5, max: 8, menu: 'plackets' },
     placketLength: { pct: 15.9, min: 10, max: 25, menu: 'plackets' },
     //Construction
@@ -31,7 +31,7 @@ export const placket = {
     absoluteOptions,
   }) => {
     //set Render
-    if (options.placket == 'none') {
+    if (options.placketType == 'none') {
       store.set('waistbandPlacketWidth', 0)
       part.hide()
       return part
@@ -81,7 +81,7 @@ export const placket = {
 
     //stores
     let titleName
-    if (options.placket == 'placket') {
+    if (options.placketType == 'placket') {
       titleName == 'Placket'
       store.set('waistbandPlacketWidth', width)
     } else {
@@ -127,17 +127,13 @@ export const placket = {
       })
 
       if (sa) {
-        let sideSeamSa
-        if (options.closurePosition == 'sideRight' || options.closurePosition == 'sideLeft') {
-          sideSeamSa = sa * options.closureSaWidth * 100
-        } else {
-          sideSeamSa = sa * options.sideSeamSaWidth * 100
-        }
-
+        const closureSa = sa * options.closureSaWidth * 100
         const placketSa = options.placketOnFold ? 0 : sa
 
-        points.saBottomRight = points.bottomRight.translate(sideSeamSa, sa)
-        points.saTopRight = points.topRight.translate(sideSeamSa, -sa)
+        if (options.placketType == 'shield') store.set('waistbandSideSa', closureSa)
+
+        points.saBottomRight = points.bottomRight.translate(closureSa, sa)
+        points.saTopRight = points.topRight.translate(closureSa, -sa)
         points.saTopLeft = points.topLeft.translate(-placketSa, -sa)
         points.saBottomCurveStart = points.bottomCurveStart.shift(180, placketSa)
 
