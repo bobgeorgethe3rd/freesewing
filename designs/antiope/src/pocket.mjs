@@ -4,6 +4,10 @@ import { back } from '@freesewing/sarah'
 export const pocket = {
   name: 'antiope.pocket',
   after: back,
+  hide: {
+    after: true,
+    inherited: true,
+  },
   options: {
     //Imported
     ...inseamPocket.options,
