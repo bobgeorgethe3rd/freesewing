@@ -274,6 +274,13 @@ paul:
 peach:
   peer:
     '@freesewing/daisy': *freesewing
+penny:
+  peer:
+    '@freesewing/sarah': *freesewing
+    '@freesewing/beltloops': *freesewing
+    '@freesewing/inseampocket': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
 petunia:
   peer:
     '@freesewing/daisy': *freesewing

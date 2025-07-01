@@ -417,6 +417,14 @@
       "difficulty": 2,
       "tags": ["skirts", "handkerchief", "circle"]
     },
+    "penny": {
+      "description": "Penny pencil skirt design for independent use and extension into other desgins",
+      "number": "0053",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 2,
+      "tags": ["skirts"]
+    },
     "scarlett": {
       "description": "Scarlett split skirt design based off of Wanda",
       "number": "0009",

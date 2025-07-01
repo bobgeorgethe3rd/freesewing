@@ -1,0 +1,235 @@
+import { back as backSarah } from '@freesewing/sarah'
+import { pocket } from './pocket.mjs'
+import { pluginLogoRG } from '@freesewing/plugin-logorg'
+import { pctBasedOn } from '@freesewing/core'
+
+export const back = {
+  name: 'penny.back',
+  from: backSarah,
+  after: pocket,
+  hide: {
+    from: true,
+    inherited: true,
+  },
+  options: {
+    //Constants
+    kneeLengthBonus: 0, //Locked for Penny
+    //Fit
+    fitGuides: { bool: false, menu: 'fit' }, //Altered for Penny
+    sarahGuides: { bool: false, menu: 'fit' },
+    //Style
+    waistbandStyle: { dflt: 'straight', list: ['straight', 'curved', 'none'], menu: 'style' }, //Altered for Penny
+    waistbandWidth: {
+      pct: 2.4,
+      min: 1,
+      max: 6,
+      snap: 2.5,
+      ...pctBasedOn('waistToFloor'),
+      menu: 'style',
+    }, //Altered for Penny
+    shapeKnee: { pct: 0, min: 0, max: 200, menu: 'style' },
+    skirtLength: { pct: 50, min: 0, max: 100, menu: 'style' },
+    skirtLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
+    //Construction
+    // skirtFacings: { bool: false, menu: 'construction' },
+    // skirtFacingWidth: { pct: 15, min: 5, max: 50, menu: 'construction' },
+    cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Penny
+    closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Penny
+    sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Penny
+  },
+  plugins: [pluginLogoRG],
+  draft: ({
+    store,
+    sa,
+    Point,
+    points,
+    Path,
+    paths,
+    options,
+    complete,
+    paperless,
+    macro,
+    utils,
+    measurements,
+    part,
+    snippets,
+    Snippet,
+  }) => {
+    //remove paths & snippets
+    const keepPaths = ['hipsGuide', 'seatGuide', 'waist', 'dartEdges', 'dartEdge', 'seam']
+    for (const name in paths) {
+      if (keepPaths.indexOf(name) === -1) delete paths[name]
+    }
+    if (options.sarahGuides) {
+      paths.sarahGuide = paths.seam.clone().attr('class', 'various lashed')
+    }
+    delete paths.seam
+    const keepSnippets = [
+      'hipsGuideLeft-notch',
+      'hipsGuideRight-notch',
+      'seatGuideLeft-notch',
+      'seatGuideRight-notch',
+      'cbSeat',
+    ]
+    for (const name in snippets) {
+      if (keepSnippets.indexOf(name) === -1) delete snippets[name]
+    }
+    //removing macros not required from Sarah
+    macro('title', false)
+    macro('scalebox', false)
+    //measures
+    let skirtLength
+    if (options.skirtLength < 0.5) {
+      skirtLength = (measurements.waistToKnee - measurements.waistToSeat) * 2 * options.skirtLength
+    } else {
+      skirtLength =
+        (measurements.waistToKnee - measurements.waistToSeat) * (2 - 2 * options.skirtLength) +
+        (measurements.waistToFloor - measurements.waistToSeat) * (-1 + 2 * options.skirtLength)
+    }
+    skirtLength = skirtLength * (1 + options.skirtLengthBonus)
+    //let's begin
+    points.sideSeatCp2 = points.sideSeat.shiftFractionTowards(points.sideKnee, 0.5)
+    if (options.shapeKnee > 0)
+      points.sideKnee = points.sideKnee.shiftFractionTowards(
+        new Point(points.sideWaistBack.x, points.cbKnee.y),
+        options.shapeKnee
+      )
+    points.sideKneeCp1 = points.sideKnee.shiftFractionTowards(
+      new Point(points.sideKnee.x, points.sideSeat.y),
+      0.5
+    )
+    points.cbHem = points.cbSeat.shift(-90, skirtLength)
+    if (points.cbHem.y < points.cbKnee.y) {
+      points.sideHem = utils.curveIntersectsY(
+        points.sideSeat,
+        points.sideSeatCp2,
+        points.sideKneeCp1,
+        points.sideKnee,
+        points.cbHem.y
+      )
+    } else {
+      points.sideHem = new Point(points.sideKnee.x, points.cbHem.y)
+    }
+    //paths
+    paths.sideSeamInitial = new Path()
+      .move(points.sideWaistBack)
+      .line(points.sideCurveStart)
+      .curve(points.sideCurveStartCp2, points.sideSeatCp1, points.sideSeat)
+      .curve(points.sideSeatCp2, points.sideKneeCp1, points.sideKnee)
+      .hide()
+
+    const drawSideSeam = () => {
+      if (options.shapeKnee > 0) {
+        if (points.cbHem.y < points.cbKnee.y) {
+          return paths.sideSeamInitial.split(points.sideHem)[0]
+        } else {
+          return paths.sideSeamInitial.line(points.sideHem)
+        }
+      } else {
+        return new Path()
+          .move(points.sideWaistBack)
+          .line(points.sideCurveStart)
+          .curve(points.sideCurveStartCp2, points.sideSeatCp1, points.sideSeat)
+          .line(options.skirtLength == 0 ? points.sideSeat : points.sideHem)
+          .hide()
+      }
+    }
+
+    paths.seam = new Path()
+      .move(points.sideHem)
+      .line(points.cbHem)
+      .line(points.cbWaist)
+      .join(paths.waist)
+      .join(drawSideSeam())
+      .close()
+
+    //store
+    store.set('skirtLength', skirtLength)
+
+    if (complete) {
+      //grainline
+      let titleCutNum
+      if (options.closurePosition != 'back' && options.cbSaWidth == 0) {
+        points.cutOnFoldFrom = points.cbHem
+        points.cutOnFoldTo = points.cbWaist
+        macro('cutonfold', {
+          from: points.cutOnFoldFrom,
+          to: points.cutOnFoldTo,
+          grainline: true,
+        })
+        titleCutNum = 1
+      } else {
+        points.grainlineTo = points.cbHem.shiftFractionTowards(points.sideHem, 0.1)
+        points.grainlineFrom = new Point(points.grainlineTo.x, points.cbWaist.y)
+        macro('grainline', {
+          from: points.grainlineFrom,
+          to: points.grainlineTo,
+        })
+        titleCutNum = 2
+      }
+      //notches
+      if (
+        options.pocketsBool &&
+        store.get('pocketLength') < drawSideSeam().split(points.sideCurveStart)[1].length()
+      ) {
+        points.pocketOpeningTop = drawSideSeam().shiftAlong(store.get('pocketOpening'))
+        points.pocketOpeningBottom = drawSideSeam().shiftAlong(store.get('pocketOpeningLength'))
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['pocketOpeningTop', 'pocketOpeningBottom'],
+        })
+      }
+      //title
+      points.title = paths.waist
+        .shiftFractionAlong(0.5)
+        .shiftFractionTowards(points.sideHem.shiftFractionTowards(points.cbHem, 0.5), 0.35)
+      macro('title', {
+        at: points.title,
+        nr: '1',
+        title: 'Skirt Back',
+        cutNr: titleCutNum,
+        scale: 2 / 3,
+      })
+      //logo
+      points.logo = paths.waist
+        .shiftFractionAlong(0.5)
+        .shiftFractionTowards(points.sideHem.shiftFractionTowards(points.cbHem, 0.5), 0.55)
+      macro('logorg', { at: points.logo, scale: 0.5 })
+      //scalebox
+      points.scalebox = paths.waist
+        .shiftFractionAlong(0.5)
+        .shiftFractionTowards(points.sideHem.shiftFractionTowards(points.cbHem, 0.5), 0.75)
+      macro('scalebox', { at: points.scalebox })
+      //fitGuides
+      if (
+        options.fitGuides &&
+        new Point(points.sideHem.x, points.sideSeat.y).dist(points.sideHem) >
+          measurements.waistToKnee - measurements.waistToSeat
+      ) {
+        points.kneeGuideRight = new Point(points.seatGuideRight.x, points.cbKnee.y)
+        points.kneeGuideLeft = new Point(points.seatGuideLeft.x, points.cbKnee.y)
+        paths.kneeGuide = new Path()
+          .move(points.kneeGuideLeft)
+          .line(points.kneeGuideRight)
+          .attr('class', 'various')
+          .attr('data-text', 'Knee Guide')
+          .attr('data-text-class', 'right')
+
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['kneeGuideLeft', 'kneeGuideRight'],
+        })
+      }
+
+      if (sa) {
+        const hemSa = sa * options.hemWidth * 100
+        let sideSeamSa = sa * options.sideSeamSaWidth * 100
+        if (options.closurePosition == 'side') sideSeamSa = sa * options.closureSaWidth * 100
+
+        points.saCbHem = new Point(points.saCbWaist.x, points.cbHem.y + hemSa)
+      }
+    }
+
+    return part
+  },
+}
