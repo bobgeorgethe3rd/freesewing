@@ -21,6 +21,7 @@ import { DraftLogs } from 'shared/components/workbench/logs.mjs'
 import { CutLayout } from 'shared/components/workbench/layout/cut/index.mjs'
 import { PrintLayout } from 'shared/components/workbench/layout/print/index.mjs'
 import { EditYaml } from 'shared/components/workbench/edit/index.mjs'
+import { DocumentationView } from 'shared/components/workbench/documentation/index.mjs'
 
 const views = {
   measurements: WorkbenchMeasurements,
@@ -33,6 +34,7 @@ const views = {
   yaml: GistAsYaml,
   json: GistAsJson,
   edit: EditYaml,
+  documentation: DocumentationView,
   welcome: () => <p>TODO</p>,
 }
 

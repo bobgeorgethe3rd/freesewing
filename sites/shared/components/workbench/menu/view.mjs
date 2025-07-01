@@ -59,6 +59,11 @@ export const ViewMenu = (props) => {
       onClick: () => props.updateGist(['_state', 'view'], 'edit', true),
     },
     {
+      name: 'documentation',
+      title: t('documentation', { design: props.design.designConfig.data.name }),
+      onClick: () => props.updateGist(['_state', 'view'], 'documentation', true),
+    },
+    {
       name: 'clear',
       title: t('clearThing', { thing: 'YAML' }),
       onClick: () => props.setGist(defaultGist(props.design, props.gist.locale)),

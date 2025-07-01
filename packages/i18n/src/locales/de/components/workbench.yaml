@@ -9,3 +9,4 @@ testThing: '{thing} testen'
 yamlEditViewTitleThing: 'Edit Pattern Configuration for {thing}'
 yamlEditViewError: Probleme mit YAML
 yamlEditViewErrorDesc: Wir haben deine Eingabe gespeichert, aber sie funktioniert möglicherweise aus folgenden Gründen nicht
+documentationThing: "{thing}'s Documentation"
