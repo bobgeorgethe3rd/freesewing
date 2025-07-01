@@ -30,6 +30,7 @@ export const back = {
     shapeKnee: { pct: 0, min: 0, max: 200, menu: 'style' },
     skirtLength: { pct: 50, min: 0, max: 100, menu: 'style' },
     skirtLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
+    sideSeamCurve: { pct: 50, min: 10, max: 50, menu: 'style' },
     //Construction
     // skirtFacings: { bool: false, menu: 'construction' },
     // skirtFacingWidth: { pct: 15, min: 5, max: 50, menu: 'construction' },
@@ -102,7 +103,10 @@ export const back = {
     }
     skirtLength = skirtLength * (1 + options.skirtLengthBonus)
     //let's begin
-    points.sideSeatCp2 = points.sideSeat.shiftFractionTowards(points.sideKnee, 0.5)
+    points.sideSeatCp2 = points.sideSeat.shiftFractionTowards(
+      points.sideKnee,
+      options.sideSeamCurve
+    )
     if (options.shapeKnee > 0)
       points.sideKnee = points.sideKnee.shiftFractionTowards(
         new Point(points.sideWaistBack.x, points.cbKnee.y),
@@ -110,7 +114,7 @@ export const back = {
       )
     points.sideKneeCp1 = points.sideKnee.shiftFractionTowards(
       new Point(points.sideKnee.x, points.sideSeat.y),
-      0.5
+      options.sideSeamCurve
     )
     points.cbHem = points.cbSeat.shift(-90, skirtLength)
     if (points.cbHem.y < points.cbKnee.y) {
