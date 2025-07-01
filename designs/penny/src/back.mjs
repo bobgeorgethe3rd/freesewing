@@ -34,7 +34,7 @@ export const back = {
     // skirtFacings: { bool: false, menu: 'construction' },
     // skirtFacingWidth: { pct: 15, min: 5, max: 50, menu: 'construction' },
     backVentDepth: { pct: (2 / 3) * 100, min: 0, max: 90, menu: 'construction' },
-    sideSlitDepth: { pct: 0, min: 0, max: 90, menu: 'construction' },
+    sideSeamSlitDepth: { pct: 0, min: 0, max: 90, menu: 'construction' },
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Penny
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Penny
     sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Penny
@@ -87,9 +87,10 @@ export const back = {
     //removing macros not required from Sarah
     macro('title', false)
     macro('scalebox', false)
-    //options
-    if (options.backVentDepth > 0 && options.skirtLength > 0 && options.cbSaWidth < 0.01)
+    if (options.backVentDepth > 0 && options.skirtLength > 0 && options.cbSaWidth < 0.01) {
       options.cbSaWidth = 0.01
+      macro('cutonfold', false)
+    }
     //measures
     let skirtLength
     if (options.skirtLength < 0.5) {
@@ -123,7 +124,6 @@ export const back = {
     } else {
       points.sideHem = new Point(points.sideKnee.x, points.cbHem.y)
     }
-    points.cbVent = points.cbHem.shiftFractionTowards(points.cbSeat, options.backVentDepth)
     //paths
     paths.sideSeamInitial = new Path()
       .move(points.sideWaistBack)
@@ -135,9 +135,9 @@ export const back = {
     const drawSideSeam = () => {
       if (options.shapeKnee > 0) {
         if (points.cbHem.y < points.cbKnee.y) {
-          return paths.sideSeamInitial.split(points.sideHem)[0]
+          return paths.sideSeamInitial.split(points.sideHem)[0].hide()
         } else {
-          return paths.sideSeamInitial.line(points.sideHem)
+          return paths.sideSeamInitial.line(points.sideHem).hide()
         }
       } else {
         return new Path()
@@ -148,6 +148,11 @@ export const back = {
           .hide()
       }
     }
+
+    points.cbVent = points.cbHem.shiftFractionTowards(points.cbSeat, options.backVentDepth)
+    points.sideSplit = drawSideSeam()
+      .split(points.sideSeat)[1]
+      .shiftFractionAlong(1 - options.sideSeamSlitDepth)
 
     paths.seam = new Path()
       .move(points.sideHem)
@@ -248,6 +253,7 @@ export const back = {
           points.saCbHem = points.cbHem.translate(cbSa * 2, hemSa)
           points.saCbVentRight = points.cbVent.shift(0, cbSa * 2)
           points.saCbVentLeft = points.cbVent.translate(cbSa, -cbSa)
+          points.saCbWaist = points.cbWaist.translate(cbSa, -sa)
         } else {
           points.saCbHem = new Point(points.saCbWaist.x, points.cbHem.y + hemSa)
           points.saCbVentRight = points.saCbHem
