@@ -33,6 +33,8 @@ export const back = {
     //Construction
     // skirtFacings: { bool: false, menu: 'construction' },
     // skirtFacingWidth: { pct: 15, min: 5, max: 50, menu: 'construction' },
+    backVentDepth: { pct: (2 / 3) * 100, min: 0, max: 90, menu: 'construction' },
+    sideSlitDepth: { pct: 0, min: 0, max: 90, menu: 'construction' },
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Penny
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Penny
     sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Penny
@@ -56,7 +58,15 @@ export const back = {
     Snippet,
   }) => {
     //remove paths & snippets
-    const keepPaths = ['hipsGuide', 'seatGuide', 'waist', 'dartEdges', 'dartEdge', 'seam']
+    const keepPaths = [
+      'hipsGuide',
+      'seatGuide',
+      'waist',
+      'dartEdges',
+      'dartEdge',
+      'seam',
+      'saWaist',
+    ]
     for (const name in paths) {
       if (keepPaths.indexOf(name) === -1) delete paths[name]
     }
@@ -77,6 +87,9 @@ export const back = {
     //removing macros not required from Sarah
     macro('title', false)
     macro('scalebox', false)
+    //options
+    if (options.backVentDepth > 0 && options.skirtLength > 0 && options.cbSaWidth < 0.01)
+      options.cbSaWidth = 0.01
     //measures
     let skirtLength
     if (options.skirtLength < 0.5) {
@@ -110,6 +123,7 @@ export const back = {
     } else {
       points.sideHem = new Point(points.sideKnee.x, points.cbHem.y)
     }
+    points.cbVent = points.cbHem.shiftFractionTowards(points.cbSeat, options.backVentDepth)
     //paths
     paths.sideSeamInitial = new Path()
       .move(points.sideWaistBack)
@@ -179,6 +193,7 @@ export const back = {
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],
         })
       }
+      if (options.backVentDepth > 0) snippets.cbVent = new Snippet('bnotch', points.cbVent)
       //title
       points.title = paths.waist
         .shiftFractionAlong(0.5)
@@ -222,11 +237,37 @@ export const back = {
       }
 
       if (sa) {
+        const closureSa = sa * options.closureSaWidth * 100
         const hemSa = sa * options.hemWidth * 100
+        let cbSa = sa * options.cbSaWidth * 100
+        if (options.closurePosition == 'back') cbSa = closureSa
         let sideSeamSa = sa * options.sideSeamSaWidth * 100
-        if (options.closurePosition == 'side') sideSeamSa = sa * options.closureSaWidth * 100
+        if (options.closurePosition == 'side') closureSa
 
-        points.saCbHem = new Point(points.saCbWaist.x, points.cbHem.y + hemSa)
+        if (options.backVentDepth > 0 && options.skirtLength > 0) {
+          points.saCbHem = points.cbHem.translate(cbSa * 2, hemSa)
+          points.saCbVentRight = points.cbVent.shift(0, cbSa * 2)
+          points.saCbVentLeft = points.cbVent.translate(cbSa, -cbSa)
+        } else {
+          points.saCbHem = new Point(points.saCbWaist.x, points.cbHem.y + hemSa)
+          points.saCbVentRight = points.saCbHem
+          points.saCbVentLeft = points.saCbHem
+        }
+
+        points.saSideHem = points.sideHem.translate(-sideSeamSa, hemSa)
+
+        paths.sa = new Path()
+          .move(points.saSideHem)
+          .line(points.saCbHem)
+          .line(points.saCbVentRight)
+          .line(points.saCbVentLeft)
+          .line(points.saCbWaist)
+          .join(paths.saWaist)
+          .line(points.saSideWaistBack)
+          .join(drawSideSeam().offset(sideSeamSa))
+          .line(points.saSideHem)
+          .close()
+          .attr('class', 'fabric sa')
       }
     }
 
