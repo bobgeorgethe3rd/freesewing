@@ -711,7 +711,7 @@ export const front = {
       if (sa) {
         const hemSa = sa * options.hemWidth * 100
         const closureSa = sa * options.closureSaWidth * 100
-        let cfSa = sa * options.cbSaWidth * 100
+        let cfSa = sa * options.cfSaWidth * 100
         if (options.closurePosition == 'front') cfSa = closureSa
         let sideSeamSa = sa * options.sideSeamSaWidth * 100
         if (options.closurePosition == 'side') sideSeamSa = closureSa
