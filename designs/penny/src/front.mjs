@@ -12,6 +12,7 @@ export const front = {
   options: {
     //Construction
     cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Penny
+    frontVentDepth: { pct: 0, min: 0, max: 90, menu: 'construction' },
   },
   draft: ({
     store,
@@ -31,7 +32,15 @@ export const front = {
     Snippet,
   }) => {
     //remove paths & snippets
-    const keepPaths = ['hipsGuide', 'seatGuide', 'waistClosed', 'seam']
+    const keepPaths = [
+      'hipsGuide',
+      'seatGuide',
+      'waist',
+      'dartEdges',
+      'dartEdge',
+      'seam',
+      'saWaist',
+    ]
     for (const name in paths) {
       if (keepPaths.indexOf(name) === -1) delete paths[name]
     }
@@ -51,86 +60,71 @@ export const front = {
     }
     //removing macros not required from Sarah
     macro('title', false)
-    //let's begin
-    points.cfHem = points.cfSeat.shift(-90, store.get('skirtLength'))
-    points.sideHem = new Point(points.sideSeat.x, points.cfHem.y)
-
-    const rotThese = [
-      'sideHem',
-      'sideSeat',
-      'sideSeatCp2',
-      'sideCurveEndCp1',
-      'sideCurveEnd',
-      'sideWaistFront',
-    ]
-
-    if (points.skirtFrontDartBottom0) {
-      for (const p of rotThese) {
-        points[p] = points[p].rotate(
-          store.get('waistFrontDartAngle0'),
-          points.skirtFrontDartBottom0
-        )
-      }
-      for (const p of rotThese) {
-        points[p] = points[p].rotate(
-          store.get('waistFrontDartAngle1'),
-          points.skirtFrontDartBottom1
-        )
-      }
-    } else {
-      for (const p of rotThese) {
-        points[p] = points[p].rotate(store.get('waistFrontDartAngle'), points.skirtFrontDartBottom)
-      }
+    if (options.frontVentDepth > 0 && options.skirtLength > 0 && options.cfSaWidth < 0.01) {
+      options.cfSaWidth = 0.01
+      macro('cutonfold', false)
     }
-
-    //hem
-    points.hemCurveStart = points.cfHem.shift(0, points.cfSeat.x * -0.25)
-
-    points.hemCurveEnd = points.sideHem.shift(
-      points.sideSeat.angle(points.sideSeatCp2) + 90,
-      points.cfSeat.x * -0.25
+    //let's begin
+    points.sideSeatCp1 = points.sideSeat.shiftFractionTowards(
+      points.sideKnee,
+      options.sideSeamCurve
     )
-
-    points.hemOrigin = utils.beamIntersectsX(
-      points.hemCurveEnd,
-      points.hemCurveEnd.shift(points.sideSeat.angle(points.sideSeatCp2), 1),
-      points.hemCurveStart.x
+    if (options.shapeKnee > 0)
+      points.sideKnee = points.sideKnee.shiftFractionTowards(
+        new Point(points.sideWaistFront.x, points.cfKnee.y),
+        options.shapeKnee
+      )
+    points.sideKneeCp2 = points.sideKnee.shiftFractionTowards(
+      new Point(points.sideKnee.x, points.sideSeat.y),
+      options.sideSeamCurve
     )
-
-    const hemRadius =
-      (points.hemOrigin.dist(points.hemCurveStart) + points.hemOrigin.dist(points.hemCurveEnd)) / 2
-    const hemCpDist =
-      (4 / 3) *
-      hemRadius *
-      Math.tan(utils.deg2rad((points.hemOrigin.angle(points.hemCurveEnd) - 270) / 4))
-
-    points.hemCurveStartCp2 = points.hemCurveStart.shift(0, hemCpDist)
-
-    points.hemCurveEndCp1 = points.hemCurveEnd.shift(
-      points.sideHem.angle(points.hemCurveEnd),
-      hemCpDist
-    )
-
+    points.cfHem = points.cfSeat.shift(-90, store.get('skirtLength'))
+    if (points.cfHem.y < points.cfKnee.y) {
+      points.sideHem = utils.curveIntersectsY(
+        points.sideKnee,
+        points.sideKneeCp2,
+        points.sideSeatCp1,
+        points.sideSeat,
+        points.cfHem.y
+      )
+    } else {
+      points.sideHem = new Point(points.sideKnee.x, points.cfHem.y)
+    }
     //paths
-    paths.hemBase = new Path()
-      .move(points.cfHem)
-      .line(points.hemCurveStart)
-      .curve(points.hemCurveStartCp2, points.hemCurveEndCp1, points.hemCurveEnd)
-      .line(points.sideHem)
-      .hide()
-
-    paths.sideSeam = new Path()
-      .move(options.skirtLength == 0 ? points.sideSeat : points.sideHem)
-      .line(points.sideSeat)
+    paths.sideSeamInitial = new Path()
+      .move(points.sideKnee)
+      .curve(points.sideKneeCp2, points.sideSeatCp1, points.sideSeat)
       .curve(points.sideSeatCp2, points.sideCurveEndCp1, points.sideCurveEnd)
       .line(points.sideWaistFront)
       .hide()
 
-    paths.waist = paths.waistClosed
+    const drawSideSeam = () => {
+      if (options.shapeKnee > 0) {
+        if (points.cfHem.y < points.cfKnee.y) {
+          return paths.sideSeamInitial.split(points.sideHem)[1].hide()
+        } else {
+          return new Path()
+            .move(points.sideHem)
+            .line(points.sideKnee)
+            .join(paths.sideSeamInitial)
+            .hide()
+        }
+      } else {
+        return new Path()
+          .move(options.skirtLength == 0 ? points.sideSeat : points.sideHem)
+          .line(points.sideSeat)
+          .curve(points.sideSeatCp2, points.sideCurveEndCp1, points.sideCurveEnd)
+          .line(points.sideWaistFront)
+          .hide()
+      }
+    }
 
-    paths.seam = paths.hemBase
-      .clone()
-      .join(paths.sideSeam)
+    points.cfVent = points.cfHem.shiftFractionTowards(points.cfSeat, options.frontVentDepth)
+
+    paths.seam = new Path()
+      .move(points.cfHem)
+      .line(points.sideHem)
+      .join(drawSideSeam())
       .join(paths.waist)
       .line(points.cfHem)
       .close()
@@ -140,7 +134,7 @@ export const front = {
       let titleCutNum
       if (options.closurePosition != 'front' && options.cfSaWidth == 0) {
         points.cutOnFoldFrom = points.cfWaist
-        points.cutOnFoldTo = points.cfHem
+        points.cutOnFoldTo = points.cfKnee
         macro('cutonfold', {
           from: points.cutOnFoldFrom,
           to: points.cutOnFoldTo,
@@ -148,7 +142,7 @@ export const front = {
         })
         titleCutNum = 1
       } else {
-        points.grainlineTo = paths.hemBase.shiftFractionAlong(0.05)
+        points.grainlineTo = points.cfKnee.shiftFractionTowards(points.sideKnee, 0.1)
         points.grainlineFrom = new Point(points.grainlineTo.x, points.cfWaist.y)
         macro('grainline', {
           from: points.grainlineFrom,
@@ -159,10 +153,10 @@ export const front = {
       //notches
       if (
         options.pocketsBool &&
-        store.get('pocketLength') < paths.sideSeam.split(points.sideCurveEnd)[0].length()
+        store.get('pocketLength') < drawSideSeam().split(points.sideCurveEnd)[0].length()
       ) {
-        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
-        points.pocketOpeningBottom = paths.sideSeam
+        points.pocketOpeningTop = drawSideSeam().reverse().shiftAlong(store.get('pocketOpening'))
+        points.pocketOpeningBottom = drawSideSeam()
           .reverse()
           .shiftAlong(store.get('pocketOpeningLength'))
         macro('sprinkle', {
@@ -170,14 +164,16 @@ export const front = {
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],
         })
       }
+      if (options.frontVentDepth > 0) snippets.cfVent = new Snippet('notch', points.cfVent)
       //title
-      points.title = paths.waist
-        .shiftFractionAlong(0.5)
-        .shiftFractionTowards(paths.hemBase.shiftFractionAlong(0.5), 0.5)
+      points.title = new Point(
+        paths.waist.reverse().shiftFractionAlong(0.1).x,
+        points.cfSeat.y * 0.5
+      )
       macro('title', {
         at: points.title,
         nr: '2',
-        title: 'Skirt Front',
+        title: 'Front',
         cutNr: titleCutNum,
         scale: 2 / 3,
       })
@@ -200,113 +196,36 @@ export const front = {
           on: ['kneeGuideLeft', 'kneeGuideRight'],
         })
       }
-      //facings
-      if (options.skirtFacings) {
-        const skirtFacingWidth = store.get('skirtFacingWidth')
-        points.cfFacing = points.cfHem.shift(90, skirtFacingWidth)
-        points.sideFacing = paths.sideSeam.shiftAlong(skirtFacingWidth)
-        points.facingCurveEnd = new Point(points.hemCurveStart.x, points.cfFacing.y)
-        points.facingCurveStart = utils.beamsIntersect(
-          points.sideFacing,
-          points.sideFacing.shift(points.sideSeat.angle(points.sideSeatCp2) + 90, 1),
-          points.hemCurveEnd,
-          points.hemCurveEnd.shift(points.sideSeat.angle(points.sideSeatCp2), 1)
-        )
-        points.facingCurveStartCp2 = utils.beamsIntersect(
-          points.hemCurveEndCp1,
-          points.hemOrigin,
-          points.sideFacing,
-          points.facingCurveStart
-        )
-        points.facingCurveEndCp1 = utils.beamIntersectsY(
-          points.hemCurveStartCp2,
-          points.hemOrigin,
-          points.cfFacing.y
-        )
-
-        paths.facing = new Path()
-          .move(points.sideFacing)
-          .line(points.facingCurveStart)
-          .curve(points.facingCurveStartCp2, points.facingCurveEndCp1, points.facingCurveEnd)
-          .line(points.cfFacing)
-          .hide()
-
-        paths.facingLine = paths.facing
-          .clone()
-          .reverse()
-          .unhide()
-          .attr('class', 'interfacing')
-          .attr('data-text', 'Skirt Facing Line')
-          .attr('data-text-class', 'center')
-
-        store.set('skirtFacingWidth', skirtFacingWidth)
-
-        points.titleFacing = paths.facing
-          .shiftFractionAlong(0.5)
-          .shiftFractionTowards(paths.hemBase.shiftFractionAlong(0.5), 0.5)
-        macro('title', {
-          at: points.titleFacing,
-          nr: '8',
-          title: 'Facing (Skirt Front)',
-          cutNr: titleCutNum,
-          prefix: 'facing',
-          scale: 0.25,
-        })
-      }
       if (sa) {
+        const closureSa = sa * options.closureSaWidth * 100
         const hemSa = sa * options.hemWidth * 100
         let sideSeamSa = sa * options.sideSeamSaWidth * 100
-        if (options.closurePosition == 'side') sideSeamSa = sa * options.closureSaWidth * 100
+        if (options.closurePosition == 'side') closureSa
+        let cfSa = sa * options.cfSaWidth * 100
+        if (options.closurePosition == 'front') cfSa = closureSa
 
-        points.saSideHem = points.sideHem
-          .shift(points.hemCurveEnd.angle(points.sideHem), sideSeamSa)
-          .shift(points.sideSeatCp2.angle(points.sideSeat), hemSa)
-
-        if (points.skirtFrontDartBottom0) {
-          points.saSideWaistFront = points.saSideWaistFront
-            .rotate(store.get('waistFrontDartAngle0'), points.skirtFrontDartBottom0)
-            .rotate(store.get('waistFrontDartAngle1'), points.skirtFrontDartBottom1)
+        if (options.frontVentDepth > 0 && options.skirtLength > 0) {
+          points.saCfHem = points.cfHem.translate(cfSa * -2, hemSa)
+          points.saCfVentLeft = points.cfVent.shift(0, cfSa * -2)
+          points.saCfVentRight = points.cfVent.translate(-cfSa, -cfSa)
+          points.saCfWaist = points.cfWaist.translate(-cfSa, -sa)
         } else {
-          points.saSideWaistFront = points.saSideWaistFront.rotate(
-            store.get('waistFrontDartAngle'),
-            points.skirtFrontDartBottom
-          )
+          points.saCfHem = new Point(points.saCfWaist.x, points.cfHem.y + hemSa)
+          points.saCfVentLeft = points.saCfHem
+          points.saCfVentRight = points.saCfHem
         }
 
-        points.saCfHem = new Point(points.saCfWaist.x, points.cfHem.y + hemSa)
+        points.saSideHem = points.sideHem.translate(sideSeamSa, hemSa)
 
-        if (options.skirtFacings) {
-          points.saSideFacing = utils.beamsIntersect(
-            paths.sideSeam.split(points.sideFacing)[0].offset(sideSeamSa).shiftFractionAlong(0.995),
-            paths.sideSeam.split(points.sideFacing)[0].offset(sideSeamSa).end(),
-            paths.facing.offset(sa).start(),
-            paths.facing
-              .offset(sa)
-              .start()
-              .shift(points.facingCurveStart.angle(points.sideFacing), 1)
-          )
-          points.saCfFacing = new Point(points.saCfWaist.x, points.cfFacing.y - sa)
-
-          paths.facingSa = paths.hemBase
-            .clone()
-            .offset(hemSa)
-            .join(paths.sideSeam.split(points.sideFacing)[0].offset(sideSeamSa))
-            .line(points.saSideFacing)
-            .join(paths.facing.offset(sa))
-            .line(points.saCfFacing)
-            .line(points.saCfHem)
-            .close()
-            .attr('class', 'interfacing sa')
-        }
-
-        paths.sa = paths.hemBase
-          .clone()
-          .offset(hemSa)
+        paths.sa = new Path()
+          .move(points.saCfHem)
           .line(points.saSideHem)
-          .join(paths.sideSeam.offset(sideSeamSa))
+          .join(drawSideSeam().offset(sideSeamSa))
           .line(points.saSideWaistFront)
-          .join(paths.waist.offset(sa))
+          .join(paths.saWaist)
           .line(points.saCfWaist)
+          .line(points.saCfVentRight)
+          .line(points.saCfVentLeft)
           .line(points.saCfHem)
           .close()
           .attr('class', 'fabric sa')
