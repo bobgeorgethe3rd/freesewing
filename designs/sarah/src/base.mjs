@@ -165,6 +165,7 @@ export const base = {
       .move(points.sideCurveStart)
       .curve(points.sideCurveStartCp2, points.sideSeatCp1, points.sideSeat)
       .curve(points.sideSeatCp2, points.sideCurveEndCp1, points.sideCurveEnd)
+      .hide()
 
     //guides
     // paths.origin = new Path()
