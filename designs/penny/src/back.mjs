@@ -35,7 +35,7 @@ export const back = {
     // skirtFacings: { bool: false, menu: 'construction' },
     // skirtFacingWidth: { pct: 15, min: 5, max: 50, menu: 'construction' },
     backVentDepth: { pct: (2 / 3) * 100, min: 0, max: 90, menu: 'construction' },
-    sideSeamSlitDepth: { pct: 0, min: 0, max: 90, menu: 'construction' },
+    sideSeamVentDepth: { pct: 0, min: 0, max: 90, menu: 'construction' },
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Penny
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Penny
     sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Penny
@@ -153,11 +153,6 @@ export const back = {
       }
     }
 
-    points.cbVent = points.cbHem.shiftFractionTowards(points.cbSeat, options.backVentDepth)
-    points.sideSplit = drawSideSeam()
-      .split(points.sideSeat)[1]
-      .shiftFractionAlong(1 - options.sideSeamSlitDepth)
-
     paths.seam = new Path()
       .move(points.sideHem)
       .line(points.cbHem)
@@ -166,6 +161,22 @@ export const back = {
       .join(drawSideSeam())
       .close()
 
+    //vents
+    if (options.backVentDepth > 0 && options.skirtLength > 0)
+      points.cbVent = points.cbHem.shiftFractionTowards(points.cbSeat, options.backVentDepth)
+
+    if (
+      options.pocketsBool &&
+      store.get('pocketLength') < drawSideSeam().split(points.sideCurveStart)[1].length()
+    ) {
+      points.pocketOpeningTop = drawSideSeam().shiftAlong(store.get('pocketOpening'))
+      points.pocketOpeningBottom = drawSideSeam().shiftAlong(store.get('pocketOpeningLength'))
+    }
+    if (options.sideSeamVentDepth > 0 && options.skirtLength > 0) {
+      points.sideVent = drawSideSeam()
+        .split(points.sideSeat)[1]
+        .shiftFractionAlong(1 - options.sideSeamVentDepth)
+    }
     //store
     store.set('skirtLength', skirtLength)
 
@@ -191,18 +202,16 @@ export const back = {
         titleCutNum = 2
       }
       //notches
-      if (
-        options.pocketsBool &&
-        store.get('pocketLength') < drawSideSeam().split(points.sideCurveStart)[1].length()
-      ) {
-        points.pocketOpeningTop = drawSideSeam().shiftAlong(store.get('pocketOpening'))
-        points.pocketOpeningBottom = drawSideSeam().shiftAlong(store.get('pocketOpeningLength'))
+      if (points.pocketOpeningTop) {
         macro('sprinkle', {
           snippet: 'notch',
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],
         })
       }
-      if (options.backVentDepth > 0) snippets.cbVent = new Snippet('bnotch', points.cbVent)
+      if (points.cbVent) snippets.cbVent = new Snippet('bnotch', points.cbVent)
+      if (points.sideVent && !points.sideVent.sitsRoughlyOn(points.sideHem)) {
+        snippets.sideVent = new Snippet('notch', points.sideVent)
+      }
       //title
       points.title = paths.waist
         .shiftFractionAlong(0.5)
@@ -251,9 +260,9 @@ export const back = {
         let cbSa = sa * options.cbSaWidth * 100
         if (options.closurePosition == 'back') cbSa = closureSa
         let sideSeamSa = sa * options.sideSeamSaWidth * 100
-        if (options.closurePosition == 'side') closureSa
+        if (options.closurePosition == 'side') sideSeamSa = closureSa
 
-        if (options.backVentDepth > 0 && options.skirtLength > 0) {
+        if (points.cbVent) {
           points.saCbHem = points.cbHem.translate(cbSa * 2, hemSa)
           points.saCbVentRight = points.cbVent.shift(0, cbSa * 2)
           points.saCbVentLeft = points.cbVent.translate(cbSa, -cbSa)
@@ -264,7 +273,35 @@ export const back = {
           points.saCbVentLeft = points.saCbHem
         }
 
-        points.saSideHem = points.sideHem.translate(-sideSeamSa, hemSa)
+        if (points.sideVent && !points.sideVent.sitsRoughlyOn(points.sideHem)) {
+          paths.saSideSeam = drawSideSeam()
+            .split(points.sideVent)[0]
+            .offset(sideSeamSa)
+            .split(
+              drawSideSeam()
+                .split(points.sideVent)[0]
+                .offset(sideSeamSa)
+                .reverse()
+                .shiftAlong(sideSeamSa)
+            )[0]
+            .join(
+              drawSideSeam()
+                .split(points.sideVent)[1]
+                .offset(sideSeamSa * 2)
+                .start().x > points.sideVent.x
+                ? drawSideSeam()
+                    .split(points.sideSeat)[1]
+                    .offset(sideSeamSa * 2)
+                : drawSideSeam()
+                    .split(points.sideVent)[1]
+                    .offset(sideSeamSa * 2)
+            )
+            .hide()
+        } else {
+          paths.saSideSeam = drawSideSeam().offset(sideSeamSa).hide()
+        }
+
+        points.saSideHem = new Point(paths.saSideSeam.end().x, points.saCbHem.y)
 
         paths.sa = new Path()
           .move(points.saSideHem)
@@ -274,7 +311,7 @@ export const back = {
           .line(points.saCbWaist)
           .join(paths.saWaist)
           .line(points.saSideWaistBack)
-          .join(drawSideSeam().offset(sideSeamSa))
+          .join(paths.saSideSeam)
           .line(points.saSideHem)
           .close()
           .attr('class', 'fabric sa')
