@@ -52,6 +52,8 @@ export const skirtFront = {
     const skirtLength = store.get('skirtLength')
     const skirtFrontRadius = store.get('frontRadius') + skirtLength
     const skirtFacingWidth = skirtLength * options.skirtFacingWidth
+    const pocketOpening = store.get('pocketOpening')
+    const pocketOpeningLength = store.get('pocketOpeningLength')
     //let's begin
     const hemIntersect = utils.beamsIntersect(
       points.cfHem,
@@ -129,11 +131,11 @@ export const skirtFront = {
         titleCutNum = 2
       }
       //notches
-      if (store.get('pocketLength') < skirtLength) {
-        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
+      if (pocketOpening + pocketOpeningLength + store.get('pocketDepth') < skirtLength) {
+        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(pocketOpening)
         points.pocketOpeningBottom = paths.sideSeam
           .reverse()
-          .shiftAlong(store.get('pocketOpeningLength'))
+          .shiftAlong(pocketOpening + pocketOpeningLength)
         macro('sprinkle', {
           snippet: 'notch',
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],

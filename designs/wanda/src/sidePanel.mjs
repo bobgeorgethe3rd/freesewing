@@ -124,7 +124,7 @@ export const sidePanel = {
         points.pocketOpeningTop = paths.saRight.reverse().shiftAlong(store.get('pocketOpening'))
         points.pocketOpeningBottom = paths.saRight
           .reverse()
-          .shiftAlong(store.get('pocketOpeningLength'))
+          .shiftAlong(store.get('pocketOpening') + store.get('pocketOpeningLength'))
 
         macro('sprinkle', {
           snippet: 'notch',

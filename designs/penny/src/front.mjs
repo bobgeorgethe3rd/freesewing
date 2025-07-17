@@ -64,6 +64,9 @@ export const front = {
       options.cfSaWidth = 0.01
       macro('cutonfold', false)
     }
+    //measures
+    const pocketOpening = store.get('pocketOpening')
+    const pocketOpeningLength = store.get('pocketOpeningLength')
     //let's begin
     points.sideSeatCp1 = points.sideSeat.shiftFractionTowards(
       points.sideKnee,
@@ -130,12 +133,12 @@ export const front = {
     points.cfVent = points.cfHem.shiftFractionTowards(points.cfSeat, options.frontVentDepth)
     if (
       options.pocketsBool &&
-      store.get('pocketLength') < drawSideSeam().split(points.sideCurveEnd)[0].length()
+      pocketOpening + pocketOpeningLength + store.get('pocketDepth') < store.get('pocketMaxLength')
     ) {
-      points.pocketOpeningTop = drawSideSeam().reverse().shiftAlong(store.get('pocketOpening'))
+      points.pocketOpeningTop = drawSideSeam().reverse().shiftAlong(pocketOpening)
       points.pocketOpeningBottom = drawSideSeam()
         .reverse()
-        .shiftAlong(store.get('pocketOpeningLength'))
+        .shiftAlong(pocketOpening + pocketOpeningLength)
     }
     if (options.sideSeamVentDepth > 0 && options.skirtLength > 0) {
       points.sideVent = drawSideSeam()

@@ -37,6 +37,9 @@ export const sideFront = {
     } else {
       for (let i in paths) delete paths[i]
     }
+    //measures
+    const pocketOpening = store.get('pocketOpening')
+    const pocketOpeningLength = store.get('pocketOpeningLength')
     //let's begin
     //paths
     paths.hemBase = new Path()
@@ -82,14 +85,18 @@ export const sideFront = {
         points.cfWaistLeft.dist(points.waistDartLeft)
       )
       snippets.waistNotch = new Snippet('notch', points.waistNotch)
-      if (options.pocketsBool && store.get('sideSkirtLength') > store.get('pocketLength')) {
+      if (
+        options.pocketsBool &&
+        store.get('sideSkirtLength') >
+          pocketOpening + pocketOpeningLength + store.get('pocketDepth')
+      ) {
         points.pocketOpeningTop = points.sideWaistRight.shiftTowards(
           points.sideHemRight,
-          store.get('pocketOpening')
+          pocketOpening
         )
         points.pocketOpeningBottom = points.sideWaistRight.shiftTowards(
           points.sideHemRight,
-          store.get('pocketOpeningLength')
+          pocketOpening + pocketOpeningLength
         )
         macro('sprinkle', {
           snippet: 'notch',

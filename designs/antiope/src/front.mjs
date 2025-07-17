@@ -53,6 +53,9 @@ export const front = {
     }
     //removing macros not required from Sarah
     macro('title', false)
+    //measures
+    const pocketOpening = store.get('pocketOpening')
+    const pocketOpeningLength = store.get('pocketOpeningLength')
     //let's begin
     points.cfHem = points.cfSeat.shift(-90, store.get('skirtLength'))
     points.sideHem = new Point(points.sideSeat.x, points.cfHem.y)
@@ -161,12 +164,13 @@ export const front = {
       //notches
       if (
         options.pocketsBool &&
-        store.get('pocketLength') < paths.sideSeam.split(points.sideCurveEnd)[0].length()
+        pocketOpening + pocketOpeningLength + store.get('pocketDepth') <
+          store.get('pocketMaxLength')
       ) {
-        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
+        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(pocketOpening)
         points.pocketOpeningBottom = paths.sideSeam
           .reverse()
-          .shiftAlong(store.get('pocketOpeningLength'))
+          .shiftAlong(pocketOpening + pocketOpeningLength)
         macro('sprinkle', {
           snippet: 'notch',
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],

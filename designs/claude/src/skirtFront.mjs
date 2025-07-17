@@ -51,7 +51,8 @@ export const skirtFront = {
     //measures
     const skirtLength = store.get('skirtLength')
     const skirtFacingWidth = skirtLength * options.skirtFacingWidth
-
+    const pocketOpening = store.get('pocketOpening')
+    const pocketOpeningLength = store.get('pocketOpeningLength')
     //let's begin
     if (points.sideFrontExtension) {
       paths.sideSeam = new Path()
@@ -110,11 +111,11 @@ export const skirtFront = {
         titleCutNum = 2
       }
       //notches
-      if (store.get('pocketLength') < skirtLength) {
-        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
+      if (pocketOpening + pocketOpeningLength + store.get('pocketDepth') < skirtLength) {
+        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(pocketOpening)
         points.pocketOpeningBottom = paths.sideSeam
           .reverse()
-          .shiftAlong(store.get('pocketOpeningLength'))
+          .shiftAlong(pocketOpening + pocketOpeningLength)
         macro('sprinkle', {
           snippet: 'notch',
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],

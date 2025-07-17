@@ -16,7 +16,7 @@ export const pocket = {
     inseamPocketCurveLeft: { pct: 0, min: 0, max: 100, menu: 'pockets.inseamPockets' }, //Altered For Petunia
     inseamPocketToAnchor: { pct: (1 / 3) * 100, min: 0, max: 100, menu: 'pockets.inseamPockets' }, //Altered For Petunia
   },
-  measurements: ['wrist'],
+  measurements: [...inseamPocket.measurements],
   draft: (sh) => {
     const { macro, points, options, store, complete, part, log } = sh
     //set Render stroke Draft
@@ -28,11 +28,12 @@ export const pocket = {
     }
 
     //stores
-    store.set('pocketOpening', points.topLeft.dist(points.openingTop))
-    store.set('pocketOpeningLength', points.topLeft.dist(points.openingBottom))
-    store.set('pocketLength', points.bottomLeft.y - points.pocketTopLeft.y)
+    store.set('pocketDepth', points.bottomLeft.y - points.openingBottom.y)
 
-    if (store.get('sideSkirtLength') < store.get('pocketLength')) {
+    if (
+      store.get('sideSkirtLength') <
+      store.get('pocketOpening') + store.get('pocketOpeningLength') + store.get('pocketDepth')
+    ) {
       log.warning('Pocket Length is greater than Dress Length so Pocket has been hidden')
       part.hide()
       return part

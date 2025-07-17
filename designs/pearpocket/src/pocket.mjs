@@ -43,7 +43,8 @@ export const pocket = {
     }
     void store.setIfUnset('waistbandWidth', 0)
 
-    const pocketOpening = store.get('insertSeamLength') * options.pocketOpening
+    const pocketOpening =
+      store.get('insertSeamLength') * options.pocketOpening - store.get('waistbandWidth')
     const depthTop = pocketOpening * options.pearPocketToAnchor
 
     let width
@@ -101,10 +102,7 @@ export const pocket = {
       options.pocketOpeningLength
     )
     store.set('pocketOpening', pocketOpening)
-    store.set(
-      'pocketOpeningLength',
-      store.get('pocketOpening') + points.slitTop.dist(points.slitBottom)
-    )
+    store.set('pocketOpeningLength', points.slitTop.dist(points.slitBottom))
     if (complete) {
       //grainline
       points.grainlineFrom = points.curveMid

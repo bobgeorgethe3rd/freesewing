@@ -39,9 +39,9 @@ export const placket = {
     const width = measurements.waist * options.placketWidth
     let length
     if (options.pocketsBool) {
-      const pocketOpeningLength = store.get('pocketOpeningLength')
-      if (pocketOpeningLength > measurements.waistToFloor * options.placketLength) {
-        length = pocketOpeningLength * (1 + options.placketLength)
+      const placketMaxLength = store.get('pocketOpening') + store.get('pocketOpeningLength')
+      if (placketMaxLength > measurements.waistToFloor * options.placketLength) {
+        length = placketMaxLength * (1 + options.placketLength)
       } else {
         length = measurements.waistToFloor * options.placketLength
       }

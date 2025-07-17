@@ -26,20 +26,21 @@ export const pocket = {
     }
 
     //stores
-    store.set('pocketOpening', points.topLeft.dist(points.openingTop))
-    store.set('pocketOpeningLength', points.topLeft.dist(points.openingBottom))
-    store.set('pocketLength', points.bottomLeft.y - points.pocketTopLeft.y)
+    store.set('pocketDepth', points.bottomLeft.y - points.openingBottom.y)
 
-    let pocketLengthCheck
+    let pocketMaxLength
     if (options.highLow) {
-      pocketLengthCheck =
+      pocketMaxLength =
         store.get('skirtHighLength') +
         (store.get('skirtLength') - store.get('skirtHighLength')) * options.sideSkirtFraction
     } else {
-      pocketLengthCheck = store.get('skirtLength')
+      pocketMaxLength = store.get('skirtLength')
     }
 
-    if (pocketLengthCheck < store.get('pocketLength')) {
+    if (
+      pocketMaxLength <
+      store.get('pocketOpening') + store.get('pocketOpeningLength') + store.get('pocketDepth')
+    ) {
       log.warning('Pocket Length is greater than Skirt Length so Pocket has been hidden')
       part.hide()
       return part

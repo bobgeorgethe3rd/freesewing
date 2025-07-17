@@ -153,7 +153,9 @@ export const centreFront = {
       if (options.pocketsBool && (options.seams == 'none' || options.seams == 'sideSeam')) {
         points.pocketOpeningTop = drawSaLeft().shiftAlong(store.get('pocketOpening'))
 
-        points.pocketOpeningBottom = drawSaLeft().shiftAlong(store.get('pocketOpeningLength'))
+        points.pocketOpeningBottom = drawSaLeft().shiftAlong(
+          store.get('pocketOpening') + store.get('pocketOpeningLength')
+        )
         macro('sprinkle', {
           snippet: 'notch',
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],

@@ -44,11 +44,17 @@ export const pocket = {
       void store.setIfUnset('insertSeamLength', 1184)
     }
     void store.setIfUnset('waistbandWidth', 0)
-    const width = store.get('anchorSeamLength') * options.inseamPocketWidth
-    const openingDepth =
+    void store.setIfUnset(
+      'pocketOpening',
       store.get('insertSeamLength') * options.pocketOpening - store.get('waistbandWidth')
-    const openingLength = measurements.wrist * options.pocketOpeningLength
-    const depth = store.get('insertSeamLength') * options.inseamPocketDepth
+    )
+    void store.setIfUnset('pocketOpeningLength', measurements.wrist * options.pocketOpeningLength)
+    void store.setIfUnset('pocketDepth', store.get('insertSeamLength') * options.inseamPocketDepth)
+
+    const width = store.get('anchorSeamLength') * options.inseamPocketWidth
+    const openingDepth = store.get('pocketOpening')
+    const openingLength = store.get('pocketOpeningLength')
+    const depth = store.get('pocketDepth')
 
     //let's begin
     points.topLeft = new Point(0, 0)
@@ -137,9 +143,7 @@ export const pocket = {
       .line(points.pocketTopLeft)
       .line(points.bottomCurveLeft)
       .close()
-    //stores
-    store.set('pocketOpening', points.topLeft.dist(points.openingTop))
-    store.set('pocketOpeningLength', points.topLeft.dist(points.openingBottom))
+
     if (complete) {
       //grainline
       points.grainlineFrom = points.pocketTopLeft.shiftFractionTowards(points.pocketTopRight, 0.5)

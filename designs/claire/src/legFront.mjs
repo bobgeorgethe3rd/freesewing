@@ -83,6 +83,8 @@ export const legFront = {
     }
     const skirtLength = store.get('skirtLength')
     const skirtFacingWidth = (skirtLength - crotchDrop) * options.skirtFacingWidth
+    const pocketOpening = store.get('pocketOpening')
+    const pocketOpeningLength = store.get('pocketOpeningLength')
     //let's begin
     points.cfUpperLeg = points.cfWaist.shift(-90, crotchDrop)
     if (!points.cfSeat)
@@ -162,11 +164,11 @@ export const legFront = {
       })
       //notches
       snippets.cfSeat = new Snippet('notch', points.cfSeat)
-      if (store.get('pocketLength') < skirtLength) {
-        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(store.get('pocketOpening'))
+      if (pocketOpening + pocketOpeningLength + store.get('pocketDepth') < skirtLength) {
+        points.pocketOpeningTop = paths.sideSeam.reverse().shiftAlong(pocketOpening)
         points.pocketOpeningBottom = paths.sideSeam
           .reverse()
-          .shiftAlong(store.get('pocketOpeningLength'))
+          .shiftAlong(pocketOpening + pocketOpeningLength)
         macro('sprinkle', {
           snippet: 'notch',
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],

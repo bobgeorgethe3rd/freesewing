@@ -84,7 +84,9 @@ export const sideFront = {
       //notches
       if (options.pocketsBool) {
         points.pocketOpeningTop = paths.saLeft.shiftAlong(store.get('pocketOpening'))
-        points.pocketOpeningBottom = paths.saLeft.shiftAlong(store.get('pocketOpeningLength'))
+        points.pocketOpeningBottom = paths.saLeft.shiftAlong(
+          store.get('pocketOpening') + store.get('pocketOpeningLength')
+        )
 
         macro('sprinkle', {
           snippet: 'notch',

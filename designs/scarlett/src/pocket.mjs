@@ -1,7 +1,12 @@
 import { pocket as wandaPocket } from '@freesewing/wanda'
+import { skirtBase } from './skirtBase.mjs'
 
 export const pocket = {
   name: 'scarlett.pocket',
+  after: skirtBase,
+  hide: {
+    after: true,
+  },
   options: {
     //Imported
     ...wandaPocket.options,

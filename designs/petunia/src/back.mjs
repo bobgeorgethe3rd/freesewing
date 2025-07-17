@@ -1,10 +1,10 @@
 import { backBase } from './backBase.mjs'
-import { centreFront } from './centreFront.mjs'
+import { sideFront } from './sideFront.mjs'
 
 export const back = {
   name: 'petunia.back',
   from: backBase,
-  after: centreFront,
+  after: sideFront,
   hide: {
     from: true,
     inherited: true,

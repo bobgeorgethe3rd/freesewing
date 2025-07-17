@@ -108,7 +108,9 @@ export const centreFront = {
             .line(points.hemE)
             .hide()
           points.pocketOpeningTop = paths.sideSeam.shiftAlong(store.get('pocketOpening'))
-          points.pocketOpeningBottom = paths.sideSeam.shiftAlong(store.get('pocketOpeningLength'))
+          points.pocketOpeningBottom = paths.sideSeam.shiftAlong(
+            store.get('pocketOpening') + store.get('pocketOpeningLength')
+          )
 
           macro('sprinkle', {
             snippet: 'notch',

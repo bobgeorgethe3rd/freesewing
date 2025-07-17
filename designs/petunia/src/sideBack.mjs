@@ -38,6 +38,9 @@ export const sideBack = {
       for (let i in paths) delete paths[i]
     }
     macro('cutonfold', false)
+    //measures
+    const pocketOpening = store.get('pocketOpening')
+    const pocketOpeningLength = store.get('pocketOpeningLength')
     //let's begin
     //paths
     paths.hemBase = new Path()
@@ -105,13 +108,17 @@ export const sideBack = {
         snippet: 'bnotch',
         on: ['dartTip', 'sideBackNotch', 'armholePitch'],
       })
-      if (options.pocketsBool && store.get('sideSkirtLength') > store.get('pocketLength')) {
+      if (
+        options.pocketsBool &&
+        store.get('sideSkirtLength') >
+          pocketOpening + pocketOpeningLength + store.get('pocketDepth')
+      ) {
         points.pocketOpeningTop = paths.sideSeam
           .reverse()
-          .shiftAlong(points.sideWaist.dist(points.armhole) + store.get('pocketOpening'))
+          .shiftAlong(points.sideWaist.dist(points.armhole) + pocketOpening)
         points.pocketOpeningBottom = paths.sideSeam
           .reverse()
-          .shiftAlong(points.sideWaist.dist(points.armhole) + store.get('pocketOpeningLength'))
+          .shiftAlong(points.sideWaist.dist(points.armhole) + pocketOpening + pocketOpeningLength)
         macro('sprinkle', {
           snippet: 'notch',
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],

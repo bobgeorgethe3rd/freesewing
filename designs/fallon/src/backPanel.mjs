@@ -86,7 +86,7 @@ export const backPanel = {
         )
         points.pocketOpeningBottom = points.waistF.shiftTowards(
           points.hemF,
-          store.get('pocketOpeningLength')
+          store.get('pocketOpening') + store.get('pocketOpeningLength')
         )
         macro('sprinkle', {
           snippet: 'notch',

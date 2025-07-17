@@ -86,11 +86,11 @@ export const pocket = {
       .close()
 
     //stores
-    store.set('pocketOpening', store.get('insertSeamLength') * options.pocketOpening)
     store.set(
-      'pocketOpeningLength',
-      store.get('pocketOpening') + points.openingTop.dist(points.openingBottom)
+      'pocketOpening',
+      store.get('insertSeamLength') * options.pocketOpening - store.get('waistbandWidth')
     )
+    store.set('pocketOpeningLength', points.openingTop.dist(points.openingBottom))
     if (complete) {
       //grainline
       points.cutOnFoldFrom = points.topLeft

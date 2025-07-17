@@ -1,17 +1,18 @@
 import { back as backSarah } from '@freesewing/sarah'
-import { pocket } from './pocket.mjs'
+import { pocket } from '@freesewing/inseampocket'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 import { pctBasedOn } from '@freesewing/core'
 
 export const back = {
   name: 'antiope.back',
   from: backSarah,
-  after: pocket,
   hide: {
     from: true,
     inherited: true,
   },
   options: {
+    //Imported
+    ...pocket.options,
     //Constants
     shapeSkirtBackDarts: true, //Locked for Antiope
     kneeLengthBonus: 0, //Locked for Antiope
@@ -31,6 +32,11 @@ export const back = {
     }, //Altered for Antiope
     skirtLength: { pct: 62.5, min: 0, max: 100, menu: 'style' },
     skirtLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
+    //Pockets
+    pocketsBool: { bool: true, menu: 'pockets' },
+    pocketOpening: { pct: 7.2, min: 5, max: 15, menu: 'pockets' }, //Altered for Antiope
+    inseamPocketWidth: { pct: 75, min: 40, max: 90, menu: 'pockets.inseamPockets' }, //Altered for Antiope
+    inseamPocketDepth: { pct: 15, min: 15, max: 40, menu: 'pockets.inseamPockets' }, //Altered for Antiope
     //Construction
     skirtFacings: { bool: false, menu: 'construction' },
     skirtFacingWidth: { pct: 15, min: 5, max: 50, menu: 'construction' },
@@ -38,6 +44,7 @@ export const back = {
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Antiope
     sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Antiope
   },
+  measurements: [...pocket.measurements],
   plugins: [pluginLogoRG],
   draft: ({
     store,
@@ -88,6 +95,10 @@ export const back = {
         (measurements.waistToFloor - measurements.waistToSeat) * (-1 + 2 * options.skirtLength)
     }
     skirtLength = skirtLength * (1 + options.skirtLengthBonus)
+    const pocketDepth = measurements.waistToFloor * options.inseamPocketDepth
+    const pocketOpening =
+      measurements.waistToFloor * options.pocketOpening - store.get('waistbandWidth')
+    const pocketOpeningLength = measurements.wrist * options.pocketOpeningLength
     //let's begin
     points.cbHem = points.cbSeat.shift(-90, skirtLength)
     points.sideHem = new Point(points.sideSeat.x, points.cbHem.y)
@@ -165,8 +176,12 @@ export const back = {
       .close()
 
     //store
+    const pocketMaxLength = paths.sideSeam.split(points.sideCurveStart)[1].length()
     store.set('skirtLength', skirtLength)
-
+    store.set('pocketDepth', pocketDepth)
+    store.set('pocketOpening', pocketOpening)
+    store.set('pocketOpeningLength', pocketOpeningLength)
+    store.set('pocketMaxLength', pocketMaxLength)
     if (complete) {
       //grainline
       let titleCutNum
@@ -191,10 +206,10 @@ export const back = {
       //notches
       if (
         options.pocketsBool &&
-        store.get('pocketLength') < paths.sideSeam.split(points.sideCurveStart)[1].length()
+        pocketOpening + pocketOpeningLength + pocketDepth < pocketMaxLength
       ) {
-        points.pocketOpeningTop = paths.sideSeam.shiftAlong(store.get('pocketOpening'))
-        points.pocketOpeningBottom = paths.sideSeam.shiftAlong(store.get('pocketOpeningLength'))
+        points.pocketOpeningTop = paths.sideSeam.shiftAlong(pocketOpening)
+        points.pocketOpeningBottom = paths.sideSeam.shiftAlong(pocketOpening + pocketOpeningLength)
         macro('sprinkle', {
           snippet: 'notch',
           on: ['pocketOpeningTop', 'pocketOpeningBottom'],
