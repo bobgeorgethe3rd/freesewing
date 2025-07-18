@@ -130,7 +130,8 @@ export const front = {
       .line(points.cfHem)
       .close()
     //vents
-    points.cfVent = points.cfHem.shiftFractionTowards(points.cfSeat, options.frontVentDepth)
+    if (options.frontVentDepth > 0 && options.skirtLength > 0)
+      points.cfVent = points.cfHem.shiftFractionTowards(points.cfSeat, options.frontVentDepth)
     if (
       options.pocketsBool &&
       pocketOpening + pocketOpeningLength + store.get('pocketDepth') < store.get('pocketMaxLength')
