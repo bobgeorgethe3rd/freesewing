@@ -53,6 +53,7 @@
   "dependencies": {
     "@freesewing/claude": "3.0.0-alpha.8",
     "@freesewing/inseampocket": "3.0.0-alpha.8",
+    "@freesewing/basicplacket": "3.0.0-alpha.8",
     "@freesewing/waistbandstraight": "3.0.0-alpha.8",
     "@freesewing/waistbandcurved": "3.0.0-alpha.8"
   },

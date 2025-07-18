@@ -25,6 +25,7 @@ antiope:
     '@freesewing/sarah': *freesewing
     '@freesewing/beltloops': *freesewing
     '@freesewing/inseampocket': *freesewing
+    '@freesewing/basicplacket': *freesewing
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing
 barkley:
@@ -97,11 +98,13 @@ claire:
     peer:
     '@freesewing/claude': *freesewing
     '@freesewing/inseampocket': *freesewing
+    '@freesewing/basicplacket': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/waistbandcurved': *freesewing
 claude:
     peer:
     '@freesewing/inseampocket': *freesewing
+    '@freesewing/basicplacket': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/waistbandcurved': *freesewing
 camden:
@@ -170,12 +173,14 @@ harriet:
   _:
     '@freesewing/claude': *freesewing
     '@freesewing/inseampocket': *freesewing
+    '@freesewing/basicplacket': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/waistbandcurved': *freesewing
 harvey:
   _:
     '@freesewing/claude': *freesewing
     '@freesewing/inseampocket': *freesewing
+    '@freesewing/basicplacket': *freesewing
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/waistbandcurved': *freesewing
 heleanor:
@@ -279,6 +284,7 @@ penny:
     '@freesewing/sarah': *freesewing
     '@freesewing/beltloops': *freesewing
     '@freesewing/inseampocket': *freesewing
+    '@freesewing/basicplacket': *freesewing
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing
 petunia:

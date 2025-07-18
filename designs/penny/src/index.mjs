@@ -6,7 +6,7 @@ import { data } from '../data.mjs'
 import { back } from './back.mjs'
 import { front } from './front.mjs'
 import { pocket } from './pocket.mjs'
-// import { placket } from './placket.mjs'
+import { placket } from './placket.mjs'
 // import { waistband } from './waistband.mjs'
 // import { waistFacingBack } from './waistFacingBack.mjs'
 // import { waistFacingFront } from './waistFacingFront.mjs'
@@ -18,7 +18,8 @@ const Penny = new Design({
   parts: [
     back,
     front,
-    pocket /* placket, waistband, waistFacingBack, waistFacingFront, beltLoops */,
+    pocket,
+    placket /* waistband, waistFacingBack, waistFacingFront, beltLoops */,
   ],
 })
 
@@ -27,7 +28,7 @@ export {
   back,
   front,
   pocket,
-  // placket,
+  placket,
   // waistband,
   // waistFacingBack,
   // waistFacingFront,

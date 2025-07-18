@@ -3,7 +3,7 @@ import { pocket } from './pocket.mjs'
 import { back } from './back.mjs'
 
 export const placket = {
-  name: 'antiope.placket',
+  name: 'penny.placket',
   after: [pocket, back],
   options: {
     //Imported
