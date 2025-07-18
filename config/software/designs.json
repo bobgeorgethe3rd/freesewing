@@ -584,6 +584,14 @@
     }
   },
   "waistbands": {
+    "basicplacket": {
+      "description": "Basic Placket design to be used in other designs",
+      "number": "C0029",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["plackets"]
+    },
     "beltloops": {
       "description": "Belt Loop design to be used in other designs",
       "number": "C0007",
