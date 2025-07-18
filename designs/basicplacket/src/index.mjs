@@ -3,13 +3,13 @@
 import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
-import { box } from './box.mjs'
+import { placket } from './placket.mjs'
 
 // Create new design
 const Basicplacket = new Design({
   data,
-  parts: [box],
+  parts: [placket],
 })
 
 // Named exports
-export { box, Basicplacket }
+export { placket, Basicplacket }
