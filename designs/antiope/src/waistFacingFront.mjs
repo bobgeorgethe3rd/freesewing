@@ -34,6 +34,7 @@ export const waistFacingFront = {
     for (let i in snippets) delete snippets[i]
     //remove macros
     macro('title', false)
+    macro('cutonfold', false)
     //measures
     const waistFacingWidth = store.get('waistFacingWidth')
     //let's begin
