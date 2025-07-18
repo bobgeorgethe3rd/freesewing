@@ -302,7 +302,7 @@ export const back = {
           .shiftFractionTowards(paths.hemBase.shiftFractionAlong(0.5), 0.5)
         macro('title', {
           at: points.titleFacing,
-          nr: '7',
+          nr: '6',
           title: 'Facing (Skirt Back)',
           cutNr: titleCutNum,
           prefix: 'facing',

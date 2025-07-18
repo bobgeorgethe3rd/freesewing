@@ -135,7 +135,7 @@ export const waistFacingBack = {
         .shiftFractionTowards(paths.waistFacing.shiftFractionAlong(0.5), 0.5)
       macro('title', {
         at: points.title,
-        nr: '9',
+        nr: '8',
         title: 'Waist Facing Back',
         cutNr: titleCutNum,
         scale: 1 / 3,
