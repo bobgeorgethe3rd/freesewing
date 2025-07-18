@@ -39,7 +39,6 @@ export const placket = {
     //measures
     const pocketOpening = store.get('pocketOpening')
     const pocketOpeningLength = store.get('pocketOpeningLength')
-    const width = measurements.waist * options.placketWidth
 
     store.set(
       'placketLength',
