@@ -36,15 +36,17 @@ export const placket = {
       return part
     }
     //measures
+    const pocketOpening = store.get('pocketOpening')
+    const pocketOpeningLength = store.get('pocketOpeningLength')
     const width = measurements.waist * options.placketWidth
     let length
-    if (options.pocketsBool) {
-      const placketMaxLength = store.get('pocketOpening') + store.get('pocketOpeningLength')
-      if (placketMaxLength > measurements.waistToFloor * options.placketLength) {
-        length = placketMaxLength * (1 + options.placketLength)
-      } else {
-        length = measurements.waistToFloor * options.placketLength
-      }
+    if (
+      options.pocketsBool &&
+      pocketOpening + pocketOpeningLength + store.get('pocketDepth') <
+        store.get('pocketMaxLength') &&
+      (options.closurePosition == 'sideLeft' || options.closurePosition == 'sideRight')
+    ) {
+      length = (pocketOpening + pocketOpeningLength) * (1 + options.placketLength)
     } else {
       length = measurements.waistToFloor * options.placketLength
     }

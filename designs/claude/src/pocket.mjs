@@ -46,6 +46,9 @@ export const pocket = {
       return part
     }
 
+    //stores
+    store.set('pocketMaxLength', pocketMaxLength)
+
     if (complete) {
       //title
       macro('title', {
