@@ -41,16 +41,15 @@ export const sidePocket = {
     }
 
     //measures
-    const sidePocketWidth = store.get('sidePocketWidth')
     const sidePocketDepth = measurements.waistToFloor * options.sidePocketDepth
-    const topFoldWidth = sidePocketDepth * options.sidePocketTopFoldWidth
+    const sidePocketTopFoldWidth = sidePocketDepth * options.sidePocketTopFoldWidth
     //let's begin
     macro('patchpocket', {
       width: store.get('sidePocketWidth'),
       depth: sidePocketDepth,
       peakDepth: 0,
       style: 'straight',
-      topFoldWidth: topFoldWidth,
+      topFoldWidth: sidePocketTopFoldWidth,
       prefix: 'sidePocket',
     })
 
@@ -74,7 +73,7 @@ export const sidePocket = {
       for (const p of shiftLeft) points[p] = points[p].shift(180, sidePocketPleatWidth)
 
       points.pleatLeft = points[prefixFunction('topMid')].shift(180, sidePocketPleatWidth)
-      points.pleatTopLeft = points.pleatLeft.shift(90, topFoldWidth)
+      points.pleatTopLeft = points.pleatLeft.shift(90, sidePocketTopFoldWidth)
       points.pleatBottomLeft = new Point(points.pleatLeft.x, points[prefixFunction('bottomLeft')].y)
       const flipX = ['pleatLeft', 'pleatTopLeft', 'pleatBottomLeft']
       for (const p of flipX) points[p + 'F'] = points[p].flipX()
@@ -166,6 +165,7 @@ export const sidePocket = {
 
     //stores
     store.set('sidePocketDepth', sidePocketDepth)
+    store.set('sidePocketTopFoldWidth', sidePocketTopFoldWidth)
     if (complete) {
       //title
       macro('title', {
