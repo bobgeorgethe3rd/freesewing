@@ -194,7 +194,7 @@ export const frontPocketBag = {
       points.title = points.frontPocketFacingWaist
         .shift(
           points.waistOut.angle(points.waistIn),
-          points.frontPocketFacingWaist.dist(points.waistIn) * 0.25
+          points.frontPocketFacingWaist.dist(points.frontPocketWaist) * 0.5
         )
         .shift(
           points.frontPocketWaist.angle(points.frontPocketBottomRight),
