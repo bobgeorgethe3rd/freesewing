@@ -71,6 +71,17 @@ caleb:
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/plugin-patchpocket': *freesewing
     '@freesewing/plugin-patchpocketflap': *freesewing
+callum:
+  peer:
+    '@freesewing/dalton': *freesewing
+    '@freesewing/beltloops': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/flyfront': *freesewing
+    '@freesewing/legbandcurved': *freesewing
+    '@freesewing/legbandstraight': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
+    '@freesewing/plugin-weltpocket': *freesewing
 capsleeve:
   peer:
     # '@freesewing/basicsleeve': *freesewing
