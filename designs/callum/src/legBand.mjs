@@ -1,0 +1,39 @@
+import { legBand as legBandStraight } from '@freesewing/legbandstraight'
+import { legBand as legBandCurved } from '@freesewing/legbandcurved'
+import { front } from './front.mjs'
+
+export const legBand = {
+  name: 'callum.legBand',
+  options: {
+    //Imported
+    ...legBandStraight.options,
+    ...legBandCurved.options,
+  },
+  after: [front],
+  plugins: [...legBandStraight.plugins, ...legBandCurved.plugins],
+  draft: (sh) => {
+    const { macro, store, points, utils, options, measurements, complete, part } = sh
+    store.set('legBandMaxButtons', 1)
+
+    if (options.legBandStyle != 'bandStraight' && options.legBandStyle != 'bandCurved') {
+      part.hide()
+      return part
+    } else {
+      if (options.legBandStyle == 'bandStraight') legBandStraight.draft(sh)
+      else legBandCurved.draft(sh)
+    }
+
+    if (complete) {
+      let titleCutNum = 4
+      if (options.legBandFolded || options.legBandStraight == 'bandCurved') titleCutNum = 2
+      macro('title', {
+        nr: 'X',
+        title: 'Leg band ' + utils.capitalize(options.legBandStyle),
+        at: points.title,
+        cutNr: titleCutNum,
+        scale: 0.25,
+      })
+    }
+    return part
+  },
+}

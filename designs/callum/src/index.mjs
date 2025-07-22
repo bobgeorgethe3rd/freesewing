@@ -3,13 +3,33 @@
 import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
-import { box } from './box.mjs'
+import { back } from './back.mjs'
+import { frontBase } from './frontBase.mjs'
+import { front } from './front.mjs'
+
+import { fly } from './fly.mjs'
+import { buttonholePlacket } from './buttonholePlacket.mjs'
+import { flyShield } from './flyShield.mjs'
+import { waistband } from './waistband.mjs'
+import { beltLoops } from './beltLoops.mjs'
+import { legBand } from './legBand.mjs'
 
 // Create new design
 const Callum = new Design({
   data,
-  parts: [box],
+  parts: [back, frontBase, front, fly, buttonholePlacket, flyShield, waistband, beltLoops, legBand],
 })
 
 // Named exports
-export { box, Callum }
+export {
+  back,
+  frontBase,
+  front,
+  fly,
+  buttonholePlacket,
+  flyShield,
+  waistband,
+  beltLoops,
+  legBand,
+  Callum,
+}
