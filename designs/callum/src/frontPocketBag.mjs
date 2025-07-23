@@ -143,6 +143,46 @@ export const frontPocketBag = {
       )
       .hide()
 
+    if (
+      paths.outSeam.split(points.frontPocketOpeningOut)[1].length() <
+      points.frontPocketOpeningWaist.dist(points.frontPocketWaist)
+    ) {
+      points.frontPocketFacingOut = paths.outSeam
+        .split(points.frontPocketOpeningOut)[1]
+        .shiftFractionAlong(0.5)
+    } else {
+      points.frontPocketFacingOut = paths.outSeam
+        .split(points.frontPocketOpeningOut)[1]
+        .shiftAlong((points.frontPocketOpeningOut.dist(points.frontPocketWaist) * 1) / 3)
+    }
+
+    points.frontPocketFacingBottom = points.frontPocketOut.shiftFractionTowards(
+      points.frontPocketBottomMid,
+      1 / 3
+    )
+
+    if (options.frontPocketOpeningStyle == 'slanted') {
+      points.frontPocketFacingWaist = utils.beamsIntersect(
+        points.waistOut,
+        points.frontPocketWaist,
+        points.frontPocketFacingOut,
+        points.frontPocketFacingOut.shift(
+          points.frontPocketOpeningOut.angle(points.frontPocketOpeningWaist),
+          1
+        )
+      )
+    } else {
+      points.frontPocketFacingWaist = utils.beamsIntersect(
+        points.waistOut,
+        points.frontPocketWaist,
+        points.frontPocketFacingBottom,
+        points.frontPocketFacingBottom.shift(
+          points.frontPocketBottomMid.angle(points.frontPocketWaist),
+          1
+        )
+      )
+    }
+
     macro('mirror', {
       mirror: [points.frontPocketBottomMid, points.frontPocketWaist],
       points: [
@@ -150,6 +190,9 @@ export const frontPocketBag = {
         'frontPocketOpeningTopOut',
         'frontPocketOpeningBottomOut',
         'frontPocketOut',
+        'frontPocketFacingOut',
+        'frontPocketFacingWaist',
+        'frontPocketFacingBottom',
       ],
       paths: ['saBottom', 'outSeam'],
       prefix: 'm',
@@ -253,6 +296,29 @@ export const frontPocketBag = {
           .line(points.frontPocketBottomCurveEnd)
           .attr('class', 'mark')
           .attr('data-text', 'Fold - Line')
+          .attr('data-text-class', 'center')
+      }
+      //facing line
+      paths.facingLine = new Path()
+        .move(
+          options.frontPocketOpeningStyle == 'slanted'
+            ? points.frontPocketFacingOut
+            : points.frontPocketFacingBottom
+        )
+        .line(points.frontPocketFacingWaist)
+        .attr('class', 'mark')
+        .attr('data-text', 'Facing - Line')
+        .attr('data-text-class', 'center')
+      if (options.frontPocketFolded) {
+        paths.mFacingLine = new Path()
+          .move(points.mFrontPocketFacingWaist)
+          .line(
+            options.frontPocketOpeningStyle == 'slanted'
+              ? points.mFrontPocketFacingOut
+              : points.mFrontPocketFacingBottom
+          )
+          .attr('class', 'mark')
+          .attr('data-text', 'Facing - Line')
           .attr('data-text-class', 'center')
       }
       if (sa) {

@@ -7,6 +7,7 @@ import { back } from './back.mjs'
 import { frontBase } from './frontBase.mjs'
 import { front } from './front.mjs'
 import { frontPocketBag } from './frontPocketBag.mjs'
+import { frontPocketBagB } from './frontPocketBagB.mjs'
 
 import { fly } from './fly.mjs'
 import { buttonholePlacket } from './buttonholePlacket.mjs'
@@ -23,6 +24,7 @@ const Callum = new Design({
     frontBase,
     front,
     frontPocketBag,
+    frontPocketBagB,
     fly,
     buttonholePlacket,
     flyShield,
@@ -37,6 +39,7 @@ export {
   back,
   frontBase,
   frontPocketBag,
+  frontPocketBagB,
   front,
   fly,
   buttonholePlacket,
