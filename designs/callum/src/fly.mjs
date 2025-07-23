@@ -20,7 +20,7 @@ export const fly = {
       //title
       macro('title', {
         at: points.title,
-        nr: 'X',
+        nr: 7,
         title: 'Fly',
         cutNr: 1,
         scale: 0.25,

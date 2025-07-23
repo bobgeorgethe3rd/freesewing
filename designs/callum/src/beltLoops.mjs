@@ -35,7 +35,7 @@ export const beltLoops = {
 
     if (complete) {
       macro('title', {
-        nr: 'X',
+        nr: 10,
         title: 'Belt Loops',
         at: points.title,
         cutNr: 1,

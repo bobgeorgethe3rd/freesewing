@@ -20,7 +20,7 @@ export const buttonholePlacket = {
       //title
       macro('title', {
         at: points.title,
-        nr: 'X',
+        nr: 8,
         title: 'Buttonhole Placket',
         cutNr: 1,
         scale: 0.25,

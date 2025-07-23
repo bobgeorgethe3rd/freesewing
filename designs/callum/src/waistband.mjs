@@ -25,7 +25,7 @@ export const waistband = {
       let titleCutNum = 2
       if (options.waistbandFolded) titleCutNum = 1
       macro('title', {
-        nr: 'X',
+        nr: 11,
         title: 'Waistband ' + utils.capitalize(options.waistbandStyle),
         at: points.title,
         cutNr: titleCutNum,

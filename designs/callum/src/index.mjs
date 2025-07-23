@@ -6,6 +6,7 @@ import { data } from '../data.mjs'
 import { back } from './back.mjs'
 import { frontBase } from './frontBase.mjs'
 import { front } from './front.mjs'
+import { frontPocketBag } from './frontPocketBag.mjs'
 
 import { fly } from './fly.mjs'
 import { buttonholePlacket } from './buttonholePlacket.mjs'
@@ -17,13 +18,25 @@ import { legBand } from './legBand.mjs'
 // Create new design
 const Callum = new Design({
   data,
-  parts: [back, frontBase, front, fly, buttonholePlacket, flyShield, waistband, beltLoops, legBand],
+  parts: [
+    back,
+    frontBase,
+    front,
+    frontPocketBag,
+    fly,
+    buttonholePlacket,
+    flyShield,
+    waistband,
+    beltLoops,
+    legBand,
+  ],
 })
 
 // Named exports
 export {
   back,
   frontBase,
+  frontPocketBag,
   front,
   fly,
   buttonholePlacket,

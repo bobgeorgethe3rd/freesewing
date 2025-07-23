@@ -27,7 +27,7 @@ export const legBand = {
       let titleCutNum = 4
       if (options.legBandFolded || options.legBandStraight == 'bandCurved') titleCutNum = 2
       macro('title', {
-        nr: 'X',
+        nr: 12,
         title: 'Leg band ' + utils.capitalize(options.legBandStyle),
         at: points.title,
         cutNr: titleCutNum,
