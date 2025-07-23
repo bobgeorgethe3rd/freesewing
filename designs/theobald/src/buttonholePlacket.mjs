@@ -1,9 +1,11 @@
 import { buttonholePlacket as buttonholePlacketFlyFront } from '@freesewing/flyfront'
 import { frontBase } from './frontBase.mjs'
+import { fly } from './fly.mjs'
 
 export const buttonholePlacket = {
   name: 'theobald.buttonholePlacket',
   from: frontBase,
+  after: fly,
   hide: {
     from: true,
   },

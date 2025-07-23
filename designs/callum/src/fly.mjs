@@ -12,7 +12,7 @@ export const fly = {
     ...flyFlyFront.options,
   },
   draft: (sh) => {
-    const { points, complete, macro, part } = sh
+    const { points, options, complete, macro, part } = sh
     //draft
     flyFlyFront.draft(sh)
 
@@ -22,7 +22,7 @@ export const fly = {
         at: points.title,
         nr: 7,
         title: 'Fly',
-        cutNr: 1,
+        cutNr: options.flyFrontButtonholePlacket ? 1 : 2,
         scale: 0.25,
         rotation: 90 - points.flyCurveStart.angle(points.flyWaist),
       })

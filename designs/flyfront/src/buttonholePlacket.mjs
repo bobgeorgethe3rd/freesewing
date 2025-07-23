@@ -1,11 +1,12 @@
 import { flyBase } from './flyBase.mjs'
+import { fly } from './fly.mjs'
 
 export const buttonholePlacket = {
   name: 'flyFront.buttonholePlacket',
   from: flyBase,
+  after: fly,
   options: {
     //Plackets
-    flyFrontButtonholePlacket: { bool: true, menu: 'plackets' },
     flyFrontButtonholeNumber: { count: 3, min: 1, max: 5, menu: 'plackets' },
   },
   draft: ({

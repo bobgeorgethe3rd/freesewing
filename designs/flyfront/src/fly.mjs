@@ -3,6 +3,9 @@ import { flyBase } from './flyBase.mjs'
 export const fly = {
   name: 'flyFront.fly',
   from: flyBase,
+  options: {
+    flyFrontButtonholePlacket: { bool: true, menu: 'plackets' },
+  },
   draft: ({
     store,
     sa,
@@ -64,7 +67,7 @@ export const fly = {
         at: points.title,
         nr: 1,
         title: 'Fly',
-        cutNr: 1,
+        cutNr: options.flyFrontButtonholePlacket ? 1 : 2,
         scale: 0.25,
         rotation: 90 - points.flyCurveStart.angle(points.flyWaist),
       })
