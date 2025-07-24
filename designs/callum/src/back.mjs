@@ -55,8 +55,11 @@ export const back = {
     //Darts
     backDartDepth: { pct: 95, min: 75, max: 100, menu: 'darts' }, //Altered for Callum
     //Pockets
-    backPocketsBool: { bool: true, menu: 'pockets' },
-
+    backPocketStyle: { dflt: 'welt', list: ['welt', 'patch', 'none'], menu: 'pockets' },
+    backPocketPlacement: { pct: 71.5, min: 40, max: 100, menu: 'pockets' }, //57.2
+    backPocketBalance: { pct: 50, min: 40, max: 60, menu: 'pockets' },
+    backPocketWidth: { pct: (2 / 3) * 100, min: 40, max: 75, menu: 'pockets' },
+    weltPocketOpeningWidth: { pct: 69.5, min: 60, max: 80, menu: 'pockets.weltPockets' }, //Altered for Callum
     //Construction
     crossSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Callum
     inseamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Callum
@@ -108,6 +111,10 @@ export const back = {
     macro('scalebox', false)
     //measures
     const legBandWidth = absoluteOptions.legBandWidth
+    const backPocketWidth =
+      (points.waistIn.dist(points.dartIn) + points.dartOut.dist(points.waistOut)) *
+      options.backPocketWidth
+    const weltPocketOpeningWidth = measurements.waistBack * 0.5 * options.weltPocketOpeningWidth
     //let's begin
     //draw paths
     const drawOutseam = () => {
@@ -424,6 +431,10 @@ export const back = {
       .join(drawSeamLeft())
       .close()
     //stores
+    points.backPocketAnchor = points.dartMid.shiftFractionTowards(
+      points.dartTip,
+      options.backPocketPlacement
+    )
     store.set('legBandWidth', legBandWidth)
     if (options.legBandStyle == 'bandStraight') {
       store.set('legBandBack', points.splitIn.dist(points.splitOut))
@@ -431,6 +442,10 @@ export const back = {
       store.set('legBandBack', points.bottomIn.dist(points.bottomOut))
     }
     store.set('legBandBackTop', points.splitIn.dist(points.splitOut))
+    store.set('backPocketWidth', backPocketWidth)
+    store.set('weltPocketOpeningWidth', weltPocketOpeningWidth)
+    store.set('weltToAnchor', points.dartMid.dist(points.backPocketAnchor))
+    store.set('insertSeamLength', measurements.waistToFloor)
     if (complete) {
       //grainline
       points.grainlineTo = points.split.shift(0, points.split.dx(points.crossSeamCurveStart) * 0.75)
@@ -463,6 +478,42 @@ export const back = {
         points.crossSeamCurveStart.y + points.crossSeamCurveStart.dy(points.split) * 0.75
       )
       macro('scalebox', { at: points.scalebox })
+      //pockets
+      if (options.backPocketStyle != 'none') {
+        points.backPocketDartIn = utils.beamsIntersect(
+          points.backPocketAnchor,
+          points.dartMid.rotate(90, points.backPocketAnchor),
+          points.dartIn,
+          points.dartTip
+        )
+        points.backPocketDartOut = points.backPocketDartIn.rotate(180, points.backPocketAnchor)
+        points.backPocketIn = points.backPocketDartIn.shift(
+          points.waistOut.angle(points.waistIn),
+          (options.backPocketStyle == 'welt' ? weltPocketOpeningWidth : backPocketWidth) *
+            (1 - options.backPocketBalance)
+        )
+        points.backPocketOut = points.backPocketDartOut.shift(
+          points.waistIn.angle(points.waistOut),
+          (options.backPocketStyle == 'welt' ? weltPocketOpeningWidth : backPocketWidth) *
+            options.backPocketBalance
+        )
+
+        paths.pocketLine = new Path()
+          .move(points.backPocketIn)
+          .line(points.backPocketDartIn)
+          .move(points.backPocketDartOut)
+          .line(points.backPocketOut)
+          .attr('class', 'fabric help')
+          .attr(
+            'data-text',
+            options.backPocketStyle == 'welt' ? 'Welt Pocket Opening' : 'Back Pocket-Line'
+          )
+
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['backPocketIn', 'backPocketOut'],
+        })
+      }
       //fit guides
       if (
         options.fitGuides &&

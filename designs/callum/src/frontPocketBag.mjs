@@ -14,7 +14,8 @@ export const frontPocketBag = {
     frontPocketCurve: { pct: 100, min: 0, max: 100, menu: 'pockets.frontPockets' },
     frontPocketWidth: { pct: 85, min: 25, max: 90, menu: 'pockets.frontPockets' },
     frontPocketFolded: { bool: true, menu: 'pockets.frontPockets' },
-    frontPocketBagSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'pockets.frontPockets' },
+    //Construction
+    frontPocketBagSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
   },
   plugins: [pluginMirror],
   draft: ({

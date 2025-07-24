@@ -91,13 +91,14 @@ export const frontPocketFacingB = {
       }
     }
 
-    paths.outSeam = drawOutseam().split(points.frontPocketFacingOut)[0]
+    paths.outSeam = drawOutseam().split(points.frontPocketFacingOut)[0].hide()
 
     paths.seam = paths.outSeam
       .clone()
       .line(points.frontPocketFacingWaist)
       .line(points.waistOut)
       .close()
+      .unhide()
 
     if (complete) {
       //grainline

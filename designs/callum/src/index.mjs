@@ -6,6 +6,10 @@ import { data } from '../data.mjs'
 import { back } from './back.mjs'
 import { frontBase } from './frontBase.mjs'
 import { front } from './front.mjs'
+import { backPocketBag } from './backPocketBag.mjs'
+import { backPocketWelt } from './backPocketWelt.mjs'
+import { backPocketTab } from './backPocketTab.mjs'
+import { backPocketPatch } from './backPocketPatch.mjs'
 import { frontPocketBag } from './frontPocketBag.mjs'
 import { frontPocketBagB } from './frontPocketBagB.mjs'
 import { frontPocketFacing } from './frontPocketFacing.mjs'
@@ -24,6 +28,10 @@ const Callum = new Design({
     back,
     frontBase,
     front,
+    backPocketBag,
+    backPocketWelt,
+    backPocketTab,
+    backPocketPatch,
     frontPocketBag,
     frontPocketBagB,
     frontPocketFacing,
@@ -42,6 +50,10 @@ export {
   back,
   frontBase,
   front,
+  backPocketBag,
+  backPocketWelt,
+  backPocketTab,
+  backPocketPatch,
   frontPocketBag,
   frontPocketBagB,
   frontPocketFacing,
