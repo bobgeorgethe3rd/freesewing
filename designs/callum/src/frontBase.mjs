@@ -198,7 +198,7 @@ export const frontBase = {
             .rotate(90, points.frontPocketOpeningOut)
         )
 
-        points.outseamStart = drawOutseam()
+        points.saOutSeamStart = drawOutseam()
           .split(points.frontPocketOpeningOut)[1]
           .offset(sideSeamSa)
           .start()
@@ -210,17 +210,17 @@ export const frontBase = {
             1
           ),
           points.frontPocketOpeningOut,
-          points.outseamStart
+          points.saOutSeamStart
         )
-        if (points.saFrontPocketOpeningOut.x < points.outseamStart.x) {
+        if (points.saFrontPocketOpeningOut.x < points.saOutSeamStart.x) {
           points.saFrontPocketOpeningOut = utils.beamsIntersect(
             points.saFrontPocketOpeningWaist,
             points.saFrontPocketOpeningWaist.shift(
               points.frontPocketOpeningOut.angle(points.frontPocketOpeningWaist),
               1
             ),
-            points.outseamStart,
-            points.frontPocketOpeningOut.rotate(90, points.outseamStart)
+            points.saOutSeamStart,
+            points.frontPocketOpeningOut.rotate(90, points.saOutSeamStart)
           )
         }
         // paths.saFrontPocketOpening = new Path()
