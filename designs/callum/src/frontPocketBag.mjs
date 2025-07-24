@@ -2,7 +2,7 @@ import { pluginMirror } from '@freesewing/plugin-mirror'
 import { frontBase } from './frontBase.mjs'
 
 export const frontPocketBag = {
-  name: 'caleb.frontPocketBag',
+  name: 'callum.frontPocketBag',
   from: frontBase,
   hide: {
     from: true,

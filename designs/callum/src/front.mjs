@@ -2,7 +2,7 @@ import { pluginMirror } from '@freesewing/plugin-mirror'
 import { frontBase } from './frontBase.mjs'
 
 export const front = {
-  name: 'caleb.front',
+  name: 'callum.front',
   from: frontBase,
   hide: {
     from: true,

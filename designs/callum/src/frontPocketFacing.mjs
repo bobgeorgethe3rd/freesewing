@@ -1,7 +1,7 @@
 import { frontPocketBag } from './frontPocketBag.mjs'
 
 export const frontPocketFacing = {
-  name: 'caleb.frontPocketFacing',
+  name: 'callum.frontPocketFacing',
   from: frontPocketBag,
   draft: ({
     store,
