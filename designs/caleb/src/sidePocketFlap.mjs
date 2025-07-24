@@ -51,7 +51,7 @@ export const sidePocketFlap = {
       depth: store.get('sidePocketDepth'),
       peakDepth: 0,
       style: 'straight',
-      topSaWidth: store.get('sidePocketTopFoldWidth'),
+      topFoldWidth: store.get('sidePocketTopFoldWidth'),
       prefix: 'sidePocket',
     })
 
