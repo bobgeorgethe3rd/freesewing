@@ -75,12 +75,12 @@ export const welt = {
       })
 
       if (sa) {
-        const pocketBagSa = sa * options.pocketBagSaWidth * 100
+        const weltPocketBagSa = sa * options.weltPocketBagSaWidth * 100
 
-        points.saTopLeft = points.topLeft.translate(-pocketBagSa, -sa)
-        points.saBottomLeft = points.bottomLeft.translate(-pocketBagSa, sa)
-        points.saBottomRight = points.bottomRight.translate(pocketBagSa, sa)
-        points.saTopRight = points.topRight.translate(pocketBagSa, -sa)
+        points.saTopLeft = points.topLeft.translate(-weltPocketBagSa, -sa)
+        points.saBottomLeft = points.bottomLeft.translate(-weltPocketBagSa, sa)
+        points.saBottomRight = points.bottomRight.translate(weltPocketBagSa, sa)
+        points.saTopRight = points.topRight.translate(weltPocketBagSa, -sa)
 
         paths.sa = new Path()
           .move(points.saTopLeft)
