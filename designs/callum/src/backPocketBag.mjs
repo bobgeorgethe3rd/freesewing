@@ -9,6 +9,8 @@ export const backPocketBag = {
     ...weltPocket.options,
     //Pockets
     weltPocketCurve: { pct: 0, min: 0, max: 100, menu: 'pockets.weltPockets' }, //Altered for Callum
+    //Construction
+    weltPocketFolded: { bool: true, menu: 'construction' }, //Altered for Callum
   },
   draft: (sh) => {
     const { macro, points, options, complete, part } = sh
@@ -26,7 +28,7 @@ export const backPocketBag = {
         nr: 2,
         title: 'Back Pocket Bag',
         at: points.title,
-        cutNr: 2,
+        cutNr: options.weltPocketFolded && options.weltPocketCurve < 1 ? 1 : 2,
         scale: 0.5,
       })
     }

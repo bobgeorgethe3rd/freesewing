@@ -497,6 +497,9 @@ waistbandcurved:
 waistbandstraight:
   peer:
    '@freesewing/bandstraight': *freesewing
+weltpocket:
+  peer:
+   '@freesewing/plugin-mirror': *freesewing
 yuri:
   peer:
     '@freesewing/brian': *freesewing

@@ -25,9 +25,13 @@ export const welt = {
     Snippet,
   }) => {
     //keep paths
-    const keepThese = ['opening']
+    const keepPaths = ['opening']
     for (const name in paths) {
-      if (keepThese.indexOf(name) === -1) delete paths[name]
+      if (keepPaths.indexOf(name) === -1) delete paths[name]
+    }
+    const keepSnippets = ['openingLeft-notch', 'openingMid-notch', 'openingRight-notch']
+    for (const name in snippets) {
+      if (keepSnippets.indexOf(name) === -1) delete snippets[name]
     }
     //measures
     const width = store.get('insertSeamLength') * options.weltPocketWeltWidth
