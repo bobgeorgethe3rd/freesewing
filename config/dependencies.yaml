@@ -437,6 +437,8 @@ simpleshirtsleeve:
 spencer:
   peer:
     '@freesewing/terry': *freesewing
+    '@freesewing/plugin-bandstraight': *freesewing
+    '@freesewing/plugin-bandcurved': *freesewing
 spreadsleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing
