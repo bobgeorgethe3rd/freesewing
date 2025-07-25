@@ -115,6 +115,18 @@ export const front = {
           on: ['pocketLeft', 'pocketRight'],
         })
       }
+      //binding info
+      if (options.neckbandStyle == 'binding')
+        points.neckBinding = new Point(points.sideHem.x * 0.7, points.sideHem.y * 0.85).attr(
+          'data-text',
+          'Neck Length: ' + utils.units((paths.cfNeck.length() + store.get('neckBack')) * 2)
+        )
+      if (options.armholeType == 'binding')
+        points.armholeBinding = new Point(points.sideHem.x * 0.7, points.sideHem.y * 0.9).attr(
+          'data-text',
+          'Armhole Length: ' + utils.units(paths.armhole.length() + store.get('backArmholeLength'))
+        )
+
       if (sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const armholeSa = options.armholeType == 'binding' ? 0 : sa * options.armholeSaWidth * 100
