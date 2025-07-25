@@ -9,7 +9,6 @@ export const front = {
     from: true,
     inherited: true,
   },
-  options: {},
   draft: ({
     store,
     sa,
@@ -33,7 +32,7 @@ export const front = {
     delete paths.seam
     delete paths.sa
     delete snippets.armholePitch
-    if (options.armholeType == 'band') {
+    if (options.armholeType == 'straight' || options.armholeType == 'curved') {
       delete paths.pocketline
       const keepSnippets = ['sideWaist']
       for (const name in snippets) {
@@ -46,7 +45,7 @@ export const front = {
     points.shoulder = points.shoulder.shiftTowards(points.hps, armholeBandWidth)
     points.armholePitch = points.armholePitch.shift(180, armholeBandWidth)
     points.armhole =
-      options.armholeType == 'band'
+      options.armholeType == 'straight' || options.armholeType == 'curved'
         ? utils.curveIntersectsY(
             points.sideWaist,
             points.sideWaistCp2,
@@ -77,7 +76,7 @@ export const front = {
       .curve_(points.armholePitchCp2, points.shoulder)
       .hide()
 
-    if (options.armholeType == 'band') {
+    if (options.armholeType == 'straight' || options.armholeType == 'curved') {
       paths.sideSeam = paths.sideSeam.split(points.armhole)[0].hide()
     }
     if (options.neckbandStyle == 'binding' || options.neckbandStyle == 'hem') {
@@ -96,9 +95,10 @@ export const front = {
       .line(points.cfHem)
       .close()
 
+    //stores
+    store.set('armholeBandLength', store.get('armholeBandLengthBack') + paths.armhole.length())
+
     if (complete) {
-      //notches
-      snippets.armholePitch = new Snippet('notch', points.armholePitch)
       //pockets
       if (options.pocketsBool) {
         points.pocketMid = new Point(points.armholePitch.x / 2, points.pocketMid.y)

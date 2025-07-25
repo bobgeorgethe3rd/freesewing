@@ -17,7 +17,11 @@ export const back = {
       menu: 'style',
     }, //Altered for Spencer
     //Armhole
-    armholeType: { dflt: 'band', list: ['band', 'binding', 'hem'], menu: 'armhole' },
+    armholeType: {
+      dflt: 'straight',
+      list: ['straight', 'curved', 'binding', 'hem'],
+      menu: 'armhole',
+    },
     armholeBandWidth: {
       pct: 3.3,
       min: 1,
@@ -54,9 +58,13 @@ export const back = {
     delete paths.sa
     delete snippets.armholePitch
     //measurements
-    const armholeBandWidth = options.armholeType == 'band' ? absoluteOptions.armholeBandWidth : 0
+    const armholeBandWidth =
+      options.armholeType == 'straight' || options.armholeType == 'curved'
+        ? absoluteOptions.armholeBandWidth
+        : 0
     //options
-    if (options.armholeType == 'band') options.armholeSaWidth = 0.01
+    if (options.armholeType == 'straight' || options.armholeType == 'curved')
+      options.armholeSaWidth = 0.01
     if (
       options.neckbandStyle == 'straight' ||
       options.neckbandStyle == 'curved' ||
@@ -67,7 +75,7 @@ export const back = {
     points.shoulder = points.shoulder.shiftTowards(points.hps, armholeBandWidth)
     points.armholePitch = points.armholePitch.shift(180, armholeBandWidth)
     points.armhole =
-      options.armholeType == 'band'
+      options.armholeType == 'straight' || options.armholeType == 'curved'
         ? utils.curveIntersectsY(
             points.sideWaist,
             points.sideWaistCp2,
@@ -98,7 +106,7 @@ export const back = {
       .curve_(points.armholePitchCp2, points.shoulder)
       .hide()
 
-    if (options.armholeType == 'band') {
+    if (options.armholeType == 'straight' || options.armholeType == 'curved') {
       paths.sideSeam = paths.sideSeam.split(points.armhole)[0].hide()
     }
     if (options.neckbandStyle == 'binding' || options.neckbandStyle == 'hem') {
@@ -116,11 +124,9 @@ export const back = {
 
     //stores
     store.set('armholeBandWidth', armholeBandWidth)
+    store.set('armholeBandLengthBack', paths.armhole.length())
 
     if (complete) {
-      //notches
-      snippets.armholePitch = new Snippet('bnotch', points.armholePitch)
-
       if (sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const armholeSa = options.armholeType == 'binding' ? 0 : sa * options.armholeSaWidth * 100
