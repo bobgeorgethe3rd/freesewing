@@ -563,8 +563,16 @@
       "number": "0017",
       "code": "bobgeorgethe3rd",
       "design": "bobgeorgethe3rd",
-      "difficulty": 1,
+      "difficulty": 3,
       "tags": ["tops", "shirts"]
+    },
+    "spencer": {
+      "description": "Spencer sleeveless tee desgin",
+      "number": "0055",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "shirts", "t-shirts"]
     },
     "taliya": {
       "description": "Taliya tunic design",

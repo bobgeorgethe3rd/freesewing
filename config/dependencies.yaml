@@ -434,6 +434,9 @@ simpleshirtsleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing
     '@freesewing/plugin-mirror': *freesewing
+spencer:
+  peer:
+    '@freesewing/terry': *freesewing
 spreadsleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing
