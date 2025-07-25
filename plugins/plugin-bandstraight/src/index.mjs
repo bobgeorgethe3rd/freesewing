@@ -12,7 +12,7 @@ export const plugin = {
       const defaults = {
         at: new Point(0, 0),
         placketWidth: 0,
-        lengthBack: length * 0.5,
+        lengthBack: so.length * 0.5,
         overlap: 0,
         overlapSide: 'left',
         folded: false,

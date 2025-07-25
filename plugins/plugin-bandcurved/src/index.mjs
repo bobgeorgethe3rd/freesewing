@@ -28,8 +28,8 @@ export const plugin = {
         //note these are common examples and can be removed
         at: new Point(0, 0),
         placketWidth: 0,
-        lengthBack: length * 0.5,
-        lengthTop: length * 0.98,
+        lengthBack: so.length * 0.5,
+        lengthTop: so.length * 0.98,
         overlap: 0,
         overlapSide: 'left',
         closurePosition: 'back',
