@@ -3,7 +3,7 @@ import { pluginGore } from '@freesewing/plugin-gore'
 import { pluginLogoRG } from '@freesewing/plugin-logorg'
 
 export const crown = {
-  name: 'henry.crown',
+  name: 'barkley.crown',
   plugins: [pluginBundle, pluginGore, pluginLogoRG],
   options: {
     //Fit
