@@ -15,8 +15,6 @@ export const neckband = {
     neckbandOverlapSide: 'left', //Locked for Terry
     neckbandOverlap: 0, //Locked for Terry
     hoodGuides: false, //Locked for Terry
-    //Style
-    neckbandStyle: { dflt: 'straight', list: ['straight', 'curved', 'hood'], menu: 'style' },
   },
   after: [front],
   plugins: [...neckbandStraight.plugins, ...neckbandCurved.plugins],

@@ -28,6 +28,7 @@ export const back = {
       ...pctBasedOn('hpsToWaistBack'),
       menu: 'style',
     },
+    neckbandStyle: { dflt: 'straight', list: ['straight', 'curved', 'hood'], menu: 'style' },
     bodyLength: { pct: 100, min: 0, max: 100, menu: 'style' },
     bodyLengthBonus: { pct: 23.1, min: -20, max: 50, menu: 'style' },
     //Construction
@@ -60,6 +61,7 @@ export const back = {
   }) => {
     //remove paths & snippets
     store.set('neckbandBack', paths.cbNeck.length() * 2 * (1 + options.neckbandLengthBonus))
+    store.set('neckbandBackTop', paths.cbNeck.length())
     const keepThese = ['armhole', 'seam']
     for (const name in paths) {
       if (keepThese.indexOf(name) === -1) delete paths[name]
@@ -153,7 +155,8 @@ export const back = {
     store.set('neckBackDepth', points.cbTop.y - points.shoulderTop.y)
     store.set('neckBackWidth', points.shoulderTop.x)
     store.set('neckBackAngle', points.shoulderTop.angle(points.cbTopCp1))
-    // store.set('neckbandBack', paths.cbNeck.length() * 2 * (1 + options.neckbandEase))
+    if (options.neckbandStyle == 'curved')
+      store.set('neckbandBack', paths.cbNeck.length() * 2 * (1 + options.neckbandLengthBonus))
 
     if (complete) {
       //grainline
