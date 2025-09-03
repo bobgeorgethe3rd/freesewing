@@ -382,8 +382,8 @@ export const spreadSleeveHem = ({
         )
       } else {
         points.saTopLeft = utils.beamsIntersect(
-          points.saSleeveCapLeft,
-          points.saSleevecapEnd.rotate(-90, points.saSleeveCapLeft),
+          points.capQ4Cp2,
+          points.sleeveCapLeft,
           points.sleeveCapLeft
             .shiftTowards(points.bottomLeft, sideSeamSa)
             .rotate(-90, points.sleeveCapLeft),
@@ -397,8 +397,8 @@ export const spreadSleeveHem = ({
           .rotate(90, points.bottomLeft)
 
         points.saTopRight = utils.beamsIntersect(
-          points.saSleeveCapRight,
-          points.saSleevecapStart.rotate(90, points.saSleeveCapRight),
+          points.capQ1Cp1,
+          points.sleeveCapRight,
           points.bottomRight
             .shiftTowards(points.sleeveCapRight, sideSeamSa)
             .rotate(-90, points.bottomRight),
