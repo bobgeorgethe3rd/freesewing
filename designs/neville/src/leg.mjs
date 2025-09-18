@@ -411,13 +411,11 @@ export const leg = {
     } else {
       points.seatBackCp1 = points.seatBackCp2.shiftOutwards(
         points.seatBack,
-        points.seatBackKneeAnchor.dist(points.upperLegBackAnchor) +
-          (points.upperLegBackAnchor.dist(points.kneeBackAnchor) * 2) / 3
+        (points.seatBackKneeAnchor.dist(points.kneeBackAnchor) * 2) / 3
       )
       points.seatFrontCp2 = points.seatFrontCp1.shiftOutwards(
         points.seatFront,
-        points.seatFrontKneeAnchor.dist(points.upperLegFrontAnchor) +
-          (points.upperLegFrontAnchor.dist(points.kneeFrontAnchor) * 2) / 3
+        (points.seatFrontKneeAnchor.dist(points.kneeFrontAnchor) * 2) / 3
       )
       points.floorBackCp2 = points.floorBack.shift(
         points.floor.angle(points.knee),
