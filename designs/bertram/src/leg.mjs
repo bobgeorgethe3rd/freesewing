@@ -284,7 +284,7 @@ export const leg = {
     points.dartTip = points.dartMid.shiftTowards(points.seatDart, frontDartDepth)
     points.waistLeftCp1 = points.waistLeft.shiftFractionTowards(points.waistLeftMid, 0.5)
     // points.waistCrotchCp2 = points.waistCrotch.shiftTowards(points.waistLeftMid, styleWaistBack / 4)
-    points.waistCrotchCp2 = points.waistCrotch.shiftFractionTowards(points.waistLeftMid, 0.5)
+    // points.waistCrotchCp2 = points.waistCrotch.shiftFractionTowards(points.waistLeftMid, 0.5)
     //leg
     // points.upperLegAnchor = new Point(
     // (points.waistCross.x + points.waistLeft.x) / 2,
@@ -383,13 +383,13 @@ export const leg = {
       points.waistRight,
       points.waistRight.shift(points.waistRightAnchor.angle(points.upperLegRight), 1),
       points.seatRight,
-      points.seatRight.shift(points.upperLegRight.angle(points.waistRightAnchor) - 90, 1)
+      points.seatCross
     )
     points.seatLeftI = utils.beamsIntersect(
       points.waistLeft,
       points.waistLeft.shift(points.waistLeftMidAnchor.angle(points.upperLegLeftMid), 1),
       points.seatLeft,
-      points.seatLeft.shift(points.upperLegLeftMid.angle(points.waistLeftMidAnchor) + 90, 1)
+      points.seatLeftMid
     )
 
     points.seatRightCp2 = points.seatRight.shift(
@@ -560,8 +560,8 @@ export const leg = {
           points.waistRight
         )
         points.seatLeftAnchor = utils.lineIntersectsCurve(
-          points.seatCrotch,
-          points.seatCrotch.shiftFractionTowards(points.seatLeft, 2),
+          points.seatLeftMid,
+          points.seatLeftMid.shiftFractionTowards(points.seatLeft, 2),
           points.waistLeft,
           points.seatLeft,
           points.calfLeftCp1,
@@ -586,30 +586,6 @@ export const leg = {
         )
       }
     }
-
-    if (
-      points.waistRight.x > points.waistRightI.x &&
-      points.seatRightAnchor.x < points.seatRight.x &&
-      !options.fitKnee
-    ) {
-      points.floorRightCp2 = points.floorRightCp2.shiftTowards(
-        points.floorRight,
-        points.seatRightKneeAnchor.dist(points.kneeRightAnchor) / 3
-      )
-    }
-
-    if (
-      points.waistLeft.x < points.waistLeftI.x &&
-      points.seatLeftAnchor.x > points.seatLeft.x &&
-      !options.fitKnee &&
-      !options.fitCalf
-    ) {
-      points.floorLeftCp1 = points.floorLeftCp1.shiftTowards(
-        points.floorLeft,
-        points.seatLeftKneeAnchor.dist(points.kneeLeftAnchor) / 3
-      )
-    }
-
     //paths
     const drawOutseamRight = () => {
       if (options.fitKnee) {
@@ -671,7 +647,8 @@ export const leg = {
       options.frontDartWidth == 0
         ? new Path()
             .move(points.waistCrotch)
-            .curve(points.waistCrotchCp2, points.waistLeftMid, points.waistLeft)
+            .line(points.dartLeft)
+            .curve(points.waistLeftMid, points.waistLeftCp1, points.waistLeft)
         : new Path()
             .move(points.waistCrotch)
             .line(points.dartCrotch)
@@ -936,7 +913,8 @@ export const leg = {
           options.frontDartWidth == 0
             ? new Path()
                 .move(points.waistCrotch)
-                .curve(points.waistCrotchCp2, points.waistLeftMid, points.waistLeft)
+                .line(points.dartLeft)
+                .curve(points.waistLeftMid, points.waistLeftCp1, points.waistLeft)
             : new Path()
                 .move(points.waistCrotch)
                 .line(points.dartLeft)
