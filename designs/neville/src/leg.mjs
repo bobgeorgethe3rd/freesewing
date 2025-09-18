@@ -542,28 +542,28 @@ export const leg = {
       }
     }
 
-    if (
-      points.waistBack.x > points.waistBackI.x &&
-      points.seatBackAnchor.x < points.seatBack.x &&
-      !options.fitKnee &&
-      !options.fitCalf
-    ) {
-      points.floorBackCp2 = points.floorBackCp2.shiftTowards(
-        points.floorBack,
-        points.seatBackKneeAnchor.dist(points.kneeBackAnchor) / 3
-      )
-    }
+    // if (
+    // points.waistBack.x > points.waistBackI.x &&
+    // points.seatBackAnchor.x < points.seatBack.x &&
+    // !options.fitKnee &&
+    // !options.fitCalf
+    // ) {
+    // points.floorBackCp2 = points.floorBackCp2.shiftTowards(
+    // points.floorBack,
+    // points.seatBackKneeAnchor.dist(points.kneeBackAnchor) / 3
+    // )
+    // }
 
-    if (
-      points.waistFront.x < points.waistFrontI.x &&
-      points.seatFrontAnchor.x > points.seatFront.x &&
-      !options.fitKnee
-    ) {
-      points.floorFrontCp1 = points.floorFrontCp1.shiftTowards(
-        points.floorFront,
-        points.seatFrontKneeAnchor.dist(points.kneeFrontAnchor) / 3
-      )
-    }
+    // if (
+    // points.waistFront.x < points.waistFrontI.x &&
+    // points.seatFrontAnchor.x > points.seatFront.x &&
+    // !options.fitKnee
+    // ) {
+    // points.floorFrontCp1 = points.floorFrontCp1.shiftTowards(
+    // points.floorFront,
+    // points.seatFrontKneeAnchor.dist(points.kneeFrontAnchor) / 3
+    // )
+    // }
 
     //paths
     const drawOutseamBack = () => {
