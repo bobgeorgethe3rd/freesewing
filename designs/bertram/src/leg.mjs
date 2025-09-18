@@ -372,12 +372,12 @@ export const leg = {
       points.waistCross,
       points.waistRight
     )
-    points.waistLeftI = utils.beamsIntersect(
-      points.seatLeft,
-      points.seatLeft.shift(points.upperLegLeftMid.angle(points.waistLeftMidAnchor), 1),
-      points.waistLeftMid,
-      points.waistLeft
-    )
+    // points.waistLeftI = utils.beamsIntersect(
+    // points.seatLeft,
+    // points.seatLeft.shift(points.upperLegLeftMid.angle(points.waistLeftMidAnchor), 1),
+    // points.waistLeftMid,
+    // points.waistLeft
+    // )
 
     points.seatRightI = utils.beamsIntersect(
       points.waistRight,
@@ -408,9 +408,9 @@ export const leg = {
       )
     }
 
-    if (points.waistLeft.x < points.waistLeftI.x) {
+    if (points.waistLeft.x > points.seatLeft.x) {
       points.seatLeftCp1 = points.seatLeft.shift(
-        points.waistCrotch.angle(points.waistLeftMid) - 90,
+        points.waistLeft.angle(points.waistLeftMid) + 90,
         points.seatLeft.dist(points.seatLeftCp1)
       )
     }
