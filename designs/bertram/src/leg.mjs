@@ -223,11 +223,9 @@ export const leg = {
       seatFront / 2
     )
     points.waistLeft = points.waistLeftMid.shift(
-      points.waistLeftMidAnchor.angle(points.upperLegLeftMid) -
-        90 -
-        (points.waistRightAnchor.angle(points.upperLegRight) -
-          90 -
-          points.waistRight.angle(points.waistCross)),
+      points.upperLegLeftMid.angle(points.waistLeftMidAnchor) +
+        (points.waistRight.angle(points.waistCross) -
+          points.upperLegRight.angle(points.waistRightAnchor)),
       styleWaistBack * (1 - options.backLegRatio) * 0.5 + frontDartWidth
     )
     // if (options.fitWaistBack || waistBack > seatBack) {
