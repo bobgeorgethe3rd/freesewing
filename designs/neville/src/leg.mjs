@@ -335,13 +335,13 @@ export const leg = {
       points.waistBack,
       points.waistBack.shift(points.waistBackAnchor.angle(points.upperLegBack), 1),
       points.seatBack,
-      points.seatBack.shift(points.upperLegBack.angle(points.waistBackAnchor) - 90, 1)
+      points.seatCross
     )
     points.seatFrontI = utils.beamsIntersect(
       points.waistFront,
       points.waistFront.shift(points.waistFrontAnchor.angle(points.upperLegFront), 1),
       points.seatFront,
-      points.seatFront.shift(points.upperLegFront.angle(points.waistFrontAnchor) + 90, 1)
+      points.seatCrotch
     )
 
     points.seatBackCp2 = points.seatBack.shift(
