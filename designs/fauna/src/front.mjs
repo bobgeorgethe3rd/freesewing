@@ -309,7 +309,7 @@ export const front = {
 
         points.saPlacketBottomLeft = new Point(
           points.saPlacketTopLeft.x,
-          points.placketTopLeft.y + hemSa
+          points.placketBottomLeft.y + hemSa
         )
 
         points.saFacingShoulder = utils.beamIntersectsX(
