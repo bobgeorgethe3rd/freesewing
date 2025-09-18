@@ -239,10 +239,6 @@ export const leg = {
       seatBack * (1 - options.backLegRatio) * 0.5
     )
     // }
-    points.upperLegLeft = points.upperLegLeftMid.shift(
-      points.waistLeftMid.angle(points.waistLeft),
-      seatBack / 4
-    )
     points.upperLegLeft = points.upperLegCrotchAnchor.shiftOutwards(
       points.upperLegLeftMid,
       seatBack * (1 - options.backLegRatio) * 0.5
@@ -463,13 +459,11 @@ export const leg = {
     } else {
       points.seatRightCp1 = points.seatRightCp2.shiftOutwards(
         points.seatRight,
-        points.seatRightKneeAnchor.dist(points.upperLegRightAnchor) +
-          (points.upperLegRightAnchor.dist(points.kneeRightAnchor) * 2) / 3
+        (points.seatRightKneeAnchor.dist(points.kneeRightAnchor) * 2) / 3
       )
       points.seatLeftCp2 = points.seatLeftCp1.shiftOutwards(
         points.seatLeft,
-        points.seatLeftKneeAnchor.dist(points.upperLegLeftAnchor) +
-          (points.upperLegLeftAnchor.dist(points.kneeLeftAnchor) * 2) / 3
+        (points.seatLeftKneeAnchor.dist(points.kneeLeftAnchor) * 2) / 3
       )
       points.floorRightCp2 = points.floorRight.shift(
         points.floor.angle(points.knee),
