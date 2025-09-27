@@ -188,10 +188,9 @@ export const frontBase = {
       prefix: 'm',
     })
 
-    points.facingShoulder = points.mHps.shiftFractionTowards(
-      points.mShoulder,
-      options.placketFacingWidth
-    )
+    points.facingShoulder = points.mHps
+      .shiftTowards(points.mShoulder, placketWidth)
+      .shiftFractionTowards(points.mShoulder, options.placketFacingWidth)
     points.facingShoulderCp2 = points.facingShoulder.shift(-90, points.cfHem.y / 4)
     points.mFacingBottomCp1 = points.mFacingBottom.shift(90, (points.cfHem.y * 2) / 3)
 
