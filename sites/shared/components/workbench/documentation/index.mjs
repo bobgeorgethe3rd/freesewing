@@ -1,4 +1,3 @@
-import yaml from 'js-yaml'
 import { useTranslation } from 'next-i18next'
 import { capitalize } from '@freesewing/core'
 
@@ -13,19 +12,29 @@ export const DocumentationView = (props) => {
 
   useEffect(() => {
     fetch(`designs/${designName}/markdown/en.md`)
-      .then((response) => response.text())
-      .then((text) => setMarkdownContent(text))
-  }, [])
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch markdown file.')
+        }
+        return response.text()
+      })
+      .then((text) => {
+        setMarkdownContent(text)
+      })
+      .catch((error) => {
+        setMarkdownContent(
+          `fixMe Documentation is missing for ${capitalize(
+            designName
+          )}. To add create this file __*designs/${designName}/markdown/en.md*__`
+        )
+      })
+  }, [designName])
 
   return (
     <section>
-      <div className="max-w-screen-xl m-auto h-screen form-control">
+      <div className="max-w-screen-xl m-auto form-control">
         <h1>{t('documentationThing', { thing: capitalize(designName) })}</h1>
-        <h3>fixME</h3>
-
-        <li>Import markdown</li>
-        <li>mm maybe make markdown files in docs</li>
-        <li>i18n files in designs?</li>
+        <ReactMarkdown>{markdownContent}</ReactMarkdown>
       </div>
     </section>
   )
