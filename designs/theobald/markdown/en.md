@@ -79,7 +79,7 @@ title: "Theobald timeless trousers: Sewing Instructions"
 - (Optional) Sew either single welt or double welt back pockets with or without pocket tabs.
 - With *good sides together* sew the backs together along the cross seam.
 
-### Step 2: Contstucting the front and front pockets
+### Step 2: Contstructing the front and front pockets
 
 - If making pleated version baste the front pleats together on both fronts.
 - *Interface* the pocket facings.
