@@ -303,6 +303,46 @@ petunia:
     '@freesewing/daisy': *freesewing
     '@freesewing/rufflebutterflysleeve': *freesewing
     '@freesewing/inseampocket': *freesewing
+playtest:
+  peer:
+    '@freesewing/aimee': *freesewing
+    '@freesewing/bertram': *freesewing
+    '@freesewing/byron': *freesewing
+    '@freesewing/daisy': *freesewing
+    '@freesewing/dalton': *freesewing
+    '@freesewing/jeremy': *freesewing
+    '@freesewing/neville': *freesewing
+    '@freesewing/peach': *freesewing
+    '@freesewing/sarah': *freesewing
+    '@freesewing/sammie': *freesewing
+    '@freesewing/hood': *freesewing
+    '@freesewing/neckbandcurved': *freesewing
+    '@freesewing/neckbandstraight': *freesewing
+    '@freesewing/shirtcollar': *freesewing
+    '@freesewing/standardcollar': *freesewing
+    '@freesewing/boxpleatpocket': *freesewing
+    '@freesewing/inseampocket': *freesewing
+    '@freesewing/patchpocket': *freesewing
+    '@freesewing/pearpocket': *freesewing
+    '@freesewing/watchpocket': *freesewing
+    '@freesewing/weltpocket': *freesewing
+    '@freesewing/basicraglansleeve': *freesewing
+    '@freesewing/basicsleeve': *freesewing
+    '@freesewing/capsleeve': *freesewing
+    '@freesewing/dolmansleeve': *freesewing
+    '@freesewing/fullshirtsleeve': *freesewing
+    '@freesewing/gatherheadsleeve': *freesewing
+    '@freesewing/rufflebutterflysleeve': *freesewing
+    '@freesewing/simpleraglanshirtsleeve': *freesewing
+    '@freesewing/simpleshirtsleeve': *freesewing
+    '@freesewing/spreadsleeve': *freesewing
+    '@freesewing/basicplacket': *freesewing
+    '@freesewing/beltloops': *freesewing
+    '@freesewing/flyfront': *freesewing
+    '@freesewing/legbandcurved': *freesewing
+    '@freesewing/legbandstraight': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
 plugin-bundle:
   dev:
     '@freesewing/plugin-annotations': *freesewing

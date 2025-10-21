@@ -700,6 +700,12 @@
       "description": "A FreeSewing pattern to document pattern notation",
       "code": "Joost De Cock"
     },
+    "playtest": {
+      "description": "Playtest for when I wish to have a play",
+      "number": "U0001",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd"
+    },
     "plugintest": {
       "description": "A FreeSewing pattern to test (y)our plugins",
       "code": "Joost De Cock"
