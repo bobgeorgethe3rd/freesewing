@@ -7,9 +7,11 @@
 
 #### Lining Fabric
 
+Lightweight but sturdy fabrics. You want a fabric that is not going to add a lot of bulk but is sturdy enough to hold things. I like lightweight cottons of shirting weight such as **Cotton Lawn**. In testing this design I actually recycled a shirt for the pocket fabric.
+
 #### Interfacing
 
-I personally like to use calico
+I personally like to use calico but you can use whatever sew-on or iron-on interfacing you prefer.
 
 ---
 ## Callum casual shorts: What you need
@@ -30,12 +32,38 @@ I personally like to use calico
 
 - Cut **2 Back** parts.
 - Cut **2 Front** parts.
+- Cut **2 Back Welt** parts.
+- Cut **2 Front Pocket Facing** parts.
+- Cut **2 Front Pocket Facing B** parts.
+- Cut **1 Fly** part.
+- Cut **1 Buttonhole Placket** part on fold.
+- Cut **1 Fly Shield** part on fold.
+- Cut **1 Beltloops** parts.
+- Cut **2 Waistband** parts.
 
 
 **Lining fabric**
 
+- Cut **2 Front Pocket bag** parts.
+- Cut **1 Back Pocket bag** part.
+
 
 **Interfacing**
+
+<Note>
+
+All interfacing parts are optional dependent on the needs of your fabric. If in doubt interface.
+
+</Note>
+
+- Cut **2 Back Welt** parts without top and bottom seam allowance if pressing main under.
+- Cut **2 Front Pocket Facing** parts without slant seam allowance if pressing main under.
+- Cut **2 Front Pocket Facing B** parts without slant seam allowance if pressing main under.
+- Cut **1 Fly** part.
+- Cut **1 Buttonhole Placket** part **NOT** on fold.
+- Cut **1 Fly Shield** part **NOT** on fold.
+- Cut **1 Waistband** parts.
+- Cut **1 Beltloops** parts.
 
 
 ---
@@ -48,7 +76,7 @@ I personally like to use calico
 - Close the back darts.
 - Mark the stitching lines of the pocket opening on the *good side* of the right back leg. (I recommend 1 / 2" (12mm) wide rectangle, 1 / 4" (6mm) each side of the pocket opening line but it is up to personal prefence.)
 - (Optional) Interface the back pocket welts.
-- *Finsih* or press under the long edges of the back pocket welts.
+- Press under or *Finsih* press under the long edges of the back pocket welts.
 
 <Note> You may not want to interface the seam allowance of the long edges if you are pressing under. </Note>
 
@@ -95,9 +123,33 @@ I will now explain to make the welt pocket with a french seam. If you prefer to 
 - Fold down the back leg so the top of the opening rectangle is on top. Sew through all layers at the base of the top of the opening rectangle to secure the welt. **Do not sew it** to the back leg.
 - _Baste_ the top of the pocket bag to the top of the back leg so it lies flat. The design of the pocket bag is built to overhang the top of the back leg to make this easier and the excess can be trimmed.
 
-### Step 2: Contstructing the front pockets
+<Note>
+
+The next set of instructions is how to finish the cross seam with a flat fell using the default seam allowance set by the design. If you have altered the seam allowance or just want to sew the cross seam differently then you should sew and _finish_ the cross seam in your preferred method before moving onto the front.
+
+</Note>
+
+- With *wrong sides together*, sew the back legs together along the cross seam. Press open.
+- Trim down the left leg's cross seam seam allowance to no more that 1/8" (3mm).
+- Press the right legs cross seam allowance to the left then fold under the right seam allowance. Press. Pin if you need too.
+- _Edgestitch_ the fold in place.
+
+### Step 2: Constructing the front pockets
 
 
+### Step 3: Constructing the fly
+
+
+### Step 4: Constructing the legs
+
+
+### Step 5: Belt loops & Waistbands
+
+
+### Step 6: Hemming
+
+
+### Step 7: Enjoy!!!
 
 
 
