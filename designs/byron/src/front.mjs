@@ -288,7 +288,7 @@ export const front = {
         // .curve_(points.saArmholePitchCp2, points.saShoulder)
         // .hide()
 
-        points.saSideWaist = new Point(points.sideWaist.x + armholeSa, points.sideWaist.y + hemSa)
+        points.saSideWaist = new Point(points.sideWaist.x + sideSeamSa, points.sideWaist.y + hemSa)
         points.saArmholeCorner = utils.beamsIntersect(
           points.armholeCp2.shift(90, armholeSa),
           points.armhole.shift(90, armholeSa),
