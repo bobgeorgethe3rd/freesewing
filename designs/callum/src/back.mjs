@@ -59,7 +59,7 @@ export const back = {
     backPocketPlacement: { pct: 71.5, min: 40, max: 100, menu: 'pockets' }, //57.2
     backPocketBalance: { pct: 50, min: 40, max: 60, menu: 'pockets' },
     backPocketWidth: { pct: (2 / 3) * 100, min: 40, max: 75, menu: 'pockets' },
-    weltPocketOpeningWidth: { pct: 69.5, min: 60, max: 80, menu: 'pockets.weltPockets' }, //Altered for Callum
+    weltPocketOpeningWidth: { pct: 73.7, min: 60, max: 80, menu: 'pockets.weltPockets' }, //69.5 //Altered for Callum
     //Construction
     crossSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Callum
     inseamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Callum
