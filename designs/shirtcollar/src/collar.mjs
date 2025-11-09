@@ -10,7 +10,7 @@ export const collar = {
     //Collar
     collarPlacement: { pct: 0, min: 0, max: 50, menu: 'collar' },
     collarWidth: { pct: 50, min: 0, max: 100, menu: 'collar' },
-    collarPeakWidth: { pct: 25, min: 25, max: 100, menu: 'collar' },
+    collarPeakWidth: { pct: 25, min: 5, max: 100, menu: 'collar' },
   },
   after: [collarBand],
   draft: (sh) => {
@@ -47,7 +47,6 @@ export const collar = {
       collarPlacement = buttonholePlacketWidth
     }
     const collarWidth = store.get('collarBandWidth') * (1 + options.collarWidth)
-    const collarPeakWidth = collarWidth * (1 + options.collarPeakWidth)
 
     //let's begin
     paths.topBand = new Path()
