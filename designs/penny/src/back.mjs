@@ -34,9 +34,9 @@ export const back = {
     sideSeamCurve: { pct: 50, min: 10, max: 50, menu: 'style' },
     //Pockets
     pocketsBool: { bool: true, menu: 'pockets' },
-    pocketOpening: { pct: 7.2, min: 5, max: 15, menu: 'pockets' }, //Altered for Antiope
-    inseamPocketWidth: { pct: 75, min: 40, max: 90, menu: 'pockets.inseamPockets' }, //Altered for Antiope
-    inseamPocketDepth: { pct: 15, min: 15, max: 40, menu: 'pockets.inseamPockets' }, //Altered for Antiope
+    pocketOpening: { pct: 7.2, min: 5, max: 15, menu: 'pockets' }, //Altered for Penny
+    inseamPocketWidth: { pct: 75, min: 40, max: 90, menu: 'pockets.inseamPockets' }, //Altered for Penny
+    inseamPocketDepth: { pct: 15, min: 15, max: 40, menu: 'pockets.inseamPockets' }, //Altered for Penny
     //Construction
     // skirtFacings: { bool: false, menu: 'construction' },
     // skirtFacingWidth: { pct: 15, min: 5, max: 50, menu: 'construction' },
