@@ -71,74 +71,74 @@ or
 ### Step 1: Constructing the back and back pockets
 
 - Close the back darts.
-- (Optional) *Interface* two Back Pocket Welt pieces.
-- (Optional) *Interface* two Back Pocket Tab pieces.
+- (Optional) ***Interface*** two Back Pocket Welt pieces.
+- (Optional) ***Interface*** two Back Pocket Tab pieces.
 - (Optional) Sew buttonholes in Back Pocket Tabs
 - (Optional) Sew either single welt or double welt back pockets with or without pocket tabs.
-- With *good sides together* sew the backs together along the cross seam.
+- With ***good sides together*** sew the backs together along the cross seam.
 
 ### Step 2: Contstructing the front and front pockets
 
 - If making pleated version baste the front pleats together on both fronts.
-- *Interface* the pocket facings.
-- *Finish* the longest inner seams of the pocket facings.
-- With *wrong side* of the pocket facings to *good side* of pocket bags *edgestitch* the pocket facings to the pockets bags matching raw edges making sure you are making a mirrored pair.
+- ***Interface*** the pocket facings.
+- ***Finish*** the longest inner seams of the pocket facings.
+- With ***wrong side*** of the pocket facings to ***good side*** of pocket bags ***edgestitch*** the pocket facings to the pockets bags matching raw edges making sure you are making a mirrored pair.
 	- If original, each bag will need a facing.
 	- If slanted pockets the diagonal seams will need to line up with the diagonals of the pocket bags.
-- With *good sides together* sew the pocket bags to the fronts, this will be diagonals seams together for slanted pockets. For original this will be one mirrored set.
-- Press the bags away from the legs. *Understitch* if needed.
+- With ***good sides together*** sew the pocket bags to the fronts, this will be diagonals seams together for slanted pockets. For original this will be one mirrored set.
+- Press the bags away from the legs. ***Understitch*** if needed.
 
 
 #### Straight Pear
 
-- *Interface* the pocket facings.
-- *Finish* the longest inner seams of the pocket facings.
-- With *wrong side* of the pocket facings to *good side* of pocket bags *edgestitch* the pocket facings to the pockets bags matching raw edges making sure you are making a mirrored pair.
-- With *good sides together* sew the pocket bags to the fronts along the diagonal edges.
+- ***Interface*** the pocket facings.
+- ***Finish*** the longest inner seams of the pocket facings.
+- With ***wrong side*** of the pocket facings to ***good side*** of pocket bags ***edgestitch*** the pocket facings to the pockets bags matching raw edges making sure you are making a mirrored pair.
+- With ***good sides together*** sew the pocket bags to the fronts along the diagonal edges.
 - Press the pocket bags away from the body and *understitch* the previous seam.
-- Press the pocket bags to the *wrong side* of the fronts.
-- Press the pocket bags *good sides together* along the fold line.
+- Press the pocket bags to the ***wrong side*** of the fronts.
+- Press the pocket bags ***good sides together*** along the fold line.
 - Stitch the bottom of the pocket bags together being careful not to catch the fronts.
-- *Baste* the top of the pocket bags to the front.
+- ***Baste*** the top of the pocket bags to the front.
 
 #### Straight Original
 
-- *Interface* the pocket facings.
-- *Finish* the longest inner seams of the pocket facings.
-- With *wrong side* of the pocket facings A to *good side* of pocket bags A *edgestitch* the pocket facings to the pockets bags matching raw edges making sure you are making a mirrored pair.
-- With *wrong side* of the pocket facings B to *good side* of pocket bags B *edgestitch* the pocket facings to the pockets bags matching raw edges making sure you are making a mirrored pair.
-- With *good sides together* sew the pocket bags B to the fronts along the diagonal edges.
+- ***Interface*** the pocket facings.
+- ***Finish*** the longest inner seams of the pocket facings.
+- With ***wrong side*** of the pocket facings A to ***good side*** of pocket bags A ***edgestitch*** the pocket facings to the pockets bags matching raw edges making sure you are making a mirrored pair.
+- With ***wrong side*** of the pocket facings B to ***good side*** of pocket bags B ***edgestitch*** the pocket facings to the pockets bags matching raw edges making sure you are making a mirrored pair.
+- With ***good sides together*** sew the pocket bags B to the fronts along the diagonal edges.
 - Press the pocket bags away from the body and *understitch* the previous seam.
-- Press the pocket bags to the *wrong side* of the fronts.
-- Press the pocket bags *good sides together* along the fold line.
-- With *good sides together* sew the bottom of the pocket bags A & B together being careful not to catch the fronts.
-- *Baste* the pocket bags to the crotch and waist seams.
+- Press the pocket bags to the ***wrong side*** of the fronts.
+- Press the pocket bags ***good sides together*** along the fold line.
+- With ***good sides together*** sew the bottom of the pocket bags A & B together being careful not to catch the fronts.
+- ***Baste*** the pocket bags to the crotch and waist seams.
 
 <Note>
 
-You may wish to *french seam* the bottom of the pocket bags together for a stronger and cleaner finish.
+You may wish to ***french seam*** the bottom of the pocket bags together for a stronger and cleaner finish.
 
 </Note>
 
 ### Step 3: Sewing the fly
 
-- With *good sides together* sew the crotch seam together from the inseam up to the notch. *Reinforce* at notch.
+- With ***good sides together*** sew the crotch seam together from the inseam up to the notch. ***Reinforce*** at notch.
 - Sew zipper or Buttonhole fly.
 
 ### Step 4: Joining the back to the front.
 
-- With *good sides together* sew the front to the back along the side seams, matching notches.
-- With *good sides together* sew the front to the back along the inseam, matching the seams.
+- With ***good sides together*** sew the front to the back along the side seams, matching notches.
+- With ***good sides together*** sew the front to the back along the inseam, matching the seams.
 - Turn out and press.
 
 #### If Lining
 
-- With *good sides together* sew the back linings together along the cross seam.
+- With ***good sides together*** sew the back linings together along the cross seam.
 - If making pleated version baste the front pleats together on both lining fronts.
-- With *good sides together* sew the front lining crotch seam together from the inseam up to the notch. *Reinforce* at notch.
-- With *good sides together* sew the front to the back along the side seams, matching notches.
-- With *good sides together* sew the front to the back along the inseam, matching the seams.
-- With *good sides together* sew the lining trousers to the main trousers around the hem.
+- With ***good sides together*** sew the front lining crotch seam together from the inseam up to the notch. ***Reinforce*** at notch.
+- With ***good sides together*** sew the front to the back along the side seams, matching notches.
+- With ***good sides together*** sew the front to the back along the inseam, matching the seams.
+- With ***good sides together*** sew the lining trousers to the main trousers around the hem.
 
 <Tip>
 
@@ -146,7 +146,7 @@ If you use a smaller hem allowance with the lining you can turn an amount of the
 
 </Tip>
 
-- *Understitch* if needed.
+- ***Understitch*** if needed.
 - Turn inside out and press.
 - Hand - sew front crotch lining to fly.
 - Baste the lining and main waist seams together.
@@ -161,9 +161,9 @@ If making pleated version you may find it better to cut out a non-pleated front 
 ### (Optional) Step 5: Belt Loops
 
 - Press under the seam allowances of the belt loop piece. Press in half if making double variant.
-- *Edgestitch* the edges.
+- ***Edgestitch*** the edges.
 - Cut along the cutting lines.
-- With *good sides together*, *baste* the belt loops to the waist seams, 1 at the centre back, 2 halfway between the centre back and the side seams, 1 on each side seam, 2 halfway between the centre front and the side seams.
+- With ***good sides together***, *baste* the belt loops to the waist seams, 1 at the centre back, 2 halfway between the centre back and the side seams, 1 on each side seam, 2 halfway between the centre front and the side seams.
 
 ### Step 6: Waistband
 
