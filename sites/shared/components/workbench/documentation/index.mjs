@@ -11,7 +11,7 @@ export const DocumentationView = (props) => {
   const [markdownContent, setMarkdownContent] = useState('')
 
   useEffect(() => {
-    fetch(`designs/${designName}/markdown/en.md`)
+    fetch(`/locales/documentation/${designName}/en.md`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Failed to fetch markdown file.')
@@ -25,7 +25,7 @@ export const DocumentationView = (props) => {
         setMarkdownContent(
           `fixMe Documentation is missing for ${capitalize(
             designName
-          )}. To add create this file __*designs/${designName}/markdown/en.md*__`
+          )}. To add create this file __*designs/${designName}/markdown/en.md*__ and restart the environment.`
         )
       })
   }, [designName])

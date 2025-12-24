@@ -1,5 +1,5 @@
 ---
-title: "Theobald timeless trousers: Fabric Options"
+## Theobald timeless trousers: Fabric Options
 ---
 
 #### Main Fabric
@@ -8,7 +8,7 @@ title: "Theobald timeless trousers: Fabric Options"
 #### Lining Fabric
 
 ---
-title: "Theobald timeless trousers: What you Need"
+## Theobald timeless trousers: What you Need
 ---
 
 - Basic sewing supplies
@@ -20,7 +20,7 @@ title: "Theobald timeless trousers: What you Need"
 - (Optional) Buttons
 
 ---
-title: "Theobald timeless trousers: Cutting Instructions"
+## Theobald timeless trousers: Cutting Instructions
 ---
 
 **Main fabric**
@@ -67,7 +67,7 @@ or
 - (If Fisthail) Cut **1 Waistband Fishtail Right** parts.
 
 ---
-title: "Theobald timeless trousers: Sewing Instructions"
+## Theobald timeless trousers: Sewing Instructions
 ---
 
 ### Step 1: Constructing the back and back pockets

@@ -76,6 +76,7 @@ sites/sanity/.sanity
 
 # Sites prebuild artifacts
 sites/*/public/locales/*/*.json
+sites/*/public/locales/documentation
 sites/*/public/feeds/*
 packages/new-design/shared/public/locales/*/*.json
 packages/new-design/shared/.gitignore

@@ -47,11 +47,23 @@ export const prebuildLab = async () => {
       console.log(`  - ${design}`)
       const page = pageTemplate(design)
       const pages = ['..', 'lab', 'pages']
+      const mdPath = path.resolve('..', '..', 'designs', design, 'markdown')
+      const mdDest = path.resolve('..', 'lab', 'public', 'locales', 'documentation', design)
       await fs.mkdir(path.resolve(...pages, 'v', 'next'), { recursive: true })
       await fs.mkdir(path.resolve(...pages, section, 'v', 'next'), { recursive: true })
+      await fs.mkdir(mdDest, { recursive: true })
       promises.push(
         fs.writeFile(path.resolve(...pages, `${design}.mjs`), page),
-        fs.writeFile(path.resolve(...pages, section, `${design}.mjs`), page)
+        fs.writeFile(path.resolve(...pages, section, `${design}.mjs`), page),
+
+        fs
+          .readdir(mdPath)
+          .then(() => {
+            fs.access(path.resolve(mdPath, 'en.md'))
+              .then(() => fs.copyFile(path.resolve(mdPath, 'en.md'), path.resolve(mdDest, 'en.md')))
+              .catch(() => console.log(`${design} source missing`))
+          })
+          .catch(() => console.log(`${design} directory missing`))
       )
     }
   }
