@@ -334,6 +334,7 @@ function createDesign(name, type) {
   // Create folders
   mkdir([...design, 'src'])
   mkdir([...design, 'tests'])
+  mkdir([...design, 'markdown'])
 
   // Create package.json
   templateOut([...template, 'package.json.mustache'], [...design, 'package.json'], {
@@ -348,6 +349,12 @@ function createDesign(name, type) {
 
   // Create tests file
   cp([...template, 'tests', 'shared.test.mjs'], [...design, 'tests', 'shared.test.mjs'])
+
+  // Create markdown files
+  templateOut([...template, 'markdown', 'en.md.mustache'], [...design, 'markdown', 'en.md'], {
+    capitalized_name,
+    name,
+  })
 
   // Copy source
   for (const file of ['box.mjs']) {
