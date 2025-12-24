@@ -29,14 +29,12 @@
 - Cut **2 Front** parts.
 - (Optional) Cut **4 Back Pocket Welt** parts.
 - (Optional) Cut **4 Back Pocket Tab** parts.
-
 - (Optional) Cut **2 Front Pocket Facing A ** parts.
 - (Optional) Cut **2 Front Pocket Facing B ** parts.
 
 or
 
 - (Optional) Cut **4 Front Pocket Facing** parts.
-
 - Cut **2 or 4 Fly** parts. (2 for Zipper, 2 for Buttonhole Fly)
 - Cut **2 Fly Shield** parts.
 - Cut **1 or 2 Waistband Left** parts. (1 for folded, 2 for not folded)
@@ -50,7 +48,6 @@ or
 - (Optional) Cut **2 Back** parts.
 - (Optional) Cut **2 Front** parts.
 - (Optional) Cut **4 Back Pocket Bags** parts.
-
 - (Optional) Cut **2 Front Pocket Bags** parts.
 
 or
@@ -59,6 +56,7 @@ or
 - (Optional) Cut **2 Front Pocket Bags B** parts.
 
 **Interfacing**
+
 - (Optional) Cut **2 Back Pocket Welt** parts.
 - (Optional) Cut **2 Back Pocket Tab** parts.
 - Cut **1 Waistband Left** parts. (in half if folded)
