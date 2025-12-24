@@ -12,8 +12,8 @@
 ---
 
 - Basic sewing supplies
-- About 2 - 2.5 metres (2.2 - 2.7 yards) of a suitable fabric ([see Theobald Fabric options](/docs/patterns/theobald/fabric/))
-- (Optional) About 2 - 2.5 metres (2.2 - 2.7 yards) of a suitable lining fabric ([see Theobald Fabric options](/docs/patterns/theobald/fabric/))
+- About 2 - 2.5 metres (2.2 - 2.7 yards) of a suitable **main** fabric ([see Theobald Fabric options](/docs/patterns/theobald/fabric/))
+- (Optional) About 2 - 2.5 metres (2.2 - 2.7 yards) of a suitable **lining** fabric ([see Theobald Fabric options](/docs/patterns/theobald/fabric/))
 - About 0.5 - 1 metre (0.6 - 1.1 yards) of a suitable pocket fabric. This can be cut out of the above if you are lining the trousers. ([see Theobald Fabric options](/docs/patterns/theobald/fabric/))
 - Interfacing
 - (Optional) Zipper
