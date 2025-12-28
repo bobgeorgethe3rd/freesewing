@@ -61,7 +61,12 @@ export const prebuildLab = async () => {
           .then(() => {
             fs.access(path.resolve(mdPath, 'en.md'))
               .then(() => fs.copyFile(path.resolve(mdPath, 'en.md'), path.resolve(mdDest, 'en.md')))
-              .catch(() => console.log(`${design} source missing`))
+              .catch(() => {
+                fs.access(path.resolve(mdDest, 'en.md')).then(() =>
+                  fs.unlink(path.resolve(mdDest, 'en.md'))
+                )
+                console.log(`${design} source missing`)
+              })
           })
           .catch(() => console.log(`${design} directory missing`))
       )
