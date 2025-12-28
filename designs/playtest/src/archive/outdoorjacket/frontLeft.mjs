@@ -55,6 +55,16 @@ export const frontLeft = {
         snippet: 'notch',
         on: ['sideWaist', 'armholePitch'],
       })
+      if (
+        options.sidePocketsBool &&
+        store.get('sidePocketOpeningDepth') + store.get('sidePocketOpeningWidth') <
+          paths.sideSeam.length()
+      ) {
+        macro('sprinkle', {
+          snippet: 'bnotch',
+          on: ['sidePocketOpeningTop', 'sidePocketOpeningBottom'],
+        })
+      }
       //title
       points.title = points.cfNeckCorner
       macro('title', {
@@ -102,6 +112,26 @@ export const frontLeft = {
           points.saButtonholePlacketNeck.x,
           points.saSideHem.y
         )
+
+        if (points.sidePocketOpeningTop && options.sidePocketsBool) {
+          points.saSidePocketOpeningTop = new Point(
+            points.saArmholeCorner.x,
+            points.sidePocketOpeningTop.y
+          )
+          points.saSidePocketOpeningBottom = new Point(
+            points.saArmholeCorner.x,
+            points.sidePocketOpeningBottom.y
+          )
+
+          paths.sidePocketSa = new Path()
+            .move(points.saSidePocketOpeningTop)
+            .line(points.sidePocketOpeningTop)
+            .line(points.sidePocketOpeningBottom)
+            .line(points.saSidePocketOpeningBottom)
+            .attr('class', 'mark lashed')
+            .attr('data-text', 'Side Pocket Stitching Line')
+            .attr('data-text-class', 'center')
+        }
 
         paths.sa = new Path()
           .move(points.saButtonholePlacketHem)

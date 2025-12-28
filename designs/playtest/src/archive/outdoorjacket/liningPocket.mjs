@@ -39,7 +39,7 @@ export const liningPocket = {
     if (complete) {
       //title
       macro('title', {
-        nr: 3,
+        nr: 7,
         title: 'Lining Pocket',
         at: points.patchPocketTitle,
         cutNr: 1,

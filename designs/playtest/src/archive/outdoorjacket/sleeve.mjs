@@ -44,7 +44,7 @@ export const sleeve = {
     if (complete) {
       //title
       macro('title', {
-        nr: 6,
+        nr: 8,
         title: 'Sleeve',
         at: points.title,
         cutNr: 2,

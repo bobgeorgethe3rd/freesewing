@@ -60,7 +60,7 @@ export const frontLining = {
       points.title = points.cfNeckCorner
       macro('title', {
         at: points.title,
-        nr: '4',
+        nr: '5',
         title: 'Front Lining',
         scale: 0.5,
         cutNr: 2,

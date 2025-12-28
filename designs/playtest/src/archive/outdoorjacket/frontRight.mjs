@@ -59,6 +59,16 @@ export const frontRight = {
         snippet: 'notch',
         on: ['sideWaist', 'armholePitch'],
       })
+      if (
+        options.sidePocketsBool &&
+        store.get('sidePocketOpeningDepth') + store.get('sidePocketOpeningWidth') <
+          paths.sideSeam.length()
+      ) {
+        macro('sprinkle', {
+          snippet: 'bnotch',
+          on: ['sidePocketOpeningTop', 'sidePocketOpeningBottom'],
+        })
+      }
       //foldline
       paths.foldline = new Path()
         .move(points.buttonholePlacketFoldNeck)
@@ -97,6 +107,26 @@ export const frontRight = {
           points.saButtonholePlacketFacingNeck.x,
           points.saSideHem.y
         )
+
+        if (points.sidePocketOpeningTop && options.sidePocketsBool) {
+          points.saSidePocketOpeningTop = new Point(
+            points.saArmholeCorner.x,
+            points.sidePocketOpeningTop.y
+          )
+          points.saSidePocketOpeningBottom = new Point(
+            points.saArmholeCorner.x,
+            points.sidePocketOpeningBottom.y
+          )
+
+          paths.sidePocketSa = new Path()
+            .move(points.saSidePocketOpeningBottom)
+            .line(points.sidePocketOpeningBottom)
+            .line(points.sidePocketOpeningTop)
+            .line(points.saSidePocketOpeningTop)
+            .attr('class', 'mark lashed')
+            .attr('data-text', 'Side Pocket Stitching Line')
+            .attr('data-text-class', 'center')
+        }
 
         paths.sa = new Path()
           .move(points.saButtonholePlacketFacingHem)

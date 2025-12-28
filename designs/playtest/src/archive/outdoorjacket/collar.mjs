@@ -44,7 +44,7 @@ export const collar = {
     if (complete) {
       //title
       macro('title', {
-        nr: '9',
+        nr: '12',
         title: 'Collar',
         at: points.title,
         cutNr: 2,

@@ -38,7 +38,7 @@ export const sleeveCuff = {
     if (complete) {
       //title
       macro('title', {
-        nr: 8,
+        nr: 10,
         title: 'Placket (Cuff)',
         at: points.title,
         cutNr: options.sleeveBandFolded ? 1 : 2,

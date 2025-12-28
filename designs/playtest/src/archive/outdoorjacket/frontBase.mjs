@@ -28,6 +28,7 @@ export const frontBase = {
     buttonStart: { pct: 27.3, min: 10, max: 30, menu: 'plackets' },
     buttonEnd: { pct: 39.8, min: 20, max: 45, menu: 'plackets' },
     //Pockets
+    sidePocketWidth: { pct: 75, min: 40, max: 90, menu: 'pockets.sidePockets' },
     liningPocketsBool: { bool: true, menu: 'pockets' },
     liningPocketWidth: { pct: 73.7, min: 40, max: 90, menu: 'pockets.patchPockets' }, //64.2 //73.1
   },
@@ -63,6 +64,8 @@ export const frontBase = {
     macro('title', false)
     //meaures
     const buttonholePlacketWidth = absoluteOptions.buttonholePlacketWidth
+    const sidePocketOpeningDepth = store.get('sidePocketOpeningDepth')
+    const sidePocketOpeningWidth = store.get('sidePocketOpeningWidth')
     //let's begin
     points.cfHem = points.cWaist.shift(-90, store.get('bodyLength'))
     points.sideHem = new Point(points.sideWaist.x, points.cfHem.y)
@@ -107,7 +110,13 @@ export const frontBase = {
         i / (options.buttonNumber - 1)
       )
     }
-
+    //side pocket
+    if (sidePocketOpeningDepth + sidePocketOpeningWidth < paths.sideSeam.length()) {
+      points.sidePocketOpeningTop = paths.sideSeam.reverse().shiftAlong(sidePocketOpeningDepth)
+      points.sidePocketOpeningBottom = paths.sideSeam
+        .reverse()
+        .shiftAlong(sidePocketOpeningDepth + sidePocketOpeningWidth)
+    }
     //patch pocket
     points.liningPocketAnchor = new Point(
       points.buttonholePlacketHem.x,
@@ -134,6 +143,10 @@ export const frontBase = {
     store.set('buttonPlacketWidth', buttonholePlacketWidth)
     store.set('patchPocketWidth', liningPocketWidth)
     store.set('neckFront', paths.cfNeck.length())
+    store.set(
+      'sidePocketWidth',
+      points.buttonholePlacketHem.dist(points.sideHem) * options.sidePocketWidth
+    )
 
     return part
   },

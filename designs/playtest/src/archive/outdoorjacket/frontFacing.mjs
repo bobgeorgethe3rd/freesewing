@@ -57,7 +57,7 @@ export const frontFacing = {
       points.title = points.cfNeck.shiftFractionTowards(points.cfHem, 0.5)
       macro('title', {
         at: points.title,
-        nr: '4',
+        nr: '5',
         title: 'Front Facing',
         scale: 0.25,
         cutNr: 1,

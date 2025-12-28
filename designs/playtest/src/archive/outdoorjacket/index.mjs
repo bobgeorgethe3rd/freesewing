@@ -7,6 +7,7 @@ import { back } from './back.mjs'
 import { frontBase } from './frontBase.mjs'
 import { frontLeft } from './frontLeft.mjs'
 import { frontRight } from './frontRight.mjs'
+import { sidePocket } from './sidePocket.mjs'
 import { frontFacing } from './frontFacing.mjs'
 import { frontFacingB } from './frontFacingB.mjs'
 import { liningPocket } from './liningPocket.mjs'
@@ -24,6 +25,7 @@ const Playtest = new Design({
     frontBase,
     frontLeft,
     frontRight,
+    sidePocket,
     frontFacing,
     frontFacingB,
     liningPocket,
@@ -41,6 +43,7 @@ export {
   frontBase,
   frontLeft,
   frontRight,
+  sidePocket,
   frontFacing,
   frontFacingB,
   liningPocket,

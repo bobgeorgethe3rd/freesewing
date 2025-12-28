@@ -38,7 +38,7 @@ export const sleevePlacket = {
     if (complete) {
       //title
       macro('title', {
-        nr: 7,
+        nr: 9,
         title: 'Placket (Sleeve)',
         at: points.title,
         scale: 0.25,

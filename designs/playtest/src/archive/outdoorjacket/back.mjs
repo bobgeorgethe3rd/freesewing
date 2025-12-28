@@ -21,13 +21,18 @@ export const back = {
     //Style
     bodyLength: { pct: 100, min: 0, max: 100, menu: 'style' },
     bodyLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
+    //Pockets
+    sidePocketsBool: { bool: true, menu: 'pockets' },
+    sidePocketOpeningWidth: { pct: 100, min: 80, max: 120, menu: 'pockets.sidePockets' },
+    sidePocketOpeningDepth: { pct: 45, min: 15, max: 50, menu: 'pockets.sidePockets' },
+    sidePocketDepth: { pct: 100, min: 50, max: 100, menu: 'pockets.sidePockets' },
     //Construction
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Outdoor Jacket
     sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Outdoor Jacket
     armholeSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Outdoor Jacket
     hemWidth: { pct: 2.5, min: 1, max: 3, menu: 'construction' }, //Altered for Outdoor Jacket
   },
-  measurements: ['waistToHips', 'waistToSeat', 'waistToUpperLeg'],
+  measurements: ['waistToHips', 'waistToSeat', 'waistToUpperLeg', 'wrist'],
   plugins: [pluginBundle, pluginLogoRG],
   draft: ({
     options,
@@ -87,9 +92,21 @@ export const back = {
       .line(points.cbHem)
       .close()
 
+    //pockets
+    const sidePocketOpeningDepth = paths.sideSeam.length() * options.sidePocketOpeningDepth
+    const sidePocketOpeningWidth = measurements.wrist * options.sidePocketOpeningWidth
+
     //stores
     store.set('bodyLength', bodyLength)
     store.set('neckBack', paths.cbNeck.length())
+    store.set('sidePocketOpeningDepth', sidePocketOpeningDepth)
+    store.set('sidePocketOpeningWidth', sidePocketOpeningWidth)
+    store.set(
+      'sidePocketDepth',
+      (paths.sideSeam.length() - sidePocketOpeningDepth - sidePocketOpeningWidth) *
+        options.sidePocketDepth
+    )
+    store.set('sidePocketMaxDepth', paths.sideSeam.length())
 
     if (complete) {
       //grainline
@@ -115,6 +132,19 @@ export const back = {
       //notches
       snippets.cWaist = new Snippet('bnotch', points.cWaist)
       snippets.sideWaist = new Snippet('notch', points.sideWaist)
+      if (
+        options.sidePocketsBool &&
+        sidePocketOpeningDepth + sidePocketOpeningWidth < paths.sideSeam.length()
+      ) {
+        points.sidePocketOpeningTop = paths.sideSeam.reverse().shiftAlong(sidePocketOpeningDepth)
+        points.sidePocketOpeningBottom = paths.sideSeam
+          .reverse()
+          .shiftAlong(sidePocketOpeningDepth + sidePocketOpeningWidth)
+        macro('sprinkle', {
+          snippet: 'bnotch',
+          on: ['sidePocketOpeningTop', 'sidePocketOpeningBottom'],
+        })
+      }
       //title
       points.title = new Point(points.hps.x * 0.8, points.cbHem.y * 0.25)
       macro('title', {

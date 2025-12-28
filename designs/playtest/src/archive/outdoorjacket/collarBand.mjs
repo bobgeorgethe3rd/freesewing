@@ -45,7 +45,7 @@ export const collarBand = {
     if (complete) {
       //title
       macro('title', {
-        nr: '10',
+        nr: '11',
         title: 'Collar Band',
         at: points.title,
         cutNr: 2,
