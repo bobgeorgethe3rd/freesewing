@@ -320,6 +320,7 @@ export const front = {
 
           if (options.flyFrontCurved) {
             points.saFlyCurveEnd = drawFlyCurve().offset(sa).end()
+            paths.saFlyCurve = drawFlyCurve().offset(sa).split(points.crotchSplit)[1].hide()
           } else {
             points.saFlyCurveEnd = utils.beamsIntersect(
               points.flyCrotch
@@ -335,6 +336,7 @@ export const front = {
                 .shiftTowards(points.flyBottomRight, sa)
                 .rotate(90, points.flyFrontWaist)
             )
+            paths.saFlyCurve = new Path().move(points.crotchSplit).hide()
           }
 
           points.saFlyFrontWaist = utils.beamsIntersect(
@@ -357,7 +359,7 @@ export const front = {
             .clone()
             .offset(crotchSeamSa)
             .split(points.crotchSplit)[0]
-            .join(drawFlyCurve().offset(sa).split(points.crotchSplit)[1])
+            .join(paths.saFlyCurve)
             .line(points.saFlyCurveEnd)
             .line(points.saFlyFrontWaist)
             .line(points.saWaistbandIn)
