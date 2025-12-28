@@ -319,11 +319,16 @@ function createDesign(name, type) {
   const design = ['designs', name]
   const description = 'A pattern that needs a description'
   const capitalized_name = name.charAt(0).toUpperCase() + name.slice(1)
-
+  const designNumber =
+    type == 'collars' || type == 'pockets' || type == 'sleeves' || type == 'waistbands'
+      ? 'C0000'
+      : type == 'utilities'
+      ? 'U000'
+      : '0000'
   // Add to designs config file
   designs[type][name] = {
     description: description,
-    number: '0000',
+    number: designNumber,
     code: 'bobgeorgethe3rd',
     design: 'bobgeorgethe3rd',
     difficulty: 1,
@@ -351,10 +356,23 @@ function createDesign(name, type) {
   cp([...template, 'tests', 'shared.test.mjs'], [...design, 'tests', 'shared.test.mjs'])
 
   // Create markdown files
-  templateOut([...template, 'markdown', 'en.md.mustache'], [...design, 'markdown', 'en.md'], {
-    capitalized_name,
-    name,
-  })
+  if (type != 'utilities') {
+    if (type == 'collars' || type == 'pockets' || type == 'sleeves' || type == 'waistbands') {
+      templateOut(
+        [...template, 'markdown', 'component', 'en.md.mustache'],
+        [...design, 'markdown', 'en.md'],
+        {
+          capitalized_name,
+          name,
+        }
+      )
+    } else {
+      templateOut([...template, 'markdown', 'en.md.mustache'], [...design, 'markdown', 'en.md'], {
+        capitalized_name,
+        name,
+      })
+    }
+  }
 
   // Copy source
   for (const file of ['box.mjs']) {
