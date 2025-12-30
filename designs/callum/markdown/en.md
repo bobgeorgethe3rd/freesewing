@@ -130,23 +130,135 @@ The next set of instructions is how to finish the cross seam with a flat fell us
 </Note>
 
 - With ***wrong sides together***, sew the back legs together along the cross seam. Press open.
-- Trim down the left leg's cross seam seam allowance to no more that 1/8" (3mm).
-- Press the right legs cross seam allowance to the left then fold under the right seam allowance. Press. Pin if you need too.
+- Trim down the right leg's cross seam seam allowance to no more that 1/8" (3mm).
+- Press the left legs cross seam allowance to the right then fold it under the right seam allowance. Press. Pin if you need too.
 - ***Edgestitch*** the fold in place.
 
 ### Step 2: Constructing the front pockets
 
+- If needed interface the front pocket facings.
+- ***Finish*** or press under the long edges of the front pocket facings.
+- With ***wrong sides*** to ***good sides*** pin the front pocket facings to the front pocket bags matching notches and raw edges.
+- ***Edgestitch*** the long edges and *baste* the raw edges of the front pocket facings.
+- With ***good sides together*** sew the front pocket bags to the front legs. Trim seam.
+- Press the front pocket bags to the ***wrong side*** of the front legs. Make sure that the seam lies slightly more to the ***wrong side***
+- ***Topstitch*** the opening.
+- Press the front pocket bags ***wrong sides together*** along fold-line. Sew with bottom with half your seam allowance. Trim seam.
+- Turn the front pocket bags out ***good sides together***. Sew the bottom curve with your remaining seam allowance.
+- ***Baste*** the front pocket bags to the sideseams of the front legs making sure the front pocket bags lies flat, matches notches and keeps the waist line straight.
 
 ### Step 3: Constructing the fly
 
+- If needed interface half the fly shield.
+- Fold fly shield in half ***good sides together***.
+- Sew bottom edge of fly shield. Trim seam allowance if necessary.
+- Turn fly shield***good sides out***. Press.
+- If needed ***baste*** fly shield's crotch seam together.
+- With ***good sides together*** sew the crotch seam of the front legs together from the bottom notch to the fork. Make sure to ***backstitch*** at the bottom notch. ***Finish*** seam.
+
+#### If Zipper
+
+- If needed interface one of the fly pieces.
+- ***Finish*** the curved edges of the fly pieces.
+- ***Finish*** the crotch seam edge of the fly shield.
+- Trim the right extension of the left leg.
+- With ***good sides together*** sew one of the fly pieces (the interfaced one if using) to the left leg. ***Finish*** seam.
+- Turn the fly to the ***wrong side***.
+- ***Edgestitch*** or ***Understitch*** the fly.
+- Pin the zipper to right leg extension ***good sides together***.
+- (Recommended) ***Hand - baste*** the zipper to the right leg extension.
+- Sew the zipper to the right leg extension.
+- Press the seam towards the leg and the zipper away from the leg. _Finish seam_.
+- With ***good sides together*** pin the remaining fly piece to the other side of the zipper.
+- (Recommended) ***Hand - baste*** the zipper to the fly.
+- Sew the zipper to the fly.
+- Press the seam and fly away from the zipper. ***Finish seam***.
+- ***Edgestitch*** the fly along the folded edge next to the zipper.
+- From the ***good side*** pin the fly pieces and left leg together.
+- ***Topstitch*** the flys together from outside using the stitching line as a guide.
+- Pin the fly shield to the back of the zipper matching the raw edge of the fly shield to the edge of the right extension.
+- ***Edgestitch*** the right leg extension along the folded edge next to the zipper making sure to catch and secure the zipper fly at the same time.
+- From the ***good side***, ***bartack*** the bottom of the ***topstitching*** on the left leg making sure to catch the fly shield underneath.
+
+<Note>
+
+Don't forget to take out your basting after sewing.
+
+</Note>
+
+#### If Buttonhole
+
+- If needed interface half the buttonhole placket.
+- Fold the buttonhole placket in half ***wrong sides together***.
+- If needed ***baste*** the raw edges together.
+- Sew the buttonholes of the buttonhole placket.
+- If needed interface the fly.
+- Trim the right extension off the left leg.
+- With ***good sides together*** sew the fly to the left leg. ***Finish*** seam.
+- Turn the fly to the ***wrong side***.
+- ***dgestitch*** or ***Understitch*** the fly.
+- With _good sides together_ sew the buttonhole placket to the fly.
+- ***Finish*** the edge of the fly, buttonhole placket.
+- From the ***good side***, ***topstitch*** the fly and buttonhole placket in place using the stitching line as a guide.
+- With ***good sides together*** sew the fly shield to the right leg. ***Finish*** the seam.
+- Press fly shield away from the leg and the seam allowances towards the leg. ***Edgestitch*** the seam allowances in place.
+- (Optional) ***Topstitch*** from the ***good side*** a horizontal line perpendicular to the crotch seam where the curve of the ***topstitching*** starts making sure to catch the fly shield underneath. ***Bartack*** the start of the ***topstitching***.
+- From the ***good side***, ***bartack*** the bottom of the ***topstitching*** making sure to catch the fly shield underneath.
+- Press the crotch seam to the left. (Optional) ***Edgestitch*** the seam allowance in place.
+- Sew the buttons to the fly shield.
+
+<Tip>
+
+You can trace the edge of the fly piece as a guide on where to cut off the extension on the left leg.
+
+</Tip>
 
 ### Step 4: Constructing the legs
 
+- With ***good sides together*** sew the front to the back along the sideseams. ***Finish*** seam and press towards the back.
+- With ***wrong sides together*** sew the front to the back along the inseam.
+- Trim the back inseam's seam allowance. Press the front inseam seam allowance to the back and fold under the back seam allowance. Pin if you need too.
+- ***Edgestitch*** the fold in place.
 
 ### Step 5: Belt loops & Waistbands
 
+- If single folded ***finish*** the seam allowance edges of the belt loops.
+- Press under the seam allowances.
+- If double folded press in half encasing the raw edges on the insides.
+- ***Edgestitch*** the folded edges.
+- Cut along cut lines to create individual belt loops.
+- Attach the belt loops to the waist of the body.
+
+<Note>
+
+By default Callum has 7 belt loops, one at each side seam, one at each back dart, one at the centre back and one at the centre of each front leg.
+Placement varies dependent on the amount of belt loops you have made.
+The lowest available from Callum is 3, one at each side seam, one at the centre back.
+If you always start with these 3 it is easier to figure out the rest.
+
+</Note>
+
+- If needed interface one of the waistband pieces.
+- With ***good sides together*** sew the faced waistband pieces to the legs matching notches to seams.
+- ***Grade*** seam allowance. Press waistband and seam allowance up and away from the legs.
+- On remaining waistband piece press under one of the long ends seam allowances.
+- With ***good sides together*** sew the waistbands together leaving bottom open. Trim seams and clip corners.
+- Turn the waistband out. Press.
+- ***Edgestitch*** the waistband along all edges and seam securing the waistband to the legs.
+- Alternatively ***whipstitch*** or ***slipstitch*** the waistband to the wrong side of the legs.
+- Sew the button and buttonhole on the waistband.
+- Alternatively sew a hook and bar/eye to the waistband.
+- Press under a 1 / 4" (6mm) of the belt loops and press up and pin to the waistband.
+- ***Edgestitch*** the belt loops to the waistband.
+- Press the belt loops and ***edgestitch*** the folds to the legs. (Keep and eye on where the front pockets are when sewing belt loops to the front and side seams)
 
 ### Step 6: Hemming
 
+- Press under the seam allowance of the legs.
+- Press the hen under along the hem fold-line.
+- ***Edgestitch*** the hem in place along the seam allowance fold.
+- Alternatively ***whipstitch*** or ***slipstitch*** he hem in place along the seam allowance fold.
 
 ### Step 7: Enjoy!!!
+
+You're all done! Now enjoy being casual in your new casual trousers.
