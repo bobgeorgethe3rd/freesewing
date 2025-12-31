@@ -14,8 +14,8 @@ I personally like to use calico but you can use whatever sew-on or iron-on inter
 ## Callum casual shorts: What you need
 
 - Basic sewing supplies
-- About 1.5 - 2.5 metres (1.7 - 2.7 yards) of a suitable **main** fabric ([see Callum Fabric options](/docs/patterns/callum/fabric/))
-- About 0.5 - 1 metre (0.6 - 1.1 yards) of a suitable **lining** fabric. ([see Callum Fabric options](/docs/patterns/callum/fabric/))
+- About 1.5 - 2.5 metres (1.7 - 2.7 yards) of a suitable **main** fabric ([see Callum Fabric Options](/docs/patterns/callum/fabric/))
+- About 0.5 - 1 metre (0.6 - 1.1 yards) of a suitable **lining** fabric. ([see Callum Fabric Options](/docs/patterns/callum/fabric/))
 - Interfacing
 - (Optional) Zipper
 - (Optional) Buttons
