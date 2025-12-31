@@ -13,7 +13,7 @@ module.exports = {
     '../shared/components/**/*.mjs',
     '../shared/config/tailwind-force.html',
   ],
-  plugins: [require('daisyui'), require('tailwindcss/nesting')],
+  plugins: [require('daisyui'), require('tailwindcss/nesting'), require('@tailwindcss/typography')],
   daisyui: {
     styled: true,
     themes: [themes],

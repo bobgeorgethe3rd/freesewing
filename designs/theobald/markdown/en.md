@@ -1,15 +1,11 @@
----
 ## Theobald timeless trousers: Fabric Options
----
 
 #### Main Fabric
 
 
 #### Lining Fabric
 
----
 ## Theobald timeless trousers: What you Need
----
 
 - Basic sewing supplies
 - About 2 - 2.5 metres (2.2 - 2.7 yards) of a suitable **main** fabric ([see Theobald Fabric options](/docs/patterns/theobald/fabric/))
@@ -19,11 +15,9 @@
 - (Optional) Zipper
 - (Optional) Buttons
 
----
 ## Theobald timeless trousers: Cutting Instructions
----
 
-**Main fabric**
+###### Main fabric
 
 - Cut **2 Back** parts.
 - Cut **2 Front** parts.
@@ -43,7 +37,7 @@ or
 - (If Fisthail) Cut **1 or 2 Waistband Fishtail Right** parts. (1 for embedded, 2 for not embedded)
 - (Optional) Cut **1 Belt Loop** parts.
 
-**Lining fabric**
+###### Lining fabric
 
 - (Optional) Cut **2 Back** parts.
 - (Optional) Cut **2 Front** parts.
@@ -55,7 +49,7 @@ or
 - (Optional) Cut **2 Front Pocket Bags A** parts.
 - (Optional) Cut **2 Front Pocket Bags B** parts.
 
-**Interfacing**
+###### Interfacing
 
 - (Optional) Cut **2 Back Pocket Welt** parts.
 - (Optional) Cut **2 Back Pocket Tab** parts.
@@ -64,9 +58,7 @@ or
 - (If Fisthail) Cut **1 Waistband Fishtail Left** parts.
 - (If Fisthail) Cut **1 Waistband Fishtail Right** parts.
 
----
 ## Theobald timeless trousers: Sewing Instructions
----
 
 ### Step 1: Constructing the back and back pockets
 

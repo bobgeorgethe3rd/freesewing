@@ -1,6 +1,4 @@
----
 ## Callum casual shorts: Fabric Options
----
 
 #### Main Fabric
 
@@ -13,9 +11,7 @@ Lightweight but sturdy fabrics. You want a fabric that is not going to add a lot
 
 I personally like to use calico but you can use whatever sew-on or iron-on interfacing you prefer.
 
----
 ## Callum casual shorts: What you need
----
 
 - Basic sewing supplies
 - About 1.5 - 2.5 metres (1.7 - 2.7 yards) of a suitable **main** fabric ([see Callum Fabric options](/docs/patterns/callum/fabric/))
@@ -24,11 +20,9 @@ I personally like to use calico but you can use whatever sew-on or iron-on inter
 - (Optional) Zipper
 - (Optional) Buttons
 
----
 ## Callum casual shorts: Cutting Instructions
----
 
-**Main fabric**
+###### **Main fabric**
 
 - Cut **2 Back** parts.
 - Cut **2 Front** parts.
@@ -42,13 +36,13 @@ I personally like to use calico but you can use whatever sew-on or iron-on inter
 - Cut **2 Waistband** parts.
 
 
-**Lining fabric**
+###### **Lining fabric**
 
 - Cut **2 Front Pocket bag** parts.
 - Cut **1 Back Pocket bag** part.
 
 
-**Interfacing**
+###### **Interfacing**
 
 <Note>
 
@@ -66,10 +60,7 @@ All interfacing parts are optional dependent on the needs of your fabric. If in 
 - Cut **1 Beltloops** parts.
 
 
----
 ## Callum casual shorts: Sewing Instructions
----
-
 
 ### Step 1: Constructing the back and back pockets
 

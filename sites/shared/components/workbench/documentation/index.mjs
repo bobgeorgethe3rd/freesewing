@@ -33,8 +33,12 @@ export const DocumentationView = (props) => {
   return (
     <section>
       <div className="max-w-screen-xl m-auto form-control">
-        <h1>{t('documentationThing', { thing: capitalize(designName) })}</h1>
-        <ReactMarkdown>{markdownContent}</ReactMarkdown>
+        <h1 className="border-b-2 border-base-200">
+          {t('documentationThing', { thing: capitalize(designName) })}
+        </h1>
+        <ReactMarkdown className="prose max-w-full prose-li:prose-xl prose-p:prose-xl prose-h2:text-5xl prose-h2:font-thin prose-h3:text-3xl prose-h3:underline prose-h4:text-2xl prose-h4:underline prose-h5:underline prose-h6:prose-xl prose-h6:font-bold prose-a:text-secondary prose-a:underline prose-a:italic">
+          {markdownContent}
+        </ReactMarkdown>
       </div>
     </section>
   )
