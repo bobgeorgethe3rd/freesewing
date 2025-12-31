@@ -3,6 +3,7 @@
 #### Main Fabric
 
 
+
 #### Lining Fabric
 
 Lightweight but sturdy fabrics. You want a fabric that is not going to add a lot of bulk but is sturdy enough to hold things. I like lightweight cottons of shirting weight such as **Cotton Lawn**. In testing this design I actually recycled a shirt for the pocket fabric.
@@ -14,8 +15,8 @@ I personally like to use calico but you can use whatever sew-on or iron-on inter
 ## Callum casual shorts: What you need
 
 - Basic sewing supplies
-- About 1.5 - 2.5 metres (1.7 - 2.7 yards) of a suitable **main** fabric ([see Callum Fabric Options](/docs/patterns/callum/fabric/))
-- About 0.5 - 1 metre (0.6 - 1.1 yards) of a suitable **lining** fabric. ([see Callum Fabric Options](/docs/patterns/callum/fabric/))
+- About 1.5 - 2.5 metres (1.7 - 2.7 yards) of a suitable **main** fabric ([see Callum Fabric Options](#fabric))
+- About 0.5 - 1 metre (0.6 - 1.1 yards) of a suitable **lining** fabric. ([see Callum Fabric Options](#fabric))
 - Interfacing
 - (Optional) Zipper
 - (Optional) Buttons
