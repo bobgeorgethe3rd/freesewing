@@ -31,8 +31,8 @@ export const sleevecap = {
   }) => {
     //void stores
     if (options.useVoidStores) {
-      // void store.setIfUnset('scyeBackDepth', 138)
-      // void store.setIfUnset('scyeFrontDepth', 138)
+      void store.setIfUnset('scyeBackDepth', 138)
+      void store.setIfUnset('scyeFrontDepth', 138)
       void store.setIfUnset('raglanScyeBackWidth', 239)
       void store.setIfUnset('raglanScyeBackDepth', 192)
       void store.setIfUnset('raglanScyeFrontWidth', 250)
