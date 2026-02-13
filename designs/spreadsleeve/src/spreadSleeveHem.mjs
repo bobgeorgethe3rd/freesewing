@@ -141,34 +141,35 @@ export const spreadSleeveHem = ({
 
   //spread guide
   //Uncomment to see how the spread works. Helpful if re-working please keep.
-  // paths.spread = new Path()
-  // .move(points.bottomLeft)
-  // .line(points.capQ4Bottom)
-  // .line(points.capQ3Bottom)
-  // .line(points.sleeveTipBottom)
-  // .line(points.capQ2Bottom)
-  // .line(points.capQ1Bottom)
-  // .line(points.bottomRight)
-  // .line(points.sleeveCapRight)
-  // ._curve(points.capQ1Cp1, points.capQ1R)
-  // .line(points.capQ1Bottom)
-  // .line(points.capQ1)
-  // .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2R)
-  // .line(points.capQ2Bottom)
-  // .line(points.capQ2)
-  // .curve_(points.capQ2Cp2, points.sleeveTipRight)
-  // .line(points.sleeveTipBottom)
-  // .line(points.sleeveTipLeft)
-  // ._curve(points.capQ3Cp1, points.capQ3)
-  // .line(points.capQ3Bottom)
-  // .line(points.capQ3R)
-  // .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
-  // .line(points.capQ4Bottom)
-  // .line(points.capQ4R)
-  // .curve_(points.capQ4Cp2, points.sleeveCapLeft)
-  // .line(points.bottomLeft)
-  // .attr('class', 'various lashed')
-
+  if (options.spreadSleeveGuides) {
+    paths.spread = new Path()
+      .move(points.bottomLeft)
+      .line(points.capQ4Bottom)
+      .line(points.capQ3Bottom)
+      .line(points.sleeveTipBottom)
+      .line(points.capQ2Bottom)
+      .line(points.capQ1Bottom)
+      .line(points.bottomRight)
+      .line(points.sleeveCapRight)
+      ._curve(points.capQ1Cp1, points.capQ1R)
+      .line(points.capQ1Bottom)
+      .line(points.capQ1)
+      .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2R)
+      .line(points.capQ2Bottom)
+      .line(points.capQ2)
+      .curve_(points.capQ2Cp2, points.sleeveTipRight)
+      .line(points.sleeveTipBottom)
+      .line(points.sleeveTipLeft)
+      ._curve(points.capQ3Cp1, points.capQ3)
+      .line(points.capQ3Bottom)
+      .line(points.capQ3R)
+      .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
+      .line(points.capQ4Bottom)
+      .line(points.capQ4R)
+      .curve_(points.capQ4Cp2, points.sleeveCapLeft)
+      .line(points.bottomLeft)
+      .attr('class', 'various lashed')
+  }
   //sleevecap revisions
   points.capQ1 = points.capQ1R
   points.capQ4 = points.capQ4R
@@ -181,19 +182,22 @@ export const spreadSleeveHem = ({
     1 + options.spread
   )
 
-  points.capQ2 = utils.beamsIntersect(
-    points.capQ2Bottom,
-    points.capQ2R,
-    points.capQ2,
-    points.capQ2Bottom.rotate(90, points.capQ2)
-  )
+  // points.capQ2 = utils.beamsIntersect(
+  // points.capQ2Bottom,
+  // points.capQ2R,
+  // points.capQ2,
+  // points.capQ2Bottom.rotate(90, points.capQ2)
+  // )
 
-  points.capQ3 = utils.beamsIntersect(
-    points.capQ3Bottom,
-    points.capQ3R,
-    points.capQ3,
-    points.capQ3Bottom.rotate(-90, points.capQ3)
-  )
+  // points.capQ3 = utils.beamsIntersect(
+  // points.capQ3Bottom,
+  // points.capQ3R,
+  // points.capQ3,
+  // points.capQ3Bottom.rotate(-90, points.capQ3)
+  // )
+
+  points.capQ2 = points.capQ2R
+  points.capQ3 = points.capQ3R
 
   points.capQ2Cp1 = points.capQ2.shift(
     points.capQ2R.angle(points.capQ2Cp1) + spreadAngle / 10,
@@ -216,17 +220,17 @@ export const spreadSleeveHem = ({
     points.capQ2Cp2
   )
 
-  const sleeveTipI = utils.lineIntersectsCurve(
-    points.sleeveTip,
-    points.sleeveTipBottom.rotate(180, points.sleeveTip),
-    points.capQ2,
-    points.capQ2Cp2I,
-    points.capQ3Cp1I,
-    points.capQ3
-  )
-  if (points.sleeveTip.y > sleeveTipI.y) {
-    points.sleeveTip = sleeveTipI
-  }
+  // const sleeveTipI = utils.lineIntersectsCurve(
+  // points.sleeveTip,
+  // points.sleeveTipBottom.rotate(180, points.sleeveTip),
+  // points.capQ2,
+  // points.capQ2Cp2I,
+  // points.capQ3Cp1I,
+  // points.capQ3
+  // )
+  // if (points.sleeveTip.y > sleeveTipI.y) {
+  // points.sleeveTip = sleeveTipI
+  // }
   points.capQ2Cp2 = utils.beamsIntersect(
     points.capQ2Cp1,
     points.capQ2,
@@ -253,36 +257,69 @@ export const spreadSleeveHem = ({
     .hide()
 
   //hem
+  // if (spreadAngle > 0) {
+  // points.sleeveTipBottomCp1 = utils.beamsIntersect(
+  // points.bottomLeft,
+  // points.bottomLeft.shift(points.sleeveCapLeft.angle(points.capQ4Cp2), 1),
+  // points.sleeveTipBottom,
+  // points.sleeveTipBottom.shift(180, 1)
+  // )
+  // points.bottomLeftCp2 = points.bottomLeft.shiftFractionTowards(
+  // points.sleeveTipBottomCp1,
+  // options.spread / 3
+  // )
+  // points.sleeveTipBottomCp2 = utils.beamsIntersect(
+  // points.bottomRight,
+  // points.bottomRight.shift(points.sleeveCapRight.angle(points.capQ1Cp1), 1),
+  // points.sleeveTipBottom,
+  // points.sleeveTipBottom.shift(0, 1)
+  // )
+  // points.bottomRightCp1 = points.bottomRight.shiftFractionTowards(
+  // points.sleeveTipBottomCp2,
+  // options.spread / 3
+  // )
+
+  // paths.hemBase = new Path()
+  // .move(points.bottomLeft)
+  // .curve(points.bottomLeftCp2, points.sleeveTipBottomCp1, points.sleeveTipBottom)
+  // .curve(points.sleeveTipBottomCp2, points.bottomRightCp1, points.bottomRight)
+  // .hide()
+  // } else {
+  // points.bottomLeftCp2 = points.sleeveTipBottom
+  // points.bottomRightCp1 = points.sleeveTipBottom
+  // paths.hemBase = new Path().move(points.bottomLeft).line(points.bottomRight)
+  // }
+
   if (spreadAngle > 0) {
-    points.bottomMidCp1 = utils.beamsIntersect(
+    points.bottomLeftCp2 = utils.beamIntersectsY(
       points.bottomLeft,
       points.bottomLeft.shift(points.sleeveCapLeft.angle(points.capQ4Cp2), 1),
-      points.bottomAnchor,
-      points.bottomAnchor.shift(180, 1)
-    )
-    points.bottomLeftCp2 = points.bottomLeft.shiftFractionTowards(
-      points.bottomMidCp1,
-      options.spread / 3
-    )
-    points.bottomMidCp2 = utils.beamsIntersect(
-      points.bottomRight,
-      points.bottomRight.shift(points.sleeveCapRight.angle(points.capQ1Cp1), 1),
-      points.bottomAnchor,
-      points.bottomAnchor.shift(0, 1)
-    )
-    points.bottomRightCp1 = points.bottomRight.shiftFractionTowards(
-      points.bottomMidCp2,
-      options.spread / 3
+      points.sleeveTipBottom.y
     )
 
+    points.sleeveTipBottomCp1 = points.sleeveTipBottom.shiftFractionTowards(
+      points.bottomLeftCp2,
+      0.1
+    )
+
+    points.bottomRightCp1 = utils.beamIntersectsY(
+      points.bottomRight,
+      points.bottomRight.shift(points.sleeveCapRight.angle(points.capQ1Cp1), 1),
+      points.sleeveTipBottom.y
+    )
+
+    points.sleeveTipBottomCp2 = points.sleeveTipBottom.shiftFractionTowards(
+      points.bottomRightCp1,
+      0.1
+    )
     paths.hemBase = new Path()
       .move(points.bottomLeft)
-      .curve(points.bottomLeftCp2, points.bottomMidCp1, points.bottomAnchor)
-      .curve(points.bottomMidCp2, points.bottomRightCp1, points.bottomRight)
+      .curve(points.bottomLeftCp2, points.sleeveTipBottomCp1, points.sleeveTipBottom)
+      .curve(points.sleeveTipBottomCp2, points.bottomRightCp1, points.bottomRight)
       .hide()
   } else {
-    points.bottomLeftCp2 = points.bottomAnchor
-    points.bottomRightCp1 = points.bottomAnchor
+    points.bottomLeftCp2 = points.sleeveTipBottom
+    points.bottomRightCp1 = points.sleeveTipBottom
     paths.hemBase = new Path().move(points.bottomLeft).line(points.bottomRight)
   }
 

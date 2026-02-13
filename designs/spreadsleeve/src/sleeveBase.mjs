@@ -6,6 +6,7 @@ export const sleeveBase = {
     //Imported
     ...basicsleeve.options,
     //Sleeves
+    spreadSleeveGuides: { bool: false, menu: 'sleeves' },
     sleeveLength: { pct: 50, min: 0, max: 100, menu: 'sleeves' }, //60
     spread: { pct: 60, min: 0, max: 120, menu: 'sleeves' }, //60
   },
@@ -38,30 +39,57 @@ export const sleeveBase = {
     macro('title', false)
 
     //Setting the stage
-    points.capQ4Bottom = new Point(points.capQ4.x, points.bottomAnchor.y)
-    points.capQ3Bottom = new Point(points.capQ3.x, points.bottomAnchor.y)
-    points.capQ2Bottom = new Point(points.capQ2.x, points.bottomAnchor.y)
-    points.capQ1Bottom = new Point(points.capQ1.x, points.bottomAnchor.y)
+    // points.capQ4Bottom = new Point(points.capQ4.x, points.bottomAnchor.y)
+    // points.capQ3Bottom = new Point(points.capQ3.x, points.bottomAnchor.y)
+    // points.capQ2Bottom = new Point(points.capQ2.x, points.bottomAnchor.y)
+    // points.capQ1Bottom = new Point(points.capQ1.x, points.bottomAnchor.y)
+
+    if (store.get('sleeveLength') > 0) {
+      points.capQ4Bottom = utils.beamIntersectsY(
+        points.capQ4,
+        points.capQ4.shift(points.sleeveCapLeft.angle(points.bottomLeft), 1),
+        points.sleeveTipBottom.y
+      )
+      points.capQ1Bottom = utils.beamIntersectsY(
+        points.capQ1,
+        points.capQ1.shift(points.sleeveCapRight.angle(points.bottomRight), 1),
+        points.sleeveTipBottom.y
+      )
+    } else {
+      points.capQ4Bottom = new Point(points.capQ4.x, points.bottomAnchor.y)
+      points.capQ1Bottom = new Point(points.capQ1.x, points.bottomAnchor.y)
+    }
+    if (options.fitSleeveWidth) {
+      if (points.sleeveTipBottom.x < points.capQ4Bottom.x)
+        points.capQ4Bottom = points.bottomLeft.shiftFractionTowards(points.sleeveTipBottom, 1 / 3)
+      if (points.sleeveTipBottom.x > points.capQ1Bottom.x)
+        points.capQ1Bottom = points.bottomRight.shiftFractionTowards(points.sleeveTipBottom, 1 / 3)
+      points.capQ3Bottom = points.capQ4Bottom.shiftFractionTowards(points.sleeveTipBottom, 0.5)
+      points.capQ2Bottom = points.capQ1Bottom.shiftFractionTowards(points.sleeveTipBottom, 0.5)
+    } else {
+      points.capQ3Bottom = new Point(points.capQ3.x, points.bottomAnchor.y)
+      points.capQ2Bottom = new Point(points.capQ2.x, points.bottomAnchor.y)
+    }
 
     //intersects
-    const capQ1I = utils.linesIntersect(
-      points.capQ1,
-      points.capQ1Bottom,
-      points.sleeveCapRight,
-      points.bottomRight
-    )
-    if (capQ1I) {
-      points.capQ1Bottom = capQ1I
-    }
-    const capQ4I = utils.linesIntersect(
-      points.capQ4,
-      points.capQ4Bottom,
-      points.sleeveCapLeft,
-      points.bottomLeft
-    )
-    if (capQ4I) {
-      points.capQ4Bottom = capQ4I
-    }
+    // const capQ1I = utils.linesIntersect(
+    // points.capQ1,
+    // points.capQ1Bottom,
+    // points.sleeveCapRight,
+    // points.bottomRight
+    // )
+    // if (capQ1I) {
+    // points.capQ1Bottom = capQ1I
+    // }
+    // const capQ4I = utils.linesIntersect(
+    // points.capQ4,
+    // points.capQ4Bottom,
+    // points.sleeveCapLeft,
+    // points.bottomLeft
+    // )
+    // if (capQ4I) {
+    // points.capQ4Bottom = capQ4I
+    // }
 
     points.sleeveTipLeft = points.sleeveTip
     points.sleeveTipRight = points.sleeveTip
@@ -70,36 +98,37 @@ export const sleeveBase = {
 
     //spread path
     //Uncomment below to see how the spread works.
-    paths.spread = new Path()
-      .move(points.bottomLeft)
-      .line(points.bottomRight)
-      .line(points.bottomLeft)
-      .line(points.capQ4Bottom)
-      .line(points.capQ4)
-      .line(points.capQ4Bottom)
-      .line(points.capQ3Bottom)
-      .line(points.capQ3)
-      .line(points.capQ3Bottom)
-      .line(points.sleeveTipBottom)
-      .line(points.sleeveTip)
-      .line(points.sleeveTipBottom)
-      .line(points.capQ2Bottom)
-      .line(points.capQ2)
-      .line(points.capQ2Bottom)
-      .line(points.capQ1Bottom)
-      .line(points.capQ1)
-      .line(points.capQ1Bottom)
-      .line(points.bottomRight)
-      .line(points.sleeveCapRight)
-      ._curve(points.capQ1Cp1, points.capQ1)
-      .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2)
-      .curve_(points.capQ2Cp2, points.sleeveTip)
-      ._curve(points.capQ3Cp1, points.capQ3)
-      .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
-      .curve_(points.capQ4Cp2, points.sleeveCapLeft)
-      .line(points.bottomLeft)
-      .attr('class', 'various lashed')
-
+    if (options.spreadSleeveGuides) {
+      paths.spread = new Path()
+        .move(points.bottomLeft)
+        .line(points.bottomRight)
+        .line(points.bottomLeft)
+        .line(points.capQ4Bottom)
+        .line(points.capQ4)
+        .line(points.capQ4Bottom)
+        .line(points.capQ3Bottom)
+        .line(points.capQ3)
+        .line(points.capQ3Bottom)
+        .line(points.sleeveTipBottom)
+        .line(points.sleeveTip)
+        .line(points.sleeveTipBottom)
+        .line(points.capQ2Bottom)
+        .line(points.capQ2)
+        .line(points.capQ2Bottom)
+        .line(points.capQ1Bottom)
+        .line(points.capQ1)
+        .line(points.capQ1Bottom)
+        .line(points.bottomRight)
+        .line(points.sleeveCapRight)
+        ._curve(points.capQ1Cp1, points.capQ1)
+        .curve(points.capQ1Cp2, points.capQ2Cp1, points.capQ2)
+        .curve_(points.capQ2Cp2, points.sleeveTip)
+        ._curve(points.capQ3Cp1, points.capQ3)
+        .curve(points.capQ3Cp2, points.capQ4Cp1, points.capQ4)
+        .curve_(points.capQ4Cp2, points.sleeveCapLeft)
+        .line(points.bottomLeft)
+        .attr('class', 'various lashed')
+    }
     //Stores
     store.set('spreadAngle', options.spread * 100)
 

@@ -53,9 +53,13 @@ export const sleeve = {
     //measures
     // const sleeveReduction = measurements.shoulderToElbow * options.sleeveReduction
     //let's begin
-    points.hemAnchor = points.midAnchor.shiftFractionTowards(
-      new Point(points.midAnchor.x, points.sleeveTip.y),
-      options.sleeveReduction
+    // points.hemAnchor = points.midAnchor.shiftFractionTowards(
+    // new Point(points.midAnchor.x, points.sleeveTipLeft.y),
+    // options.sleeveReduction
+    // )
+    points.hemAnchor = points.sleeveTipBottom.shift(
+      -90,
+      points.sleeveTipLeft.y * options.sleeveReduction
     )
 
     //hem
@@ -71,8 +75,14 @@ export const sleeve = {
     // points.hemAnchor,
     // points.hemAnchor.shift(0, 1)
     // )
-    points.hemAnchorCp1 = new Point(points.capQ3.x, points.hemAnchor.y)
-    points.hemAnchorCp2 = new Point(points.capQ2.x, points.hemAnchor.y)
+    points.hemAnchorCp1 =
+      options.spreadType == 'hem' && points.capQ3.x < points.capQ4R.x
+        ? new Point(points.capQ4R.x, points.hemAnchor.y)
+        : new Point(points.capQ3.x, points.hemAnchor.y)
+    points.hemAnchorCp2 =
+      options.spreadType == 'hem' && points.capQ2.x > points.capQ1R.x
+        ? new Point(points.capQ1R.x, points.hemAnchor.y)
+        : new Point(points.capQ2.x, points.hemAnchor.y)
 
     //paths
     paths.hemBase = new Path()
