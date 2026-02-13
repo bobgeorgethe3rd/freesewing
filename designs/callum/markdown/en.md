@@ -188,7 +188,7 @@ Don't forget to take out your basting after sewing.
 - Trim the right extension off the left leg.
 - With ***good sides together*** sew the fly to the left leg. ***Finish*** seam.
 - Turn the fly to the ***wrong side***.
-- ***dgestitch*** or ***Understitch*** the fly.
+- ***Edgestitch*** or ***Understitch*** the fly.
 - With _good sides together_ sew the buttonhole placket to the fly.
 - ***Finish*** the edge of the fly, buttonhole placket.
 - From the ***good side***, ***topstitch*** the fly and buttonhole placket in place using the stitching line as a guide.
