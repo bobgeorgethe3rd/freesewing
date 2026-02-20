@@ -47,7 +47,11 @@ export const sleeve = {
     //draft basicsleeve
     spreadsleeve.draft(sh)
     //removing any paths from sleeveBase. This may not be necessary but is useful when working with the guides on.
-    for (let i in paths) delete paths[i]
+    // for (let i in paths) delete paths[i]
+    const keepThese = ['spread']
+    for (const name in paths) {
+      if (keepThese.indexOf(name) === -1) delete paths[name]
+    }
     //removing macros not required from sleevecap
     macro('title', false)
     //measures
@@ -75,15 +79,16 @@ export const sleeve = {
     // points.hemAnchor,
     // points.hemAnchor.shift(0, 1)
     // )
-    points.hemAnchorCp1 =
-      options.spreadType == 'hem' && points.capQ3.x < points.capQ4R.x
-        ? new Point(points.capQ4R.x, points.hemAnchor.y)
-        : new Point(points.capQ3.x, points.hemAnchor.y)
-    points.hemAnchorCp2 =
-      options.spreadType == 'hem' && points.capQ2.x > points.capQ1R.x
-        ? new Point(points.capQ1R.x, points.hemAnchor.y)
-        : new Point(points.capQ2.x, points.hemAnchor.y)
-
+    // points.hemAnchorCp1 =
+    // options.spreadType == 'hem'// && points.capQ3.x < points.capQ4R.x
+    // ? new Point(points.capQ3Bottom.x, points.hemAnchor.y)
+    // : new Point(points.capQ3.x, points.hemAnchor.y)
+    // points.hemAnchorCp2 =
+    // options.spreadType == 'hem'// && points.capQ2.x > points.capQ1R.x
+    // ? new Point(points.capQ2Bottom.x, points.hemAnchor.y)
+    // : new Point(points.capQ2.x, points.hemAnchor.y)
+    points.hemAnchorCp1 = new Point(points.capQ3Bottom.x, points.hemAnchor.y)
+    points.hemAnchorCp2 = new Point(points.capQ2Bottom.x, points.hemAnchor.y)
     //paths
     paths.hemBase = new Path()
       .move(points.capQ4)
