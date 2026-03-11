@@ -15,7 +15,7 @@ export const backBase = {
     //Armhole
     backArmholePitchDepth: { pct: 66.7, min: 45, max: 75, menu: 'armhole' }, //Altered for Playtest
     backArmholePitchWidth: { pct: 85, min: 80, max: 98.5, menu: 'armhole' }, //Altered for Playtest
-    shoulderDepth: { pct: 25, min: 10, max: 50, menu: 'armhole' },
+    // shoulderDepth: { pct: 25, min: 10, max: 50, menu: 'armhole' },
     shoulderWidth: { pct: 50, min: 25, max: 75, menu: 'armhole' },
   },
   draft: ({
@@ -61,9 +61,9 @@ export const backBase = {
     points.bottomLeft = points.bottomRight.rotate(-backDartAngle, points.dartTip)
     points.cbBottom = new Point(points.cbNeck.x, points.bottomLeft.y)
 
-    points.armholeSplit = paths.armhole
-      .split(points.armholePitch)[1]
-      .shiftFractionAlong(1 - options.shoulderDepth)
+    // points.armholeSplit = paths.armhole
+    // .split(points.armholePitch)[1]
+    // .shiftFractionAlong(1 - options.shoulderDepth)
 
     points.armholeSplitTarget = points.hps.shift(
       points.hps.angle(points.shoulder) * 2,
