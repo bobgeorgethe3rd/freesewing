@@ -542,6 +542,14 @@
       "difficulty": 2,
       "tags": ["tops", "blouses"]
     },
+    "darren": {
+      "description": "Darren drop shoulder tee design",
+      "number": "0056",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "shirts", "t-shirts"]
+    },
     "fauna": {
       "description": "Fauna foldover collar blouse design",
       "number": "0049",

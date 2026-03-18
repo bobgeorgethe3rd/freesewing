@@ -147,6 +147,13 @@ examples:
   peer:
     '@freesewing/plugin-mirror': *freesewing
     '@freesewing/plugin-gore': *freesewing
+darren:
+  peer:
+    '@freesewing/simpleshirtsleeve': *freesewing
+    '@freesewing/neckbandstraight': *freesewing
+    '@freesewing/neckbandcurved': *freesewing
+    '@freesewing/hood': *freesewing
+    '@freesewing/patchpocket': *freesewing
 dolmansleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing
