@@ -1,0 +1,55 @@
+import { neckband as neckbandStraight } from '@freesewing/neckbandstraight'
+import { neckband as neckbandCurved } from '@freesewing/neckbandcurved'
+import { hood } from '@freesewing/hood'
+import { front } from './front.mjs'
+
+export const neckband = {
+  name: 'darren.neckband',
+  options: {
+    //Imported
+    ...neckbandStraight.options,
+    ...neckbandCurved.options,
+    ...hood.options,
+    //Constants
+    useVoidStores: false, //Altered for Darren
+    neckbandOverlapSide: 'left', //Locked for Darren
+    neckbandOverlap: 0, //Locked for Darren
+    hoodGuides: false, //Locked for Darren
+  },
+  after: [front],
+  plugins: [...neckbandStraight.plugins, ...neckbandCurved.plugins],
+  measurements: [...hood.measurements],
+  draft: (sh) => {
+    const { macro, points, utils, options, measurements, complete, part } = sh
+
+    if (options.neckbandStyle == 'hood') {
+      hood.draft(sh)
+    } else {
+      if (options.neckbandStyle == 'straight') neckbandStraight.draft(sh)
+      else neckbandCurved.draft(sh)
+    }
+
+    if (complete) {
+      if (options.neckbandStyle == 'hood') {
+        macro('title', {
+          nr: 3,
+          title: 'Hood',
+          at: points.title,
+          cutNr: 4,
+          scale: 0.5,
+        })
+      } else {
+        let titleCutNum = 2
+        if (options.neckbandFolded || options.neckbandStyle == 'curved') titleCutNum = 1
+        macro('title', {
+          nr: 3,
+          title: 'Neckband (' + utils.capitalize(options.neckbandStyle) + ')',
+          at: points.title,
+          cutNr: titleCutNum,
+          scale: 0.1,
+        })
+      }
+    }
+    return part
+  },
+}
