@@ -30,9 +30,9 @@ export const back = {
     bodyLength: { pct: 100, min: 0, max: 100, menu: 'style' },
     bodyLengthBonus: { pct: 23.1, min: -20, max: 50, menu: 'style' },
     shoulderDrop: { pct: 34.5, min: 20, max: 50, menu: 'style' },
-    armholeDrop: { pct: 100, min: 0, max: 150, menu: 'style' },
+    armholeDrop: { pct: 60, min: 0, max: 150, menu: 'style' },
     //Armhole
-    backArmholePitchWidth: { pct: 96.5, min: 95, max: 98.5, menu: 'armhole' }, //Altered for Darren
+    // backArmholePitchWidth: { pct: 96.5, min: 95, max: 98.5, menu: 'armhole' }, //Altered for Darren
     //Construction
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Darren
     hemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Darren
@@ -129,7 +129,7 @@ export const back = {
       points.hps
     )
     //armhole
-    points.armholePitchNew = points.armholePitch.shift(0, shoulderExtension)
+    points.armholePitchNew = points.armholePitch.translate(shoulderExtension, armholeDrop)
     points.armholeNew = points.armhole.translate(shoulderExtension, armholeDrop)
 
     if (points.armholeNew.y > points.sideWaist.y) {

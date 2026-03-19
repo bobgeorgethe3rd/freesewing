@@ -12,7 +12,7 @@ export const front = {
   },
   options: {
     //Armhole
-    frontArmholePitchWidth: { pct: 95.4, min: 95, max: 97, menu: 'armhole' }, //Altered for Darren
+    // frontArmholePitchWidth: { pct: 95.4, min: 95, max: 97, menu: 'armhole' }, //Altered for Darren
     //Pockets
     pocketsBool: { bool: true, menu: 'pockets' },
     patchPocketWidth: { pct: 46.6, min: 30, max: 60, menu: 'pockets.patchPockets' },
@@ -64,6 +64,7 @@ export const front = {
     const neckbandWidth = store.get('neckbandWidth')
     const bodyWidth = store.get('bodyWidth')
     const shoulderExtension = store.get('shoulderExtension')
+    const armholeDrop = store.get('armholeDrop')
     //let's begin
     points.shoulderRise = points.shoulder.shift(
       points.shoulder.angle(points.hps) - 90,
@@ -80,8 +81,8 @@ export const front = {
     )
     points.cfTopCp1 = points.cfTop.shiftFractionTowards(points.cfTopCorner, options.cfNeck)
     //armhole
-    points.armholePitchNew = points.armholePitch.shift(0, shoulderExtension)
-    points.armholeNew = points.armhole.translate(shoulderExtension, store.get('armholeDrop'))
+    points.armholePitchNew = points.armholePitch.translate(shoulderExtension, armholeDrop)
+    points.armholeNew = points.armhole.translate(shoulderExtension, armholeDrop)
 
     if (points.armholeNew.y > points.sideWaist.y) {
       points.armholeNew = new Point(points.armholeNew.x, points.sideWaistCp2.y)
