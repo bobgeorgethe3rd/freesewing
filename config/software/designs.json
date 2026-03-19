@@ -8,6 +8,14 @@
       "difficulty": 1,
       "tags": ["tops", "blocks"]
     },
+    "arthur": {
+      "description": "Arthur all in one block design based of the Byron block design",
+      "number": "0057",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "blocks"]
+    },
     "bertram": {
       "description": "Bertram back seam trouser block design",
       "number": "0040",

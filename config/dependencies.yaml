@@ -20,6 +20,9 @@ aaron:
 aimee:
   peer:
     '@freesewing/daisy': *freesewing
+arthur:
+  peer:
+    '@freesewing/byron': *freesewing
 antiope:
   peer:
     '@freesewing/sarah': *freesewing
