@@ -11,8 +11,8 @@ export const front = {
   },
   options: {
     //Constants
-    frontArmholeDepth: 55.2, //Locked for Arthur
-    frontArmholePitchWidth: 91.1, //Locked for Arthur
+    frontArmholeDepth: 0.552, //Locked for Arthur
+    frontArmholePitchWidth: 0.911, //Locked for Arthur
   },
   draft: ({
     store,
