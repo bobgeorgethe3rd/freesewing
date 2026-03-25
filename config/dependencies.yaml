@@ -496,6 +496,13 @@ sven:
   peer:
     '@freesewing/brian': *freesewing
     '@freesewing/plugin-bust': *freesewing
+sydney:
+  peer:
+    '@freesewing/arthur': *freesewing
+    '@freesewing/neckbandstraight': *freesewing
+    '@freesewing/neckbandcurved': *freesewing
+    '@freesewing/hood': *freesewing
+    '@freesewing/patchpocket': *freesewing
 taliya:
   peer:
     '@freesewing/daisy': *freesewing

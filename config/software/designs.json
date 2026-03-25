@@ -590,6 +590,14 @@
       "difficulty": 1,
       "tags": ["tops", "shirts", "t-shirts"]
     },
+    "sydney": {
+      "description": "Sydney straight-cut tee design",
+      "number": "0058",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "shirts", "t-shirts"]
+    },
     "taliya": {
       "description": "Taliya tunic design",
       "number": "0037",
