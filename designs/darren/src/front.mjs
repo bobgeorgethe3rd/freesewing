@@ -15,7 +15,7 @@ export const front = {
     // frontArmholePitchWidth: { pct: 95.4, min: 95, max: 97, menu: 'armhole' }, //Altered for Darren
     //Pockets
     pocketsBool: { bool: true, menu: 'pockets' },
-    patchPocketWidth: { pct: 46.6, min: 30, max: 60, menu: 'pockets.patchPockets' },
+    patchPocketWidth: { pct: 47.1, min: 30, max: 60, menu: 'pockets.patchPockets' }, //46.6
     patchPocketDepth: { pct: 95, min: 70, max: 110, menu: 'pockets.patchPockets' },
     //Construction
     cfSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Darren
