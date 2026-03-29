@@ -241,19 +241,28 @@ export const sleeve = {
           points.saSleeveTurnoverTop = points.sleeveTurnoverTop.shift(0, shoulderSa)
         }
 
-        points.saShoulderSplit = utils.beamIntersectsX(
+        points.saShoulderCorner = utils.beamIntersectsX(
           points.shoulderSplit
             .shiftTowards(points.underArmCurveAnchor, sideSeamSa)
             .rotate(-90, points.shoulderSplit),
           points.underArmCurveAnchor
             .shiftTowards(points.shoulderSplit, sideSeamSa)
             .rotate(90, points.underArmCurveAnchor),
+          points.sleeveTop.x
+        )
+
+        points.saShoulderSplit = utils.beamIntersectsX(
+          points.saShoulderCorner,
+          points.saShoulderCorner.shift(
+            points.shoulderSplit.angle(points.underArmCurveAnchor) * -1,
+            1
+          ),
           points.saSleeveTurnoverTop.x
         )
 
         points.saUnderArmCurveAnchor = utils.beamsIntersect(
-          points.saShoulderSplit,
-          points.saShoulderSplit.shift(points.shoulderSplit.angle(points.underArmCurveAnchor), 1),
+          points.saShoulderCorner,
+          points.saShoulderCorner.shift(points.shoulderSplit.angle(points.underArmCurveAnchor), 1),
           points.saSleeveBottom,
           points.saSleeveBottom.shift(points.sleeveBottom.angle(points.underArmCurveAnchor), 1)
         )
@@ -275,6 +284,7 @@ export const sleeve = {
         paths.sa = paths.saHem
           .clone()
           .line(points.saShoulderSplit)
+          .line(points.saShoulderCorner)
           .line(points.saUnderArmCurveAnchor)
           .line(points.saSleeveBottom)
           .close()
