@@ -241,23 +241,43 @@ export const sleeve = {
           points.saSleeveTurnoverTop = points.sleeveTurnoverTop.shift(0, shoulderSa)
         }
 
-        points.saShoulderCorner = utils.beamIntersectsX(
+        // points.saShoulderCorner = utils.beamIntersectsX(
+        // points.shoulderSplit
+        // .shiftTowards(points.underArmCurveAnchor, sideSeamSa)
+        // .rotate(-90, points.shoulderSplit),
+        // points.underArmCurveAnchor
+        // .shiftTowards(points.shoulderSplit, sideSeamSa)
+        // .rotate(90, points.underArmCurveAnchor),
+        // points.sleeveTop.x
+        // )
+
+        // points.saShoulderSplit = utils.beamIntersectsX(
+        // points.saShoulderCorner,
+        // points.saShoulderCorner.shift(
+        // points.shoulderSplit.angle(points.underArmCurveAnchor) * -1,
+        // 1
+        // ),
+        // points.saSleeveTurnoverTop.x
+        // )
+
+        points.saShoulderSplit = utils.beamIntersectsX(
+          points.underArmCurveAnchor,
+          points.shoulderSplit,
+          points.sleeveTop.x + shoulderSa
+        )
+
+        points.saShoulderCorner = utils.beamsIntersect(
+          points.saShoulderSplit,
+          points.saShoulderSplit.shift(
+            270 - (270 - points.shoulderSplit.angle(points.underArmCurveAnchor)) * 2,
+            1
+          ),
           points.shoulderSplit
             .shiftTowards(points.underArmCurveAnchor, sideSeamSa)
             .rotate(-90, points.shoulderSplit),
           points.underArmCurveAnchor
             .shiftTowards(points.shoulderSplit, sideSeamSa)
-            .rotate(90, points.underArmCurveAnchor),
-          points.sleeveTop.x
-        )
-
-        points.saShoulderSplit = utils.beamIntersectsX(
-          points.saShoulderCorner,
-          points.saShoulderCorner.shift(
-            points.shoulderSplit.angle(points.underArmCurveAnchor) * -1,
-            1
-          ),
-          points.saSleeveTurnoverTop.x
+            .rotate(90, points.underArmCurveAnchor)
         )
 
         points.saUnderArmCurveAnchor = utils.beamsIntersect(
