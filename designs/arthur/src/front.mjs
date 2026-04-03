@@ -47,6 +47,7 @@ export const front = {
     macro('title', false)
     //measurements
     const underArmCurveCpDist = store.get('underArmCurveCpDist')
+    const underArmSideSeamLength = store.get('underArmSideSeamLength')
     //let's begin
     points.shoulderRise = points.shoulder.shift(
       points.shoulder.angle(points.hps) - 90,
@@ -89,10 +90,7 @@ export const front = {
 
     points.underArmCurveStart =
       options.armholeDrop > 0
-        ? paths.sideSeam
-            .split(points.armholeDrop)[0]
-            .reverse()
-            .shiftAlong(store.get('underArmSideSeamLength'))
+        ? paths.sideSeam.split(points.armholeDrop)[0].reverse().shiftAlong(underArmSideSeamLength)
         : paths.sideSeam.reverse().shiftAlong(underArmSideSeamLength)
 
     points.underArmCurveAnchor = utils.beamsIntersect(
