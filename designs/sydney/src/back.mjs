@@ -27,6 +27,7 @@ export const back = {
     //Construction
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Sydney
     hemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' }, //Altered for Sydney
+    sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' }, //Altered for Sydney
     //Advanced
     fitHem: { bool: false, menu: 'advanced' },
     neckbandLengthBonus: { pct: 0, min: 0, max: 20, menu: 'advanced' },
