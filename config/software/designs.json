@@ -542,6 +542,14 @@
   },
   "swimwear": {},
   "tops": {
+    "alfie": {
+      "description": "Alfie all in one sleeve tee design",
+      "number": "0059",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["tops", "shirts", "t-shirts"]
+    },
     "bunny": {
       "description": "Bunny button back blouse design",
       "number": "0038",

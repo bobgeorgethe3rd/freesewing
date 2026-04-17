@@ -20,9 +20,14 @@ aaron:
 aimee:
   peer:
     '@freesewing/daisy': *freesewing
-arthur:
+alfie:
   peer:
-    '@freesewing/byron': *freesewing
+    '@freesewing/arthur': *freesewing
+    '@freesewing/neckbandstraight': *freesewing
+    '@freesewing/neckbandcurved': *freesewing
+    '@freesewing/hood': *freesewing
+    '@freesewing/patchpocket': *freesewing
+    '@freesewing/plugin-mirror': *freesewing
 antiope:
   peer:
     '@freesewing/sarah': *freesewing
@@ -31,6 +36,9 @@ antiope:
     '@freesewing/basicplacket': *freesewing
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/waistbandstraight': *freesewing
+arthur:
+  peer:
+    '@freesewing/byron': *freesewing
 barkley:
   peer:
     '@freesewing/henry': *freesewing
