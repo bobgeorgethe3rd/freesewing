@@ -1,24 +1,28 @@
 import { pctBasedOn } from '@freesewing/core'
 import { pluginBundle } from '@freesewing/plugin-bundle'
 import { pluginGore } from '@freesewing/plugin-gore'
+import { pluginMirror } from '@freesewing/plugin-mirror'
 
 export const crown = {
   name: 'playtest.crown',
-  plugins: [pluginBundle, pluginGore],
+  plugins: [pluginBundle, pluginGore, pluginMirror],
   options: {
     //Fit
     headEase: { pct: 6.6, min: 0, max: 20, menu: 'fit' },
     //Style
+    crownLength: { pct: 55, min: 40, max: 60, menu: 'style' },
     crownNumber: { count: 2, min: 2, max: 4, menu: 'style' },
-    inbuiltHeadband: { bool: false, menu: 'style' },
+    //inbuiltHeadband: { bool: false, menu: 'style' },
     headbandWidth: {
-      pct: 14.6, //20.6, //17.1,
+      pct: 17.1, //20.6, //17.1,
       min: 8,
       max: 25.7,
       snap: 5,
       ...pctBasedOn('head'),
       menu: 'style',
     },
+    //Construction
+    inbuiltLining: { bool: false, menu: 'construction' },
   },
   measurements: ['head'],
   draft: ({
@@ -47,15 +51,18 @@ export const crown = {
       from: points.origin,
       radius: headCircumference / 2 / Math.PI,
       gores: options.crownNumber * 2,
-      extraLength: options.inbuiltHeadband
-        ? absoluteOptions.headbandWidth * 2
-        : absoluteOptions.headbandWidth,
+      extraLength: ((options.crownLength - 0.5) * headCircumference) / 2,
       prefix: 'crown_',
       render: true,
     })
     //remove paths
     for (let i in paths) delete paths[i]
     //rotate and flip all points
+    points.crown_p3 = points.crown_p3.shift(
+      180, //options.inbuiltHeadband
+      //? absoluteOptions.headbandWidth * 2
+      /* : */ absoluteOptions.headbandWidth
+    )
     for (let p in points) points[p] = points[p].rotate(90, points.origin)
     for (let p in points) points[p + 'F'] = points[p].flipX(points.origin)
 
@@ -80,13 +87,22 @@ export const crown = {
       if (complete) snippets['crown_p2' + i] = new Snippet('notch', points['crown_p2' + i])
     }
 
+    paths.saBase = paths['saBase' + (options.crownNumber - 1)].hide()
+
+    macro('mirror', {
+      mirror: [points.crown_p3, points.crown_p3F1],
+      paths: ['saBase'],
+      prefix: 'm',
+    })
+
     //paths
     //if points.crown_p3 is at the beginning it lessens the work for trim
-    paths.seam = new Path()
-      .move(points.crown_p3)
+    paths.seam = options.inbuiltLining ? paths.mSaBase.reverse() : new Path().move(points.crown_p3)
+
+    paths.seam = paths.seam
       .line(points['crown_p3F' + (options.crownNumber - 1)])
       .line(points['crown_p2F' + (options.crownNumber - 1)])
-      .join(paths['saBase' + (options.crownNumber - 1)])
+      .join(paths.saBase)
       .line(points.crown_p2)
       .line(points.crown_p3)
       .close()
@@ -108,15 +124,22 @@ export const crown = {
     })
     //notches
     if (complete) {
-      points.crownMid = points.crown_p3.shiftFractionTowards(
-        points['crown_p3F' + (options.crownNumber - 1)],
-        0.5
-      )
-      snippets.crownMid = new Snippet('notch', points.crownMid)
+      if (options.inbuiltLining) {
+        macro('sprinkle', {
+          snippet: 'notch',
+          on: ['crown_p3', 'crown_p3F1'],
+        })
+      } else {
+        points.crownMid = points.crown_p3.shiftFractionTowards(
+          points['crown_p3F' + (options.crownNumber - 1)],
+          0.5
+        )
+        snippets.crownMid = new Snippet('notch', points.crownMid)
+      }
     }
     //cutlist
     // store.cutlist.setCut({ cut: 2, from: 'fabric' })
-    // store.cutlist.setCut({ cut: 2, from: 'lining' })
+    // if(!options.inbuiltLining) store.cutlist.setCut({ cut: 2, from: 'lining' })
     //title
     points.title = points.crown_p2F.shiftFractionTowards(points.crown_p3F, 0.5)
     macro('title', {
