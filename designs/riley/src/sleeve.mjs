@@ -12,7 +12,9 @@ export const sleeve = {
     useVoidStores: false, //Locked for Riley
     sleeveTurnoverDoubleFold: false, //Locked for Riley
     //Fit
-    //bicepsEase: { pct: 8.7, min: 0, max: 25, menu: 'fit' }, //Altered for Riley
+    bicepsEase: { pct: 8.7, min: 0, max: 25, menu: 'fit' }, //Altered for Riley
+    elbowEase: { pct: 9.8, min: 0, max: 25, menu: 'fit' }, //Altered for Riley
+    wristEase: { pct: 15.4, min: 0, max: 50, menu: 'fit' }, //Altered for Riley
     //Sleeves
     sleevesBool: { bool: true, menu: 'sleeves' },
     sleeveHemStyle: { dflt: 'turnover', list: ['cuffed', 'turnover'], menu: 'sleeves' }, //Altered for Riley
