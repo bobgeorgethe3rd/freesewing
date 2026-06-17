@@ -16,7 +16,7 @@ export const back = {
     chestEase: { pct: 5.5, min: 0, max: 20, menu: 'fit' }, //Altered for Vincenzo
     waistEase: { pct: 12.8, min: 0, max: 35, menu: 'fit' }, //Altered for Vincenzo
     hipsEase: { pct: 5.9, min: 0, max: 25, menu: 'fit' },
-    seatEase: { pct: 5.8, min: 0, max: 20, menu: 'fit' },
+    seatEase: { pct: 5.1, min: 0, max: 20, menu: 'fit' },
     //Style
     armholeDrop: { pct: 0, min: 0, max: 25, menu: 'style' },
     bodyLength: { pct: 50, min: 0, max: 100, menu: 'style' },
