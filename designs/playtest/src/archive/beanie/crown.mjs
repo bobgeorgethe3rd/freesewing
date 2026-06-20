@@ -12,9 +12,9 @@ export const crown = {
     //Style
     crownLength: { pct: 55, min: 40, max: 60, menu: 'style' },
     crownNumber: { count: 2, min: 2, max: 4, menu: 'style' },
-    //inbuiltHeadband: { bool: false, menu: 'style' },
+    inbuiltHeadband: { bool: false, menu: 'style' },
     headbandWidth: {
-      pct: 17.1, //20.6, //17.1,
+      pct: 21.4, //20.6, //17.1,
       min: 8,
       max: 25.7,
       snap: 5,
@@ -41,6 +41,7 @@ export const crown = {
     part,
     snippets,
     Snippet,
+    utils,
   }) => {
     //measures
     const headCircumference = measurements.head * (1 + options.headEase)
@@ -59,9 +60,8 @@ export const crown = {
     for (let i in paths) delete paths[i]
     //rotate and flip all points
     points.crown_p3 = points.crown_p3.shift(
-      180, //options.inbuiltHeadband
-      //? absoluteOptions.headbandWidth * 2
-      /* : */ absoluteOptions.headbandWidth
+      180,
+      options.inbuiltHeadband ? absoluteOptions.headbandWidth * 2 : absoluteOptions.headbandWidth
     )
     for (let p in points) points[p] = points[p].rotate(90, points.origin)
     for (let p in points) points[p + 'F'] = points[p].flipX(points.origin)
@@ -84,7 +84,14 @@ export const crown = {
         .hide()
 
       //notches
-      if (complete) snippets['crown_p2' + i] = new Snippet('notch', points['crown_p2' + i])
+      if (complete) {
+        snippets['crown_p2' + i] = new Snippet('notch', points['crown_p2' + i])
+        if (options.inbuiltLining)
+          snippets['m' + utils.capitalize('crown_p2') + i] = new Snippet(
+            'notch',
+            points['crown_p2' + i].flipY(points.crown_p3)
+          )
+      }
     }
 
     paths.saBase = paths['saBase' + (options.crownNumber - 1)].hide()
@@ -117,7 +124,10 @@ export const crown = {
     store.set('headCircumference', headCircumference)
     //grainline
     points.grainlineFrom = points.crown_p1
-    points.grainlineTo = points.origin
+    points.grainlineTo = new Point(
+      points.crown_p1.x,
+      options.inbuiltLining ? points.crown_p1.flipY(points.crown_p3).y : points.crown_p3.y
+    )
     macro('grainline', {
       from: points.grainlineFrom,
       to: points.grainlineTo,
@@ -127,7 +137,7 @@ export const crown = {
       if (options.inbuiltLining) {
         macro('sprinkle', {
           snippet: 'notch',
-          on: ['crown_p3', 'crown_p3F1'],
+          on: ['crown_p3', 'crown_p3F' + (options.crownNumber - 1)],
         })
       } else {
         points.crownMid = points.crown_p3.shiftFractionTowards(
@@ -141,13 +151,24 @@ export const crown = {
     // store.cutlist.setCut({ cut: 2, from: 'fabric' })
     // if(!options.inbuiltLining) store.cutlist.setCut({ cut: 2, from: 'lining' })
     //title
-    points.title = points.crown_p2F.shiftFractionTowards(points.crown_p3F, 0.5)
+    points.title = new Point(
+      points.crown_p3.shiftFractionTowards(points['crown_p3F' + (options.crownNumber - 1)], 0.5).x,
+      points.crown_p2F.shiftFractionTowards(points.crown_p3F, 0.5).y
+    )
     macro('title', {
       at: points.title,
       nr: 1,
       title: 'crown',
       cutNr: 2,
       scale: 0.5,
+    })
+    //scalebox
+    points.scalebox = new Point(
+      points.crown_p3.shiftFractionTowards(points['crown_p3F' + (options.crownNumber - 1)], 0.75).x,
+      points.title.y
+    )
+    macro('miniscale', {
+      at: points.scalebox,
     })
     // Paperless?
     if (paperless) {
