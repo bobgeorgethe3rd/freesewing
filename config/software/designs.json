@@ -182,6 +182,14 @@
     }
   },
   "collars": {
+    "combinedshirtcollar": {
+      "description": "Combined Collar design to be used in other designs",
+      "number": "C0030",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 1,
+      "tags": ["collars", "shirt"]
+    },
     "hood": {
       "description": "Hood design to be used in other designs",
       "number": "C0021",
