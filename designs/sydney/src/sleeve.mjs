@@ -10,7 +10,7 @@ export const sleeve = {
   },
   options: {
     //Sleeves
-    sleevesBool: { pct: true, menu: 'sleeves' },
+    sleevesBool: { bool: true, menu: 'sleeves' },
     sleeveHemStyle: { dflt: 'turnover', list: ['cuffed', 'turnover'], menu: 'sleeves' },
     sleeveBandWidth: {
       pct: 3.5,
