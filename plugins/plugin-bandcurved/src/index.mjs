@@ -37,6 +37,7 @@ export const plugin = {
         east: 'East',
         south: 'South',
         west: 'West',
+        sa: sa,
         sideSa: sa,
       }
       so = { ...defaults, ...so }
@@ -463,7 +464,7 @@ export const plugin = {
           )
         }
         if (sa) {
-          void store.setIfUnset('waistbandSideSa', sa)
+          const sa = so.sa
           let sideSa
           if (leftExtension > 0 || rightExtension > 0) {
             sideSa = sa

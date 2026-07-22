@@ -5,6 +5,7 @@ export const neckband = {
   name: 'neckbandscurved.neckband',
   options: {
     //Constants
+    neckSaWidth: 1,
     useVoidStores: true,
     //Style
     neckbandOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'style' },
@@ -44,6 +45,7 @@ export const neckband = {
     } else {
       void store.setIfUnset('neckbandPlacketWidth', 0)
     }
+    void store.setIfUnset('neckSa', sa * options.neckSaWidth * 100)
     void store.setIfUnset('neckbandBack', store.get('neckbandLength') * 0.5)
     void store.setIfUnset('neckbandOverlap', store.get('neckbandLength') * options.neckbandOverlap)
     void store.setIfUnset('neckbandSideSa', sa)
@@ -58,6 +60,7 @@ export const neckband = {
       overlap: store.get('neckbandOverlap'),
       overlapSide: options.neckbandOverlapSide,
       closurePosition: options.neckbandClosurePosition,
+      sa: store.get('neckSa'),
       sideSa: store.get('neckbandSideSa'),
       north: 'Centre Front',
       east: 'Shoulder Seam',

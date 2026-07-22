@@ -17,6 +17,7 @@ export const plugin = {
         overlapSide: 'left',
         folded: false,
         closurePosition: 'back',
+        sa: sa,
         sideSa: sa,
         north: 'North',
         east: 'East',
@@ -421,6 +422,7 @@ export const plugin = {
         }
 
         if (sa) {
+          const sa = so.sa
           let sideSa
           if (leftExtension > 0 || rightExtension > 0) {
             sideSa = sa

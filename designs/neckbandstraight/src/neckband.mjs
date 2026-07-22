@@ -5,6 +5,7 @@ export const neckband = {
   name: 'neckbandstraight.neckband',
   options: {
     //Constants
+    neckSaWidth: 1,
     useVoidStores: true,
     //Style
     neckbandFolded: { bool: true, menu: 'style' },
@@ -43,6 +44,7 @@ export const neckband = {
     } else {
       void store.setIfUnset('neckbandPlacketWidth', 0)
     }
+    void store.setIfUnset('neckSa', sa * options.neckSaWidth * 100)
     void store.setIfUnset('neckbandBack', store.get('neckbandLength') * 0.5)
     void store.setIfUnset('neckbandOverlap', store.get('neckbandLength') * options.neckbandOverlap)
     void store.setIfUnset('neckbandSideSa', sa)
@@ -57,6 +59,7 @@ export const neckband = {
       overlapSide: options.neckbandOverlapSide,
       folded: options.neckbandFolded,
       closurePosition: options.neckbandClosurePosition,
+      sa: store.get('neckSa'),
       sideSa: store.get('neckbandSideSa'),
       north: 'Centre Front',
       east: 'Shoulder Seam',
