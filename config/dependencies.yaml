@@ -191,6 +191,9 @@ francis:
     '@freesewing/waistbandstraight': *freesewing
     '@freesewing/waistbandcurved': *freesewing
     '@freesewing/beltloops': *freesewing
+frederick:
+    '@freesewing/neckbandstraight': *freesewing
+    '@freesewing/patchpocket': *freesewing
 fullshirtsleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing

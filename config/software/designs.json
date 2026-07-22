@@ -348,7 +348,16 @@
       "tags": ["hats"]
     }
   },
-  "jackets": {},
+  "jackets": {
+    "frederick": {
+      "description": "Frederick fisherman's smock design",
+      "number": "0060",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 2,
+      "tags": ["pullover"]
+    }
+  },
   "jumpsuits": {},
   "pockets": {
     "boxpleatpocket": {
