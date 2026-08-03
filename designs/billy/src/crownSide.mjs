@@ -279,7 +279,7 @@ export const crownSide = {
           .line(points.saOuterLeft)
           .line(paths.hemBase.offset(crownSa).start())
           .close()
-          .attr('class', 'fabrinner sa')
+          .attr('class', 'fabric sa')
       }
     }
 
