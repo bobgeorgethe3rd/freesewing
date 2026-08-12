@@ -11,8 +11,8 @@ export const back = {
   options: {
     //Sleeves
     raglanNeckWidth: { pct: 42.1, min: 15, max: 50, menu: 'sleeves' },
-    raglanArmholeDepth: { pct: 59.7, min: 50, max: 70, menu: 'sleeves' },
-    raglanCurveDepth: { pct: 85, min: 50, max: 100, menu: 'sleeves' },
+    // raglanArmholeDepth: { pct: 59.7, min: 50, max: 70, menu: 'sleeves' },
+    // raglanCurveDepth: { pct: 85, min: 50, max: 100, menu: 'sleeves' },
   },
   draft: ({
     store,
@@ -38,19 +38,30 @@ export const back = {
     delete paths.sa
     delete snippets.armholePitch
     //let's begin
-    points.cArmholeSplit = points.cArmhole.shiftFractionTowards(
-      points.cArmholePitch,
-      options.raglanArmholeDepth
-    )
+    // points.cArmholeSplit = points.cArmhole.shiftFractionTowards(
+    // points.cArmholePitch,
+    // options.raglanArmholeDepth
+    // )
     // points.armholeSplit = paths.armhole.split(points.armholePitch)[0].shiftFractionAlong(2 / 3)
-    points.armholeSplit = utils.curveIntersectsY(
+    // points.armholeSplit = utils.curveIntersectsY(
+    // points.armhole,
+    // points.armholeCp2,
+    // points.armholePitchCp1,
+    // points.armholePitch,
+    // points.cArmholeSplit.y
+    // )
+    points.neckSplit = paths.cbNeck.shiftFractionAlong(options.raglanNeckWidth)
+
+    //tried utils.lineIntersectsCurve it did not like it
+    // points.armholeSplit = paths.armhole.intersects(new Path().move(points.armhole.shiftFractionTowards(points.hps, 0.005)).line(points.hps))[0]
+    points.armholeSplit = utils.lineIntersectsCurve(
+      points.armhole.shiftFractionTowards(points.hps, 0.05),
+      points.hps,
       points.armhole,
       points.armholeCp2,
       points.armholePitchCp1,
-      points.armholePitch,
-      points.cArmholeSplit.y
+      points.armholePitch
     )
-    points.neckSplit = paths.cbNeck.shiftFractionAlong(options.raglanNeckWidth)
     // points.armholeSplitCp2Target = utils.beamsIntersect(
     // paths.armhole.split(points.armholePitch)[0].shiftFractionAlong((2 / 3) * 0.99),
     // points.armholeSplit,
@@ -62,20 +73,31 @@ export const back = {
     // options.raglanCurveDepth
     // )
 
-    points.armholeSplitCp2 = points.armholeSplit.shiftFractionTowards(
-      utils.beamsIntersect(
-        points.armholeCp2,
-        points.armholeSplit,
-        points.neckSplit,
-        points.neckSplit.shift(points.hps.angle(points.shoulder), 1)
-      ),
-      options.raglanCurveDepth
+    // points.armholeSplitCp2 = points.armholeSplit.shiftFractionTowards(
+    // utils.beamsIntersect(
+    // points.armholeCp2,
+    // points.armholeSplit,
+    // points.neckSplit,
+    // points.neckSplit.shift(points.hps.angle(points.shoulder), 1)
+    // ),
+    // options.raglanCurveDepth
+    // )
+
+    points.armholeSplitCp2 = utils.beamsIntersect(
+      points.neckSplit,
+      points.neckSplit.shift(points.hps.angle(points.shoulder), 1),
+      points.armholeSplit,
+      paths.armhole.split(points.armholeSplit)[0].shiftFractionAlong(0.995)
     )
 
     //paths
-    paths.armhole = new Path()
-      .move(points.armhole)
-      .curve_(points.armholeCp2, points.armholeSplit)
+    // paths.armhole = new Path()
+    // .move(points.armhole)
+    // .curve_(points.armholeCp2, points.armholeSplit)
+    // .curve_(points.armholeSplitCp2, points.neckSplit)
+    // .hide()
+    paths.armhole = paths.armhole
+      .split(points.armholeSplit)[0]
       .curve_(points.armholeSplitCp2, points.neckSplit)
       .hide()
 
@@ -86,8 +108,21 @@ export const back = {
       .join(paths.cbNeck.split(points.neckSplit)[1])
       .line(points.cbHem)
       .close()
-
     //stores
+    points.armholeSplitAnchor = utils.beamsIntersect(
+      points.neckSplit,
+      points.armholeSplitCp2,
+      points.armholeSplit,
+      points.armholeSplit.shift(points.shoulderTop.angle(points.shoulder) + 90, 1)
+    )
+    store.set('backArmholeSplitLength', paths.armhole.split(points.armholeSplit)[0].length())
+    store.set('backNeckSplitCpLength', points.neckSplit.dist(points.armholeSplitCp2))
+    store.set(
+      'backNeckSplitCpAngle',
+      points.shoulderTop.angle(points.shoulder) - points.neckSplit.angle(points.armholeSplitCp2)
+    )
+    store.set('backArmholeSplitDepth', points.neckSplit.dist(points.armholeSplitAnchor))
+    store.set('backArmholeSplitWidth', points.armholeSplit.dist(points.armholeSplitAnchor))
     points.raglanAnchor = utils.beamsIntersect(
       points.neckSplit,
       points.neckSplit.shift(points.shoulderTop.angle(points.shoulder), 1),

@@ -1,16 +1,22 @@
+import { pluginBundle } from '@freesewing/plugin-bundle'
 import { pctBasedOn } from '@freesewing/core'
-import { sleevecap } from './sleevecap.mjs'
+import { draftRaglanSleeveCap } from './sleevecap.mjs'
+import { sleeve as basicSleeve } from '@freesewing/basicsleeve'
 
 export const sleeve = {
   name: 'basicraglansleeve.sleeve',
   measurements: ['shoulderToElbow', 'shoulderToWrist', 'biceps', 'elbow', 'wrist'],
   options: {
     //Imported
-    ...sleevecap.options,
+    ...basicSleeve.options,
+    //Constants
+    cfNeck: 0.55191502449,
+    neckSaWidth: 0.01,
     //Fit
     bicepsEase: { pct: 20.6, min: 0, max: 25, menu: 'fit' },
     elbowEase: { pct: 19.7, min: 0, max: 25, menu: 'fit' },
     wristEase: { pct: 18, min: 0, max: 50, menu: 'fit' },
+    sleeveGuides: { bool: false, menu: 'fit' },
     //Sleeves
     fitSleeveWidth: { bool: true, menu: 'sleeves' },
     sleeveLength: { pct: 100, min: 0, max: 100, menu: 'sleeves' },
@@ -25,12 +31,13 @@ export const sleeve = {
       menu: 'sleeves',
     },
     sleeveFlounces: { dflt: 'none', list: ['flounce', 'ruffle', 'none'], menu: 'sleeves' },
+    raglanNeckWidth: { pct: 42.1, min: 15, max: 50, menu: 'sleeves' },
     //Construction
     neckSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     sideSeamSaWidth: { pct: 1, min: 1, max: 3, menu: 'construction' },
     sleeveHemWidth: { pct: 2, min: 1, max: 3, menu: 'construction' },
   },
-  plugins: [...sleevecap.plugins],
+  plugins: [pluginBundle, ...basicSleeve.plugins],
   draft: (sh) => {
     const {
       store,
@@ -50,115 +57,37 @@ export const sleeve = {
       absoluteOptions,
       log,
     } = sh
+    //void stores
+    if (options.useVoidStores) {
+      void store.setIfUnset('shoulderLength', 144)
+      void store.setIfUnset('neckFrontWidth', 99)
+      void store.setIfUnset('neckFrontDepth', 111)
+      void store.setIfUnset('neckFrontAngle', 69)
 
-    //draft sleevecap
-    sleevecap.draft(sh)
-    //measures
-    const sleeveCapDepth = points.sleeveTip.y
+      void store.setIfUnset('neckBackCpAngleDiag', 111)
+      void store.setIfUnset('neckBackCpDistDiag', 44)
+      void store.setIfUnset('neckBackCpAngle', 159)
+      void store.setIfUnset('neckBackCpDist', 70)
 
-    //calculating sleeveBandWidth
-    let sleeveBandWidth
-    if (options.sleeveBands) {
-      sleeveBandWidth = absoluteOptions.sleeveBandWidth
-    } else sleeveBandWidth = 0
+      void store.setIfUnset('backArmholeSplitLength', 62)
+      void store.setIfUnset('backArmholeSplitDepth', 221)
+      void store.setIfUnset('backArmholeSplitWidth', 133)
 
-    //calculating sleeveLengthTarget
-    let sleeveLength
-    if (options.sleeveLength < 0.5)
-      sleeveLength =
-        (measurements.shoulderToElbow + sleeveCapDepth) *
-        options.sleeveLength *
-        2 *
-        (1 + options.sleeveLengthBonus)
-    // -
-    //sleeveBandWidth
-    else
-      sleeveLength =
-        sleeveCapDepth +
-        (measurements.shoulderToElbow +
-          (measurements.shoulderToWrist - measurements.shoulderToElbow) *
-            (2 * options.sleeveLength - 1)) *
-          (1 + options.sleeveLengthBonus) // -
-    //sleeveBandWidth
+      void store.setIfUnset('frontArmholeSplitLength', 96)
+      void store.setIfUnset('frontArmholeSplitDepth', 161)
+      void store.setIfUnset('frontArmholeSplitWidth', 104)
 
-    //calculating sleeveLength
-    // let sleeveLength
-    // if (sleeveLengthTarget < 0) {
-    // sleeveLength = 0
-    // log.warning(
-    // 'options.sleeveBands, options.sleeveBandWidth, options.sleeveLength & options.sleeveLengthBonus are incompatible so sleeveLength has been set to 0'
-    // )
-    // } else sleeveLength = sleeveLengthTarget
-
-    //horizontal measures
-    // const fullSleeveLength =
-    // sleeveCapDepth + measurements.shoulderToWrist * (1 + options.sleeveLengthBonus)
-    const minWidth = points.sleeveCapLeft.dist(points.sleeveCapRight)
-    const biceps = measurements.biceps * (1 + options.bicepsEase)
-    const elbow = measurements.elbow * (1 + options.elbowEase)
-    const wrist = measurements.wrist * (1 + options.wristEase)
-    // const bandOffset25 =
-    // (sleeveBandWidth * (minWidth - biceps)) /
-    // (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
-    // const bandOffset50 =
-    // (sleeveBandWidth * (biceps - elbow)) /
-    // (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
-    // const bandOffset100 =
-    // (sleeveBandWidth * (elbow - wrist)) /
-    // (sleeveCapDepth + (measurements.shoulderToWrist - measurements.shoulderToElbow))
-    //calculating bottomWidth
-    let bottomWidth
-    if (sleeveLength == 0 || !options.fitSleeveWidth) bottomWidth = minWidth
-    else {
-      if (options.sleeveLength < 0.5) {
-        if (options.sleeveLength < 0.25) {
-          bottomWidth =
-            minWidth * (1 + options.sleeveLength * -4) + biceps * (4 * options.sleeveLength) // +
-          //bandOffset25
-        } else {
-          bottomWidth =
-            biceps * (2 - options.sleeveLength * 4) + elbow * (4 * options.sleeveLength - 1) // +
-          //bandOffset50
-        }
-      } else
-        bottomWidth =
-          elbow * (1 - (2 * options.sleeveLength - 1)) + wrist * (2 * options.sleeveLength - 1) // +
-      //bandOffset100
+      void store.setIfUnset('backRaglanLength', 333)
+      void store.setIfUnset('frontRaglanLength', 306)
     }
-
-    //creating the arm
-    points.bottomAnchor = points.midAnchor.shift(-90, sleeveLength)
-    points.bottomLeft = points.bottomAnchor.shift(180, bottomWidth / 2)
-    if (options.sleeveBands) {
-      points.bottomAnchor = points.bottomAnchor.shift(90, sleeveBandWidth)
-      if (points.bottomAnchor.y < points.midAnchor.y) {
-        points.bottomAnchor = points.midAnchor
-        points.bottomLeft = points.sleeveCapLeft
-      } else {
-        points.bottomLeft = utils.beamIntersectsY(
-          points.sleeveCapLeft,
-          points.bottomLeft,
-          points.bottomAnchor.y
-        )
-      }
+    //draft basicSleeve
+    basicSleeve.draft(sh)
+    for (let i in snippets) delete snippets[i]
+    delete paths.sa
+    draftRaglanSleeveCap(part)
+    if (options.sleeveGuides) {
+      paths.sleeveGuide = paths.setSleeve.clone().attr('class', 'various lashed').unhide()
     }
-    points.bottomRight = points.bottomLeft.flipX(points.bottomAnchor)
-    //paths
-    paths.hemBase = new Path().move(points.bottomLeft).line(points.bottomRight).hide()
-
-    paths.seam = paths.hemBase
-      .clone()
-      .line(points.sleeveCapRight)
-      .join(paths.sleeveCapFront)
-      .join(paths.neck)
-      .join(paths.sleeveCapBack)
-      .line(points.bottomLeft)
-      .close()
-    //setting up for extension not used for this design but is used in multiple extensions
-    points.sleeveTipBottom = new Point(points.sleeveTip.x, points.bottomAnchor.y)
-    //stores
-    store.set('sleeveLength', points.midAnchor.dist(points.bottomAnchor))
-    store.set('sleeveBandLength', points.bottomLeft.dist(points.bottomRight))
 
     if (complete) {
       //grainline
@@ -168,76 +97,54 @@ export const sleeve = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
-      //title
-      points.title = new Point(
-        (points.raglanBackCp1.x + points.raglanBack.x) / 2,
-        (points.grainlineTo.y + points.sleeveTip.y) / 2
-      )
+      //notches
+      points.frontNotch = paths.sleeveCapFront.shiftFractionAlong(0.5)
+      points.backTopNotch = paths.sleeveCapBack.shiftFractionAlong(0.25)
+      points.backBottomNotch = paths.sleeveCapBack.shiftFractionAlong(0.75)
+      macro('sprinkle', {
+        snippet: 'notch',
+        on: ['frontNotch', 'hps'],
+      })
+      macro('sprinkle', {
+        snippet: 'bnotch',
+        on: ['backTopNotch', 'backBottomNotch'],
+      })
+
+      // title
       macro('title', {
+        nr: 3,
+        title: 'Sleeve',
         at: points.title,
-        nr: '1',
-        title: 'sleeve',
         cutNr: 2,
         scale: 0.5,
       })
-
       if (sa) {
-        let hemSa
-        if (options.sleeveBands || options.sleeveFlounces != 'none') hemSa = sa
-        else hemSa = sa * options.sleeveHemWidth * 100
+        const hemSa =
+          options.sleeveBands || options.sleeveFlounces != 'none'
+            ? sa
+            : sa * options.sleeveHemWidth * 100
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
+        const armholeSa = sa * options.armholeSaWidth * 100
         const neckSa = sa * options.neckSaWidth * 100
 
-        points.saSleeveCapLeft = points.sleeveCapLeft.translate(-sideSeamSa, -sa)
-
-        points.saCfNeckSplit = utils.beamsIntersect(
-          points.raglanFrontCp2
-            .shiftTowards(points.cfNeckSplit, sa)
-            .rotate(-90, points.raglanFrontCp2),
-          points.cfNeckSplit.shiftTowards(points.raglanFrontCp2, sa).rotate(90, points.cfNeckSplit),
+        points.saCfNeckSplit = utils.beamIntersectsX(
           paths.neck.offset(neckSa).start(),
-          paths.neck.offset(neckSa).shiftFractionAlong(0.01)
+          paths.neck.offset(neckSa).shiftFractionAlong(0.005),
+          points.cfNeckSplit.x + armholeSa
         )
 
-        points.saCbNeckSplit = utils.beamsIntersect(
-          points.cbNeckSplit.shiftTowards(points.raglanBackCp1, sa).rotate(-90, points.cbNeckSplit),
-          points.raglanBackCp1
-            .shiftTowards(points.cbNeckSplit, sa)
-            .rotate(90, points.raglanBackCp1),
-          paths.neck.offset(neckSa).shiftFractionAlong(0.99),
-          paths.neck.offset(neckSa).end()
+        points.saCbNeckSplit = utils.beamIntersectsX(
+          paths.neck.offset(neckSa).shiftFractionAlong(0.995),
+          paths.neck.offset(neckSa).end(),
+          points.cbNeckSplit.x - armholeSa
         )
-
-        if (points.midAnchor.dist(points.bottomAnchor) <= 0 || !options.fitSleeveWidth) {
-          points.saTopLeft = points.sleeveCapLeft.shift(180, sideSeamSa)
-          points.saBottomLeft = points.bottomLeft.shift(180, sideSeamSa)
-        } else {
-          points.saTopLeft = utils.beamIntersectsX(
-            points.sleeveCapLeft
-              .shiftTowards(points.bottomLeft, sideSeamSa)
-              .rotate(-90, points.sleeveCapLeft),
-            points.bottomLeft
-              .shiftTowards(points.sleeveCapLeft, sideSeamSa)
-              .rotate(90, points.bottomLeft),
-            points.saSleeveCapLeft.x
-          )
-          points.saBottomLeft = points.bottomLeft
-            .shiftTowards(points.sleeveCapLeft, sideSeamSa)
-            .rotate(90, points.bottomLeft)
-        }
-        points.saSleeveCapRight = points.saSleeveCapLeft.flipX(points.midAnchor)
-        points.saTopRight = points.saTopLeft.flipX(points.midAnchor)
-        points.saBottomRight = points.saBottomLeft.flipX(points.midAnchor)
-
-        points.saBottomLeftCorner = new Point(points.saBottomLeft.x, points.bottomAnchor.y + hemSa)
-        points.saBottomRightCorner = new Point(points.saBottomRight.x, points.saBottomLeftCorner.y)
 
         paths.sa = paths.sleeveCapFront
-          .offset(sa)
+          .offset(armholeSa)
           .line(points.saCfNeckSplit)
           .join(paths.neck.offset(neckSa))
           .line(points.saCbNeckSplit)
-          .join(paths.sleeveCapBack.offset(neckSa))
+          .join(paths.sleeveCapBack.offset(armholeSa))
           .line(points.saSleeveCapLeft)
           .line(points.saTopLeft)
           .line(points.saBottomLeft)

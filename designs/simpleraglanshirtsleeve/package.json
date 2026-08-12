@@ -49,7 +49,8 @@
     "@freesewing/core": "3.0.0-alpha.8",
     "@freesewing/plugin-bundle": "3.0.0-alpha.8",
     "@freesewing/plugin-logorg": "3.0.0-alpha.8",
-    "@freesewing/basicsleeve": "3.0.0-alpha.8",
+    "@freesewing/simpleshirtsleeve": "3.0.0-alpha.8",
+    "@freesewing/basicraglansleeve": "3.0.0-alpha.8",
     "@freesewing/plugin-mirror": "3.0.0-alpha.8"
   },
   "dependencies": {},

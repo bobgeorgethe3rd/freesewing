@@ -39,6 +39,9 @@ antiope:
 arthur:
   peer:
     '@freesewing/byron': *freesewing
+basicraglansleeve:
+    peer:
+    '@freesewing/basicsleeve': *freesewing
 barkley:
   peer:
     '@freesewing/henry': *freesewing
@@ -489,7 +492,8 @@ simone:
     '@freesewing/plugin-bust': *freesewing
 simpleraglanshirtsleeve:
   peer:
-    '@freesewing/basicsleeve': *freesewing
+    '@freesewing/simpleshirtsleeve': *freesewing
+    '@freesewing/basicraglansleeve': *freesewing
     '@freesewing/plugin-mirror': *freesewing
 simpleshirtsleeve:
   peer:
