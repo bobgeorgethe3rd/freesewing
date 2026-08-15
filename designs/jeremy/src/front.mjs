@@ -46,7 +46,7 @@ export const front = {
 
     paths.seam = new Path()
       .move(points.cfWaist)
-      .line(points.armholeWaist)
+      .line(points.sideWaist)
       .line(points.armhole)
       .join(paths.armhole)
       .line(points.hpsFront)
@@ -110,7 +110,7 @@ export const front = {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
         }
 
-        points.saArmholeWaist = points.armholeWaist.translate(sideSeamSa, hemSa)
+        points.saArmholeWaist = points.sideWaist.translate(sideSeamSa, hemSa)
 
         points.saArmholeCorner = points.armhole.translate(sideSeamSa, -armholeSa)
         points.saShoulderFrontCorner = points.shoulderFront

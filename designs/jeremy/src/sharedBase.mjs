@@ -159,7 +159,7 @@ export const sharedBase = {
       new Point(points.frontArmholePitch.x, points.armhole.y),
       options.frontArmholeDepth
     )
-    points.armholeWaist = new Point(points.armhole.x, points.cbWaist.y)
+    points.sideWaist = new Point(points.armhole.x, points.cbWaist.y)
     //paths
     paths.jeremyGuide = new Path()
       .move(points.shoulderFront)
@@ -172,7 +172,7 @@ export const sharedBase = {
       .line(points.shoulderBack)
       ._curve(points.backArmholePitchCp1, points.backArmholePitch)
       .curve(points.backArmholePitchCp2, points.armholeCp1, points.armhole)
-      .line(points.armholeWaist)
+      .line(points.sideWaist)
       .line(points.armhole)
       .curve(points.armholeCp2, points.frontArmholePitchCp1, points.frontArmholePitch)
       .curve_(points.frontArmholePitchCp2, points.shoulderFront)

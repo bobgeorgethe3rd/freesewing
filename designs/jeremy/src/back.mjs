@@ -50,13 +50,13 @@ export const back = {
       .hide()
 
     paths.seam = new Path()
-      .move(points.armholeWaist)
+      .move(points.sideWaist)
       .line(points.cbWaist)
       .line(points.cbNeck)
       .join(paths.cbNeck)
       .line(points.shoulderBack)
       .join(paths.armhole)
-      .line(points.armholeWaist)
+      .line(points.sideWaist)
       .close()
 
     //stores
@@ -122,7 +122,7 @@ export const back = {
           sideSeamSa = sa * options.sideSeamSaWidth * 100
         }
 
-        points.saArmholeWaist = points.armholeWaist.translate(-sideSeamSa, hemSa)
+        points.saArmholeWaist = points.sideWaist.translate(-sideSeamSa, hemSa)
         points.saCbWaist = points.cbWaist.translate(cbSa, hemSa)
         points.saCbNeck = points.cbNeck.translate(cbSa, -neckSa)
 
