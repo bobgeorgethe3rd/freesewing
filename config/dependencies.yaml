@@ -168,6 +168,14 @@ darren:
     '@freesewing/neckbandcurved': *freesewing
     '@freesewing/hood': *freesewing
     '@freesewing/patchpocket': *freesewing
+denny:
+  peer:
+    '@freesewing/byron': *freesewing
+    '@freesewing/simpleshirtsleeve': *freesewing
+    '@freesewing/standardcollar': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
+    '@freesewing/patchpocket': *freesewing
+    '@freesewing/bandstraight': *freesewing
 dolmansleeve:
   peer:
     '@freesewing/basicsleeve': *freesewing

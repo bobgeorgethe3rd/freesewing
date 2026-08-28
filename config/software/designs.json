@@ -349,6 +349,14 @@
     }
   },
   "jackets": {
+    "denny": {
+      "description": "Denny denim jacket design",
+      "number": "0061",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 4,
+      "tags": ["jacket", "button"]
+    },
     "frederick": {
       "description": "Frederick fisherman's smock design",
       "number": "0060",
