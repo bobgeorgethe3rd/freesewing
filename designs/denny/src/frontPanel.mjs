@@ -67,6 +67,62 @@ export const frontPanel = {
         cutNr: 2,
         scale: 1 / 3,
       })
+
+      if (sa) {
+        const frontPanelSa = sa * options.frontPanelSaWidth * 100
+
+        points.saFrontHemRight = utils.beamsIntersect(
+          points.frontHemLeftCp2
+            .shiftTowards(points.frontHemRight, sa)
+            .rotate(-90, points.frontHemLeftCp2),
+          points.frontHemRight
+            .shiftTowards(points.frontHemLeftCp2, sa)
+            .rotate(90, points.frontHemRight),
+          points.frontHemRight
+            .shiftTowards(points.frontTopRight, frontPanelSa)
+            .rotate(-90, points.frontHemRight),
+          points.frontTopRight
+            .shiftTowards(points.frontHemRight, frontPanelSa)
+            .rotate(90, points.frontTopRight)
+        )
+
+        points.saFrontTopRight = utils.beamIntersectsY(
+          points.saFrontHemRight,
+          points.saFrontHemRight.shift(points.frontHemRight.angle(points.frontTopRight), 1),
+          points.frontTopRight.y - frontPanelSa
+        )
+
+        points.saFrontTopLeft = utils.beamIntersectsY(
+          points.frontTopLeft
+            .shiftTowards(points.frontHemLeft, frontPanelSa)
+            .rotate(-90, points.frontTopLeft),
+          points.frontHemLeft
+            .shiftTowards(points.frontTopLeft, frontPanelSa)
+            .rotate(90, points.frontHemLeft),
+          points.frontTopLeft.y - frontPanelSa
+        )
+
+        points.saFrontHemLeft = utils.beamsIntersect(
+          points.saFrontTopLeft,
+          points.saFrontTopLeft.shift(points.frontTopLeft.angle(points.frontHemLeft), 1),
+          points.frontHemLeft
+            .shiftTowards(points.frontHemLeftCp2, sa)
+            .rotate(-90, points.frontHemLeft),
+          points.frontHemLeftCp2
+            .shiftTowards(points.frontHemLeft, sa)
+            .rotate(90, points.frontHemLeftCp2)
+        )
+
+        paths.sa = paths.hemBase
+          .clone()
+          .offset(sa)
+          .line(points.saFrontHemRight)
+          .line(points.saFrontTopRight)
+          .line(points.saFrontTopLeft)
+          .line(points.saFrontHemLeft)
+          .close()
+          .attr('class', 'fabric sa')
+      }
     }
 
     return part
