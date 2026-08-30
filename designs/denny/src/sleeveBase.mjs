@@ -66,6 +66,8 @@ export const sleeveBase = {
     macro('title', false)
     //measurements
     const sleevePleatWidth = measurements.wrist * options.sleevePleatWidth
+    //store before modification
+    store.set('sleeveBandLength', points.bottomLeft.dist(points.bottomRight))
     //let's begin
     if (options.fitSleeveWidth) {
       points.bottomRight = options.sleevePleats
@@ -122,6 +124,10 @@ export const sleeveBase = {
     // .line(points.frontBottomLeft)
     // .line(points.bottomRight)
     // .line(points.sleeveCapRight)
+
+    //stores
+    store.set('sleeveBandWidth', absoluteOptions.sleeveBandWidth)
+    store.set('sleeveBandBack', points.bottomLeft.dist(points.backBottomRight))
 
     return part
   },
