@@ -18,6 +18,7 @@ import { sleeveBack } from './sleeveBack.mjs'
 import { sleeveFront } from './sleeveFront.mjs'
 import { sleeveBand } from './sleeveBand.mjs'
 import { waistband } from './waistband.mjs'
+import { collar } from './collar.mjs'
 import { weltPocketBag } from './weltPocketBag.mjs'
 import { weltPocketWelt } from './weltPocketWelt.mjs'
 
@@ -40,6 +41,7 @@ const Denny = new Design({
     sleeveFront,
     sleeveBand,
     waistband,
+    collar,
     weltPocketBag,
     weltPocketWelt,
   ],
@@ -62,6 +64,7 @@ export {
   sleeveFront,
   sleeveBand,
   waistband,
+  collar,
   weltPocketBag,
   weltPocketWelt,
   Denny,
