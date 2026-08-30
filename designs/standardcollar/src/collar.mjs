@@ -128,7 +128,7 @@ export const collar = {
         at: points.title,
         nr: '1',
         title: 'Collar',
-        cutNr: options.cbCollarSaWidth == 0 ? 1 : 2,
+        cutNr: options.cbCollarSaWidth == 0 ? 2 : 4,
         scale: 1 / 3,
       })
       if (sa) {

@@ -49,7 +49,7 @@ export const collar = {
         nr: 5,
         title: 'Collar',
         at: points.title,
-        cutNr: options.cbCollarSaWidth == 0 ? 1 : 2,
+        cutNr: options.cbCollarSaWidth == 0 ? 2 : 4,
         scale: 0.25,
       })
     }
