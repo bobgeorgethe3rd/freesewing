@@ -67,7 +67,7 @@ export const frontFacing = {
         nr: '5',
         title: 'Front Facing',
         cutNr: 2,
-        scale: 0.5,
+        scale: 1 / 3,
       })
       //buttonholes
       for (let i = 0; i < options.buttonholeNum - 1; i++) {
