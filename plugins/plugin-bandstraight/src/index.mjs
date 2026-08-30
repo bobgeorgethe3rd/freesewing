@@ -26,6 +26,7 @@ export const plugin = {
         centreGuide: true,
         leftGuide: true,
         rightGuide: true,
+        doublePlacket: false,
       }
       so = { ...defaults, ...so }
       const prefix = so.prefix || ''
@@ -311,54 +312,67 @@ export const plugin = {
             points[prefixFunction('buttonPlacket')] = points[prefixFunction('bottomLeftEx')]
               .shiftFractionTowards(points[prefixFunction('bottomLeft')], 0.5)
               .shift(90, widthHalf)
-            points[prefixFunction('buttonholePlacket')] = points[
-              prefixFunction('bottomRight')
-            ].translate(so.placketWidth / -2, -widthHalf)
+
+            if (!so.doublePlacket) {
+              points[prefixFunction('buttonholePlacket')] = points[
+                prefixFunction('bottomRight')
+              ].translate(so.placketWidth / -2, -widthHalf)
+            }
 
             if (so.folded) {
               points[prefixFunction('buttonPlacketF')] = points[
                 prefixFunction('buttonPlacket')
               ].flipY(points[prefixFunction('flipAnchor')])
-              points[prefixFunction('buttonholePlacketF')] = points[
-                prefixFunction('buttonholePlacket')
-              ].flipY(points[prefixFunction('flipAnchor')])
+              if (!so.doublePlacket) {
+                points[prefixFunction('buttonholePlacketF')] = points[
+                  prefixFunction('buttonholePlacket')
+                ].flipY(points[prefixFunction('flipAnchor')])
+              }
             }
           }
-          if (rightExtension > width / widthMultiplier) {
-            for (let i = 0; i < so.maxButtons; i++) {
-              if (rightExtension > (width / widthMultiplier) * (i + 1)) {
-                points[prefixFunction('buttonholeOverlap') + i] = points[
-                  prefixFunction('bottomRightEx')
-                ].translate(-(widthHalf + (width / widthMultiplier) * i), -widthHalf)
-                points[prefixFunction('buttonOverlap') + i] = points[
-                  prefixFunction('bottomLeft')
-                ].translate(so.overlap - (widthHalf + (width / widthMultiplier) * i), -widthHalf)
-                snippets[prefixFunction('buttonholeOverlap') + i] = new Snippet(
-                  'buttonhole',
-                  points[prefixFunction('buttonholeOverlap') + i]
-                ).attr('data-rotate', 90)
-                snippets[prefixFunction('buttonOverlap') + i] = new Snippet(
-                  'button',
-                  points[prefixFunction('buttonOverlap') + i]
-                )
-
-                if (so.folded) {
-                  points[prefixFunction('buttonholeOverlapF') + i] = points[
-                    prefixFunction('buttonholeOverlap') + i
-                  ].flipY(points[prefixFunction('flipAnchor')])
-                  points[prefixFunction('buttonOverlapF') + i] = points[
-                    prefixFunction('buttonOverlap') + i
-                  ].flipY(points[prefixFunction('flipAnchor')])
-                  snippets[prefixFunction('buttonholeOverlapF') + i] = new Snippet(
+          if (!so.doublePlacket) {
+            if (rightExtension > width / widthMultiplier) {
+              for (let i = 0; i < so.maxButtons; i++) {
+                if (rightExtension > (width / widthMultiplier) * (i + 1)) {
+                  points[prefixFunction('buttonholeOverlap') + i] = points[
+                    prefixFunction('bottomRightEx')
+                  ].translate(-(widthHalf + (width / widthMultiplier) * i), -widthHalf)
+                  points[prefixFunction('buttonOverlap') + i] = points[
+                    prefixFunction('bottomLeft')
+                  ].translate(so.overlap - (widthHalf + (width / widthMultiplier) * i), -widthHalf)
+                  snippets[prefixFunction('buttonholeOverlap') + i] = new Snippet(
                     'buttonhole',
-                    points[prefixFunction('buttonholeOverlapF') + i]
+                    points[prefixFunction('buttonholeOverlap') + i]
                   ).attr('data-rotate', 90)
-                  snippets[prefixFunction('buttonOverlapF') + i] = new Snippet(
+                  snippets[prefixFunction('buttonOverlap') + i] = new Snippet(
                     'button',
-                    points[prefixFunction('buttonOverlapF') + i]
+                    points[prefixFunction('buttonOverlap') + i]
                   )
+
+                  if (so.folded) {
+                    points[prefixFunction('buttonholeOverlapF') + i] = points[
+                      prefixFunction('buttonholeOverlap') + i
+                    ].flipY(points[prefixFunction('flipAnchor')])
+                    points[prefixFunction('buttonOverlapF') + i] = points[
+                      prefixFunction('buttonOverlap') + i
+                    ].flipY(points[prefixFunction('flipAnchor')])
+                    snippets[prefixFunction('buttonholeOverlapF') + i] = new Snippet(
+                      'buttonhole',
+                      points[prefixFunction('buttonholeOverlapF') + i]
+                    ).attr('data-rotate', 90)
+                    snippets[prefixFunction('buttonOverlapF') + i] = new Snippet(
+                      'button',
+                      points[prefixFunction('buttonOverlapF') + i]
+                    )
+                  }
                 }
               }
+            }
+          } else {
+            if (rightExtension > 0) {
+              points[prefixFunction('buttonholePlacket')] = points[prefixFunction('bottomRight')]
+                .shiftFractionTowards(points[prefixFunction('bottomRightEx')], 0.5)
+                .shift(90, widthHalf)
             }
           }
         } else {
@@ -366,54 +380,65 @@ export const plugin = {
             points[prefixFunction('buttonPlacket')] = points[prefixFunction('bottomRight')]
               .shiftFractionTowards(points[prefixFunction('bottomRightEx')], 0.5)
               .shift(90, widthHalf)
-            points[prefixFunction('buttonholePlacket')] = points[
-              prefixFunction('bottomLeft')
-            ].translate(so.placketWidth / 2, -widthHalf)
-
+            if (!so.doublePlacket) {
+              points[prefixFunction('buttonholePlacket')] = points[
+                prefixFunction('bottomLeft')
+              ].translate(so.placketWidth / 2, -widthHalf)
+            }
             if (so.folded) {
               points[prefixFunction('buttonPlacketF')] = points[
                 prefixFunction('buttonPlacket')
               ].flipY(points[prefixFunction('flipAnchor')])
-              points[prefixFunction('buttonholePlacketF')] = points[
-                prefixFunction('buttonholePlacket')
-              ].flipY(points[prefixFunction('flipAnchor')])
+              if (!so.doublePlacket) {
+                points[prefixFunction('buttonholePlacketF')] = points[
+                  prefixFunction('buttonholePlacket')
+                ].flipY(points[prefixFunction('flipAnchor')])
+              }
             }
           }
-          if (leftExtension > width / widthMultiplier) {
-            for (let i = 0; i < so.maxButtons; i++) {
-              if (leftExtension > (width / widthMultiplier) * (i + 1)) {
-                points[prefixFunction('buttonholeOverlap') + i] = points[
-                  prefixFunction('bottomLeftEx')
-                ].translate(widthHalf + (width / widthMultiplier) * i, -widthHalf)
-                points[prefixFunction('buttonOverlap') + i] = points[
-                  prefixFunction('bottomRight')
-                ].translate(widthHalf + (width / widthMultiplier) * i - so.overlap, -widthHalf)
-                snippets[prefixFunction('buttonholeOverlap') + i] = new Snippet(
-                  'buttonhole',
-                  points[prefixFunction('buttonholeOverlap') + i]
-                ).attr('data-rotate', 90)
-                snippets[prefixFunction('buttonOverlap') + i] = new Snippet(
-                  'button',
-                  points[prefixFunction('buttonOverlap') + i]
-                )
-
-                if (so.folded) {
-                  points[prefixFunction('buttonholeOverlapF') + i] = points[
-                    prefixFunction('buttonholeOverlap') + i
-                  ].flipY(points[prefixFunction('flipAnchor')])
-                  points[prefixFunction('buttonOverlapF') + i] = points[
-                    prefixFunction('buttonOverlap') + i
-                  ].flipY(points[prefixFunction('flipAnchor')])
-                  snippets[prefixFunction('buttonholeOverlapF') + i] = new Snippet(
+          if (!so.doublePlacket) {
+            if (leftExtension > width / widthMultiplier) {
+              for (let i = 0; i < so.maxButtons; i++) {
+                if (leftExtension > (width / widthMultiplier) * (i + 1)) {
+                  points[prefixFunction('buttonholeOverlap') + i] = points[
+                    prefixFunction('bottomLeftEx')
+                  ].translate(widthHalf + (width / widthMultiplier) * i, -widthHalf)
+                  points[prefixFunction('buttonOverlap') + i] = points[
+                    prefixFunction('bottomRight')
+                  ].translate(widthHalf + (width / widthMultiplier) * i - so.overlap, -widthHalf)
+                  snippets[prefixFunction('buttonholeOverlap') + i] = new Snippet(
                     'buttonhole',
-                    points[prefixFunction('buttonholeOverlapF') + i]
+                    points[prefixFunction('buttonholeOverlap') + i]
                   ).attr('data-rotate', 90)
-                  snippets[prefixFunction('buttonOverlapF') + i] = new Snippet(
+                  snippets[prefixFunction('buttonOverlap') + i] = new Snippet(
                     'button',
-                    points[prefixFunction('buttonOverlapF') + i]
+                    points[prefixFunction('buttonOverlap') + i]
                   )
+
+                  if (so.folded) {
+                    points[prefixFunction('buttonholeOverlapF') + i] = points[
+                      prefixFunction('buttonholeOverlap') + i
+                    ].flipY(points[prefixFunction('flipAnchor')])
+                    points[prefixFunction('buttonOverlapF') + i] = points[
+                      prefixFunction('buttonOverlap') + i
+                    ].flipY(points[prefixFunction('flipAnchor')])
+                    snippets[prefixFunction('buttonholeOverlapF') + i] = new Snippet(
+                      'buttonhole',
+                      points[prefixFunction('buttonholeOverlapF') + i]
+                    ).attr('data-rotate', 90)
+                    snippets[prefixFunction('buttonOverlapF') + i] = new Snippet(
+                      'button',
+                      points[prefixFunction('buttonOverlapF') + i]
+                    )
+                  }
                 }
               }
+            }
+          } else {
+            if (leftExtension > 0) {
+              points[prefixFunction('buttonholePlacket')] = points[prefixFunction('bottomLeftEx')]
+                .shiftFractionTowards(points[prefixFunction('bottomLeft')], 0.5)
+                .shift(90, widthHalf)
             }
           }
         }
@@ -422,15 +447,19 @@ export const plugin = {
             'buttonhole',
             points[prefixFunction('buttonholePlacket')]
           ).attr('data-rotate', 90)
-          snippets[prefixFunction('buttonPlacket')] = new Snippet(
-            'button',
-            points[prefixFunction('buttonPlacket')]
-          )
           if (so.folded) {
             snippets[prefixFunction('buttonholePlacketF')] = new Snippet(
               'buttonhole',
               points[prefixFunction('buttonholePlacketF')]
             ).attr('data-rotate', 90)
+          }
+        }
+        if (points[prefixFunction('buttonPlacket')]) {
+          snippets[prefixFunction('buttonPlacket')] = new Snippet(
+            'button',
+            points[prefixFunction('buttonPlacket')]
+          )
+          if (so.folded) {
             snippets[prefixFunction('buttonPlacketF')] = new Snippet(
               'button',
               points[prefixFunction('buttonPlacketF')]

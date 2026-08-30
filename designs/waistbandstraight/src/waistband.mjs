@@ -6,6 +6,7 @@ export const waistband = {
   options: {
     //Constants
     useVoidStores: true,
+    waistbandDoublePlacket: false,
     //Style
     waistbandFolded: { bool: false, menu: 'style' },
     waistbandOverlapSide: { dflt: 'left', list: ['left', 'right'], menu: 'style' },
@@ -44,11 +45,16 @@ export const waistband = {
       void store.setIfUnset('waistbandPlacketWidth', 0)
     }
     void store.setIfUnset('waistbandBack', store.get('waistbandLength') * 0.5)
-    void store.setIfUnset(
-      'waistbandOverlap',
-      store.get('waistbandLength') * options.waistbandOverlap
-    )
+    if (options.waistbandDoublePlacket) {
+      void store.setIfUnset('waistbandOverlap', store.get('waistbandPlacketWidth'))
+    } else {
+      void store.setIfUnset(
+        'waistbandOverlap',
+        store.get('waistbandLength') * options.waistbandOverlap
+      )
+    }
     void store.setIfUnset('waistbandSideSa', sa)
+    void store.setIfUnset('waistbandMaxButtons', 1)
 
     //begin
     macro('bandstraight', {
@@ -66,6 +72,7 @@ export const waistband = {
       east: 'Side Seam',
       south: 'Centre Back',
       west: 'Side Seam',
+      doublePlacket: options.waistbandDoublePlacket,
       prefix: 'waistband',
     })
 
