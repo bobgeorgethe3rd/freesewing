@@ -44,7 +44,7 @@ export const sideFront = {
       .curve_(points.sideHemCp2, points.armhole)
       .hide()
 
-    paths.armhole = paths.armhole.split(points.yokeSplit)[0]
+    paths.armhole = paths.armhole.split(points.yokeSplit)[0].hide()
 
     paths.seam = paths.hemBase
       .clone()
