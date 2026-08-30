@@ -58,7 +58,7 @@ export const yokeFront = {
       //notches
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['armholePitch', 'frontPocketLeft', 'frontPocketRight'],
+        on: ['armholePitch', 'frontPocketLeft', 'frontPocketRight', 'cfNeck'],
       })
       //title
       points.title = new Point(
