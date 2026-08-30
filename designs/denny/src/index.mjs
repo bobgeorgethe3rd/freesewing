@@ -11,6 +11,9 @@ import { centreFront } from './centreFront.mjs'
 import { frontPanel } from './frontPanel.mjs'
 import { sideFront } from './sideFront.mjs'
 import { frontFacing } from './frontFacing.mjs'
+import { yokeBack } from './yokeBack.mjs'
+import { centreBack } from './centreBack.mjs'
+import { sideBack } from './sideBack.mjs'
 import { weltPocketBag } from './weltPocketBag.mjs'
 
 // Create new design
@@ -19,12 +22,15 @@ const Denny = new Design({
   parts: [
     frontBase,
     backBase,
+    sleeveBase,
     yokeFront,
     centreFront,
     frontPanel,
     sideFront,
     frontFacing,
-    sleeveBase,
+    yokeBack,
+    centreBack,
+    sideBack,
     weltPocketBag,
   ],
 })
@@ -33,12 +39,15 @@ const Denny = new Design({
 export {
   frontBase,
   backBase,
+  sleeveBase,
   yokeFront,
   centreFront,
   frontPanel,
   sideFront,
   frontFacing,
-  sleeveBase,
+  yokeBack,
+  centreBack,
+  sideBack,
   weltPocketBag,
   Denny,
 }

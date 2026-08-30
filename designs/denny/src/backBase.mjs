@@ -103,30 +103,30 @@ export const backBase = {
       points.sideHem.y
     )
     //guides
-    paths.yoke = new Path()
-      .move(points.cbYoke)
-      .line(points.armholePitch)
-      .join(
-        paths.armhole
-          .split(points.armholePitch)[1]
-          ._curve(points.frontArmholePitchCp1, points.frontArmholePitch)
-          .split(points.armholeSplit)[0]
-      )
-      .line(points.neckSplit)
-      .join(paths.cfNeck.split(points.neckSplit)[1].join(paths.cbNeck))
-      .line(points.cbYoke)
+    // paths.yoke = new Path()
+    // .move(points.cbYoke)
+    // .line(points.armholePitch)
+    // .join(
+    // paths.armhole
+    // .split(points.armholePitch)[1]
+    // ._curve(points.frontArmholePitchCp1, points.frontArmholePitch)
+    // .split(points.armholeSplit)[0]
+    // )
+    // .line(points.neckSplit)
+    // .join(paths.cfNeck.split(points.neckSplit)[1].join(paths.cbNeck))
+    // .line(points.cbYoke)
 
-    paths.centreBack = new Path()
-      .move(points.cbYoke)
-      .line(points.cbHem)
-      .line(points.centreHemRight)
-      .line(points.yokeAnchor)
+    // paths.centreBack = new Path()
+    // .move(points.cbYoke)
+    // .line(points.cbHem)
+    // .line(points.centreHemRight)
+    // .line(points.yokeAnchor)
 
-    paths.sideBack = new Path()
-      .move(points.yokeAnchor)
-      .line(points.hemLeft)
-      .curve_(points.hemLeftCp2, points.sideHem)
-      .curve_(points.sideHemCp2, points.armhole)
+    // paths.sideBack = new Path()
+    // .move(points.yokeAnchor)
+    // .line(points.hemLeft)
+    // .curve_(points.hemLeftCp2, points.sideHem)
+    // .curve_(points.sideHemCp2, points.armhole)
 
     //stores
     store.set(
