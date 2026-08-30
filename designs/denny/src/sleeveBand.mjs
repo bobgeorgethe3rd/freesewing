@@ -43,7 +43,7 @@ export const sleeveBand = {
       closurePosition: 'sideRight',
       leftGuide: false,
       rightGuide: false,
-      east: 'Vent',
+      east: 'Vent Line',
       west: 'Side Seam',
       prefix: 'sleeveBand',
     })
