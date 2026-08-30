@@ -133,6 +133,13 @@ export const backBase = {
       'sleeveBackDrop',
       paths.armhole.split(points.armholePitch)[0].length() * options.sleeveBackDrop
     )
+    store.set(
+      'waistbandBack',
+      (points.cbHem.dist(points.centreHemRight) +
+        new Path().move(points.hemLeft).curve_(points.hemLeftCp2, points.sideHem).length()) *
+        2
+    )
+    store.set('waistbandLength', store.get('waistbandFront') * 2 + store.get('waistbandBack'))
 
     return part
   },

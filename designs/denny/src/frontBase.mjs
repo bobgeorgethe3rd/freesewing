@@ -12,7 +12,8 @@ export const frontBase = {
   },
   options: {
     //Constants
-    closurePosition: 'none', //Locked for Denny
+    useVoidStore: false, //Locked for Denny
+    closurePosition: 'front', //Locked for Denny
     hemWidth: 0, //Locked for Denny
     //Fit
     chestEase: { pct: 21.7, min: 0, max: 30, menu: 'fit' }, //Altered for Denny
@@ -367,6 +368,21 @@ export const frontBase = {
       'frontArmholePitchAngle',
       points.shoulder.angle(points.armholePitch) - points.shoulder.angle(points.hps) + 90
     )
+    store.set(
+      'waistbandFront',
+      paths.hemCurveInitial.split(points.centreFrontHemRight)[0].length() +
+        new Path()
+          .move(points.frontHemLeft)
+          .curve_(points.frontHemLeftCp2, points.frontHemRight)
+          .length() +
+        new Path()
+          .move(points.sideFrontHemLeft)
+          .curve_(points.sideFrontHemLeftCp2, points.sideHem)
+          .length()
+    )
+    store.set('waistbandWidth', waistbandWidth)
+    store.set('waistbandPlacketWidth', buttonholePlacketWidth)
+    store.set('waistbandOverlap', buttonholePlacketWidth)
     store.set('weltPocketWeltWidth', weltPocketWeltWidth)
 
     return part
