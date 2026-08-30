@@ -75,6 +75,7 @@ export const yokeBack = {
         snippet: 'notch',
         on: ['shoulder', 'hps'],
       })
+      snippets.armholePitch = new Snippet('bnotch', points.armholePitch)
       //title
       points.title = new Point(points.hps.x, (points.cbNeck.y + points.cbYoke.y) * 0.5)
       macro('title', {

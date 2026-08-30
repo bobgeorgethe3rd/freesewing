@@ -62,6 +62,12 @@ export const sideBack = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      //notches
+      points.sleeveBackNotch = paths.armhole.reverse().shiftAlong(store.get('sleeveBackDrop'))
+      macro('sprinkle', {
+        snippet: 'bnotch',
+        on: ['armholePitch', 'sleeveBackNotch'],
+      })
       //title
       points.title = new Point(
         points.yokeAnchor.shiftFractionTowards(points.armholePitch, 0.75).x,
