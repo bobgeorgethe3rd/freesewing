@@ -1,5 +1,4 @@
 import { pctBasedOn } from '@freesewing/core'
-import { pluginBundle } from '@freesewing/plugin-bundle'
 import { frontBase } from './frontBase.mjs'
 
 export const centreFront = {
