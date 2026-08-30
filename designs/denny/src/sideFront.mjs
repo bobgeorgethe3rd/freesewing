@@ -33,6 +33,7 @@ export const sideFront = {
       if (keepPaths.indexOf(name) === -1) delete paths[name]
     }
     //let's begin
+    //paths
     paths.hemBase = new Path()
       .move(points.sideFrontHemLeft)
       .curve_(points.sideFrontHemLeftCp2, points.sideHem)

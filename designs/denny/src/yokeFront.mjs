@@ -33,6 +33,7 @@ export const yokeFront = {
       if (keepPaths.indexOf(name) === -1) delete paths[name]
     }
     //let's begin
+    //paths
     paths.armhole = paths.armhole.split(points.yokeSplit)[1].split(points.armholeSplit)[0].hide()
 
     paths.cfNeck = paths.cfNeck.split(points.neckSplit)[1].line(points.cfNeckEx).hide()

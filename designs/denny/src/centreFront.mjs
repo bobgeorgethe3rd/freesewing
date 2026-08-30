@@ -33,6 +33,7 @@ export const centreFront = {
       if (keepPaths.indexOf(name) === -1) delete paths[name]
     }
     //let's begin
+    //paths
     paths.hemBase = new Path()
       .move(points.hemEx)
       .line(points.buttonholeHem)
