@@ -39,6 +39,9 @@ export const plugin = {
         west: 'West',
         sa: sa,
         sideSa: sa,
+        centreGuide: true,
+        leftGuide: true,
+        rightGuide: true,
         doublePlacket: false,
       }
       so = { ...defaults, ...so }
@@ -302,17 +305,24 @@ export const plugin = {
           .shiftFractionTowards(points[prefixFunction('topMid')], 0.25)
           .shift(-90, widthHalf)
         //notches
-        macro('sprinkle', {
-          snippet: 'notch',
-          on: [
-            prefixFunction('bottomLeftNotch'),
-            prefixFunction('bottomRightNotch'),
-            prefixFunction('bottomMidNotch'),
-            prefixFunction('topLeftNotch'),
-            prefixFunction('topRightNotch'),
-            prefixFunction('topMidNotch'),
-          ],
-        })
+        if (so.centreGuide) {
+          macro('sprinkle', {
+            snippet: 'notch',
+            on: [prefixFunction('bottomMidNotch'), prefixFunction('topMidNotch')],
+          })
+        }
+        if (so.leftGuide) {
+          macro('sprinkle', {
+            snippet: 'notch',
+            on: [prefixFunction('bottomLeftNotch'), prefixFunction('topLeftNotch')],
+          })
+        }
+        if (so.rightGuide) {
+          macro('sprinkle', {
+            snippet: 'notch',
+            on: [prefixFunction('bottomRightNotch'), prefixFunction('topRightNotch')],
+          })
+        }
         //paths
         if (leftExtension > 0) {
           paths[prefixFunction('leftEx')] = new Path()
@@ -338,27 +348,30 @@ export const plugin = {
             on: [prefixFunction('topRight'), prefixFunction('bottomRight')],
           })
         }
-
-        paths[prefixFunction('mid')] = new Path()
-          .move(points[prefixFunction('topMidNotch')])
-          .line(points[prefixFunction('bottomMidNotch')])
-          .attr('class', 'various')
-          .attr('data-text', centreName)
-          .attr('data-text-class', 'center')
-
-        paths[prefixFunction('left')] = new Path()
-          .move(points[prefixFunction('topLeftNotch')])
-          .line(points[prefixFunction('bottomLeftNotch')])
-          .attr('class', 'various')
-          .attr('data-text', leftName)
-          .attr('data-text-class', 'center')
-
-        paths[prefixFunction('right')] = new Path()
-          .move(points[prefixFunction('topRightNotch')])
-          .line(points[prefixFunction('bottomRightNotch')])
-          .attr('class', 'various')
-          .attr('data-text', rightName)
-          .attr('data-text-class', 'center')
+        if (so.centreGuide) {
+          paths[prefixFunction('mid')] = new Path()
+            .move(points[prefixFunction('topMidNotch')])
+            .line(points[prefixFunction('bottomMidNotch')])
+            .attr('class', 'various')
+            .attr('data-text', centreName)
+            .attr('data-text-class', 'center')
+        }
+        if (so.leftGuide) {
+          paths[prefixFunction('left')] = new Path()
+            .move(points[prefixFunction('topLeftNotch')])
+            .line(points[prefixFunction('bottomLeftNotch')])
+            .attr('class', 'various')
+            .attr('data-text', leftName)
+            .attr('data-text-class', 'center')
+        }
+        if (so.rightGuide) {
+          paths[prefixFunction('right')] = new Path()
+            .move(points[prefixFunction('topRightNotch')])
+            .line(points[prefixFunction('bottomRightNotch')])
+            .attr('class', 'various')
+            .attr('data-text', rightName)
+            .attr('data-text-class', 'center')
+        }
         //buttons & buttonholes
         if (so.overlapSide == 'right') {
           if (leftExtension > 0) {
