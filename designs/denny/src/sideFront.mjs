@@ -69,7 +69,7 @@ export const sideFront = {
       //notches
       snippets.frontPocketRight = new Snippet('notch', points.frontPocketRight)
       //title
-      points.title = new Point(points.yokeSplit.x, (points.armhole.y + points.sideHem.y) * 0.5)
+      points.title = new Point(points.armholeCp2.x, (points.armhole.y + points.sideHemCp2.y) * 0.5)
       macro('title', {
         at: points.title,
         nr: '4',
@@ -77,7 +77,24 @@ export const sideFront = {
         cutNr: 2,
         scale: 1 / 3,
       })
+      //welt pocket
+      if (options.weltPocketBool) {
+        paths.weltPocketOpening = new Path()
+          .move(points.weltPocketOpeningBottomLeft)
+          .line(points.weltPocketOpeningBottomRight)
+          .line(points.weltPocketOpeningTopRight)
+          .line(points.weltPocketOpeningTopLeft)
+          .line(points.weltPocketOpeningBottomLeft)
+          .close()
+          .attr('class', 'mark')
 
+        paths.weltPocketLine = new Path()
+          .move(points.weltPocketOpeningTopLeft)
+          .line(points.weltPocketOpeningBottomLeft)
+          .attr('class', 'mark hidden')
+          .attr('data-text', 'Welt Pocket Opening')
+          .attr('data-text-class', 'center')
+      }
       if (sa) {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const armholeSa = sa * options.armholeSaWidth * 100

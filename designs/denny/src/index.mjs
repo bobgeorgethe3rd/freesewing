@@ -17,6 +17,7 @@ import { sideBack } from './sideBack.mjs'
 import { sleeveBack } from './sleeveBack.mjs'
 import { sleeveFront } from './sleeveFront.mjs'
 import { weltPocketBag } from './weltPocketBag.mjs'
+import { weltPocketWelt } from './weltPocketWelt.mjs'
 
 // Create new design
 const Denny = new Design({
@@ -36,6 +37,7 @@ const Denny = new Design({
     sleeveBack,
     sleeveFront,
     weltPocketBag,
+    weltPocketWelt,
   ],
 })
 
@@ -55,5 +57,6 @@ export {
   sleeveBack,
   sleeveFront,
   weltPocketBag,
+  weltPocketWelt,
   Denny,
 }

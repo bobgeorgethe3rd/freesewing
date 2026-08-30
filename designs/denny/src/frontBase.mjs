@@ -47,6 +47,7 @@ export const frontBase = {
     buttonholeNum: { count: 5, min: 3, max: 7, menu: 'plackets' },
     //Pockets
     frontPocketWidth: { pct: 67.4, min: 45, max: 75, menu: 'pockets' }, //47.9
+    weltPocketBool: { pct: true, menu: 'pockets' },
     weltPocketPlacement: { pct: 8.7, min: 5, max: 10, menu: 'pockets.weltPockets' },
     weltPocketBalance: { pct: 9.8, min: 5, max: 15, menu: 'pockets.weltPockets' },
     weltPocketWeltWidth: { pct: 2.6, min: 1, max: 5, menu: 'pockets.weltPockets' },
@@ -112,6 +113,7 @@ export const frontBase = {
           (1 + options.bodyLengthBonus)
 
     const waistbandWidth = absoluteOptions.waistbandWidth
+    const weltPocketWeltWidth = measurements.waist * options.weltPocketWeltWidth
     //let's begin
     points.armholeSplit = utils.lineIntersectsCurve(
       points.shoulder
@@ -286,24 +288,24 @@ export const frontBase = {
     points.frontPocketRight = points.frontPocketLeft.flipX(points.frontTopAnchor)
 
     //welt pocket
-    points.weltBottomLeft = points.sideFrontHemLeft
+    points.weltPocketOpeningBottomLeft = points.sideFrontHemLeft
       .shiftTowards(points.frontTopRight, measurements.hpsToWaistBack * options.weltPocketPlacement)
       .shift(
         points.sideFrontHemLeft.angle(points.frontTopRight) - 90,
         measurements.hpsToWaistBack * options.weltPocketBalance
       )
 
-    points.weltBottomRight = points.weltBottomLeft.shift(
+    points.weltPocketOpeningBottomRight = points.weltPocketOpeningBottomLeft.shift(
       points.sideFrontHemLeft.angle(points.frontTopRight) - 90,
-      measurements.waist * options.weltPocketWeltWidth
+      weltPocketWeltWidth
     )
-    points.weltTopLeft = points.weltBottomLeft.shift(
+    points.weltPocketOpeningTopLeft = points.weltPocketOpeningBottomLeft.shift(
       points.sideFrontHemLeft.angle(points.frontTopRight),
       measurements.hpsToWaistBack * options.weltPocketWeltLength
     )
-    points.weltTopRight = points.weltTopLeft.shift(
+    points.weltPocketOpeningTopRight = points.weltPocketOpeningTopLeft.shift(
       points.sideFrontHemLeft.angle(points.frontTopRight) - 90,
-      points.weltBottomLeft.dist(points.weltBottomRight)
+      points.weltPocketOpeningBottomLeft.dist(points.weltPocketOpeningBottomRight)
     )
 
     //guides
@@ -331,11 +333,11 @@ export const frontBase = {
     // .curve(points.facingCurveStartCp2, points.shoulderFacingCp1, points.shoulderFacing)
 
     // paths.welt = new Path()
-    // .move(points.weltBottomLeft)
-    // .line(points.weltBottomRight)
-    // .line(points.weltTopRight)
-    // .line(points.weltTopLeft)
-    // .line(points.weltBottomLeft)
+    // .move(points.weltPocketOpeningBottomLeft)
+    // .line(points.weltPocketOpeningBottomRight)
+    // .line(points.weltPocketOpeningTopRight)
+    // .line(points.weltPocketOpeningTopLeft)
+    // .line(points.weltPocketOpeningBottomLeft)
     // .close()
 
     // paths.yoke = new Path()
@@ -365,6 +367,7 @@ export const frontBase = {
       'frontArmholePitchAngle',
       points.shoulder.angle(points.armholePitch) - points.shoulder.angle(points.hps) + 90
     )
+    store.set('weltPocketWeltWidth', weltPocketWeltWidth)
 
     return part
   },
