@@ -194,8 +194,6 @@ export const sleeve = {
         const sideSeamSa = sa * options.sideSeamSaWidth * 100
         const armholeSa = sa * options.armholeSaWidth * 100
 
-        points.saSleeveCapLeft = paths.sleevecap.offset(armholeSa).end().shift(180, sideSeamSa)
-
         if (points.midAnchor.dist(points.bottomAnchor) <= 0 || !options.fitSleeveWidth) {
           points.saTopLeft = points.sleeveCapLeft.shift(180, sideSeamSa)
           points.saBottomLeft = points.bottomLeft.shift(180, sideSeamSa)
@@ -213,6 +211,12 @@ export const sleeve = {
             .shiftTowards(points.sleeveCapLeft, sideSeamSa)
             .rotate(90, points.bottomLeft)
         }
+
+        points.saSleeveCapLeft = utils.beamIntersectsY(
+          points.saTopLeft,
+          points.saTopLeft.shift(90, 1),
+          paths.sleevecap.offset(armholeSa).end().y
+        )
         points.saSleeveCapRight = points.saSleeveCapLeft.flipX(points.midAnchor)
         points.saTopRight = points.saTopLeft.flipX(points.midAnchor)
         points.saBottomRight = points.saBottomLeft.flipX(points.midAnchor)
