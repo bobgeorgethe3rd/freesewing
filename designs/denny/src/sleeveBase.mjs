@@ -31,6 +31,8 @@ export const sleeveBase = {
       ...pctBasedOn('shoulderToWrist'),
       menu: 'sleeves',
     },
+    //Construction
+    sleevePanelSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
   },
   draft: ({
     store,
@@ -107,19 +109,19 @@ export const sleeveBase = {
     }
 
     //guides
-    paths.sleeveBackGuide = new Path()
-      .move(points.sleeveCapLeft)
-      .line(points.bottomLeft)
-      .line(points.backBottomRight)
-      ._curve(points.backBottomCurveEndCp1, points.backBottomCurveEnd)
-    // .move(points.backBottomRight)
-    // .curve(points.backBottomCurveEnd, points.backBottomCurveEnd, points.sleevecapSplit)
+    // paths.sleeveBackGuide = new Path()
+    // .move(points.sleeveCapLeft)
+    // .line(points.bottomLeft)
+    // .line(points.backBottomRight)
+    // ._curve(points.backBottomCurveEndCp1, points.backBottomCurveEnd)
+    /*     // .move(points.backBottomRight)
+    // .curve(points.backBottomCurveEnd, points.backBottomCurveEnd, points.sleevecapSplit) */
 
-    paths.sleeveFrontGuide = new Path()
-      .move(points.sleevecapSplit)
-      .line(points.frontBottomLeft)
-      .line(points.bottomRight)
-      .line(points.sleeveCapRight)
+    // paths.sleeveFrontGuide = new Path()
+    // .move(points.sleevecapSplit)
+    // .line(points.frontBottomLeft)
+    // .line(points.bottomRight)
+    // .line(points.sleeveCapRight)
 
     return part
   },
