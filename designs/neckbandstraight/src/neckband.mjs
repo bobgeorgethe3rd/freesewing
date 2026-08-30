@@ -5,7 +5,7 @@ export const neckband = {
   name: 'neckbandstraight.neckband',
   options: {
     //Constants
-    neckSaWidth: 1,
+    neckSaWidth: 0.01,
     useVoidStores: true,
     //Style
     neckbandFolded: { bool: true, menu: 'style' },
