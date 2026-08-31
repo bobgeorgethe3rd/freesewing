@@ -69,7 +69,7 @@ export const pocketFlap = {
     //measures
     macro('patchpocketflap', {
       depth: options.patchPocketFlapDepth,
-      bottomWidth: store.set('patchPocketFlapBottomWidth') / store.get('patchPocketWidth'),
+      bottomWidth: store.get('patchPocketFlapBottomWidth') / store.get('patchPocketWidth'),
       peakDepth: patchPocketFlapPeakDepth,
       peakCurve: patchPocketFlapPeakCurve,
       peakPlateau: patchPocketFlapPeakPlateau,
