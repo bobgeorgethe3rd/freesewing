@@ -9,7 +9,8 @@ export const sleeve = {
     //Imported
     ...basicsleeve.options,
     //Constants
-    bicepsEase: 0.12, //Locked for Fullshirtsleeve
+    bicepsEase: 0.206, //Locked for Fullshirtsleeve
+    elbowEase: 0.197, //Locked for Fullshirtsleeve
     sleeveLength: 1, //Locked for Fullshirtsleeve
     sleeveBands: 'true', //Locked for Fullshirtsleeve
     sleeveFlounces: 'none', //Locked for Fullshirtsleeve
