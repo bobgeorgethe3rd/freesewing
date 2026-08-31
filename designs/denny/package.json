@@ -53,7 +53,8 @@
     "@freesewing/simpleshirtsleeve": "3.0.0-alpha.8",
     "@freesewing/standardcollar": "3.0.0-alpha.8",
     "@freesewing/waistbandstraight": "3.0.0-alpha.8",
-    "@freesewing/patchpocket": "3.0.0-alpha.8",
+    "@freesewing/plguin-patchpocket": "3.0.0-alpha.8",
+    "@freesewing/plguin-patchpocketflap": "3.0.0-alpha.8",
     "@freesewing/bandstraight": "3.0.0-alpha.8"
   },
   "dependencies": {},

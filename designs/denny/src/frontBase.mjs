@@ -47,12 +47,14 @@ export const frontBase = {
     buttonholeStart: { pct: 4.4, min: 2, max: 5, menu: 'plackets' },
     buttonholeNum: { count: 5, min: 3, max: 7, menu: 'plackets' },
     //Pockets
-    frontPocketWidth: { pct: 67.4, min: 45, max: 75, menu: 'pockets' }, //47.9
-    weltPocketBool: { pct: true, menu: 'pockets' },
+    weltPocketBool: { bool: true, menu: 'pockets' },
     weltPocketPlacement: { pct: 8.7, min: 5, max: 10, menu: 'pockets.weltPockets' },
     weltPocketBalance: { pct: 9.8, min: 5, max: 15, menu: 'pockets.weltPockets' },
     weltPocketWeltWidth: { pct: 2.6, min: 1, max: 5, menu: 'pockets.weltPockets' },
     weltPocketWeltLength: { pct: 29.4, min: 20, max: 35, menu: 'pockets.weltPockets' },
+    frontPocketsBool: { bool: true, menu: 'pockets' },
+    frontPocketWidth: { pct: 47.9, min: 45, max: 75, menu: 'pockets.frontPockets' }, //Altered for Denny
+    frontPocketDepth: { pct: (12 / 11) * 100, min: 50, max: 150, menu: 'pockets.frontPockets' },
     //Construction
     armholeSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Denny
     shoulderSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Denny
@@ -288,6 +290,25 @@ export const frontBase = {
     )
     points.frontPocketRight = points.frontPocketLeft.flipX(points.frontTopAnchor)
 
+    const frontPocketDepth =
+      points.frontPocketLeft.dist(points.frontPocketRight) * options.frontPocketDepth
+    points.frontPocketBottomAnchor = points.frontTopAnchor.shift(-90, frontPocketDepth)
+    points.frontPocketBottomLeft = utils
+      .beamIntersectsY(points.frontHemLeft, points.frontTopLeft, points.frontPocketBottomAnchor.y)
+      .shift(180, points.frontTopLeft.dist(points.frontPocketLeft))
+    points.frontPocketBottomRight = utils
+      .beamIntersectsY(points.frontHemRight, points.frontTopRight, points.frontPocketBottomAnchor.y)
+      .shift(0, points.frontTopRight.dist(points.frontPocketRight))
+
+    points.frontPocketOpeningLeft = points.frontTopLeft.shiftFractionTowards(
+      points.frontPocketLeft,
+      0.5
+    )
+    points.frontPocketOpeningRight = points.frontTopRight.shiftFractionTowards(
+      points.frontPocketRight,
+      0.5
+    )
+
     //welt pocket
     points.weltPocketOpeningBottomLeft = points.sideFrontHemLeft
       .shiftTowards(points.frontTopRight, measurements.hpsToWaistBack * options.weltPocketPlacement)
@@ -384,6 +405,18 @@ export const frontBase = {
     store.set('waistbandPlacketWidth', buttonholePlacketWidth)
     store.set('waistbandOverlap', buttonholePlacketWidth)
     store.set('weltPocketWeltWidth', weltPocketWeltWidth)
+    store.set('frontPocketDepth', frontPocketDepth)
+    store.set('frontPocketWidth', points.frontPocketLeft.dist(points.frontPocketRight))
+    store.set(
+      'frontPocketBottomWidth',
+      points.frontPocketBottomLeft.dist(points.frontPocketBottomRight)
+    )
+    store.set(
+      'frontPocketOpeningWidth',
+      points.frontPocketOpeningLeft.dist(points.frontPocketOpeningRight)
+    )
+    store.set('frontPocketTopSaWidth', sa * options.frontPanelSaWidth * 100)
+    store.set('frontPocketFlapSaWidth', sa)
 
     return part
   },

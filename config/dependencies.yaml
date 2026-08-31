@@ -174,7 +174,8 @@ denny:
     '@freesewing/simpleshirtsleeve': *freesewing
     '@freesewing/standardcollar': *freesewing
     '@freesewing/waistbandstraight': *freesewing
-    '@freesewing/patchpocket': *freesewing
+    '@freesewing/plguin-patchpocket': *freesewing
+    '@freesewing/plguin-patchpocketflap': *freesewing
     '@freesewing/bandstraight': *freesewing
 dolmansleeve:
   peer:

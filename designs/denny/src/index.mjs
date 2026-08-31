@@ -21,6 +21,8 @@ import { waistband } from './waistband.mjs'
 import { collar } from './collar.mjs'
 import { weltPocketBag } from './weltPocketBag.mjs'
 import { weltPocketWelt } from './weltPocketWelt.mjs'
+import { pocket } from './pocket.mjs'
+import { pocketFlap } from './pocketFlap.mjs'
 
 // Create new design
 const Denny = new Design({
@@ -44,6 +46,8 @@ const Denny = new Design({
     collar,
     weltPocketBag,
     weltPocketWelt,
+    pocket,
+    pocketFlap,
   ],
 })
 
@@ -67,5 +71,7 @@ export {
   collar,
   weltPocketBag,
   weltPocketWelt,
+  pocket,
+  pocketFlap,
   Denny,
 }
