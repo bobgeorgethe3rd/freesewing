@@ -47,13 +47,18 @@ export const pocket = {
       void store.setIfUnset('patchPocketDepth', 150 * (1 + options.patchPocketDepth))
       void store.setIfUnset('patchPocketWidth', 150 * (1 + options.patchPocketWidth))
     }
+    void store.setIfUnset(
+      'patchPocketBottomWidth',
+      store.get('patchPocketWidth') * options.patchPocketBottomWidth
+    )
 
     const patchPocketDepth = store.get('patchPocketDepth')
+    const patchPocketWidth = store.get('patchPocketWidth')
 
     macro('patchpocket', {
-      width: store.get('patchPocketWidth'),
+      width: patchPocketWidth,
       depth: patchPocketDepth,
-      bottomWidth: options.patchPocketBottomWidth,
+      bottomWidth: store.get('patchPocketBottomWidth') / patchPocketWidth,
       peakDepth: options.patchPocketPeakDepth,
       peakCurve: options.patchPocketPeakCurve,
       peakPlateau: options.patchPocketPeakPlateau,
