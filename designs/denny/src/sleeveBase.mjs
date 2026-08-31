@@ -17,6 +17,8 @@ export const sleeveBase = {
     sleeveFlounces: false, //Locked for Denny
     sleeveLength: 1, //Locked for Denny
     sleeveHemWidth: 1, //Locked for Denny
+    bicepsEase: 0.206, //Locked for Denny
+    elbowEase: 0.197, //Locked for Denny
     //Fit
     sleeveGuides: { bool: false, menu: 'fit' },
     wristEase: { pct: 30.8, min: 0, max: 50, menu: 'fit' }, //Altered for Denny
