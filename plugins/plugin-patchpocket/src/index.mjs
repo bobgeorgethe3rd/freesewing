@@ -32,7 +32,8 @@ export const plugin = {
         style: 'curved',
         folded: false,
         grainlineBias: false,
-        topSaWidth: 0.02,
+        topSaWidth: sa,
+        saWidth: sa,
       }
       so = { ...defaults, ...so }
       const prefix = so.prefix || ''
@@ -225,7 +226,7 @@ export const plugin = {
             .line(points[prefixFunction('patchPocketTopLeft')])
       }
 
-      if (!so.folded) {
+      if (!so.folded && so.topFoldWidth > 0) {
         points[prefixFunction('patchPocketTopLeftFold')] = utils
           .beamIntersectsY(
             points[prefixFunction('patchPocketTopLeft')],
@@ -287,29 +288,31 @@ export const plugin = {
           points[prefixFunction('patchPocketBottomRight')].y / 2
         )
         //foldline
-        paths[prefixFunction('patchPocketFoldline')] = new Path()
-          .move(points[prefixFunction('patchPocketTopLeft')])
-          .line(points[prefixFunction('patchPocketTopRight')])
-          .attr('class', 'various')
-          .attr('data-text', 'Fold-line')
-          .attr('data-text-class', 'center')
+        if (so.topFoldWidth > 0) {
+          paths[prefixFunction('patchPocketFoldline')] = new Path()
+            .move(points[prefixFunction('patchPocketTopLeft')])
+            .line(points[prefixFunction('patchPocketTopRight')])
+            .attr('class', 'various')
+            .attr('data-text', 'Fold-line')
+            .attr('data-text-class', 'center')
+        }
         if (sa) {
           points[prefixFunction('patchPocketSaLeft')] = utils.beamIntersectsY(
             points[prefixFunction('patchPocketTopLeft')]
-              .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], sa)
+              .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], so.saWidth)
               .rotate(-90, points[prefixFunction('patchPocketTopLeft')]),
             points[prefixFunction('patchPocketPeakLeftStart')]
-              .shiftTowards(points[prefixFunction('patchPocketTopLeft')], sa)
+              .shiftTowards(points[prefixFunction('patchPocketTopLeft')], so.saWidth)
               .rotate(90, points[prefixFunction('patchPocketPeakLeftStart')]),
             points[prefixFunction('patchPocketTopLeft')].y
           )
           points[prefixFunction('patchPocketSaTopLeft')] = utils
             .beamIntersectsY(
               points[prefixFunction('patchPocketTopLeft')]
-                .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], sa)
+                .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], so.saWidth)
                 .rotate(-90, points[prefixFunction('patchPocketTopLeft')]),
               points[prefixFunction('patchPocketPeakLeftStart')]
-                .shiftTowards(points[prefixFunction('patchPocketTopLeft')], sa)
+                .shiftTowards(points[prefixFunction('patchPocketTopLeft')], so.saWidth)
                 .rotate(90, points[prefixFunction('patchPocketPeakLeftStart')]),
               points[prefixFunction('patchPocketTopLeft')].y + so.topFoldWidth
             )
@@ -319,84 +322,84 @@ export const plugin = {
             .beamIntersectsY(
               points[prefixFunction('patchPocketSaLeft')],
               points[prefixFunction('patchPocketSaTopLeft')],
-              points[prefixFunction('patchPocketSaTopLeft')].y + sa
+              points[prefixFunction('patchPocketSaTopLeft')].y + so.topSaWidth
             )
             .flipY(points[prefixFunction('patchPocketSaTopLeft')])
 
           points[prefixFunction('patchPocketSaPeakLeft')] = points[
             prefixFunction('patchPocketPeakLeftStart')
           ]
-            .shiftTowards(points[prefixFunction('patchPocketTopLeft')], sa)
+            .shiftTowards(points[prefixFunction('patchPocketTopLeft')], so.saWidth)
             .rotate(90, points[prefixFunction('patchPocketPeakLeftStart')])
 
           points[prefixFunction('patchPocketSaBottomLeft')] = utils.beamIntersectsY(
             points[prefixFunction('patchPocketTopLeft')]
-              .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], sa)
+              .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], so.saWidth)
               .rotate(-90, points[prefixFunction('patchPocketTopLeft')]),
             points[prefixFunction('patchPocketPeakLeftStart')]
-              .shiftTowards(points[prefixFunction('patchPocketTopLeft')], sa)
+              .shiftTowards(points[prefixFunction('patchPocketTopLeft')], so.saWidth)
               .rotate(90, points[prefixFunction('patchPocketPeakLeftStart')]),
-            points[prefixFunction('patchPocketPeak')].y + sa
+            points[prefixFunction('patchPocketPeak')].y + so.saWidth
           )
 
           if (so.peakCurve > 0 && so.peakDepth > 0) {
             if (so.peakPlateau) {
               points[prefixFunction('patchPocketSaPeakLeftStart')] = utils.beamsIntersect(
                 points[prefixFunction('patchPocketTopLeft')]
-                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], sa)
+                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], so.saWidth)
                   .rotate(-90, points[prefixFunction('patchPocketTopLeft')]),
                 points[prefixFunction('patchPocketPeakLeftStart')]
-                  .shiftTowards(points[prefixFunction('patchPocketTopLeft')], sa)
+                  .shiftTowards(points[prefixFunction('patchPocketTopLeft')], so.saWidth)
                   .rotate(90, points[prefixFunction('patchPocketPeakLeftStart')]),
                 points[prefixFunction('patchPocketPeakLeftStart')]
-                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftEnd')], sa)
+                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftEnd')], so.saWidth)
                   .rotate(-90, points[prefixFunction('patchPocketPeakLeftStart')]),
                 points[prefixFunction('patchPocketPeakLeftEnd')]
-                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], sa)
+                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], so.saWidth)
                   .rotate(90, points[prefixFunction('patchPocketPeakLeftEnd')])
               )
               if (so.peakCurve == 1 && so.peakDepth == 1 && so.peakDepth < 1) {
                 points[prefixFunction('patchPocketSaPeakLeftEnd')] = utils.beamIntersectsX(
                   points[prefixFunction('patchPocketPeakLeftStart')]
-                    .shiftTowards(points[prefixFunction('patchPocketPeakLeftEnd')], sa)
+                    .shiftTowards(points[prefixFunction('patchPocketPeakLeftEnd')], so.saWidth)
                     .rotate(-90, points[prefixFunction('patchPocketPeakLeftStart')]),
                   points[prefixFunction('patchPocketPeakLeftEnd')]
-                    .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], sa)
+                    .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], so.saWidth)
                     .rotate(90, points[prefixFunction('patchPocketPeakLeftEnd')]),
                   points[prefixFunction('patchPocketPeak')].x
                 )
               } else {
                 points[prefixFunction('patchPocketSaPeakLeftEnd')] = utils.beamIntersectsY(
                   points[prefixFunction('patchPocketPeakLeftStart')]
-                    .shiftTowards(points[prefixFunction('patchPocketPeakLeftEnd')], sa)
+                    .shiftTowards(points[prefixFunction('patchPocketPeakLeftEnd')], so.saWidth)
                     .rotate(-90, points[prefixFunction('patchPocketPeakLeftStart')]),
                   points[prefixFunction('patchPocketPeakLeftEnd')]
-                    .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], sa)
+                    .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], so.saWidth)
                     .rotate(90, points[prefixFunction('patchPocketPeakLeftEnd')]),
-                  points[prefixFunction('patchPocketPeak')].y + sa
+                  points[prefixFunction('patchPocketPeak')].y + so.saWidth
                 )
               }
             } else {
               points[prefixFunction('patchPocketSaPeakLeftStart')] = utils.beamsIntersect(
                 points[prefixFunction('patchPocketTopLeft')]
-                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], sa)
+                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], so.saWidth)
                   .rotate(-90, points[prefixFunction('patchPocketTopLeft')]),
                 points[prefixFunction('patchPocketPeakLeftStart')]
-                  .shiftTowards(points[prefixFunction('patchPocketTopLeft')], sa)
+                  .shiftTowards(points[prefixFunction('patchPocketTopLeft')], so.saWidth)
                   .rotate(90, points[prefixFunction('patchPocketPeakLeftStart')]),
                 points[prefixFunction('patchPocketPeakLeftStart')]
-                  .shiftTowards(points[prefixFunction('patchPocketPeak')], sa)
+                  .shiftTowards(points[prefixFunction('patchPocketPeak')], so.saWidth)
                   .rotate(-90, points[prefixFunction('patchPocketPeakLeftStart')]),
                 points[prefixFunction('patchPocketPeak')]
-                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], sa)
+                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], so.saWidth)
                   .rotate(90, points[prefixFunction('patchPocketPeak')])
               )
               points[prefixFunction('patchPocketSaPeakLeftEnd')] = utils.beamIntersectsX(
                 points[prefixFunction('patchPocketPeakLeftStart')]
-                  .shiftTowards(points[prefixFunction('patchPocketPeak')], sa)
+                  .shiftTowards(points[prefixFunction('patchPocketPeak')], so.saWidth)
                   .rotate(-90, points[prefixFunction('patchPocketPeakLeftStart')]),
                 points[prefixFunction('patchPocketPeak')]
-                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], sa)
+                  .shiftTowards(points[prefixFunction('patchPocketPeakLeftStart')], so.saWidth)
                   .rotate(90, points[prefixFunction('patchPocketPeak')]),
                 points[prefixFunction('patchPocketPeak')].x
               )
@@ -418,7 +421,7 @@ export const plugin = {
                 points[prefixFunction('patchPocketPeakLeftEndCp1')],
                 peakLeft
               )
-              .offset(sa)
+              .offset(so.saWidth)
               .hide()
 
             paths[prefixFunction('patchPocketSaCurveRight')] = new Path()
@@ -428,7 +431,7 @@ export const plugin = {
                 points[prefixFunction('patchPocketPeakRightEndCp1')],
                 points[prefixFunction('patchPocketPeakRightEnd')]
               )
-              .offset(sa)
+              .offset(so.saWidth)
               .hide()
           }
 
