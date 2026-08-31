@@ -62,6 +62,8 @@ export const sleeveBack = {
         from: points.grainlineFrom,
         to: points.grainlineTo,
       })
+      //notches
+      snippets.sleeveBackVent = new Snippet('notch', points.sleeveBackVent)
       //title
       points.title = new Point(
         paths.sleevecap.shiftFractionAlong(0.5).x,

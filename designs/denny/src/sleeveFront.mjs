@@ -57,7 +57,7 @@ export const sleeveFront = {
       //notches
       macro('sprinkle', {
         snippet: 'notch',
-        on: ['frontNotch', 'sleeveTip'],
+        on: ['frontNotch', 'sleeveTip', 'sleeveFrontVent'],
       })
       snippets.backNotch = new Snippet('bnotch', points.backNotch)
       //title

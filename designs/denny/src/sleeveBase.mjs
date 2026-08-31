@@ -31,6 +31,7 @@ export const sleeveBase = {
       ...pctBasedOn('shoulderToWrist'),
       menu: 'sleeves',
     },
+    sleeveVentDepth: { pct: 50, min: 75, max: 100, menu: 'sleeves' },
     //Construction
     sleevePanelSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' },
   },
@@ -109,6 +110,18 @@ export const sleeveBase = {
         .move(points.sleevePleatTopRight)
         .line(points.sleevePleatBottomRight)
     }
+
+    paths.sleeveBackCurve = new Path()
+      .move(points.backBottomRight)
+      ._curve(points.backBottomCurveEndCp1, points.backBottomCurveEnd)
+      .hide()
+
+    points.sleeveBackVent = paths.sleeveBackCurve.shiftFractionAlong(options.sleeveVentDepth)
+
+    points.sleeveFrontVent = points.frontBottomLeft.shiftTowards(
+      points.sleevecapSplit,
+      paths.sleeveBackCurve.split(points.sleeveBackVent)[1].length()
+    )
 
     //guides
     // paths.sleeveBackGuide = new Path()
