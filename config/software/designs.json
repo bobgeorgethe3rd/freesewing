@@ -466,6 +466,14 @@
       "difficulty": 2,
       "tags": ["skirts"]
     },
+    "portia": {
+      "description": "Portia pleated skirt design for independent use and extension into other designs",
+      "number": "0062",
+      "code": "bobgeorgethe3rd",
+      "design": "bobgeorgethe3rd",
+      "difficulty": 3,
+      "tags": ["skirts", "pleats"]
+    },
     "scarlett": {
       "description": "Scarlett split skirt design based off of Wanda",
       "number": "0009",

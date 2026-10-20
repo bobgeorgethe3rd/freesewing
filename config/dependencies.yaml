@@ -411,6 +411,11 @@ plugintest:
     '@freesewing/plugin-theme': *freesewing
     '@freesewing/plugin-title': *freesewing
     '@freesewing/plugin-validate': *freesewing
+portia:
+  peer:
+    '@freesewing/sarah': *freesewing
+    '@freesewing/waistbandcurved': *freesewing
+    '@freesewing/waistbandstraight': *freesewing
 rehype-jargon:
   _:
     'unist-util-visit': &unist-util-visit '4.1.2'
