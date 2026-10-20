@@ -3,13 +3,15 @@
 import { Design } from '@freesewing/core'
 import { data } from '../data.mjs'
 // Parts
-import { box } from './box.mjs'
+import { skirtBack } from './skirtBack.mjs'
+import { skirtFront } from './skirtFront.mjs'
+import { pocket } from './pocket.mjs'
 
 // Create new design
 const Portia = new Design({
   data,
-  parts: [box],
+  parts: [skirtBack, skirtFront, pocket],
 })
 
 // Named exports
-export { box, Portia }
+export { skirtBack, skirtFront, Portia }
