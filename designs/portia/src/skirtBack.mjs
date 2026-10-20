@@ -10,9 +10,10 @@ export const skirtBack = {
   },
   options: {
     //Constant
-    maxSkirtBackDartNum: 2, //Locked for Portia
-    shapeSkirtBackDarts: false, //Locked for Portia
-    skirtBackDartPlacement: 0.5, //Locked for Portia
+    useVoidStores: false, //Locked for Portia
+    //maxSkirtBackDartNum: 2, //Locked for Portia
+    //shapeSkirtBackDarts: false, //Locked for Portia
+    //skirtBackDartPlacement: 0.5, //Locked for Portia
     // skirtBackDartLength: 0.653, //Locked for Portia
     //Fit
     fitGuides: { bool: false, menu: 'fit' }, //Altered for Portia
@@ -33,7 +34,11 @@ export const skirtBack = {
     skirtLengthBonus: { pct: 0, min: -20, max: 50, menu: 'style' },
     //Construction
     cbSaWidth: { pct: 0, min: 0, max: 3, menu: 'construction' }, //Altered for Portia
-    closurePosition: { dflt: 'side', list: ['front', 'side', 'back'], menu: 'construction' }, //Altered for Portia
+    closurePosition: {
+      dflt: 'sideLeft',
+      list: ['front', 'sideLeft', 'sideRight', 'back'],
+      menu: 'construction',
+    }, //Altered for Portia
     closureSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Portia
     sideSeamSaWidth: { pct: 1.5, min: 1, max: 3, menu: 'construction' }, //Altered for Portia
   },

@@ -11,9 +11,9 @@ export const skirtFront = {
   },
   options: {
     //Constant
-    maxSkirtFrontDartNum: 2, //Locked for Portia
-    shapeSkirtFrontDarts: false, //Locked for Portia
-    skirtFrontDartPlacement: 0.5, //Locked for Portia
+    //maxSkirtFrontDartNum: 2, //Locked for Portia
+    //shapeSkirtFrontDarts: false, //Locked for Portia
+    //skirtFrontDartPlacement: 0.5, //Locked for Portia
     //Pockets
     pocketsBool: { bool: true, menu: 'pockets' },
     pocketOpening: { pct: 7.2, min: 5, max: 15, menu: 'pockets' },
