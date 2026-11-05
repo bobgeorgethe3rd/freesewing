@@ -191,7 +191,7 @@ export const leg = {
     } else {
       void store.setIfUnset('styleWaistFront', seatFront)
     }
-    const styleWaistFront = store.get('styleWaistFront')
+    const styleWaistFront = store.get('styleWaistFront') + frontDartWidth * 2
     //let's begin
     //waistRight
     points.upperLegRight = points.upperLeg.shiftOutwards(points.upperLegCrossAnchor, seatBack / 2)
@@ -226,7 +226,7 @@ export const leg = {
       points.upperLegLeftMid.angle(points.waistLeftMidAnchor) +
         (points.waistRight.angle(points.waistCross) -
           points.upperLegRight.angle(points.waistRightAnchor)),
-      styleWaistBack * (1 - options.backLegRatio) * 0.5 + frontDartWidth
+      styleWaistBack * (1 - options.backLegRatio) * 0.5
     )
     // if (options.fitWaistBack || waistBack > seatBack) {
     // points.seatLeft = points.waistLeft.shift(
